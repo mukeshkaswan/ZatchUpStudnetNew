@@ -28,6 +28,9 @@ export { default as CoomingSoon } from './AuthScreens//CoomingSoon';
 export { default as ResetPassword } from './AuthScreens//ResetPassword';
 export { default as ContactUs } from './AuthScreens//ContactUs';
 export { default as Notifications } from './AuthScreens//Notifications';
+export { default as TeacherMessageChat } from './AuthScreens//TeacherMessageChat';
+export { default as MySchoolScreen } from './AuthScreens//MySchoolScreen';
+ 
 //export { default as Splash } from './AuthScreens//Splash/Splash';
 
 

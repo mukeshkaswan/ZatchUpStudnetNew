@@ -1,17 +1,40 @@
-import { Platform, Dimensions } from 'react-native';
+
 import { ScaledSheet } from 'react-native-size-matters';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-const screenWidth = Dimensions.get('window').width;
-import { Images, Colors, TextField, Font, CustomButton } from '../../../components';
-const screenHeight = Math.round(Dimensions.get('window').height);
+ 
+
 const styles = ScaledSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.$backgroundColor,
-
+        //sbackgroundColor: '$backgroundColor',
         
 
     },
+    tabButtonWrapper: {
+        flexDirection: 'row',
+        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      tabButtonStyles: {
+        paddingVertical: 15,
+        height: 55,
+        marginTop: 10,
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
+      },
+      tabButtonRightStyle:{
+       paddingVertical: 15,
+        height: 55,
+        marginTop: 10,
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
+      },
+      tabButtonTextStyle: {
+        fontSize: 18,
+        color:'#C9C9C9',
+        marginLeft: 40,
+        marginRight: 40,
+      },
     Cardview: {
         width: '100%',
         height: '50%',
@@ -69,6 +92,52 @@ const styles = ScaledSheet.create({
     tv_Des: {
         marginLeft: 25, marginTop: 20, fontSize: 16
     },
-});
+    //  add Message Button Wrapper---------------------------------------__>
+    addMsgButtonWrapper: {
+        borderWidth: 1,
+        borderColor: '#11111120',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 70,
+        position: 'absolute',
+        bottom: 30,
+        right: 10,
+        height: 70,
+        backgroundColor: '#4B2A6A',
+        borderRadius: 35,
+        zIndex: 1,
+      },
+      addMsgImageStyle: {height: '100%', width: '100%'},
 
-export default styles;
+      //
+      listCardWrapper: {
+        flexDirection: 'row',
+        width: '100%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+      },
+      userImageWrapper: {
+        width: 80,
+        height: 80,
+        borderRadius: 80 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+      },
+      userImageStyle: {width: '90%', height: '90%', borderRadius: 80 / 2},
+      msgCardRightWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: 5,
+      },
+      msgCardHeaderWrapper: {flexDirection: 'row'},
+      userNameStyle: {
+        fontSize: 18,
+        fontWeight: '700',
+      },
+      timeTextStyle: {
+        fontSize: 12,
+        fontWeight: '600',
+      },
+});

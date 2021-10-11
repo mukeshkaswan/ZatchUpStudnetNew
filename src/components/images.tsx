@@ -37,7 +37,11 @@ const images = {
   logoutsidemenu: require("../assets/images/logout_sidemenu.png"),  
   ss: require("../assets/images/ss.png"),  
   back: require("../assets/images/back.png"),  
+  rightarrow: require("../assets/images/gray_rightArrow.png"), 
+  send: require("../assets/images/send.png"), 
+  threedot: require("../assets/images/dot.png"),  
 };
 
 export default images;
 
+ 

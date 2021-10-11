@@ -11,9 +11,10 @@ import {
     ScrollView,
     TouchableOpacity,
     Platform,
-    FlatList
+    FlatList,
+    TextInput
 } from 'react-native';
-import styles from './style';
+import styles from './styles';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, Validate } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -113,7 +114,7 @@ const student_chat_data = [
 interface MessagesScreenProps {
     navigation: any;
 }
-const MessagesScreen = (props: MessagesScreenProps) => {
+const TeacherMessageChat = (props: MessagesScreenProps) => {
 const [data,studentdata]=useState([student_chat_data])
 
     React.useEffect(() => {
@@ -129,46 +130,59 @@ const backPressed = () => {
         <CustomStatusBar />
 
         <View style={{
-          height: Platform.OS === 'ios' ? '10%' : '7%',
+          height: Platform.OS === 'ios' ? '10%' : '8%',
           backgroundColor: 'rgb(70,50,103)',
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
+          
 
         }}>
-          <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center', }}>
+          <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'space-between',paddingRight:15}}>
 
-
+          <View style={{flexDirection:'row'}}> 
             <TouchableOpacity onPress={backPressed}
               style={{ marginTop: Platform.OS === 'ios' ? 30 : 10, marginLeft: 10 }} >
               <Icon name="arrow-left" size={25} color="white" />
             </TouchableOpacity>
+            <Image
+                        style={{ width: 50, height: 50, borderRadius: 60 / 2 ,marginLeft:15}}
+                        source={Images.profile_img2}
+                    />
 
-
-
-            <View style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-
-            }}>
+         <View style={{marginLeft:10}}>  
+             
               <Text style={{
                 textAlignVertical: "center",
                 textAlign: "center",
                 color: 'white',
-                fontSize: hp(2.8),
+                fontSize: hp(2.5),
                 marginRight: 20,
                 fontFamily: 'Lato-Regular',
                 marginTop: Platform.OS === 'ios' ? 30 : 5,
-              }}>{'Teacher For Chat'}</Text>
+              }}>{'Teacher Name'}</Text>
+            <Text style={{color:'lightgrey'}}>Online</Text>
+
             </View>
+             
+            </View>  
+            <Image
+              style={{
 
-
+                tintColor: 'white',
+                // height: 25,
+                // width: 25,
+                resizeMode: 'stretch',
+              }}
+                        
+                        source={Images.threedot}
+                    />
           </View>
-
+           
         </View>
 
 
-
+<ScrollView>
+  </ScrollView>
 
         {/* <HeaderTitleWithBack
           navigation={this.props.navigation}
@@ -176,63 +190,57 @@ const backPressed = () => {
         /> */}
         {/* <HeaderWithTitle headerTitle="Messages" /> */}
          
-        <View style={{width:'100%'}}>
-          <FlatList
-             data={student_chat_data}
-            renderItem={({ item }) =>
-                  <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{paddingHorizontal:15,flexDirection:'row',justifyContent:'space-between',paddingVertical:15}}>
-    <View>
-    <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
-                        source={item.profileImage}
-                    />
-   </View>
-    <View style={{marginLeft:8,justifyContent:'space-between',width:'70%'}}>
-    <Text style={{  fontSize: 18 }}>{item.name}</Text>
-       <Text>{item.message}</Text>
-    </View> 
-    <View>
-       <Text>{item.time}</Text>
-       <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}>
-                   <Image
+        <View
+          style={{
+            flexDirection: 'column',
+            backgroundColor: '#F7F7F7',
+            borderTopColor: '#E4E4E4',
+            borderWidth: 2,
+            borderLeftWidth: 0,
+            borderRightWidth: 0,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <View
               style={{
+                flexDirection: 'row',
+                backgroundColor: '#FFFFFF',
+                borderWidth: 1,
+                borderColor: '#DBDBDB',
+                height: 50,
+                // width:300,
+                borderRadius: 20,
+                margin: 10,
+                marginLeft: 15,
+              }}>
+              <TextInput
+                style={{width: '85%', fontSize: 16, paddingLeft: 15}}
+                placeholderTextColor="#A9A9A9"
+                placeholder="Write a message..."
+                underlineColorAndroid="transparent"
+              />
+            </View>
 
-                tintColor: 'grey',
+            <Image
+              source={Images.send} //Change your icon image here
+              style={{
+                // padding: 10,
+                marginTop: 10,
+
+                //  marginLeft:20,
+                tintColor: '#4B2A6A',
                 // height: 25,
                 // width: 25,
-                 height:20,
-                 width:20,
-                 marginTop:10,
-                 marginLeft:25
+                resizeMode: 'stretch',
+                alignItems: 'center',
               }}
-                        
-                        source={Images.rightarrow}
-                    />
-                    </TouchableOpacity>
-    </View> 
-
-  </View>
-  <View
-                    style={{
-                        height: 2,
-                        width: '90%',
-                        //  marginTop: 10,
-                        marginLeft: 100,
-                         
-                        // marginRight:10,
-                        backgroundColor: '#E9E9E9',
-                    }}
-                />
-
-            </ScrollView>
-          }
-            
-          />
+            />
+          
+          </View>
         </View>
         
       </View>
+      
     );
         }     
 
-export default MessagesScreen;
+export default TeacherMessageChat;

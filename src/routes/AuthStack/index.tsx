@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator, CardStyleInterpolators, TransitionPresets } from "@react-navigation/stack";
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications } from "../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen} from "../../containers";
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
 import DrawerNav from '../AppStack/DrawerStack';
@@ -188,10 +188,19 @@ function AuthStack() {
         component={Notifications}
         options={{ header: () => null }}
       />
-
-
-
-
+       <Stack.Screen
+        name="TeacherMessageChat"
+        component={TeacherMessageChat}
+        options={{ header: () => null }}
+      />
+  
+{/* <Stack.Screen
+        name="messagechat"
+        component={TeacherMessageChat}
+        options={{ header: () => null }}
+      /> */}
+ 
+ 
     </Stack.Navigator>
   );
 }
