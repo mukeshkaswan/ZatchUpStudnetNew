@@ -30,7 +30,9 @@ export { default as ContactUs } from './AuthScreens//ContactUs';
 export { default as Notifications } from './AuthScreens//Notifications';
 export { default as TeacherMessageChat } from './AuthScreens//TeacherMessageChat';
 export { default as MySchoolScreen } from './AuthScreens//MySchoolScreen';
- 
+export { default as Reminders } from './AuthScreens//Reminders';
+export { default as ZatchupStarClassScreen } from './AuthScreens//ZatchupStarClassScreen';
+export { default as StarClassRequestScreen} from './AuthScreens//StarClassRequestScreen';
 //export { default as Splash } from './AuthScreens//Splash/Splash';
 
 

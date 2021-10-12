@@ -25,6 +25,7 @@ interface LoginScreenProps {
 const LoginScreen = (props: LoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   const [entry, setEntery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [SecureTextEntry, setSecureTextEntry] = useState(true);

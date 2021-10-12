@@ -107,7 +107,7 @@ const MySchool = (props: HomeScreenProps) => {
 
 </View>
 <View style={{paddingHorizontal:15,flexDirection:'row',alignItems:'center',justifyContent:'center'}}> 
-
+<TouchableOpacity onPress={() => props.navigation.navigate('ZatchupStarClassScreen')}>
   <View style={styles.boxcontainer}>
   <Image
                         style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
@@ -117,6 +117,8 @@ const MySchool = (props: HomeScreenProps) => {
                 <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Zatchup Star{'\n'}Class</Text>
             </View> 
   </View>
+  </TouchableOpacity>
+<TouchableOpacity onPress={() => props.navigation.navigate('Reminders')}>
   <View style={styles.boxcontainer}>
   <Image
                         style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
@@ -126,7 +128,7 @@ const MySchool = (props: HomeScreenProps) => {
                 <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Reminders</Text>
             </View> 
   </View>
-
+</TouchableOpacity>
 
 </View>
 

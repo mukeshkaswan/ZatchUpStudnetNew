@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {Component,useState} from 'react';
+
 import {
     Text,
     View,
@@ -13,7 +14,7 @@ import {
     Platform,
     FlatList
 } from 'react-native';
-import styles from './style';
+import styles from './style'
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, Validate } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -113,7 +114,7 @@ const student_chat_data = [
 interface MessagesScreenProps {
     navigation: any;
 }
-const MessagesScreen = (props: MessagesScreenProps) => {
+const Messages = (props: MessagesScreenProps) => {
 const [data,studentdata]=useState([student_chat_data])
 
     React.useEffect(() => {
@@ -180,51 +181,67 @@ const backPressed = () => {
           <FlatList
              data={student_chat_data}
             renderItem={({ item }) =>
-                  <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{paddingHorizontal:15,flexDirection:'row',justifyContent:'space-between',paddingVertical:15}}>
-    <View>
-    <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
-                        source={item.profileImage}
-                    />
-   </View>
-    <View style={{marginLeft:8,justifyContent:'space-between',width:'70%'}}>
-    <Text style={{  fontSize: 18 }}>{item.name}</Text>
-       <Text>{item.message}</Text>
-    </View> 
-    <View>
-       <Text>{item.time}</Text>
-       <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}>
-                   <Image
-              style={{
-
-                tintColor: 'grey',
-                // height: 25,
-                // width: 25,
-                 height:20,
-                 width:20,
-                 marginTop:10,
-                 marginLeft:25
-              }}
-                        
-                        source={Images.rightarrow}
-                    />
-                    </TouchableOpacity>
-    </View> 
-
-  </View>
-  <View
-                    style={{
-                        height: 2,
-                        width: '90%',
-                        //  marginTop: 10,
-                        marginLeft: 100,
-                         
-                        // marginRight:10,
-                        backgroundColor: '#E9E9E9',
-                    }}
-                />
-
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                      <View style={styles.listCardWrapper}>
+          <View style={styles.userImageWrapper}>
+            <Image style={styles.userImageStyle} source={item.profileImage} />
+          </View>
+          <View style={styles.msgCardRightWrapper}>
+            <View style={styles.msgCardHeaderWrapper}>
+              <View style={{flex: 1}}>
+                <Text
+                  style={[
+                    styles.userNameStyle,
+                    {color: item.msg_read ? '#111111' : '#4B2A6A'},
+                  ]}>
+                  {item.name}
+                </Text>
+              </View>
+              <View style={{alignSelf: 'center'}}>
+                <Text
+                  style={[
+                    styles.timeTextStyle,
+                    {color: item.msg_read ? '#111111' : '#4B2A6A'},
+                  ]}>
+                  {item.time}
+                </Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <View style={{flex: 1}}>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    fontSize: 15,
+                    color: '#8F8F8F',
+                  }}>
+                  {item.message}
+                </Text>
+              </View>
+              <View style={{paddingTop: 5}}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}>
+                <View style={{height: 15, width: 15}}>
+                
+                  <Image
+                    style={{height: '100%', width: '100%'}}
+                    source={Images.rightarrow}
+                  />
+                  
+                </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            height: 2,
+            width: '90%',
+            marginLeft: 100,
+            // marginRight:10,
+            backgroundColor: '#E9E9E9',
+          }}
+        />
             </ScrollView>
           }
             
@@ -235,4 +252,5 @@ const backPressed = () => {
     );
         }     
 
-export default MessagesScreen;
+export default Messages;
+ 
