@@ -9,6 +9,6 @@ import ModelComponent from './/ModelComponent';
 import CustomHeader from './/CustomHeader';
 import CustomDropdown from './/CustomDropdown/CustomDropdown';
 import Validate from './validations';
+import HeaderTitleWithBack from './HeaderTitleWithBack';
 
-
-export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate};
+export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate,HeaderTitleWithBack};

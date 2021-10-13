@@ -17,17 +17,10 @@ import {
 import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar } from '../../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import * as userActions from '../../../actions/user-actions-types';
-import Toast from 'react-native-simple-toast';
-import CardView from 'react-native-cardview'
-import ProgressLoader from 'rn-progress-loader';
-import { NavigationContainer, useIsFocused, DrawerActions } from '@react-navigation/native';
-import { Card } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+ import { NavigationContainer, useIsFocused, DrawerActions } from '@react-navigation/native';
+ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
- 
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const screenWidth = Dimensions.get('window').width;
@@ -94,23 +87,24 @@ const MySchool = (props: HomeScreenProps) => {
                 <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>E-certificates{'\n'}&{'\n'}E-reports</Text>
             </View>  
  </View>
+ <TouchableOpacity onPress={() => props.navigation.navigate('EducationProfileScreen')}>
   <View style={styles.boxcontainer}>
     <Image
                         style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
                         source={Images.profile_img2}
                     />
              <View style={{marginTop:12}}>
-                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Share My Profile</Text>
+                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>View My Education Profile</Text>
             </View> 
   </View>
-
+</TouchableOpacity>
 
 </View>
 <View style={{paddingHorizontal:15,flexDirection:'row',alignItems:'center',justifyContent:'center'}}> 
 <TouchableOpacity onPress={() => props.navigation.navigate('ZatchupStarClassScreen')}>
   <View style={styles.boxcontainer}>
   <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
+                        style={{ width: 70, height: 70, borderRadius: 60 / 2 ,resizeMode:'stretch'}}
                         source={Images.profile_img2}
                     />
              <View style={{marginTop:12}}>

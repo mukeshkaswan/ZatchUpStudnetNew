@@ -1,5 +1,5 @@
 import React, { Component, FC, useEffect, useState } from 'react';
-import { Text, View, Dimensions, BackHandler,FlatList } from 'react-native';
+import { Text, View, Dimensions, BackHandler,FlatList,Image } from 'react-native';
 import styles from './styles';
 import { Images, Colors } from '../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,6 +15,90 @@ import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 const screenWidth = Dimensions.get('window').width;
+const data = [
+  {
+    id: 1,
+    name: 'Mukesh Sharma',
+    time: '2:26PM',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: false,
+  },
+  {
+    id: 2,
+    name: 'Prashant Chaudhary',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 3,
+    name: 'Mukesh Sharma',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 4,
+    name: 'Prashant Sharma',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 5,
+    name: 'Prashant Chaudhary',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 6,
+    name: 'Prashant Chaudhary',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 7,
+    name: 'Mukesh Sharma',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 8,
+    name: 'Prashant Sharma',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+  {
+    id: 9,
+    name: 'Prashant Chaudhary',
+    time: 'Yesterday',
+    profileImage: Images.profile_img2,
+    message:
+      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
+    msg_read: true,
+  },
+];
+ 
 
 interface NotificationsScreenProps { navigation: any }
 const Notifications = (props: NotificationsScreenProps) => {
@@ -111,7 +195,7 @@ const Notifications = (props: NotificationsScreenProps) => {
       <CustomStatusBar />
       <CustomHeader Title={'Notifications'} Back={'true'} navigation={props.navigation} />
       <FlatList
-        data={setdatafromlist}
+        data={data}
         renderItem={({ item }) =>
           <CardView
             cardElevation={5}
@@ -119,19 +203,24 @@ const Notifications = (props: NotificationsScreenProps) => {
             cornerRadius={1}
 
             style={styles.Cardview}>
+              <View style={{flexDirection:'row',alignItems:'center'}}> 
+              <Image
+                source={Images.profile_img2}
+                style={{height:50,width:50,tintColor:'grey',borderRadius:25}}
+               
+              />
 
-            <Text style={styles.Title_tv_}>{item.message}</Text>
-
-
-            <View style={styles.Title_view}>
-              <Text style={styles.Title_view_child}>{item.recived_time}</Text>
-
+                    <Text style={styles.Title_tv_}>{item.message}</Text>
+                  
             </View>
-
+                   <View style={styles.Title_view}>
+                        <Text style={styles.Title_view_child}>{item.time}</Text>
+                   </View>
+  
 
           </CardView>
         }
-        ItemSeparatorComponent={renderIndicator}
+      //  ItemSeparatorComponent={renderIndicator}
       />
     </View>
   );

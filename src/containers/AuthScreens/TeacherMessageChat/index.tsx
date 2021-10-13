@@ -219,7 +219,7 @@ const backPressed = () => {
                 underlineColorAndroid="transparent"
               />
             </View>
-
+            
             <Image
               source={Images.send} //Change your icon image here
               style={{
@@ -228,8 +228,8 @@ const backPressed = () => {
 
                 //  marginLeft:20,
                 tintColor: '#4B2A6A',
-                // height: 25,
-                // width: 25,
+                // height: 40,
+                // width: 40,
                 resizeMode: 'stretch',
                 alignItems: 'center',
               }}

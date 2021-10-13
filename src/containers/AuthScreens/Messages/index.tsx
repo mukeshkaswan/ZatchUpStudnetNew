@@ -1,5 +1,4 @@
 import React, {Component,useState} from 'react';
-
 import {
     Text,
     View,
@@ -21,10 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const screenWidth = Dimensions.get('window').width;
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';const screenWidth = Dimensions.get('window').width;
 const student_chat_data = [
     {
       id: 1,
@@ -160,7 +156,7 @@ const backPressed = () => {
                 marginRight: 20,
                 fontFamily: 'Lato-Regular',
                 marginTop: Platform.OS === 'ios' ? 30 : 5,
-              }}>{'Teacher For Chat'}</Text>
+              }}>{'Messages'}</Text>
             </View>
 
 

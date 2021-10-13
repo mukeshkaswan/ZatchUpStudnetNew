@@ -34,12 +34,15 @@ const images = {
   eye_64: require("../assets/images/eye_64.png"),  
   invisible_64: require("../assets/images/invisible_64.png"),  
   changepassword: require("../assets/images/change_password.png"),  
-  logoutsidemenu: require("../assets/images/logout_sidemenu.png"),  
+  logoutsidemenu: require("../assets/images/logout_sidemenu.png"),   
   ss: require("../assets/images/ss.png"),  
   back: require("../assets/images/back.png"),  
   rightarrow: require("../assets/images/gray_rightArrow.png"), 
   send: require("../assets/images/send.png"), 
   threedot: require("../assets/images/dot.png"),  
+  play: require("../assets/images/play.png"),  
+  sendbtn: require("../assets/images/send_button.png"),  
+  footernormalicon: require("../assets/images/footer_normal_icon-3.png"),  
 };
 
 export default images;

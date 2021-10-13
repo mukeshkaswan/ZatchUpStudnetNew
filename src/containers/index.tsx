@@ -33,7 +33,10 @@ export { default as MySchoolScreen } from './AuthScreens//MySchoolScreen';
 export { default as Reminders } from './AuthScreens//Reminders';
 export { default as ZatchupStarClassScreen } from './AuthScreens//ZatchupStarClassScreen';
 export { default as StarClassRequestScreen} from './AuthScreens//StarClassRequestScreen';
+export { default as EducationProfileScreen} from './AuthScreens//EducationProfileScreen';
+export { default as PendingRequestScreen} from './AuthScreens//PendingRequestScreen';
 //export { default as Splash } from './AuthScreens//Splash/Splash';
 
 
 
+ 

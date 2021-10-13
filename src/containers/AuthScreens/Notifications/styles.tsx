@@ -8,25 +8,27 @@ const styles = ScaledSheet.create({
     container: {
         flex: 1,
          backgroundColor: '#F1F1F1',
-
+          
     },
     Cardview: {
         backgroundColor: '#FFFFFF',
-
+        marginBottom:10,paddingHorizontal:10, 
     },
     CardviewChild: {
         backgroundColor: '#FFFFFF',
-        marginTop: 5
+        marginTop: 5,
+       
     },
     Title_tv_: {
-        marginTop: 10, fontSize: 18, marginLeft: 10, padding: 20, marginBottom: 10
+        marginTop: 10, fontSize: 15, padding: 10, marginBottom: 25,width:'85%',
+
     },
     Title_view: {
         position: 'absolute',
         right: 0,
         //top: 0,
         bottom: 10,
-
+       
         marginRight: 20,
     },
 

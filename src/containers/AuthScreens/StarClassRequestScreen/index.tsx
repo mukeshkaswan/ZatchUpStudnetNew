@@ -213,7 +213,7 @@ class StarClassRequestScreen extends React.Component<AppProps, State> {
                 marginRight:10
               }}
                         
-                        source={Images.rightarrow}
+                        source={Images.play}
                     />
               <Text style={{color:'green'}}>Play</Text>
 

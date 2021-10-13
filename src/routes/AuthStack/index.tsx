@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator, CardStyleInterpolators, TransitionPresets } from "@react-navigation/stack";
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen} from "../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen,EducationProfileScreen,PendingRequestScreen} from "../../containers";
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
 import DrawerNav from '../AppStack/DrawerStack';
@@ -206,6 +206,16 @@ function AuthStack() {
    <Stack.Screen
         name="StarClassRequestScreen"
         component={StarClassRequestScreen}
+        options={{ header: () => null }}
+      />
+  <Stack.Screen
+        name="EducationProfileScreen"
+        component={EducationProfileScreen}    
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="PendingRequestScreen"
+        component={PendingRequestScreen}
         options={{ header: () => null }}
       />
   
