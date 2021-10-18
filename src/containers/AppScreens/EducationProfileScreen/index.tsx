@@ -16,7 +16,6 @@ import CardView from 'react-native-cardview';
 import Modal from "react-native-modal";
 import { Searchbar } from 'react-native-paper';
  
- 
 interface ResetPasswordScreenProps {
   navigation: any;
 }
@@ -63,10 +62,10 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
            navigation={props.navigation}
           headerTitle="My Education Profile"
         />
-   <ScrollView  style={{marginBottom:10}}>
-     <View style={{marginTop:15}}>
+   <ScrollView >
+     {/* <View style={{marginTop:15}}>
         <Text style={{textAlign:'center',fontSize:20,fontStyle:'normal'}}>My Education Profile</Text>
-     </View>
+     </View> */}
      <TouchableOpacity style={styles.zatchupstarclassbtn} onPress={() => {
     props.navigation.navigate('PendingRequestScreen');
   }}>
@@ -101,8 +100,8 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
             </View>
     </View>
    <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
+              cardElevation={1}
+              cardMaxElevation={1}
               cornerRadius={15}
               style={{
                 // width: '95%',
@@ -146,23 +145,25 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
                 
               
             </CardView>
-        <TouchableOpacity onPress={toggleModal} >
+        
             <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
+              cardElevation={1}
+              cardMaxElevation={1}
               cornerRadius={20}
               style={styles.card }>
           <View style={styles.addcitycontainer}>
            
               <Text style={styles.title_text}>Add Your City</Text>
+              <TouchableOpacity onPress={toggleModal} >
               <Image
                 source={Images.addmore_school_icon}
                 style={styles.addicon}
               />
+                </TouchableOpacity>
                 </View>
              <View style={styles.border}></View>
         </CardView>
-      </TouchableOpacity>
+     
         <Modal isVisible={isModalVisible}
         onBackdropPress={toggleModal}
         >
@@ -187,9 +188,10 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
         </View>
       </Modal>
         <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
+              cardElevation={1}
+              cardMaxElevation={1}
               cornerRadius={20}
+
               style={styles.card }>
           <View style={styles.addcitycontainer}>
            
@@ -202,8 +204,8 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
              <View style={styles.border}></View>
         </CardView>
         <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
+              cardElevation={1}
+              cardMaxElevation={1}
               cornerRadius={20}
               style={styles.card }>
           <View style={styles.addcitycontainer}>
@@ -215,10 +217,10 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
               />
                 </View>
              <View style={styles.border}></View>
-        </CardView> 
+        </CardView>
         <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
+              cardElevation={1}
+              cardMaxElevation={1}
               cornerRadius={15}
               style={{
                 // width: '95%',
@@ -226,8 +228,9 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
                 backgroundColor: 'white',
                marginHorizontal:15,
                 marginTop: 20,
-                paddingBottom: 14,
-                paddingTop:10
+                
+                paddingTop:10,
+                paddingBottom:10
                
               }}>
                 <View style={styles.addcitycontainer}>
@@ -239,8 +242,9 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
                       style={{tintColor:'green',height:25,width:25,marginRight:8}}
                   />
                     <Image
-                      source={Images.inbox_icon}
-                      style={styles.addicon}
+                      source={Images.comment}
+//style={styles.addicon}
+style={{tintColor:'green',height:25,width:25,marginRight:8,resizeMode:'contain'}}
                   />
                   <Image
                   source={Images.addmore_school_icon}

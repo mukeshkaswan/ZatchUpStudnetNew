@@ -43,8 +43,12 @@ const images = {
   play: require("../assets/images/play.png"),  
   sendbtn: require("../assets/images/send_button.png"),  
   footernormalicon: require("../assets/images/footer_normal_icon-3.png"),  
+  reminder: require("../assets/images/reminder.jpg"),  
+  attachment: require("../assets/images/attachement.png"),  
+  announceicon: require("../assets/images/announce_icon.png"),  
+  comment: require("../assets/images/comment.png"),  
 };
-
+ 
 export default images;
 
  

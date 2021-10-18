@@ -54,7 +54,7 @@ const MySchool = (props: HomeScreenProps) => {
 </View>
 
 <View style={styles.Notification_view}>
-  <Image source={Images.search} style={styles.inbox_iconreminder} />
+  <Image source={Images.announceicon} style={styles.inbox_iconreminder} />
   <View style={{ position: 'absolute', marginTop: Platform.OS == 'ios' ? 2 : 5, right: 5, alignSelf: 'flex-end', borderRadius: 15, backgroundColor: '#00B200', width: Platform.OS == 'ios' ? 20 : 18, height: Platform.OS == 'ios' ? 20 : 18 }}>
     {/* <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text> */}
   </View>
@@ -76,25 +76,25 @@ const MySchool = (props: HomeScreenProps) => {
 </View>
 <ScrollView>
 
-<View style={{paddingHorizontal:15,marginTop:12,flexDirection:'row',alignItems:'center',justifyContent:'center'}}> 
+<View style={styles.mainBoxesContainer}> 
 
   <View style={styles.boxcontainer}>
             <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
+                        style={styles.boximage}
                         source={Images.profile_img2}
                     />
              <View style={{marginTop:12}}>
-                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>E-certificates{'\n'}&{'\n'}E-reports</Text>
+                <Text style={styles.text}>E-certificates{'\n'}&{'\n'}E-reports</Text>
             </View>  
  </View>
  <TouchableOpacity onPress={() => props.navigation.navigate('EducationProfileScreen')}>
   <View style={styles.boxcontainer}>
     <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
+                         style={styles.boximage}
                         source={Images.profile_img2}
                     />
              <View style={{marginTop:12}}>
-                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>View My Education Profile</Text>
+                <Text style={styles.text}>View My Education Profile</Text>
             </View> 
   </View>
 </TouchableOpacity>
@@ -103,30 +103,30 @@ const MySchool = (props: HomeScreenProps) => {
 <View style={{paddingHorizontal:15,flexDirection:'row',alignItems:'center',justifyContent:'center'}}> 
 <TouchableOpacity onPress={() => props.navigation.navigate('ZatchupStarClassScreen')}>
   <View style={styles.boxcontainer}>
-  <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 ,resizeMode:'stretch'}}
-                        source={Images.profile_img2}
+  <Image               
+                         style={{height:100,width:100,resizeMode:'contain'}}
+                        source={Images.logo}
                     />
              <View style={{marginTop:12}}>
-                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Zatchup Star{'\n'}Class</Text>
+                <Text style={styles.text}>Zatchup Star{'\n'}Class</Text>
             </View> 
   </View>
   </TouchableOpacity>
 <TouchableOpacity onPress={() => props.navigation.navigate('Reminders')}>
   <View style={styles.boxcontainer}>
   <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 }}
+                        style={styles.boximage}
                         source={Images.profile_img2}
                     />
              <View style={{marginTop:12}}>
-                <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Reminders</Text>
+                <Text style={styles.text}>Reminders</Text>
             </View> 
   </View>
 </TouchableOpacity>
-
+ 
 </View>
-
-<View style={{paddingHorizontal:15,marginTop:8,alignItems:'center',justifyContent:'center'}}> 
+<TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen')}>
+<View style={{paddingHorizontal:24,marginTop:8,alignItems:'center',justifyContent:'center'}}> 
 
   <View style={{width:'100%',backgroundColor:'white',height:150,borderRadius:15,alignSelf:'center',justifyContent:'center'}}> 
   <Image
@@ -139,7 +139,7 @@ const MySchool = (props: HomeScreenProps) => {
   </View>
 
 </View>
-
+</TouchableOpacity>
 </ScrollView>
 
   </View>

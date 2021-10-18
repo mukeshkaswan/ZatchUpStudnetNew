@@ -24,101 +24,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const screenWidth = Dimensions.get('window').width;
-
-const student_chat_data = [
-    {
-      id: 1,
-      name: 'Mukesh Sharma',
-      time: '2:26PM',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: false,
-    },
-    {
-      id: 2,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 3,
-      name: 'Mukesh Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 4,
-      name: 'Prashant Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 5,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 6,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 7,
-      name: 'Mukesh Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 8,
-      name: 'Prashant Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 9,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-  ];
-   
-
-
-interface MessagesScreenProps {
+ interface MessagesScreenProps {
     navigation: any;
 }
 const TeacherMessageChat = (props: MessagesScreenProps) => {
-const [data,studentdata]=useState([student_chat_data])
+ 
 
     React.useEffect(() => {
-        // console.log('rtyuigfghj', props)
+        // console.log('rtyuigfghj', props) 
     }, []);
 const backPressed = () => {
             props.navigation.goBack(null);
@@ -130,10 +43,12 @@ const backPressed = () => {
         <CustomStatusBar />
 
         <View style={{
-          height: Platform.OS === 'ios' ? '10%' : '8%',
+          height: Platform.OS === 'ios' ? '10%' : 64,
           backgroundColor: 'rgb(70,50,103)',
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
+        
+         
           
 
         }}>
@@ -159,7 +74,7 @@ const backPressed = () => {
                 marginRight: 20,
                 fontFamily: 'Lato-Regular',
                 marginTop: Platform.OS === 'ios' ? 30 : 5,
-              }}>{'Teacher Name'}</Text>
+              }}>{'Nitesh'}</Text>
             <Text style={{color:'lightgrey'}}>Online</Text>
 
             </View>

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator, CardStyleInterpolators, TransitionPresets } from "@react-navigation/stack";
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen,EducationProfileScreen,PendingRequestScreen} from "../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen,EducationProfileScreen,PendingRequestScreen,ChatWithTeachersScreen,SettingScreen,PrivacyPolicy,ReminderTitleScreen,AboutusScreen} from "../../containers";
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
 import DrawerNav from '../AppStack/DrawerStack';
@@ -216,6 +216,31 @@ function AuthStack() {
       <Stack.Screen
         name="PendingRequestScreen"
         component={PendingRequestScreen}
+        options={{ header: () => null }}
+      />
+   <Stack.Screen
+        name="ChatWithTeachersScreen"
+        component={ChatWithTeachersScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="SettingScreen"
+        component={SettingScreen}
+        options={{ header: () => null }}
+      />
+   <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicy}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="ReminderTitleScreen"
+        component={ReminderTitleScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="AboutusScreen"
+        component={AboutusScreen}
         options={{ header: () => null }}
       />
   

@@ -1,11 +1,10 @@
 import React, { Component,FC,useState } from 'react';
 import {  View,FlatList,Image,TouchableOpacity,ImageBackground ,ScrollView,Switch,Platform} from 'react-native';
-import {CustomHeader} from '../../../components/Customheader';
-import {Custombutton} from '../../../components/Custombutton';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,HeaderTitleWithBack } from '../../../components';
 import { RadioButton, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import styles from './styles.tsx';  
+import styles from './style.tsx';  
 interface ResetPasswordScreenProps {
   navigation: any;
 }
@@ -22,45 +21,11 @@ const PrivacyPolicy= (props: ResetPasswordScreenProps) => {
  return (
      <View style={styles.container}> 
       <View style={{backgroundColor:'white'}}> 
-      <View style={{
-          height: Platform.OS === 'ios' ? '10%' : '7%',
-          backgroundColor: 'rgb(70,50,103)',
-          borderBottomLeftRadius: 15,
-          borderBottomRightRadius: 15,
-
-        }}>
-          <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center', }}>
-
-
-            <TouchableOpacity onPress={backPressed}
-              style={{ marginTop: Platform.OS === 'ios' ? 30 : 10, marginLeft: 10 }} >
-              <Icon name="arrow-left" size={25} color="white" />
-            </TouchableOpacity>
-
-
-
-            <View style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-
-            }}>
-              <Text style={{
-                textAlignVertical: "center",
-                textAlign: "center",
-                color: 'white',
-                fontSize: hp(2.8),
-                marginRight: 20,
-                fontFamily: 'Lato-Regular',
-                marginTop: Platform.OS === 'ios' ? 30 : 5,
-              }}>{'Privacy Policy'}</Text>
-            </View>
-
-
-          </View>
-
-        </View>
-
+      
+      <HeaderTitleWithBack
+           navigation={props.navigation}
+          headerTitle="Privacy Policy"
+        />
 
 
           <View style={styles.lastseentextcontent}>
@@ -96,7 +61,7 @@ const PrivacyPolicy= (props: ResetPasswordScreenProps) => {
           </View>
          </View>
          <View style={styles.savebuttoncontent}> 
-                 <Custombutton title="Save"/>
+                 {/* <Custombutton title="Save"/> */}
          </View>
 </View>
    

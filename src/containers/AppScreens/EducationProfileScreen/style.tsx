@@ -2,7 +2,10 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const styles = ScaledSheet.create({
  container:{
-flex:1,
+flex:1,   
+//backgroundColor:'lightgrey',
+ paddingBottom:20
+ 
 
  },
     detail_text: {
@@ -44,7 +47,14 @@ flex:1,
          marginTop: 20,
          paddingBottom: 18,
          paddingTop:8,
-        paddingHorizontal:8
+        paddingHorizontal:8,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        shadowOpacity: 0.26,
+        elevation: 8,
+        
+        
       }
       
 })
