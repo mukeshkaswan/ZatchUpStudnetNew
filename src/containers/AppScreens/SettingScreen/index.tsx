@@ -1,7 +1,7 @@
 import React, { Component, FC, useState } from 'react';
 import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler,Switch ,TextInput} from 'react-native';
 import styles from './style.tsx';  
-import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,HeaderTitleWithBack } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,HeaderTitleWithBack,Colors} from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,15 +24,10 @@ const SettingScreen= (props: ResetPasswordScreenProps) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible2, setModalVisible2] = useState(false);
   const [number, onChangeNumber] = React.useState(null);
 
-
-
-  
-   
-  
   const [Gender, setGender] = useState('');
-   
   const [count, setCount] = useState(0);
   const [allSelected, setSelected] = useState(false)
   const [male, setMale] = useState(false)
@@ -73,14 +68,17 @@ const SettingScreen= (props: ResetPasswordScreenProps) => {
 
 
 
-
-
-
+  
 
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const toggleModal2 = () => {
+    setModalVisible2(!isModalVisible2);
+  };
+
+
 const renderIndicator = () => {
     return (
       <View style={{}}>
@@ -126,39 +124,43 @@ return (
              source={Images.edit_icon}
              style={styles.addicon}
            />
+          
            </TouchableOpacity>
-           
-           <Modal isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
+        {/* Modal */}
+      <Modal isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
         >
-        
        
-        
-        <View style={{height:hp('45'),backgroundColor:'white' ,justifyContent:'center',alignItems:'center',paddingHorizontal:22}}>
-               <Text style={{fontSize:20,marginVertical:10,fontWeight:'bold'}}>Personal Information</Text>
-        <Text style={{fontWeight:'bold',alignSelf:'flex-start',paddingLeft:20,paddingVertical:6}}>Mother's Name</Text>
-    <View style={{borderWidth:1,height:hp('5'),borderColor:'lightgrey',width:300,borderRadius:10}}>
-     
-        <TextInput
-          style={{paddingLeft:10}}
+        <View style={{height:hp('45'), backgroundColor: Colors.$backgroundColor,justifyContent:'center',alignItems:'center',paddingVertical:20,paddingHorizontal:10,borderRadius:5}}>
+             <TouchableOpacity onPress={toggleModal} style={{alignSelf:'flex-end'}}>
+               <Image
+                  source={Images.closeicon}
+                 style={{height:18,width:18,marginRight:10}}
+               />
+              </TouchableOpacity>
+               <Text style={{fontSize:20,marginVertical:5,fontWeight:'bold'}}>Personal Information</Text>
+               <Text style={styles.labeltext}>Mother's Name</Text>
+         <View style={styles.textinputcontainer}>
+            <TextInput
+             style={{paddingLeft:10}}
+             onChangeText={onChangeNumber}
+             value={number}
+             placeholder="Enter Your Mother's Name"
+            keyboardType='default'
+           />
+        </View>
+      <Text style={styles.labeltext}>Father's Name</Text>
+      <View style={styles.textinputcontainer}>
+      <TextInput
+        style={{paddingLeft:10}}
         onChangeText={onChangeNumber}
         value={number}
-        placeholder="Maa"
-        keyboardType='default'
-      />
-  </View>
-  <Text style={{fontWeight:'bold',alignSelf:'flex-start',paddingLeft:20,marginTop:8}}>Father's Name</Text>
-  <View style={{borderWidth:1,height:hp('5'),borderColor:'lightgrey',width:300,borderRadius:10,marginTop:10}}>
-    
-    <TextInput
-     style={{paddingLeft:10}}
-    onChangeText={onChangeNumber}
-    value={number}
-    placeholder="Paa"
-    keyboardType='default'
-  />
+        placeholder="Enter Your Father's Name"
+         keyboardType='default'
+       />
 </View>
-<View style={styles.labelConatiner} ><Text style={styles.labelText}>Gender</Text></View>
+ <Text style={styles.labeltext}>Gender</Text>
+ 
 
 <View style={[styles.inputmarginBottom, { flexDirection: 'row', flex: 1, marginLeft: 25, marginRight: 25 }]}>
   <View style={{ flex: 1 }}>
@@ -214,7 +216,7 @@ return (
 
 
 </View>
-    <TouchableOpacity onPress={toggleModal} style={{height:hp('4.5'),width:wp('40'),backgroundColor:'rgb(70,50,103)',marginTop:15,alignItems:'center',justifyContent:'center',borderRadius:10}}><Text style={{color:'white'}}>Submit</Text></TouchableOpacity>
+    <TouchableOpacity style={{height:hp('4.5'),width:wp('40'),backgroundColor:'rgb(70,50,103)',marginTop:15,alignItems:'center',justifyContent:'center',borderRadius:10}}><Text style={{color:'white'}}>Submit</Text></TouchableOpacity>
         
         
         </View>
@@ -243,10 +245,49 @@ return (
                   <View style={styles.text_container}>
                     <Text style={styles.detail_text}>Phone Number : </Text>
                     <Text>phone</Text>
+                    <TouchableOpacity onPress={toggleModal2}>
                     <Image
                           source={Images.inbox}
                            style={{resizeMode:'stretch',tintColor:'green',marginLeft:8,width:20,height:20}}
                          />
+                    </TouchableOpacity>
+                    {/* modal */}
+                    <Modal isVisible={isModalVisible2}
+          onBackdropPress={toggleModal2}
+        >
+       
+        <View style={{height:hp('20'), backgroundColor: Colors.$backgroundColor,justifyContent:'center',alignItems:'center',paddingVertical:20,paddingHorizontal:10,borderRadius:5}}>
+             <TouchableOpacity onPress={toggleModal2} style={{alignSelf:'flex-end'}}>
+               <Image
+                  source={Images.closeicon}
+                 style={{height:18,width:18,marginRight:10}}
+               />
+              </TouchableOpacity>
+               
+               <Text style={styles.labeltext}>Email</Text>
+         <View style={styles.textinputcontainer}>
+            <TextInput
+             style={{paddingLeft:10}}
+             onChangeText={onChangeNumber}
+             value={number}
+             placeholder="Add Email"
+            keyboardType='default'
+           />
+        </View>
+      
+
+
+ 
+    <TouchableOpacity style={{height:hp('4.5'),width:wp('40'),backgroundColor:'rgb(70,50,103)',marginTop:15,alignItems:'center',justifyContent:'center',borderRadius:10}}><Text style={{color:'white'}}>Submit</Text></TouchableOpacity>
+        
+        
+        </View>
+      </Modal>
+
+
+
+
+
                   </View>
                   <View style={styles.text_container}>
                     <Text style={styles.detail_text}>Father's Name : </Text>
@@ -272,8 +313,8 @@ return (
              <View style={styles.border}></View>
                 <View style={styles.privacyrowcontainer}>
                     <Text style={styles.detail_text}>Mobile Number : </Text>
-                    <Text>69659693698</Text>
-                    <Switch
+                    <Text style={{textAlign:'center'}}>69659693698</Text>
+                  <Switch
                   trackColor={{ false: "grey", true: "lightgreen"}}
                   thumbColor={isEnabled ? "limegreen" : "lightgrey"}
                   ios_backgroundColor="#3e3e3e"
@@ -284,7 +325,7 @@ return (
                <View style={styles.border1}></View>
                 <View style={styles.privacyrowcontainer}>
                     <Text style={styles.detail_text}>Date of Birth : </Text>
-                    <Text>   2001-11-19</Text>
+                    <Text style={{textAlign:'center'}}>2001-11-19</Text>
                     <Switch
                   trackColor={{ false: "grey", true: "lightgreen"}}
                   thumbColor={isEnabled ? "limegreen" : "lightgrey"}
@@ -296,7 +337,7 @@ return (
                   <View style={styles.border1}></View>
                 <View style={styles.privacyrowcontainer}>
                     <Text style={styles.detail_text}>Gender : </Text>
-                    <Text>             Male</Text>
+                    <Text style={{textAlign:'center'}}>Male</Text>
                     <Switch
                   trackColor={{ false: "grey", true: "lightgreen"}}
                   thumbColor={isEnabled ? "limegreen" : "lightgrey"}

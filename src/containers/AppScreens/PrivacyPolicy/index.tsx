@@ -22,7 +22,7 @@ const PrivacyPolicy= (props: ResetPasswordScreenProps) => {
      <View style={styles.container}> 
       <View style={{backgroundColor:'white'}}> 
       
-      <HeaderTitleWithBack
+      <HeaderTitleWithBack 
            navigation={props.navigation}
           headerTitle="Privacy Policy"
         />

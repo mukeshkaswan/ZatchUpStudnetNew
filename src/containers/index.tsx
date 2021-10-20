@@ -42,6 +42,15 @@ export { default as ReminderTitleScreen} from './AppScreens//ReminderTitleScreen
 //export { default as Splash } from './AuthScreens//Splash/Splash';
 export {default as Notifications} from './AppScreens/Notifications'
 export {default as AboutusScreen} from './AppScreens/AboutusScreen'
+export {default as CoursesPendingScreen} from './AppScreens/CoursesPendingScreen';
+export {default as CoursesListScreen} from './AppScreens/CoursesListScreen';
+
+export {default as CoursePreviewScreen} from './AppScreens/CoursePreviewScreen';
+export {default as PlayHistoryScreen} from './AppScreens/PlayHistoryScreen';
+export {default as LectureDetailsScreen} from './AppScreens/LectureDetailsScreen';
+export {default as WorkDetailsScreen} from './AppScreens/WorkDetailsScreen';
+export {default as AddSchoolScreen} from './AppScreens/AddSchoolScreen';
+export {default as StudentEducationScreen} from './AppScreens/StudentEducationScreen';
 
 
 

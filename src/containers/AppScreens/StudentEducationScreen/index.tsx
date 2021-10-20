@@ -1,4 +1,4 @@
- import React, {Component} from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import {CheckBox} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
  
-import { CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn } from '../../../components';
+import { CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,CustomDropdown,TextField} from '../../../components';
 import { Images } from '../../../components/index';
 interface AppProps {
   navigation: any;
@@ -59,7 +59,7 @@ const approval_data = [
 ];
 
  
-class StarClassRequestScreen extends React.Component<AppProps, State> {
+class StudentEducationScreen extends React.Component<AppProps, State> {
    
   constructor(props: AppProps) {
     super(props);
@@ -182,9 +182,9 @@ class StarClassRequestScreen extends React.Component<AppProps, State> {
             //marginRight: 20,
             fontFamily: 'Lato-Regular',
             marginTop: Platform.OS === 'ios' ? 30 : 5,
-          }}>{'Star Class Requests'}</Text>
+          }}>{'School Details'}</Text>
         </View>
-        <Image source={Images.search} style={styles.inbox_iconreminder} />
+     
 
       </View>
 </View>
@@ -200,7 +200,7 @@ class StarClassRequestScreen extends React.Component<AppProps, State> {
                   this.state.active_data === 'Student' ? '#4B2A6A' : '#ffffff',
               },
             ]}>
-            <Text style={styles.tabButtonTextStyle}>Approved</Text>
+            <Text style={styles.tabButtonTextStyle}>Student</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -213,29 +213,106 @@ class StarClassRequestScreen extends React.Component<AppProps, State> {
                   this.state.active_data === 'Teacher' ? '#4B2A6A' : '#FFFFFF',
               },
             ]}>
-            <Text style={styles.tabButtonTextStyle}>Pending</Text>
+            <Text style={styles.tabButtonTextStyle}>Alumni</Text>
           </TouchableOpacity>
         </View>
         <View style={{flex: 1,marginTop:15}}>
           { !(this.state.active_data === 'Teacher')?
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            // data={
-            //   this.state.active_data === 'Teacher'
-            //     ? teacher_chat_data
-            //     : student_chat_data
-            // }
-            data={
-             
-              approval_data
-               
-          }
-            keyExtractor={(item) => {
-              item.id;
-            }}
-            renderItem={({item,index})=> this.renderList1(item,index)}
-            
-          />
+    <ScrollView > 
+            <View style={{paddingHorizontal:16}}>
+             <View style={{marginTop:10}}>
+               <Text style={styles. fillText_Add}>Course Joining Date</Text>
+              
+        
+         <TextField placeholder={'yyyy-mm-dd'}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
+
+        />
+        </View>
+        <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>Joining Standard</Text>
+              
+        
+         <TextField placeholder={'Select Join Standard'}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
+
+        />
+        </View>
+        <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>Current Standard</Text>
+              
+        
+         <TextField placeholder={'Select Current Standard'}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
+
+        />
+        </View>
+        <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>Select Class</Text>
+              
+        
+         <TextField placeholder={'Select Class'}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
+
+        />
+        </View>
+        <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>School ID/Admission Number</Text>
+              
+        
+         <TextField placeholder={'Select School ID'}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
+
+        />
+        </View>
+        
+              
+        <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>Roll Number</Text>
+              <TextField placeholder={'Select School ID'}
+             //  onChangeText={val => setID(val)}
+             //   value={ID}
+             //   onEndEditing={val => getDetailZatchupID(val)}
+             //    onEndEditing={() => getDetailZatchupID}
+             //   onEndEditing={(value) => getDetailZatchupID()}
+     
+             />
+             </View>
+             <View style={{marginTop:10}}>
+        <Text style={styles. fillText_Add}>Course Description</Text>
+              <TextField placeholder={'Enter Course Description'}
+                multiline={true}
+             //  onChangeText={val => setID(val)}
+             //   value={ID}
+             //   onEndEditing={val => getDetailZatchupID(val)}
+             //    onEndEditing={() => getDetailZatchupID}
+             //   onEndEditing={(value) => getDetailZatchupID()}
+     
+             />
+             </View>
+        
+             </View>
+    </ScrollView>  
           :
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -255,4 +332,4 @@ class StarClassRequestScreen extends React.Component<AppProps, State> {
     );
   }
 }
-export default StarClassRequestScreen;
+export default StudentEducationScreen;

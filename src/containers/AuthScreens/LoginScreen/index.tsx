@@ -153,8 +153,8 @@ const LoginScreen = (props: LoginScreenProps) => {
             <View>
               <CustomButton
                 title={'Sign In'}
-                // onPress={onPressLogin}
-               onPress={() => props.navigation.navigate('Home')}
+                onPress={onPressLogin}
+               //onPress={() => props.navigation.navigate('Home')}
               />
             </View>
           </KeyboardAvoidingView>

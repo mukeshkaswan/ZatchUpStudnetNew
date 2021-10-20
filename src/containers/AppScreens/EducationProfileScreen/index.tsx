@@ -196,10 +196,12 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
           <View style={styles.addcitycontainer}>
            
               <Text style={styles.title_text}>Work Details</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('WorkDetailsScreen')}>
               <Image
                 source={Images.addmore_school_icon}
                 style={styles.addicon}
               />
+              </TouchableOpacity>
                 </View>
              <View style={styles.border}></View>
         </CardView>
@@ -211,10 +213,12 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
           <View style={styles.addcitycontainer}>
            
               <Text style={styles.title_text}>Add School</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('AddSchoolScreen')}>
               <Image
                 source={Images.addmore_school_icon}
                 style={styles.addicon}
               />
+              </TouchableOpacity>
                 </View>
              <View style={styles.border}></View>
         </CardView>
@@ -237,19 +241,27 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
            
                 <Text style={styles.title_text}>School Details</Text>
                 <View style={{flexDirection:'row'}}>
+                <TouchableOpacity style={styles.zatchupstarclassbtn} onPress={() => {
+                   props.navigation.navigate('CoursesPendingScreen');
+                    }}>
                 <Image
                       source={Images.footernormalicon}
                       style={{tintColor:'green',height:25,width:25,marginRight:8}}
                   />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}>
                     <Image
                       source={Images.comment}
-//style={styles.addicon}
-style={{tintColor:'green',height:25,width:25,marginRight:8,resizeMode:'contain'}}
+ 
+                        style={{tintColor:'green',height:25,width:25,marginRight:8,resizeMode:'contain'}}
                   />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => props.navigation.navigate('StudentEducationScreen')}>
                   <Image
                   source={Images.addmore_school_icon}
                   style={styles.addicon}
                  />
+                 </TouchableOpacity>
                  </View>
            </View>
               <View style={styles.border}></View>

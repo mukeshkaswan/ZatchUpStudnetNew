@@ -47,7 +47,15 @@ const images = {
   attachment: require("../assets/images/attachement.png"),  
   announceicon: require("../assets/images/announce_icon.png"),  
   comment: require("../assets/images/comment.png"),  
+  chatwithteacher: require("../assets/images/chat-with-teacher.png"),  
+  ecertificate: require("../assets/images/e-certificate-report.png"),  
+  reminders: require("../assets/images/reminders.png"),  
+  shareprofile: require("../assets/images/share-my-profile.png"),  
+  closeicon: require("../assets/images/close_icon.png"),  
+   
+   
 };
+
  
 export default images;
 

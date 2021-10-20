@@ -80,8 +80,8 @@ const MySchool = (props: HomeScreenProps) => {
 
   <View style={styles.boxcontainer}>
             <Image
-                        style={styles.boximage}
-                        source={Images.profile_img2}
+                        style={{resizeMode:'contain',width: 70, height: 70,}}
+                        source={Images.ecertificate}
                     />
              <View style={{marginTop:12}}>
                 <Text style={styles.text}>E-certificates{'\n'}&{'\n'}E-reports</Text>
@@ -90,8 +90,8 @@ const MySchool = (props: HomeScreenProps) => {
  <TouchableOpacity onPress={() => props.navigation.navigate('EducationProfileScreen')}>
   <View style={styles.boxcontainer}>
     <Image
-                         style={styles.boximage}
-                        source={Images.profile_img2}
+                         style={{width: 70, height: 70,resizeMode:'contain'}}
+                        source={Images.shareprofile}
                     />
              <View style={{marginTop:12}}>
                 <Text style={styles.text}>View My Education Profile</Text>
@@ -101,7 +101,7 @@ const MySchool = (props: HomeScreenProps) => {
 
 </View>
 <View style={{paddingHorizontal:15,flexDirection:'row',alignItems:'center',justifyContent:'center'}}> 
-<TouchableOpacity onPress={() => props.navigation.navigate('ZatchupStarClassScreen')}>
+<TouchableOpacity onPress={() => props.navigation.navigate('CoursesListScreen')}>
   <View style={styles.boxcontainer}>
   <Image               
                          style={{height:100,width:100,resizeMode:'contain'}}
@@ -115,8 +115,8 @@ const MySchool = (props: HomeScreenProps) => {
 <TouchableOpacity onPress={() => props.navigation.navigate('Reminders')}>
   <View style={styles.boxcontainer}>
   <Image
-                        style={styles.boximage}
-                        source={Images.profile_img2}
+                        style={{width: 70, height: 70,}}
+                        source={Images.reminders}
                     />
              <View style={{marginTop:12}}>
                 <Text style={styles.text}>Reminders</Text>
@@ -130,8 +130,8 @@ const MySchool = (props: HomeScreenProps) => {
 
   <View style={{width:'100%',backgroundColor:'white',height:150,borderRadius:15,alignSelf:'center',justifyContent:'center'}}> 
   <Image
-                        style={{ width: 70, height: 70, borderRadius: 60 / 2 ,alignSelf:'center'}}
-                        source={Images.profile_img2}
+                        style={{ width: 70, height: 70, alignSelf:'center',resizeMode:'contain'}}
+                        source={Images.chatwithteacher}
                     />
              <View style={{marginTop:12}}>
                 <Text style={{textAlign:'center',fontSize:15,fontWeight:'bold'}}>Chat with Teachers</Text>

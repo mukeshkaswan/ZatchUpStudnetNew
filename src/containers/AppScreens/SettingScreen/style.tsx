@@ -59,7 +59,24 @@ import {Colors } from '../../../components/index';
          },
          privacyrowcontainer:{
             flexDirection:'row',marginHorizontal:8,marginTop:20,marginBottom:20,justifyContent:'space-between'
-         }
+         },
+         radiobuttoncontainer:{
+          paddingLeft:'40@ms',
+          marginTop:'25@ms',
+          paddingBottom:'30@ms'
+  
+        },
+        radiocontent:{
+          flexDirection:'row',
+          alignItems:'center'
+  
+        },
+        labeltext:{
+        alignSelf:'flex-start',paddingLeft:20,paddingVertical:6
+        },
+        textinputcontainer:{
+          borderWidth:1,height:hp('5'),borderColor:'lightgrey',width:300,borderRadius:10
+        }
          
    })
    export default styles;

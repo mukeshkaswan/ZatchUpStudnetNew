@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator, CardStyleInterpolators, TransitionPresets } from "@react-navigation/stack";
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen,EducationProfileScreen,PendingRequestScreen,ChatWithTeachersScreen,SettingScreen,PrivacyPolicy,ReminderTitleScreen,AboutusScreen} from "../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu, Messages, EducationProfileEdit, AlumniNoEdit, CoomingSoon, ResetPassword, ContactUs, Notifications ,TeacherMessageChat,MySchoolScreen,Reminders,ZatchupStarClassScreen,StarClassRequestScreen,EducationProfileScreen,PendingRequestScreen,ChatWithTeachersScreen,SettingScreen,PrivacyPolicy,ReminderTitleScreen,AboutusScreen,CoursesPendingScreen,CoursesListScreen,CoursePreviewScreen,PlayHistoryScreen,LectureDetailsScreen,WorkDetailsScreen,AddSchoolScreen,StudentEducationScreen} from "../../containers";
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
 import DrawerNav from '../AppStack/DrawerStack';
@@ -241,6 +241,46 @@ function AuthStack() {
        <Stack.Screen
         name="AboutusScreen"
         component={AboutusScreen}
+        options={{ header: () => null }}
+      />
+        <Stack.Screen
+        name="CoursesPendingScreen"
+        component={CoursesPendingScreen}
+        options={{ header: () => null }}
+      />
+   <Stack.Screen
+        name="CoursesListScreen"
+        component={CoursesListScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="CoursePreviewScreen"
+        component={CoursePreviewScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="PlayHistoryScreen"
+        component={PlayHistoryScreen}
+        options={{ header: () => null }}
+      />
+   <Stack.Screen
+        name="LectureDetailsScreen"
+        component={LectureDetailsScreen}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="WorkDetailsScreen"
+        component={WorkDetailsScreen}
+        options={{ header: () => null }}
+      />
+  <Stack.Screen
+        name="AddSchoolScreen"
+        component={AddSchoolScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="StudentEducationScreen"
+        component={StudentEducationScreen}
         options={{ header: () => null }}
       />
   
