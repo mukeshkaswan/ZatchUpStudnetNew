@@ -3,13 +3,12 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const styles = ScaledSheet.create({
 container: {
      flex:1,
-},
-      fillText_Add: {
        
-        fontFamily: 'Lato-Medium',
-        fontSize: hp(2.1),
-        
-        paddingLeft:14
-    },
+      },
+       
+      t_2:{
+        textAlign:'center',fontWeight:'bold',fontSize:hp('2.1')
+      }
+      
 })
 export default styles;

@@ -163,29 +163,32 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
                 </View>
              <View style={styles.border}></View>
         </CardView>
-     
+     {/* modal for add your city */}
         <Modal isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        >
-        
-        <View style={{height:hp('20'),backgroundColor:'white' ,justifyContent:'center',alignItems:'center',paddingHorizontal:22}}>
-    <View style={{borderWidth:1,height:hp('5'),borderColor:'lightgrey',width:300,flexDirection:'row',alignItems:'center',borderRadius:5}}>
-    <Image
+             onBackdropPress={toggleModal}
+            >
+            
+             <View style={{height:hp('20'),backgroundColor:'white' ,justifyContent:'center',alignItems:'center',paddingHorizontal:22}}>
+             <TouchableOpacity onPress={toggleModal} style={{alignSelf:'flex-end',marginBottom:20}}>
+               <Image
+                  source={Images.closeicon}
+                 style={{height:18,width:18,marginRight:10}}
+               />
+              </TouchableOpacity>
+               <View style={{borderWidth:1,height:hp('5'),borderColor:'lightgrey',width:300,flexDirection:'row',alignItems:'center',borderRadius:5}}>
+               <Image
                 source={Images.search}
                 style={{marginLeft:10,tintColor:'grey'}}
-              />
-        <TextInput
-         
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="Search"
-        keyboardType='default'
-      />
-  </View>
-    <TouchableOpacity onPress={toggleModal} style={{height:hp('4.5'),width:wp('40'),backgroundColor:'rgb(70,50,103)',marginTop:15,alignItems:'center',justifyContent:'center',borderRadius:10}}><Text style={{color:'white'}}>Submit</Text></TouchableOpacity>
-        
-        
-        </View>
+               />
+              <TextInput
+                onChangeText={onChangeNumber}
+                value={number}
+                 placeholder="Search City"
+                keyboardType='default'
+                 />
+           </View>
+           <TouchableOpacity style={{height:hp('4.5'),width:wp('40'),backgroundColor:'rgb(70,50,103)',marginTop:15,alignItems:'center',justifyContent:'center',borderRadius:10}}><Text style={{color:'white'}}>Submit</Text></TouchableOpacity>
+         </View>
       </Modal>
         <CardView
               cardElevation={1}
@@ -301,10 +304,14 @@ const EducationProfileScreen= (props: ResetPasswordScreenProps) => {
               <View style={styles.addcitycontainer}>
            
            <Text style={styles.title_text}>Course Details</Text>
+           <TouchableOpacity style={styles.zatchupstarclassbtn} onPress={() => {
+                   props.navigation.navigate('SchoolConfirmationScreen');
+                    }}>
            <Image
              source={Images.edit_icon}
              style={styles.addicon}
            />
+           </TouchableOpacity>
              </View>
                 <View style={{marginTop:10}}>
                    <View style={styles.text_container}>

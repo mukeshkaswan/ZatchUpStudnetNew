@@ -50,7 +50,9 @@ export {default as PlayHistoryScreen} from './AppScreens/PlayHistoryScreen';
 export {default as LectureDetailsScreen} from './AppScreens/LectureDetailsScreen';
 export {default as WorkDetailsScreen} from './AppScreens/WorkDetailsScreen';
 export {default as AddSchoolScreen} from './AppScreens/AddSchoolScreen';
-export {default as StudentEducationScreen} from './AppScreens/StudentEducationScreen';
+export {default as SchoolDetailScreen} from './AppScreens/SchoolDetailScreen';
+export {default as SchoolConfirmationScreen} from './AppScreens/SchoolConfirmationScreen';
+export {default as EditCourseScreen} from './AppScreens/EditCourseScreen';
 
 
 

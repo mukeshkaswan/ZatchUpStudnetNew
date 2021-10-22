@@ -3,7 +3,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const styles = ScaledSheet.create({
 container: {
      flex:1,
-       backgroundColor:'#ecf0f1',
+      
       },
       picker: {
         width: '170@ms',
