@@ -158,7 +158,6 @@ const LoginScreen = (props: LoginScreenProps) => {
               <CustomButton
                 title={'Sign In'}
                 onPress={onPressLogin}
-                // onPress={() => props.navigation.navigate('Home')}
                 //onPress={() => props.navigation.navigate('Home')}
               />
             </View>
