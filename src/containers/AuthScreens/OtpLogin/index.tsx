@@ -217,11 +217,11 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
             if (result.status === 'True') {
               console.warn(
                 'after otp result',
-                JSON.stringify(result, undefined, 2),
+                // JSON.stringify(result, undefined, 2),
                 getData(result),
                 props.navigation.navigate('Home'),
               );
-              // setSpinnerStart(false);
+              //setSpinnerStart(false);
               setLoading(false);
             }
             if (result.status === 'False') {
