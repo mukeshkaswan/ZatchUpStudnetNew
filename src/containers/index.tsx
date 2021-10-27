@@ -11,24 +11,49 @@ export { default as Approval } from './AuthScreens//Approval';
 export { default as SelectStudent } from './AuthScreens//SelectStudent';
 export { default as CurrentSchoolinfo } from './AuthScreens//CurrentSchoolinfo';
 export { default as Onboarded } from './AuthScreens//Onboarded';
-export { default as EducationProfile } from './AuthScreens//EducationProfile';
+export { default as EducationProfile } from './AppScreens/EducationProfile';
 export { default as EIconfirmation } from './AuthScreens//EIconfirmation';
 export { default as AddCourseDetailsOthers } from './AuthScreens//AddCourseDetailsOthers';
 export { default as AddMoreCourseDetailsOthers } from './AuthScreens//AddMoreCourseDetailsOthers';
 export { default as OtpForgot } from './AuthScreens//OtpForgot';
-export { default as Personalinfo } from './AuthScreens//Personalinfo';
+export { default as Personalinfo } from './AppScreens//Personalinfo';
 export { default as OtpLogin } from './AuthScreens//OtpLogin';
 export { default as AlumniNo } from './AuthScreens//AlumniNo';
-export { default as Home } from './AuthScreens//Home';
-export { default as DrawerMenu } from './AuthScreens//DrawerMenu';
-export { default as Messages } from './AuthScreens//Messages';
-export { default as EducationProfileEdit } from './AuthScreens//EducationProfileEdit';
+export { default as Home } from './AppScreens//Home';
+export { default as DrawerMenu } from './AppScreens//DrawerMenu';
+export { default as Messages } from './AppScreens//Messages';
+export { default as EducationProfileEdit } from './AppScreens//EducationProfileEdit';
 export { default as AlumniNoEdit } from './AuthScreens//AlumniNoEdit';
 export { default as CoomingSoon } from './AuthScreens//CoomingSoon';
-export { default as ResetPassword } from './AuthScreens//ResetPassword';
-export { default as ContactUs } from './AuthScreens//ContactUs';
-export { default as Notifications } from './AuthScreens//Notifications';
+export { default as ResetPassword } from './AppScreens//ResetPassword';
+export { default as ContactUs } from './AppScreens//ContactUs';
+//export { default as Notifications } from './AuthScreens//Notifications';
+export { default as TeacherMessageChat } from './AppScreens//TeacherMessageChat';
+export { default as MySchoolScreen } from './AppScreens//MySchoolScreen';
+export { default as Reminders } from './AppScreens//Reminders';
+export { default as ZatchupStarClassScreen } from './AppScreens//ZatchupStarClassScreen';
+export { default as StarClassRequestScreen} from './AppScreens//StarClassRequestScreen';
+export { default as EducationProfileScreen} from './AppScreens//EducationProfileScreen';
+export { default as PendingRequestScreen} from './AppScreens//PendingRequestScreen';
+export { default as ChatWithTeachersScreen} from './AppScreens//ChatWithTeachersScreen';
+export { default as SettingScreen} from './AppScreens//SettingScreen';
+export { default as PrivacyPolicy} from './AppScreens//PrivacyPolicy';
+export { default as ReminderTitleScreen} from './AppScreens//ReminderTitleScreen';
 //export { default as Splash } from './AuthScreens//Splash/Splash';
+export {default as Notifications} from './AppScreens/Notifications'
+export {default as AboutusScreen} from './AppScreens/AboutusScreen'
+export {default as CoursesPendingScreen} from './AppScreens/CoursesPendingScreen';
+export {default as CoursesListScreen} from './AppScreens/CoursesListScreen';
+
+export {default as CoursePreviewScreen} from './AppScreens/CoursePreviewScreen';
+export {default as PlayHistoryScreen} from './AppScreens/PlayHistoryScreen';
+export {default as LectureDetailsScreen} from './AppScreens/LectureDetailsScreen';
+export {default as WorkDetailsScreen} from './AppScreens/WorkDetailsScreen';
+export {default as AddSchoolScreen} from './AppScreens/AddSchoolScreen';
+export {default as SchoolDetailScreen} from './AppScreens/SchoolDetailScreen';
+export {default as SchoolConfirmationScreen} from './AppScreens/SchoolConfirmationScreen';
+export {default as EditCourseScreen} from './AppScreens/EditCourseScreen';
 
 
 
+ 

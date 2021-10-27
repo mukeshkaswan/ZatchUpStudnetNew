@@ -9,7 +9,7 @@ import Animated, {
     useDerivedValue,
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu ,Messages,CoomingSoon} from "../../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu ,Messages,CoomingSoon,MySchoolScreen} from "../../../containers";
 
 // import AnimatedTabBar, { TabsConfigsType } from 'curved-bottom-navigation-bar';
 
@@ -117,12 +117,13 @@ const CustomTabBar = () => {
             />
 
             <Tab.Screen
-                name="Reminders_Tab"
-                component={CoomingSoon}
+                name="Messages_Tab"
+                component={Messages}
                 options={{
+                     
                     tabBarIcon: ({ focused }) => {
                         return (
-                            <Icon name="clock" size={24} color={focused ? '#ffffff' : 'gray'} />
+                            <Icon name="message-square" size={24} color={focused ? '#ffffff' : 'gray'} />
                         );
                     },
                     tabBarButton: (props) => {
@@ -135,8 +136,8 @@ const CustomTabBar = () => {
                 }}
             />
             <Tab.Screen
-                name="StartClass_Tab"
-                component={CoomingSoon}
+                name="MySchool_Tab"
+                component={MySchoolScreen}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -154,11 +155,11 @@ const CustomTabBar = () => {
             />
             <Tab.Screen
                 name="MessagesMain_Tab"
-                component={CoomingSoon}
+                component={Messages}
                 options={{
-                    tabBarIcon: ({ focused }) => {
+                     tabBarIcon: ({ focused }) => {
                         return (
-                            <Icon name="message-square" size={24} color={focused ? '#ffffff' : 'gray'} />
+                            <Icon name="clock" size={24} color={focused ? '#ffffff' : 'gray'} />
                         );
                     },
                     tabBarButton: (props) => {

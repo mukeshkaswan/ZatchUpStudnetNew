@@ -34,6 +34,7 @@ interface LoginScreenProps {
 const LoginScreen = (props: LoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   const [entry, setEntery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [SecureTextEntry, setSecureTextEntry] = useState(true);
@@ -157,7 +158,11 @@ const LoginScreen = (props: LoginScreenProps) => {
               <CustomButton
                 title={'Sign In'}
                 onPress={onPressLogin}
+<<<<<<< HEAD
                 // onPress={() => props.navigation.navigate('Home')}
+=======
+               //onPress={() => props.navigation.navigate('Home')}
+>>>>>>> e81854b97e0180a440252288234d546aea0c4ca2
               />
             </View>
           </KeyboardAvoidingView>

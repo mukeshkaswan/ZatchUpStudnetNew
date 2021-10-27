@@ -34,10 +34,29 @@ const images = {
   eye_64: require("../assets/images/eye_64.png"),  
   invisible_64: require("../assets/images/invisible_64.png"),  
   changepassword: require("../assets/images/change_password.png"),  
-  logoutsidemenu: require("../assets/images/logout_sidemenu.png"),  
+  logoutsidemenu: require("../assets/images/logout_sidemenu.png"),   
   ss: require("../assets/images/ss.png"),  
   back: require("../assets/images/back.png"),  
+  rightarrow: require("../assets/images/gray_rightArrow.png"), 
+  send: require("../assets/images/send.png"), 
+  threedot: require("../assets/images/dot.png"),  
+  play: require("../assets/images/play.png"),  
+  sendbtn: require("../assets/images/send_button.png"),  
+  footernormalicon: require("../assets/images/footer_normal_icon-3.png"),  
+  reminder: require("../assets/images/reminder.jpg"),  
+  attachment: require("../assets/images/attachement.png"),  
+  announceicon: require("../assets/images/announce_icon.png"),  
+  comment: require("../assets/images/comment.png"),  
+  chatwithteacher: require("../assets/images/chat-with-teacher.png"),  
+  ecertificate: require("../assets/images/e-certificate-report.png"),  
+  reminders: require("../assets/images/reminders.png"),  
+  shareprofile: require("../assets/images/share-my-profile.png"),  
+  closeicon: require("../assets/images/close_icon.png"),  
+   
+   
 };
 
+ 
 export default images;
 
+ 
