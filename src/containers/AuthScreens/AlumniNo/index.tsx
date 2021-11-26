@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   BackHandler,
+  Platform,
 } from 'react-native';
 import styles from './style';
 import {Images} from '../../../components/index';
@@ -621,25 +622,23 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         }),
       );
     }
+  };
 
+  return (
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps={'always'}
+      style={{flex: 1}}
+      showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
+        <CustomStatusBar />
 
-    return (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-                <CustomStatusBar />
+        <CustomHeader Title={'Add Course Details'} />
 
-                {isLoading && renderIndicator()}
-
-                <CustomHeader Title={'Add Course Details'} />
-
-                <ScrollView>
-
-                    <View style={styles.inputContainer}>
-
-                    <View>
+        <ScrollView>
+          <View style={styles.inputContainer}>
+            <View>
               <TouchableOpacity
                 onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
                 <View
@@ -671,7 +670,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     source={Images.edit_icon}
                   />
                 </View>
-                                {/* <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                {/* <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                                     <Text style={{ marginTop: 2, fontSize: 17, marginLeft: 10, }}>
                                         {props.route.params.nameofschool}
                                         <Text

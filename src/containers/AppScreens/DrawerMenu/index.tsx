@@ -201,86 +201,6 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             </View>
           </TouchableOpacity>
 
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontSize: 20, fontWeight: '500', marginTop: 8, marginLeft: 10, color: '#000000' }}>{username}</Text>
-                        </View>
-                    </View>
-                    <TouchableOpacity
-                        onPress={() => {
-                            props.navigation.navigate('ResetPassword');
-                        }}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 140, margin: 5, marginLeft: 15 }}>
-                            <Image source={Images.changepassword} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Change Password</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{ flexDirection: 'column' }}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                props.navigation.navigate('SettingScreen');
-                            }}
-                        >
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15, marginRight: 10 }}>
-                                <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                                <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Settings</Text>
-                            </View>
-                        </TouchableOpacity>
-                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                            <Image source={Images.search} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Settings</Text>
-                        </View> */}
-                        <TouchableOpacity
-                            onPress={() => {
-                                props.navigation.navigate('ContactUs');
-                            }}
-                        >
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                                <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                                <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Contact Us</Text>
-                            </View>
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity
-                            onPress={() => {
-                                props.navigation.navigate('AboutusScreen');
-                            }}
-                        >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                            <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >About Us</Text>
-                        </View>
-                        </TouchableOpacity> */}
-                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                            <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Term & Condition</Text>
-                        </View>
-                        <TouchableOpacity
-                        onPress={() => {
-                            props.navigation.navigate('PrivacyPolicy');
-                        }}
-                    >
-                      
-
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                            <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Privacy Policy</Text>
-                        </View>
-                        </TouchableOpacity> */}
-                        <TouchableOpacity
-                            onPress={() => Logout()}
-                        >
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
-                                <Image source={Images.logoutsidemenu} style={{ tintColor: 'red', width: 25, height: 25, }} />
-                                <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Logout</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-
-
-                </View>
-
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('ResetPassword');
@@ -471,7 +391,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             </TouchableOpacity>
           </View>
         </View>
-      
+      </View>
+    </View>
   );
 };
 

@@ -41,7 +41,7 @@ import {
   SKIPPED,
   EDITCOURSESTANDARD,
   CLASSLISTBYSTANDARDID,
-  EDITCOURSESTANDARDDROPDOWN
+  EDITCOURSESTANDARDDROPDOWN,
   UPDATEPERSONALINFO,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
@@ -986,7 +986,7 @@ function* getAdminForgotPassword({payload: {data, callback}}) {
   const payload = {
     headers: {
       // "Authorization": `Bearer ${data.token}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
@@ -1020,7 +1020,7 @@ function* getAdminVerifyResetPassword({payload: {data, callback}}) {
   const payload = {
     headers: {
       // "Authorization": `Bearer ${data.token}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
@@ -1056,7 +1056,7 @@ function* getAdminSetNewPassword({payload: {data, callback}}) {
   const payload = {
     headers: {
       // "Authorization": `Bearer ${data.token}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
@@ -1126,7 +1126,7 @@ function* getStudentEducationProfile({payload: {data, callback}}) {
     url: 'user/student-education-profile/',
   };
   const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  //callback({result, error});
   if (!error) {
     if (result) {
       console.log(
@@ -1211,28 +1211,29 @@ function* getNotificationFetch({payload: {data, callback}}) {
 
 /***************************User Skipped standard Data Auth Segas*******************************/
 
-
-function* getskipped({ payload: { data, callback } }) {
-
+function* getskipped({payload: {data, callback}}) {
   console.warn('data in saga Skipped standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
 
   const payload = {
     headers: {
-      'Authorization': `Bearer ${data.token}`,
+      Authorization: `Bearer ${data.token}`,
       //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
     url: 'user/delete-standard-detail-by-student/',
   };
-  const { result, error } = yield call(httpClient, payload);
+  const {result, error} = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Skipped Standard Result', JSON.stringify(result, undefined, 2));
-      callback({ result, error });
+      console.log(
+        'Skipped Standard Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1242,12 +1243,9 @@ function* getskipped({ payload: { data, callback } }) {
   }
 }
 
-
 /***************************User Edit standard Data Auth Segas*******************************/
 
-
-function* geteditcoursestandard({ payload: { data, callback } }) {
-
+function* geteditcoursestandard({payload: {data, callback}}) {
   console.warn('data in saga Edit standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
@@ -1256,19 +1254,19 @@ function* geteditcoursestandard({ payload: { data, callback } }) {
 
   const payload = {
     headers: {
-      'Authorization': `Bearer ${data.token}`,
+      Authorization: `Bearer ${data.token}`,
       //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
     url: 'user/edit-course-standard-detail-by-student/',
   };
-  const { result, error } = yield call(httpClient, payload);
+  const {result, error} = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('Edit Standard Result', JSON.stringify(result, undefined, 2));
-      callback({ result, error });
+      callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1278,12 +1276,9 @@ function* geteditcoursestandard({ payload: { data, callback } }) {
   }
 }
 
-
 /***************************User Edit standard drop down Data Auth Segas*******************************/
 
-
-function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
-
+function* geteditcoursestandarddropdown({payload: {data, callback}}) {
   console.warn('data in saga Edit standard drop down', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
@@ -1293,19 +1288,22 @@ function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
 
   const payload = {
     headers: {
-      'Authorization': `Bearer ${data.token}`,
+      Authorization: `Bearer ${data.token}`,
       //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     data: formdata,
     method: 'POST',
     url: 'user/edit-course-standard-detail-by-student/',
   };
-  const { result, error } = yield call(httpClient, payload);
+  const {result, error} = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Edit Standard drop down Result', JSON.stringify(result, undefined, 2));
-      callback({ result, error });
+      console.log(
+        'Edit Standard drop down Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1315,32 +1313,24 @@ function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
   }
 }
 
-
-
-
-
 /***************************User GET Class List By Standard ID Auth Segas*******************************/
 
-function* getClassListByStandard({ payload: { data, callback } }) {
-
+function* getClassListByStandard({payload: {data, callback}}) {
   const payload = {
     headers: {
-      'Authorization': `Bearer ${data.token}`,
+      Authorization: `Bearer ${data.token}`,
       // "Content-Type": "application/json"
     },
     method: 'GET',
     //  url: `user/getcitybystateid/${data.id}/`,
     url: `user/class-list-by-standardid/?standard_id=${data.standard_id}`,
-
-
-
   };
-  const { result, error } = yield call(httpClient, payload);
-  callback({ result, error });
+  const {result, error} = yield call(httpClient, payload);
+  callback({result, error});
   if (!error) {
     if (result) {
       console.log('get Class result', JSON.stringify(result, undefined, 2));
-      callback({ result, error });
+      callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1391,11 +1381,6 @@ function* User() {
     yield takeLatest(EDITCOURSESTANDARD, geteditcoursestandard),
     yield takeLatest(CLASSLISTBYSTANDARDID, getClassListByStandard),
     yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
-
-
-
-
-
   ]);
 }
 

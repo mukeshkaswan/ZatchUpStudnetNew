@@ -187,11 +187,11 @@ function AuthStack() {
 
       <Stack.Screen
         name="Home"
-        component={Home}
-        options={{ headerShown: false, }}
+        component={DrawerNav}
+        options={{headerShown: false}}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="MySchoolScreen"
         component={DrawerNav}
         options={{headerShown: false}}

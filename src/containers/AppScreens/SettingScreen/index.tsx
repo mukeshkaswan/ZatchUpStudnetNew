@@ -47,6 +47,7 @@ import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import {CheckBox} from 'react-native-elements';
+import axios from 'axios';
 interface ResetPasswordScreenProps {
   navigation: any;
 }
@@ -65,13 +66,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [number, onChangeNumber] = React.useState(null);
 
   const [Gender, setGender] = useState('');
+  const [GenderForModal, setGenderForModal] = useState('');
   const [count, setCount] = useState(0);
   const [allSelected, setSelected] = useState(false);
   const [male, setMale] = useState(false);
   const [Female, setFemale] = useState(false);
   const [Custom, setCustom] = useState(false);
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [zatchupid, setZatchUpId] = useState('');
@@ -112,7 +113,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setFemale(false);
     setCustom(false);
     setcustomgenderView(false);
-    setGender('M');
+    setGenderForModal('M');
   };
 
   const checkedFemale = () => {
@@ -120,7 +121,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setCustom(false);
     setMale(false);
     setcustomgenderView(false);
-    setGender('F');
+    setGenderForModal('F');
   };
 
   const checkedCustom = () => {
@@ -128,7 +129,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setMale(false);
     setFemale(false);
     setcustomgenderView(true);
-    setGender('C');
+    setGenderForModal('C');
   };
 
   const toggleModal = () => {
@@ -192,7 +193,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   // }, []);
   useEffect(() => {
     getEducationProfile();
-
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -201,6 +201,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       );
     };
   }, [isFocused]);
+
+  const dispatch = useDispatch();
 
   //console.log("this.props",this.props);
 
@@ -284,14 +286,40 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     };
     setLoading(true);
 
+    axios
+      .get('http://172.105.61.231:3000/api/user/student-education-profile/', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then(({data}) => {
+        console.log('Data==>>', data);
+        //   Alert.alert('hey...');
+        if (data.status) {
+          console.warn(
+            'after setting call api',
+            JSON.stringify(data, undefined, 2),
+
+            getdataProfile(data),
+            getdataCourse(data),
+          );
+          setLoading(false);
+          // setSpinnerStart(false);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     dispatch(
       userActions.getStudentEducationProfile({
         data,
-
         callback: ({result, error}) => {
-          if (result.status === true) {
+          console.log('hey.......kamal');
+          if (result.status) {
             console.warn(
-              'after result',
+              'after setting call api',
               JSON.stringify(result, undefined, 2),
 
               getdataProfile(result),
@@ -335,11 +363,16 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       token: token,
       father_name: newfathername,
       mother_name: newmothername,
-      pronoun: Gender == 'M' || Gender == 'F' ? '' : key,
-      gender: Gender == 'M' || Gender == 'F' ? Gender : 'C',
+      pronoun: GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
+      gender:
+        GenderForModal == 'M' || GenderForModal == 'F' ? GenderForModal : 'C',
       profile_pic: profilepic,
-      custom_gender: Gender == 'M' || Gender == 'F' ? '' : CustomGender,
+      custom_gender:
+        GenderForModal == 'M' || GenderForModal == 'F' ? '' : CustomGender,
     };
+
+    // console.log('data====>>>', data);
+    // return;
 
     setLoading(true);
 
@@ -347,7 +380,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.updatePersonalinfo({
         data,
         callback: ({result, error}) => {
-          if (result.status === 'True') {
+          if (result.status) {
+            setModalVisible(false);
+            getEducationProfile();
             // console.warn(
             //   'after login result',
             //   JSON.stringify(result.status, undefined, 2),
@@ -475,14 +510,18 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         </TouchableOpacity>
                       )}
                     </View>
-                    <View style={styles.text_container}>
-                      <Text style={styles.detail_text}>Father's Name : </Text>
-                      <Text>{fathername}</Text>
-                    </View>
-                    <View style={styles.text_container}>
-                      <Text style={styles.detail_text}>Mother's Name : </Text>
-                      <Text>{mothername}</Text>
-                    </View>
+                    {fathername != '' && (
+                      <View style={styles.text_container}>
+                        <Text style={styles.detail_text}>Father's Name : </Text>
+                        <Text>{fathername}</Text>
+                      </View>
+                    )}
+                    {mothername != '' && (
+                      <View style={styles.text_container}>
+                        <Text style={styles.detail_text}>Mother's Name : </Text>
+                        <Text>{mothername}</Text>
+                      </View>
+                    )}
                   </View>
                 </CardView>
                 <CardView

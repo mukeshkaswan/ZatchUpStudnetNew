@@ -18,23 +18,16 @@ const CustomDropdown: FC = ({
   data,
   onChangeText,
   secureTextEntry,
-  customStyle,
 }) => {
   // const [selectedLanguage, setSelectedLanguage] = useState();
   return (
     <View style={{zIndex: 1000}}>
-      <View style={[styles.dropdownpicker, {...customStyle}]}>
+      <View style={styles.dropdownpicker}>
         <RNPickerSelect
           value={value}
           //   value={value}
           // value={valueitem}
-          style={{
-            inputAndroidContainer: {
-              width: '100%',
-              backgroundColor: 'green',
-              flex: 1,
-            },
-          }}
+          style={pickerStyle}
           //  placeholder={{}}
 
           placeholder={{

@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, Image, TouchableWithoutFeedback } from 'react-native';
+import React, {Component} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
 
@@ -19,14 +25,10 @@ interface AppProps {
   maxLength?: number;
   numberOfLines?: number;
   onEndEditing: (email: any) => void;
-
 }
-interface State {
+interface State {}
 
-}
-
-
-export default class TextField extends Component<AppProps, {}> {
+export default class TextFieldCopy extends Component<AppProps, {}> {
   static defaultProps = {
     underlineColorAndroid: 'transparent',
     autoCapitalize: 'sentences',
@@ -42,24 +44,25 @@ export default class TextField extends Component<AppProps, {}> {
     placeholder: '',
     maxLength: 100,
     numberOfLines: 1,
-
-
   };
 
   constructor(props: AppProps) {
     super(props);
   }
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   render() {
-
     //console.log("---------->", this.props);
     return (
-      <View style={[styles.inputContainer, this.props.imageIcon != '' && styles.flexdirection]}>
+      <View
+        style={[
+          styles.inputContainer,
+          this.props.imageIcon != '' && styles.flexdirection,
+        ]}>
         <TextInput
-          ref={ref => ref && ref.setNativeProps({ style: { fontFamily: 'Lato-Regular' } })}
-
+          ref={ref =>
+            ref && ref.setNativeProps({style: {fontFamily: 'Lato-Regular'}})
+          }
           maxLength={this.props.maxLength}
           //  placeholderTextColor={'red'}
           underlineColorAndroid="transparent"
@@ -71,24 +74,24 @@ export default class TextField extends Component<AppProps, {}> {
           onEndEditing={this.props.onEndEditing}
           numberOfLines={this.props.numberOfLines}
           keyboardType={this.props.keyboardType}
-          placeholder={this.props.isPlaceHolder ? this.props.placeholder : ""}
+          placeholder={this.props.isPlaceHolder ? this.props.placeholder : ''}
           value={this.props.value}
-          style={[styles.textboxfieldd, this.props.imageIcon == '' && styles.textboxwidth, this.props.multiline && styles.textAreaCss]}
-
+          style={[
+            styles.textboxfieldd,
+            this.props.imageIcon == '' && styles.textboxwidth,
+            this.props.multiline && styles.textAreaCss,
+          ]}
         />
-        {this.props.imageIcon != '' && <View style={styles.imageiconConatiner}>
-          <TouchableWithoutFeedback onPress={this.props.onIconPress} >
-            <Image source={this.props.imageIcon} style={styles.imageicon} />
-          </TouchableWithoutFeedback>
-        </View>}
-
+        {this.props.imageIcon != '' && (
+          <View style={styles.imageiconConatiner}>
+            <TouchableWithoutFeedback onPress={this.props.onIconPress}>
+              <Image source={this.props.imageIcon} style={styles.imageicon} />
+            </TouchableWithoutFeedback>
+          </View>
+        )}
       </View>
-
     );
   }
 }
-
-
-
 
 //export default TextField;
