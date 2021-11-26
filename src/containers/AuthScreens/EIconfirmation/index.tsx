@@ -4,15 +4,18 @@ import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, TextFieldCopy, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown, CustomDropdownCopy } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import { CheckBox } from 'react-native-elements'
-import { RadioButton } from 'react-native-paper';
-import CardView from 'react-native-cardview'
-import { useDispatch, useSelector } from 'react-redux';
+import {CheckBox} from 'react-native-elements';
+import {RadioButton} from 'react-native-paper';
+import CardView from 'react-native-cardview';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import { NavigationContainer, useIsFocused } from '@react-navigation/native';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -87,15 +90,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     const DATA = [
         {
-            id: 547,
-            school_code: 'KERALA001630',
-            name_of_school: 'Kerala Junior Public School',
-            state: 'KERALA',
-            city: 'Alappuzha',
-            address1: 'Kerala Road One',
-            address2: 'Kerala Road Two',
-            university: 'CBSE',
-
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
 
     ];
@@ -535,6 +532,50 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         );
     }
 
+    const data = {
+      token: token,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getEiCourseConfirmationList({
+        data,
+
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result',
+              JSON.stringify(result, undefined, 2),
+
+              getdataCourseKey(result),
+
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
 
     /***************************User get Ei course confirmation list *******************************/
@@ -682,7 +723,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     }
     const ItemSeprator = () => <View style={{
         height: 2,
-        width: "100%",
+        width: '100%',
         //  backgroundColor: "rgba(0,0,0,0.5)",
     }} />
     const showMode = currentMode => {
@@ -777,7 +818,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     //     setChecked('second')
     //     props.navigation.navigate('CurrentSchoolinfo');
 
-    // }
+    // } 
     const DeleteSchool = async (id) => {
 
         Alert.alert(
@@ -839,16 +880,52 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             cornerRadius={10}
                             style={styles.Cardview}>
 
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>State :</Text>
+                  <Text style={styles.view_Tv_2}>{item.ei_detail.state}</Text>
+                </View>
 
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>City :</Text>
+                  <Text style={styles.view_Tv_2}>{item.ei_detail.city}</Text>
+                </View>
 
-                            <View style={styles.view_Rowbg}>
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>School Name :</Text>
+                  <Text
+                    style={{
+                      marginTop: 5,
+                      fontSize: 17,
+                      color: '#565656',
+                      flexWrap: 'wrap',
+                      flex: 1,
+                      marginLeft: 5,
+                    }}>
+                    {item.ei_detail.name_of_school}
+                  </Text>
+                </View>
 
-                                <Text style={styles.Personal_Tvheader}>School Details</Text>
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>School Address :</Text>
+                  <Text
+                    style={{
+                      marginTop: 5,
+                      fontSize: 17,
+                      color: '#565656',
+                      flexWrap: 'wrap',
+                      flex: 1,
+                      marginLeft: 5,
+                    }}>
+                    {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
+                  </Text>
+                </View>
 
-                            </View>
-                            <View style={styles.view_Rowzatchup}>
-                                <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
-                                <Text style={styles.view_Tv_2}>{item.ei_detail.school_code}</Text>
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>University/Board :</Text>
+                  <Text style={styles.view_Tv_2}>
+                    {item.ei_detail.university}
+                  </Text>
+                </View>
 
                                 <TouchableOpacity underlayColor='none' onPress={() => DeleteSchool(item.ei_detail.id)} >
                                     <Image
@@ -904,21 +981,95 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
                                     </View>
                                     <View style={styles.view_Row_}>
-                                        <Text style={styles.view_Tv_1}>Course Name :</Text>
-                                        <Text style={styles.view_Tv_2}>{i.course_name}</Text>
-                                    </View>
-
-                                    <View style={styles.view_Row_}>
-                                        <Text style={styles.view_Tv_1}>Course Duration :</Text>
-                                        <Text style={styles.view_Tv_2}>{i.duration}</Text>
-                                    </View>
-
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <View style={styles.view_Row_}>
-                                            <Text style={styles.view_Tv_1}>Starting Year :</Text>
-                                            <Text style={styles.view_Tv_2}>{i.start_year}</Text>
+                                      <Text style={styles.view_Tv_1_copy}>
+                                        Starting Year :
+                                      </Text>
+                                      <Text style={styles.view_Tv_2}>
+                                        {standarad_i.standard_start_year}
+                                      </Text>
+                                      <TouchableOpacity
+                                        onPress={showDatepicker}>
+                                        <View style={{width: 130}}>
+                                          <TextField
+                                            placeholder={
+                                              standarad_i.standard_start_year
+                                            }
+                                            imageIcon={Images.calendar_icon}
+                                            editable={false}
+                                            value={date_copy.toString()}
+                                          />
                                         </View>
+                                      </TouchableOpacity>
 
+                                      <View>
+                                        {/* <View>
+              <Button onPress={showDatepicker} title="Show date picker!" />
+            </View> */}
+
+                                        {show && (
+                                          <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={date}
+                                            mode={mode}
+                                            minDate={new Date()}
+                                            maximumDate={new Date()}
+                                            is24Hour={true}
+                                            format="YYYY-MMM-DD"
+                                            display="default"
+                                            onChange={onChange}
+                                          />
+                                        )}
+                                      </View>
+                                    </View>
+                                  </View>
+
+                                  {standarad_i.is_current_standard == false ? (
+                                    <View style={styles.view_Row_}>
+                                      <Text style={styles.view_Tv_1_copy}>
+                                        Ending Year :
+                                      </Text>
+                                      <Text style={styles.view_Tv_2}>
+                                        {standarad_i.standard_end_year}
+                                      </Text>
+                                    </View>
+                                  ) : (
+                                    <View style={styles.view_Row_}>
+                                      <Text style={styles.view_Tv_1_copy}>
+                                        Ending Year :
+                                      </Text>
+                                      <Text style={styles.view_Tv_2}>
+                                        {'To Current'}
+                                      </Text>
+                                      <TouchableOpacity
+                                        onPress={showDatepicker}>
+                                        <View style={{width: 130}}>
+                                          <TextField
+                                            placeholder={'To Current'}
+                                            imageIcon={Images.calendar_icon}
+                                            editable={false}
+                                            value={date_copy.toString()}
+                                          />
+                                        </View>
+                                      </TouchableOpacity>
+                                      <View>
+                                        {/* <View>
+              <Button onPress={showDatepicker} title="Show date picker!" />
+            </View> */}
+
+                                        {show && (
+                                          <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={date}
+                                            mode={mode}
+                                            minDate={new Date()}
+                                            maximumDate={new Date()}
+                                            is24Hour={true}
+                                            format="YYYY-MMM-DD"
+                                            display="default"
+                                            onChange={onChange}
+                                          />
+                                        )}
+                                      </View>
                                     </View>
 
                                     {i.is_current_course == false ? <View style={{ flexDirection: 'row', marginTop: 5, marginBottom: 7, }}>
@@ -1146,6 +1297,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
 
         </View>
-    );
+      </View>
+    </View>
+  );
 };
 export default EIconfirmation;

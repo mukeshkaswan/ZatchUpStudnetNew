@@ -1,8 +1,17 @@
-import { Platform, Dimensions } from 'react-native';
-import { ScaledSheet } from 'react-native-size-matters';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {Platform, Dimensions} from 'react-native';
+import {ScaledSheet} from 'react-native-size-matters';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const screenWidth = Dimensions.get('window').width;
-import { Images, Colors, TextField, Font, CustomButton } from '../../../components';
+import {
+  Images,
+  Colors,
+  TextField,
+  Font,
+  CustomButton,
+} from '../../../components';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = ScaledSheet.create({
     container: {

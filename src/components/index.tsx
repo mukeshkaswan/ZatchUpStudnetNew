@@ -16,3 +16,6 @@ import CustomDropdownCopy from './/CustomDropdownCopy/CustomDropdowns';
 
 
 export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate,HeaderTitleWithBack,TextFieldCopy,CustomDropdownCopy};
+import Customcard from './ Customcard';
+
+

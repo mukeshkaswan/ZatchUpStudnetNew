@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "npx jetify && cd android && ./gradlew clean && ./gradlew assembleRelease && ./gradlew bundleRelease && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.4",
@@ -22,6 +23,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "@reduxjs/toolkit": "^1.5.1",
+    "@twotalltotems/react-native-otp-input": "1.3.5",
     "@types/react-redux": "^7.1.16",
     "axios": "^0.21.1",
     "idx": "^2.5.6",
@@ -39,7 +41,7 @@
     "react-native-material-dropdown-v2": "^0.11.1",
     "react-native-modal": "^11.10.0",
     "react-native-modal-picker": "0.0.16",
-    "react-native-otp-inputs": "^6.0.0",
+    "react-native-otp-inputs": "6.0.0",
     "react-native-paper": "^4.8.0",
     "react-native-picker-select": "^8.0.4",
     "react-native-raw-bottom-sheet": "^2.2.0",

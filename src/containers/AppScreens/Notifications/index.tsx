@@ -1,19 +1,30 @@
-import React, { Component, FC, useEffect, useState } from 'react';
-import { Text, View, Dimensions, BackHandler,FlatList,Image } from 'react-native';
+import React, {Component, FC, useEffect, useState} from 'react';
+import {
+  Text,
+  View,
+  Dimensions,
+  BackHandler,
+  FlatList,
+  Image,
+} from 'react-native';
 import styles from './styles';
-import { Images, Colors } from '../../../components/index';
+import {Images, Colors} from '../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { CustomStatusBar, CustomHeader } from '../../../components';
-import CardView from 'react-native-cardview'
-import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import {CustomStatusBar, CustomHeader} from '../../../components';
+import CardView from 'react-native-cardview';
+import {
+  NavigationContainer,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 const screenWidth = Dimensions.get('window').width;
 const data = [
   {
@@ -98,9 +109,10 @@ const data = [
     msg_read: true,
   },
 ];
- 
 
-interface NotificationsScreenProps { navigation: any }
+interface NotificationsScreenProps {
+  navigation: any;
+}
 const Notifications = (props: NotificationsScreenProps) => {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
@@ -113,7 +125,10 @@ const Notifications = (props: NotificationsScreenProps) => {
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
     };
   }, [isFocused]);
 
@@ -122,11 +137,9 @@ const Notifications = (props: NotificationsScreenProps) => {
     return true;
   }
 
-
   /***************************User GET Notification list*******************************/
 
   const getNotification = async () => {
-
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -140,15 +153,14 @@ const Notifications = (props: NotificationsScreenProps) => {
 
     const data = {
       token: token,
-    }
+    };
     setLoading(true);
 
     dispatch(
       userActions.getNotificationFetch({
         data,
 
-        callback: ({ result, error }) => {
-
+        callback: ({result, error}) => {
           if (result.status === true) {
             console.warn(
               'after result Notification',
@@ -156,7 +168,6 @@ const Notifications = (props: NotificationsScreenProps) => {
 
               setData(result.results),
               //   getdataCourse(result)
-
             );
             // setSpinnerStart(false);
             setLoading(false);
@@ -164,63 +175,67 @@ const Notifications = (props: NotificationsScreenProps) => {
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
-            // Toast.show('Invalid credentials', Toast.SHORT);                   
+            // Toast.show('Invalid credentials', Toast.SHORT);
           } else {
-
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
         },
       }),
     );
-  }
+  };
 
   const renderIndicator = () => {
     return (
-        <View style={{}}>
-
-            <ProgressLoader
-                visible={true}
-                isModal={true} isHUD={true}
-                //hudColor={"#ffffff00"}
-                hudColor={"#4B2A6A"}
-                style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-                color={"white"} />
-        </View>
+      <View style={{}}>
+        <ProgressLoader
+          visible={true}
+          isModal={true}
+          isHUD={true}
+          //hudColor={"#ffffff00"}
+          hudColor={'#4B2A6A'}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          color={'white'}
+        />
+      </View>
     );
-}
+  };
 
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      <CustomHeader Title={'Notifications'} Back={'true'} navigation={props.navigation} />
+      <CustomHeader
+        Title={'Notifications'}
+        Back={'true'}
+        navigation={props.navigation}
+      />
       <FlatList
-        data={data}
-        renderItem={({ item }) =>
+        data={setdatafromlist}
+        renderItem={({item}) => (
           <CardView
             cardElevation={5}
             cardMaxElevation={5}
             cornerRadius={1}
-
             style={styles.Cardview}>
-              <View style={{flexDirection:'row',alignItems:'center'}}> 
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 source={Images.profile_img2}
-                style={{height:50,width:50,tintColor:'grey',borderRadius:25}}
-               
+                style={{
+                  height: 50,
+                  width: 50,
+                  tintColor: 'grey',
+                  borderRadius: 25,
+                }}
               />
 
-                    <Text style={styles.Title_tv_}>{item.message}</Text>
-                  
+              <Text style={styles.Title_tv_}>{item.message}</Text>
             </View>
-                   <View style={styles.Title_view}>
-                        <Text style={styles.Title_view_child}>{item.time}</Text>
-                   </View>
-  
-
+            <View style={styles.Title_view}>
+              <Text style={styles.Title_view_child}>{item.recived_time}</Text>
+            </View>
           </CardView>
-        }
-      //  ItemSeparatorComponent={renderIndicator}
+        )}
+        //  ItemSeparatorComponent={renderIndicator}
       />
     </View>
   );
