@@ -200,6 +200,8 @@ const Otp = (props: OtpScreenProps) => {
           inputContainerStyles={styles.OtpinputContainer}
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
+          numberOfInputs={4}
+
         />
       </View>
       <View style={styles.inputContainer}>

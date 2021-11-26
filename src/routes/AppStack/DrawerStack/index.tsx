@@ -5,7 +5,7 @@ import {
     DrawerItemList,
     DrawerItem,
 } from '@react-navigation/drawer';
-import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu } from "../../../containers";
+import { LoginScreen, SignUpScreen, Otp, ForgotPassword, eKYC, eKycSuccess, EIInformation, EiInfoSave, Approval, SelectStudent, CurrentSchoolinfo, Onboarded, EducationProfile, EIconfirmation, AddCourseDetailsOthers, AddMoreCourseDetailsOthers, OtpForgot, Personalinfo, OtpLogin, AlumniNo, Home, DrawerMenu ,MySchoolScreen} from "../../../containers";
 import CustomTabBar from '../CustomTab'
 
 const Drawer = createDrawerNavigator();
@@ -16,8 +16,8 @@ const DrawerNav = () => {
         <Drawer.Navigator
             drawerType="slide"
             drawerContent={(props) => <DrawerMenu {...props} />}
-            initialRouteName="Home">
-            <Drawer.Screen name="Home" component={CustomTabBar} />
+            initialRouteName="MySchoolScreen">
+            <Drawer.Screen name="MySchoolScreen" component={CustomTabBar} />
             {/* <Drawer.Screen name="Home_Tab" component={CustomTab} /> */}
             {/* <Drawer.Screen name="Notifications" component={eKYC} />
       <Drawer.Screen name="Reminders" component={eKycSuccess} />

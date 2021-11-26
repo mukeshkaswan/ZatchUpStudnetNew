@@ -75,7 +75,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
         props.navigation.navigate('eKYC')
       } else {
         Toast.show('Login Successfully', Toast.SHORT)
-        props.navigation.navigate('Home')
+        props.navigation.navigate('MySchoolScreen')
+
       }
     }
 
@@ -295,6 +296,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
           inputContainerStyles={styles.OtpinputContainer}
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
+          numberOfInputs={4}
+
         // value={otp}
         />
       </View>

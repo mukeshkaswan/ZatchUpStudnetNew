@@ -135,6 +135,12 @@ function AuthStack() {
 
       <Stack.Screen
         name="Home"
+        component={Home}
+        options={{ headerShown: false, }}
+      />
+
+<Stack.Screen
+        name="MySchoolScreen"
         component={DrawerNav}
         options={{ headerShown: false, }}
       />

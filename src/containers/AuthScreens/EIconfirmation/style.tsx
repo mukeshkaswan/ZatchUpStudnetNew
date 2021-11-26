@@ -76,6 +76,9 @@ const styles = ScaledSheet.create({
     view_Tv_2: {
         marginTop: 5, fontSize: 17, marginLeft: 5, color: '#565656',
     },
+    button_: {
+        justifyContent: 'center', alignItems: 'center',  borderWidth: 1, height: hp(2), width: wp(10), borderColor:'#FFFFFF'
+     },
     view_Tv_3: {
         marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656', marginBottom: 20
     },

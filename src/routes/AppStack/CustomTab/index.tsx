@@ -95,14 +95,17 @@ const CustomTabBar = () => {
 
                 }
             }}
-            initialRouteName={'Home_Tab'}
+            initialRouteName={'MySchool_Tab'}
         >
+
             <Tab.Screen
-                name="Home_Tab"
-                component={Home}
+               
+                name="MySchool_Tab"
+                component={MySchoolScreen}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
+                            
                             <Icon name="calendar" size={24} color={focused ? '#ffffff' : 'gray'} />
                         );
                     },
@@ -118,7 +121,7 @@ const CustomTabBar = () => {
 
             <Tab.Screen
                 name="Messages_Tab"
-                component={Messages}
+                component={CoomingSoon}
                 options={{
                      
                     tabBarIcon: ({ focused }) => {
@@ -136,8 +139,8 @@ const CustomTabBar = () => {
                 }}
             />
             <Tab.Screen
-                name="MySchool_Tab"
-                component={MySchoolScreen}
+               name="Home_Tab"
+               component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -153,9 +156,9 @@ const CustomTabBar = () => {
                     }
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="MessagesMain_Tab"
-                component={Messages}
+                component={CoomingSoon}
                 options={{
                      tabBarIcon: ({ focused }) => {
                         return (
@@ -170,7 +173,7 @@ const CustomTabBar = () => {
                         )
                     }
                 }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 };

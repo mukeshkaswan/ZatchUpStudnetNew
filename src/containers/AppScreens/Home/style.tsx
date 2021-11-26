@@ -14,38 +14,75 @@ const styles = ScaledSheet.create({
 
 
     },
+    title_text: {
 
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 10,
+        color: 'rgb(70,50,103)'
+    },
+    addicon: {
+        height: 25,
+        width: 25,
+        borderRadius: 15,
+        marginRight: 10
+    },
+    addcitycontainer: {
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+    },
+    card: {
+        backgroundColor: 'white',
+        marginHorizontal: 15,
+        marginTop: 20,
+        paddingBottom: 18,
+        paddingTop: 8,
+        paddingHorizontal: 8,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        shadowOpacity: 0.26,
+        elevation: 8,
+
+
+    },
+    border: {
+        borderBottomWidth: 1,
+        borderColor: 'lightgrey',
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 10,
+    },
 
     overlay: {
-       // backgroundColor:'rgba(255,0,0,0.5)',
+        // backgroundColor:'rgba(255,0,0,0.5)',
     },
-        avatarStyle: {
-            width:100, 
-            height: 100,
-            marginTop: 20,
-            borderRadius: 30,
-            alignSelf: 'center',
+    avatarStyle: {
+        width: 100,
+        height: 100,
+        marginTop: 20,
+        borderRadius: 30,
+        alignSelf: 'center',
 
-        },
-        textStyle: {
-            marginTop: 5,
-            fontSize: 18,
-            color: "#565656",
-            fontWeight: 'bold',
-            alignSelf: 'center',
-        },
-        textStyle_: {
-            marginTop: 5,
-            fontSize: 18,
-            color: "#565656",
-            fontWeight: 'bold',
-            alignSelf: 'center',
-            marginBottom: 5,
+    },
+    textStyle: {
+        marginTop: 5,
+        fontSize: 18,
+        color: "#565656",
+        fontWeight: 'bold',
+        alignSelf: 'center',
+    },
+    textStyle_: {
+        marginTop: 5,
+        fontSize: 18,
+        color: "#565656",
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        marginBottom: 5,
 
-        },
-        balanceContainer:{
-            padding:5,
-        },
+    },
+    balanceContainer: {
+        padding: 5,
+    },
     child_view: {
         flexDirection: 'row', backgroundColor: '#4B2A6A', height: 60,
 
@@ -84,14 +121,14 @@ const styles = ScaledSheet.create({
         position: 'absolute', right: 32, alignSelf: 'flex-end', borderRadius: 15, backgroundColor: 'red', width: Platform.OS == 'ios' ? 20 : 18, height: Platform.OS == 'ios' ? 20 : 18, bottom: 35
     },
     Count_Tv: {
-        color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 
+        color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0
     },
     dot_view: {
         position: 'absolute', right: 10, alignSelf: 'flex-end', top: 0
     },
 
     dot_image: {
-        marginRight: 0, marginTop: 15, tintColor: '#FFFFFF' ,height: 26, width: 26,right: 10,
+        marginRight: 0, marginTop: 15, tintColor: '#FFFFFF', height: 26, width: 26, right: 10,
     },
 
 
@@ -106,8 +143,8 @@ const styles = ScaledSheet.create({
         shadowRadius: 6,
         shadowOpacity: 0.26,
         elevation: 8,
-      //  backgroundColor: 'white',
-      //  padding: 20,
+        //  backgroundColor: 'white',
+        //  padding: 20,
         borderRadius: 5
 
     },
@@ -123,8 +160,8 @@ const styles = ScaledSheet.create({
         shadowRadius: 6,
         shadowOpacity: 0.26,
         elevation: 8,
-      //  backgroundColor: 'white',
-      //  padding: 20,
+        //  backgroundColor: 'white',
+        //  padding: 20,
         borderRadius: 5
 
 
@@ -140,7 +177,7 @@ const styles = ScaledSheet.create({
         marginTop: 10, fontSize: 19, marginLeft: 15, color: '#4B2A6A'
     },
     Personal_Tvheader: {
-        marginTop: 15, marginBottom: 15,fontSize: 19, marginLeft: 15, color: '#FFFFFF'
+        marginTop: 15, marginBottom: 15, fontSize: 19, marginLeft: 15, color: '#FFFFFF'
     },
     view: {
         flexDirection: 'column'
@@ -158,9 +195,9 @@ const styles = ScaledSheet.create({
         height: 25,
         width: 24,
         //marginLeft: 10,
-        marginTop:5,
+        marginTop: 5,
 
-         left: 5,
+        left: 5,
         // marginRight: 10,
         //   position: 'absolute',
     },
@@ -178,22 +215,23 @@ const styles = ScaledSheet.create({
         flexDirection: 'row',
     },
     view_Rowbg: {
-        flexDirection: 'row',backgroundColor:'#501D6B',
+        flexDirection: 'row', backgroundColor: '#501D6B',
     },
     view_Tv_1: {
         marginTop: 5, fontSize: 18, marginLeft: 15,
     },
     view_Tv_2: {
-        marginTop: 5, fontSize: 18, marginLeft: 5, color: '#565656',flex:1,flexWrap:'wrap'
+        marginTop: 5, fontSize: 18, marginLeft: 5, color: '#565656', flex: 1, flexWrap: 'wrap'
     },
     view_Tv_3: {
-        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656', marginBottom: 20 
+        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656', marginBottom: 20
     },
     view_Row_: {
-        flexDirection: 'row', marginTop: 5, 
+        flexDirection: 'row', marginTop: 5,
     },
     view_Row_Child: {
-        flexDirection: 'row', marginTop: 5, marginBottom: 20    },
+        flexDirection: 'row', marginTop: 5, marginBottom: 20
+    },
 
     view_1: {
         flexDirection: 'row', marginLeft: 20, marginTop: 10

@@ -1,16 +1,16 @@
 import React, { Component, FC, useEffect, useState } from 'react';
- 
-import {  View,FlatList,Image,TouchableOpacity,ImageBackground ,ScrollView,Switch,Platform,BackHandler } from 'react-native';
-import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,HeaderTitleWithBack,CustomDropdown} from '../../../components';
+
+import { View, FlatList, Image, TouchableOpacity, ImageBackground, ScrollView, Switch, Platform, BackHandler } from 'react-native';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack, CustomDropdown } from '../../../components';
 import { RadioButton, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import styles from './style.tsx';  
+import styles from './style.tsx';
 import fonts from '../../../components/fonts';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
- 
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
@@ -19,25 +19,25 @@ interface ResetPasswordScreenProps {
   navigation: any;
 }
 
-const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
-    const [KYC_type_doc_Selected, setKYCSelected] = useState('');
-    
-     
-   const [KYC_type_doc, setKYC_type_doc] = useState([
-     {
-       label: 'value1',
-       value: '0',
-     },
-     {
-       label: 'value2',
-       value: '1',
-     },
-     {
-       label: 'value3',
-       value: '2',
-     },
-   ]);
-   const [selectedState, setSelectedState] = useState([]);
+const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
+  const [KYC_type_doc_Selected, setKYCSelected] = useState('');
+
+
+  const [KYC_type_doc, setKYC_type_doc] = useState([
+    {
+      label: 'value1',
+      value: '0',
+    },
+    {
+      label: 'value2',
+      value: '1',
+    },
+    {
+      label: 'value3',
+      value: '2',
+    },
+  ]);
+  const [selectedState, setSelectedState] = useState([]);
   const [selectedCity, setselectedCity] = useState([]);
   const [selectedSchool, setselectedSchool] = useState([]);
   const [selectedBoard, setselectedBoard] = useState('');
@@ -92,13 +92,13 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
 
 
   useEffect(() => {
-      setStateKey('');
-      setSchoolKey('');
-      setCityKey('')
-      setSchoolname('');
-      setaddress('');
-      setBoard('');
-      setID('');
+    setStateKey('');
+    setSchoolKey('');
+    setCityKey('')
+    setSchoolname('');
+    setaddress('');
+    setBoard('');
+    setID('');
 
     getState();
     // getStepCountAPi();
@@ -116,10 +116,10 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
     return true;
   }
   const Data = async (result) => {
-    
-   // console.log('result.data.state_id',result.data.state_id)
+
+    // console.log('result.data.state_id',result.data.state_id)
     var dsfdsf = result.data.state_id;
-    
+
     setStateKey(result.data.state_id.toString());
     setCityKey(result.data.city_id.toString());
     setSchoolKey(result.data.school_id);
@@ -508,7 +508,7 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
       label: 'Others',
       value: 0,
     }];
-    
+
 
     result.results.map((element: any) => {
       let obj = {
@@ -790,18 +790,18 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
 
     // { selectedSchool != '2' ? props.navigation.navigate('Onboarded', { data: props.route.params.data }) : props.navigation.navigate('AddCourseDetailsOthers') }
   };
-    
- return (
-     <View style={styles.container}> 
-      
-      
+
+  return (
+    <View style={styles.container}>
+
+
       <HeaderTitleWithBack
-           navigation={props.navigation}
-          headerTitle="Please Add Your School"
-        />
-         
-<View style={{paddingHorizontal:16,paddingVertical:18}}> 
-   <TextField placeholder={'Enter Your ZatchUp ID'}
+        navigation={props.navigation}
+        headerTitle="Please Add Your School"
+      />
+
+      <View style={{ paddingHorizontal: 16, paddingVertical: 18 }}>
+        <TextField placeholder={'Enter Your ZatchUp ID'}
         //  onChangeText={val => setID(val)}
         //   value={ID}
         //   onEndEditing={val => getDetailZatchupID(val)}
@@ -809,70 +809,70 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
         //   onEndEditing={(value) => getDetailZatchupID()}
 
         />
-        <Text style={{textAlign:'center',fontSize:15,marginTop:10}}>OR</Text>
+        <Text style={{ textAlign: 'center', fontSize: 15, marginTop: 10 }}>OR</Text>
 
         {/* dropdown */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        <View
-          style={styles.picker}>
+          <View
+            style={styles.picker}>
 
-          <CustomDropdown
-            placeholder={'Select State'}
-            data={selectedState}
-            //selectedValue={statedatkey}
-            value={statedatkey}
-            // selectedValue={selectedSchool}
-            SelectedLanguagedata={(selectedValue) => {
-              // getCity(selectedValue);
-             // console.log('selectedValue state test', selectedValue)
-              //  setSelectedState
-              setStateKey(selectedValue);
-
-              if (selectedValue !== null) {
+            <CustomDropdown
+              placeholder={'Select State'}
+              data={selectedState}
+              //selectedValue={statedatkey}
+              value={statedatkey}
+              // selectedValue={selectedSchool}
+              SelectedLanguagedata={(selectedValue) => {
+                // getCity(selectedValue);
+                // console.log('selectedValue state test', selectedValue)
+                //  setSelectedState
                 setStateKey(selectedValue);
-                getCity(selectedValue);
 
-              }
-            }}
+                if (selectedValue !== null) {
+                  setStateKey(selectedValue);
+                  getCity(selectedValue);
 
-          />
- 
-        </View>
-        <View
-          style={styles.picker}>
-          <CustomDropdown placeholder={'Select City'} data={selectedCity}
-            selectedValue={citydatkey}
-            value={citydatkey}
-            //selectedValue={selectedSchool}
-            SelectedLanguagedata={(selectedValue) => {
-              //  getSchool(selectedValue);
+                }
+              }}
 
-              if (selectedValue !== null) {
-                setCityKey(selectedValue);
-                getSchool(selectedValue);
-
-              }
-            }}
-          />
-
-           
-        </View>
-      </View>
-      <CustomDropdown
-              placeholder={'Select School'}
-              data={KYC_type_doc}
-              selectedValue={KYC_type_doc_Selected}
-              SelectedLanguagedata={(selectedValue: any) => {
-                  }
-              }
-          
             />
-          <View style={{marginTop:10,marginBottom:10}}> 
-            <TextField placeholder={'Address'} multiline={true} 
-            //onChangeText={val => setDess(val)} value={Dess}
-                                    />
-         </View>
-      <TextField placeholder={'Enter Your Board/University'}
+
+          </View>
+          <View
+            style={styles.picker}>
+            <CustomDropdown placeholder={'Select City'} data={selectedCity}
+              selectedValue={citydatkey}
+              value={citydatkey}
+              //selectedValue={selectedSchool}
+              SelectedLanguagedata={(selectedValue) => {
+                //  getSchool(selectedValue);
+
+                if (selectedValue !== null) {
+                  setCityKey(selectedValue);
+                  getSchool(selectedValue);
+
+                }
+              }}
+            />
+
+
+          </View>
+        </View>
+        <CustomDropdown
+          placeholder={'Select School'}
+          data={KYC_type_doc}
+          selectedValue={KYC_type_doc_Selected}
+          SelectedLanguagedata={(selectedValue: any) => {
+          }
+          }
+
+        />
+        <View style={{ marginTop: 10, marginBottom: 10 }}>
+          <TextField placeholder={'Address'} multiline={true}
+          //onChangeText={val => setDess(val)} value={Dess}
+          />
+        </View>
+        <TextField placeholder={'Enter Your Board/University'}
         //  onChangeText={val => setID(val)}
         //   value={ID}
         //   onEndEditing={val => getDetailZatchupID(val)}
@@ -880,17 +880,17 @@ const AddSchoolScreen= (props: ResetPasswordScreenProps) => {
         //   onEndEditing={(value) => getDetailZatchupID()}
 
         />
-        <View style={{marginTop:20}}> 
-           <CustomButton
-                title={'Submit'}
-                 
-               //onPress={() => props.navigation.navigate('Home')}
-              />
-            </View>
-          
-</View>
-</View>   
- 
-     );
+        <View style={{ marginTop: 20 }}>
+          <CustomButton
+            title={'Submit'}
+
+          //onPress={() => props.navigation.navigate('Home')}
+          />
+        </View>
+
+      </View>
+    </View>
+
+  );
 }
 export default AddSchoolScreen;

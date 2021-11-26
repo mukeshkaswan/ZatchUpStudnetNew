@@ -157,17 +157,17 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                         </View>
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'column' }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            props.navigation.navigate('SettingScreen');
-                        }}
-                    >
-                      
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15, marginRight: 10 }}>
-                            <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
-                            <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Settings</Text>
-                        </View>
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                props.navigation.navigate('SettingScreen');
+                            }}
+                        >
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15, marginRight: 10 }}>
+                                <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
+                                <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Settings</Text>
+                            </View>
+                        </TouchableOpacity>
                         {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
                             <Image source={Images.search} style={{ tintColor: '#000000', width: 25, height: 25, }} />
                             <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Settings</Text>
@@ -182,7 +182,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                                 <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Contact Us</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => {
                                 props.navigation.navigate('AboutusScreen');
                             }}
@@ -191,8 +191,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                             <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
                             <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >About Us</Text>
                         </View>
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
+                        </TouchableOpacity> */}
+                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25, margin: 5, marginLeft: 15 }}>
                             <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
                             <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Term & Condition</Text>
                         </View>
@@ -207,7 +207,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                             <Image source={Images.ss} style={{ tintColor: '#000000', width: 25, height: 25, }} />
                             <Text style={{ color: '#7F7F7F', fontSize: 17, fontWeight: '500', marginLeft: 10, }} >Privacy Policy</Text>
                         </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity
                             onPress={() => Logout()}
                         >

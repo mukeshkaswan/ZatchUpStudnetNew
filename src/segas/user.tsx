@@ -36,7 +36,11 @@ import {
   SCHOOLZATCHUPID,
   STUDENTEDUCATIONPROFILE,
   RESETPASSWORD,
-  NOTIFICATIONFETCHLIST
+  NOTIFICATIONFETCHLIST,
+  SKIPPED,
+  EDITCOURSESTANDARD,
+  CLASSLISTBYSTANDARDID,
+  EDITCOURSESTANDARDDROPDOWN
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -926,7 +930,7 @@ function* getAdminForgotPassword({ payload: { data, callback } }) {
 
   const payload = {
     headers: {
-     // "Authorization": `Bearer ${data.token}`,
+      // "Authorization": `Bearer ${data.token}`,
       "Content-Type": "application/json"
     },
     data: formdata,
@@ -958,7 +962,7 @@ function* getAdminVerifyResetPassword({ payload: { data, callback } }) {
 
   const payload = {
     headers: {
-     // "Authorization": `Bearer ${data.token}`,
+      // "Authorization": `Bearer ${data.token}`,
       "Content-Type": "application/json"
     },
     data: formdata,
@@ -994,7 +998,7 @@ function* getAdminSetNewPassword({ payload: { data, callback } }) {
 
   const payload = {
     headers: {
-     // "Authorization": `Bearer ${data.token}`,
+      // "Authorization": `Bearer ${data.token}`,
       "Content-Type": "application/json"
     },
     data: formdata,
@@ -1142,6 +1146,147 @@ function* getNotificationFetch({ payload: { data, callback } }) {
     }
   }
 }
+
+/***************************User Skipped standard Data Auth Segas*******************************/
+
+
+function* getskipped({ payload: { data, callback } }) {
+
+  console.warn('data in saga Skipped standard', data);
+  const formdata = new FormData();
+  formdata.append('standard_id', data.standard_id);
+
+  const payload = {
+    headers: {
+      'Authorization': `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      "Content-Type": "application/json"
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/delete-standard-detail-by-student/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('Skipped Standard Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Edit standard Data Auth Segas*******************************/
+
+
+function* geteditcoursestandard({ payload: { data, callback } }) {
+
+  console.warn('data in saga Edit standard', data);
+  const formdata = new FormData();
+  formdata.append('standard_id', data.standard_id);
+  formdata.append('standard_start_year', data.standard_start_year);
+  formdata.append('standard_end_year', data.standard_end_year);
+
+  const payload = {
+    headers: {
+      'Authorization': `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      "Content-Type": "application/json"
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/edit-course-standard-detail-by-student/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('Edit Standard Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Edit standard drop down Data Auth Segas*******************************/
+
+
+function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
+
+  console.warn('data in saga Edit standard drop down', data);
+  const formdata = new FormData();
+  formdata.append('standard_id', data.standard_id);
+  formdata.append('standard_start_year', data.standard_start_year);
+  formdata.append('standard_end_year', data.standard_end_year);
+  formdata.append('class_id', data.class_id);
+
+  const payload = {
+    headers: {
+      'Authorization': `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      "Content-Type": "application/json"
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/edit-course-standard-detail-by-student/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('Edit Standard drop down Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+
+
+/***************************User GET Class List By Standard ID Auth Segas*******************************/
+
+function* getClassListByStandard({ payload: { data, callback } }) {
+
+  const payload = {
+    headers: {
+      'Authorization': `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/class-list-by-standardid/?standard_id=${data.standard_id}`,
+
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      console.log('get Class result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -1178,6 +1323,12 @@ function* User() {
     yield takeLatest(STUDENTEDUCATIONPROFILE, getStudentEducationProfile),
     yield takeLatest(RESETPASSWORD, getResetPassword),
     yield takeLatest(NOTIFICATIONFETCHLIST, getNotificationFetch),
+    yield takeLatest(SKIPPED, getskipped),
+    yield takeLatest(EDITCOURSESTANDARD, geteditcoursestandard),
+    yield takeLatest(CLASSLISTBYSTANDARDID, getClassListByStandard),
+    yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
+
+
 
 
 

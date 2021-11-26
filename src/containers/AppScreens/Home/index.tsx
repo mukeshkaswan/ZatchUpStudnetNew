@@ -12,7 +12,8 @@ import {
   BackHandler,
   ImageBackground,
   FlatList,
-  Platform
+  Platform,
+  TextInput
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -21,12 +22,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview'
+import Modal from "react-native-modal";
 import ProgressLoader from 'rn-progress-loader';
 import { NavigationContainer, useIsFocused, DrawerActions } from '@react-navigation/native';
 import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -52,6 +55,8 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const [setdatafromlist, setDataCourseInList] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [number, onChangeNumber] = React.useState(null);
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -65,6 +70,9 @@ const HomeScreen = (props: HomeScreenProps) => {
     return true;
   }
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   useEffect(() => {
     getEducationProfile();
     getStepCountAPi();
@@ -613,6 +621,88 @@ const HomeScreen = (props: HomeScreenProps) => {
 
           </CardView>
 
+          <CardView
+            cardElevation={1}
+            cardMaxElevation={1}
+            cornerRadius={20}
+            style={styles.card}>
+            <View style={styles.addcitycontainer}>
+
+              <Text style={styles.title_text}>Add Your City</Text>
+              <TouchableOpacity onPress={toggleModal} >
+                <Image
+                  source={Images.addmore_school_icon}
+                  style={styles.addicon}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.border}></View>
+          </CardView>
+
+
+          <Modal isVisible={isModalVisible}
+            onBackdropPress={toggleModal}
+          >
+
+            <View style={{ height: hp('20'), backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 22 }}>
+              <TouchableOpacity onPress={toggleModal} style={{ alignSelf: 'flex-end', marginBottom: 20 }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <View style={{ borderWidth: 1, height: hp('5'), borderColor: 'lightgrey', width: 300, flexDirection: 'row', alignItems: 'center', borderRadius: 5 }}>
+                <Image
+                  source={Images.search}
+                  style={{ marginLeft: 10, tintColor: 'grey' }}
+                />
+                <TextInput
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="Search City"
+                  keyboardType='default'
+                />
+              </View>
+              <TouchableOpacity style={{ height: hp('4.5'), width: wp('40'), backgroundColor: 'rgb(70,50,103)', marginTop: 15, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}><Text style={{ color: 'white' }}>Submit</Text></TouchableOpacity>
+            </View>
+          </Modal>
+
+          <CardView
+            cardElevation={1}
+            cardMaxElevation={1}
+            cornerRadius={20}
+
+            style={styles.card}>
+            <View style={styles.addcitycontainer}>
+
+              <Text style={styles.title_text}>Work Details</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('WorkDetailsScreen')}>
+                <Image
+                  source={Images.addmore_school_icon}
+                  style={styles.addicon}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.border}></View>
+          </CardView>
+
+          <CardView
+            cardElevation={1}
+            cardMaxElevation={1}
+            cornerRadius={20}
+            style={styles.card}>
+            <View style={styles.addcitycontainer}>
+
+              <Text style={styles.title_text}>Add School</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('AddSchoolScreen')}>
+                <Image
+                  source={Images.addmore_school_icon}
+                  style={styles.addicon}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.border}></View>
+          </CardView>
 
 
           {/* <CardView

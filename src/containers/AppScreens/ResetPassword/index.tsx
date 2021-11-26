@@ -186,7 +186,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
 
             <View style={{ flex: 1 }}>
 
-              <View style={{ marginTop: '30%' }}>
+              <View style={{ marginTop: '10%' }}>
                 <TextField
                   secureTextEntry={SecureTextEntryold}
                   onIconPress={() => {

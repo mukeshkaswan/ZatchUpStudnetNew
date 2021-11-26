@@ -35,6 +35,8 @@ target 'ZatchUp' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+  pod 'RNCClipboard', :path => '../node_modules/@react-native-community/clipboard'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

@@ -299,10 +299,10 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
         if (
             courseError ||
-            dobError || joiningstandardError ||   joiningcurrentError|| classError || schoolidError || rollnoError || desError
+            dobError || joiningstandardError || joiningcurrentError || classError || schoolidError || rollnoError || desError
         ) {
             //this._scrollView.scrollTo(0);
-            Toast.show(courseError || dobError || joiningstandardError || joiningcurrentError|| classError || schoolidError || rollnoError || desError, Toast.SHORT);
+            Toast.show(courseError || dobError || joiningstandardError || joiningcurrentError || classError || schoolidError || rollnoError || desError, Toast.SHORT);
 
             return false;
         }
@@ -795,29 +795,34 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                         <View>
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
-                                <View style={{ flexDirection: 'row', marginBottom: 1, alignItems: 'center', }}>
-
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        marginBottom: 1,
+                                        alignItems: 'center',
+                                        paddingHorizontal: 8,
+                                    }}>
+                                    <Text
+                                        style={{
+                                            marginTop: 2,
+                                            fontSize: 15,
+                                            marginLeft: 5,
+                                            flex: 1,
+                                            flexWrap: 'wrap',
+                                        }}>
+                                        {props.route.params.nameofschool +
+                                            '(' +
+                                            props.route.params.school_zatchup_id +
+                                            ')'}
+                                    </Text>
                                     <Image
                                         style={{
                                             width: 25,
                                             height: 25,
-                                            resizeMode: 'contain'
+                                            resizeMode: 'contain',
                                         }}
                                         source={Images.edit_icon}
                                     />
-                                    <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5,flex:1,flexWrap:'wrap' }}>
-                                        {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'}
-
-                                    </Text>
-                                    {/* <Image
-                                    style={{ marginLeft: 10, }}
-                                    source={Images.verfied}
-                                /> */}
-                                    {/* <Text style={{marginTop: 2, fontSize: 18, marginLeft: 10,}}>
-                                    {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'} 
- 
-                                </Text> */}
-
                                 </View>
 
                             </TouchableOpacity>
@@ -948,7 +953,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                             <View style={{ marginTop: '1%', }}>
                                 <CustomDropdown placeholder={'Select Class'}
                                     data={selectedsetStandardClass}
-                                      value={standardclasskey}
+                                    value={standardclasskey}
                                     SelectedLanguagedata={(selectedValue) => {
                                         //  getSchool(selectedValue);
                                         setStandarClassdKey(selectedValue);

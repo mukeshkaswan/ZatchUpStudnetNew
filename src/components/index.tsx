@@ -10,5 +10,9 @@ import CustomHeader from './/CustomHeader';
 import CustomDropdown from './/CustomDropdown/CustomDropdown';
 import Validate from './validations';
 import HeaderTitleWithBack from './HeaderTitleWithBack';
+import TextFieldCopy from './TextFieldCopy';
+import CustomDropdownCopy from './/CustomDropdownCopy/CustomDropdowns';
 
-export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate,HeaderTitleWithBack};
+
+
+export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate,HeaderTitleWithBack,TextFieldCopy,CustomDropdownCopy};

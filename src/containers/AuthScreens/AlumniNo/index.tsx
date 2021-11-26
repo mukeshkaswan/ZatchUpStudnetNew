@@ -610,28 +610,38 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
 
                     <View style={styles.inputContainer}>
 
-                        <View>
-
-                            <TouchableOpacity
-                                onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
-
-                                <View style={{ flexDirection: 'row', marginBottom: 1, alignItems: 'center', }}>
-
-                                    <Image
-                                        style={{
-                                            width: 25,
-                                            height: 25,
-                                            resizeMode: 'contain'
-                                        }}
-                                        source={Images.edit_icon}
-                                    />
-                                    <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5, flex: 1, flexWrap: 'wrap' }}>
-                                        {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'}
-
-                                    </Text>
-                                  
-
-                                </View>
+                    <View>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 1,
+                    alignItems: 'center',
+                    paddingHorizontal: 8,
+                  }}>
+                  <Text
+                    style={{
+                      marginTop: 2,
+                      fontSize: 15,
+                      marginLeft: 5,
+                      flex: 1,
+                      flexWrap: 'wrap',
+                    }}>
+                    {props.route.params.nameofschool +
+                      '(' +
+                      props.route.params.school_zatchup_id +
+                      ')'}
+                  </Text>
+                  <Image
+                    style={{
+                      width: 25,
+                      height: 25,
+                      resizeMode: 'contain',
+                    }}
+                    source={Images.edit_icon}
+                  />
+                </View>
                                 {/* <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                                     <Text style={{ marginTop: 2, fontSize: 17, marginLeft: 10, }}>
                                         {props.route.params.nameofschool}
