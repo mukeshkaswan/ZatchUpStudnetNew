@@ -72,51 +72,52 @@ const LoginScreen = (props: LoginScreenProps) => {
     //     }, i * 1000);
     //  }
 
-    // var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
-    // const emailError = Validate(key, email);
-    // const passwordError = Validate('password', password);
+    var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
+    const emailError = Validate(key, email);
+    const passwordError = Validate('password', password);
 
-    // if (emailError || passwordError) {
-    //   Toast.show(emailError || passwordError, Toast.SHORT);
+    if (emailError || passwordError) {
+      Toast.show(emailError || passwordError, Toast.SHORT);
 
-    //   return false;
-    // } else {
-    const data = {
-      username: 'testuser@mailinator.com',
-      password: '@MUKesh77',
-    };
+      return false;
+    } else {
+      const data = {
+        username: email,
+        password: password,
+      };
 
-    setLoading(true);
+      setLoading(true);
 
-    dispatch(
-      userActions.emailLogin({
-        data,
-        callback: ({result, error}) => {
-          if (result.status === 'True') {
-            // console.warn(
-            //   'after login result',
-            //   JSON.stringify(result.status, undefined, 2),
+      dispatch(
+        userActions.emailLogin({
+          data,
+          callback: ({result, error}) => {
+            if (result.status === 'True') {
+              // console.warn(
+              //   'after login result',
+              //   JSON.stringify(result.status, undefined, 2),
 
-            // );
-            setLoading(false);
-            //return;
-            props.navigation.navigate('OtpLogin', {
-              firebase_id: result.firebase_username,
-              username: 'testuser@mailinator.com',
-            });
-          }
-          if (result.status === false) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            setLoading(false);
-            Toast.show(result.error.message[0], Toast.SHORT);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-    // }
+              // );
+              setLoading(false);
+              //return;
+              props.navigation.navigate('OtpLogin', {
+                firebase_id: result.firebase_username,
+                username: email,
+              });
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show(result.error.message[0], Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+      // }
+    }
   };
   return (
     <View style={styles.container}>

@@ -1,7 +1,7 @@
-import { ScaledSheet } from 'react-native-size-matters';
+import {ScaledSheet} from 'react-native-size-matters';
 const styles = ScaledSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -26,21 +26,16 @@ const styles = ScaledSheet.create({
     elevation: 10,
   },
   icontext: {
-    margin: '10@ms'
-
-
+    margin: '10@ms',
   },
   dropdownpicker: {
     color: 'lightgray',
     // width: '100%',
     zIndex: 1000,
-  
-
-
     marginTop: '10@ms',
     borderWidth: 1,
 
-   // borderWidth: '1@ms',
+    // borderWidth: '1@ms',
     borderColor: '#C6C6C6',
     // marginLeft:'20@ms',
     // marginRight:'20@ms',
@@ -50,10 +45,6 @@ const styles = ScaledSheet.create({
     borderRadius: 10,
     backgroundColor: 'white',
     justifyContent: 'center',
-
-
-
-
   },
   pickerItem: {
     color: '#A9A9A9',
@@ -62,12 +53,8 @@ const styles = ScaledSheet.create({
     // zIndex:1000,
 
     //flex: 1,
-
-
-
   },
   customtextinput2: {
-
     width: '310@ms',
     //  alignItems: 'center',
     backgroundColor: 'white',
@@ -77,7 +64,7 @@ const styles = ScaledSheet.create({
     padding: '4@ms',
     borderColor: 'lightgray',
     borderWidth: 3,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   //custom header
   titlecontainer: {
@@ -87,18 +74,12 @@ const styles = ScaledSheet.create({
     height: '80@ms',
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
-
+    alignItems: 'center',
   },
   titletext: {
     color: 'white',
     fontSize: '18@ms',
-    textAlign: 'center'
-
+    textAlign: 'center',
   },
-
-
-
-
-})
+});
 export default styles;

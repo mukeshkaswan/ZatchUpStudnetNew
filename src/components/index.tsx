@@ -10,5 +10,20 @@ import CustomHeader from './/CustomHeader';
 import CustomDropdown from './/CustomDropdown/CustomDropdown';
 import Validate from './validations';
 import HeaderTitleWithBack from './HeaderTitleWithBack';
+import Customcard from './ Customcard';
 
-export {Images,Colors,TextField,Font,CustomButton,CustomStatusBar,BackBtn,ModelComponent,CustomHeader,CustomDropdown,Validate,HeaderTitleWithBack};
+export {
+  Customcard,
+  Images,
+  Colors,
+  TextField,
+  Font,
+  CustomButton,
+  CustomStatusBar,
+  BackBtn,
+  ModelComponent,
+  CustomHeader,
+  CustomDropdown,
+  Validate,
+  HeaderTitleWithBack,
+};

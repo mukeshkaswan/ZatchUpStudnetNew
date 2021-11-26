@@ -19,7 +19,7 @@ const getAxiosInstance = () => {
   instance.interceptors.request.use(
     config => {
       console.log('axios data config', config);
-      return config
+      return config;
     },
     error => Promise.reject(error),
   );
@@ -35,8 +35,8 @@ const getAxiosInstance = () => {
   // Add a response interceptor
   instance.interceptors.response.use(
     response => {
-      console.log("----------fdsaf-d-sfa--gdh-fgh-fdh-fghfdg", response)
-      return response
+      console.log('----------fdsaf-d-sfa--gdh-fgh-fdh-fghfdg', response);
+      return response;
     },
     error => {
       if (Idx(error, _ => _.response.data)) {

@@ -79,7 +79,8 @@ const styles = ScaledSheet.create({
   labeltext: {
     alignSelf: 'flex-start',
     paddingLeft: 20,
-    paddingVertical: 6,
+    marginTop: 20,
+    marginBottom: 10,
   },
   textinputcontainer: {
     borderWidth: 1,

@@ -379,10 +379,12 @@ const HomeScreen = (props: HomeScreenProps) => {
                       <View>
                         <View style={styles.view_Row}>
                           <Text style={styles.Personal_Tv}>Course Details</Text>
-                          <Image
-                            style={styles.editicon1}
-                            source={Images.edit_icon}
-                          />
+                          <TouchableOpacity>
+                            <Image
+                              style={styles.editicon1}
+                              source={Images.edit_icon}
+                            />
+                          </TouchableOpacity>
                         </View>
                         <View style={styles.underview} />
                         <View style={styles.view_Row}>
@@ -540,7 +542,12 @@ const HomeScreen = (props: HomeScreenProps) => {
         </View>
 
         <View style={styles.Notification_view}>
-          <Image source={Images.search} style={styles.inbox_iconreminder} />
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Reminders');
+            }}>
+            <Image source={Images.search} style={styles.inbox_iconreminder} />
+          </TouchableOpacity>
           <View
             style={{
               position: 'absolute',
@@ -774,4 +781,3 @@ const HomeScreen = (props: HomeScreenProps) => {
 };
 
 export default HomeScreen;
-
