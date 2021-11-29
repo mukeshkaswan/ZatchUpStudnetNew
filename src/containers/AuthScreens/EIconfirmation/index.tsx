@@ -264,7 +264,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   /***************************User get Edit standard drop down class list *******************************/
 
-  const CallApiEditDropDown = async id => {
+  const CallApiEditDropDown = async (id, index) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -379,7 +379,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   /***************************User get Edit standard course list *******************************/
 
-  const CallApiEditStartDate = async id => {
+  const CallApiEditStartDate = async (id, standarad_i) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -393,10 +393,13 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     const data = {
       token: token,
-      standard_id: standardid,
+      standard_id: standarad_i.standard_id,
       standard_start_year: id,
-      standard_end_year: org_end_date,
+      standard_end_year: standarad_i.org_end_date,
     };
+
+    console.log('ApiData==>>>', data);
+
     setLoading(true);
 
     dispatch(
@@ -614,17 +617,98 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.getEiCourseConfirmationList({
         data,
-
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
+            console.log(
               'after result',
-              JSON.stringify(result, undefined, 2),
-
-              getdataCourseKey(result),
-
+              result,
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
+            // getdataCourseKey(result);
+
+            var newAr = [];
+
+            for (let i in result.data[0].ei_detail.course_detail[0]
+              .standard_detail) {
+              let flag = '';
+              if (
+                result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                  .class_detail.length > 0
+              ) {
+                flag =
+                  result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                    .class_detail[0].class_name;
+              }
+              let item = {
+                ...result.data[0].ei_detail.course_detail[0].standard_detail[i],
+                className: flag,
+              };
+              newAr.push(item);
+            }
+
+            let newObject = Object.assign([], result.data);
+            let arrr = [];
+            for (let i in newObject) {
+              for (let j in newObject[i].ei_detail.course_detail) {
+                let item = {
+                  ...newObject[i].ei_detail.course_detail[j],
+                  standard_detail: newAr,
+                };
+                arrr.push(item);
+              }
+            }
+
+            let newD = [];
+            for (let i in result.data[0]) {
+              let item = {...result.data[0].ei_detail, course_detail: arrr};
+              newD.push({ei_detail: item});
+            }
+
+            console.log('AddFlag===>>', newD);
+
+            let newArr = [];
+            for (let i in newD[0].ei_detail.course_detail[0].standard_detail) {
+              let item = {
+                ...newD[0].ei_detail.course_detail[0].standard_detail[i],
+                showStart: false,
+                showEnd: false,
+                minDate:
+                  newD[0].ei_detail.course_detail[0].standard_detail[i]
+                    .org_start_date,
+                maxDate:
+                  newD[0].ei_detail.course_detail[0].standard_detail[i]
+                    .org_end_date,
+              };
+              newArr.push(item);
+            }
+            console.log('NewArrr==>>', newArr);
+
+            let ar = [];
+            for (let i in newD[0].ei_detail.course_detail) {
+              let item = {
+                ...newD[0].ei_detail.course_detail[i],
+                standard_detail: newArr,
+              };
+              ar.push(item);
+            }
+
+            let newData = [];
+            for (let i in newD[0]) {
+              let item = {...newD[0].ei_detail, course_detail: ar};
+              newData.push(item);
+            }
+
+            let obj = {...newData[0]};
+
+            let newCourseList = [];
+            newCourseList.push({ei_detail: obj});
+
+            let newObj = {...result, data: newCourseList};
+
+            console.log('newData==>>', newObj);
+
+            getdataCourseKey(newObj);
+
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -745,24 +829,72 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     setModeEndDate(currentMode);
   };
 
-  const showDatepicker = () => {
-    showMode('date');
+  const showDatepicker = index => () => {
+    // showMode('date');
+
+    console.log('index', index, setdatafromlist);
+
+    let newAr = Object.assign([], setdatafromlist);
+
+    // let newArr = [];
+    for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+      if (i == index) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart = true;
+      } else {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+          false;
+      }
+    }
+
+    console.log('After Click', newAr);
+
+    setDataCourseInList(newAr);
+
     //setShow(true);
   };
 
-  const showDatepickerEndDate = () => {
-    showModeEndDate('date');
+  const showDatepickerEndDate = index => () => {
+    console.log('index', index, setdatafromlist);
+
+    let newAr = Object.assign([], setdatafromlist);
+
+    // let newArr = [];
+    for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+      if (i == index) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = true;
+      } else {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
+      }
+    }
+
+    console.log('After Click', newAr);
+
+    setDataCourseInList(newAr);
+    //showModeEndDate('date');
   };
 
-  const onChangeEndDate = (event, selectedDate) => {
+  const onChangeEndDate = (event, selectedDate, standarad_i, index) => {
     const currentDate = selectedDate || date;
     setShowEndDate(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
-      setDateEndDate(currentDate);
+      //setDateEndDate(currentDate);
     } else {
-      //cancel Button
-      return null;
+      let newAr = Object.assign([], setdatafromlist);
+
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        if (i == index) {
+          newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
+            false;
+        } else {
+          newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
+            false;
+        }
+      }
+      console.log('newArrrDismiss==>>', newAr);
+      setDataCourseInList(newAr);
+      return;
     }
     // setDate(currentDate);
     var day = currentDate.getDate();
@@ -783,16 +915,34 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     // YYYY-MM-DD
   };
-  const onChange = (event, selectedDate) => {
+  const onChange = (event, selectedDate, standarad_i, index) => {
+    console.log('SelectedEvent===>>', event);
+    console.log('SelectedDate===>>', selectedDate);
+    console.log('SelectedDate===>>', standarad_i, index);
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
+
     if (event.type == 'set') {
       //ok button
       console.log('Current Date Select', selectedDate);
-      setDate(currentDate);
+      //setDate(currentDate);
     } else {
       //cancel Button
-      return null;
+      let newAr = Object.assign([], setdatafromlist);
+
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        if (i == index) {
+          newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+            false;
+        } else {
+          newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+            false;
+        }
+      }
+      console.log('newArrrDismiss==>>', newAr);
+      setDataCourseInList(newAr);
+      return;
     }
     // setDate(currentDate);
     var day = currentDate.getDate();
@@ -808,8 +958,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       '-' +
       ('0' + currentDate.getDate()).slice(-2);
     // console.log('A date has been picked: ' + day + '-' + month + '-' + year);
-    setDate_Copy(MyDateString);
-    CallApiEditStartDate(MyDateString);
+    //setDate_Copy(MyDateString);
+    console.log(MyDateString);
+    CallApiEditStartDate(MyDateString, standarad_i);
 
     // YYYY-MM-DD
   };
@@ -845,13 +996,31 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     return true;
   };
 
-  const onPressEdit = (id, org_start_date, org_end_date) => {
+  const onPressEdit = (id, org_start_date, org_end_date, index) => {
     getClassListByStandardid(id);
     setIDStandardid(id);
     set_org_start_date(org_start_date);
     set_org_end_date(org_end_date);
-    setDate(org_start_date);
-    setDateEndDate(org_end_date);
+    //  setDate(org_start_date);
+    // setDateEndDate(org_end_date);
+
+    let newArr = Object.assign([], setdatafromlist);
+
+    for (let i in newArr) {
+      for (let j in newArr[i].ei_detail.course_detail) {
+        for (let k in newArr[i].ei_detail.course_detail[j].standard_detail) {
+          if (
+            k == index &&
+            !newArr[i].ei_detail.course_detail[j].standard_detail[k]
+              .is_current_standard
+          ) {
+            newArr[i].ei_detail.course_detail[j].standard_detail[k].className =
+              '';
+          }
+        }
+      }
+    }
+    console.log('newArr', newArr);
   };
 
   const Skippedstandard = id => {
@@ -1060,10 +1229,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <Text style={styles.view_Tv_1_copy}>
                             Starting Year :
                           </Text>
-                          <Text style={styles.view_Tv_2}>
-                            {i.standard_start_year}
-                          </Text>
-                          <TouchableOpacity onPress={showDatepicker}>
+                          <Text style={styles.view_Tv_2}>{i.start_year}</Text>
+                          {/* <TouchableOpacity onPress={showDatepicker}>
                             <View style={{width: 130}}>
                               <TextField
                                 placeholder={i.standard_start_year}
@@ -1072,9 +1239,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                 value={date_copy.toString()}
                               />
                             </View>
-                          </TouchableOpacity>
+                          </TouchableOpacity> */}
 
-                          <View>
+                          {/* <View>
                             {show && (
                               <DateTimePicker
                                 testID="dateTimePicker"
@@ -1088,10 +1255,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                 onChange={onChange}
                               />
                             )}
-                          </View>
+                          </View> */}
                         </View>
 
-                        {i.is_current_standard == false ? (
+                        {/* {i.is_current_standard == false ? (
                           <View style={styles.view_Row_}>
                             <Text style={styles.view_Tv_1_copy}>
                               Ending Year :
@@ -1132,7 +1299,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                               )}
                             </View>
                           </View>
-                        )}
+                        )} */}
 
                         {i.is_current_course == false ? (
                           <View
@@ -1156,8 +1323,13 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           </View>
                         )}
 
+                        <View style={styles.view_Row_}>
+                          <Text style={styles.view_Tv_1_copy}>Duration :</Text>
+                          <Text style={styles.view_Tv_2}>{i.duration}</Text>
+                        </View>
+
                         {i.standard_detail &&
-                          i.standard_detail.map(standarad_i => {
+                          i.standard_detail.map((standarad_i, index) => {
                             return (
                               <View>
                                 <CardView
@@ -1230,6 +1402,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             standarad_i.standard_id,
                                             standarad_i.org_start_date,
                                             standarad_i.org_end_date,
+                                            index,
                                           )
                                         }>
                                         <Image
@@ -1258,16 +1431,19 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         }}>
                                         Starting Year :
                                       </Text>
-                                      <Text
-                                        style={{
-                                          marginTop: 5,
-                                          fontSize: 14,
-                                          marginLeft: 5,
-                                          color: '#565656',
-                                        }}>
-                                        {standarad_i.standard_start_year}
-                                      </Text>
-                                      {standarad_i.standard_id == standardid &&
+                                      <TouchableOpacity
+                                        onPress={showDatepicker(index)}>
+                                        <Text
+                                          style={{
+                                            marginTop: 5,
+                                            fontSize: 14,
+                                            marginLeft: 5,
+                                            color: '#565656',
+                                          }}>
+                                          {standarad_i.standard_start_year}
+                                        </Text>
+                                      </TouchableOpacity>
+                                      {/* {standarad_i.standard_id == standardid &&
                                       standarad_i.is_current_standard ==
                                         false ? (
                                         <TouchableOpacity
@@ -1287,42 +1463,73 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             />
                                           </View>
                                         </TouchableOpacity>
-                                      ) : null}
+                                      ) : null} */}
                                     </View>
                                   </View>
 
-                                  {show && (
+                                  {standarad_i.showStart && (
                                     <DateTimePicker
                                       testID="dateTimePicker"
                                       value={moment(
-                                        date,
+                                        standarad_i.org_start_date,
                                         'YYYY-MM-DD',
                                       ).toDate()}
-                                      mode={mode}
-                                      minimumDate={new Date(org_start_date)}
-                                      maximumDate={new Date(org_end_date)}
+                                      mode={'date'}
+                                      minimumDate={
+                                        index == 0
+                                          ? new Date(
+                                              i.org_start_year + '-01-01',
+                                            )
+                                          : i.standard_detail.length - 1 ==
+                                            index
+                                          ? new Date(standarad_i.maxDate)
+                                          : new Date(
+                                              i.standard_detail[
+                                                index - 1
+                                              ].maxDate,
+                                            )
+                                      }
+                                      maximumDate={
+                                        new Date(standarad_i.maxDate)
+                                      }
                                       is24Hour={true}
                                       // format="YYYY-MMM-DD"
                                       display="default"
-                                      onChange={onChange}
+                                      onChange={(event, value) =>
+                                        onChange(
+                                          event,
+                                          value,
+                                          standarad_i,
+                                          index,
+                                        )
+                                      }
                                     />
                                   )}
 
-                                  {showendate && (
+                                  {standarad_i.showEnd && (
                                     <DateTimePicker
                                       testID="dateTimePicker"
                                       value={moment(
-                                        dateenddate,
+                                        standarad_i.org_end_date,
                                         'YYYY-MM-DD',
                                       ).toDate()}
-                                      mode={modeenddate}
-                                      minimumDate={new Date(org_end_date)}
+                                      mode={'date'}
+                                      minimumDate={
+                                        new Date(standarad_i.minDate)
+                                      }
                                       maximumDate={new Date()}
                                       //  maximumDate={new Date('2021-01-01')}
                                       is24Hour={true}
-                                      format="YYYY-MMM-DD"
+                                      //format="YYYY-MMM-DD"
                                       display="default"
-                                      onChange={onChangeEndDate}
+                                      onChange={(event, value) =>
+                                        onChangeEndDate(
+                                          event,
+                                          value,
+                                          standarad_i,
+                                          index,
+                                        )
+                                      }
                                     />
                                   )}
 
@@ -1337,16 +1544,19 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         }}>
                                         Ending Year :
                                       </Text>
-                                      <Text
-                                        style={{
-                                          marginTop: 5,
-                                          fontSize: 14,
-                                          marginLeft: 5,
-                                          color: '#565656',
-                                        }}>
-                                        {standarad_i.standard_end_year}
-                                      </Text>
-                                      {standarad_i.standard_id == standardid &&
+                                      <TouchableOpacity
+                                        onPress={showDatepickerEndDate(index)}>
+                                        <Text
+                                          style={{
+                                            marginTop: 5,
+                                            fontSize: 14,
+                                            marginLeft: 5,
+                                            color: '#565656',
+                                          }}>
+                                          {standarad_i.standard_end_year}
+                                        </Text>
+                                      </TouchableOpacity>
+                                      {/* {standarad_i.standard_id == standardid &&
                                       standarad_i.is_current_standard ==
                                         false ? (
                                         <TouchableOpacity
@@ -1367,7 +1577,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             />
                                           </View>
                                         </TouchableOpacity>
-                                      ) : null}
+                                      ) : null} */}
                                     </View>
                                   ) : (
                                     <View style={styles.view_Row_}>
@@ -1391,6 +1601,23 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       </Text>
                                     </View>
                                   )}
+
+                                  {standarad_i.hasOwnProperty('className') &&
+                                    standarad_i.className != '' &&
+                                    standarad_i.is_current_standard ==
+                                      false && (
+                                      <View>
+                                        <Text
+                                          style={{
+                                            marginTop: 5,
+                                            fontSize: 15,
+                                            marginLeft: 10,
+                                            color: '#CCCCCC',
+                                          }}>
+                                          Section : {standarad_i.className}
+                                        </Text>
+                                      </View>
+                                    )}
 
                                   {standarad_i.is_current_standard == true ? (
                                     <View>
@@ -1422,26 +1649,31 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   ) : (
                                     <View>
                                       <View style={styles.view_Row_Copy}>
-                                        <Text
-                                          style={{
-                                            marginTop: 5,
-                                            fontSize: 15,
-                                            marginLeft: 10,
-                                            color: '#CCCCCC',
-                                          }}>
-                                          Section :
-                                        </Text>
-                                        <Text
-                                          style={{
-                                            marginTop: 5,
-                                            fontSize: 14,
-                                            marginLeft: 5,
-                                            color: '#565656',
-                                          }}>
-                                          {''}
-                                        </Text>
+                                        {standarad_i.className == '' && (
+                                          <>
+                                            <Text
+                                              style={{
+                                                marginTop: 5,
+                                                fontSize: 15,
+                                                marginLeft: 10,
+                                                color: '#CCCCCC',
+                                              }}>
+                                              Section :
+                                            </Text>
+                                            <Text
+                                              style={{
+                                                marginTop: 5,
+                                                fontSize: 14,
+                                                marginLeft: 5,
+                                                color: '#565656',
+                                              }}>
+                                              {''}
+                                            </Text>
+                                          </>
+                                        )}
                                         {standarad_i.standard_id ==
                                           standardid &&
+                                        standarad_i.className == '' &&
                                         standarad_i.is_current_standard ==
                                           false ? (
                                           <View
@@ -1461,6 +1693,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                                 if (selectedValue !== null) {
                                                   CallApiEditDropDown(
                                                     selectedValue,
+                                                    index,
                                                   );
                                                 }
                                               }}
