@@ -880,20 +880,20 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       //ok button
       //setDateEndDate(currentDate);
     } else {
-      let newAr = Object.assign([], setdatafromlist);
+      // let newAr = Object.assign([], setdatafromlist);
 
-      // let newArr = [];
-      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
-        if (i == index) {
-          newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
-            false;
-        } else {
-          newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
-            false;
-        }
-      }
-      console.log('newArrrDismiss==>>', newAr);
-      setDataCourseInList(newAr);
+      // // let newArr = [];
+      // for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+      //   if (i == index) {
+      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
+      //       false;
+      //   } else {
+      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
+      //       false;
+      //   }
+      // }
+      // console.log('newArrrDismiss==>>', newAr);
+      // setDataCourseInList(newAr);
       return;
     }
     // setDate(currentDate);
@@ -928,20 +928,20 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       //setDate(currentDate);
     } else {
       //cancel Button
-      let newAr = Object.assign([], setdatafromlist);
+      // let newAr = Object.assign([], setdatafromlist);
 
-      // let newArr = [];
-      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
-        if (i == index) {
-          newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
-            false;
-        } else {
-          newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
-            false;
-        }
-      }
-      console.log('newArrrDismiss==>>', newAr);
-      setDataCourseInList(newAr);
+      // // let newArr = [];
+      // for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+      //   if (i == index) {
+      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+      //       false;
+      //   } else {
+      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+      //       false;
+      //   }
+      // }
+      // console.log('newArrrDismiss==>>', newAr);
+      // setDataCourseInList(newAr);
       return;
     }
     // setDate(currentDate);
