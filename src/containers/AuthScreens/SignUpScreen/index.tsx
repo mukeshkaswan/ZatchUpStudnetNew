@@ -37,12 +37,12 @@ interface SignUpScreenProps {
 }
 
 const SignUpScreen = (props: SignUpScreenProps) => {
-  const [Firstname, setFirstname] = useState('dfsd');
-  const [Lastname, setLastname] = useState('sdfsdf');
-  const [Email, setEmail] = useState('@mailinator.com');
+  const [Firstname, setFirstname] = useState('');
+  const [Lastname, setLastname] = useState('');
+  const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
-  const [Password, setPassword] = useState('@MUKesh77');
-  const [ConfirmPassword, setConfirmPassword] = useState('@MUKesh77');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
   const [Gender, setGender] = useState('');
   const [CustomGender, setCustomGender] = useState('');
   const [count, setCount] = useState(0);

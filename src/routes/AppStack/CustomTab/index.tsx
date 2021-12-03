@@ -163,7 +163,7 @@ const CustomTabBar = () => {
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="MessagesMain_Tab"
         component={Messages}
         options={{
@@ -180,7 +180,7 @@ const CustomTabBar = () => {
             return <TabBarCustomButton {...props} />;
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

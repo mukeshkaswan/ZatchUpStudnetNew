@@ -173,7 +173,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('ProfileScreen');
             }}>
@@ -199,7 +199,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 Profile
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => {
@@ -209,12 +209,12 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginTop: 25,
                 margin: 5,
+                marginTop: 140,
                 marginLeft: 15,
               }}>
               <Image
-                source={Images.changepassword}
+                source={Images.ss}
                 style={{tintColor: '#000000', width: 25, height: 25}}
               />
               <Text
@@ -289,7 +289,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('AboutusScreen');
               }}>
@@ -315,8 +315,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   About Us
                 </Text>
               </View>
-            </TouchableOpacity>
-            <View
+            </TouchableOpacity> */}
+            {/* <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -337,8 +337,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 }}>
                 Term & Condition
               </Text>
-            </View>
-            <TouchableOpacity
+            </View> */}
+            {/* <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('PrivacyPolicy');
               }}>
@@ -364,7 +364,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   Privacy Policy
                 </Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={() => Logout()}>
               <View
                 style={{

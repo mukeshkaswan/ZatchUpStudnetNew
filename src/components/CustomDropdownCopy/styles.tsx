@@ -53,13 +53,9 @@ const styles = ScaledSheet.create({
   pickerItem: {
     color: '#A9A9A9',
     marginLeft: 20,
-
+    fontSize:12,
     // zIndex:1000,
-
     //flex: 1,
-
-
-
   },
   customtextinput2: {
 

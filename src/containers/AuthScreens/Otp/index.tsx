@@ -150,7 +150,7 @@ const Otp = (props: OtpScreenProps) => {
                 JSON.stringify(result, undefined, 2),
                 // props.navigation.navigate('eKYC')
               
-                props.navigation.navigate('eKYC'),
+                props.navigation.navigate('eKYC',{'signup':'signup','is_kyc_rejected':'','reg_step':''}),
               );
               // setSpinnerStart(false);
               _storeData(result);

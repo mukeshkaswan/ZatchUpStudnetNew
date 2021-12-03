@@ -43,6 +43,7 @@ import {
   CLASSLISTBYSTANDARDID,
   EDITCOURSESTANDARDDROPDOWN,
   UPDATEPERSONALINFO,
+  ADDUSERSTEPSEVEN
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1339,6 +1340,33 @@ function* getClassListByStandard({payload: {data, callback}}) {
     }
   }
 }
+
+/***************************User Post Add User Step Seven Auth Segas*******************************/
+
+function* getadduserstepseven({payload: {data, callback}}) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/add-user-step-seven/`,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  callback({result, error});
+  if (!error) {
+    if (result) {
+      console.log('get Add Step Seven result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -1381,6 +1409,9 @@ function* User() {
     yield takeLatest(EDITCOURSESTANDARD, geteditcoursestandard),
     yield takeLatest(CLASSLISTBYSTANDARDID, getClassListByStandard),
     yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
+    yield takeLatest(ADDUSERSTEPSEVEN, getadduserstepseven),
+
+    
   ]);
 }
 

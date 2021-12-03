@@ -32,14 +32,58 @@ const Approval = (props: ApprovalScreenProps) => {
 
     // };
     const submit = async () => {
-        // try {
-        //     await AsyncStorage.removeItem('token')
-        // } catch(e) {
-        //     // save error
-        //   }
-        props.navigation.navigate('LoginScreen')
 
+        var token = '';
+        try {
+            const value = await AsyncStorage.getItem('token');
+            if (value !== null) {
+                // value previously stored
+                token = value;
+            }
+        } catch (e) {
+            // error reading value
+        }
 
+        const data = {
+            token: token,
+        }
+        dispatch(
+            userActions.getadduserstepseven({
+                data,
+                callback: ({ result, error }) => {
+                    if (result) {
+                        console.warn(
+                            'after result step count seven',
+                            JSON.stringify(result, undefined, 2),
+
+                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        );
+                        // setSpinnerStart(false);
+                        setLoading(false);
+                        props.navigation.navigate('LoginScreen')
+
+                    }
+                    if (!error) {
+                        console.warn(JSON.stringify(error, undefined, 2));
+                        // setLoginSuccess(result);
+                        setLoading(false);
+                        //console.log('dfdfdf--------', error)
+                        // Toast.show('Invalid credentials', Toast.SHORT);
+
+                        // Alert.alert(error.message[0])
+
+                        // signOut();
+                    } else {
+                        // setError(true);
+                        // signOut();
+                        // Alert.alert(result.status)
+                        // Toast.show('Invalid credentials', Toast.SHORT);
+                        setLoading(false);
+                        console.warn(JSON.stringify(error, undefined, 2));
+                    }
+                },
+            }),
+        );
 
     };
 
@@ -149,8 +193,8 @@ const Approval = (props: ApprovalScreenProps) => {
 
                 <View>
                     <CustomButton title={'Continue'}
-                         onPress={() => submit()}
-                      //  onPress={() => props.navigation.navigate('LoginScreen')}
+                        onPress={() => submit()}
+                    //  onPress={() => props.navigation.navigate('LoginScreen')}
 
                     />
                 </View>

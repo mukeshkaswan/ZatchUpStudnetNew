@@ -18,7 +18,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 const screenWidth = Dimensions.get('window').width;
 
-interface PersonalinfoScreenProps { navigation: any }
+interface PersonalinfoScreenProps { navigation: any;route: any; }
 
 
 const Personalinfo = (props: PersonalinfoScreenProps) => {

@@ -94,13 +94,13 @@ const CurrentSchoolinfo = (
   };
 
   useEffect(() => {
-    setStateKey('');
-    setSchoolKey('');
-    setCityKey('');
-    setSchoolname('');
-    setaddress('');
-    setBoard('');
-    setID('');
+    // setStateKey('');
+    // setSchoolKey('');
+    // setCityKey('');
+    // setSchoolname('');
+    // setaddress('');
+    // setBoard('');
+    // setID('');
 
     getState();
     // getStepCountAPi();

@@ -146,3 +146,7 @@ export const geteditcoursestandarddropdown = createAction(EDITCOURSESTANDARDDROP
 // this is for class List By Standard iD user 
 export const CLASSLISTBYSTANDARDID = 'CLASSLISTBYSTANDARDID';
 export const getClassListByStandard = createAction(CLASSLISTBYSTANDARDID);
+
+// this is for Add User Step Seven user 
+export const ADDUSERSTEPSEVEN = 'ADDUSERSTEPSEVEN';
+export const getadduserstepseven = createAction(ADDUSERSTEPSEVEN);

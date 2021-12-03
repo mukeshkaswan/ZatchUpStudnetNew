@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   TextFieldCopy,
@@ -26,14 +26,14 @@ import {
   CustomDropdownCopy,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {RadioButton} from 'react-native-paper';
+import { CheckBox } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
 import CardView from 'react-native-cardview';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import {
   TouchableHighlight,
   TouchableOpacity,
@@ -111,10 +111,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   {
     checked === 'first'
-      ? props.navigation.navigate('CurrentSchoolinfo', {data: true})
+      ? props.navigation.navigate('CurrentSchoolinfo', { data: true })
       : checked === 'second'
-      ? props.navigation.navigate('CurrentSchoolinfo', {data: false})
-      : null;
+        ? props.navigation.navigate('CurrentSchoolinfo', { data: false })
+        : null;
   }
 
   const DATA = [
@@ -134,7 +134,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -168,9 +168,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => BackHandler.exitApp()},
+        { text: 'Yes', onPress: () => BackHandler.exitApp() },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -230,7 +230,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -288,7 +288,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.geteditcoursestandarddropdown({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result drop ',
@@ -322,7 +322,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   /***************************User get Edit standard course list *******************************/
 
-  const CallApiEditEndDate = async id => {
+  const CallApiEditEndDate = async (id, standarad_i) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -336,8 +336,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     const data = {
       token: token,
-      standard_id: standardid,
-      standard_start_year: org_start_date,
+      standard_id: standarad_i.standard_id,
+      standard_start_year: standarad_i.org_start_date,
       standard_end_year: id,
     };
     setLoading(true);
@@ -345,7 +345,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.geteditcoursestandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -405,7 +405,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.geteditcoursestandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -460,7 +460,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.getDeleteCourseData({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -517,7 +517,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.getskipped({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -617,7 +617,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     dispatch(
       userActions.getEiCourseConfirmationList({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.log(
               'after result',
@@ -625,89 +625,95 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // getdataCourseKey(result);
+            if (result.data.length > 0) {
+              var newAr = [];
 
-            var newAr = [];
-
-            for (let i in result.data[0].ei_detail.course_detail[0]
-              .standard_detail) {
-              let flag = '';
-              if (
-                result.data[0].ei_detail.course_detail[0].standard_detail[i]
-                  .class_detail.length > 0
-              ) {
-                flag =
+              for (let i in result.data[0].ei_detail.course_detail[0]
+                .standard_detail) {
+                let flag = '';
+                if (
                   result.data[0].ei_detail.course_detail[0].standard_detail[i]
-                    .class_detail[0].class_name;
-              }
-              let item = {
-                ...result.data[0].ei_detail.course_detail[0].standard_detail[i],
-                className: flag,
-              };
-              newAr.push(item);
-            }
-
-            let newObject = Object.assign([], result.data);
-            let arrr = [];
-            for (let i in newObject) {
-              for (let j in newObject[i].ei_detail.course_detail) {
+                    .class_detail.length > 0
+                ) {
+                  flag =
+                    result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                      .class_detail[0].class_name;
+                }
                 let item = {
-                  ...newObject[i].ei_detail.course_detail[j],
-                  standard_detail: newAr,
+                  ...result.data[0].ei_detail.course_detail[0].standard_detail[
+                  i
+                  ],
+                  className: flag,
                 };
-                arrr.push(item);
+                newAr.push(item);
               }
+
+              let newObject = Object.assign([], result.data);
+              let arrr = [];
+              for (let i in newObject) {
+                for (let j in newObject[i].ei_detail.course_detail) {
+                  let item = {
+                    ...newObject[i].ei_detail.course_detail[j],
+                    standard_detail: newAr,
+                  };
+                  arrr.push(item);
+                }
+              }
+
+              let newD = [];
+              for (let i in result.data[0]) {
+                let item = { ...result.data[0].ei_detail, course_detail: arrr };
+                newD.push({ ei_detail: item });
+              }
+
+              console.log('AddFlag===>>', newD);
+
+              let newArr = [];
+              for (let i in newD[0].ei_detail.course_detail[0]
+                .standard_detail) {
+                let item = {
+                  ...newD[0].ei_detail.course_detail[0].standard_detail[i],
+                  showStart: false,
+                  showEnd: false,
+                  minDate:
+                    newD[0].ei_detail.course_detail[0].standard_detail[i]
+                      .org_start_date,
+                  maxDate:
+                    newD[0].ei_detail.course_detail[0].standard_detail[i]
+                      .org_end_date,
+                };
+                newArr.push(item);
+              }
+              console.log('NewArrr==>>', newArr);
+
+              let ar = [];
+              for (let i in newD[0].ei_detail.course_detail) {
+                let item = {
+                  ...newD[0].ei_detail.course_detail[i],
+                  standard_detail: newArr,
+                };
+                ar.push(item);
+              }
+
+              let newData = [];
+              for (let i in newD[0]) {
+                let item = { ...newD[0].ei_detail, course_detail: ar };
+                newData.push(item);
+              }
+
+              let obj = { ...newData[0] };
+
+              let newCourseList = [];
+              newCourseList.push({ ei_detail: obj });
+
+              let newObj = { ...result, data: newCourseList };
+
+              console.log('newData==>>', newObj);
+
+              getdataCourseKey(newObj);
+            } else {
+              getdataCourseKey(result);
             }
-
-            let newD = [];
-            for (let i in result.data[0]) {
-              let item = {...result.data[0].ei_detail, course_detail: arrr};
-              newD.push({ei_detail: item});
-            }
-
-            console.log('AddFlag===>>', newD);
-
-            let newArr = [];
-            for (let i in newD[0].ei_detail.course_detail[0].standard_detail) {
-              let item = {
-                ...newD[0].ei_detail.course_detail[0].standard_detail[i],
-                showStart: false,
-                showEnd: false,
-                minDate:
-                  newD[0].ei_detail.course_detail[0].standard_detail[i]
-                    .org_start_date,
-                maxDate:
-                  newD[0].ei_detail.course_detail[0].standard_detail[i]
-                    .org_end_date,
-              };
-              newArr.push(item);
-            }
-            console.log('NewArrr==>>', newArr);
-
-            let ar = [];
-            for (let i in newD[0].ei_detail.course_detail) {
-              let item = {
-                ...newD[0].ei_detail.course_detail[i],
-                standard_detail: newArr,
-              };
-              ar.push(item);
-            }
-
-            let newData = [];
-            for (let i in newD[0]) {
-              let item = {...newD[0].ei_detail, course_detail: ar};
-              newData.push(item);
-            }
-
-            let obj = {...newData[0]};
-
-            let newCourseList = [];
-            newCourseList.push({ei_detail: obj});
-
-            let newObj = {...result, data: newCourseList};
-
-            console.log('newData==>>', newObj);
-
-            getdataCourseKey(newObj);
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -773,7 +779,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       userActions.getClassListByStandard({
         data,
 
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result class data',
@@ -910,8 +916,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       '-' +
       ('0' + currentDate.getDate()).slice(-2);
     // console.log('A date has been picked: ' + day + '-' + month + '-' + year);
-    setDate_CopyEndDate(MyDateString);
-    CallApiEditEndDate(MyDateString);
+    // setDate_CopyEndDate(MyDateString);
+    CallApiEditEndDate(MyDateString, standarad_i);
 
     // YYYY-MM-DD
   };
@@ -989,9 +995,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => Coursedelete(id)},
+        { text: 'Yes', onPress: () => Coursedelete(id) },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -1033,9 +1039,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => CourseSkippedstandard(id)},
+        { text: 'Yes', onPress: () => CourseSkippedstandard(id) },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -1055,15 +1061,42 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             // keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={ItemSeprator}
             //  ItemSeparatorComponent={this.SeparatorComponent}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <CardView
                 cardElevation={1}
                 cardMaxElevation={1}
                 cornerRadius={10}
                 style={styles.Cardview}>
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>State :</Text>
-                  <Text style={styles.view_Tv_2}>{item.ei_detail.state}</Text>
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
+                  <Text style={styles.view_Tv_2}>{item.ei_detail.school_code}</Text>
+
+                  <TouchableOpacity
+                    underlayColor="none"
+                    onPress={() => DeleteSchool(item.ei_detail.id)}>
+                    <Image
+                      style={{
+                        height: 28,
+                        width: 28,
+                        marginTop: 2,
+                        marginLeft: 20,
+                        marginRight: 10,
+                      }}
+                      source={Images.delete}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={[styles.view_Row, { justifyContent: 'space-between' }]}>
+
+                  <View
+                    style={{
+                      flexDirection: 'row', marginTop: 5
+                    }}>
+                    <Text style={styles.view_Tv_1}>State :</Text>
+                    <Text style={styles.view_Tv_2}>{item.ei_detail.state}</Text>
+                  </View>
+
                 </View>
 
                 <View style={styles.view_Row_}>
@@ -1101,66 +1134,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </Text>
                 </View>
 
-                <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>University/Board :</Text>
-                  <Text style={styles.view_Tv_2}>
-                    {item.ei_detail.university}
-                  </Text>
-                </View>
-
-                <TouchableOpacity
-                  underlayColor="none"
-                  onPress={() => DeleteSchool(item.ei_detail.id)}>
-                  <Image
-                    style={{
-                      height: 30,
-                      width: 30,
-
-                      marginLeft: 20,
-                      marginRight: 5,
-                    }}
-                    source={Images.delete}
-                  />
-                </TouchableOpacity>
-
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>State :</Text>
-                  <Text style={styles.view_Tv_2}>{item.ei_detail.state}</Text>
-                </View>
 
                 <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>City :</Text>
-                  <Text style={styles.view_Tv_2}>{item.ei_detail.city}</Text>
-                </View>
-
-                <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>School Name :</Text>
-                  <Text
-                    style={{
-                      marginTop: 5,
-                      fontSize: 17,
-                      color: '#565656',
-                      flexWrap: 'wrap',
-                      flex: 1,
-                      marginLeft: 5,
-                    }}>
-                    {item.ei_detail.name_of_school}
-                  </Text>
-                </View>
-
-                <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>School Address :</Text>
-                  <Text
-                    style={{
-                      marginTop: 5,
-                      fontSize: 17,
-                      color: '#565656',
-                      flexWrap: 'wrap',
-                      flex: 1,
-                      marginLeft: 5,
-                    }}>
-                    {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
-                  </Text>
+                  <Text style={styles.view_Tv_1}>Pincode :</Text>
+                  <Text style={styles.view_Tv_2}>{item.ei_detail.pincode}</Text>
                 </View>
 
                 <View style={styles.view_Row_}>
@@ -1194,29 +1171,29 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             onPress={() => {
                               i.is_current_course == false
                                 ? props.navigation.navigate('AlumniNoEdit', {
+                                  school_id: item.ei_detail.id,
+                                  course_id: i.course_id,
+                                  nameofschool: item.ei_detail.name_of_school,
+                                  school_zatchup_id:
+                                    item.ei_detail.school_code,
+                                  course_name: i.course_name,
+                                  description: i.description,
+                                  roll_no: i.roll_no,
+                                })
+                                : props.navigation.navigate(
+                                  'EducationProfileEdit',
+                                  {
                                     school_id: item.ei_detail.id,
                                     course_id: i.course_id,
-                                    nameofschool: item.ei_detail.name_of_school,
+                                    nameofschool:
+                                      item.ei_detail.name_of_school,
                                     school_zatchup_id:
                                       item.ei_detail.school_code,
                                     course_name: i.course_name,
                                     description: i.description,
                                     roll_no: i.roll_no,
-                                  })
-                                : props.navigation.navigate(
-                                    'EducationProfileEdit',
-                                    {
-                                      school_id: item.ei_detail.id,
-                                      course_id: i.course_id,
-                                      nameofschool:
-                                        item.ei_detail.name_of_school,
-                                      school_zatchup_id:
-                                        item.ei_detail.school_code,
-                                      course_name: i.course_name,
-                                      description: i.description,
-                                      roll_no: i.roll_no,
-                                    },
-                                  );
+                                  },
+                                );
                             }}>
                             <Image
                               style={styles.editicon}
@@ -1364,7 +1341,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       </Text>
 
                                       {standarad_i.is_current_standard ==
-                                      false ? (
+                                        false ? (
                                         <TouchableOpacity
                                           //  style={{}}
                                           style={[
@@ -1417,6 +1394,26 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         />
                                       </TouchableOpacity>
                                     </View>
+                                    <View style={styles.view_Row_}>
+                                      <Text
+                                        style={{
+                                          marginTop: 5,
+                                          fontSize: 15,
+                                          marginLeft: 10,
+                                          color: '#CCCCCC',
+                                        }}>
+                                        Duration :
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          marginTop: 5,
+                                          fontSize: 14,
+                                          marginLeft: 5,
+                                          color: '#565656',
+                                        }}>
+                                        {standarad_i.duration}
+                                      </Text>
+                                    </View>
                                     <View
                                       style={{
                                         flexDirection: 'row',
@@ -1439,6 +1436,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             fontSize: 14,
                                             marginLeft: 5,
                                             color: '#565656',
+                                            textDecorationLine: 'underline',
                                           }}>
                                           {standarad_i.standard_start_year}
                                         </Text>
@@ -1478,15 +1476,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       minimumDate={
                                         index == 0
                                           ? new Date(
-                                              i.org_start_year + '-01-01',
-                                            )
+                                            i.org_start_year + '-01-01',
+                                          )
                                           : i.standard_detail.length - 1 ==
                                             index
-                                          ? new Date(standarad_i.maxDate)
-                                          : new Date(
+                                            ? new Date(standarad_i.maxDate)
+                                            : new Date(
                                               i.standard_detail[
                                                 index - 1
-                                              ].maxDate,
+                                              ].org_end_date,
                                             )
                                       }
                                       maximumDate={
@@ -1552,6 +1550,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             fontSize: 14,
                                             marginLeft: 5,
                                             color: '#565656',
+                                            textDecorationLine: 'underline',
                                           }}>
                                           {standarad_i.standard_end_year}
                                         </Text>
@@ -1605,7 +1604,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   {standarad_i.hasOwnProperty('className') &&
                                     standarad_i.className != '' &&
                                     standarad_i.is_current_standard ==
-                                      false && (
+                                    false && (
                                       <View>
                                         <Text
                                           style={{
@@ -1673,8 +1672,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         )}
                                         {standarad_i.standard_id ==
                                           standardid &&
-                                        standarad_i.className == '' &&
-                                        standarad_i.is_current_standard ==
+                                          standarad_i.className == '' &&
+                                          standarad_i.is_current_standard ==
                                           false ? (
                                           <View
                                             style={{
@@ -1684,7 +1683,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                               marginLeft: 20,
                                             }}>
                                             <CustomDropdownCopy
-                                              placeholder={'Section'}
+                                              placeholder={'Select Section'}
                                               data={classlist}
                                               selectedValue={
                                                 KYC_type_doc_Selected
@@ -1721,11 +1720,16 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               justifyContent: 'center',
               //  backgroundColor: '#979797'
             }}>
-            <Text style={{color: '#7B7B7B', fontSize: 26, fontWeight: 'bold'}}>
+            <Text style={{ color: '#7B7B7B', fontSize: 26, fontWeight: 'bold' }}>
               No School Available
             </Text>
           </View>
         )}
+
+        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 30 }}>
+          {setdatafromlist.length > 0 ? <CustomButton title={'Send for verification'} onPress={() => props.navigation.navigate('Personalinfo')} /> : <CustomButton title={'Send for verification'} />}
+          {/* <CustomButton title={'Confirm & Send for EI Verification'} onPress={() => props.navigation.navigate('Personalinfo')} /> */}
+        </View>
       </View>
     </View>
   );
