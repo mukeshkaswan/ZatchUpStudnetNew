@@ -195,6 +195,7 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtp(val)}
+                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
 
                 />
             </View>

@@ -585,13 +585,17 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     var city = [];
 
     result.results.map((element: any) => {
-      let obj = {
-        label: element.course_name,
-        value: element.id,
-        description: element.description,
-        start_date: element.start_date,
-      };
-      city.push(obj);
+
+      if(element.view_for== 'STUDENT' ){
+        let obj = {
+          label:  element.course_name,
+          value:  element.id,
+          description: element.description,
+          start_date:  element.start_date,
+        };
+        city.push(obj);
+      }
+     
     });
 
     setselectedCourse(city);
@@ -872,7 +876,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
               <TouchableOpacity
                 style={{marginTop: '2%', marginLeft: 5, marginRight: 5}}
                 onPress={showDatepicker}>
-                <View>
+                <View >
                   <TextField
                     // pointerEvents="none"
                     placeholder={'Course Joining Date'}

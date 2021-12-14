@@ -93,6 +93,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   const [dropdwonplaceholder, setDropDownPlaceholder] = useState('A');
   const [classlist, setDataClassList] = useState([]);
+  const [schoolidkey, setSchoolIDKey] = useState('');
+
 
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
@@ -174,7 +176,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     );
     return true;
   }
+  const SetSchoolid = async result => {
+    result.data.map((element: any) => {
+      setSchoolIDKey(element.ei_detail.id)
+      console.log('school id', element.ei_detail.id)
 
+
+    });
+
+  }
   const getdataCourseKey = async result => {
     // var state = [];
     // result.data.map((element: any) => {
@@ -210,58 +220,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     setKey(true);
     // console.log('dsfsdfds----------------------------->>>>>>>', state)
   };
-  /***************************User getStepCountAPi *******************************/
-
-  const getStepCountAPi = async () => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-
-    const data = {
-      token: token,
-    };
-    dispatch(
-      userActions.getRegStepCount({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
-
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            // Alert.alert(error.message[0])
-            // signOut();
-          } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-  };
-
   /***************************User get Edit standard drop down class list *******************************/
 
   const CallApiEditDropDown = async (id, index) => {
@@ -624,7 +582,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               result,
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            // getdataCourseKey(result);
+            SetSchoolid(result);
             if (result.data.length > 0) {
               var newAr = [];
 
@@ -1175,10 +1133,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                    item.ei_detail.school_code,
+                                  item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
+                                  coursekeyothersAlumni:props.route.params.coursekeyothersAlumni,
+                                  course_type:i.course_type
                                 })
                                 : props.navigation.navigate(
                                   'EducationProfileEdit',
@@ -1204,35 +1164,29 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
                         <View style={styles.view_Row_}>
                           <Text style={styles.view_Tv_1_copy}>
+                            Course Name :
+                          </Text>
+                          <Text style={styles.view_Tv_2}>{i.course_name}</Text>
+
+
+                        </View>
+
+                        <View style={styles.view_Row_}>
+                          <Text style={styles.view_Tv_1_copy}>
+                            Course Description :
+                          </Text>
+                          <Text style={styles.view_Tv_2}>{i.description}</Text>
+
+
+                        </View>
+
+                        <View style={styles.view_Row_}>
+                          <Text style={styles.view_Tv_1_copy}>
                             Starting Year :
                           </Text>
                           <Text style={styles.view_Tv_2}>{i.start_year}</Text>
-                          {/* <TouchableOpacity onPress={showDatepicker}>
-                            <View style={{width: 130}}>
-                              <TextField
-                                placeholder={i.standard_start_year}
-                                imageIcon={Images.calendar_icon}
-                                editable={false}
-                                value={date_copy.toString()}
-                              />
-                            </View>
-                          </TouchableOpacity> */}
 
-                          {/* <View>
-                            {show && (
-                              <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode={mode}
-                                minDate={new Date()}
-                                maximumDate={new Date()}
-                                is24Hour={true}
-                                format="YYYY-MMM-DD"
-                                display="default"
-                                onChange={onChange}
-                              />
-                            )}
-                          </View> */}
+
                         </View>
 
                         {/* {i.is_current_standard == false ? (
@@ -1283,7 +1237,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             style={{
                               flexDirection: 'row',
                               marginTop: 5,
-                              marginBottom: 7,
+                              //  marginBottom: 2,
                             }}>
                             <Text style={styles.view_Tv_1}>Ending Year :</Text>
                             <Text style={styles.view_Tv_2}>{i.end_year}</Text>
@@ -1293,7 +1247,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             style={{
                               flexDirection: 'row',
                               marginTop: 5,
-                              marginBottom: 7,
+                              //marginBottom: 2,
                             }}>
                             <Text style={styles.view_Tv_1}>Ending Year :</Text>
                             <Text style={styles.view_Tv_2}>{'To Current'}</Text>
@@ -1727,7 +1681,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         )}
 
         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 30 }}>
-          {setdatafromlist.length > 0 ? <CustomButton title={'Send for verification'} onPress={() => props.navigation.navigate('Personalinfo')} /> : <CustomButton title={'Send for verification'} />}
+          {setdatafromlist.length > 0 ? <CustomButton title={'Send for verification'} onPress={() => props.navigation.navigate('Personalinfo', { 'schoolidkey': schoolidkey })} /> : <CustomButton title={'Send for verification'} />}
           {/* <CustomButton title={'Confirm & Send for EI Verification'} onPress={() => props.navigation.navigate('Personalinfo')} /> */}
         </View>
       </View>

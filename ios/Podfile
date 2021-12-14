@@ -37,6 +37,8 @@ target 'ZatchUp' do
 
   pod 'RNCClipboard', :path => '../node_modules/@react-native-community/clipboard'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

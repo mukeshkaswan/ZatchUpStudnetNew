@@ -625,6 +625,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
 
         result.results.map((element: any) => {
+            if(element.view_for== 'STUDENT' ){
             let obj = {
                 label: element.course_name,
                 value: element.id,
@@ -633,7 +634,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
             }
             city.push(obj);
-
+        }
         });
         // city.map(i=>{
         //     if(props.route.params.course_id == i.value){

@@ -92,7 +92,10 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
       } else {
-        props.navigation.navigate('Personalinfo');
+       // props.navigation.navigate('Personalinfo');
+
+        props.navigation.navigate('SelectStudent');
+       
       }
     } else {
       // console.log('step_4', '4')
@@ -289,6 +292,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
           numberOfInputs={4}
+          focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
+
 
         // value={otp}
         />

@@ -150,3 +150,8 @@ export const getClassListByStandard = createAction(CLASSLISTBYSTANDARDID);
 // this is for Add User Step Seven user 
 export const ADDUSERSTEPSEVEN = 'ADDUSERSTEPSEVEN';
 export const getadduserstepseven = createAction(ADDUSERSTEPSEVEN);
+
+
+// this is for Add User Course Confirmation 
+export const USERCOURSECONFIRMATION = 'USERCOURSECONFIRMATION';
+export const getusercourseconfirmation = createAction(USERCOURSECONFIRMATION);

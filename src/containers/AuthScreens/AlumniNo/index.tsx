@@ -281,7 +281,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         value: 0,
       },
     ];
+    
     result.results.map((element: any) => {
+      
       let obj = {
         label: element.course_name,
         value: element.id,
@@ -289,7 +291,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         start_date: element.start_date,
         end_date: element.end_date,
       };
-      course.push(obj);
+      course.unshift(obj);
     });
     setselectedCourse(course);
   };
@@ -593,6 +595,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
+                  coursekeyothersAlumni:'0'
                 }),
 
                 //   props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })

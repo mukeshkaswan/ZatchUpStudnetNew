@@ -35,9 +35,10 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
     useEffect(() => {
-        // console.log('rtyuigfghj', props) 
+         console.log('rtyuigfghj', props.route.params) 
         //getEicourseconfirmationlist()
-        //  getStepCountAPi()
+       USERCOURSECONFIRMATION()
+        getStepCountAPi()
         setMother('')
         setFather('')
         setImageURI('')
@@ -131,6 +132,63 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
         });
     };
 
+
+
+    /***************************User getStepCountAPi *******************************/
+
+  const USERCOURSECONFIRMATION = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: props.route.params.schoolidkey,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getusercourseconfirmation({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after user confirmation result step',
+              JSON.stringify(result, undefined, 2),
+
+             props.navigation.navigate('Personalinfo')
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
 
 
@@ -417,7 +475,7 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
                         <TouchableOpacity
                             onPress={() => refRBSheet.current.close()}
-                            style={{ height: 50, padding: 15, backgroundColor: 'red' }} >
+                            style={{ height: 50, padding: 15, backgroundColor:'#4B2A6A'}} >
                             <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
                         </TouchableOpacity>
 

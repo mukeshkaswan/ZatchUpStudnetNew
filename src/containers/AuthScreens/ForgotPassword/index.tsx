@@ -124,9 +124,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
         <View style={styles.inputContainer}>
 
           <View style={styles.inputmarginBottom}>
-            <TextField placeholder={'Email Id or Mobile Number'} imageIcon={Images.emailormobile} onChangeText={val => setPassword(val)} value={password}
-
-            />
+            <TextField placeholder={'Email Id or Mobile Number'} imageIcon={Images.emailormobile} onChangeText={val => setPassword(val)} value={password}/>
           </View>
 
           <View>

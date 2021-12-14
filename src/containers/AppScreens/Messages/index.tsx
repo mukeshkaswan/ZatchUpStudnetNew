@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState, useRef } from 'react';
 import {
   Text,
   View,
@@ -14,14 +14,14 @@ import {
   FlatList,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
   CustomStatusBar,
   Validate,
 } from '../../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import {
@@ -30,10 +30,12 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const screenWidth = Dimensions.get('window').width;
+import { WebView } from 'react-native-webview';
+
 const student_chat_data = [
   {
     id: 1,
-    name: 'Mukesh Sharma',
+    name: 'Mukesh ',
     time: '2:26PM',
     profileImage: Images.profile_img2,
     message:
@@ -119,6 +121,7 @@ interface MessagesScreenProps {
 }
 const Messages = (props: MessagesScreenProps) => {
   const [data, studentdata] = useState([student_chat_data]);
+  const webviewRef = useRef(null)
 
   React.useEffect(() => {
     // console.log('rtyuigfghj', props)
@@ -136,11 +139,11 @@ const Messages = (props: MessagesScreenProps) => {
         style={{
           height: Platform.OS === 'ios' ? '10%' : '7%',
           backgroundColor: 'rgb(70,50,103)',
-          borderBottomLeftRadius: 15,
-          borderBottomRightRadius: 15,
+          //   borderBottomLeftRadius: 15,
+          //   borderBottomRightRadius: 15,
         }}>
         <View
-          style={{flexDirection: 'row', width: '100%', alignSelf: 'center'}}>
+          style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
           <TouchableOpacity
             onPress={backPressed}
             style={{
@@ -178,8 +181,40 @@ const Messages = (props: MessagesScreenProps) => {
         /> */}
       {/* <HeaderWithTitle headerTitle="Messages" /> */}
 
-      <View style={{width: '100%'}}>
-        <FlatList
+      <View style={{ flex: 1 }}>
+
+        <WebView
+          source={{ uri: 'https://stackoverflow.com/questions/61832232/invariant-violation-requirenativecomponent-rncwebview-was-not-found-in-the-u' }}
+
+          startInLoadingState={true}
+          // renderLoading={() => (
+          //   <ActivityIndicator
+          //     color='#F8CA00'
+          //     size='large'
+          //     style={{ flex: 1 }}
+          //   />
+          // )}
+          ref={webviewRef}
+
+        // onNavigationStateChange={navState => {
+        //   //console.log('weburl', navState.url);
+        //   if (navState.url === "http://49.50.69.229/myyearliveadmin/stripe-payment/paymentstatus.php?status=succeeded") {
+
+        //     //navigate or close webview
+        //     // ref.stopLoading();
+        //     navigation.navigate('PaymentDone', { 'Paymentdone': 'Paymentdone' })
+        //   }
+        //   else if (navState.url === "http://49.50.69.229/myyearliveadmin/stripe-payment/paymentstatus.php?status=failed") {
+        //     navigation.navigate('PaymentDone', { 'Paymentdone': 'Paymentnotdone' })
+
+        //   }
+        //   //  setCanGoBack(navState.canGoBack)
+        //   //setCanGoForward(navState.canGoForward)
+        //   // setCurrentUrl(navState.url)
+        // }}
+        />
+
+        {/* <FlatList
           data={student_chat_data}
           renderItem={({item}) => (
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -225,14 +260,12 @@ const Messages = (props: MessagesScreenProps) => {
                         </Text>
                       </View>
                       <View style={{paddingTop: 5}}>
-                        {/* <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}> */}
                         <View style={{height: 15, width: 15}}>
                           <Image
                             style={{height: '100%', width: '100%'}}
                             source={Images.rightarrow}
                           />
                         </View>
-                        {/* </TouchableOpacity> */}
                       </View>
                     </View>
                   </View>
@@ -242,14 +275,13 @@ const Messages = (props: MessagesScreenProps) => {
                     height: 2,
                     width: '90%',
                     marginLeft: 100,
-                    // marginRight:10,
                     backgroundColor: '#E9E9E9',
                   }}
                 />
               </TouchableOpacity>
             </ScrollView>
           )}
-        />
+        /> */}
       </View>
     </View>
   );

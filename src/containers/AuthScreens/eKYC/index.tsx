@@ -586,7 +586,7 @@ const eKyc = (props: eKycScreenProps) => {
       }
 
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 5) {
-        props.navigation.navigate('Personalinfo', {
+        props.navigation.navigate('SelectStudent', {
           username: 'jfdsfsdlfjs',
         });
       }
@@ -660,7 +660,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.close()}
-                    style={{ height: 50, padding: 15, backgroundColor: 'red' }}>
+                    style={{ height: 50, padding: 15, backgroundColor: '#4B2A6A' }}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>
@@ -719,7 +719,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheetBack.current.close()}
-                    style={{ height: 50, padding: 15, backgroundColor: 'red' }}>
+                    style={{ height: 50, padding: 15, backgroundColor: '#4B2A6A' }}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>

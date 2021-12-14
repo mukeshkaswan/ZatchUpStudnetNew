@@ -508,6 +508,8 @@ const CurrentSchoolinfo = (
         address1: element.address1,
         school_code: element.school_code,
         address2: element.address2,
+        pincode: element.pincode,
+
       };
       school.unshift(obj);
       //  console.log('dsfsdfds', obj.university)
@@ -888,13 +890,14 @@ const CurrentSchoolinfo = (
                 // console.log('school name list data',data[0].university)
                 var str1 = data[0].address1;
                 var str2 = data[0].address2;
-                var str3 = str1 + ' ' + str2;
+                var str3 = data[0].pincode;
+
+                var str4 = str1 + ' ' + str2 + ' ' + str3;
                 setBoard(data[0].university);
-                setaddress(str3);
+                setaddress(str4);
                 setaddresssingle(data[0].address1);
                 setID(data[0].school_code);
               }
-
               // if (selectedValue !== 0) {
               //   var data = [];
               //   data = selectedSchool.filter(x => x.value == selectedValue);

@@ -201,6 +201,8 @@ const Otp = (props: OtpScreenProps) => {
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
           numberOfInputs={4}
+          focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
+
 
         />
       </View>

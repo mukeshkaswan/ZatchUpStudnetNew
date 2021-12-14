@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -10,7 +10,7 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -22,17 +22,17 @@ import {
   Validate,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {RadioButton} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 
 interface AlumniNoScreenProps {
   navigation: any;
@@ -245,7 +245,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -258,7 +258,26 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       props.route.params.course_id,
     );
     getAddmissionNo();
-    setCourseedit(props.route.params.course_id);
+
+    if (props.route.params.coursekeyothersAlumni == '0') {
+      setCourseedit(0);
+      setDess(props.route.params.description);
+
+      // if(props.route.params.course_type == 'Regular'){
+      //   setCourseTypeSelected('0');
+
+      // }
+      // else{
+      //   setCourseTypeSelected('1');
+      // }
+      // setCourse(props.route.params.course_name);
+
+    }
+    else {
+      setCourseedit(props.route.params.course_id);
+
+    }
+    setCourse(props.route.params.course_name)
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonC);
     return () => {
@@ -302,7 +321,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         start_date: element.start_date,
         end_date: element.end_date,
       };
-      course.push(obj);
+      course.unshift(obj);
+
     });
     setselectedCourse(course);
   };
@@ -339,7 +359,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getAddmissionNoBySchool({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -392,7 +412,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getStandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -451,7 +471,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getEditCourseList({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -495,12 +515,12 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         coursenameError ||
-          dobstartError ||
-          dobendError ||
-          standardError ||
-          standardError1 ||
-          desError ||
-          schoolidError,
+        dobstartError ||
+        dobendError ||
+        standardError ||
+        standardError1 ||
+        desError ||
+        schoolidError,
         Toast.SHORT,
       );
 
@@ -548,7 +568,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dispatch(
         userActions.getAddPastEiCourse({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after Add Past courseresult',
@@ -608,10 +628,10 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         coursenameError ||
-          courseError ||
-          dobstartError ||
-          dobendError ||
-          desError,
+        courseError ||
+        dobstartError ||
+        dobendError ||
+        desError,
         Toast.SHORT,
       );
 
@@ -623,8 +643,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         Course_Selected == 0
           ? 'Regular'
           : Course_Selected == 1
-          ? 'Distance'
-          : null;
+            ? 'Distance'
+            : null;
 
       let rawdata = {
         admission_no: S_id,
@@ -667,7 +687,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dispatch(
         userActions.getAddCourseByUser({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after Add Course other result',
@@ -711,7 +731,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps={'always'}
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <CustomStatusBar />
@@ -729,8 +749,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         <ScrollView>
           <View style={styles.inputContainer}>
             <View>
-              <View style={{flexDirection: 'row', marginBottom: 5}}>
-                <Text style={{marginTop: 2, fontSize: 12, marginLeft: 5}}>
+              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5 }}>
                   {props.route.params.nameofschool +
                     '(' +
                     props.route.params.school_zatchup_id +
@@ -774,10 +794,10 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                 />
                 {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
               </View>
-              {coursekey === 0 ? (
+              {coursekey == 0 ? (
                 <View>
                   <View
-                    style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                    style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                     <TextField
                       placeholder={'Enter Course Name'}
                       onChangeText={val => setCourse(val)}
@@ -785,7 +805,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     />
                   </View>
 
-                  <View style={{marginTop: '1%'}}>
+                  <View style={{ marginTop: '1%' }}>
                     <CustomDropdown
                       placeholder={'Select Type'}
                       data={CourseTypeOther}
@@ -826,7 +846,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   )}
                   <TouchableOpacity onPress={showDatepicker3}>
                     <View
-                      style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                      style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
                         placeholder={'Start Date'}
                         imageIcon={Images.calendar_icon}
@@ -837,7 +857,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   </TouchableOpacity>
                   <TouchableOpacity onPress={showDatepicker4}>
                     <View
-                      style={{marginTop: '4%', marginLeft: 2, marginRight: 2}}>
+                      style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
                         placeholder={'End Date'}
                         imageIcon={Images.calendar_icon}
@@ -866,7 +886,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                 <View>
                   <TouchableOpacity onPress={showDatepicker1}>
                     <View
-                      style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                      style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
                         placeholder={'Start Year'}
                         imageIcon={Images.calendar_icon}
@@ -908,7 +928,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
 
                   <TouchableOpacity onPress={showDatepicker2}>
                     <View
-                      style={{marginTop: '4%', marginLeft: 2, marginRight: 2}}>
+                      style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
                         placeholder={'End Year'}
                         imageIcon={Images.calendar_icon}
@@ -918,7 +938,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     </View>
                   </TouchableOpacity>
 
-                  <View style={{marginTop: '1%'}}>
+                  <View style={{ marginTop: '1%' }}>
                     <CustomDropdown
                       placeholder={'Select Joining Standard'}
                       data={selectedJoiningStandard}
@@ -943,7 +963,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     {/* <CustomDropdown label1="Joining Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={JoiningStandard} SelectedLanguagedata={(item) => setJoiningStandard(item)} /> */}
                   </View>
 
-                  <View style={{marginTop: '1%'}}>
+                  <View style={{ marginTop: '1%' }}>
                     <CustomDropdown
                       placeholder={'Select Left Standard'}
                       data={selectedJoiningStandard}
@@ -966,7 +986,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   </View>
 
                   <View
-                    style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                    style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                     <TextField
                       placeholder={'Enter School ID'}
                       keyboardType="numeric"
@@ -995,7 +1015,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
             </View>
 
             <View>
-              {coursekey === 0 ? (
+              {coursekey == 0 ? (
                 <CustomButton
                   title={'ADD'}
                   onPress={() => CourseAddedOther()}

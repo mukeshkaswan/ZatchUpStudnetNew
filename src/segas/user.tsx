@@ -43,7 +43,8 @@ import {
   CLASSLISTBYSTANDARDID,
   EDITCOURSESTANDARDDROPDOWN,
   UPDATEPERSONALINFO,
-  ADDUSERSTEPSEVEN
+  ADDUSERSTEPSEVEN,
+  USERCOURSECONFIRMATION
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1367,6 +1368,36 @@ function* getadduserstepseven({payload: {data, callback}}) {
     }
   }
 }
+
+/***************************User Course Confirmation Step Auth Segas*******************************/
+
+function* getusercourseconfirmation({payload: {data, callback}}) {
+  const formdata = new FormData();
+  formdata.append('school_id', data.school_id);
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    data:formdata,
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/user-course-conformation/`,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  callback({result, error});
+  if (!error) {
+    if (result) {
+      console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -1410,7 +1441,9 @@ function* User() {
     yield takeLatest(CLASSLISTBYSTANDARDID, getClassListByStandard),
     yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
     yield takeLatest(ADDUSERSTEPSEVEN, getadduserstepseven),
+    yield takeLatest(USERCOURSECONFIRMATION, getusercourseconfirmation),
 
+    
     
   ]);
 }

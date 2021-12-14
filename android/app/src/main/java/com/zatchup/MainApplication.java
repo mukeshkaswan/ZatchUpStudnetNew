@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -45,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
+            new RNCWebViewPackage(),
             new ClipboardPackage(),
             new ReactVideoPackage(),
           //  new AsyncStoragePackage(),
