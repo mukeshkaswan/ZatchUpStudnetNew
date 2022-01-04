@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-
+import auth from '@react-native-firebase/auth';
 // interface AppProps {
 //   onPress: () => any;
 //   isvisible?: boolean;
@@ -34,7 +34,7 @@ import ProgressLoader from 'rn-progress-loader';
 // }
 interface ModelComponentScreenProps { navigation: any, route: any, }
 
-const ModelComponent = ({ keyy, uidd, onPress, isvisible, modeltype, navigationss }) => {
+const ModelComponent = ({ f_username,f_password, keyy, uidd, onPress, isvisible, modeltype, navigationss }) => {
 
   const [secureTextEntry, setsecureTextEntry] = useState(true)
   const [cPassSecureTextEntry, setcPassSecureTextEntry] = useState(true)
@@ -102,7 +102,11 @@ const ModelComponent = ({ keyy, uidd, onPress, isvisible, modeltype, navigations
   // // }
 
   const ChangePassword = () => {
-    // console.log('this is the recived props--->', props.route)
+
+
+    console.log('this is the recived f_password--->', f_password)
+    console.log('this is the recived f_username--->', f_username)
+
 
     //this.props.navigation.navigate('LoginScreen');
     const passwordError = Validate("password", password);
@@ -135,19 +139,40 @@ const ModelComponent = ({ keyy, uidd, onPress, isvisible, modeltype, navigations
           data,
           callback: ({ result, error }) => {
             if (result.status === true) {
+              setLoading(false);
+
               console.warn(
                 'after Set New Password result',
                 JSON.stringify(result, undefined, 2),
                 // setOtp(''),
                 Toast.show(result.message, Toast.SHORT),
                 // setSelected(!allSelected)
-                navigationss.navigate('LoginScreen')
+              //  navigationss.navigate('LoginScreen')
                 //navigationss.navigation.navigate('LoginScreen')
                 // props.navigation.navigate('eKYC'),
               );
+
+              auth()
+              .signInWithEmailAndPassword(
+                f_username + '@zatchup.com',
+                f_password,
+              )
+              .then(({user}) => {
+                console.log('User==>>', user);
+                auth().currentUser.updatePassword(password);
+               // props.navigation!.navigate('Login', {});
+                navigationss.navigate('LoginScreen')
+              })
+              .catch((error) => {
+                console.log('Error=>', error);
+              });
+
+
+
+
+
               // setSpinnerStart(false);
               //  _storeData(result);
-              setLoading(false);
             }
 
             if (result.status === false) {

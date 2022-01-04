@@ -1,4 +1,4 @@
-import React, {Component, FC, useState} from 'react';
+import React, { Component, FC, useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -22,67 +22,239 @@ import {
 
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import images from '../../../components/images';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userActions from '../../../actions/user-actions-types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect
+} from '@react-navigation/native';
+import ProgressLoader from 'rn-progress-loader';
 
-const ProfileScreen = (props: ResetPasswordScreenProps) => {
+
+
+interface CoomingSoonScreenProps {
+  navigation: any;
+  route: any;
+}
+
+const ProfileScreen = (props: CoomingSoonScreenProps) => {
+
   const [data, active_data] = useState('Student');
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const [dob, setDob] = useState('');
+  const [gender, setGender] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [profilepic, setProfilePic] = useState('');
+  const [zatchupid, setZatchUpId] = useState('');
+  const [followers, setFollowers] = useState('');
+  const [following, setFollowing] = useState('');
+  const [schoolname, setNameofschool] = useState('');
+
+
+
+
+  useEffect(() => {
+
+    console.log('props.route.params.user_id', props.route.params.user_id);
+    getUserProfile(props.route.params.user_id);
+
+  }, [isFocused]);
+
+
+  const renderIndicator = () => {
+    return (
+      <View style={{}}>
+        <ProgressLoader
+          visible={true}
+          isModal={true}
+          isHUD={true}
+          //hudColor={"#ffffff00"}
+          hudColor={'#4B2A6A'}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          color={'white'}
+        />
+      </View>
+    );
+  };
+
+
+  const getdataProfile = async result => {
+    var Profile = [];
+    result.data.map((element: any) => {
+      setUsername(element.name);
+      setZatchUpId(element.zatchup_id);
+      setProfilePic(element.profile_pic);
+      setFollowers(element.social_user_followers);
+      setFollowing(element.social_user_followings);
+      setDob(element.dob);
+      setGender(element.gender);
+      setEmail(element.email);
+    });
+
+
+  };
+
+  const getdataCourse = async result => {
+
+    result.data.map((element: any) => {
+
+      getDataEducation(element.educationdetail);
+
+
+    });
+  };
+
+  const getDataEducation = async (educationdetail) => {
+
+
+    educationdetail.map((element: any) => {
+
+      console.log('name_of_school', element.name_of_school)
+      setNameofschool(element.name_of_school);
+
+    });
+
+  }
+
+
+
+  /***************************User GET User Profile list *******************************/
+
+  const getUserProfile = async (user_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      user_id: user_id,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getProfileDetailForUser({
+        data,
+
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after User Data result------->',
+              JSON.stringify(result, undefined, 2),
+
+              getdataProfile(result),
+              getdataCourse(result),
+
+              // getdataCourse(result),
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   return (
     <View style={styles.container}>
+      {isLoading && renderIndicator()}
+
       <HeaderTitleWithBack
         navigation={props.navigation}
         headerTitle="Profile"
       />
 
       <ScrollView>
-        <View style={styles.profilecontainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={require('../../../assets/images/pic.jpeg')}
-              style={styles.profilepic}
-            />
-            <View style={styles.profiletextcontainer}>
-              <View style={{flexDirection: 'row'}}>
-                <Text style={styles.nametext}>Neha Sharma</Text>
-                <Icon
-                  name="check-circle"
-                  size={18}
-                  color="#4E387E"
-                  style={{margin: 5}}
-                />
+        <View
+          style={{
+            backgroundColor: 'white',
+            marginTop: 10,
+            marginHorizontal: 16,
+            borderRadius: 5,
+          }}>
+          <ImageBackground
+            source={{uri:'http://staging.zatchup.com/zatchupapi/zatchup/media/cover/mcu-1-iron-man_nW7yEAt.jpg'}}
+            resizeMode="stretch"
+            style={{ width: '100%', height: 100 }}>
+
+          </ImageBackground>
+
+          <View style={styles.profilecontainer}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image
+                // source={require('../../../assets/images/pic.jpeg')}
+                source={{ uri: profilepic }}
+                style={styles.profilepic}
+              />
+              <View style={styles.profiletextcontainer}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.nametext}>{username}</Text>
+                  <Icon
+                    name="check-circle"
+                    size={18}
+                    color="#4E387E"
+                    style={{ margin: 5 }}
+                  />
+                </View>
+                <Text style={{ color: 'grey', fontWeight: 'bold' }}>
+                  {zatchupid}
+                </Text>
               </View>
-              <Text style={{color: 'grey', fontWeight: 'bold'}}>
-                You were in same class in 2019
-              </Text>
             </View>
+          
           </View>
-          <View style={styles.messageicon}>
-            <Icon name="envelope" size={24} color="grey" />
-          </View>
-        </View>
+
         <View style={styles.likecontainer}>
           <View>
-            <Text style={{fontWeight: 'bold', textAlign: 'center'}}>20K</Text>
+            <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>{followers}</Text>
             <Text>Followers</Text>
           </View>
-          <View style={{marginLeft: 10}}>
-            <Text style={{fontWeight: 'bold', textAlign: 'center'}}>205</Text>
-            <Text style={{}}>Buddies</Text>
+          <View style={{ marginLeft: 10 }}>
+            <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>{following}</Text>
+            <Text style={{}}>Following</Text>
           </View>
-          {/* <TouchableOpacity style={styles.followbutton}>
+          <TouchableOpacity style={styles.followbutton}>
             <Text style={{color: 'white', fontSize: 12}}>Follow</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addbuddybutton}>
+
+            <View style={styles.messageicon}>
+              <Icon name="envelope" size={24} color="grey" />
+            </View>
+          {/* <TouchableOpacity style={styles.addbuddybutton}>
             <Text style={{color: 'grey', fontSize: 12}}>Add Buddy</Text>
           </TouchableOpacity> */}
         </View>
+        </View>
+
         <Card style={styles.cardContent}>
           <View style={styles.cardtitlecontent}>
             <Text style={styles.cardtitletext}>Education</Text>
-            <Image
+            {/* <Image
               source={images.edit_icon}
               style={{
                 resizeMode: 'stretch',
@@ -91,27 +263,27 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
                 width: 20,
                 height: 20,
               }}
-            />
+            /> */}
           </View>
           <View style={styles.borderstyle}></View>
           <View style={styles.textcontainer}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.schooltext}>Delhi Public School</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.schooltext}>{schoolname}</Text>
               <Icon
                 name="check-circle"
                 size={17}
                 color="#4E387E"
-                style={{marginLeft: 5, marginTop: 2}}
+                style={{ marginLeft: 5, marginTop: 2 }}
               />
             </View>
-            <Text style={styles.textcontent}>
+            {/* <Text style={styles.textcontent}>
               <Text style={styles.boldtext}>6th</Text> (Batch 2016-2017)
             </Text>
             <Text style={styles.textcontent}>
               <Text style={styles.boldtext}>7th</Text> (Batch 2017-2018)
-            </Text>
+            </Text> */}
           </View>
-          <View style={styles.borderstyle}></View>
+          {/* <View style={styles.borderstyle}></View>
           <View style={styles.textcontainer}>
             <Text style={styles.schooltext}>Army Public School</Text>
             <Text style={styles.textcontent}>
@@ -121,18 +293,18 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
               <Text style={styles.boldtext}>9th</Text> (Batch 2019-2020)
             </Text>
             <Text style={styles.currentschoolText}>Current School</Text>
-          </View>
+          </View> */}
         </Card>
         <Card style={styles.cardContent}>
           <View style={styles.cardtitlecontent}>
             <View>
               <Text style={styles.cardtitletext}>Personal Information</Text>
             </View>
-            <TouchableOpacity
-              style={{borderWidth: 1, padding: 5, borderRadius: 5}}>
-              <Text style={{color: 'rgb(70,50,103)'}}>Change Name</Text>
-            </TouchableOpacity>
-            <View>
+            {/* <TouchableOpacity
+              style={{ borderWidth: 1, padding: 5, borderRadius: 5 }}>
+              <Text style={{ color: 'rgb(70,50,103)' }}>Change Name</Text>
+            </TouchableOpacity> */}
+            {/* <View>
               <Image
                 source={images.edit_icon}
                 style={{
@@ -143,21 +315,24 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
                   height: 20,
                 }}
               />
-            </View>
+            </View> */}
           </View>
 
           <View style={styles.borderstyle}></View>
           <View style={styles.textcontainer}>
             <Text style={styles.personalinfocontent}>
-              <Text style={styles.boldtext}>DOB : </Text>30/Oct/1997
+              <Text style={styles.boldtext}>DOB : </Text>{dob}
             </Text>
-            <Text style={styles.personalinfocontent}>
+            {gender == 'M' ? <Text style={styles.personalinfocontent}>
               <Text style={styles.boldtext}>Gender : </Text>Male
-            </Text>
+            </Text> :
+              <Text style={styles.personalinfocontent}>
+                <Text style={styles.boldtext}>Gender : </Text>Female
+              </Text>}
             <Text style={styles.personalinfocontent}>
-              <Text style={styles.boldtext}>Email : </Text>Simmi.sh@gmail.com
+              <Text style={styles.boldtext}>Email : </Text>{email}
             </Text>
-            <Text style={styles.personalinfocontent}>
+            {/* <Text style={styles.personalinfocontent}>
               <Text style={styles.boldtext}>Phone : </Text>9869869579
             </Text>
             <Text style={styles.personalinfocontent}>
@@ -165,7 +340,7 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
             </Text>
             <Text style={styles.personalinfocontent}>
               <Text style={styles.boldtext}>City : </Text>Noida
-            </Text>
+            </Text> */}
           </View>
         </Card>
         <Card style={styles.cardContent}>
@@ -181,7 +356,7 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
                 borderRadius: 5,
                 backgroundColor: 'rgb(70,50,103)',
               }}>
-              <Text style={{color: 'white'}}>Add Posts</Text>
+              <Text style={{ color: 'white' }}>Add Posts</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.borderstyle}></View>
@@ -196,7 +371,7 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
               alignSelf: 'center',
               marginTop: 10,
             }}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => active_data('Student')}>
@@ -214,7 +389,7 @@ const ProfileScreen = (props: ResetPasswordScreenProps) => {
                   name="image"
                   size={30}
                   color={data === 'Teacher' ? '#4B2A6A' : 'grey'}
-                  style={{marginLeft: 80}}
+                  style={{ marginLeft: 80 }}
                 />
               </TouchableOpacity>
             </View>

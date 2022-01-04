@@ -155,3 +155,61 @@ export const getadduserstepseven = createAction(ADDUSERSTEPSEVEN);
 // this is for Add User Course Confirmation 
 export const USERCOURSECONFIRMATION = 'USERCOURSECONFIRMATION';
 export const getusercourseconfirmation = createAction(USERCOURSECONFIRMATION);
+
+// this is for Add User Course Delete Standard 
+export const USERDELETECOURSESTANDARD = 'USERDELETECOURSESTANDARD';
+export const getDeleteCourseStandard = createAction(USERDELETECOURSESTANDARD);
+
+
+// this is for Search City Model 
+export const CITYLISTSEARCH = 'CITYLISTSEARCH';
+export const getCitySearch= createAction(CITYLISTSEARCH);
+
+
+// this is for Add city state for user 
+export const ADDCITYSTATEFORUSER = 'ADDCITYSTATEFORUSER';
+export const getAddcitystateofuser= createAction(ADDCITYSTATEFORUSER);
+
+// this is for star class course list 
+export const STARTCLASSCOURSELIST = 'STARTCLASSCOURSELIST';
+export const getStarclasscourselist= createAction(STARTCLASSCOURSELIST);
+
+// this is for Get School list for star class
+export const SCHOOLLISTFORSTARCLASS = 'SCHOOLLISTFORSTARCLASS';
+export const getSchoollistforstarclass= createAction(SCHOOLLISTFORSTARCLASS);
+
+// this is for Get Course Preview
+export const COURSEPREVIEW = 'COURSEPREVIEW';
+export const getCoursePreview= createAction(COURSEPREVIEW);
+
+// this is for Get Star Class Lecture List
+export const STARCLASSLECTURELISTBYCOURSEID = 'STARCLASSLECTURELISTBYCOURSEID';
+export const getStartClasslecturelist= createAction(STARCLASSLECTURELISTBYCOURSEID);
+
+
+// this is for Get Star Class Lecture List Course Preview
+export const STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW = 'STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW';
+export const getStartClasslecturelistcoursepreview= createAction(STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW);
+
+// this is for Get lecture history List
+export const LECTUREHISTORY = 'LECTUREHISTORY';
+export const getLecturehistory= createAction(LECTUREHISTORY);
+
+// this is for Get Update School Course Details By User
+export const GETUPDATESCHOOLCOURSEDETAILBYUSER = 'GETUPDATESCHOOLCOURSEDETAILBYUSER';
+export const getUpdateschoolcoursedetailbyuser= createAction(GETUPDATESCHOOLCOURSEDETAILBYUSER);
+
+// this is for Get Search School Student Search List
+export const SEARCHLISTFORSCHOOLSTUDENT = 'SEARCHLISTFORSCHOOLSTUDENT';
+export const getSearchSchoolStudentSearchList= createAction(SEARCHLISTFORSCHOOLSTUDENT);
+
+
+// this is for Get Profile Detail For User
+export const PROFILEDETAILOFUSER = 'PROFILEDETAILOFUSER';
+export const getProfileDetailForUser= createAction(PROFILEDETAILOFUSER);
+
+
+// this is for Get Profile Detail For School
+export const PROFILEDETAILOFSCHOOL = 'PROFILEDETAILOFSCHOOL';
+export const getProfileDetailForSchool= createAction(PROFILEDETAILOFSCHOOL);
+

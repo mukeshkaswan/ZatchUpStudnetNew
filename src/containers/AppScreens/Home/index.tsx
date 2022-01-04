@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,11 +13,12 @@ import {
   ImageBackground,
   FlatList,
   Platform,
+  TextInput
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
-import {TextField, CustomButton, CustomStatusBar} from '../../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import { Images } from '../../../components/index';
+import { TextField, CustomButton, CustomStatusBar } from '../../../components';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
@@ -26,11 +27,19 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
+  useFocusEffect
 } from '@react-navigation/native';
-import {Card} from 'react-native-paper';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Icon} from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Modal from 'react-native-modal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -53,11 +62,20 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [mothername, setMothername] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const [setdatafromlist, setDataCourseInList] = useState([]);
+  const [citydata, setCityData] = useState([]);
+
   const [isModalVisible, setModalVisible] = useState(false);
-  const [number, onChangeNumber] = React.useState(null);
+  const [cityname, onChangecityname] = useState('');
+  const [cityid, onSetCityid] = useState('');
+  const [stateid, onSetStateid] = useState('');
+  const [countryid, onSetCountryid] = useState('');
+
+
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -69,9 +87,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -79,9 +97,16 @@ const HomeScreen = (props: HomeScreenProps) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+
+
   useEffect(() => {
+
     getEducationProfile();
+
     getStepCountAPi();
+
+    getAuthUserInfoApi();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -92,8 +117,24 @@ const HomeScreen = (props: HomeScreenProps) => {
     };
   }, [isFocused]);
 
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getEducationProfile();
+  //     getStepCountAPi();
+  //     getAuthUserInfoApi();
+  //     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+  //     return () =>
+  //       BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+  //   }, [])
+  // );
   //console.log("this.props",this.props);
 
+  // function handleBackButtonClick() {
+  //   props.navigation.goBack();
+  //   return true;
+  // }
   const onDeleteBTN = async () => {
     try {
       await AsyncStorage.removeItem('tokenlogin');
@@ -115,7 +156,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -128,6 +169,217 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const getdataCourse = async result => {
     setDataCourseInList(result.data);
+  };
+
+  const DeleteSchool = async id => {
+    Alert.alert(
+      'Delete School',
+      'Are you sure you want delete this School ?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => Coursedelete(id) },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  };
+
+  const DeleteCourse = async id => {
+    Alert.alert(
+      'Delete Course',
+      'Are you sure you want delete this course ?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => Coursedeletestandard(id) },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  };
+
+
+
+
+  /***************************User get Delete course list *******************************/
+
+  const Coursedeletestandard = async id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      course_id: id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getDeleteCourseStandard({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result',
+              JSON.stringify(result, undefined, 2),
+              // getdataCourseKey(result)
+              // getEicourseconfirmationlist(),
+              Toast.show('Course deleted successfully', Toast.SHORT),
+              getEducationProfile()
+
+              // props.navigation.navigate('SelectStudent'),
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User get Delete course list *******************************/
+
+  const Coursedelete = async id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getDeleteCourseData({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result',
+              JSON.stringify(result, undefined, 2),
+              // getdataCourseKey(result)
+              // getEicourseconfirmationlist(),
+              Toast.show('School deleted successfully', Toast.SHORT),
+              getEducationProfile()
+
+              // props.navigation.navigate('SelectStudent'),
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User Auth User Info*******************************/
+
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   /***************************User getStepCountAPi *******************************/
@@ -151,7 +403,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -201,6 +453,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       setMothername(element.mother_name);
       setState(element.location.state_name);
       setCity(element.location.city_name);
+      setCountry(element.location.country_name);
 
       // var obj = {
       //   id: element.first_name,
@@ -282,7 +535,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       userActions.getStudentEducationProfile({
         data,
 
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status === true) {
             console.warn(
               'after result',
@@ -307,6 +560,189 @@ const HomeScreen = (props: HomeScreenProps) => {
     );
   };
 
+
+
+  /***************************User GET City Search Name list *******************************/
+
+  const getCity_Model_Search = async (value) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      key: value,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getCitySearch({
+        data,
+
+        callback: ({ results, error }) => {
+          console.warn(
+            'after city result data',
+            results
+            //  getdataProfile(result),
+          );
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setCityData(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setCityData([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET City State Model Submit *******************************/
+
+  const onPressModalSubmit = async () => {
+
+    if (cityname == '') {
+
+      setModalVisible(!isModalVisible);
+
+
+    } else {
+
+
+
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        city_id: cityid,
+        country_id: countryid,
+        state_id: stateid,
+
+      };
+      setLoading(true);
+
+      dispatch(
+        userActions.getAddcitystateofuser({
+          data,
+
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+              setLoading(false);
+
+              console.warn(
+                'after result',
+                JSON.stringify(result, undefined, 2),
+
+                //  getdataProfile(result),
+                //  getdataCourse(result),
+              );
+              setModalVisible(!isModalVisible);
+
+              Toast.show('Location updated successfully', Toast.SHORT);
+
+              getEducationProfile();
+
+              // setSpinnerStart(false);
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show('No City found', Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    };
+  }
+
+
+  const getSearchcitydata = async (value) => {
+
+    onChangecityname(value);
+
+    if (value.length > 2) {
+      getCity_Model_Search(value);
+
+    } else if (value.length < 3) {
+      setCityData([]);
+    }
+  }
+
+  const Setcitynametext = async item => {
+
+    onChangecityname(item.display);
+
+    onSetCityid(item.id);
+
+    onSetStateid(item.state_id);
+
+    onSetCountryid(item.country_id);
+
+
+    setCityData([]);
+
+  }
+
+
+  const rednderItemListcitydata = (item, index) => {
+
+    return (
+      <CardView
+        cardElevation={2}
+        cardMaxElevation={2}
+        cornerRadius={5}
+        style={styles.Cardview_city}>
+        <TouchableOpacity
+          underlayColor="none"
+          onPress={() => Setcitynametext(item)}>
+
+
+          <View>
+            <Text style={{ color: '#000', fontSize: 16, padding: 5 }}>{item.display}</Text>
+          </View>
+        </TouchableOpacity>
+      </CardView>
+    )
+  }
+
+
   const rednderItemList = (item, index) => {
     return (
       <>
@@ -318,206 +754,323 @@ const HomeScreen = (props: HomeScreenProps) => {
                 cardMaxElevation={1}
                 cornerRadius={10}
                 style={styles.Cardviewcopy1}>
-                <View style={styles.view_Rowbg}>
-                  <Text style={styles.Personal_Tvheader}>School Details</Text>
-                  {/* <Image
+                {i.school_name_display == true ? <View>
+
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={styles.Personal_Tvheader}>School Details</Text>
+
+                    <View style={{ flexDirection: 'row' }}>
+                      <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => DeleteSchool(i.school_id)}>
+
+                        <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 15,
+                            //  marginLeft: 20,
+                            marginRight: 15,
+                          }}
+                          source={Images.delete_icon}
+                        />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        underlayColor="none"
+                      >
+                        <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 15,
+                            //  marginLeft: 20,
+                            marginRight: 15,
+                          }}
+                          source={Images.add_more}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    {/* <Image
                   style={styles.editicon1}
                   source={Images.delete}
                 /> */}
-                </View>
-                <View style={styles.underview} />
-                <View>
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>School Name :</Text>
-                    {i.approved == '1' ? (
-                      <Image
-                        style={styles.editicon2}
-                        source={Images.blue_tick}
-                      />
-                    ) : null}
-                    <Text
-                      style={{
-                        marginTop: 5,
-                        fontSize: 18,
-                        marginLeft: 10,
-                        color: '#565656',
-                        flex: 1,
-                        flexWrap: 'wrap',
-                      }}>
-                      {i.name_of_school}
-                    </Text>
                   </View>
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
-                    <Text style={styles.view_Tv_2}>{i.school_code}</Text>
+                  <View
+                    style={{
+                      height: 1,
+                      width: '78%',
+                      marginLeft: 20,
+                      // marginTop:10,
+                      backgroundColor: '#E5E5E5',
+                    }}
+                  />
+
+
+                  <View style={styles.underview} />
+                  <View>
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>School Name :</Text>
+                      {i.approved == '1' ? (
+                        <Image
+                          style={styles.editicon2}
+                          source={Images.blue_tick}
+                        />
+                      ) : null}
+                      <Text
+                        style={{
+                          marginTop: 5,
+                          fontSize: 18,
+                          marginLeft: 10,
+                          color: '#565656',
+                          flex: 1,
+                          flexWrap: 'wrap',
+                        }}>
+                        {i.name_of_school}
+                      </Text>
+                    </View>
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
+                      <Text style={styles.view_Tv_2}>{i.school_code}</Text>
+                    </View>
+
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>State :</Text>
+                      <Text style={styles.view_Tv_2}>{i.state}</Text>
+                    </View>
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>City :</Text>
+                      <Text style={styles.view_Tv_2}>{i.city}</Text>
+                    </View>
+
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>School Address :</Text>
+                      <Text style={styles.view_Tv_2}>
+                        {i.address1 + ' ' + i.address2}
+                      </Text>
+                    </View>
+
+                    <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>
+                        School Admission Number :
+                      </Text>
+                      <Text style={styles.view_Tv_2}>{i.admission_number}</Text>
+                    </View>
                   </View>
+                  <View
+                    style={{
+                      height: 1,
+                      width: '80%',
+                      marginLeft: 20,
+                      marginTop: 10,
+                      backgroundColor: '#E5E5E5',
+                    }}
+                  />
 
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>State :</Text>
-                    <Text style={styles.view_Tv_2}>{i.state}</Text>
-                  </View>
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>City :</Text>
-                    <Text style={styles.view_Tv_2}>{i.city}</Text>
-                  </View>
+                  <View style={styles.underview} />
 
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>School Address :</Text>
-                    <Text style={styles.view_Tv_2}>
-                      {i.address1 + ' ' + i.address2}
-                    </Text>
-                  </View>
+                  {i.course_detail &&
+                    i.course_detail.map(course => {
+                      return (
+                        <View>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={styles.Personal_Tv}>Course Details</Text>
 
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>
-                      School Admission Number :
-                    </Text>
-                    <Text style={styles.view_Tv_2}>{i.admission_number}</Text>
-                  </View>
-                </View>
+                            <View style={{ flexDirection: 'row' }}>
 
-                <View style={styles.underview} />
+                              <TouchableOpacity
+                                underlayColor="none"
+                              //  onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id })}
+                              >
 
-                {i.course_detail &&
-                  i.course_detail.map(course => {
-                    return (
-                      <View>
-                        <View style={styles.view_Row}>
-                          <Text style={styles.Personal_Tv}>Course Details</Text>
-                          <TouchableOpacity>
-                            <Image
-                              style={styles.editicon1}
-                              source={Images.edit_icon}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                        <View style={styles.underview} />
-                        <View style={styles.view_Row}>
-                          <Text style={styles.view_Tv_1}>Name of Course :</Text>
-                          <Text style={styles.view_Tv_2}>
-                            {course.course_name}
-                          </Text>
-                        </View>
+                                <Image
+                                  style={{
+                                    height: 28,
+                                    width: 28,
+                                    marginTop: 10,
+                                    // marginLeft: 20,
+                                    marginRight: 15,
+                                  }}
+                                  source={Images.edit_icon}
+                                />
+                              </TouchableOpacity>
 
-                        {course.is_current_course == true ? (
+                              <TouchableOpacity
+                                underlayColor="none"
+                                onPress={() => DeleteCourse(course.course_id)}
+                              >
+                                <Image
+                                  style={{
+                                    height: 28,
+                                    width: 28,
+                                    marginTop: 10,
+                                    //  marginLeft: 20,
+                                    marginRight: 15,
+                                  }}
+                                  source={Images.delete_icon}
+                                />
+                              </TouchableOpacity>
+                            </View>
+                            {/* <TouchableOpacity>
+                              <Image
+                                style={styles.editicon1}
+                                source={Images.edit_icon}
+                              />
+                            </TouchableOpacity> */}
+                          </View>
+                          <View style={styles.underview} />
                           <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>
-                              Course Duration :
-                            </Text>
+                            <Text style={styles.view_Tv_1}>Name of Course :</Text>
                             <Text style={styles.view_Tv_2}>
-                              {course.start_year + '-' + 'Current'}
+                              {course.course_name}
                             </Text>
                           </View>
-                        ) : (
-                          <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>
-                              Course Duration :
-                            </Text>
-                            <Text style={styles.view_Tv_2}>
-                              {course.start_year + i.end_year}
-                            </Text>
-                          </View>
-                        )}
 
-                        <View style={styles.view_Row}>
-                          <Text style={styles.view_Tv_1}>Course Tenure :</Text>
-                          <Text style={styles.view_Tv_2}>
-                            {course.duration}
-                          </Text>
-                        </View>
-
-                        <View style={styles.underview} />
-
-                        {course.standard_detail &&
-                          course.standard_detail.map(standard => {
-                            return (
-                              <View>
-                                <Text style={styles.Personal_Tv}>
-                                  Standard Details
+                          {
+                            course.is_current_course == true ? (
+                              <View style={styles.view_Row}>
+                                <Text style={styles.view_Tv_1}>
+                                  Course Duration :
                                 </Text>
-                                <View style={styles.underview} />
-
-                                {standard.is_current_standard == true ? (
-                                  <View style={styles.view_Row}>
-                                    <Text style={styles.view_Tv_1}>
-                                      Standard :
-                                    </Text>
-                                    <Text style={styles.view_Tv_2}>
-                                      {standard.standard_name +
-                                        ' ' +
-                                        '(' +
-                                        standard.standard_start_year +
-                                        '-' +
-                                        'To Current'}
-                                    </Text>
-                                  </View>
-                                ) : (
-                                  <View style={styles.view_Row}>
-                                    <Text style={styles.view_Tv_1}>
-                                      Standard :
-                                    </Text>
-                                    <Text style={styles.view_Tv_2}>
-                                      {standard.standard_name +
-                                        '-' +
-                                        standard.standard_end_year}
-                                    </Text>
-                                  </View>
-                                )}
-
-                                {standard.class_detail &&
-                                standard.is_current_standard == true ? (
-                                  <View>
-                                    {standard.class_detail.map(class_i => {
-                                      return (
-                                        <View>
-                                          <View style={styles.view_Row}>
-                                            <Text style={styles.view_Tv_1}>
-                                              Class (Sub-Section) :
-                                            </Text>
-                                            <Text style={styles.view_Tv_2}>
-                                              {class_i.class_name}
-                                            </Text>
-                                          </View>
-                                          <View style={styles.view_Row}>
-                                            <Text style={styles.view_Tv_1}>
-                                              Roll Number :
-                                            </Text>
-                                            <Text style={styles.view_Tv_2}>
-                                              {class_i.roll_no}
-                                            </Text>
-                                          </View>
-                                        </View>
-                                      );
-                                    })}
-                                  </View>
-                                ) : (
-                                  <View>
-                                    <View style={styles.view_Row}>
-                                      <Text style={styles.view_Tv_1}>
-                                        Class (Sub-Section) :
-                                      </Text>
-                                      <Text style={styles.view_Tv_2}>{''}</Text>
-                                    </View>
-
-                                    <View style={styles.view_Row}>
-                                      <Text style={styles.view_Tv_1}>
-                                        Roll Number :
-                                      </Text>
-                                      <Text style={styles.view_Tv_2}>{''}</Text>
-                                    </View>
-                                  </View>
-                                )}
-
-                                <View style={styles.underview} />
+                                <Text style={styles.view_Tv_2}>
+                                  {course.start_year + '-' + 'Current'}
+                                </Text>
                               </View>
-                            );
-                          })}
-                      </View>
-                    );
-                  })}
+                            ) : (
+                              <View style={styles.view_Row}>
+                                <Text style={styles.view_Tv_1}>
+                                  Course Duration :
+                                </Text>
+                                <Text style={styles.view_Tv_2}>
+                                  {course.start_year + i.end_year}
+                                </Text>
+                              </View>
+                            )
+                          }
+
+                          <View style={styles.view_Row}>
+                            <Text style={styles.view_Tv_1}>Course Tenure :</Text>
+                            <Text style={styles.view_Tv_2}>
+                              {course.duration}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              height: 1,
+                              width: '80%',
+                              marginLeft: 20,
+                              marginTop: 10,
+                              backgroundColor: '#E5E5E5',
+                            }}
+                          />
+
+                          <View style={styles.underview} />
+
+                          {
+                            course.standard_detail &&
+                            course.standard_detail.map(standard => {
+                              return (
+                                <View>
+                                  <Text style={styles.Personal_Tv}>
+                                    Standard Details
+                                  </Text>
+                                  <View style={styles.underview} />
+
+                                  {standard.is_current_standard == true ? (
+                                    <View style={styles.view_Row}>
+                                      <Text style={styles.view_Tv_1}>
+                                        Standard :
+                                      </Text>
+                                      <Text style={styles.view_Tv_2}>
+                                        {standard.standard_name +
+                                          ' ' +
+                                          '(' +
+                                          standard.standard_start_year +
+                                          '-' +
+                                          'To Current'}
+                                      </Text>
+                                    </View>
+                                  ) : (
+                                    <View style={styles.view_Row}>
+                                      <Text style={styles.view_Tv_1}>
+                                        Standard :
+                                      </Text>
+                                      <Text style={styles.view_Tv_2}>
+                                        {standard.standard_name +
+                                          '-' +
+                                          standard.standard_end_year}
+                                      </Text>
+                                    </View>
+                                  )}
+
+                                  {standard.class_detail &&
+                                    standard.is_current_standard == true ? (
+                                    <View>
+                                      {standard.class_detail.map(class_i => {
+                                        return (
+                                          <View>
+                                            <View style={styles.view_Row}>
+                                              <Text style={styles.view_Tv_1}>
+                                                Class (Sub-Section) :
+                                              </Text>
+                                              <Text style={styles.view_Tv_2}>
+                                                {class_i.class_name}
+                                              </Text>
+                                            </View>
+                                            <View style={styles.view_Row}>
+                                              <Text style={styles.view_Tv_1}>
+                                                Roll Number :
+                                              </Text>
+                                              <Text style={styles.view_Tv_2}>
+                                                {class_i.roll_no}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        );
+                                      })}
+                                    </View>
+                                  ) : (
+                                    <View>
+                                      <View style={styles.view_Row}>
+                                        <Text style={styles.view_Tv_1}>
+                                          Class (Sub-Section) :
+                                        </Text>
+                                        <Text style={styles.view_Tv_2}>{''}</Text>
+                                      </View>
+
+                                      <View style={styles.view_Row}>
+                                        <Text style={styles.view_Tv_1}>
+                                          Roll Number :
+                                        </Text>
+                                        <Text style={styles.view_Tv_2}>{''}</Text>
+                                      </View>
+                                    </View>
+                                  )}
+
+                                  <View style={styles.underview} />
+                                  <View
+                                    style={{
+                                      height: 1,
+                                      width: '80%',
+                                      marginLeft: 20,
+                                      marginTop: 10,
+                                      backgroundColor: '#E5E5E5',
+                                    }}
+                                  />
+
+                                </View>
+                              );
+                            })
+                          }
+                        </View>
+                      );
+                    })}
+                </View> : null}
               </CardView>
             );
-          })}
+          })
+        }
       </>
     );
   };
@@ -531,12 +1084,66 @@ const HomeScreen = (props: HomeScreenProps) => {
       }}
     />
   );
+
+
+  const ItemSepratorcity = () => (
+    <View
+      style={{
+        height: 1,
+        width: '100%',
+        backgroundColor: 'red',
+      }}
+    />
+  );
+
+  const backPressed = () => {
+    props.navigation.goBack(null);
+    return true;
+  };
   return (
     <View style={styles.container}>
       {/* <CustomStatusBar /> */}
       {isLoading && renderIndicator()}
+      <View
+        style={{
+          height: Platform.OS === 'ios' ? '10%' : '7%',
+          backgroundColor: 'rgb(70,50,103)',
+          //   borderBottomLeftRadius: 15,
+          //   borderBottomRightRadius: 15,
+        }}>
+        <View
+          style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
+          <TouchableOpacity
+            onPress={backPressed}
+            style={{
+              marginTop: Platform.OS === 'ios' ? 30 : 10,
+              marginLeft: 10,
+            }}>
+            <Icon name="arrow-left" size={25} color="white" />
+          </TouchableOpacity>
 
-      <View style={styles.child_view}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                textAlignVertical: 'center',
+                textAlign: 'center',
+                color: 'white',
+                fontSize: hp(2.8),
+                marginRight: 20,
+                fontFamily: 'Lato-Regular',
+                marginTop: Platform.OS === 'ios' ? 30 : 5,
+              }}>
+              {'My Education Profile'}
+            </Text>
+          </View>
+        </View>
+      </View>
+      {/* <View style={styles.child_view}>
         <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={styles.image_menu} />
         </TouchableOpacity>
@@ -609,13 +1216,13 @@ const HomeScreen = (props: HomeScreenProps) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <ScrollView>
         <View style={styles.overlay}>
           <View>
             <View style={styles.avatarStyle}>
               <Image
-                source={{uri: profilepic}}
+                source={{ uri: profilepic }}
                 style={{
                   height: 100,
                   width: 100,
@@ -634,15 +1241,18 @@ const HomeScreen = (props: HomeScreenProps) => {
                   }}>
                   <Image
                     source={Images.blue_tick}
-                    style={{height: '100%', width: '100%', resizeMode: 'cover'}}
+                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
                   />
                 </View>
               ) : null}
             </View>
           </View>
           <Text style={styles.textStyle}>{username}</Text>
-          <Text style={styles.textStyle_}>
+          {/* <Text style={styles.textStyle_}>
             {'Unique ZatchUp ID' + ':' + zatchupid}
+          </Text> */}
+          <Text style={styles.textStyle_}>
+            {'Unique ZatchUp ID' + ':' + 'XXXXXXXX'}
           </Text>
         </View>
 
@@ -674,6 +1284,15 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={styles.view_Rowbg}>
               <Text style={styles.Personal_Tvheader}>Personal Information</Text>
             </View>
+
+            <View
+              style={{
+                height: 1,
+                width: '88%',
+                marginLeft: 20,
+                backgroundColor: '#E5E5E5',
+              }}
+            />
 
             <View style={styles.underview} />
             <View style={styles.view_Row}>
@@ -719,67 +1338,261 @@ const HomeScreen = (props: HomeScreenProps) => {
               <Text style={styles.view_Tv_1}>Mother's Name :</Text>
               <Text style={styles.view_Tv_2}>{mothername}</Text>
             </View>
+
+
           </CardView>
 
-          {/* <CardView
-          cardElevation={5}
-          cardMaxElevation={5}
-          cornerRadius={10}
-          style={styles.Cardview}>
 
-          <Text style={styles.Personal_Tv}>Add Your Location</Text>
-          <View
-            style={styles.underview}
-          />
-          <View style={styles.view_Row_}>
-            <Text style={styles.view_Tv_1}>Delhi Public School</Text>
-            <Image
-              style={{ marginLeft: 10, marginTop: 5 }}
-              source={Images.verfied}
+          <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            cornerRadius={10}
+            style={styles.Cardview}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+              <Text style={styles.Personal_Tv}>Add Your City</Text>
+
+              {country == '' && country == null ? <TouchableOpacity
+                underlayColor="none"
+                onPress={toggleModal}
+              >
+                <Image
+                  style={{
+                    height: 28,
+                    width: 28,
+
+                    marginTop: 10,
+                    // marginLeft: 20,
+                    marginRight: 15,
+                  }}
+                  source={Images.add_more}
+                />
+              </TouchableOpacity> : <TouchableOpacity
+                underlayColor="none"
+                onPress={toggleModal}
+              >
+                <Image
+                  style={{
+                    height: 28,
+                    width: 28,
+
+                    marginTop: 10,
+                    // marginLeft: 20,
+                    marginRight: 15,
+                  }}
+                  source={Images.edit_icon}
+                />
+              </TouchableOpacity>}
+
+
+
+            </View>
+
+            <View
+              style={{
+                height: 1,
+                width: '82%',
+                marginLeft: 20,
+                marginTop: 10,
+                backgroundColor: '#E5E5E5',
+              }}
             />
-          </View> */}
 
-          {/* <CardView
+
+            {country != '' && country != null ? <View>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>City :</Text>
+                <Text style={styles.view_Tv_2}>{city}</Text>
+              </View>
+
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>State :</Text>
+                <Text style={styles.view_Tv_2}>{state}</Text>
+              </View>
+
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>Country :</Text>
+                <Text style={styles.view_Tv_2}>{country}</Text>
+              </View>
+
+            </View> : null}
+
+
+
+
+
+
+
+            <View
+              style={styles.underview}
+            />
+            {/* <View style={styles.view_Row_}>
+              <Text style={styles.view_Tv_1}>Delhi Public School</Text>
+              <Image
+                style={{ marginLeft: 10, marginTop: 5 }}
+                source={Images.verfied}
+              />
+            </View> */}
+          </CardView>
+
+
+          <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            cornerRadius={10}
+            style={styles.Cardview}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.Personal_Tv}>Work Details</Text>
+
+              <TouchableOpacity
+                underlayColor="none"
+                onPress={() => props.navigation.navigate('WorkDetailsScreen', { 'data': false })}>
+                <Image
+                  style={{
+                    height: 28,
+                    width: 28,
+                    marginTop: 10,
+                    marginLeft: 20,
+                    marginRight: 15,
+                  }}
+                  source={Images.add_more}
+                />
+              </TouchableOpacity>
+
+            </View>
+
+            <View
+              style={{
+                height: 1,
+                width: '82%',
+                marginLeft: 20,
+                marginTop: 10,
+                backgroundColor: '#E5E5E5',
+              }}
+            />
+
+
+            <View
+              style={styles.underview}
+            />
+            {/* <View style={styles.view_Row_}>
+              <Text style={styles.view_Tv_1}>Delhi Public School</Text>
+              <Image
+                style={{ marginLeft: 10, marginTop: 5 }}
+                source={Images.verfied}
+              />
+            </View> */}
+          </CardView>
+
+          <CardView
             cardElevation={5}
             cardMaxElevation={5}
             cornerRadius={10}
             style={styles.Cardview}>
 
 
-            <View style={styles.view_Row}>
-              <Text style={styles.Personal_Tv}>Add Your Location</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.Personal_Tv}>Add School</Text>
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}>
+                <Image
+                  style={{
+                    height: 28,
+                    width: 28,
+                    marginTop: 10,
+                    marginLeft: 20,
+                    marginRight: 15,
+                  }}
+                  source={Images.add_more}
+                />
+              </TouchableOpacity>
+
+              {/* <TouchableOpacity
+               onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'data':false})}>
               <Image
                 style={styles.editicon1}
                 source={Images.edit_icon}
               />
-            </View>
-            <View
-              style={styles.underview}
-            />
-            <View style={styles.view_Row_}>
-              <Text style={styles.view_Tv_1}>City :</Text>
-              <Text style={styles.view_Tv_2}>{city}</Text>
-            </View>
+              </TouchableOpacity> */}
 
-            <View style={styles.view_Row_Child}>
-              <Text style={styles.view_Tv_1}>State :</Text>
-              <Text style={styles.view_Tv_2}>{state}</Text>
             </View>
 
 
             <View
+              style={{
+                height: 1,
+                width: '82%',
+                marginLeft: 20,
+                marginTop: 10,
+                backgroundColor: '#E5E5E5',
+              }}
+            />
+
+
+            <View
               style={styles.underview}
             />
-          </CardView> */}
+          </CardView>
 
           <FlatList
             data={setdatafromlist}
             // keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={ItemSeprator}
             //  ItemSeparatorComponent={this.SeparatorComponent}
-            renderItem={({item, index}) => rednderItemList(item, index)}
+            renderItem={({ item, index }) => rednderItemList(item, index)}
           />
         </View>
+
+        {/* add your city modal */}
+        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
+
+          <View style={styles.modalContainer}>
+
+            <TouchableOpacity
+              onPress={toggleModal}
+              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
+              <View style={styles.textinputContainer}>
+                <Image
+                  source={Images.search}
+                  style={{ marginLeft: 10, tintColor: 'grey' }}
+                />
+
+                <TextInput
+                  //onChangeText={onChangeNumber}
+                  onChangeText={value => getSearchcitydata(value)}
+                  value={cityname}
+                  placeholder="Search City"
+                  keyboardType="default"
+                />
+
+              </View>
+
+              {citydata.length > 0 ? <FlatList
+                data={citydata}
+                style={{ height: '45%' }}
+                // keyExtractor={item => item.id.toString()}
+                // ItemSeparatorComponent={ItemSepratorcity}
+                //  ItemSeparatorComponent={this.SeparatorComponent}
+                renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
+              /> : null}
+
+
+              <TouchableOpacity
+                onPress={() => onPressModalSubmit()}
+                style={styles.submitbtn}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+
+
+          </View>
+        </Modal>
       </ScrollView>
     </View>
   );

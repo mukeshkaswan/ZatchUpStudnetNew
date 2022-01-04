@@ -22,19 +22,25 @@ const styles = ScaledSheet.create({
     borderRadius: '50@ms',
   },
   profilecontainer: {
+    // flexDirection: 'row',
+    // paddingLeft: '15@ms',
+    // paddingRight: '10@ms',
+    // width: '100%',
+    // // backgroundColor:'red',
+    // padding: '5@ms',
+    // justifyContent: 'space-between',
+
     flexDirection: 'row',
-    paddingLeft: '15@ms',
-    paddingRight: '10@ms',
-    width: '100%',
-    // backgroundColor:'red',
-    padding: '5@ms',
     justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    marginTop: -20,
   },
   profiletextcontainer: {
     marginLeft: '15@ms',
   },
   messageicon: {
-    // marginLeft:'35@ms',
+     marginLeft:'35@ms',
+     marginTop:5
   },
   nametext: {
     fontSize: '16@ms',
@@ -67,6 +73,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '8@ms',
+    marginLeft:20,
   },
   cardContent: {
     width: '92%',

@@ -13,6 +13,81 @@ const styles = ScaledSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    child_view: {
+        flexDirection: 'row',
+        backgroundColor: '#4B2A6A',
+        height: 60,
+    },
+    image_menu: {
+        marginLeft: 15,
+        marginTop: 15,
+        tintColor: '#FFFFFF',
+    },
+    tv_view: {
+        flex: 1,
+        flexDirection: 'column',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
+
+    ZatchUp_tv: {
+        color: '#FFFFFF',
+        marginRight: 30,
+        fontSize: 28,
+        fontWeight: 'bold',
+        bottom: 5,
+    },
+    TM_tv: {
+        color: '#FFFFFF',
+        marginRight: 30,
+        fontSize: 10,
+        bottom: 10,
+    },
+    Notification_view: {
+        position: 'absolute',
+        right: 55,
+        alignSelf: 'flex-end',
+        top: 1,
+    },
+    Cardview_city: {
+        backgroundColor: '#FFFFFF',
+        //  marginLeft: 5,
+        marginRight: 15,
+        marginLeft: '10%',
+        width: '80%',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        shadowOpacity: 0.26,
+        elevation: 8,
+        //  backgroundColor: 'white',
+        //  padding: 20,
+        borderRadius: 5,
+        //marginBottom: 5
+    },
+    dot_view: {
+        position: 'absolute',
+        right: 10,
+        alignSelf: 'flex-end',
+        top: 0,
+    },
+
+    dot_image: {
+        marginRight: 0,
+        marginTop: 15,
+        tintColor: '#FFFFFF',
+        height: 26,
+        width: 26,
+        right: 10,
+    },
+
+    inbox_iconreminder: {
+        marginRight: 5,
+        marginTop: 11,
+        tintColor: '#FFFFFF',
+        height: 30,
+        width: 30,
+    },
     signupConatiner: {
         flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginTop: '10%',
     },

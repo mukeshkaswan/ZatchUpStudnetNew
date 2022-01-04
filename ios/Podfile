@@ -39,6 +39,8 @@ target 'ZatchUp' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

@@ -110,7 +110,7 @@ const CustomTabBar = () => {
       initialRouteName={'Home_Tab'}>
       <Tab.Screen
         name="Home_Tab"
-        component={Home}
+        component={CoomingSoon}
         options={{
           tabBarIcon: ({focused}) => {
             return (

@@ -33,7 +33,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
 import {
   TouchableHighlight,
   TouchableOpacity,
@@ -95,7 +95,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   const [classlist, setDataClassList] = useState([]);
   const [schoolidkey, setSchoolIDKey] = useState('');
 
-
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
       label: 'value1',
@@ -143,21 +142,29 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     );
   };
 
-  useEffect(() => {
-    getEicourseconfirmationlist();
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-    };
-    // getStepCountAPi()
-  }, [isFocused]);
+  // useFocusEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+  //     );
+  //   };
+  //   // getStepCountAPi()
+  // }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getEicourseconfirmationlist();
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    }, [])
+  );
   // function handleBackButtonClick() {
-  //     props.navigation.goBack();
-  //     return true;
+  // props.navigation.goBack();
+  // return true;
   // }
 
   function handleBackButtonClick() {
@@ -178,42 +185,39 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   }
   const SetSchoolid = async result => {
     result.data.map((element: any) => {
-      setSchoolIDKey(element.ei_detail.id)
-      console.log('school id', element.ei_detail.id)
-
-
+      setSchoolIDKey(element.ei_detail.id);
+      console.log('school id', element.ei_detail.id);
     });
-
-  }
+  };
   const getdataCourseKey = async result => {
     // var state = [];
     // result.data.map((element: any) => {
-    //     const { }  = element;
-    //     access values from this.state.items
-    //     var obj = {
-    //         id: element.ei_detail.id,
-    //         school_code: element.ei_detail.school_code,
-    //         name_of_school: element.ei_detail.name_of_school,
-    //         state: element.ei_detail.state,
-    //         city: element.ei_detail.city,
-    //         address1: element.ei_detail.address1,
-    //         address2: element.ei_detail.address2,
-    //         university: element.ei_detail.university,
-    //         is_current_course:  element.ei_detail.course_detail[0].is_current_course ,
-    //         course_name: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].course_name : '',
-    //         description: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].description : '',
-    //         course_id: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].course_id : '',
-    //         duration: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].duration : '',
-    //         start_year: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].start_year : '',
-    //         end_year: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].end_year : '',
-    //         standard_name:  element.ei_detail.course_detail[0].standard_detail[0].standard_name ,
-    //         roll_no: (element.ei_detail.course_detail[0].standard_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].roll_no : '',
-    //         org_start_date: (element.ei_detail.course_detail[0].standard_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].org_start_date : '',
-    //         section: (element.ei_detail.course_detail[0].standard_detail[0].class_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].class_detail[0].class_name : '',
-    //         section:element.ei_detail.course_detail[0].class_detail[0].class_name,
-    //          standard_name:element.ei_detail.course_detail[0].standard_detail[0].standard_name,
-    //     }
-    //     state.push(obj);
+    // const { } = element;
+    // access values from this.state.items
+    // var obj = {
+    // id: element.ei_detail.id,
+    // school_code: element.ei_detail.school_code,
+    // name_of_school: element.ei_detail.name_of_school,
+    // state: element.ei_detail.state,
+    // city: element.ei_detail.city,
+    // address1: element.ei_detail.address1,
+    // address2: element.ei_detail.address2,
+    // university: element.ei_detail.university,
+    // is_current_course: element.ei_detail.course_detail[0].is_current_course ,
+    // course_name: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].course_name : '',
+    // description: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].description : '',
+    // course_id: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].course_id : '',
+    // duration: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].duration : '',
+    // start_year: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].start_year : '',
+    // end_year: (element.ei_detail.course_detail.length > 0) ? element.ei_detail.course_detail[0].end_year : '',
+    // standard_name: element.ei_detail.course_detail[0].standard_detail[0].standard_name ,
+    // roll_no: (element.ei_detail.course_detail[0].standard_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].roll_no : '',
+    // org_start_date: (element.ei_detail.course_detail[0].standard_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].org_start_date : '',
+    // section: (element.ei_detail.course_detail[0].standard_detail[0].class_detail.length > 0) ? element.ei_detail.course_detail[0].standard_detail[0].class_detail[0].class_name : '',
+    // section:element.ei_detail.course_detail[0].class_detail[0].class_name,
+    // standard_name:element.ei_detail.course_detail[0].standard_detail[0].standard_name,
+    // }
+    // state.push(obj);
 
     // });
     setDataCourseInList(result.data);
@@ -423,7 +427,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.warn(
               'after result',
               JSON.stringify(result, undefined, 2),
-              //  getdataCourseKey(result)
+              // getdataCourseKey(result)
               // getEicourseconfirmationlist(),
               Toast.show('School deleted successfully', Toast.SHORT),
               props.navigation.navigate('SelectStudent'),
@@ -480,7 +484,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.warn(
               'after result',
               JSON.stringify(result, undefined, 2),
-              //  getdataCourseKey(result)
+              // getdataCourseKey(result)
               Toast.show(result.message, Toast.SHORT),
               getEicourseconfirmationlist(),
             );
@@ -508,50 +512,50 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     );
   };
 
-  //     const data = {
-  //       token: token,
-  //     };
-  //     setLoading(true);
+  // const data = {
+  // token: token,
+  // };
+  // setLoading(true);
 
-  //     dispatch(
-  //       userActions.getEiCourseConfirmationList({
-  //         data,
+  // dispatch(
+  // userActions.getEiCourseConfirmationList({
+  // data,
 
-  //         callback: ({result, error}) => {
-  //           if (result) {
-  //             console.warn(
-  //               'after result',
-  //               JSON.stringify(result, undefined, 2),
+  // callback: ({result, error}) => {
+  // if (result) {
+  // console.warn(
+  // 'after result',
+  // JSON.stringify(result, undefined, 2),
 
-  //               getdataCourseKey(result),
+  // getdataCourseKey(result),
 
-  //               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-  //             );
-  //             // setSpinnerStart(false);
-  //             setLoading(false);
-  //           }
-  //           if (!error) {
-  //             console.warn(JSON.stringify(error, undefined, 2));
-  //             // setLoginSuccess(result);
-  //             setLoading(false);
-  //             //console.log('dfdfdf--------', error)
-  //             // Toast.show('Invalid credentials', Toast.SHORT);
+  // // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+  // );
+  // // setSpinnerStart(false);
+  // setLoading(false);
+  // }
+  // if (!error) {
+  // console.warn(JSON.stringify(error, undefined, 2));
+  // // setLoginSuccess(result);
+  // setLoading(false);
+  // //console.log('dfdfdf--------', error)
+  // // Toast.show('Invalid credentials', Toast.SHORT);
 
-  //             // Alert.alert(error.message[0])
+  // // Alert.alert(error.message[0])
 
-  //             // signOut();
-  //           } else {
-  //             // setError(true);
-  //             // signOut();
-  //             // Alert.alert(result.status)
-  //             // Toast.show('Invalid credentials', Toast.SHORT);
-  //             setLoading(false);
-  //             console.warn(JSON.stringify(error, undefined, 2));
-  //           }
-  //         },
-  //       }),
-  //     );
-  //   };
+  // // signOut();
+  // } else {
+  // // setError(true);
+  // // signOut();
+  // // Alert.alert(result.status)
+  // // Toast.show('Invalid credentials', Toast.SHORT);
+  // setLoading(false);
+  // console.warn(JSON.stringify(error, undefined, 2));
+  // }
+  // },
+  // }),
+  // );
+  // };
 
   /***************************User get Ei course confirmation list *******************************/
 
@@ -559,6 +563,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
+
       if (value !== null) {
         // value previously stored
         token = value;
@@ -580,7 +585,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.log(
               'after result',
               result,
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+              // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             SetSchoolid(result);
             if (result.data.length > 0) {
@@ -742,12 +747,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.warn(
               'after result class data',
               JSON.stringify(result, undefined, 2),
-              //  Toast.show(result.message, Toast.SHORT),
+              // Toast.show(result.message, Toast.SHORT),
               getdataStateKey(result),
-              //  getEicourseconfirmationlist(),
-              //  getdataCourseKey(result)
+              // getEicourseconfirmationlist(),
+              // getdataCourseKey(result)
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+              // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
             setLoading(false);
@@ -779,7 +784,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       style={{
         height: 2,
         width: '100%',
-        //  backgroundColor: "rgba(0,0,0,0.5)",
+        // backgroundColor: "rgba(0,0,0,0.5)",
       }}
     />
   );
@@ -843,21 +848,24 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     if (event.type == 'set') {
       //ok button
       //setDateEndDate(currentDate);
-    } else {
-      // let newAr = Object.assign([], setdatafromlist);
 
-      // // let newArr = [];
-      // for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
-      //   if (i == index) {
-      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
-      //       false;
-      //   } else {
-      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd =
-      //       false;
-      //   }
-      // }
-      // console.log('newArrrDismiss==>>', newAr);
-      // setDataCourseInList(newAr);
+      let newAr = Object.assign([], setdatafromlist);
+
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
+      }
+      console.log('newArrrDismiss==>>', newAr);
+      setDataCourseInList(newAr);
+    } else {
+      let newAr = Object.assign([], setdatafromlist);
+
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
+      }
+      console.log('newArrrDismiss==>>', newAr);
+      setDataCourseInList(newAr);
       return;
     }
     // setDate(currentDate);
@@ -889,23 +897,29 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     if (event.type == 'set') {
       //ok button
       console.log('Current Date Select', selectedDate);
+
+      let newAr = Object.assign([], setdatafromlist);
+
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+          false;
+      }
+      console.log('newArrrSet==>>', newAr);
+      setDataCourseInList(newAr);
+
       //setDate(currentDate);
     } else {
       //cancel Button
-      // let newAr = Object.assign([], setdatafromlist);
+      let newAr = Object.assign([], setdatafromlist);
 
-      // // let newArr = [];
-      // for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
-      //   if (i == index) {
-      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
-      //       false;
-      //   } else {
-      //     newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
-      //       false;
-      //   }
-      // }
-      // console.log('newArrrDismiss==>>', newAr);
-      // setDataCourseInList(newAr);
+      // let newArr = [];
+      for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
+        newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
+          false;
+      }
+      console.log('newArrrDismiss==>>', newAr);
+      setDataCourseInList(newAr);
       return;
     }
     // setDate(currentDate);
@@ -929,18 +943,18 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // YYYY-MM-DD
   };
   // const checkedterm = () => {
-  //    // setSelected(!allSelected)
-  //     setChecked('first')
-  //    // setChecked('second')
-  //    props.navigation.navigate('CurrentSchoolinfo') ;
+  // // setSelected(!allSelected)
+  // setChecked('first')
+  // // setChecked('second')
+  // props.navigation.navigate('CurrentSchoolinfo') ;
 
   // }
 
   // const checkedtermsecond = () => {
-  //   //  setSelected(!allSelected)
-  //    // setChecked('first')
-  //     setChecked('second')
-  //     props.navigation.navigate('CurrentSchoolinfo');
+  // // setSelected(!allSelected)
+  // // setChecked('first')
+  // setChecked('second')
+  // props.navigation.navigate('CurrentSchoolinfo');
 
   // }
   const DeleteSchool = async id => {
@@ -965,7 +979,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     setIDStandardid(id);
     set_org_start_date(org_start_date);
     set_org_end_date(org_end_date);
-    //  setDate(org_start_date);
+    // setDate(org_start_date);
     // setDateEndDate(org_end_date);
 
     let newArr = Object.assign([], setdatafromlist);
@@ -1004,6 +1018,89 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     return true;
   };
 
+
+
+
+  const gotoNavigate = async () => {
+
+    USERCOURSECONFIRMATION();
+
+    const value = await AsyncStorage.getItem('tokenlogin');
+
+    console.log('value', value);
+
+    if (value == '' || value == null) {
+      props.navigation.navigate('Personalinfo', {
+        schoolidkey: schoolidkey,
+      });
+    }
+    else {
+      props.navigation.navigate('Home');
+    }
+
+    // console.log('huy naviagte -----------> ')
+    // props.navigation.navigate('Personalinfo', {
+    //   schoolidkey: schoolidkey,
+    // })
+  }
+
+
+
+  /***************************User getStepCountAPi *******************************/
+
+  const USERCOURSECONFIRMATION = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: schoolidkey,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getusercourseconfirmation({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after user confirmation result step',
+              JSON.stringify(result, undefined, 2),
+
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   return (
     <View style={styles.container}>
       <CustomStatusBar />
@@ -1018,7 +1115,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             data={setdatafromlist}
             // keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={ItemSeprator}
-            //  ItemSeparatorComponent={this.SeparatorComponent}
+            // ItemSeparatorComponent={this.SeparatorComponent}
             renderItem={({ item, index }) => (
               <CardView
                 cardElevation={1}
@@ -1027,15 +1124,17 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 style={styles.Cardview}>
                 <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
-                  <Text style={styles.view_Tv_2}>{item.ei_detail.school_code}</Text>
+                  <Text style={styles.view_Tv_2}>
+                    {item.ei_detail.school_code}
+                  </Text>
 
                   <TouchableOpacity
                     underlayColor="none"
                     onPress={() => DeleteSchool(item.ei_detail.id)}>
                     <Image
                       style={{
-                        height: 28,
-                        width: 28,
+                        height: 30,
+                        width: 30,
                         marginTop: 2,
                         marginLeft: 20,
                         marginRight: 10,
@@ -1046,15 +1145,14 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 </View>
                 <View
                   style={[styles.view_Row, { justifyContent: 'space-between' }]}>
-
                   <View
                     style={{
-                      flexDirection: 'row', marginTop: 5
+                      flexDirection: 'row',
+                      marginTop: 5,
                     }}>
                     <Text style={styles.view_Tv_1}>State :</Text>
                     <Text style={styles.view_Tv_2}>{item.ei_detail.state}</Text>
                   </View>
-
                 </View>
 
                 <View style={styles.view_Row_}>
@@ -1091,7 +1189,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                     {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
                   </Text>
                 </View>
-
 
                 <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>Pincode :</Text>
@@ -1133,12 +1230,13 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                  item.ei_detail.school_code,
+                                    item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
-                                  coursekeyothersAlumni:props.route.params.coursekeyothersAlumni,
-                                  course_type:i.course_type
+                                  coursekeyothersAlumni:
+                                    props.route.params.coursekeyothersAlumni,
+                                  course_type: i.course_type,
                                 })
                                 : props.navigation.navigate(
                                   'EducationProfileEdit',
@@ -1167,8 +1265,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             Course Name :
                           </Text>
                           <Text style={styles.view_Tv_2}>{i.course_name}</Text>
-
-
                         </View>
 
                         <View style={styles.view_Row_}>
@@ -1176,8 +1272,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             Course Description :
                           </Text>
                           <Text style={styles.view_Tv_2}>{i.description}</Text>
-
-
                         </View>
 
                         <View style={styles.view_Row_}>
@@ -1185,59 +1279,57 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             Starting Year :
                           </Text>
                           <Text style={styles.view_Tv_2}>{i.start_year}</Text>
-
-
                         </View>
 
                         {/* {i.is_current_standard == false ? (
-                          <View style={styles.view_Row_}>
-                            <Text style={styles.view_Tv_1_copy}>
-                              Ending Year :
-                            </Text>
-                            <Text style={styles.view_Tv_2}>
-                              {i.standard_end_year}
-                            </Text>
-                          </View>
-                        ) : (
-                          <View style={styles.view_Row_}>
-                            <Text style={styles.view_Tv_1_copy}>
-                              Ending Year :
-                            </Text>
-                            <Text style={styles.view_Tv_2}>{'To Current'}</Text>
-                            <TouchableOpacity onPress={showDatepicker}>
-                              <View style={{width: 130}}>
-                                <TextField
-                                  placeholder={'To Current'}
-                                  imageIcon={Images.calendar_icon}
-                                  editable={false}
-                                  value={date_copy.toString()}
-                                />
-                              </View>
-                            </TouchableOpacity>
-                            <View>
-                              {show && (
-                                <DateTimePicker
-                                  testID="dateTimePicker"
-                                  value={date}
-                                  mode={mode}
-                                  minDate={new Date()}
-                                  maximumDate={new Date()}
-                                  is24Hour={true}
-                                  format="YYYY-MMM-DD"
-                                  display="default"
-                                  onChange={onChange}
-                                />
-                              )}
-                            </View>
-                          </View>
-                        )} */}
+ <View style={styles.view_Row_}>
+ <Text style={styles.view_Tv_1_copy}>
+ Ending Year :
+ </Text>
+ <Text style={styles.view_Tv_2}>
+ {i.standard_end_year}
+ </Text>
+ </View>
+ ) : (
+ <View style={styles.view_Row_}>
+ <Text style={styles.view_Tv_1_copy}>
+ Ending Year :
+ </Text>
+ <Text style={styles.view_Tv_2}>{'To Current'}</Text>
+ <TouchableOpacity onPress={showDatepicker}>
+ <View style={{width: 130}}>
+ <TextField
+ placeholder={'To Current'}
+ imageIcon={Images.calendar_icon}
+ editable={false}
+ value={date_copy.toString()}
+ />
+ </View>
+ </TouchableOpacity>
+ <View>
+ {show && (
+ <DateTimePicker
+ testID="dateTimePicker"
+ value={date}
+ mode={mode}
+ minDate={new Date()}
+ maximumDate={new Date()}
+ is24Hour={true}
+ format="YYYY-MMM-DD"
+ display="default"
+ onChange={onChange}
+ />
+ )}
+ </View>
+ </View>
+ )} */}
 
                         {i.is_current_course == false ? (
                           <View
                             style={{
                               flexDirection: 'row',
                               marginTop: 5,
-                              //  marginBottom: 2,
+                              // marginBottom: 2,
                             }}>
                             <Text style={styles.view_Tv_1}>Ending Year :</Text>
                             <Text style={styles.view_Tv_2}>{i.end_year}</Text>
@@ -1271,7 +1363,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   <View
                                     style={{
                                       flexDirection: 'column',
-                                      marginRight: 10,
+                                     // marginRight: 10,
                                       marginTop: 5,
                                     }}>
                                     <View style={styles.view_Row_}>
@@ -1297,7 +1389,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       {standarad_i.is_current_standard ==
                                         false ? (
                                         <TouchableOpacity
-                                          //  style={{}}
+                                          // style={{}}
                                           style={[
                                             styles.button_,
                                             {
@@ -1338,11 +1430,11 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         }>
                                         <Image
                                           style={{
-                                            height: 25,
-                                            width: 25,
-                                            marginTop: 2,
-                                            marginRight: 5,
-                                            marginLeft: 20,
+                                            height: 28,
+                                            width: 28,
+                                           // marginTop: 2,
+                                           // marginRight: 5,
+                                           marginLeft: 20,
                                           }}
                                           source={Images.edit_icon}
                                         />
@@ -1396,26 +1488,26 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         </Text>
                                       </TouchableOpacity>
                                       {/* {standarad_i.standard_id == standardid &&
-                                      standarad_i.is_current_standard ==
-                                        false ? (
-                                        <TouchableOpacity
-                                          onPress={showDatepicker}>
-                                          <View
-                                            style={{
-                                              width: 130,
-                                              marginLeft: 13,
-                                            }}>
-                                            <TextFieldCopy
-                                              placeholder={
-                                                standarad_i.org_start_date
-                                              }
-                                              imageIcon={Images.calendar_icon}
-                                              editable={false}
-                                              value={date_copy.toString()}
-                                            />
-                                          </View>
-                                        </TouchableOpacity>
-                                      ) : null} */}
+ standarad_i.is_current_standard ==
+ false ? (
+ <TouchableOpacity
+ onPress={showDatepicker}>
+ <View
+ style={{
+ width: 130,
+ marginLeft: 13,
+ }}>
+ <TextFieldCopy
+ placeholder={
+ standarad_i.org_start_date
+ }
+ imageIcon={Images.calendar_icon}
+ editable={false}
+ value={date_copy.toString()}
+ />
+ </View>
+ </TouchableOpacity>
+ ) : null} */}
                                     </View>
                                   </View>
 
@@ -1470,7 +1562,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         new Date(standarad_i.minDate)
                                       }
                                       maximumDate={new Date()}
-                                      //  maximumDate={new Date('2021-01-01')}
+                                      // maximumDate={new Date('2021-01-01')}
                                       is24Hour={true}
                                       //format="YYYY-MMM-DD"
                                       display="default"
@@ -1510,27 +1602,27 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         </Text>
                                       </TouchableOpacity>
                                       {/* {standarad_i.standard_id == standardid &&
-                                      standarad_i.is_current_standard ==
-                                        false ? (
-                                        <TouchableOpacity
-                                          onPress={showDatepickerEndDate}>
-                                          <View
-                                            style={{
-                                              width: 130,
-                                              marginLeft: 20,
-                                              marginTop: 5,
-                                            }}>
-                                            <TextFieldCopy
-                                              placeholder={
-                                                standarad_i.org_end_date
-                                              }
-                                              imageIcon={Images.calendar_icon}
-                                              editable={false}
-                                              value={date_copy_end_date.toString()}
-                                            />
-                                          </View>
-                                        </TouchableOpacity>
-                                      ) : null} */}
+ standarad_i.is_current_standard ==
+ false ? (
+ <TouchableOpacity
+ onPress={showDatepickerEndDate}>
+ <View
+ style={{
+ width: 130,
+ marginLeft: 20,
+ marginTop: 5,
+ }}>
+ <TextFieldCopy
+ placeholder={
+ standarad_i.org_end_date
+ }
+ imageIcon={Images.calendar_icon}
+ editable={false}
+ value={date_copy_end_date.toString()}
+ />
+ </View>
+ </TouchableOpacity>
+ ) : null} */}
                                     </View>
                                   ) : (
                                     <View style={styles.view_Row_}>
@@ -1672,7 +1764,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              //  backgroundColor: '#979797'
+              // backgroundColor: '#979797'
             }}>
             <Text style={{ color: '#7B7B7B', fontSize: 26, fontWeight: 'bold' }}>
               No School Available
@@ -1681,7 +1773,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         )}
 
         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 30 }}>
-          {setdatafromlist.length > 0 ? <CustomButton title={'Send for verification'} onPress={() => props.navigation.navigate('Personalinfo', { 'schoolidkey': schoolidkey })} /> : <CustomButton title={'Send for verification'} />}
+          {setdatafromlist.length > 0 ? (
+            <CustomButton
+              title={'Send for verification'}
+              onPress={gotoNavigate}
+            //onPress={() => gotoNavigate}
+            />
+          ) : (
+            <CustomButton title={'Send for verification'} />
+          )}
           {/* <CustomButton title={'Confirm & Send for EI Verification'} onPress={() => props.navigation.navigate('Personalinfo')} /> */}
         </View>
       </View>

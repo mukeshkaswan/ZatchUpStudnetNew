@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -20,7 +21,10 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-
+import com.google.firebase.FirebaseApp;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
+import com.BV.LinearGradient.LinearGradientPackage; // <--- This!
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -32,9 +36,9 @@ import java.lang.reflect.InvocationTargetException;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 import java.util.Arrays;
 import java.util.List;
-
-public class MainApplication extends Application implements ReactApplication {
-
+import androidx.multidex.MultiDexApplication; // <-- ADD THIS IMPORT
+public class MainApplication extends MultiDexApplication implements ReactApplication {
+    
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -46,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
+            new ReactNativeFirebaseFirestorePackage(),
             new RNCWebViewPackage(),
             new ClipboardPackage(),
             new ReactVideoPackage(),
@@ -60,7 +65,10 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
             new RNScreensPackage(),
             new RNCPickerPackage(),
-            new SafeAreaContextPackage()
+            new SafeAreaContextPackage(),
+            new ReactNativeFirebaseAppPackage(),
+             new ReactNativeFirebaseAuthPackage(),
+                      new LinearGradientPackage()
                       //new SplashScreenReactPackage()  //here
               );
           }
@@ -79,7 +87,9 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
+     //
+      FirebaseApp.initializeApp(this);
+      SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

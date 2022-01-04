@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -15,15 +15,18 @@ import {
   Platform,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
-import {TextField, CustomButton, CustomStatusBar} from '../../../components';
+import { Images } from '../../../components/index';
+import { TextField, CustomButton, CustomStatusBar } from '../../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userActions from '../../../actions/user-actions-types';
 import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
+  useFocusEffect
 } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -36,16 +39,109 @@ interface HomeScreenProps {
   navigation: any;
 }
 const MySchool = (props: HomeScreenProps) => {
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
+  const [unreadnotificationcount, set_unread_notification_count] = useState('');
+  const [unreadremindercount, set_unread_reminder_count] = useState('');
+  const [roletype, setRole] = useState('');
+  const [is_kyc_approved, setIs_kyc_approved] = useState();
+  const [is_approved, setis_approved] = useState();
+  const isFocused = useIsFocused();
+
   const backPressed = () => {
     props.navigation.goBack(null);
     return true;
   };
+
+
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
+
+  useEffect(() => {
+
+
+    const dataSetTimeOut = setTimeout(() => {
+
+      getStepCountAPi();
+
+      return () => {
+        dataSetTimeOut.clear();
+      }
+    }, 500);
+
+
+  }, [isFocused]);
+
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+
+  //     getStepCountAPi();
+  //   }, [isFocused])
+  // );
+  /***************************User getStepCountAPi *******************************/
+
+  const getStepCountAPi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getRegStepCount({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result step count',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            set_unread_notification_count(result.unread_notification_count);
+            set_unread_reminder_count(result.unread_reminder_count);
+            setRole(result.role);
+            setIs_kyc_approved(result.is_kyc_approved);
+            setis_approved(result.is_approved);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.child_view}>
         <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={styles.image_menu} />
@@ -57,10 +153,13 @@ const MySchool = (props: HomeScreenProps) => {
         </View>
 
         <View style={styles.Notification_view}>
-          <Image
-            source={Images.announceicon}
-            style={styles.inbox_iconreminder}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Reminders');
+            }}>
+            <Image source={Images.search} style={styles.inbox_iconreminder} />
+          </TouchableOpacity>
+
           <View
             style={{
               position: 'absolute',
@@ -72,7 +171,7 @@ const MySchool = (props: HomeScreenProps) => {
               width: Platform.OS == 'ios' ? 20 : 18,
               height: Platform.OS == 'ios' ? 20 : 18,
             }}>
-            {/* <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text> */}
+            <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text>
           </View>
         </View>
         <TouchableOpacity
@@ -93,14 +192,16 @@ const MySchool = (props: HomeScreenProps) => {
                 width: Platform.OS == 'ios' ? 20 : 18,
                 height: Platform.OS == 'ios' ? 20 : 18,
               }}>
-              {/* <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadnotificationcount} </Text> */}
+              <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadnotificationcount} </Text>
             </View>
           </View>
         </TouchableOpacity>
       </View>
-      <ScrollView style={{flexGrow: 1}}>
+
+
+      {roletype == 'STUDENTS' ? <ScrollView style={{ flexGrow: 1 }}>
         <View style={styles.mainBoxesContainer}>
-          <View style={styles.boxcontainer}>
+          {/* <View style={styles.boxcontainer}>
             <Image
               style={{resizeMode: 'contain', width: 70, height: 70}}
               source={Images.ecertificate}
@@ -110,39 +211,46 @@ const MySchool = (props: HomeScreenProps) => {
                 E-certificates{'\n'}&{'\n'}E-reports
               </Text>
             </View>
-          </View>
+          </View> */}
+
+
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('EducationProfileScreen')}>
+            onPress={() => props.navigation.navigate('Home')}>
             <View style={styles.boxcontainer}>
               <Image
-                style={{width: 70, height: 70, resizeMode: 'contain'}}
+                style={{ width: 70, height: 70, resizeMode: 'contain' }}
                 source={Images.shareprofile}
               />
-              <View style={{marginTop: 12}}>
+              <View style={{ marginTop: 12 }}>
                 <Text style={styles.text}>View My Education Profile</Text>
               </View>
             </View>
           </TouchableOpacity>
+
+
+          {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
+            onPress={() => props.navigation.navigate('CoursesListScreen')}>
+            <View style={styles.boxcontainer}>
+              <Image
+                style={{ height: 100, width: 100, resizeMode: 'contain' }}
+                source={Images.logo}
+              />
+              <View style={{ marginTop: 12 }}>
+                <Text style={styles.text}>Zatchup Star{'\n'}Class</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+            : null}
+
         </View>
-        <View
+        {/* <View
           style={{
             paddingHorizontal: 15,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('CoursesListScreen')}>
-            <View style={styles.boxcontainer}>
-              <Image
-                style={{height: 100, width: 100, resizeMode: 'contain'}}
-                source={Images.logo}
-              />
-              <View style={{marginTop: 12}}>
-                <Text style={styles.text}>Zatchup Star{'\n'}Class</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+        
           <TouchableOpacity
             onPress={() => props.navigation.navigate('Reminders')}>
             <View style={styles.boxcontainer}>
@@ -155,8 +263,8 @@ const MySchool = (props: HomeScreenProps) => {
               </View>
             </View>
           </TouchableOpacity>
-        </View>
-        <TouchableOpacity
+        </View> */}
+        {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
           onPress={() => props.navigation.navigate('ChatWithTeachersScreen')}>
           <View
             style={{
@@ -184,7 +292,7 @@ const MySchool = (props: HomeScreenProps) => {
                 }}
                 source={Images.chatwithteacher}
               />
-              <View style={{marginTop: 12}}>
+              <View style={{ marginTop: 12 }}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -196,8 +304,26 @@ const MySchool = (props: HomeScreenProps) => {
               </View>
             </View>
           </View>
-        </TouchableOpacity>
-      </ScrollView>
+        </TouchableOpacity> : null}
+      </ScrollView> : <ScrollView style={{ flexGrow: 1 }}>
+        <View style={styles.mainBoxesContainer}>
+
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Home')}>
+            <View style={styles.boxcontainer}>
+              <Image
+                style={{ width: 70, height: 70, resizeMode: 'contain' }}
+                source={Images.shareprofile}
+              />
+              <View style={{ marginTop: 12 }}>
+                <Text style={styles.text}>View My Education Profile</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+        </View>
+
+      </ScrollView>}
     </View>
   );
 };

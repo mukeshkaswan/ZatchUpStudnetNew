@@ -190,6 +190,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         school_code: null,
         school_id: props.route.params.school_id,
         start_date: date_copy,
+        is_current: false,
       };
       let token = '';
       try {
@@ -342,12 +343,13 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                 testID="dateTimePicker"
                 value={date1}
                 mode={mode1}
-                minDate={new Date()}
+                minimumDate={new Date(date)}
                 maximumDate={new Date()}
                 is24Hour={true}
                 format="YYYY-MMM-DD"
                 display="default"
                 onChange={onChange1}
+
               />
             )}
 

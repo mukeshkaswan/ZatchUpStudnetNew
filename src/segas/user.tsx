@@ -1,4 +1,4 @@
-import {put, takeLatest, all, call, takeEvery} from 'redux-saga/effects';
+import { put, takeLatest, all, call, takeEvery } from 'redux-saga/effects';
 import {
   // LOGIN_SUCCESS,
   EMAILLOGIN,
@@ -44,14 +44,27 @@ import {
   EDITCOURSESTANDARDDROPDOWN,
   UPDATEPERSONALINFO,
   ADDUSERSTEPSEVEN,
-  USERCOURSECONFIRMATION
+  USERCOURSECONFIRMATION,
+  USERDELETECOURSESTANDARD,
+  CITYLISTSEARCH,
+  ADDCITYSTATEFORUSER,
+  STARTCLASSCOURSELIST,
+  SCHOOLLISTFORSTARCLASS,
+  COURSEPREVIEW,
+  STARCLASSLECTURELISTBYCOURSEID,
+  STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW,
+  LECTUREHISTORY,
+  GETUPDATESCHOOLCOURSEDETAILBYUSER,
+  SEARCHLISTFORSCHOOLSTUDENT,
+  PROFILEDETAILOFUSER,
+  PROFILEDETAILOFSCHOOL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
 // http://172.105.61.231:3000/api/user/user-verify/
 /***************************User Login Auth Segas*******************************/
 
-function* emailLogin({payload: {data, callback}}) {
+function* emailLogin({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   const formdata = new FormData();
   formdata.append('username', data.username);
@@ -61,11 +74,11 @@ function* emailLogin({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/login/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('login result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -77,7 +90,7 @@ function* emailLogin({payload: {data, callback}}) {
 
 /***************************Upadate Personal Info*******************************/
 
-function* updatePersonalinfo({payload: {data, callback}}) {
+function* updatePersonalinfo({ payload: { data, callback } }) {
   console.warn('data in saga', data);
 
   const params = {
@@ -97,11 +110,11 @@ function* updatePersonalinfo({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/get-update-personal-info/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('login result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -113,7 +126,7 @@ function* updatePersonalinfo({payload: {data, callback}}) {
 
 /***************************User Register Auth Segas*******************************/
 
-function* registerUser({payload: {data, callback}}) {
+function* registerUser({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   //const { email, first_name, last_name, is_term_cond, profile, password } = data;
   // var formdata = new FormData();
@@ -135,11 +148,11 @@ function* registerUser({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/register/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('register result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // console.log('result',result.error.email[0]);
       //  Toast.show(result.error.email[0]);
 
@@ -155,7 +168,7 @@ function* registerUser({payload: {data, callback}}) {
 
 /***************************User KYC Auth Segas*******************************/
 
-function* KycSuccess({payload: {data, callback}}) {
+function* KycSuccess({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   let formdata = new FormData();
   formdata.append('kyc_type', data.kyc_type);
@@ -181,12 +194,12 @@ function* KycSuccess({payload: {data, callback}}) {
     url: 'user/kyc-upload/',
   };
   // console.warn('data in saga----4324---------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   console.log('kyc error', JSON.stringify(error, undefined, 2));
   if (!error) {
     if (result) {
       console.log('kyc result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -198,23 +211,25 @@ function* KycSuccess({payload: {data, callback}}) {
 
 /***************************User OTP Auth Segas*******************************/
 
-function* otpSuccess({payload: {data, callback}}) {
+function* otpSuccess({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   const formdata = new FormData();
   formdata.append('firebase_id', data.firebase_id);
   formdata.append('phone_otp', data.phone_otp);
   formdata.append('username', data.username);
+  formdata.append('is_mobile', true);
+
 
   const payload = {
     data: formdata,
     method: 'POST',
     url: 'user/verify-otp/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('otp result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -226,7 +241,7 @@ function* otpSuccess({payload: {data, callback}}) {
 
 /***************************User OTP Auth Segas*******************************/
 
-function* getResendotp({payload: {data, callback}}) {
+function* getResendotp({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   const formdata = new FormData();
   formdata.append('username', data.username);
@@ -236,11 +251,11 @@ function* getResendotp({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/resend-otp/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('otp Re-Send result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -252,7 +267,7 @@ function* getResendotp({payload: {data, callback}}) {
 
 /***************************User registerOtpSuccess OTP Auth Segas*******************************/
 
-function* registerOtpSuccess({payload: {data, callback}}) {
+function* registerOtpSuccess({ payload: { data, callback } }) {
   console.warn('data in saga', data);
   const formdata = new FormData();
   formdata.append('username', data.username);
@@ -263,14 +278,14 @@ function* registerOtpSuccess({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/user-verify/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'otp Register success data  result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       //console.log('result',result.error);
       //  Toast.show(result.error);
 
@@ -316,7 +331,7 @@ function* registerOtpSuccess({payload: {data, callback}}) {
 
 /***************************User GET States Auth Segas*******************************/
 
-function* getStates({payload: {data, callback}}) {
+function* getStates({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -325,12 +340,12 @@ function* getStates({payload: {data, callback}}) {
     method: 'GET',
     url: 'user/getallstate/',
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get States result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -342,7 +357,7 @@ function* getStates({payload: {data, callback}}) {
 
 /***************************User GET City Auth Segas*******************************/
 
-function* getCity({payload: {data, callback}}) {
+function* getCity({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -351,12 +366,12 @@ function* getCity({payload: {data, callback}}) {
     method: 'GET',
     url: `user/getcitybystateid/${data.id}/`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get City result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -368,7 +383,7 @@ function* getCity({payload: {data, callback}}) {
 
 /***************************User GET School Auth Segas*******************************/
 
-function* getSchool({payload: {data, callback}}) {
+function* getSchool({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -377,12 +392,12 @@ function* getSchool({payload: {data, callback}}) {
     method: 'GET',
     url: `ei/getschoollistwithcity/${data.id}/`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get School result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -394,7 +409,7 @@ function* getSchool({payload: {data, callback}}) {
 
 /***************************User ADD EI Auth Segas*******************************/
 
-function* getAddEi({payload: {data_update, callback}}) {
+function* getAddEi({ payload: { data_update, callback } }) {
   console.warn('data in saga ADD EI', data_update);
 
   const payload = {
@@ -406,11 +421,11 @@ function* getAddEi({payload: {data_update, callback}}) {
     method: 'POST',
     url: 'user/add-ei/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('add ei result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -422,7 +437,7 @@ function* getAddEi({payload: {data_update, callback}}) {
 
 /***************************User GET Course list Auth Segas*******************************/
 
-function* getCourselist({payload: {data, callback}}) {
+function* getCourselist({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -431,15 +446,15 @@ function* getCourselist({payload: {data, callback}}) {
     method: 'GET',
     url: `user/get-course-list-for-userpanel/?school_id=${data.id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Course list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -451,7 +466,7 @@ function* getCourselist({payload: {data, callback}}) {
 
 /***************************User GET Edit Course list Auth Segas*******************************/
 
-function* getEditCourseList({payload: {data, callback}}) {
+function* getEditCourseList({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -460,15 +475,15 @@ function* getEditCourseList({payload: {data, callback}}) {
     method: 'GET',
     url: `user/get-course-list-for-userpanel/?school_id=${data.id}&edit_course_id=${data.edit_course_id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Course list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -480,7 +495,7 @@ function* getEditCourseList({payload: {data, callback}}) {
 
 /***************************User GET Standard list Auth Segas*******************************/
 
-function* getStandard({payload: {data, callback}}) {
+function* getStandard({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -489,15 +504,15 @@ function* getStandard({payload: {data, callback}}) {
     method: 'GET',
     url: `user/standard-list-by-courseid/?course_id= ${data.id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Standard list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -509,7 +524,7 @@ function* getStandard({payload: {data, callback}}) {
 
 /***************************User GET Standard Edit list Auth Segas*******************************/
 
-function* getStandardEdit({payload: {data, callback}}) {
+function* getStandardEdit({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -518,15 +533,15 @@ function* getStandardEdit({payload: {data, callback}}) {
     method: 'GET',
     url: `user/standard-list-by-courseid/?course_id= ${data.id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Standard list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -538,7 +553,7 @@ function* getStandardEdit({payload: {data, callback}}) {
 
 /***************************User GET Standard Class list Auth Segas*******************************/
 
-function* getStandardClass({payload: {data, callback}}) {
+function* getStandardClass({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -548,15 +563,15 @@ function* getStandardClass({payload: {data, callback}}) {
     //  url: `user/class-list-by-standardid/?standard_id= ${data.id}`,
     url: `user/class-list-by-standardid/?standard_id= ${data.id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Standard list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -568,7 +583,7 @@ function* getStandardClass({payload: {data, callback}}) {
 
 /***************************User get Add Registered Ei Course Auth Segas*******************************/
 
-function* getAddRegisteredEiCourse({payload: {data_update, callback}}) {
+function* getAddRegisteredEiCourse({ payload: { data_update, callback } }) {
   console.warn('data in saga ADD  Registered Course', data_update);
 
   const payload = {
@@ -582,14 +597,14 @@ function* getAddRegisteredEiCourse({payload: {data_update, callback}}) {
     // redirect: 'follow'
   };
   console.warn('data in saga ADD  Registered Course------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'add Registered Course result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -601,7 +616,7 @@ function* getAddRegisteredEiCourse({payload: {data_update, callback}}) {
 
 /***************************User GET Ei Course Confirmation List Auth Segas*******************************/
 
-function* getEiCourseConfirmationList({payload: {data, callback}}) {
+function* getEiCourseConfirmationList({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -613,15 +628,15 @@ function* getEiCourseConfirmationList({payload: {data, callback}}) {
     //  url: `user/class-list-by-standardid/?standard_id= ${data.id}`,
     url: 'user/get-ei-course-confirmation-list/',
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Ei Course Confirmation List result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -633,7 +648,7 @@ function* getEiCourseConfirmationList({payload: {data, callback}}) {
 
 /***************************User GET Step Count Auth Segas*******************************/
 
-function* getRegStepCount({payload: {data, callback}}) {
+function* getRegStepCount({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -641,15 +656,15 @@ function* getRegStepCount({payload: {data, callback}}) {
     method: 'GET',
     url: 'user/reg-step-count/',
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Step Count result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -661,7 +676,7 @@ function* getRegStepCount({payload: {data, callback}}) {
 
 /***************************User Delete Course Data Auth Segas*******************************/
 
-function* getDeleteCourseData({payload: {data, callback}}) {
+function* getDeleteCourseData({ payload: { data, callback } }) {
   console.warn('data in saga Delete Course', data);
   const formdata = new FormData();
   formdata.append('school_id', data.school_id);
@@ -676,11 +691,43 @@ function* getDeleteCourseData({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/delete-school-course-detail-by-student/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Delete Course Standard Data Auth Segas*******************************/
+
+function* getDeleteCourseStandard({ payload: { data, callback } }) {
+  console.warn('data in saga Delete Course Standard', data);
+  const formdata = new FormData();
+  formdata.append('course_id', data.course_id);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/delete-course-standard-detail-by-student/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('Delete Course Standard Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -692,7 +739,7 @@ function* getDeleteCourseData({payload: {data, callback}}) {
 
 /***************************User Check User KYC  Segas*******************************/
 
-function* getCheckUserKyc({payload: {data, callback}}) {
+function* getCheckUserKyc({ payload: { data, callback } }) {
   console.warn('data in saga Check User Kyc', data);
 
   const payload = {
@@ -705,14 +752,14 @@ function* getCheckUserKyc({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/check-user-ekyc/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Check User Kyc Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -724,7 +771,7 @@ function* getCheckUserKyc({payload: {data, callback}}) {
 
 /***************************User Auth Info Segas*******************************/
 
-function* getAuthUserInfo({payload: {data, callback}}) {
+function* getAuthUserInfo({ payload: { data, callback } }) {
   console.warn('data in saga Auth User Info', data);
 
   const payload = {
@@ -737,14 +784,14 @@ function* getAuthUserInfo({payload: {data, callback}}) {
     method: 'GET',
     url: 'ei/auth-user-info/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Auth User Info Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -755,7 +802,7 @@ function* getAuthUserInfo({payload: {data, callback}}) {
 }
 /***************************User get reminders api s*******************************/
 
-function* getReminders({payload: {data, callback}}) {
+function* getReminders({ payload: { data, callback } }) {
   console.warn('data in saga Auth User Info', data);
 
   const payload = {
@@ -768,14 +815,14 @@ function* getReminders({payload: {data, callback}}) {
     method: 'GET',
     url: 'user/get-all-reminders/?page_size=20',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Auth User Info Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -787,7 +834,7 @@ function* getReminders({payload: {data, callback}}) {
 
 /***************************User Delete Course Data Auth Segas*******************************/
 
-function* getAddProfilePicInfo({payload: {data, callback}}) {
+function* getAddProfilePicInfo({ payload: { data, callback } }) {
   console.warn('data in saga Add Profile Pic Info', data);
   const formdata = new FormData();
   formdata.append('mother_name', data.mother_name);
@@ -804,14 +851,14 @@ function* getAddProfilePicInfo({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/add-profile-pic-info/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Add Profile Pic Info Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -823,7 +870,7 @@ function* getAddProfilePicInfo({payload: {data, callback}}) {
 
 /***************************User Add Course By User Auth Segas*******************************/
 
-function* getAddCourseByUser({payload: {data_update, callback}}) {
+function* getAddCourseByUser({ payload: { data_update, callback } }) {
   console.warn('data in saga ADD  Course By User', data_update);
 
   const payload = {
@@ -837,11 +884,11 @@ function* getAddCourseByUser({payload: {data_update, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('add Course By User', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -853,7 +900,7 @@ function* getAddCourseByUser({payload: {data_update, callback}}) {
 
 /***************************User Add Past Course EI  By User Auth Segas*******************************/
 
-function* getAddPastEiCourse({payload: {data_update, callback}}) {
+function* getAddPastEiCourse({ payload: { data_update, callback } }) {
   console.warn('data in saga ADD Past Course By User', data_update);
 
   const payload = {
@@ -867,14 +914,14 @@ function* getAddPastEiCourse({payload: {data_update, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'add Past Course By User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -886,7 +933,7 @@ function* getAddPastEiCourse({payload: {data_update, callback}}) {
 
 /***************************User Get Addmission No By School User Auth Segas*******************************/
 
-function* getAddmissionNoBySchool({payload: {data, callback}}) {
+function* getAddmissionNoBySchool({ payload: { data, callback } }) {
   console.warn('data in saga Addmission no by school By User', data);
 
   const payload = {
@@ -900,14 +947,14 @@ function* getAddmissionNoBySchool({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Addmission no by school By User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -919,7 +966,7 @@ function* getAddmissionNoBySchool({payload: {data, callback}}) {
 
 /***************************User GET Course Other list Auth Segas*******************************/
 
-function* getCourselistOther({payload: {data, callback}}) {
+function* getCourselistOther({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -928,15 +975,15 @@ function* getCourselistOther({payload: {data, callback}}) {
     method: 'GET',
     url: `user/get-usercourse-list/?school_id=${data.id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'get Course list other result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -948,7 +995,7 @@ function* getCourselistOther({payload: {data, callback}}) {
 
 /***************************User Get Upload File User Auth Segas*******************************/
 
-function* getUploadFile({payload: {data, callback}}) {
+function* getUploadFile({ payload: { data, callback } }) {
   console.warn('data in saga Upload File By User', data);
   const formdata = new FormData();
   formdata.append('file_name', data.file_name);
@@ -964,11 +1011,11 @@ function* getUploadFile({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('Upload File User', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -980,7 +1027,7 @@ function* getUploadFile({payload: {data, callback}}) {
 
 /***************************User Get get Admin Forgot Password  User Auth Segas*******************************/
 
-function* getAdminForgotPassword({payload: {data, callback}}) {
+function* getAdminForgotPassword({ payload: { data, callback } }) {
   console.warn('data in saga get Admin Forgot Password By User', data);
   const formdata = new FormData();
   formdata.append('email_or_phone', data.email_or_phone);
@@ -996,14 +1043,14 @@ function* getAdminForgotPassword({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'get Admin Forgot Password User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1013,7 +1060,7 @@ function* getAdminForgotPassword({payload: {data, callback}}) {
   }
 }
 
-function* getAdminVerifyResetPassword({payload: {data, callback}}) {
+function* getAdminVerifyResetPassword({ payload: { data, callback } }) {
   console.warn('data in saga get Admin Verify Reset Password By User', data);
   const formdata = new FormData();
   formdata.append('email_or_phone', data.email_or_phone);
@@ -1030,14 +1077,14 @@ function* getAdminVerifyResetPassword({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'get Admin Verify Reset Password User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1047,7 +1094,7 @@ function* getAdminVerifyResetPassword({payload: {data, callback}}) {
   }
 }
 
-function* getAdminSetNewPassword({payload: {data, callback}}) {
+function* getAdminSetNewPassword({ payload: { data, callback } }) {
   console.warn('data in saga get Admin Set New Password By User', data);
   const formdata = new FormData();
   formdata.append('key', data.key);
@@ -1066,14 +1113,14 @@ function* getAdminSetNewPassword({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'get Admin Set New Password User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1083,7 +1130,7 @@ function* getAdminSetNewPassword({payload: {data, callback}}) {
   }
 }
 
-function* getSchoolZatchUpId({payload: {data, callback}}) {
+function* getSchoolZatchUpId({ payload: { data, callback } }) {
   console.warn('data in saga get ZatchUp ID  By User', data);
   const formdata = new FormData();
   formdata.append('zatchup_id', data.zatchup_id);
@@ -1099,14 +1146,14 @@ function* getSchoolZatchUpId({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'get Admin ZatchUp ID User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1118,7 +1165,7 @@ function* getSchoolZatchUpId({payload: {data, callback}}) {
 
 /***************************User GET Student Education Profile list Auth Segas*******************************/
 
-function* getStudentEducationProfile({payload: {data, callback}}) {
+function* getStudentEducationProfile({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -1127,7 +1174,7 @@ function* getStudentEducationProfile({payload: {data, callback}}) {
     method: 'GET',
     url: 'user/student-education-profile/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   //callback({result, error});
   if (!error) {
     if (result) {
@@ -1135,7 +1182,7 @@ function* getStudentEducationProfile({payload: {data, callback}}) {
         'Student Education Profile list  result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1147,7 +1194,7 @@ function* getStudentEducationProfile({payload: {data, callback}}) {
 
 /***************************User GET Reset Password Auth Segas*******************************/
 
-function* getResetPassword({payload: {data, callback}}) {
+function* getResetPassword({ payload: { data, callback } }) {
   console.warn('data in saga Reset Password User', data);
   const formdata = new FormData();
   formdata.append('old_password', data.old_password);
@@ -1165,14 +1212,14 @@ function* getResetPassword({payload: {data, callback}}) {
     // redirect: 'follow'
   };
   //console.warn('data in saga ADD  Course By User------------->', payload);
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'get Reset Password User',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1184,7 +1231,7 @@ function* getResetPassword({payload: {data, callback}}) {
 
 /***************************User GET Notification list Auth Segas*******************************/
 
-function* getNotificationFetch({payload: {data, callback}}) {
+function* getNotificationFetch({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -1193,15 +1240,15 @@ function* getNotificationFetch({payload: {data, callback}}) {
     method: 'GET',
     url: 'ei/notification-fetch-list/',
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log(
         'Student Notification list result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1213,7 +1260,7 @@ function* getNotificationFetch({payload: {data, callback}}) {
 
 /***************************User Skipped standard Data Auth Segas*******************************/
 
-function* getskipped({payload: {data, callback}}) {
+function* getskipped({ payload: { data, callback } }) {
   console.warn('data in saga Skipped standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
@@ -1228,14 +1275,14 @@ function* getskipped({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/delete-standard-detail-by-student/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Skipped Standard Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1247,7 +1294,7 @@ function* getskipped({payload: {data, callback}}) {
 
 /***************************User Edit standard Data Auth Segas*******************************/
 
-function* geteditcoursestandard({payload: {data, callback}}) {
+function* geteditcoursestandard({ payload: { data, callback } }) {
   console.warn('data in saga Edit standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
@@ -1264,11 +1311,11 @@ function* geteditcoursestandard({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/edit-course-standard-detail-by-student/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log('Edit Standard Result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1280,7 +1327,7 @@ function* geteditcoursestandard({payload: {data, callback}}) {
 
 /***************************User Edit standard drop down Data Auth Segas*******************************/
 
-function* geteditcoursestandarddropdown({payload: {data, callback}}) {
+function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
   console.warn('data in saga Edit standard drop down', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
@@ -1298,14 +1345,14 @@ function* geteditcoursestandarddropdown({payload: {data, callback}}) {
     method: 'POST',
     url: 'user/edit-course-standard-detail-by-student/',
   };
-  const {result, error} = yield call(httpClient, payload);
+  const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
       console.log(
         'Edit Standard drop down Result',
         JSON.stringify(result, undefined, 2),
       );
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1317,7 +1364,7 @@ function* geteditcoursestandarddropdown({payload: {data, callback}}) {
 
 /***************************User GET Class List By Standard ID Auth Segas*******************************/
 
-function* getClassListByStandard({payload: {data, callback}}) {
+function* getClassListByStandard({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -1327,12 +1374,12 @@ function* getClassListByStandard({payload: {data, callback}}) {
     //  url: `user/getcitybystateid/${data.id}/`,
     url: `user/class-list-by-standardid/?standard_id=${data.standard_id}`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get Class result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1344,7 +1391,7 @@ function* getClassListByStandard({payload: {data, callback}}) {
 
 /***************************User Post Add User Step Seven Auth Segas*******************************/
 
-function* getadduserstepseven({payload: {data, callback}}) {
+function* getadduserstepseven({ payload: { data, callback } }) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -1354,12 +1401,12 @@ function* getadduserstepseven({payload: {data, callback}}) {
     //  url: `user/getcitybystateid/${data.id}/`,
     url: `user/add-user-step-seven/`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get Add Step Seven result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1371,7 +1418,7 @@ function* getadduserstepseven({payload: {data, callback}}) {
 
 /***************************User Course Confirmation Step Auth Segas*******************************/
 
-function* getusercourseconfirmation({payload: {data, callback}}) {
+function* getusercourseconfirmation({ payload: { data, callback } }) {
   const formdata = new FormData();
   formdata.append('school_id', data.school_id);
   const payload = {
@@ -1380,16 +1427,16 @@ function* getusercourseconfirmation({payload: {data, callback}}) {
       // "Content-Type": "application/json"
     },
     method: 'POST',
-    data:formdata,
+    data: formdata,
     //  url: `user/getcitybystateid/${data.id}/`,
     url: `user/user-course-conformation/`,
   };
-  const {result, error} = yield call(httpClient, payload);
-  callback({result, error});
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
   if (!error) {
     if (result) {
       console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
-      callback({result, error});
+      callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
       // yield put(loginSuccess({userToken, data}));
@@ -1398,6 +1445,388 @@ function* getusercourseconfirmation({payload: {data, callback}}) {
     }
   }
 }
+
+
+/***************************User GET Search City Auth Segas*******************************/
+
+function* getCitySearch({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `user/world-location-search-list/?search=${data.key}`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      console.log('get City Search Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User Add City State of User Auth Segas*******************************/
+
+function* getAddcitystateofuser({ payload: { data, callback } }) {
+  const formdata = new FormData();
+  formdata.append('city_id', data.city_id);
+  formdata.append('country_id', data.country_id);
+  formdata.append('state_id', data.state_id);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    data: formdata,
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/add-city-state-of-user/`,
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      console.log('get User Add City of user result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Star Class Course List Auth Segas*******************************/
+
+function* getStarclasscourselist({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `starclass/starclass-course-list-by-user/?school_id=${data.school_id}`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Course List Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+
+/***************************User GET School List For Star Class  Auth Segas*******************************/
+
+function* getSchoollistforstarclass({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `user/school-list-for-student-startclass/`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get School List For Start Class Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Course Preview List Auth Segas*******************************/
+
+function* getCoursePreview({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `starclass/course_preview/?id=${data.id}`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Course Preview Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Star Class Lecture List Auth Segas*******************************/
+
+function* getStartClasslecturelist({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `starclass/starclass-lecture-list-by-courseid/?course_id=${data.id}`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Star Clas lecture List Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User GET Star Class Lecture List Course Preview Auth Segas*******************************/
+
+function* getStartClasslecturelistcoursepreview({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    //   url: `starclass/starclass-lecture-list-by-courseid/${data.id}/`,
+    url: `starclass/starclass-lecture-detail-by-courseid/${data.id}/`
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      console.log('get Star Clas lecture List Course Preview Result', JSON.stringify(result, undefined, 2));
+
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User GET Star Class Lecture History List Auth Segas*******************************/
+
+function* getLecturehistory({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    url: `starclass/lecture_history_of_school/?school_id=${data.id}`,
+
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Star Class Lecture History List Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User GET Update School Course Details By User Auth Segas*******************************/
+
+function* getUpdateschoolcoursedetailbyuser({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    //  url: `user/city-list/?search=${data.key}`,
+    //url: `starclass/lecture_history_of_school/?school_id=${data.id}`,
+    url: `user/get-update-school-course-detail-by-user/?school_id=${data.school_id}&course_id=${data.course_id}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('get Update School Course Details By User Result', JSON.stringify(result, undefined, 2));
+
+      callback({ result, error });
+      // const userToken = JSON.stringify(data).st result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+  //callback({result, error});
+
+
+}
+
+
+/***************************User GET Search School Student List By User Auth Segas*******************************/
+
+function* getSearchSchoolStudentSearchList({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/search-list-for-school-student/?search=${data.search}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Profile Detail For User Auth Segas*******************************/
+
+function* getProfileDetailForUser({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/profile-detail-of-users/?count_type=true&user_id=${data.user_id}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      console.log(
+        'Profile Detail For User result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User GET Profile Detail For School Auth Segas*******************************/
+
+function* getProfileDetailForSchool({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/profile-detail-of-school/?count_type=true&school_id=${data.school_id}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      console.log(
+        'Profile Detail For School result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -1442,9 +1871,20 @@ function* User() {
     yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
     yield takeLatest(ADDUSERSTEPSEVEN, getadduserstepseven),
     yield takeLatest(USERCOURSECONFIRMATION, getusercourseconfirmation),
+    yield takeLatest(USERDELETECOURSESTANDARD, getDeleteCourseStandard),
+    yield takeLatest(CITYLISTSEARCH, getCitySearch),
+    yield takeLatest(ADDCITYSTATEFORUSER, getAddcitystateofuser),
+    yield takeLatest(STARTCLASSCOURSELIST, getStarclasscourselist),
+    yield takeLatest(SCHOOLLISTFORSTARCLASS, getSchoollistforstarclass),
+    yield takeLatest(COURSEPREVIEW, getCoursePreview),
+    yield takeLatest(STARCLASSLECTURELISTBYCOURSEID, getStartClasslecturelist),
+    yield takeLatest(STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW, getStartClasslecturelistcoursepreview),
+    yield takeLatest(LECTUREHISTORY, getLecturehistory),
+    yield takeLatest(GETUPDATESCHOOLCOURSEDETAILBYUSER, getUpdateschoolcoursedetailbyuser),
+    yield takeLatest(SEARCHLISTFORSCHOOLSTUDENT, getSearchSchoolStudentSearchList),
+    yield takeLatest(PROFILEDETAILOFUSER, getProfileDetailForUser),
+    yield takeLatest(PROFILEDETAILOFSCHOOL, getProfileDetailForSchool),
 
-    
-    
   ]);
 }
 

@@ -55,3 +55,5 @@ export {default as AddSchoolScreen} from './AppScreens/AddSchoolScreen';
 export {default as SchoolDetailScreen} from './AppScreens/SchoolDetailScreen';
 export {default as SchoolConfirmationScreen} from './AppScreens/SchoolConfirmationScreen';
 export {default as EditCourseScreen} from './AppScreens/EditCourseScreen';
+export {default as SearchSchoolDetail} from './AppScreens/SearchSchoolDetail';
+

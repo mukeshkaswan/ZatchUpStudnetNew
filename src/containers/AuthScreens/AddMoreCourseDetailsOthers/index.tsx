@@ -61,9 +61,9 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
     }, [])
     const getDataFromAPi = async (result) => {
 
-        // console.log('dfssdfdsdsffff', result.results)
+        console.log('dfssdfdsdsffff', result.results)
 
-        setDataCourseList(result.results)
+        setDataCourseList(result.results[0].course_data);
 
 
     }
@@ -171,9 +171,9 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                             //  ItemSeparatorComponent={this.SeparatorComponent}
                             renderItem={({ item, index }) =>
                                 <CardView
-                                    cardElevation={1}
-                                    cardMaxElevation={1}
-                                    cornerRadius={10}
+                                    cardElevation={10}
+                                    cardMaxElevation={10}
+                                    cornerRadius={1}
                                     style={styles.Cardview}>
 
                                     <View
@@ -195,19 +195,28 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                                         /> */}
                                     </View>
 
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <View style={styles.view_Row_}>
-                                            <Text style={styles.view_Tv_1}>Starting Year :</Text>
-                                            <Text style={styles.view_Tv_2}>{item.start_date}</Text>
-                                        </View>
+                                    <View style={styles.view_Row_}>
+                                        <Text style={styles.view_Tv_1}>Starting Year :</Text>
+                                        <Text style={styles.view_Tv_2}>{item.start_date}</Text>
+                                    </View>
 
-                                        <View style={styles.view_Row_}>
-                                            <Text style={styles.view_Tv_1}>Ending Year :</Text>
-                                            <Text style={styles.view_Tv_2}>{item.end_date}</Text>
-                                        </View>
+                                    <View style={styles.view_Row_}>
+                                        <Text style={styles.view_Tv_1}>Ending Year :</Text>
+                                        <Text style={styles.view_Tv_2}>{item.end_date}</Text>
+                                    </View>
+                                    {/* <View style={{ flexDirection: 'row' }}>
+                                       
+
+                                      
+
+                                    </View> */}
+
+                                    <View style={styles.view_Row_}>
+                                        <Text style={styles.view_Tv_1}>Description :</Text>
+                                        <Text style={styles.view_Tv_3}>{item.description}</Text>
 
                                     </View>
-                                    <Text style={styles.view_Tv_3}>{item.description}</Text>
+
 
                                 </CardView>} />
 
@@ -215,7 +224,6 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                             <View style={{ flexDirection: 'row', marginBottom: '3%', marginTop: '6%', }}>
                                 <Image source={Images.addmore_school_icon} style={styles.checkbox}></Image>
                                 <View style={{ marginLeft: 15, marginTop: 5 }}><Text style={styles.fillText_Add}>Add More Course</Text></View>
-
                             </View>
                         </TouchableOpacity>
                     </View>

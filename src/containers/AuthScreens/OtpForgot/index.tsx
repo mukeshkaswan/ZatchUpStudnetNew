@@ -21,6 +21,9 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
     const [modeltype, setmodeltype] = useState('bottom');
     const [uid, setuid] = useState('');
     const [key, setkey] = useState('');
+    const [firebaseusername, setfirebaseusername] = useState('');
+    const [firebasepassword, setfirebasepassword] = useState('');
+
 
     const dispatch = useDispatch();
 
@@ -136,6 +139,8 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                                 setuid(result.data.uid),
                                 setkey(result.data.key),
                                 setSelected(!allSelected),
+                                setfirebaseusername(result.data.firebase_username),
+                                setfirebasepassword(result.data.firebase_password)
                               //  console.log('key',result.data.key),
                               //  console.log('uid',result.data.uid)
 
@@ -180,7 +185,7 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
 
                 <Image source={Images.message_icon} style={styles.messagelogo} />
             </View>
-            <ModelComponent keyy={key} uidd={uid} onPress={submit} isvisible={allSelected} modeltype={modeltype} navigationss={props.navigation} />
+            <ModelComponent f_username={firebaseusername} f_password={firebasepassword}   keyy={key} uidd={uid} onPress={submit} isvisible={allSelected} modeltype={modeltype} navigationss={props.navigation} />
 
             {/* <View style={styles.enterTextConatiner}>
         <Text style={styles.enterText}>Two Step Log-In</Text>

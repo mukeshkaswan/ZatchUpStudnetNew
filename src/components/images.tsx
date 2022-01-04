@@ -52,6 +52,9 @@ const images = {
   reminders: require('../assets/images/reminders.png'),
   shareprofile: require('../assets/images/share-my-profile.png'),
   closeicon: require('../assets/images/close_icon.png'),
+  add_more: require('../assets/images/add_more.png'),
+  school: require('../assets/images/school.png'),
+  profile_default: require('../assets/images/profile_default.png'),
 };
 
 export default images;

@@ -32,6 +32,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth'
 
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -155,9 +156,28 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
               console.warn(
                 'after change password User result',
                 JSON.stringify(result.status, undefined, 2),
+                
                 Toast.show(result.message, Toast.SHORT),
                 setLoading(false),
+
+
+                
               );
+              auth()
+              .signInWithEmailAndPassword(
+                result.data.firebase_username + '@zatchup.com',
+                oldPassword,
+              )
+              .then(({user}) => {
+                console.log('User==>>', user, oldPassword);
+                auth().currentUser.updatePassword(newPassword);
+              
+              })
+              .catch((error) => {
+                console.log('Error=>', error);
+              });
+
+
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));

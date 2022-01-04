@@ -185,7 +185,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
         />
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 15}}>Reminders not available</Text>
+          <Text style={{fontSize: 15}}>Records not available.</Text>
         </View>
       )}
     </View>

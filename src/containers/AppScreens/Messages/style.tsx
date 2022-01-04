@@ -12,6 +12,64 @@
          
  paddingBottom:40
      },
+     child_view: {
+      flexDirection: 'row',
+      backgroundColor: '#4B2A6A',
+      height: 60,
+    },
+    image_menu: {
+      marginLeft: 15,
+      marginTop: 10,
+      tintColor: '#FFFFFF',
+    },
+    tv_view: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    ZatchUp_tv: {
+      color: '#FFFFFF',
+      marginRight: 50,
+      fontSize: 28,
+      fontWeight: 'bold',
+      bottom: 5,
+    },
+    
+    TM_tv: {
+      color: '#FFFFFF',
+      marginRight: 20,
+      fontSize: 10,
+      bottom: 10,
+    },
+    Notification_view: {
+      position: 'absolute',
+      right: 60,
+      alignSelf: 'flex-end',
+      top: 1,
+    },
+    dot_view: {
+      position: 'absolute',
+      right: 10,
+      alignSelf: 'flex-end',
+      top: 0,
+    },
+  
+    dot_image: {
+      marginRight: 0,
+      marginTop: 15,
+      tintColor: '#FFFFFF',
+      height: 26,
+      width: 26,
+      right: 10,
+    },
+    inbox_iconreminder: {
+      marginRight: 5,
+      marginTop: 11,
+      tintColor: '#FFFFFF',
+      height: 30,
+      width: 30,
+    },
      tabButtonWrapper: {
          flexDirection: 'row',
          marginTop: 10,

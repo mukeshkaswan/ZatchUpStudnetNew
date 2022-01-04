@@ -1,7 +1,7 @@
-import React, { Component, FC, useState } from 'react';
-import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler,TextInput } from 'react-native';
-import styles from './style.tsx';  
-import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn ,HeaderTitleWithBack} from '../../../components';
+import React, { Component, FC, useState, useEffect } from 'react';
+import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput } from 'react-native';
+import styles from './style.tsx';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,63 +13,33 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
-const data = [
-  {
-    id: 1,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-     
-    levelofeducation:
-      'Post Graduate',
-      
-    
-  },
-  {
-    id: 2,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-     
-    levelofeducation:
-      'Post Graduate',
-    
-  },
-   
-  {
-    id: 3,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-     
-    levelofeducation:
-      'Post Graduate',
-    
-  },
-   
-  {
-    id: 4,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-     
-    levelofeducation:
-      'Post Graduate',
-    
-  },
-   
-   
-   
-];
 
- 
+
 interface ResetPasswordScreenProps {
   navigation: any;
 }
 
-const CoursesListScreen= (props: ResetPasswordScreenProps) => {
-  const [number, onChangeNumber] = React.useState(null);
- function handleBackBut() {
+const CoursesListScreen = (props: ResetPasswordScreenProps) => {
+  const [number, onChangeNumber] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const [schoolid, setSchoolID] = useState('');
+  const [coursedata, setCourseData] = useState([]);
+
+  const dispatch = useDispatch();
+
+  function handleBackBut() {
     props.navigation.goBack();
     return true;
   }
- const renderIndicator = () => {
+
+
+  useEffect(() => {
+
+    getSchoolList();
+
+
+  }, []);
+  const renderIndicator = () => {
     return (
       <View style={{}}>
 
@@ -90,61 +60,165 @@ const CoursesListScreen= (props: ResetPasswordScreenProps) => {
   }
 
 
+
+  /***************************User GET School List*******************************/
+
+  const getSchoolList = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: token,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getSchoollistforstarclass({
+        data,
+
+        callback: ({ results, error }) => {
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            // console.log('results Data', results.id[0]);
+            getCourseList(855);
+            setSchoolID(855);
+            setLoading(false);
+          }
+          else if (results && results.length == []) {
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User GET Course List*******************************/
+
+  const getCourseList = async (id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: id,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getStarclasscourselist({
+        data,
+
+        callback: ({ results, error }) => {
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setCourseData(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setCourseData([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
   return (
     <View style={styles.container}>
-    <CustomStatusBar />
+      {isLoading && renderIndicator()}
+
+      <CustomStatusBar />
       <HeaderTitleWithBack
-           navigation={props.navigation}
-          headerTitle="Courses List"
-        />
-      <View style={styles.rowinputcontainer}> 
-      
-         <View style={styles.textinputcontainer}>
-            <TextInput
-             style={{paddingLeft:10}}
-             onChangeText={onChangeNumber}
-             value={number}
-             placeholder="Search"
+        navigation={props.navigation}
+        headerTitle="Courses List"
+      />
+      <View style={styles.rowinputcontainer}>
+
+        <View style={styles.textinputcontainer}>
+          <TextInput
+            style={{ paddingLeft: 10 }}
+            onChangeText={onChangeNumber}
+            value={number}
+            placeholder="Search"
             keyboardType='default'
-           />
-       <TouchableOpacity style={styles.applybtn}>
-              <Text style={{color:'white'}}>Apply</Text>
-       </TouchableOpacity>
-          
-        
-        
-    </View>
-    <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen')}>
-              <Text style={{color:'white'}}>Play History</Text>
-           </TouchableOpacity>
-          
-    </View>
-    <View style={[styles.coursestextcontainer,{backgroundColor:'lightgrey'}]}>
-      <Text style={styles.snotext}>S. No</Text>
-      <Text  style={styles.lecturetitletext}>Title of Course</Text>
-      <Text  style={styles.topictext}>Course ID</Text>
-      <Text style={{flex:1,marginHorizontal:2,textAlign:'center'}}>Action</Text>
-    </View>
-     
-    <FlatList
-             data={data}
-            renderItem={({ item }) => 
-             
-   <View style={[styles.coursestextcontainer,{backgroundColor:'white'}]} >
-      <Text style={styles.snotext}> {item.id}</Text>
-      <Text style={styles.lecturetitletext}>{item.titleofcourse}</Text>
-      <Text style={styles.topictext}>{item.courseid}</Text>
-      <TouchableOpacity onPress={() => props.navigation.navigate('CoursePreviewScreen')} style={{flex:1,alignItems:'center'}}>
-      <Image               
-                         style={styles.image}
-                        source={Images.eye}
-                    />
-      </TouchableOpacity>
-    </View>
-            }
-            
           />
-</View>
+          <TouchableOpacity style={styles.applybtn}>
+            <Text style={{ color: 'white' }}>Apply</Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen', { 'id': schoolid })}>
+          <Text style={{ color: 'white' }}>Play History</Text>
+        </TouchableOpacity>
+
+      </View>
+
+      <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+        <Text style={styles.snotext}>S. No</Text>
+        <Text style={styles.lecturetitletext}>Title of Course</Text>
+        <Text style={styles.topictext}>Course ID</Text>
+        <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>Action</Text>
+      </View>
+
+      <FlatList
+        data={coursedata}
+        renderItem={({ item, index }) =>
+
+          <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
+            <Text style={styles.snotext}> {index}</Text>
+            <Text style={styles.lecturetitletext}>{item.course_name}</Text>
+            <Text style={styles.topictext}>{item.course_id}</Text>
+            <TouchableOpacity onPress={() => props.navigation.navigate('CoursePreviewScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+              <Image
+                style={styles.image}
+                source={Images.eye}
+              />
+            </TouchableOpacity>
+          </View>
+        }
+
+      />
+    </View>
 
 
 

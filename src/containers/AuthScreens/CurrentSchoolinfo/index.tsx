@@ -1,8 +1,8 @@
 //import liraries
-import React, {Component, FC, useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Alert, BackHandler} from 'react-native';
+import React, { Component, FC, useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
 import styles from './style';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 //import {CustomDropdown,Customtextinput2,Customheader} from '../../../components/textinput';
 import {
   TextField,
@@ -14,10 +14,10 @@ import {
   CustomDropdown,
   Validate,
 } from '../../../components';
-import {TextInput} from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {sub} from 'react-native-reanimated';
-import {useDispatch, useSelector} from 'react-redux';
+import { sub } from 'react-native-reanimated';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
@@ -28,7 +28,7 @@ import {
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface CurrentSchoolinfoScreenProps {
   navigation: any;
@@ -47,6 +47,8 @@ const CurrentSchoolinfo = (
   const [selectedSchool, setselectedSchool] = useState([]);
   const [selectedBoard, setselectedBoard] = useState('');
   const [valuestate, setstatevalue] = useState('');
+  const [opening_date, setopening_date] = useState('');
+
 
   const [address, setaddress] = useState('');
   const [addresssingle, setaddresssingle] = useState('');
@@ -86,7 +88,7 @@ const CurrentSchoolinfo = (
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -120,7 +122,7 @@ const CurrentSchoolinfo = (
     return true;
   }
   const Data = async result => {
-    // console.log('result.data.state_id',result.data.state_id)
+     console.log('result.data.address1',result.data.address1)
     var dsfdsf = result.data.state_id;
 
     setStateKey(result.data.state_id.toString());
@@ -155,7 +157,7 @@ const CurrentSchoolinfo = (
       dispatch(
         userActions.getSchoolZatchUpId({
           data,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status) {
               console.warn(
                 'after result Zatch Up ID',
@@ -218,7 +220,7 @@ const CurrentSchoolinfo = (
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result Auth User INfo',
@@ -272,7 +274,7 @@ const CurrentSchoolinfo = (
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -340,12 +342,12 @@ const CurrentSchoolinfo = (
       //this._scrollView.scrollTo(0);
       Toast.show(
         stateError ||
-          cityError ||
-          schoolError ||
-          schoolnameError ||
-          BoardError ||
-          zatchupidError ||
-          addressError,
+        cityError ||
+        schoolError ||
+        schoolnameError ||
+        BoardError ||
+        zatchupidError ||
+        addressError,
         Toast.SHORT,
       );
 
@@ -369,6 +371,9 @@ const CurrentSchoolinfo = (
 
       var schoolKey = [];
       schoolKey = selectedSchool.filter(x => x.value == schooldatkey);
+
+      var schoolid = [];
+      schoolid = selectedSchool.filter(x => x.value == schooldatkey);
       // console.log('sdfsd', schoolKey[0].label);
       var token = '';
       try {
@@ -388,6 +393,7 @@ const CurrentSchoolinfo = (
         name_of_school: schoolKey[0].label,
         state: stateKey[0].label,
         university: Board,
+        school_id: schoolid
         // "school_data": {}
       });
 
@@ -423,7 +429,7 @@ const CurrentSchoolinfo = (
       dispatch(
         userActions.getAddEi({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after AddEi result',
@@ -509,6 +515,8 @@ const CurrentSchoolinfo = (
         school_code: element.school_code,
         address2: element.address2,
         pincode: element.pincode,
+        opening_date: element.opening_date,
+
 
       };
       school.unshift(obj);
@@ -551,7 +559,7 @@ const CurrentSchoolinfo = (
     dispatch(
       userActions.getSchool({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -613,7 +621,7 @@ const CurrentSchoolinfo = (
     dispatch(
       userActions.getCity({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -675,7 +683,7 @@ const CurrentSchoolinfo = (
     dispatch(
       userActions.getStates({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after State Api Data result',
@@ -744,7 +752,7 @@ const CurrentSchoolinfo = (
     // }
     // Alert.alert('Success');
 
-    // console.log('schooldatkey', data.school_id)
+    console.log('schooldatkeyhhjhj', data)
 
     var stateKey = [];
     stateKey = selectedState.filter(x => x.value == statedatkey);
@@ -759,20 +767,21 @@ const CurrentSchoolinfo = (
     {
       schooldatkey != '0'
         ? props.navigation.navigate('Onboarded', {
-            data: props.route.params.data,
-            school_id: schoolKey[0].value,
-            nameofschool: schoolKey[0].label,
-            school_zatchup_id: ID,
-            state: stateKey[0].label,
-            city: cityKey[0].label,
-            address: address,
-            board: Board,
-          })
+          data: props.route.params.data,
+          school_id: schoolKey[0].value,
+          nameofschool: schoolKey[0].label,
+          school_zatchup_id: ID,
+          state: stateKey[0].label,
+          city: cityKey[0].label,
+          address: address,
+          board: Board,
+          opening_da: opening_date,
+        })
         : props.navigation.navigate('AddCourseDetailsOthers', {
-            nameofschool: schoolname,
-            board: Board,
-            school_id: data.school_id,
-          });
+          nameofschool: schoolname,
+          board: Board,
+          school_id: data.school_id,
+        });
     }
 
     // { selectedSchool != '2' ? props.navigation.navigate('Onboarded', { data: props.route.params.data }) : props.navigation.navigate('AddCourseDetailsOthers') }
@@ -780,7 +789,7 @@ const CurrentSchoolinfo = (
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps={'always'}
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       showsVerticalScrollIndicator={false}>
       <View style={styles.maincontainer}>
         <CustomStatusBar />
@@ -796,7 +805,7 @@ const CurrentSchoolinfo = (
           <Text style={styles.fillText}>Please Fill in the details below:</Text>
         </View>
 
-        <View style={{marginBottom: '5%', marginLeft: 25, marginRight: 25}}>
+        <View style={{ marginBottom: '5%', marginLeft: 25, marginRight: 25 }}>
           <TextField
             placeholder={'Enter ZatchUp ID'}
             onChangeText={val => setID(val)}
@@ -854,7 +863,6 @@ const CurrentSchoolinfo = (
               //selectedValue={selectedSchool}
               SelectedLanguagedata={selectedValue => {
                 //  getSchool(selectedValue);
-
                 if (selectedValue !== null) {
                   setCityKey(selectedValue);
                   getSchool(selectedValue);
@@ -874,7 +882,7 @@ const CurrentSchoolinfo = (
           </View>
         </View>
 
-        <View style={{marginLeft: 20, marginRight: 20, marginTop: 5}}>
+        <View style={{ marginLeft: 20, marginRight: 20, marginTop: 5 }}>
           <CustomDropdown
             placeholder={'Select School'}
             data={selectedSchool}
@@ -882,21 +890,39 @@ const CurrentSchoolinfo = (
             value={schooldatkey}
             //selectedValue={selectedSchool}
             SelectedLanguagedata={selectedValue => {
+             
               setSchoolKey(selectedValue);
+              console.log('selectedValue-selectedValue',selectedValue)
               var data = [];
               data = selectedSchool.filter(x => x.value == selectedValue);
               // console.log('school index address + {" "}+ address2 x',schooldatkey)
-              if (data.length > 0) {
-                // console.log('school name list data',data[0].university)
+              if (data.length > 0 && selectedValue != 0 ) {
+                console.log('school name list data', data)
+
                 var str1 = data[0].address1;
                 var str2 = data[0].address2;
                 var str3 = data[0].pincode;
 
                 var str4 = str1 + ' ' + str2 + ' ' + str3;
-                setBoard(data[0].university);
+                // if (data[0].address1 === undefined && data[0].address2 === undefined && data[0].pincode) {
+                //   setaddress('');
+
+                // } else {
+                //   setaddress(str4);
+
+                // }
+                //console.log('str4',str4)
+
                 setaddress(str4);
+
+                setBoard(data[0].university);
                 setaddresssingle(data[0].address1);
                 setID(data[0].school_code);
+                setopening_date(data[0].opening_date);
+              }else{
+                setaddress('');
+                setBoard('');
+                setID('')
               }
               // if (selectedValue !== 0) {
               //   var data = [];
@@ -916,7 +942,7 @@ const CurrentSchoolinfo = (
         </View>
 
         {schooldatkey != '0' ? (
-          <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
             <TextField
               placeholder={'Enter School Address'}
               onChangeText={val => setaddress(val)}
@@ -925,7 +951,7 @@ const CurrentSchoolinfo = (
             />
           </View>
         ) : (
-          <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
             <TextField
               placeholder={'Enter School Name'}
               onChangeText={val => setSchoolname(val)}
@@ -935,7 +961,7 @@ const CurrentSchoolinfo = (
         )}
 
         {schooldatkey != '0' ? (
-          <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
             <TextField
               placeholder={'Enter Board/University'}
               onChangeText={val => setBoard(val)}
@@ -944,7 +970,7 @@ const CurrentSchoolinfo = (
             />
           </View>
         ) : (
-          <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
             <TextField
               placeholder={'Enter Board/University'}
               onChangeText={val => setBoard(val)}

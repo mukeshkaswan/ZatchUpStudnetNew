@@ -1,7 +1,7 @@
-import React, { Component, FC, useState } from 'react';
-import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler,TextInput,Dimensions} from 'react-native';
-import styles from './style.tsx';  
-import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn ,HeaderTitleWithBack} from '../../../components';
+import React, { Component, FC, useState, useEffect } from 'react';
+import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput, Dimensions } from 'react-native';
+import styles from './style.tsx';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,35 +14,141 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
- 
+
 const data = [
   {
     id: 1,
     topics: 'Topics Covered',
     titleofcourse: 'Lecture2',
-    
+
   },
   {
     id: 2,
     titleofcourse: 'Lecture2',
-    topics:'Topics Covered'
-   },
-  ];
+    topics: 'Topics Covered'
+  },
+];
 const {
-  width,height
-}=Dimensions.get("screen")
- 
+  width, height
+} = Dimensions.get("screen")
+
 interface ResetPasswordScreenProps {
   navigation: any;
+  route: any;
 }
 
-const LectureDetailsScreen= (props: ResetPasswordScreenProps) => {
+const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   const [number, onChangeNumber] = React.useState(null);
- function handleBackBut() {
+  const [isLoading, setLoading] = useState(false);
+  const [lecturetitle, setLecturetitle] = useState('');
+  const [level, setLevel] = useState('');
+  const [field, setField] = useState('');
+  const [subject, setSubject] = useState('');
+  const [facultydetails, setFacultyDetails] = useState('');
+  const [topiccover, setTopiccover] = useState('');
+  const [des, setdes] = useState('');
+  const [uploaddate, setUploaddate] = useState('');
+  const [play, setPlay] = useState('');
+  const [standard, setStandard] = useState('');
+
+
+
+
+  const dispatch = useDispatch();
+
+  function handleBackBut() {
     props.navigation.goBack();
     return true;
   }
- const renderIndicator = () => {
+
+  useEffect(() => {
+
+    // console.log('props.route.params.data',props.route.params)
+
+    getCoursePreviewData(props.route.params.id);
+
+
+
+  }, []);
+
+
+  const getData = async (results) => {
+
+
+    setLecturetitle(results.lecture_title);
+    setLevel(results.level_of_education);
+    setField(results.field);
+    setSubject(results.subject);
+    setFacultyDetails(results.teaching_faculty_details);
+    setTopiccover(results.topic_cover);
+    setdes(results.lecture_description);
+    setUploaddate(results.upload_date);
+    setStandard(results.standard);
+
+
+
+  };
+
+
+  /***************************User GET Course Preview*******************************/
+
+  const getCoursePreviewData = async (id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: id,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getStartClasslecturelistcoursepreview({
+        data,
+
+        callback: ({ result, error }) => {
+
+
+          if (result) {
+
+            console.warn(
+              'after result',
+              JSON.stringify(result.data, undefined, 2),
+
+              //  getdataProfile(result),
+              //  getdataCourse(result),
+            );
+            setLoading(false);
+
+
+
+            getData(result.data);
+
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const renderIndicator = () => {
     return (
       <View style={{}}>
 
@@ -56,71 +162,75 @@ const LectureDetailsScreen= (props: ResetPasswordScreenProps) => {
       </View>
     );
   }
-return (
+  return (
     <View style={styles.container}>
-    <CustomStatusBar />
+      {isLoading && renderIndicator()}
+
+      <CustomStatusBar />
       <HeaderTitleWithBack
-           navigation={props.navigation}
-          headerTitle="Lecture Details"
-        />
+        navigation={props.navigation}
+        headerTitle="Lecture Details"
+      />
       <ScrollView>
-    
-        <View style={{paddingHorizontal:10,marginTop:10,}}>
-            
-             <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Lecture Title</Text>
-                <Text style={styles.coursetext1}>:   Lecture2</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Level of Education</Text>
-                <Text style={styles.coursetext1}>:  Post Graduate</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Field</Text>
-                <Text style={styles.coursetext1}>:   Computer Science</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Standard</Text>
-                <Text style={styles.coursetext1}>:   Standar1</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Subject</Text>
-                <Text style={styles.coursetext1}>:   Math</Text>
-            </View>
-            
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Teaching Faculty Details</Text>
-                <Text style={styles.coursetext1}>:   this is faculty details</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Topic Cover</Text>
-                <Text style={styles.coursetext1}>:   Earth</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Description</Text>
-                <Text style={styles.coursetext1}>:   jhwkjghjjkhkjh</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Uploaded date</Text>
-                <Text style={styles.coursetext1}>:   Sep 30, 2021</Text>
-            </View>
-            <View style={styles.textcontainer}>
-                <Text style={styles.coursetext}>Play  </Text>
-                <Text style={styles.coursetext1}>:   AAA003348</Text>
-            </View>
-            <View style={{paddingHorizontal:10,alignSelf:'center',width:'100%'}}> 
-      <Video
-          style={{height:height/4,marginTop:15,paddingHorizontal:20,alignSelf:'center',borderRadius:10}}
-          video={{ uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' }}
-          videoWidth={width-10}
-          thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-       />
- </View>
-            
-   </View>
-      </ScrollView> 
-      
-</View>
+
+        <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Lecture Title : </Text>
+            <Text style={styles.coursetext1}>{lecturetitle}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Level of Education : </Text>
+            <Text style={styles.coursetext1}>{level}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Field : </Text>
+            <Text style={styles.coursetext1}>{field}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Standard</Text>
+            <Text style={styles.coursetext1}>{standard}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Subject : </Text>
+            <Text style={styles.coursetext1}>{subject}</Text>
+          </View>
+
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
+            <Text style={styles.coursetext1}>{facultydetails}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Topic Cover : </Text>
+            <Text style={styles.coursetext1}>{topiccover}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Description : </Text>
+            <Text style={styles.coursetext1}>{des}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Uploaded date : </Text>
+            <Text style={styles.coursetext1}>{uploaddate}</Text>
+          </View>
+          <View style={styles.textcontainer}>
+            <Text style={styles.coursetext}>Play : </Text>
+            <Text style={styles.coursetext1}>AAA003348</Text>
+          </View>
+          <View style={{ paddingHorizontal: 10, alignSelf: 'center', width: '100%' }}>
+            <Video
+              style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
+             // video={{ uri: lecturetitle }}
+              url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
+
+              videoWidth={width - 10}
+             // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
+            />
+          </View>
+
+        </View>
+      </ScrollView>
+
+    </View>
 
 
 

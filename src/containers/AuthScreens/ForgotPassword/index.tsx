@@ -35,8 +35,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
 
     } else {
       props.navigation.navigate('OtpForgot', { 'mobile': password })
-
-
+      
     }
 
   }

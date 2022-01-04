@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "31214994209",
+    "firebase_url": "https://zatchup-prod-default-rtdb.firebaseio.com",
+    "project_id": "zatchup-prod",
+    "storage_bucket": "zatchup-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31214994209:android:33c3f117844168581f3460",
+        "android_client_info": {
+          "package_name": "com.ei.zatchup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31214994209-8qr4v7soorh8en8uetap13ovdaid8t1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4k3RqcdihrBcu-sRsrjCNzOzgogdMcCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31214994209-8qr4v7soorh8en8uetap13ovdaid8t1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31214994209:android:272ef4bb98072d481f3460",
+        "android_client_info": {
+          "package_name": "com.zatchup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31214994209-8qr4v7soorh8en8uetap13ovdaid8t1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4k3RqcdihrBcu-sRsrjCNzOzgogdMcCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31214994209-8qr4v7soorh8en8uetap13ovdaid8t1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

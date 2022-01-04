@@ -35,9 +35,7 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
     useEffect(() => {
-         console.log('rtyuigfghj', props.route.params) 
-        //getEicourseconfirmationlist()
-       USERCOURSECONFIRMATION()
+     //  USERCOURSECONFIRMATION()
         getStepCountAPi()
         setMother('')
         setFather('')
@@ -164,7 +162,6 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
               'after user confirmation result step',
               JSON.stringify(result, undefined, 2),
 
-             props.navigation.navigate('Personalinfo')
             );
             // setSpinnerStart(false);
             setLoading(false);
@@ -282,7 +279,6 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                             'after result step count',
                             JSON.stringify(result, undefined, 2),
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
                         );
                         // setSpinnerStart(false);
                         setLoading(false);

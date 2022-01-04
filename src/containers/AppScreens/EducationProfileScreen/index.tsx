@@ -304,9 +304,11 @@ const EducationProfileScreen = (props: ResetPasswordScreenProps) => {
             <View style={styles.addcitycontainer}>
 
               <Text style={styles.title_text}>Course Details</Text>
-              <TouchableOpacity style={styles.zatchupstarclassbtn} onPress={() => {
-                props.navigation.navigate('SchoolConfirmationScreen');
-              }}>
+              <TouchableOpacity style={styles.zatchupstarclassbtn} 
+              // onPress={() => {
+              //   props.navigation.navigate('SchoolConfirmationScreen');
+              // }}
+              >
                 <Image
                   source={Images.edit_icon}
                   style={styles.addicon}

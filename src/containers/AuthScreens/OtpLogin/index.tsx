@@ -85,7 +85,9 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       } else {
         Toast.show('Login Successfully', Toast.SHORT)
        // props.navigation.navigate('MySchoolScreen')
-        props.navigation.navigate('Home')
+              // props.navigation.navigate('Home')
+
+        props.navigation.navigate('CoomingSoon')
 
       }
     } else if (result.reg_step == 5) {

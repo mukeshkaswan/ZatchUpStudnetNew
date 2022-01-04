@@ -45,6 +45,7 @@ const validation = {
     },
     format: {
       pattern: /^(?!\s*$|\s).[a-z A-Z 0-9]{0,19}$/,
+
       message:
         'Please enter valid first name and it should not be more than 20 characters',
     },
@@ -55,6 +56,8 @@ const validation = {
     },
     format: {
       pattern: /^(?!\s*$|\s).[a-z A-Z 0-9]{0,19}$/,
+      // pattern : /^[a-zA-Z]{0,9}( [a-zA-Z]{0,19})+$/,
+
       message:
         'Please enter valid last name and it should not be more than 20 characters',
     },
@@ -255,11 +258,23 @@ const validation = {
     presence: {
       message: 'Please enter your school id',
     },
+    format: {
+      //pattern: /^[0-9]{12}$/
+      pattern: /^[0-9\b]+$/,
+      
+      message: "Please enter valid school id"
+    },
   },
 
   rollno: {
     presence: {
       message: 'Please enter your roll no',
+    },
+    format: {
+      //pattern: /^[0-9]{12}$/
+      pattern: /^[0-9\b]+$/,
+      
+      message: "Please enter valid roll no"
     },
   },
 
@@ -425,10 +440,10 @@ const validation = {
     presence: {
       message: 'Please enter your aadhaar card number',
     },
-    // format: {
-    //   pattern: /^[0-9]{12}$/,
-    //   message: "Your aadhaar card number must be 12 digits"
-    // },
+    format: {
+      pattern: /^[0-9]{12}$/,
+      message: "Aadhaar number must be of 12 digits"
+    },
     length: {
       minimum: 12,
       maximum: 12,
@@ -442,12 +457,12 @@ const validation = {
     },
     // format: {
     //   pattern: /[a-z A-Z]{16}$/,
-    //   message: "Your driving licence number must be 16 characters"
+    //   message: "Driving licence number must be of 16 characters"
     // },
     length: {
       minimum: 16,
       maximum: 16,
-      message: 'Driving licence number must be of 12 characters',
+      message: 'Driving licence number must be of 16 characters',
     },
   },
 

@@ -24,7 +24,10 @@ const Onboarded = (props: OnboardedScreenProps) => {
 
 
   useEffect(() => {
+
     getAuthUserInfoApi()
+
+    // console.log('idddddd',props.route.parmas.opening_da);
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -181,7 +184,7 @@ const Onboarded = (props: OnboardedScreenProps) => {
 
           <View>
             {/* <CustomButton title={'Confirm'} onPress={() => props.navigation.navigate('EducationProfile')} /> */}
-            <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board }) }} />
+            <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board}) }} />
 
           </View>
         </View>

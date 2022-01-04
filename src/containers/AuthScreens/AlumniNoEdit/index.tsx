@@ -103,6 +103,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
 
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [min_date, setmin] = useState('2014-01-01');
+
 
   const [CourseTypeOther, setCourseTypeOther] = useState([
     {
@@ -257,19 +259,30 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       props.route.params.school_id,
       props.route.params.course_id,
     );
+  
     getAddmissionNo();
+    console.log('course_type', props.route.params.course_type);
 
     if (props.route.params.coursekeyothersAlumni == '0') {
       setCourseedit(0);
       setDess(props.route.params.description);
+      //setDate3()
+      //setDate4()
+      if (props.route.params.course_type == 'Regular') {
+        setCourseTypeSelected('0');
+        getDataOtherEdit(
+          props.route.params.school_id,
+          props.route.params.course_id,
+        );
 
-      // if(props.route.params.course_type == 'Regular'){
-      //   setCourseTypeSelected('0');
-
-      // }
-      // else{
-      //   setCourseTypeSelected('1');
-      // }
+      }
+      else {
+        setCourseTypeSelected('1');
+        getDataOtherEdit(
+          props.route.params.school_id,
+          props.route.params.course_id,
+        );
+      }
       // setCourse(props.route.params.course_name);
 
     }
@@ -303,6 +316,15 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     setJoiningStandard(school);
   };
   /***************************GET DATA*******************************/
+
+  const getdataStartDateEndDate = async result => {
+
+    result.map((element: any) => {
+      setDate_Course3(element.start_date)
+      setDate_Course4(element.end_date)
+    });
+  };
+
 
   /***************************GET DATA*******************************/
 
@@ -476,7 +498,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
             console.warn(
               'after result',
               JSON.stringify(result, undefined, 2),
-              getdataCourseKey(result),
+              getdataCourseKey(result)
             );
             setLoading(false);
           }
@@ -491,6 +513,56 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       }),
     );
   };
+
+
+  /***************************User get Course List Data *******************************/
+
+  const getDataOtherEdit = async (id, courseid) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    const data = {
+      school_id: id,
+      token: token,
+      course_id: courseid,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getUpdateschoolcoursedetailbyuser({
+        data,
+        callback: ({ result, error }) => {
+
+          if (result.status === true) {
+            console.warn(
+              'after result .....>',
+              JSON.stringify(result, undefined, 2),
+              // getdataCourseKey(result),
+              getdataStartDateEndDate(result.data),
+
+
+            );
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
 
   /***************************User Course Added Past*******************************/
 
@@ -652,7 +724,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         comment: Des,
         course_end_year: endDate2,
         course_start_year: startDate1,
-        course_id: 'others',
+        course_id: props.route.params.course_id,
         course_name: Course,
         course_type: key,
         description: Dess,
@@ -664,6 +736,12 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         join_standard_id: join_standard_id,
         left_standard_id: left_standard_id,
         existing_course_id: props.route.params.course_id,
+        is_already_register: "false",
+        is_current: false,
+        join_start_year: null,
+        current_standard_id: null,
+        date_joining: startDate1,
+        roll_no: null,
       };
 
       let token = '';
@@ -809,7 +887,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     <CustomDropdown
                       placeholder={'Select Type'}
                       data={CourseTypeOther}
-                      selectedValue={Course_Selected}
+                      value={Course_Selected}
                       SelectedLanguagedata={(selectedValue: any) => {
                         setCourseTypeSelected(selectedValue);
                         // setID('')
@@ -822,7 +900,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       testID="dateTimePicker"
                       value={date3}
                       mode={mode3}
-                      minDate={new Date()}
+                      minimumDate={new Date(min_date)}
                       maximumDate={new Date()}
                       is24Hour={true}
                       format="YYYY-MMM-DD"
@@ -836,7 +914,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       testID="dateTimePicker"
                       value={date4}
                       mode={mode4}
-                      minDate={new Date()}
+                      minimumDate={new Date(date3)}
                       maximumDate={new Date()}
                       is24Hour={true}
                       format="YYYY-MMM-DD"
@@ -917,7 +995,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       value={date2}
                       mode={mode2}
                       //  minDate={new Date()}
-                      minimumDate={new Date(setminimudate)}
+                      minimumDate={new Date(date1)}
                       maximumDate={new Date()}
                       is24Hour={true}
                       format="YYYY-MMM-DD"
@@ -1017,7 +1095,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
             <View>
               {coursekey == 0 ? (
                 <CustomButton
-                  title={'ADD'}
+                  title={'Save'}
                   onPress={() => CourseAddedOther()}
                 />
               ) : (

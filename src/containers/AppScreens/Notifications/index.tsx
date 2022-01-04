@@ -209,7 +209,8 @@ const Notifications = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-      <FlatList
+     {setdatafromlist.length > 0 ? ( 
+        <FlatList
         data={setdatafromlist}
         renderItem={({item}) => (
           <CardView
@@ -237,6 +238,11 @@ const Notifications = (props: NotificationsScreenProps) => {
         )}
         //  ItemSeparatorComponent={renderIndicator}
       />
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 15}}>No records found.</Text>
+        </View>
+      )}
     </View>
   );
 };

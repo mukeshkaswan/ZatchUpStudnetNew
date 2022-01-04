@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,7 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import OtpInputs from 'react-native-otp-inputs';
 import {
   TextField,
@@ -24,13 +24,16 @@ import {
   Validate,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth'
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore'
 
 interface SignUpScreenProps {
   navigation: any;
@@ -89,13 +92,17 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
     );
   };
+  useEffect(() => {
 
+
+
+  }, []);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -164,7 +171,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
 
   const _storeData = async () => {
     try {
-      await AsyncStorage.setItem('username', Firstname + ' ' + Lastname);
+      await AsyncStorage.setItem('username', Firstname.trim() + ' ' + Lastname.trim());
       await AsyncStorage.setItem('dob', date_copy);
     } catch (e) {
       // saving error
@@ -174,13 +181,17 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const onPressSignup = () => {
     // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     //  var key = Email.indexOf("@") != -1 ? 'email' : 'mobile'
-    var hasNumber = /\d/;
-    var key =
-      Email.indexOf('@') == -1
-        ? hasNumber.test(Email)
-          ? 'mobile'
-          : 'email'
-        : 'email'; //'email' : 'mobile';
+    // var hasNumber = /\d/;
+    var hasNumber = /^[0-9]{10,10}$/
+    // var key =
+    //   Email.indexOf('@') == -1
+    //     ? hasNumber.test(Email)
+    //       ? 'mobile'
+    //       : 'email'
+    //     : 'email'; //'email' : 'mobile';
+
+    var key = Email.indexOf('@') != -1 ? 'email' : 'mobile';
+
     const firstnameError = Validate('first_name', Firstname);
     const dobError = Validate('dob', date_copy);
     const genderError = Validate('gender', male || Female || Custom);
@@ -207,13 +218,13 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     ) {
       Toast.show(
         firstnameError ||
-          lastameError ||
-          emailError ||
-          genderError ||
-          dobError ||
-          passwordError ||
-          confirmPasswordError ||
-          termError,
+        lastameError ||
+        emailError ||
+        genderError ||
+        dobError ||
+        passwordError ||
+        confirmPasswordError ||
+        termError,
         Toast.SHORT,
       );
 
@@ -225,16 +236,16 @@ const SignUpScreen = (props: SignUpScreenProps) => {
         KYC_type_doc_Selected == 0
           ? 'He'
           : KYC_type_doc_Selected == 1
-          ? 'She'
-          : 'They';
+            ? 'She'
+            : 'They';
       if (format.test(Email)) {
         // console.log('email','email')
         data = {
           username: Email,
           email: Email,
           password: Password,
-          first_name: Firstname,
-          last_name: Lastname,
+          first_name: Firstname.trim(),
+          last_name: Lastname.trim(),
           phone: '',
           profile: {
             dob: date_copy,
@@ -249,8 +260,8 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           username: Email,
           email: '',
           password: Password,
-          first_name: Firstname,
-          last_name: Lastname,
+          first_name: Firstname.trim(),
+          last_name: Lastname.trim(),
           phone: Email,
           profile: {
             dob: date_copy,
@@ -266,22 +277,77 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       dispatch(
         userActions.registerUser({
           data,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
+            console.log('result', result)
             if (result.status === true) {
-              console.warn(
-                'after register result',
-                JSON.stringify(result.status, undefined, 2),
-                props.navigation.navigate('Otp', {username: Email}),
-              );
-              // setSpinnerStart(false);
-              _storeData();
               setLoading(false);
+              auth()
+                .createUserWithEmailAndPassword(
+                  result.firebase_username + '@zatchup.com',
+                  Password,
+                )
+                .then(({ user }) => {
+                  console.log('user', user)
+
+                  var params = {
+                    id: user._user.uid,
+                    email: result.firebase_username + '@zatchup.com',
+                    firstName: Firstname.trim(),
+                    isActive: 1,
+                    lastName: Lastname.trim(),
+                    photoUrl: '',
+                  };
+                  let e = Email.indexOf('@') == -1
+                    ? hasNumber.test(Email)
+                      ? 'mobile'
+                      : 'email'
+                    : 'email';
+                  if (e == 'email') {
+                    params.normalEmail = Email;
+                  } else {
+                    params.phone = Email;
+                  }
+
+                  firestore()
+                    .collection('users')
+                    .add(params)
+                    .then(() => {
+                      console.log('SignUp add in dataBase');
+                      props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
+                      _storeData();
+                    }).catch(error => {
+                      console.log(error)
+                    })
+
+                })
+                .catch((error) => {
+                  if (error.code === 'auth/email-already-in-use') {
+                  }
+
+                  if (error.code === 'auth/invalid-email') {
+                  }
+
+                  console.error(error);
+                });
+
+
+
+
+              // console.warn(
+              //   'after register result',
+              //   JSON.stringify(result.status, undefined, 2),
+              //   props.navigation.navigate('Otp', {username: Email}),
+              // );
+              // // setSpinnerStart(false);
+              // _storeData();
+              // setLoading(false);
             }
 
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              Toast.show(result.error.email[0], Toast.SHORT);
+              //Toast.show(result.error.email[0], Toast.SHORT);
+              Toast.show('User with this email address already exists.', Toast.SHORT);
 
               //  console.log('error Result',result.error.email[0])
 
@@ -318,7 +384,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       <ScrollView>
         <View style={styles.inputContainer}>
           <View style={[styles.firstnameContainer, styles.inputmarginBottom]}>
-            <View style={{flex: 1, marginRight: '2%'}}>
+            <View style={{ flex: 1, marginRight: '2%' }}>
               <TextField
                 placeholder={'First Name'}
                 imageIcon={Images.user_icon}
@@ -326,7 +392,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 value={Firstname}
               />
             </View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <TextField
                 placeholder={'Last Name'}
                 imageIcon={Images.user_icon}
@@ -355,9 +421,9 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           <View
             style={[
               styles.inputmarginBottom,
-              {flexDirection: 'row', flex: 1, marginLeft: 25, marginRight: 25},
+              { flexDirection: 'row', flex: 1, marginLeft: 25, marginRight: 25 },
             ]}>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <CheckBox
                 title=" Male"
                 checkedIcon="dot-circle-o"
@@ -377,13 +443,13 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 }}
                 uncheckedColor={'#fff'}
                 checkedColor={'rgb(70,50,103)'}
-                textStyle={{color: '#33333380', fontFamily: 'Lato-Regular'}}
+                textStyle={{ color: '#33333380', fontFamily: 'Lato-Regular' }}
                 onPress={checkedMale}
-                // fontFamily={'Lato-Regular'}
+              // fontFamily={'Lato-Regular'}
               />
             </View>
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <CheckBox
                 title=" Female"
                 checkedIcon="dot-circle-o"
@@ -404,11 +470,11 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 uncheckedColor={'#fff'}
                 checkedColor={'rgb(70,50,103)'}
                 onPress={checkedFemale}
-                // fontFamily={'Lato-Regular'}
+              // fontFamily={'Lato-Regular'}
               />
             </View>
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <CheckBox
                 title=" Custom"
                 checkedIcon="dot-circle-o"
@@ -428,7 +494,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 }}
                 uncheckedColor={'#fff'}
                 checkedColor={'rgb(70,50,103)'}
-                textStyle={{color: '#33333380'}}
+                textStyle={{ color: '#33333380' }}
                 onPress={checkedCustom}
               />
             </View>
@@ -450,7 +516,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 />
               </View>
 
-              <View style={{marginBottom: '3%'}}>
+              <View style={{ marginBottom: '3%' }}>
                 <TextField
                   placeholder={'Gender (optional)'}
                   imageIcon={''}
@@ -519,7 +585,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             />
           </View>
         </View>
-        <View style={{margin: 0, padding: 0}}>
+        <View style={{ margin: 0, padding: 0 }}>
           <CheckBox
             title={
               <Text style={styles.agreetext}>
@@ -546,14 +612,14 @@ const SignUpScreen = (props: SignUpScreenProps) => {
               alignItems: 'center',
             }}
             onPress={checkedterm}
-            // onPress={() => setCount(count + 1)}
+          // onPress={() => setCount(count + 1)}
           />
         </View>
-        <View style={{padding: '5%'}}>
+        <View style={{ padding: '5%' }}>
           <CustomButton
             title={'Sign Up'}
             onPress={onPressSignup}
-            //onPress={() => props.navigation.navigate('Otp')}
+          //onPress={() => props.navigation.navigate('Otp')}
           />
         </View>
       </ScrollView>

@@ -47,8 +47,8 @@ const styles = ScaledSheet.create({
     },
 
     editicon: {
-        height: 30,
-        width: 30,
+        height: 32,
+        width: 32,
         marginRight:5,
         marginLeft: 20,
         // right: 0,

@@ -113,10 +113,11 @@ const eKyc = (props: eKycScreenProps) => {
     try {
       const username = await AsyncStorage.getItem('username');
       const dob = await AsyncStorage.getItem('dob');
+      //const res = str.replace(/ /g, '')
 
       if (username !== null) {
         // value previously stored
-        setName(username);
+        setName(username.split(/\s/).join(''));
       }
       if (dob !== null) {
         // value previously stored
@@ -546,18 +547,16 @@ const eKyc = (props: eKycScreenProps) => {
 
   const navigate = async () => {
 
-  //  console.log('login singup value', props.route.params);
+    //  console.log('login singup value', props.route.params);
     // props.navigation.navigate('eKycSuccess', {
     //   username: 'jfdsfsdlfjs',
     // });
-    if (props.route.params.signup == 'signup') {
-
+    if (props.route.params.hasOwnProperty('signup') && props.route.params.signup == 'signup' ) {
       props.navigation.navigate('eKycSuccess', {
         username: 'jfdsfsdlfjs',
       });
     }
-    else if (props.route.params.signup == '') {
-
+    else   {
       if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 1) {
         props.navigation.navigate('eKycSuccess', {
           username: 'jfdsfsdlfjs',
@@ -580,7 +579,7 @@ const eKyc = (props: eKycScreenProps) => {
       }
 
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 7) {
-        props.navigation.navigate('Home', {
+        props.navigation.navigate('CoomingSoon', {
           username: 'jfdsfsdlfjs',
         });
       }
@@ -632,12 +631,12 @@ const eKyc = (props: eKycScreenProps) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                     //alignItems: 'stretch',
-                    marginTop: 10,
+                    //marginTop: 10,
                   }}>
                   <TouchableOpacity
                     onPress={() => getImageFrontCamera()}
                     style={{
-                      height: 50,
+                     // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -649,7 +648,7 @@ const eKyc = (props: eKycScreenProps) => {
                   <TouchableOpacity
                     onPress={() => getImageFrontGallery()}
                     style={{
-                      height: 50,
+                     // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -660,7 +659,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.close()}
-                    style={{ height: 50, padding: 15, backgroundColor: '#4B2A6A' }}>
+                    style={{ padding: 15, backgroundColor: '#4B2A6A'}}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>
@@ -691,12 +690,12 @@ const eKyc = (props: eKycScreenProps) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                     //alignItems: 'stretch',
-                    marginTop: 10,
+                   // marginTop: 10,
                   }}>
                   <TouchableOpacity
                     onPress={() => getImageBackCamera()}
                     style={{
-                      height: 50,
+                     // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -708,7 +707,7 @@ const eKyc = (props: eKycScreenProps) => {
                   <TouchableOpacity
                     onPress={() => getImageBackGallery()}
                     style={{
-                      height: 50,
+                     // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -719,7 +718,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheetBack.current.close()}
-                    style={{ height: 50, padding: 15, backgroundColor: '#4B2A6A' }}>
+                    style={{  padding: 15, backgroundColor: '#4B2A6A' }}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>
