@@ -259,7 +259,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       props.route.params.school_id,
       props.route.params.course_id,
     );
-  
+
     getAddmissionNo();
     console.log('course_type', props.route.params.course_type);
 
@@ -371,6 +371,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       join_standard_id: '',
       left_standard_id: '',
       school_id: props.route.params.school_id,
+      course_type: ""
     };
     const data = {
       token: token,
@@ -384,10 +385,10 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         callback: ({ result, error }) => {
           if (result) {
             console.warn(
-              'after result',
+              'after result getAddmissionNoBySchool ',
               JSON.stringify(result, undefined, 2),
               //  getdataCourseKey(result)
-              setSchooID(result.data.admission_no),
+              // setSchooID(result.data.admission_no),
               setDes(result.data.description),
               // setDes(result.data.description),
               setDate_Course1(result.data.course_start_year),
@@ -573,7 +574,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     const standardError = Validate('joiningstandardkey', joiningstandardkey);
     const standardError1 = Validate('joiningstandardkey2', joiningstandardkey2);
     const desError = Validate('Des', Des);
-    const schoolidError = Validate('schoolid', S_id);
+    //const schoolidError = Validate('schoolid', S_id);
 
     if (
       coursenameError ||
@@ -581,8 +582,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dobendError ||
       standardError ||
       standardError1 ||
-      desError ||
-      schoolidError
+      desError
     ) {
       //this._scrollView.scrollTo(0);
       Toast.show(
@@ -591,8 +591,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         dobendError ||
         standardError ||
         standardError1 ||
-        desError ||
-        schoolidError,
+        desError,
         Toast.SHORT,
       );
 
@@ -601,7 +600,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       setLoading(true);
 
       let rawdata = {
-        admission_no: S_id,
+        // admission_no: S_id,
         class_id: '',
         comment: Des,
         course_end_year: endDate2,
@@ -719,7 +718,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
             : null;
 
       let rawdata = {
-        admission_no: S_id,
+        //admission_no: S_id,
         class_id: '',
         comment: Des,
         course_end_year: endDate2,
@@ -835,26 +834,13 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     ')'}
                 </Text>
               </View>
-              {/* <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                                <Text style={{ marginTop: 2, fontSize: 17, marginLeft: 5, }}>
-                                    {props.route.params.nameofschool}
-                                    <Text
-                                        style={{ marginTop: 2, fontSize: 17, marginLeft: 5, }}
-                                    >
 
-                                        {'('}
-                                        {props.route.params.school_zatchup_id}
-                                        {')'}
-
-                                    </Text>
-                                </Text>
-                               
-                            </View> */}
               <View style={{}}>
                 <CustomDropdown
                   placeholder={'Select Course'}
                   data={selectedCourse}
                   value={courseedit}
+                  disabled={coursekey == 0 ? true : false}
                   SelectedLanguagedata={selectedValue => {
                     setCourseKey(selectedValue);
                     setCourseedit(selectedValue);
@@ -1063,7 +1049,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     {/* <CustomDropdown label1="Left Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={LeftStandard} SelectedLanguagedata={(item) => setLeftStandard(item)} /> */}
                   </View>
 
-                  <View
+                  {/* <View
                     style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                     <TextField
                       placeholder={'Enter School ID'}
@@ -1071,7 +1057,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       onChangeText={val => setSchooID(val)}
                       value={S_id}
                     />
-                  </View>
+                  </View> */}
 
                   <View
                     style={{

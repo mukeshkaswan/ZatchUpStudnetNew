@@ -19,9 +19,10 @@ const styles = ScaledSheet.create({
 
     Cardview: {
         backgroundColor: '#FFFFFF',
-        // marginLeft: 20,
-        //  marginRight: 20,
-        marginTop: 1,
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 0,
+
 
     },
 
@@ -39,17 +40,17 @@ const styles = ScaledSheet.create({
         position: 'absolute',
     },
     editiconCopy: {
-        height: 25,
-        width: 25,
+        height: 28,
+        width: 28,
         // resizeMode: 'contain',
         // marginTop: '20%',
         // alignContent:'flex-end',
         // alignItems:'flex-end',
         //alignSelf:'flex-end',
-        //  marginLeft: 10,
-        right: 0,
-        marginRight: 10,
-        position: 'absolute',
+        marginLeft: '50%',
+        //left: 15,
+        // marginRight: 10,
+        // position: 'absolute',
     },
     CardviewChild: {
         width: '95%',
@@ -68,7 +69,7 @@ const styles = ScaledSheet.create({
         flexDirection: 'row'
     },
     view_Tv_1: {
-        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#CCCCCC'
+        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656'
     },
     view_Tv_2: {
         marginTop: 5, fontSize: 18, marginLeft: 5, color: '#565656'

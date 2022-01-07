@@ -397,27 +397,7 @@ const CurrentSchoolinfo = (
         // "school_data": {}
       });
 
-      // if (schooldatkey == '0') {
-      //   data11 = {
-      //     "address1": "",
-      //     "city": cityKey[0].label,
-      //     "name_of_school": schoolname,
-      //     "school_data": {},
-      //     "state": stateKey[0].label,
-      //     "university": Board
-      //   }
-      // }
-      // else {
-      //   data11 = {
-      //     "address1": address,
-      //     "city": cityKey[0].label,
-      //     "full_address": address,
-      //     "name_of_school": schoolKey[0].label,
-      //     "state": stateKey[0].label,
-      //     "university": Board,
-      //     "school_data": {}
-      //   }
-      // }
+     
 
       const data_update = {
         token: token,
@@ -722,37 +702,8 @@ const CurrentSchoolinfo = (
   /***************************User GET States*******************************/
 
   const submit = async data => {
-    // try {
-    //   await AsyncStorage.setItem('school_id', data.school_id);
-    //   await AsyncStorage.setItem('school_zatchup_id', data.school_zatchup_id);
+  
 
-    // } catch (e) {
-    //   // saving error
-    // }
-
-    // if (!selectedState) {
-    //   Alert.alert('please select state')
-    //   return;
-    // }
-    // if (!setselectedCity) {
-    //   Alert.alert('please select city')
-    //   return;
-    // }
-    // if (!selectedSchool) {
-    //   Alert.alert('Please Select School')
-    //   return;
-    // }
-    // if (!address) {
-    //   Alert.alert('please enter your address')
-    //   return;
-    // }
-    // if (!selectedBoard) {
-    //   Alert.alert('please select board and city')
-    //   return;
-    // }
-    // Alert.alert('Success');
-
-    console.log('schooldatkeyhhjhj', data)
 
     var stateKey = [];
     stateKey = selectedState.filter(x => x.value == statedatkey);
@@ -781,6 +732,7 @@ const CurrentSchoolinfo = (
           nameofschool: schoolname,
           board: Board,
           school_id: data.school_id,
+          data: props.route.params.data
         });
     }
 

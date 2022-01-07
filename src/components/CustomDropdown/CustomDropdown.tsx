@@ -18,6 +18,7 @@ const CustomDropdown: FC = ({
   data,
   onChangeText,
   secureTextEntry,
+  disabled
 }) => {
   // const [selectedLanguage, setSelectedLanguage] = useState();
   return (
@@ -34,6 +35,7 @@ const CustomDropdown: FC = ({
             label: placeholder,
             value: null,
           }}
+          disabled={disabled}
           // selectedValue={selectedValue}
           //  onValueChange={(value) => SelectedLanguagedata(value)}
 

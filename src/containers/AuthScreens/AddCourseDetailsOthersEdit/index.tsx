@@ -24,6 +24,7 @@ import {
   CustomHeader,
   CustomDropdown,
   Validate,
+  HeaderTitleWithBack
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import { CheckBox } from 'react-native-elements';
@@ -72,6 +73,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const [mode1, setMode1] = useState('date');
   const [show1, setShow1] = useState(false);
   const [value, setValue] = useState('');
+  const [schoolid, setSchoolid] = useState('');
+
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -147,14 +150,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   useEffect(() => {
 
-    if(props.route.params.data == true){
-      setValue('Student');
-
-    }else{
-      setValue('Alumni');
-
-    }
- 
+    AddmissionNo();
+   
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -168,6 +165,114 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     props.navigation.goBack();
     return true;
   }
+
+  const submit = async result => {
+
+    if (props.route.params.confirmation === 'EIconfirmation') {
+      props.navigation.navigate('EIconfirmation');
+    }
+    else {
+      props.navigation.navigate('AddMoreCourseDetailsOthers', {
+        school_id: props.route.params.school_id,
+      });
+    }
+      setCourse(''),
+      setDes(''),
+      setDate_Copy(''),
+      setDate_Copy1('')
+  }
+
+
+  const getDataforview = async result => {
+
+    if (props.route.params.data == true) {
+      setValue('Student');
+      //setDate_Copy(props.route.params.start_date);
+      setDate_Copy(result.data.course_start_year);
+
+    } else {
+      setValue('Alumni');
+     // setDate_Copy1(props.route.params.end_date);
+     // setDate_Copy(props.route.params.start_date);
+     setDate_Copy1(result.data.course_end_year);
+     setDate_Copy(result.data.course_start_year);
+    }
+
+
+    if (props.route.params.course_type == 'Regular') {
+      setCourseTypeSelected('0');
+
+    } else {
+      setCourseTypeSelected('1');
+    }
+
+    // setCourse(props.route.params.course_name);
+    // setDes(props.route.params.description);
+    setSchoolid(props.route.params.school_id);
+    setCourse(result.data.course_name);
+    setDes(result.data.description);
+
+  }
+
+
+
+  const AddmissionNo = async () => {
+
+    let token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    let data = {
+      token: token,
+      course_id: props.route.params.course_id,
+      school_id: props.route.params.school_id,
+    };
+
+    dispatch(
+      userActions.getGetAdmissionNumberDetailBySchool({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'Get Ad No....>',
+              JSON.stringify(result, undefined, 2),
+
+            );
+            getDataforview(result)
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (result.status === false) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            //  Toast.show('This Course is already added by this user Please select other course', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  };
+
 
   const CourseAdded = async () => {
     var dobErrorend: any
@@ -198,17 +303,29 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
       let rawdata = {
         admission_no: null,
+        class_id: null,
         course_name: Course,
         course_type: key,
         description: Des,
-        end_date: value == 'Student' ? null : date_copy1,
+        end_date: "2022-01-06",
         name_of_school: props.route.params.nameofschool,
         school_code: null,
-        school_id: props.route.params.school_id,
+        school_id: schoolid,
         start_date: date_copy,
         is_current: value == 'Student' ? true : false,
         is_already_register: "false",
-        opening_date: ""
+        opening_date: "",
+        course_end_year: "2022-01-06",
+        course_id: props.route.params.course_id,
+        course_in_school: false,
+        course_start_year: date_copy,
+        current_standard_id: null,
+        date_joining: date_copy,
+        join_standard_id: null,
+        join_start_year: null,
+        left_standard_id: null,
+        roll_no: null,
+        school_onboarded: false
 
       };
       let token = '';
@@ -222,7 +339,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         // error reading value
       }
 
-      console.log('token', token);
+
 
       let data_update = {
         token: token,
@@ -235,18 +352,13 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
           callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
-                'after Add Course result',
+                'after Add Course Edit result',
                 JSON.stringify(result.status, undefined, 2),
-                //submit(result.data)
-                props.navigation.navigate('AddMoreCourseDetailsOthers', {
-                  school_id: props.route.params.school_id,
-                }),
-                setCourse(''),
-                setDes(''),
-                setDate_Copy(''),
-                setDate_Copy1('')
+
+
 
               );
+              submit(result);
               // setSpinnerStart(false);
               setLoading(false);
             }
@@ -283,7 +395,12 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         <CustomStatusBar />
         {isLoading && renderIndicator()}
 
-        <CustomHeader Title={'Add Course Details'} />
+        {/* <CustomHeader Title={'Update Course Details'} /> */}
+
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Update Course Details"
+        />
 
         <ScrollView>
           <View style={styles.inputContainer}>
@@ -319,6 +436,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                 placeholder={'Select Type'}
                 data={CourseTypeOther}
                 // selectedValue={Course_Selected}
+                value={Course_Selected}
                 SelectedLanguagedata={(selectedValue: any) => {
                   setCourseTypeSelected(selectedValue);
                   // setID('')

@@ -57,7 +57,8 @@ import {
   GETUPDATESCHOOLCOURSEDETAILBYUSER,
   SEARCHLISTFORSCHOOLSTUDENT,
   PROFILEDETAILOFUSER,
-  PROFILEDETAILOFSCHOOL
+  PROFILEDETAILOFSCHOOL,
+  GETADMISSIONNUMBERDETAILBYSCHOOL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1827,6 +1828,39 @@ function* getProfileDetailForSchool({ payload: { data, callback } }) {
   }
 }
 
+
+/***************************User Get Admission Number Detail By School Auth Segas*******************************/
+
+function* getGetAdmissionNumberDetailBySchool({ payload: { data, callback } }) {
+  console.warn('data in saga Get Admission Number Detail By School', data);
+  const formdata = new FormData();
+  formdata.append('course_id', data.course_id);
+  formdata.append('course_type', "");
+  formdata.append('school_id', data.school_id);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/get-admission-number-detail-by-school/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('Get Admission Number Detail By School', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -1884,6 +1918,9 @@ function* User() {
     yield takeLatest(SEARCHLISTFORSCHOOLSTUDENT, getSearchSchoolStudentSearchList),
     yield takeLatest(PROFILEDETAILOFUSER, getProfileDetailForUser),
     yield takeLatest(PROFILEDETAILOFSCHOOL, getProfileDetailForSchool),
+    yield takeLatest(GETADMISSIONNUMBERDETAILBYSCHOOL, getGetAdmissionNumberDetailBySchool),
+
+
 
   ]);
 }

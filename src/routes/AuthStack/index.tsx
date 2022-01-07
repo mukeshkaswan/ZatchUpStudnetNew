@@ -57,7 +57,8 @@ import {
   SchoolConfirmationScreen,
   EditCourseScreen,
   ProfileScreen,
-  SearchSchoolDetail
+  SearchSchoolDetail,
+  AddCourseDetailsOthersEdit
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -359,6 +360,11 @@ function AuthStack() {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="AddCourseDetailsOthersEdit"
+        component={AddCourseDetailsOthersEdit}
         options={{ header: () => null }}
       />
 

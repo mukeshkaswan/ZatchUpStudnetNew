@@ -56,7 +56,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
 
     const [selectedJoiningStandard, setJoiningStandard] = useState([]);
-    
+
     const [standardidparmleft, setStandardIDParmLeft] = useState('');
 
     const [joiningstandardkey, setJoiningStandardKey] = useState('');
@@ -347,101 +347,30 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
         const classError = Validate("class", standardclasskey);
 
-        const schoolidError = Validate("schoolid", SchoolID);
+        //const schoolidError = Validate("schoolid", SchoolID);
         const rollnoError = Validate("rollno", RollNo);
         const desError = Validate("Des", Des);
 
 
         if (
             courseError ||
-            dobError || joiningstandardError ||joiningcurrentError|| classError || schoolidError || rollnoError || desError
+            dobError || joiningstandardError || joiningcurrentError || classError || rollnoError || desError
         ) {
             //this._scrollView.scrollTo(0);
-            Toast.show(courseError || dobError || joiningstandardError || joiningcurrentError || classError || schoolidError || rollnoError || desError, Toast.SHORT);
+            Toast.show(courseError || dobError || joiningstandardError || joiningcurrentError || classError || rollnoError || desError, Toast.SHORT);
 
             return false;
         }
         else {
 
 
-            // console.log('course id',courseidparm);
-            // console.log('School code  id',props.route.params.school_zatchup_id);
-            // console.log('school id',props.route.params.school_id);
-            // console.log('standard  id',standardidparm);
-
-
-            // var data = '';
-
-
-
-
-
-
-
-            // console.log('postdata', post_data)
-
-            // var myHeaders = new Headers();
-            // myHeaders.append("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODEwLCJ1c2VybmFtZSI6InNkZnNkZGZAZ21haWwuY29tIiwiZXhwIjoxNjQ4MDMxNDAyLCJlbWFpbCI6InNkZnNkZGZAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MjIxMTE0MDJ9.IH-rLLNv1pyG1492fOVFzbPKUXxo8oL1shW1OvlLcDA");
-            // myHeaders.append("Content-Type", "application/json");
-
-
             setLoading(true);
 
 
-            //  console.log('postdata', requestOptions)
-            // fetch('http://172.105.61.231:3000/api/user/add-registered-ei-course/', requestOptions)
-            //     .then(response => response.json())
-            //     .then(d => {
-            //         console.log('------fd------43-45-54----f-gg-f-fgds--->', d)
-            //     });
-
-
-
-
-
-            // const data = {
-            //     id: id,
-            //     token: token,
-
-            // }
-
-            // var raw = JSON.stringify({
-            //     "admission_no":  `${SchoolID}`,
-            //       "class_id":  `${classidparm}` ,
-            //       "comment": Des,
-            //       "course_end_year": '',
-            //       "course_id": `${courseidparm}`,
-            //       "course_start_year": '',
-            //       "current_standard_id":  `${standardidparm}`,
-            //       "date_joining": date_copy,
-            //       "is_current_course": 1,
-            //       "join_standard_id":`${standardidparm}`,
-            //       "name_of_school": props.route.params.nameofschool,
-            //       "roll_no":  `${RollNo}`,
-            //       "school_code":`${props.route.params.school_zatchup_id}`,
-            //       "school_id":  `${props.route.params.school_id}`,
-            //       "standard_end_year": '',
-            //       "standard_start_year": ''
-            //   });
 
             let rawdata = {
-                // "name_of_school": "Kerala Junior Public School",
-                // "school_code": "KERALA001630",
-                // "admission_no": "4345546",
-                // "join_standard_id": "502",
-                // "current_standard_id": "502",
-                // "comment": "Play house for children's of the age group 2-4 years",
-                // "school_id": "653",
-                // "course_id": "571",
-                // "class_id": "690",
-                // "date_joining": "2021-05-14",
-                // "roll_no": 656546546,
-                // "is_current_course": 1,
-                // "course_start_year": null,
-                // "course_end_year": null,
-                // "standard_start_year": null,
-                // "standard_end_year": null
-                "admission_no": SchoolID,
+
+                //   "admission_no": SchoolID,
                 "class_id": classidparm,
                 "comment": Des,
                 "course_end_year": null,
@@ -461,24 +390,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 "description": Des,
                 "join_start_year": date_copy
             }
-            let raw = {
-                "admission_no": "124123",
-                "class_id": "690",
-                "comment": "Play house for children's of the age group 2-4 years",
-                "course_end_year": null,
-                "course_id": "571",
-                "course_start_year": null,
-                "current_standard_id": "502",
-                "date_joining": "2021-05-01",
-                "is_current_course": 1,
-                "join_standard_id": "502",
-                "name_of_school": "Kerala Junior Public School",
-                "roll_no": 1890,
-                "school_code": "KERALA001630",
-                "school_id": "547",
-                "standard_end_year": null,
-                "standard_start_year": null
-            };
+
             let token = '';
             try {
                 const value = await AsyncStorage.getItem('token');
@@ -496,15 +408,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 token: token,
                 data: rawdata,
             }
-            // const requestOptions = {
-            //     method: 'POST',
-            //     headers: {
-            //         'Authorization': ` Bearer ${token}`,
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: raw,
-            //     url: 'http://172.105.61.231:3000/api/user/add-registered-ei-course/',
-            // };
+
 
             dispatch(
                 userActions.getAddRegisteredEiCourse({
@@ -625,16 +529,16 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
 
         result.results.map((element: any) => {
-            if(element.view_for== 'STUDENT' ){
-            let obj = {
-                label: element.course_name,
-                value: element.id,
-                description: element.description,
-                start_date: element.start_date,
+            if (element.view_for == 'STUDENT') {
+                let obj = {
+                    label: element.course_name,
+                    value: element.id,
+                    description: element.description,
+                    start_date: element.start_date,
 
+                }
+                city.push(obj);
             }
-            city.push(obj);
-        }
         });
         // city.map(i=>{
         //     if(props.route.params.course_id == i.value){
@@ -845,224 +749,224 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     }
     return (
         <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
 
-            <CustomStatusBar />
+                <CustomStatusBar />
 
-            {isLoading && renderIndicator()}
-
-
-            <CustomHeader Title={'Add Course Details'} Back={'true'} navigation={props.navigation} />
+                {isLoading && renderIndicator()}
 
 
-            {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
-
-            <ScrollView>
+                <CustomHeader Title={'Add Course Details'} Back={'true'} navigation={props.navigation} />
 
 
-                <View style={styles.inputContainer}>
+                {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
 
-                    <View>
-                        <TouchableOpacity
-                        // onPress={() => props.navigation.navigate('CurrentSchoolinfo')}
-                        >
-                            <View style={styles.view_Row_}>
-                                <Text style={styles.view_Tv_1}>
-                                    {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'} 
-                                   
-                                </Text>
-                                {/* <Image
+                <ScrollView>
+
+
+                    <View style={styles.inputContainer}>
+
+                        <View>
+                            <TouchableOpacity
+                            // onPress={() => props.navigation.navigate('CurrentSchoolinfo')}
+                            >
+                                <View style={styles.view_Row_}>
+                                    <Text style={styles.view_Tv_1}>
+                                        {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'}
+
+                                    </Text>
+                                    {/* <Image
                                     style={{ marginLeft: 10, }}
                                     source={Images.verfied}
                                 /> */}
-                            </View>
-                        </TouchableOpacity>
+                                </View>
+                            </TouchableOpacity>
 
 
-                        <View style={{}}>
-                            <CustomDropdown placeholder={'Select Course'}
-                                data={selectedCourse}
-                                value={courseedit}
-                                // value={{label: 'A', value: '0'}}
-                                //valueitem={'red'}
-                                // value={'ssddf'}
-                                //  selectedValue={'ssddf'}
-                                SelectedLanguagedata={(selectedValue) => {
-                                    // getSchool(selectedValue);
-                                    // setSchoolID('')
-                                    // setRollNo('')
-                                    // setDate_Copy('')
-                                    // setStandarClassdKey('');
-                                    // setClass('');
-                                    setCourseKey(selectedValue);
-                                    setCourseedit(selectedValue)
-                                    var data = [];
-                                    data = selectedCourse.filter(x => x.value == selectedValue);
-                                    // console.log('school index x',data)
+                            <View style={{}}>
+                                <CustomDropdown placeholder={'Select Course'}
+                                    data={selectedCourse}
+                                    value={courseedit}
+                                    // value={{label: 'A', value: '0'}}
+                                    //valueitem={'red'}
+                                    // value={'ssddf'}
+                                    //  selectedValue={'ssddf'}
+                                    SelectedLanguagedata={(selectedValue) => {
+                                        // getSchool(selectedValue);
+                                        // setSchoolID('')
+                                        // setRollNo('')
+                                        // setDate_Copy('')
+                                        // setStandarClassdKey('');
+                                        // setClass('');
+                                        setCourseKey(selectedValue);
+                                        setCourseedit(selectedValue)
+                                        var data = [];
+                                        data = selectedCourse.filter(x => x.value == selectedValue);
+                                        // console.log('school index x',data)
 
-                                    if (data.length > 0) {
-                                        // console.log('course list data id',data[0].value)
-                                        getStandard(selectedValue);
-                                        setCourseIDParm(data[0].value);
-                                        setDes(data[0].description);
-                                        setminimumDate(data[0].start_date);
+                                        if (data.length > 0) {
+                                            // console.log('course list data id',data[0].value)
+                                            getStandard(selectedValue);
+                                            setCourseIDParm(data[0].value);
+                                            setDes(data[0].description);
+                                            setminimumDate(data[0].start_date);
 
-                                    }
+                                        }
 
-                                    // if (selectedValue !== null) {
-                                    //     setCourseKey(selectedValue);
+                                        // if (selectedValue !== null) {
+                                        //     setCourseKey(selectedValue);
 
-                                    //     getStandard(selectedValue);
+                                        //     getStandard(selectedValue);
 
-                                    // }
-                                }}
+                                        // }
+                                    }}
 
-                            />
-                        </View>
-                        <TouchableOpacity onPress={showDatepicker}>
-                            <View style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}>
-                                <TextField
-                                    placeholder={'Course Joining Date'}
-                                    imageIcon={Images.calendar_icon}
-                                    editable={false}
-                                    value={date_copy.toString()}
                                 />
                             </View>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={showDatepicker}>
+                                <View style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}>
+                                    <TextField
+                                        placeholder={'Course Joining Date'}
+                                        imageIcon={Images.calendar_icon}
+                                        editable={false}
+                                        value={date_copy.toString()}
+                                    />
+                                </View>
+                            </TouchableOpacity>
 
-                        {show && (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode={mode}
-                                // minimumDate={new Date(2015, 0, 1)}
-                                minimumDate={new Date(setminimudate)}
-                                //  minDate={new Date()}
-                                maximumDate={new Date()}
+                            {show && (
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    mode={mode}
+                                    // minimumDate={new Date(2015, 0, 1)}
+                                    minimumDate={new Date(setminimudate)}
+                                    //  minDate={new Date()}
+                                    maximumDate={new Date()}
 
-                                is24Hour={true}
-                                format="YYYY-MMM-DD"
-                                display="default"
-                                onChange={onChange}
-                            />
-                        )}
-
-
-                        <View style={{ marginTop: '1%', }}>
-                            <CustomDropdown placeholder={'Select Joining Standard'}
-                                data={selectedJoiningStandard}
-                                value={st_edit}
-                                //  selectedValue={coursekey}
-                                SelectedLanguagedata={(selectedValue) => {
-                                    //  getSchool(selectedValue);
-                                    setJoiningStandardKey1(selectedValue);
-                                    setJoinStandardedit(selectedValue);
-
-                                    var data = [];
-                                    data = selectedJoiningStandard.filter(x => x.value == selectedValue);
-                                    // console.log('school index x',data)
-
-                                    if (data.length > 0) {
-                                        setStandardIDParmLeft(data[0].value);
-
-                                    }
-                                    // if (selectedValue !== null) {
-                                    //     setJoiningStandardKey(selectedValue);
-                                    //     getStandardClassData(selectedValue);
-                                    // }
-                                }}
-                            />
-                        </View>
-
-                        <View style={{ marginTop: '1%', }}>
-                            <CustomDropdown placeholder={'Select Current Standard'}
-                                data={selectedJoiningStandard}
-                                value={cu_edit}
-                                //  selectedValue={coursekey}
-                                SelectedLanguagedata={(selectedValue) => {
-                                    //  getSchool(selectedValue);
-                                    setJoiningStandardKey(selectedValue);
-                                    setCurrentStandardedit(selectedValue);
-
-                                    var data = [];
-                                    data = selectedJoiningStandard.filter(x => x.value == selectedValue);
-                                    // console.log('school index x',data)
-
-                                    if (data.length > 0) {
-                                        //  console.log('setStandardIDParm', data[0].value)
-                                        getStandardClassData(selectedValue);
-                                        setStandardIDParm(data[0].value);
-
-                                    }
-                                    // if (selectedValue !== null) {
-                                    //     setJoiningStandardKey(selectedValue);
-                                    //     getStandardClassData(selectedValue);
-                                    // }
-                                }}
-                            />
-                        </View>
-
-                        <View style={{ marginTop: '1%', }}>
-                            <CustomDropdown placeholder={'Select Class'}
-                                data={selectedsetStandardClass}
-                                value={classedit}
-                                //  selectedValue={coursekey}
-                                SelectedLanguagedata={(selectedValue) => {
-                                    //  getSchool(selectedValue);
-                                    setStandarClassdKey(selectedValue);
-                                    setClass(selectedValue);
-
-                                    var data = [];
-                                    data = selectedsetStandardClass.filter(x => x.value == selectedValue);
-                                    // console.log('school index x',data)
-
-                                    if (data.length > 0) {
-                                        console.log('setClassIDParm', data[0].value)
-                                        setClassIDParm(data[0].value);
-
-                                    }
-                                    // if (selectedValue !== null) {
-                                    //     setStandarClassdKey(selectedValue);
-                                    //     // getStandardClass(selectedValue);
-                                    // }
-                                }}
-
-                            />
-                        </View>
+                                    is24Hour={true}
+                                    format="YYYY-MMM-DD"
+                                    display="default"
+                                    onChange={onChange}
+                                />
+                            )}
 
 
-                        <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
+                            <View style={{ marginTop: '1%', }}>
+                                <CustomDropdown placeholder={'Select Joining Standard'}
+                                    data={selectedJoiningStandard}
+                                    value={st_edit}
+                                    //  selectedValue={coursekey}
+                                    SelectedLanguagedata={(selectedValue) => {
+                                        //  getSchool(selectedValue);
+                                        setJoiningStandardKey1(selectedValue);
+                                        setJoinStandardedit(selectedValue);
+
+                                        var data = [];
+                                        data = selectedJoiningStandard.filter(x => x.value == selectedValue);
+                                        // console.log('school index x',data)
+
+                                        if (data.length > 0) {
+                                            setStandardIDParmLeft(data[0].value);
+
+                                        }
+                                        // if (selectedValue !== null) {
+                                        //     setJoiningStandardKey(selectedValue);
+                                        //     getStandardClassData(selectedValue);
+                                        // }
+                                    }}
+                                />
+                            </View>
+
+                            <View style={{ marginTop: '1%', }}>
+                                <CustomDropdown placeholder={'Select Current Standard'}
+                                    data={selectedJoiningStandard}
+                                    value={cu_edit}
+                                    //  selectedValue={coursekey}
+                                    SelectedLanguagedata={(selectedValue) => {
+                                        //  getSchool(selectedValue);
+                                        setJoiningStandardKey(selectedValue);
+                                        setCurrentStandardedit(selectedValue);
+
+                                        var data = [];
+                                        data = selectedJoiningStandard.filter(x => x.value == selectedValue);
+                                        // console.log('school index x',data)
+
+                                        if (data.length > 0) {
+                                            //  console.log('setStandardIDParm', data[0].value)
+                                            getStandardClassData(selectedValue);
+                                            setStandardIDParm(data[0].value);
+
+                                        }
+                                        // if (selectedValue !== null) {
+                                        //     setJoiningStandardKey(selectedValue);
+                                        //     getStandardClassData(selectedValue);
+                                        // }
+                                    }}
+                                />
+                            </View>
+
+                            <View style={{ marginTop: '1%', }}>
+                                <CustomDropdown placeholder={'Select Class'}
+                                    data={selectedsetStandardClass}
+                                    value={classedit}
+                                    //  selectedValue={coursekey}
+                                    SelectedLanguagedata={(selectedValue) => {
+                                        //  getSchool(selectedValue);
+                                        setStandarClassdKey(selectedValue);
+                                        setClass(selectedValue);
+
+                                        var data = [];
+                                        data = selectedsetStandardClass.filter(x => x.value == selectedValue);
+                                        // console.log('school index x',data)
+
+                                        if (data.length > 0) {
+                                            console.log('setClassIDParm', data[0].value)
+                                            setClassIDParm(data[0].value);
+
+                                        }
+                                        // if (selectedValue !== null) {
+                                        //     setStandarClassdKey(selectedValue);
+                                        //     // getStandardClass(selectedValue);
+                                        // }
+                                    }}
+
+                                />
+                            </View>
+
+
+                            {/* <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
 
                             <TextField placeholder={'Enter School ID'} onChangeText={val => setSchoolID(val)} value={SchoolID}
                             />
+                        </View> */}
+
+                            <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
+
+                                <TextField placeholder={'Enter Roll Number'} keyboardType="numeric" onChangeText={val => setRollNo(val)} value={RollNo}
+                                />
+                            </View>
+
+                            <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, marginBottom: '3%' }}>
+
+                                <TextField placeholder={'Enter Course Description'} multiline={true} onChangeText={val => setDes(val)} editable={false} value={Des}
+                                />
+                            </View>
+
                         </View>
 
-                        <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
 
-                            <TextField placeholder={'Enter Roll Number'} keyboardType="numeric" onChangeText={val => setRollNo(val)} value={RollNo}
-                            />
+                        <View>
+                            <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
+
                         </View>
-
-                        <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, marginBottom: '3%' }}>
-
-                            <TextField placeholder={'Enter Course Description'} multiline={true} onChangeText={val => setDes(val)} editable={false} value={Des}
-                            />
-                        </View>
-
                     </View>
 
 
-                    <View>
-                        <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
-
-                    </View>
-                </View>
-
-
-            </ScrollView>
-        </View>
+                </ScrollView>
+            </View>
         </KeyboardAwareScrollView>
     );
 };

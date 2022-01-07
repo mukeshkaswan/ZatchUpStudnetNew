@@ -591,24 +591,32 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             if (result.data.length > 0) {
               var newAr = [];
 
-              for (let i in result.data[0].ei_detail.course_detail[0]
-                .standard_detail) {
-                let flag = '';
-                if (
-                  result.data[0].ei_detail.course_detail[0].standard_detail[i]
-                    .class_detail.length > 0
-                ) {
-                  flag =
-                    result.data[0].ei_detail.course_detail[0].standard_detail[i]
-                      .class_detail[0].class_name;
+              if (result.data[0].ei_detail.course_detail.length > 0) {
+
+                if (result.data[0].ei_detail.course_detail[0]
+                  .standard_detail != null) {
+
+                  for (let i in result.data[0].ei_detail.course_detail[0]
+                    .standard_detail) {
+                    let flag = '';
+                    if (
+                      result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                        .class_detail.length > 0
+                    ) {
+                      flag =
+                        result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                          .class_detail[0].class_name;
+                    }
+                    let item = {
+                      ...result.data[0].ei_detail.course_detail[0].standard_detail[
+                      i
+                      ],
+                      className: flag,
+                    };
+                    newAr.push(item);
+                  }
                 }
-                let item = {
-                  ...result.data[0].ei_detail.course_detail[0].standard_detail[
-                  i
-                  ],
-                  className: flag,
-                };
-                newAr.push(item);
+
               }
 
               let newObject = Object.assign([], result.data);
@@ -677,6 +685,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             } else {
               getdataCourseKey(result);
             }
+            // getdataCourseKey(result);
+
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -1035,7 +1045,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       });
     }
     else {
-      props.navigation.navigate('Home');
+      props.navigation.navigate('CoomingSoon');
     }
 
     // console.log('huy naviagte -----------> ')
@@ -1175,7 +1185,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </Text>
                 </View>
 
-                <View style={styles.view_Row_}>
+                {props.route.params.otherscourse != 'otherscourse' ? <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>School Address :</Text>
                   <Text
                     style={{
@@ -1188,12 +1198,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                     }}>
                     {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
                   </Text>
-                </View>
+                </View> : null}
 
-                <View style={styles.view_Row_}>
+                {props.route.params.otherscourse != 'otherscourse' ? <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>Pincode :</Text>
                   <Text style={styles.view_Tv_2}>{item.ei_detail.pincode}</Text>
-                </View>
+                </View> : null}
 
                 <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>University/Board :</Text>
@@ -1224,7 +1234,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false
+                              i.is_current_course == false && item.ei_detail.name_of_school != "Others"
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1238,20 +1248,32 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                     props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                 })
-                                : props.navigation.navigate(
-                                  'EducationProfileEdit',
-                                  {
-                                    school_id: item.ei_detail.id,
-                                    course_id: i.course_id,
-                                    nameofschool:
-                                      item.ei_detail.name_of_school,
-                                    school_zatchup_id:
-                                      item.ei_detail.school_code,
+                                : item.ei_detail.name_of_school == "Others"
+                                  ? props.navigation.navigate('AddCourseDetailsOthersEdit', {
+                                    data: i.is_current == true ? true : false,
+                                    nameofschool: item.ei_detail.name_of_school,
                                     course_name: i.course_name,
+                                    start_date: '2018-01-06',
+                                    end_date: '2022-01-06',
                                     description: i.description,
-                                    roll_no: i.roll_no,
-                                  },
-                                );
+                                    course_type: i.course_type,
+                                    course_id: i.course_id,
+                                    school_id: item.ei_detail.id,
+                                    confirmation: 'EIconfirmation'
+                                  }) : props.navigation.navigate(
+                                    'EducationProfileEdit',
+                                    {
+                                      school_id: item.ei_detail.id,
+                                      course_id: i.course_id,
+                                      nameofschool:
+                                        item.ei_detail.name_of_school,
+                                      school_zatchup_id:
+                                        item.ei_detail.school_code,
+                                      course_name: i.course_name,
+                                      description: i.description,
+                                      roll_no: i.roll_no,
+                                    },
+                                  );
                             }}>
                             <Image
                               style={styles.editicon}
@@ -1363,7 +1385,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   <View
                                     style={{
                                       flexDirection: 'column',
-                                     // marginRight: 10,
+                                      // marginRight: 10,
                                       marginTop: 5,
                                     }}>
                                     <View style={styles.view_Row_}>
@@ -1432,9 +1454,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                           style={{
                                             height: 28,
                                             width: 28,
-                                           // marginTop: 2,
-                                           // marginRight: 5,
-                                           marginLeft: 20,
+                                            // marginTop: 2,
+                                            // marginRight: 5,
+                                            marginLeft: 20,
                                           }}
                                           source={Images.edit_icon}
                                         />

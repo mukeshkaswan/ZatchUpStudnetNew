@@ -213,3 +213,7 @@ export const getProfileDetailForUser= createAction(PROFILEDETAILOFUSER);
 export const PROFILEDETAILOFSCHOOL = 'PROFILEDETAILOFSCHOOL';
 export const getProfileDetailForSchool= createAction(PROFILEDETAILOFSCHOOL);
 
+// this is for Get Admission Number Detail By School
+export const GETADMISSIONNUMBERDETAILBYSCHOOL = 'GETADMISSIONNUMBERDETAILBYSCHOOL';
+export const getGetAdmissionNumberDetailBySchool= createAction(GETADMISSIONNUMBERDETAILBYSCHOOL);
+

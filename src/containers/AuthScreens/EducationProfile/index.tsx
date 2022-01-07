@@ -319,7 +319,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
     const classError = Validate('class', standardclasskey);
 
-    const schoolidError = Validate('schoolid', SchoolID);
+   // const schoolidError = Validate('schoolid', SchoolID);
     const rollnoError = Validate('rollno', RollNo);
     const desError = Validate('Des', Des);
 
@@ -329,7 +329,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
       joiningstandardError ||
       joiningcurrentError ||
       classError ||
-      schoolidError ||
+    //  schoolidError ||
       rollnoError ||
       desError
     ) {
@@ -340,7 +340,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
           joiningstandardError ||
           joiningcurrentError ||
           classError ||
-          schoolidError ||
+         // schoolidError ||
           rollnoError ||
           desError,
         Toast.SHORT,
@@ -348,71 +348,14 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
       return false;
     } else {
-      // console.log('course id',courseidparm);
-      // console.log('School code  id',props.route.params.school_zatchup_id);
-      // console.log('school id',props.route.params.school_id);
-      // console.log('standard  id',standardidparm);
-
-      // var data = '';
-
-      // console.log('postdata', post_data)
-
-      // var myHeaders = new Headers();
-      // myHeaders.append("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODEwLCJ1c2VybmFtZSI6InNkZnNkZGZAZ21haWwuY29tIiwiZXhwIjoxNjQ4MDMxNDAyLCJlbWFpbCI6InNkZnNkZGZAZ21haWwuY29tIiwib3JpZ19pYXQiOjE2MjIxMTE0MDJ9.IH-rLLNv1pyG1492fOVFzbPKUXxo8oL1shW1OvlLcDA");
-      // myHeaders.append("Content-Type", "application/json");
-
+      
       setLoading(true);
 
-      //  console.log('postdata', requestOptions)
-      // fetch('http://172.105.61.231:3000/api/user/add-registered-ei-course/', requestOptions)
-      //     .then(response => response.json())
-      //     .then(d => {
-      //         console.log('------fd------43-45-54----f-gg-f-fgds--->', d)
-      //     });
-
-      // const data = {
-      //     id: id,
-      //     token: token,
-
-      // }
-
-      // var raw = JSON.stringify({
-      //     "admission_no":  `${SchoolID}`,
-      //       "class_id":  `${classidparm}` ,
-      //       "comment": Des,
-      //       "course_end_year": '',
-      //       "course_id": `${courseidparm}`,
-      //       "course_start_year": '',
-      //       "current_standard_id":  `${standardidparm}`,
-      //       "date_joining": date_copy,
-      //       "is_current_course": 1,
-      //       "join_standard_id":`${standardidparm}`,
-      //       "name_of_school": props.route.params.nameofschool,
-      //       "roll_no":  `${RollNo}`,
-      //       "school_code":`${props.route.params.school_zatchup_id}`,
-      //       "school_id":  `${props.route.params.school_id}`,
-      //       "standard_end_year": '',
-      //       "standard_start_year": ''
-      //   });
+    
+     
 
       let rawdata = {
-        // "name_of_school": "Kerala Junior Public School",
-        // "school_code": "KERALA001630",
-        // "admission_no": "4345546",
-        // "join_standard_id": "502",
-        // "current_standard_id": "502",
-        // "comment": "Play house for children's of the age group 2-4 years",
-        // "school_id": "653",
-        // "course_id": "571",
-        // "class_id": "690",
-        // "date_joining": "2021-05-14",
-        // "roll_no": 656546546,
-        // "is_current_course": 1,
-        // "course_start_year": null,
-        // "course_end_year": null,
-        // "standard_start_year": null,
-        // "standard_end_year": null
-        admission_no: SchoolID,
+       
         class_id: classidparm,
         comment: Des,
         course_end_year: null,
@@ -430,24 +373,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         standard_start_year: null,
       };
 
-      let raw = {
-        admission_no: '124123',
-        class_id: '690',
-        comment: "Play house for children's of the age group 2-4 years",
-        course_end_year: null,
-        course_id: '571',
-        course_start_year: null,
-        current_standard_id: '502',
-        date_joining: '2021-05-01',
-        is_current_course: 1,
-        join_standard_id: '502',
-        name_of_school: 'Kerala Junior Public School',
-        roll_no: 1890,
-        school_code: 'KERALA001630',
-        school_id: '547',
-        standard_end_year: null,
-        standard_start_year: null,
-      };
+  
       let token = '';
       try {
         const value = await AsyncStorage.getItem('token');
@@ -465,15 +391,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         token: token,
         data: rawdata,
       };
-      // const requestOptions = {
-      //     method: 'POST',
-      //     headers: {
-      //         'Authorization': ` Bearer ${token}`,
-      //         "Content-Type": "application/json"
-      //     },
-      //     body: raw,
-      //     url: 'http://172.105.61.231:3000/api/user/add-registered-ei-course/',
-      // };
+     
 
       dispatch(
         userActions.getAddRegisteredEiCourse({
@@ -987,13 +905,13 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               </View>
 
-              <View style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+              {/* <View style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
                 <TextField
                   placeholder={'Enter School ID'}
                   onChangeText={val => setSchoolID(val)}
                   value={SchoolID}
                 />
-              </View>
+              </View> */}
 
               <View style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
                 <TextField

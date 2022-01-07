@@ -411,7 +411,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     const standardError = Validate('joiningstandardkey', joiningstandardkey);
     const standardError1 = Validate('joiningstandardkey2', joiningstandardkey2);
     const desError = Validate('Des', Des);
-    const schoolidError = Validate('schoolid', S_id);
+   // const schoolidError = Validate('schoolid', S_id);
 
     if (
       coursenameError ||
@@ -419,8 +419,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dobendError ||
       standardError ||
       standardError1 ||
-      desError ||
-      schoolidError
+      desError
+     
     ) {
       //this._scrollView.scrollTo(0);
       Toast.show(
@@ -429,8 +429,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         dobendError ||
         standardError ||
         standardError1 ||
-        desError ||
-        schoolidError,
+        desError,
         Toast.SHORT,
       );
 
@@ -439,7 +438,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       setLoading(true);
 
       let rawdata = {
-        admission_no: S_id,
+       // admission_no: S_id,
         class_id: '',
         comment: Des,
         course_end_year: endDate2,
@@ -918,7 +917,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     {/* <CustomDropdown label1="Left Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={LeftStandard} SelectedLanguagedata={(item) => setLeftStandard(item)} /> */}
                   </View>
 
-                  <View
+                  {/* <View
                     style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                     <TextField
                       placeholder={'Enter School ID'}
@@ -926,7 +925,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       onChangeText={val => setSchooID(val)}
                       value={S_id}
                     />
-                  </View>
+                  </View> */}
 
                   <View
                     style={{
