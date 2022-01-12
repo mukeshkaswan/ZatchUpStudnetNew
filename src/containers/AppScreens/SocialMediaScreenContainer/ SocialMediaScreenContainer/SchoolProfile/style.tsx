@@ -13,13 +13,32 @@ const styles = ScaledSheet.create({
     paddingBottom: 10,
   },
 
-  profilepic: {
-    resizeMode: 'cover',
-    borderWidth: 2,
-    borderColor: 'white',
-    width: '80@ms',
-    height: '80@ms',
-    borderRadius: '50@ms',
+  rowContainer1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  profilepic1: {
+    height: 40,
+    width: 40,
+    borderRadius: 40,
+  },
+  likecommentContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+    paddingHorizontal: 16,
+  },
+  messageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    justifyContent: 'space-between',
+  },
+  border: {
+    borderWidth: 0.4,
+    borderColor: 'lightgrey',
+    marginTop: 10,
   },
   rowContainer: {
     flexDirection: 'row',
@@ -31,6 +50,7 @@ const styles = ScaledSheet.create({
   nametext: {
     fontSize: hp(2.1),
     fontWeight: 'bold',
+    marginLeft: 10,
   },
   likecontainer: {
     //   backgroundColor:'grey',
@@ -129,12 +149,16 @@ const styles = ScaledSheet.create({
   },
   postbtn: {
     borderWidth: 1,
-    height: 30,
-    width: 80,
+    paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
     backgroundColor: 'rgb(70,50,103)',
+  },
+  profilepic: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
   },
   tabrowContainer: {
     flexDirection: 'row',
@@ -174,6 +198,120 @@ const styles = ScaledSheet.create({
     fontSize: hp(2.2),
 
     color: 'black',
+  },
+
+  schoolcontainer: {
+    flexDirection: 'row',
+    marginTop: '10@ms',
+    // justifyContent: 'center',
+    marginLeft: 10,
+  },
+
+  followerscontent: {
+    marginTop: '8@ms',
+  },
+
+  addresstext: {
+    fontSize: '15@ms',
+    fontWeight: 'bold',
+  },
+  overviewtext: {
+    fontSize: hp(2),
+    fontWeight: 'bold',
+  },
+  buttoncontainer: {
+    flexDirection: 'row',
+    marginTop: '35@ms',
+  },
+  addresscontainer: {
+    flexDirection: 'row',
+    marginTop: '20@ms',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  paragraphcontainer: {
+    marginTop: '20@ms',
+    paddingLeft: '20@ms',
+    paddingRight: '24@ms',
+    // alignItems:'center',
+    // justifyContent:'center'
+  },
+  totalstudentcontainer: {
+    padding: '18@ms',
+    borderRadius: '20@ms',
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '20@ms',
+    marginRight: '20@ms',
+    marginLeft: '20@ms',
+  },
+
+  numbertext: {
+    fontSize: hp(2),
+    fontWeight: 'bold',
+  },
+  image1: {
+    width: '100%',
+    height: '155@ms',
+    //margin: '8@ms',
+    //borderRadius: '20@ms',
+  },
+
+  cardcontent: {
+    width: '90%',
+    marginTop: '10@ms',
+    borderRadius: '10@ms',
+    //padding:'15@ms',
+    alignSelf: 'center',
+  },
+
+  cardcontent1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: '#DCDCDC',
+    padding: '5@ms',
+  },
+
+  cardcontent2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '5@ms',
+    padding: '6@ms',
+  },
+  videocontent: {
+    width: '100%',
+    height: '120@ms',
+  },
+  cardcontent3: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: '5@ms',
+    padding: '6@ms',
+  },
+  cardparagrap: {
+    color: 'gray',
+    marginTop: '5@ms',
+    fontSize: hp(1.5),
+    // fontWeight:'bold',
+    textAlign: 'justify',
+    fontWeight: 'bold',
+  },
+  projecttitletext: {
+    color: 'grey',
+    fontSize: hp(1.8),
+    fontWeight: 'bold',
+  },
+
+  icontext: {
+    marginRight: '15@ms',
+  },
+  cardrowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    alignItems: 'center',
   },
 });
 export default styles;

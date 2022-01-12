@@ -21,13 +21,39 @@ const styles = ScaledSheet.create({
     height: '80@ms',
     borderRadius: '50@ms',
   },
+  profilepic1: {
+    height: 40,
+    width: 40,
+    borderRadius: 40,
+  },
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     marginTop: -40,
   },
-
+  likecommentContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+    paddingHorizontal: 16,
+  },
+  messageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    justifyContent: 'space-between',
+  },
+  rowContainer1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  border: {
+    borderWidth: 0.4,
+    borderColor: 'lightgrey',
+    marginTop: 10,
+  },
   nametext: {
     fontSize: hp(2.1),
     fontWeight: 'bold',
@@ -174,6 +200,13 @@ const styles = ScaledSheet.create({
     fontSize: hp(2.2),
 
     color: 'black',
+  },
+  cardcontent: {
+    width: '90%',
+    marginTop: '10@ms',
+    borderRadius: '10@ms',
+    //padding:'15@ms',
+    alignSelf: 'center',
   },
 });
 export default styles;

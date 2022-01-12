@@ -54,23 +54,29 @@ export const getStandardClass = createAction(STANDARDCLASS);
 export const ADDREGISTEREDEICOURSE = 'ADDREGISTEREDEICOURSE';
 export const getAddRegisteredEiCourse = createAction(ADDREGISTEREDEICOURSE);
 // this is for Get Add-registered-ei-course data success
-export const EICOURSECONFIRMATIONLIST  = 'EICOURSECONFIRMATIONLIST';
-export const getEiCourseConfirmationList  = createAction(EICOURSECONFIRMATIONLIST);
+export const EICOURSECONFIRMATIONLIST = 'EICOURSECONFIRMATIONLIST';
+export const getEiCourseConfirmationList = createAction(
+  EICOURSECONFIRMATIONLIST,
+);
 // this is for Get Edit Course List Info success
 export const EDITCOURSELIST = 'EDITCOURSELIST';
-export const getEditCourseList  = createAction(EDITCOURSELIST);
+export const getEditCourseList = createAction(EDITCOURSELIST);
 // this is for Get Add Course By User Info success
 export const ADDCOURSEBYUSER = 'ADDCOURSEBYUSER';
-export const getAddCourseByUser  = createAction(ADDCOURSEBYUSER);
+export const getAddCourseByUser = createAction(ADDCOURSEBYUSER);
 // this is for Get Addmission no by school User Info success
 export const GETADDMISSIONNODETAILBYSCHOOL = 'GETADDMISSIONNODETAILBYSCHOOL';
-export const getAddmissionNoBySchool  = createAction(GETADDMISSIONNODETAILBYSCHOOL);
+export const getAddmissionNoBySchool = createAction(
+  GETADDMISSIONNODETAILBYSCHOOL,
+);
 // this is for Upload File User Info success
 export const UPLOADFILE = 'UPLOADFILE';
-export const getUploadFile  = createAction(UPLOADFILE);
+export const getUploadFile = createAction(UPLOADFILE);
 // this is for get admin/verify_reset_password/
 export const ADMINVEROFYRESETPASSWORD = 'ADMINVEROFYRESETPASSWORD';
-export const getAdminVerifyResetPassword  = createAction(ADMINVEROFYRESETPASSWORD);
+export const getAdminVerifyResetPassword = createAction(
+  ADMINVEROFYRESETPASSWORD,
+);
 // this is for Get reg-step-count data success
 export const REGSTEPCOUNT = 'REGSTEPCOUNT';
 export const getRegStepCount = createAction(REGSTEPCOUNT);
@@ -83,11 +89,59 @@ export const getCheckUserKyc = createAction(CHECKUSEREKYC);
 // this is for Get Auth User Info success
 export const AUTHUSERINFO = 'AUTHUSERINFO';
 export const getAuthUserInfo = createAction(AUTHUSERINFO);
+
+// this is for get the post of user at home page
+export const POSTOFUSER = 'POSTOFUSER';
+export const getPostOfUser = createAction(POSTOFUSER);
 export const GETREMINDERS = 'GETREMINDERS';
 export const getReminders = createAction(GETREMINDERS);
 // this is for Get Add Profile Pic Info success
 export const ADDPROFILEPICINFO = 'ADDPROFILEPICINFO';
 export const getAddProfilePicInfo = createAction(ADDPROFILEPICINFO);
+
+//this is the for like and unlike the post
+export const LIKEUNLIKEPOST = 'LIKEUNLIKEPOST';
+export const likeUnlikePost = createAction(LIKEUNLIKEPOST);
+
+//this is the for comment like and unlike
+export const GETPOSTDETAIL = 'GETPOSTDETAIL';
+export const getPostDetails = createAction(GETPOSTDETAIL);
+
+//this is the for get the post details
+export const COMMENTLIKEUNLIKE = 'COMMENTLIKEUNLIKE';
+export const commentlikeUnlike = createAction(COMMENTLIKEUNLIKE);
+
+//this is the for comment the post
+export const COMMENTPOST = 'COMMENTPOST';
+export const commentPost = createAction(COMMENTPOST);
+
+//this is the for comment reply
+export const REPLYCOMMENT = 'REPLYCOMMENT';
+export const replyComment = createAction(REPLYCOMMENT);
+
+//this is the for user profile of post
+export const GETUSERPROFILE = 'GETUSERPROFILE';
+export const getUserProfile = createAction(GETUSERPROFILE);
+
+//this is the for user cover pic of post
+export const GETUSERCOVERMEDIAPIC = 'GETUSERCOVERMEDIAPIC';
+export const getUserCoverMediaPic = createAction(GETUSERCOVERMEDIAPIC);
+
+//this is the school profile of post
+export const GETSCHOOLPROFILE = 'GETSCHOOLPROFILE';
+export const getSchoolProfile = createAction(GETSCHOOLPROFILE);
+
+// this is the suggestion for user
+export const GETSUGGESTIONS = 'GETSUGGESTIONS';
+export const getSuggestions = createAction(GETSUGGESTIONS);
+
+// this is the follow request for user
+export const GETFOLLOWREQUEST = 'GETFOLLOWREQUEST';
+export const getFollowRequest = createAction(GETFOLLOWREQUEST);
+
+// this is the user notification for user
+export const GETUSERNOTIFICATION = 'GETUSERNOTIFICATION';
+export const getUserNotification = createAction(GETUSERNOTIFICATION);
 
 // this is for Get Edit Standard List Info success
 export const EDITSTANDARD = 'EDITSTANDARD';
@@ -125,95 +179,102 @@ export const getNotificationFetch = createAction(NOTIFICATIONFETCHLIST);
 export const RESETPASSWORD = 'RESETPASSWORD';
 export const getResetPassword = createAction(RESETPASSWORD);
 
-// this is for logOut user 
+// this is for logOut user
 // this is for logOut user
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const logoutUser = createAction(LOGOUT_USER);
 
-// this is for logOut user 
+// this is for logOut user
 export const SKIPPED = 'SKIPPED';
 export const getskipped = createAction(SKIPPED);
 
-// this is for edit standard course user 
+// this is for edit standard course user
 export const EDITCOURSESTANDARD = 'EDITCOURSESTANDARD';
 export const geteditcoursestandard = createAction(EDITCOURSESTANDARD);
 
-// this is for edit standard course user 
+// this is for edit standard course user
 export const EDITCOURSESTANDARDDROPDOWN = 'EDITCOURSESTANDARDDROPDOWN';
-export const geteditcoursestandarddropdown = createAction(EDITCOURSESTANDARDDROPDOWN);
+export const geteditcoursestandarddropdown = createAction(
+  EDITCOURSESTANDARDDROPDOWN,
+);
 
-
-// this is for class List By Standard iD user 
+// this is for class List By Standard iD user
 export const CLASSLISTBYSTANDARDID = 'CLASSLISTBYSTANDARDID';
 export const getClassListByStandard = createAction(CLASSLISTBYSTANDARDID);
 
-// this is for Add User Step Seven user 
+// this is for Add User Step Seven user
 export const ADDUSERSTEPSEVEN = 'ADDUSERSTEPSEVEN';
 export const getadduserstepseven = createAction(ADDUSERSTEPSEVEN);
 
-
-// this is for Add User Course Confirmation 
+// this is for Add User Course Confirmation
 export const USERCOURSECONFIRMATION = 'USERCOURSECONFIRMATION';
 export const getusercourseconfirmation = createAction(USERCOURSECONFIRMATION);
 
-// this is for Add User Course Delete Standard 
+// this is for Add User Course Delete Standard
 export const USERDELETECOURSESTANDARD = 'USERDELETECOURSESTANDARD';
 export const getDeleteCourseStandard = createAction(USERDELETECOURSESTANDARD);
 
-
-// this is for Search City Model 
+// this is for Search City Model
 export const CITYLISTSEARCH = 'CITYLISTSEARCH';
-export const getCitySearch= createAction(CITYLISTSEARCH);
+export const getCitySearch = createAction(CITYLISTSEARCH);
 
-
-// this is for Add city state for user 
+// this is for Add city state for user
 export const ADDCITYSTATEFORUSER = 'ADDCITYSTATEFORUSER';
-export const getAddcitystateofuser= createAction(ADDCITYSTATEFORUSER);
+export const getAddcitystateofuser = createAction(ADDCITYSTATEFORUSER);
 
-// this is for star class course list 
+// this is for star class course list
 export const STARTCLASSCOURSELIST = 'STARTCLASSCOURSELIST';
-export const getStarclasscourselist= createAction(STARTCLASSCOURSELIST);
+export const getStarclasscourselist = createAction(STARTCLASSCOURSELIST);
 
 // this is for Get School list for star class
 export const SCHOOLLISTFORSTARCLASS = 'SCHOOLLISTFORSTARCLASS';
-export const getSchoollistforstarclass= createAction(SCHOOLLISTFORSTARCLASS);
+export const getSchoollistforstarclass = createAction(SCHOOLLISTFORSTARCLASS);
 
 // this is for Get Course Preview
 export const COURSEPREVIEW = 'COURSEPREVIEW';
-export const getCoursePreview= createAction(COURSEPREVIEW);
+export const getCoursePreview = createAction(COURSEPREVIEW);
 
 // this is for Get Star Class Lecture List
 export const STARCLASSLECTURELISTBYCOURSEID = 'STARCLASSLECTURELISTBYCOURSEID';
-export const getStartClasslecturelist= createAction(STARCLASSLECTURELISTBYCOURSEID);
-
+export const getStartClasslecturelist = createAction(
+  STARCLASSLECTURELISTBYCOURSEID,
+);
 
 // this is for Get Star Class Lecture List Course Preview
-export const STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW = 'STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW';
-export const getStartClasslecturelistcoursepreview= createAction(STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW);
+export const STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW =
+  'STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW';
+export const getStartClasslecturelistcoursepreview = createAction(
+  STARCLASSLECTURELISTBYCOURSEIDCOURSEPREVIEW,
+);
 
 // this is for Get lecture history List
 export const LECTUREHISTORY = 'LECTUREHISTORY';
-export const getLecturehistory= createAction(LECTUREHISTORY);
+export const getLecturehistory = createAction(LECTUREHISTORY);
 
 // this is for Get Update School Course Details By User
-export const GETUPDATESCHOOLCOURSEDETAILBYUSER = 'GETUPDATESCHOOLCOURSEDETAILBYUSER';
-export const getUpdateschoolcoursedetailbyuser= createAction(GETUPDATESCHOOLCOURSEDETAILBYUSER);
+export const GETUPDATESCHOOLCOURSEDETAILBYUSER =
+  'GETUPDATESCHOOLCOURSEDETAILBYUSER';
+export const getUpdateschoolcoursedetailbyuser = createAction(
+  GETUPDATESCHOOLCOURSEDETAILBYUSER,
+);
 
 // this is for Get Search School Student Search List
 export const SEARCHLISTFORSCHOOLSTUDENT = 'SEARCHLISTFORSCHOOLSTUDENT';
-export const getSearchSchoolStudentSearchList= createAction(SEARCHLISTFORSCHOOLSTUDENT);
-
+export const getSearchSchoolStudentSearchList = createAction(
+  SEARCHLISTFORSCHOOLSTUDENT,
+);
 
 // this is for Get Profile Detail For User
 export const PROFILEDETAILOFUSER = 'PROFILEDETAILOFUSER';
-export const getProfileDetailForUser= createAction(PROFILEDETAILOFUSER);
-
+export const getProfileDetailForUser = createAction(PROFILEDETAILOFUSER);
 
 // this is for Get Profile Detail For School
 export const PROFILEDETAILOFSCHOOL = 'PROFILEDETAILOFSCHOOL';
-export const getProfileDetailForSchool= createAction(PROFILEDETAILOFSCHOOL);
+export const getProfileDetailForSchool = createAction(PROFILEDETAILOFSCHOOL);
 
 // this is for Get Admission Number Detail By School
-export const GETADMISSIONNUMBERDETAILBYSCHOOL = 'GETADMISSIONNUMBERDETAILBYSCHOOL';
-export const getGetAdmissionNumberDetailBySchool= createAction(GETADMISSIONNUMBERDETAILBYSCHOOL);
-
+export const GETADMISSIONNUMBERDETAILBYSCHOOL =
+  'GETADMISSIONNUMBERDETAILBYSCHOOL';
+export const getGetAdmissionNumberDetailBySchool = createAction(
+  GETADMISSIONNUMBERDETAILBYSCHOOL,
+);

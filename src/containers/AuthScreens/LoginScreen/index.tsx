@@ -26,7 +26,7 @@ import {
   useIsFocused,
   DrawerActions,
 } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const screenWidth = Dimensions.get('window').width;
@@ -67,12 +67,10 @@ const LoginScreen = (props: LoginScreenProps) => {
     );
   };
 
-
   const Clear = async () => {
-
-    await AsyncStorage.removeItem('tokenlogin')
-
-  }
+    await AsyncStorage.removeItem('tokenlogin');
+    await AsyncStorage.removeItem('token');
+  };
 
   const onPressLogin = async () => {
     //  console.log(1 < 2 < 3);
@@ -104,7 +102,6 @@ const LoginScreen = (props: LoginScreenProps) => {
           data,
           callback: ({result, error}) => {
             if (result.status === 'True') {
-
               // console.warn(
               //   'after login result',
               //   JSON.stringify(result.status, undefined, 2),
@@ -112,30 +109,28 @@ const LoginScreen = (props: LoginScreenProps) => {
               // );
               setLoading(false);
 
-
               auth()
-              .signInWithEmailAndPassword(
-                result.firebase_username + '@zatchup.com',
-                password,
-              )
-              .then(({user}) => {
-                console.log('FirebaseUSerLogin===>>>', user);
-                props.navigation.navigate('OtpLogin', {
-                  firebase_id: result.firebase_username,
-                  username: email,
-                  firebase:  user._user.uid,
+                .signInWithEmailAndPassword(
+                  result.firebase_username + '@zatchup.com',
+                  password,
+                )
+                .then(({user}) => {
+                  console.log('FirebaseUSerLogin===>>>', user);
+                  props.navigation.navigate('OtpLogin', {
+                    firebase_id: result.firebase_username,
+                    username: email,
+                    firebase: user._user.uid,
+                  });
+                })
+                .catch(error => {
+                  if (error.code === 'auth/email-already-in-use') {
+                  }
+
+                  if (error.code === 'auth/invalid-email') {
+                  }
+
+                  console.error(error);
                 });
-               
-              })
-              .catch((error) => {
-                if (error.code === 'auth/email-already-in-use') {
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                }
-
-                console.error(error);
-              });
               //return;
               props.navigation.navigate('OtpLogin', {
                 firebase_id: result.firebase_username,
