@@ -71,6 +71,8 @@ import {
   GETFOLLOWREQUEST,
   GETUSERNOTIFICATION,
   GETUSERCOVERMEDIAPIC,
+  GETALUMIGALLERYDETAIL,
+  CHANGEFOLLOWREQUESTSTATUS,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1107,6 +1109,39 @@ function* getSchoolProfile({payload: {data, callback}}) {
   }
 }
 
+/*************************get user profile of post     **************/
+function* getAlumniGalleryDetail({payload: {data, callback}}) {
+  console.warn('data in saga Auth User Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/get_alumni_gallery/?count_type=false&user_id=' +
+      data.user_id,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Get alumni gallery Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /*************************get suggestion of users     **************/
 function* getSuggestions({payload: {data, callback}}) {
   console.warn('data in saga Auth User Info', data);
@@ -1157,6 +1192,42 @@ function* getFollowRequest({payload: {data, callback}}) {
     if (result) {
       console.log(
         'Get follow request of user Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************change follow request status*******************************/
+
+function* changeFollowRequestStatus({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    follow_user_id: data.follow_user_id,
+    accept_request_status: data.accept_request_status,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/follow/userfollowerfollowing/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'follow request status change',
         JSON.stringify(result, undefined, 2),
       );
       callback({result, error});
@@ -2342,9 +2413,12 @@ function* User() {
     yield takeLatest(GETUSERPROFILE, getUserProfile),
     yield takeLatest(GETUSERCOVERMEDIAPIC, getUserCoverMediaPic),
     yield takeLatest(GETSCHOOLPROFILE, getSchoolProfile),
+    yield takeLatest(GETALUMIGALLERYDETAIL, getAlumniGalleryDetail),
+    yield takeLatest(GETUSERNOTIFICATION, getUserNotification),
     yield takeLatest(GETSUGGESTIONS, getSuggestions),
     yield takeLatest(GETFOLLOWREQUEST, getFollowRequest),
-    yield takeLatest(GETUSERNOTIFICATION, getUserNotification),
+    yield takeLatest(GETFOLLOWREQUEST, getFollowRequest),
+    yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
   ]);
 }
 

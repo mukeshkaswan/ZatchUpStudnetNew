@@ -34,6 +34,7 @@ const styles = ScaledSheet.create({
     fontWeight: '700',
     // backgroundColor: '#fff',
     marginHorizontal: 16,
+    marginTop: 8,
   },
   title: {
     fontSize: 16,

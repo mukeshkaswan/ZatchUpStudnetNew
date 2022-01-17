@@ -131,6 +131,10 @@ export const getUserCoverMediaPic = createAction(GETUSERCOVERMEDIAPIC);
 export const GETSCHOOLPROFILE = 'GETSCHOOLPROFILE';
 export const getSchoolProfile = createAction(GETSCHOOLPROFILE);
 
+//this is the alumni details of post
+export const GETALUMIGALLERYDETAIL = 'GETALUMIGALLERYDETAIL';
+export const getAlumniGalleryDetail = createAction(GETALUMIGALLERYDETAIL);
+
 // this is the suggestion for user
 export const GETSUGGESTIONS = 'GETSUGGESTIONS';
 export const getSuggestions = createAction(GETSUGGESTIONS);
@@ -138,6 +142,12 @@ export const getSuggestions = createAction(GETSUGGESTIONS);
 // this is the follow request for user
 export const GETFOLLOWREQUEST = 'GETFOLLOWREQUEST';
 export const getFollowRequest = createAction(GETFOLLOWREQUEST);
+
+// this is the change follow request status for user
+export const CHANGEFOLLOWREQUESTSTATUS = 'CHANGEFOLLOWREQUESTSTATUS';
+export const changeFollowRequestStatus = createAction(
+  CHANGEFOLLOWREQUESTSTATUS,
+);
 
 // this is the user notification for user
 export const GETUSERNOTIFICATION = 'GETUSERNOTIFICATION';

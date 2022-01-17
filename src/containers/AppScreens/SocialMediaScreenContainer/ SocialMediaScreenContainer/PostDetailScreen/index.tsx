@@ -138,6 +138,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
       }
       if (
         item.hasOwnProperty('reply_comment') &&
+        item.reply_comment != null &&
         item.reply_comment.length > 0
       ) {
         for (let i in postDetails.comment_post) {
@@ -205,6 +206,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
       }
       if (
         item.hasOwnProperty('reply_comment') &&
+        item.reply_comment != null &&
         item.reply_comment.length > 0
       ) {
         for (let i in postDetails.comment_post) {
@@ -982,7 +984,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 paddingHorizontal: 16,
                 paddingVertical: 10,
               }}>
-              {postDetails.post_like.length > 0 &&
+              {postDetails.post_like != null &&
+                postDetails.post_like.length > 0 &&
+                postDetails.post_like_count > 0 &&
                 postDetails.post_like.map((item, index) => {
                   return (
                     <Text>

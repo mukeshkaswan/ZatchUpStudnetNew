@@ -139,19 +139,19 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
 
               if (result.today[0].notification_msg != null) {
                 newArr.push({
-                  title: 'today',
+                  title: 'Today',
                   data: result.today[0].notification_msg,
                 });
               }
               if (result.yesterday[0].notification_msg != null) {
                 newArr.push({
-                  title: 'yesterday',
+                  title: 'Yesterday',
                   data: result.yesterday[0].notification_msg,
                 });
               }
               if (result.week[0].notification_msg != null) {
                 newArr.push({
-                  title: 'week',
+                  title: 'Week',
                   data: result.week[0].notification_msg,
                 });
               }
@@ -176,39 +176,18 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     );
   };
 
-  const renderItem = ({item, index}) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          marginHorizontal: 16,
-          marginTop: 12,
-        }}>
-        <Image
-          source={
-            item.profile_image != null
-              ? {uri: item.profile_image}
-              : require('../../../../../assets/images/pic.jpeg')
-          }
-          style={styles.profileImg}
-        />
-        <View style={styles.childContainer}>
-          <View>
-            <Text style={styles.name}>
-              {item.first_name + ' ' + item.last_name}
-            </Text>
-            <Text style={{fontSize: 13}}>Suggested for you</Text>
-          </View>
-          <TouchableOpacity>
-            <Text style={{color: '#5790c2'}}>Follow</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
   const Item = ({item}) => (
-    <View style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => {
+        item.user_role == 'EIREPRESENTATIVE'
+          ? props.navigation.navigate('SchoolProfile', {
+              item: item,
+            })
+          : props.navigation.navigate('UsersProfile', {
+              item: item,
+            });
+      }}>
       <Image
         source={
           item.following_user_profile_image != null
@@ -221,7 +200,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         <Text style={styles.title}>{item.message}</Text>
         <Text style={{fontSize: 12}}>{item.notification_time}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

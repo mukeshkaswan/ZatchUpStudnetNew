@@ -1047,11 +1047,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 <View style={styles.rowContainer}>
                   <TouchableOpacity
                     onPress={() => {
-                      item.user_role == 'STUDENTS'
-                        ? props.navigation.navigate('UsersProfile', {
+                      item.user_role == 'EIREPRESENTATIVE'
+                        ? props.navigation.navigate('SchoolProfile', {
                             item: items,
                           })
-                        : props.navigation.navigate('SchoolProfile', {
+                        : props.navigation.navigate('UsersProfile', {
                             item: items,
                           });
                     }}>
@@ -1142,13 +1142,17 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   {posts != [] &&
                   item.post_like != null &&
                   item.post_like.length == 1 &&
-                  item.post_like[0].post_like_username == username ? (
+                  item.post_like[0].post_like_username == username &&
+                  item.post_like_count > 0 ? (
                     <TouchableOpacity
                       onPress={() => {
-                        item.user_role == 'STUDENTS' &&
-                          props.navigation.navigate('UsersProfile', {
-                            item: items,
-                          });
+                        item.user_role == 'EIREPRESENTATIVE'
+                          ? props.navigation.navigate('SchoolProfile', {
+                              item: items,
+                            })
+                          : props.navigation.navigate('UsersProfile', {
+                              item: items,
+                            });
                       }}>
                       <Text>
                         Liked by
@@ -1158,12 +1162,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   ) : (
                     <TouchableOpacity
                       onPress={() => {
-                        item.user_role == 'STUDENTS' &&
-                          props.navigation.navigate('UsersProfile', {
-                            item: items,
-                          });
+                        item.user_role == 'EIREPRESENTATIVE'
+                          ? props.navigation.navigate('SchoolProfile', {
+                              item: items,
+                            })
+                          : props.navigation.navigate('UsersProfile', {
+                              item: items,
+                            });
                       }}>
-                      {item.post_like != null && (
+                      {item.post_like != null && item.post_like_count > 0 && (
                         <Text>
                           Liked by
                           <Text style={styles.boldText}>
@@ -1211,10 +1218,19 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                             <View style={{flexDirection: 'row', flex: 1}}>
                               <TouchableOpacity
                                 onPress={() => {
-                                  item.user_role == 'STUDENTS' &&
-                                    props.navigation.navigate('UsersProfile', {
-                                      item: items,
-                                    });
+                                  item.user_role == 'EIREPRESENTATIVE'
+                                    ? props.navigation.navigate(
+                                        'SchoolProfile',
+                                        {
+                                          item: items,
+                                        },
+                                      )
+                                    : props.navigation.navigate(
+                                        'UsersProfile',
+                                        {
+                                          item: items,
+                                        },
+                                      );
                                 }}>
                                 <Text style={{fontWeight: 'bold', flex: 1}}>
                                   {item.comment_username}

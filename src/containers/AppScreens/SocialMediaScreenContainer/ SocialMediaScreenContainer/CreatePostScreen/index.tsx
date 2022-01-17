@@ -9,7 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 import styles from './styles';
-import {Images, Colors} from '../../../../components/index';
+import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -21,7 +21,7 @@ import {
   CustomHeader,
   BackBtn,
   HeaderTitleWithBack,
-} from '../../../../components';
+} from '../../../../../components';
 import {CheckBox} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import {
@@ -31,7 +31,7 @@ import {
 } from '@react-navigation/native';
 import CardView from 'react-native-cardview';
 import {useDispatch, useSelector} from 'react-redux';
-import * as userActions from '../../../../actions/user-actions-types';
+import * as userActions from '../../../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import {Card} from 'react-native-paper';
@@ -155,7 +155,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             alignItems: 'center',
           }}>
           <Image
-            source={require('../../../../assets/images/college4.jpg')}
+            source={require('../../../../../assets/images/college4.jpg')}
             style={{
               resizeMode: 'cover',
 

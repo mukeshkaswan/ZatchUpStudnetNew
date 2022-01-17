@@ -686,7 +686,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => {
-                  props.navigation.navigate('CreatePostScreen');
+                  props.navigation.navigate('AlumniGalleryScreen', {
+                    item: schoolDetail,
+                  });
                 }}>
                 <Text style={{color: 'white', fontWeight: 'bold'}}>
                   Alumni Gallery
@@ -884,7 +886,8 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       {schoolDetail != '' &&
                       item.post_like != null &&
                       item.post_like.length == 1 &&
-                      item.post_like[0].post_like_username == 'username' ? (
+                      item.post_like[0].post_like_username == 'username' &&
+                      item.post_like_count > 0 ? (
                         <TouchableOpacity
                           onPress={() => {
                             props.navigation.navigate('ProfileScreen');
@@ -902,7 +905,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                                 item: items,
                               });
                           }}>
-                          {item.post_like != null && (
+                          {item.post_like != null && item.post_like_count > 0 && (
                             <Text>
                               Liked by
                               <Text style={styles.boldText}>

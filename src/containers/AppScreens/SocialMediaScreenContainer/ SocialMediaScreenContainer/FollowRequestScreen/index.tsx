@@ -133,6 +133,54 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
     );
   };
 
+  const gotoChangeStatus = async (item, flag) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      follow_user_id: item.follow_user_id,
+      accept_request_status: flag == 'confirm' ? true : false,
+    };
+    // setLoading(true);
+    dispatch(
+      userActions.changeFollowRequestStatus({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            setLoading(false);
+            console.warn(
+              'after result follow request status changed',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              getFollowRequest();
+            } else {
+              // setSchoolDetail('');
+            }
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const renderItem = ({item, index}) => {
     return (
       <View
@@ -143,22 +191,41 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
         }}>
         <Image
           source={
-            item.profile_image != null
-              ? {uri: item.profile_image}
+            item.following_request_user_profile_pic != null
+              ? {uri: item.following_request_user_profile_pic}
               : require('../../../../../assets/images/pic.jpeg')
           }
           style={styles.profileImg}
         />
         <View style={styles.childContainer}>
           <View>
-            <Text style={styles.name}>
-              {item.first_name + ' ' + item.last_name}
-            </Text>
+            <Text style={styles.name}>{item.following_username}</Text>
             <Text style={{fontSize: 13}}>Suggested for you</Text>
           </View>
-          <TouchableOpacity>
-            <Text style={{color: '#5790c2'}}>Follow</Text>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              style={{
+                padding: 12,
+                backgroundColor: '#4B2A6A',
+                borderRadius: 4,
+                borderColor: 'grey',
+                marginEnd: 8,
+              }}
+              onPress={() => gotoChangeStatus(item, 'confirm')}>
+              <Text style={{color: '#fff'}}>Confirm</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                padding: 12,
+                // backgroundColor: '#fff',
+                borderRadius: 4,
+                borderColor: 'grey',
+                borderWidth: 1,
+              }}
+              onPress={() => gotoChangeStatus(item, 'delete')}>
+              <Text style={{color: '#000'}}>Delete</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );

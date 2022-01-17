@@ -156,8 +156,17 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
             </Text>
             <Text style={{fontSize: 13}}>Suggested for you</Text>
           </View>
-          <TouchableOpacity>
-            <Text style={{color: '#5790c2'}}>Follow</Text>
+          <TouchableOpacity
+            style={{
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              backgroundColor: '#4B2A6A',
+              borderRadius: 4,
+              borderColor: 'grey',
+              marginEnd: 8,
+            }}
+            onPress={() => {}}>
+            <Text style={{color: '#fff'}}>Follow</Text>
           </TouchableOpacity>
         </View>
       </View>

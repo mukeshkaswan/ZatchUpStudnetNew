@@ -686,44 +686,48 @@ const UsersProfile = (props: UserProfileProps) => {
               </View> */}
             </View>
           </Card>
-          <Card style={styles.cardContent}>
-            <View style={styles.cardtitlecontent}>
-              <Text style={styles.cardtitletext}>Posts</Text>
-              <TouchableOpacity
-                style={styles.postbtn}
-                onPress={() => {
-                  props.navigation.navigate('CreatePostScreen');
-                }}>
-                <Text style={{color: 'white'}}>Add Posts</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.borderstyle}></View>
-            <View style={styles.tabrowContainer}>
-              <View style={{flexDirection: 'row'}}>
+          {userProfile != '' && !userProfile.social_account_status && (
+            <Card style={styles.cardContent}>
+              <View style={styles.cardtitlecontent}>
+                <Text style={styles.cardtitletext}>Posts</Text>
                 <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => active_data('thData')}>
-                  <Icon
-                    name="th"
-                    size={30}
-                    color={data === 'thData' ? '#4B2A6A' : 'grey'}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => active_data('Image')}>
-                  <Icon
-                    name="image"
-                    size={30}
-                    color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                    style={{marginLeft: 80}}
-                  />
+                  style={styles.postbtn}
+                  onPress={() => {
+                    props.navigation.navigate('CreatePostScreen');
+                  }}>
+                  <Text style={{color: 'white'}}>Add Posts</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-          </Card>
-          {!(data === 'Image') ? (
+              <View style={styles.borderstyle}></View>
+              <View style={styles.tabrowContainer}>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('thData')}>
+                    <Icon
+                      name="th"
+                      size={30}
+                      color={data === 'thData' ? '#4B2A6A' : 'grey'}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('Image')}>
+                    <Icon
+                      name="image"
+                      size={30}
+                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                      style={{marginLeft: 80}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Card>
+          )}
+          {userProfile != '' &&
+          !userProfile.social_account_status &&
+          !(data === 'Image') ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item}) => {
@@ -765,7 +769,7 @@ const UsersProfile = (props: UserProfileProps) => {
               }}
               //  ItemSeparatorComponent={renderIndicator}
             />
-          ) : (
+          ) : userProfile != '' && !userProfile.social_account_status ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item, index}) => {
@@ -791,7 +795,10 @@ const UsersProfile = (props: UserProfileProps) => {
                           props.navigation.navigate('UsersProfile', {item});
                         }}>
                         <View
-                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
                           <Image
                             source={
                               item.profile_pic != null
@@ -884,7 +891,8 @@ const UsersProfile = (props: UserProfileProps) => {
                       {userProfile != '' &&
                       item.post_like != null &&
                       item.post_like.length == 1 &&
-                      item.post_like[0].post_like_username == 'username' ? (
+                      item.post_like[0].post_like_username == 'username' &&
+                      item.post_like_count > 0 ? (
                         <TouchableOpacity
                           onPress={() => {
                             props.navigation.navigate('ProfileScreen');
@@ -902,7 +910,7 @@ const UsersProfile = (props: UserProfileProps) => {
                                 item: items,
                               });
                           }}>
-                          {item.post_like != null && (
+                          {item.post_like != null && item.post_like_count > 0 && (
                             <Text>
                               Liked by
                               <Text style={styles.boldText}>
@@ -1029,6 +1037,20 @@ const UsersProfile = (props: UserProfileProps) => {
               }}
               //  ItemSeparatorComponent={renderIndicator}
             />
+          ) : (
+            <View
+              style={{
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: '#000',
+                marginHorizontal: 16,
+                marginTop: 16,
+                paddingVertical: 32,
+              }}>
+              <Text style={{fontWeight: '700', fontSize: 18}}>
+                This Account Is Private
+              </Text>
+            </View>
           )}
         </ScrollView>
       )}

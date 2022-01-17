@@ -69,6 +69,8 @@ import SchoolProfile from '../../containers/AppScreens/SocialMediaScreenContaine
 import SuggestionScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/SuggestionScreen';
 import FollowRequestScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/FollowRequestScreen';
 import UserNotificationScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/UserNotificationScreen';
+import CreatePostScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/CreatePostScreen';
+import AlumniGalleryScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/AlumniGalleryScreen';
 
 function AuthStack() {
   return (
@@ -359,25 +361,31 @@ function AuthStack() {
         component={SchoolProfile}
         options={{header: () => null}}
       />
-
       <Stack.Screen
         name="SuggestionScreen"
         component={SuggestionScreen}
         options={{header: () => null}}
       />
-
       <Stack.Screen
         name="FollowRequestScreen"
         component={FollowRequestScreen}
         options={{header: () => null}}
       />
-
       <Stack.Screen
         name="UserNotificationScreen"
         component={UserNotificationScreen}
         options={{header: () => null}}
       />
-
+      <Stack.Screen
+        name="CreatePostScreen"
+        component={CreatePostScreen}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="AlumniGalleryScreen"
+        component={AlumniGalleryScreen}
+        options={{header: () => null}}
+      />
       {/* <Stack.Screen
         name="messagechat"
         component={TeacherMessageChat}
