@@ -5,7 +5,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const screenWidth = Dimensions.get('window').width;
-import {Colors} from '../../../components/index';
+import {Colors} from '../../../../../components/index';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = ScaledSheet.create({
   container: {
@@ -55,7 +55,7 @@ const styles = ScaledSheet.create({
   removebtn: {
     backgroundColor: 'rgb(70,50,103)',
     height: hp(4),
-    width: wp(20),
+    width: wp(18),
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 6,

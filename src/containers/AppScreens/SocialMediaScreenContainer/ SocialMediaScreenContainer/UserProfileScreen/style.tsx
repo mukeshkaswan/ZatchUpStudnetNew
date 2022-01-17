@@ -13,27 +13,55 @@ const styles = ScaledSheet.create({
     paddingBottom: 10,
   },
 
-  // profilepic: {
-  //   resizeMode: 'cover',
-  //   borderWidth: 2,
-  //   borderColor: 'white',
-  //   width: '80@ms',
-  //   height: '80@ms',
-  //   borderRadius: '50@ms',
-  // },
+  profilepic: {
+    resizeMode: 'cover',
+    borderWidth: 2,
+    borderColor: 'white',
+    width: '80@ms',
+    height: '80@ms',
+    borderRadius: '50@ms',
+  },
+  profilepic1: {
+    height: 40,
+    width: 40,
+    borderRadius: 40,
+  },
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     marginTop: -40,
   },
-
+  likecommentContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+    paddingHorizontal: 16,
+  },
+  messageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+    justifyContent: 'space-between',
+  },
+  rowContainer1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  border: {
+    borderWidth: 0.4,
+    borderColor: 'lightgrey',
+    marginTop: 10,
+  },
   nametext: {
     fontSize: hp(2.1),
     fontWeight: 'bold',
   },
   likecontainer: {
+    //   backgroundColor:'grey',
     flexDirection: 'row',
+    // justifyContent: 'space-between',
     paddingHorizontal: 16,
     marginTop: '8@ms',
     marginBottom: '10@ms',
@@ -127,15 +155,15 @@ const styles = ScaledSheet.create({
   },
   postbtn: {
     borderWidth: 1,
-    height: 28,
+    height: 30,
     width: 80,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    backgroundColor: 'rgb(70,50,103)',
     alignSelf: 'flex-end',
-    marginRight: 10,
-    marginBottom: 12,
+    marginEnd: 16,
+    marginBottom: 16,
+    backgroundColor: 'rgb(70,50,103)',
   },
   tabrowContainer: {
     flexDirection: 'row',
@@ -148,7 +176,7 @@ const styles = ScaledSheet.create({
     marginTop: 10,
   },
   changebtn: {
-    borderWidth: 0.3,
+    borderWidth: 1,
     padding: 5,
     borderRadius: 5,
   },
@@ -182,66 +210,6 @@ const styles = ScaledSheet.create({
     borderRadius: '10@ms',
     //padding:'15@ms',
     alignSelf: 'center',
-  },
-
-  cardcontent1: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderColor: '#DCDCDC',
-    padding: '5@ms',
-  },
-  nametext: {
-    fontWeight: 'bold',
-    marginTop: '5@ms',
-    marginLeft: '20@ms',
-    fontSize: hp(2),
-    color: 'black',
-  },
-
-  cardcontent2: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: '5@ms',
-    padding: '6@ms',
-  },
-  videocontent: {
-    width: '100%',
-    height: '120@ms',
-  },
-  cardcontent3: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginTop: '5@ms',
-    padding: '6@ms',
-  },
-  cardparagrap: {
-    color: 'gray',
-    marginTop: '5@ms',
-    fontSize: hp(1.5),
-    // fontWeight:'bold',
-    textAlign: 'justify',
-    fontWeight: 'bold',
-  },
-  projecttitletext: {
-    color: 'grey',
-    fontSize: hp(1.8),
-    fontWeight: 'bold',
-  },
-
-  icontext: {
-    marginRight: '15@ms',
-  },
-  cardrowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    alignItems: 'center',
-  },
-  profilepic: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
   },
 });
 export default styles;

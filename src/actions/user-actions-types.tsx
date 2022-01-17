@@ -139,6 +139,10 @@ export const getAlumniGalleryDetail = createAction(GETALUMIGALLERYDETAIL);
 export const GETSUGGESTIONS = 'GETSUGGESTIONS';
 export const getSuggestions = createAction(GETSUGGESTIONS);
 
+// this is the follow another user
+export const FOLLOWUSER = 'FOLLOWUSER';
+export const followUser = createAction(FOLLOWUSER);
+
 // this is the follow request for user
 export const GETFOLLOWREQUEST = 'GETFOLLOWREQUEST';
 export const getFollowRequest = createAction(GETFOLLOWREQUEST);
@@ -148,6 +152,14 @@ export const CHANGEFOLLOWREQUESTSTATUS = 'CHANGEFOLLOWREQUESTSTATUS';
 export const changeFollowRequestStatus = createAction(
   CHANGEFOLLOWREQUESTSTATUS,
 );
+
+// this is the follower for user
+export const GETFOLLOWERS = 'GETFOLLOWERS';
+export const getFollowers = createAction(GETFOLLOWERS);
+
+// this is the change folllowing for user
+export const GETFOLLOWING = 'GETFOLLOWING';
+export const getFollowing = createAction(GETFOLLOWING);
 
 // this is the user notification for user
 export const GETUSERNOTIFICATION = 'GETUSERNOTIFICATION';

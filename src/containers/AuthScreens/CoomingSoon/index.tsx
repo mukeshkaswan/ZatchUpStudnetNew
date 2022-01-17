@@ -147,6 +147,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [posts, setPosts] = useState([]);
   const [username, setuserName] = useState('');
   const [commentValue, setComment] = useState('');
+  const [customItem, setCustomItem] = useState('');
   useEffect(() => {
     //getEducationProfile();
     onChangecityname('');
@@ -189,6 +190,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const toggleModalCustom = item => {
+    setCustomItem(item);
     setModalVisible(!isModalVisible);
   };
   const toggleModal2 = () => {
@@ -1028,7 +1034,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           style={{flex: 1, width: '100%'}}
           data={posts}
           renderItem={({item, index}) => {
-            let len = item.post_gallery.length;
+            let len = item.post_gallery != null ? item.post_gallery.length : 0;
             let items = item;
             return (
               <CardView
@@ -1051,7 +1057,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         ? props.navigation.navigate('SchoolProfile', {
                             item: items,
                           })
-                        : props.navigation.navigate('UsersProfile', {
+                        : item.user_id != userid
+                        ? props.navigation.navigate('UsersProfile', {
+                            item: items,
+                          })
+                        : props.navigation.navigate('UserProfileScreen', {
                             item: items,
                           });
                     }}>
@@ -1069,7 +1079,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={toggleModal}>
+                  <TouchableOpacity onPress={() => toggleModalCustom(item)}>
                     <Image
                       source={require('../../../assets/images/dot.png')}
                       style={{height: 18, width: 18}}
@@ -1079,7 +1089,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 <View style={{paddingHorizontal: 16, marginTop: 10}}>
                   <Image source={item.src} style={{width: '100%'}} />
                 </View>
-                {posts != [] && (
+                {posts != [] && item.post_gallery != null ? (
                   <>
                     <Carousel
                       // layout={'tinder'}
@@ -1112,6 +1122,63 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       inactiveDotScale={0.6}
                     /> */}
                   </>
+                ) : (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: screenWidth,
+                      height: screenWidth - 32,
+                      //backgroundColor: 'red',
+                    }}>
+                    <View
+                      style={{
+                        backgroundColor: '#4B2A6A',
+                        height: 1,
+                        width: '84%',
+                        marginEnd: 32,
+                        alignSelf: 'center',
+                      }}></View>
+                    <Text
+                      style={{
+                        color: '#4B2A6A',
+                        fontSize: 40,
+                        textAlign: 'left',
+                        alignSelf: 'flex-start',
+                        marginStart: 16,
+                      }}>
+                      “
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: '700',
+                        color: '#4B2A6A',
+                        marginHorizontal: 32,
+                        marginEnd: 64,
+                      }}>
+                      {item.caption}
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#4B2A6A',
+                        fontSize: 40,
+                        textAlign: 'right',
+                        alignSelf: 'flex-end',
+                        marginEnd: 48,
+                      }}>
+                      ”
+                    </Text>
+                    <View
+                      style={{
+                        backgroundColor: '#4B2A6A',
+                        height: 1,
+                        width: '84%',
+                        marginEnd: 32,
+                        alignSelf: 'center',
+                      }}></View>
+                  </View>
                 )}
                 <View style={styles.likecommentContainer}>
                   <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
@@ -1321,7 +1388,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           <View style={styles.mborder}></View>
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen');
+              props.navigation.navigate('PostDetailScreen', {item: customItem});
             }}>
             <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
           </TouchableOpacity>

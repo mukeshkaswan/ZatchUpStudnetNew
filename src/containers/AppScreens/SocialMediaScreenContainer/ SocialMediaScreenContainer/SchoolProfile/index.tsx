@@ -609,7 +609,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate('FollowersScreen');
+                    props.navigation.navigate('FollowersScreen', {
+                      item: schoolDetail,
+                    });
                   }}>
                   <Text style={styles.boldText}>
                     {schoolDetail.social_user_followers}

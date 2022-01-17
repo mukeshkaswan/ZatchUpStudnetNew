@@ -73,6 +73,9 @@ import {
   GETUSERCOVERMEDIAPIC,
   GETALUMIGALLERYDETAIL,
   CHANGEFOLLOWREQUESTSTATUS,
+  FOLLOWUSER,
+  GETFOLLOWERS,
+  GETFOLLOWING,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -830,7 +833,7 @@ function* getPostOfUser({payload: {data, callback}}) {
     },
     //data: JSON.stringify(data.course_id),
     method: 'GET',
-    url: 'socialmedia/post/user_following_post/?page=1&page_size=9&count_type=true',
+    url: 'socialmedia/post/user_following_post/?page=1&page_size=20&count_type=true',
   };
   const {result, error} = yield call(httpClient, payload);
   if (!error) {
@@ -1204,6 +1207,70 @@ function* getFollowRequest({payload: {data, callback}}) {
   }
 }
 
+/*************************get suggestion of get followers     **************/
+function* getFollowers({payload: {data, callback}}) {
+  console.warn('data in saga Auth User Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/follow/search_user_follower_list/?user_id=' + data.user_id,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Get followers list Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/*************************get suggestion of get following     **************/
+function* getFollowing({payload: {data, callback}}) {
+  console.warn('data in saga Auth User Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/follow/search_user_following_list/?user_id=' + data.user_id,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Get following list Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************change follow request status*******************************/
 
 function* changeFollowRequestStatus({payload: {data, callback}}) {
@@ -1228,6 +1295,42 @@ function* changeFollowRequestStatus({payload: {data, callback}}) {
     if (result) {
       console.log(
         'follow request status change',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************change follow request status*******************************/
+
+function* followUser({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    follow_status: data.follow_status,
+    following_user_id: data.following_user_id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/follow/userfollowerfollowing/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'follow the user by another user',
         JSON.stringify(result, undefined, 2),
       );
       callback({result, error});
@@ -2416,8 +2519,10 @@ function* User() {
     yield takeLatest(GETALUMIGALLERYDETAIL, getAlumniGalleryDetail),
     yield takeLatest(GETUSERNOTIFICATION, getUserNotification),
     yield takeLatest(GETSUGGESTIONS, getSuggestions),
+    yield takeLatest(FOLLOWUSER, followUser),
     yield takeLatest(GETFOLLOWREQUEST, getFollowRequest),
-    yield takeLatest(GETFOLLOWREQUEST, getFollowRequest),
+    yield takeLatest(GETFOLLOWERS, getFollowers),
+    yield takeLatest(GETFOLLOWING, getFollowing),
     yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
   ]);
 }

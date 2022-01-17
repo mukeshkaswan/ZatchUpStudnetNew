@@ -12,7 +12,6 @@ import {
   Alert,
   Dimensions,
   TextInput,
-  Button,
 } from 'react-native';
 import {
   TextField,
@@ -34,7 +33,7 @@ import {
 import * as userActions from '../../../../../actions/user-actions-types';
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
+import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import images from '../../../../../components/images';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,12 +41,6 @@ import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
-import {Images} from '../../../../../components/index';
-import Modal from 'react-native-modal';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const data = [
@@ -78,7 +71,7 @@ const data2 = [
 export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
-const UsersProfile = (props: UserProfileProps) => {
+const UserProfileScreen = (props: UserProfileProps) => {
   console.log('=====', props.route);
   const {
     item: {user_id},
@@ -93,7 +86,6 @@ const UsersProfile = (props: UserProfileProps) => {
   const [comment, pressComment] = useState(false);
   const [commentValue, setComment] = useState('');
   const [sociaMedialPic, setSocialMediaPic] = useState('');
-  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getUserProfile(user_id);
@@ -408,69 +400,14 @@ const UsersProfile = (props: UserProfileProps) => {
     setUserProfile(newObj);
   };
 
-  const gotoFollow = async () => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
+  // const gotoSetComment = async (text, index) => {
+  //   let newObj = Object.assign({}, userProfile);
 
-    const data = {
-      token: token,
-      follow_status:
-        userProfile.follow_request_status == 1
-          ? 0
-          : userProfile.follow_request_status == 0
-          ? 1
-          : 0,
-      following_user_id: user_id,
-    };
-
-    dispatch(
-      userActions.followUser({
-        data,
-        callback: ({result, error}) => {
-          if (result) {
-            console.warn(
-              'after result follow user',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-
-            if (result.status) {
-              getUserProfile(user_id);
-            } else {
-              // setSchoolDetail('');
-            }
-
-            setLoading(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            setLoading(false);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-  };
-
-  const toggleModal = () => {
-    console.log('hey');
-    setModalVisible(!isModalVisible);
-  };
-
-  const gotoRemove = () => {
-    setModalVisible(!isModalVisible);
-    gotoFollow();
-  };
+  //   for (let i in userProfile.social_post) {
+  //   }
+  //   console.log('newObj', newObj);
+  //   setUserProfile(newObj);
+  // };
 
   const isCarousel = useRef(null);
 
@@ -637,46 +574,6 @@ const UsersProfile = (props: UserProfileProps) => {
                   </Text>
                   <Text style={{}}>Following</Text>
                 </TouchableOpacity>
-                {userProfile.follow_request_status == 0 ? (
-                  <TouchableOpacity
-                    style={styles.removebtn}
-                    onPress={() => gotoFollow()}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Follow
-                    </Text>
-                  </TouchableOpacity>
-                ) : userProfile.follow_request_status == 1 ? (
-                  <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
-                    onPress={toggleModal}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Requested
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#28a745'}]}
-                    onPress={toggleModal}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Following
-                    </Text>
-                  </TouchableOpacity>
-                )}
               </View>
               <View style={styles.messageicon}>
                 <TouchableOpacity
@@ -687,6 +584,15 @@ const UsersProfile = (props: UserProfileProps) => {
                 </TouchableOpacity>
               </View>
             </View>
+            <TouchableOpacity
+              style={styles.postbtn}
+              onPress={() => {
+                props.navigation.navigate('CreatePostScreen');
+              }}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>
+                Add Posts
+              </Text>
+            </TouchableOpacity>
           </View>
           {userProfile.educationdetail != null &&
             userProfile.educationdetail.map((item, index) => {
@@ -793,7 +699,7 @@ const UsersProfile = (props: UserProfileProps) => {
               </View> */}
             </View>
           </Card>
-          {userProfile != '' && !userProfile.social_account_status && (
+          {userProfile != '' && (
             <Card style={styles.cardContent}>
               <View style={styles.cardtitlecontent}>
                 <Text style={styles.cardtitletext}>Posts</Text>
@@ -832,9 +738,7 @@ const UsersProfile = (props: UserProfileProps) => {
               </View>
             </Card>
           )}
-          {userProfile != '' &&
-          !userProfile.social_account_status &&
-          !(data === 'Image') ? (
+          {userProfile != '' && !(data === 'Image') ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item}) => {
@@ -858,25 +762,25 @@ const UsersProfile = (props: UserProfileProps) => {
                         itemWidth={ITEM_WIDTH}
                         onSnapToItem={index => setIndex(index)}
                       />
-                      <Pagination
-                        dotsLength={len}
-                        activeDotIndex={index}
-                        carouselRef={isCarousel}
-                        dotStyle={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 5,
-                          marginHorizontal: 8,
-                          backgroundColor: '#F4BB41',
-                        }}
-                        tappableDots={true}
-                        inactiveDotStyle={{
-                          backgroundColor: 'black',
-                          // Define styles for inactive dots here
-                        }}
-                        inactiveDotOpacity={0.4}
-                        inactiveDotScale={0.6}
-                      />
+                      {/* <Pagination
+                      dotsLength={len}
+                      activeDotIndex={index}
+                      carouselRef={isCarousel}
+                      dotStyle={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 5,
+                        marginHorizontal: 8,
+                        backgroundColor: '#F4BB41',
+                      }}
+                      tappableDots={true}
+                      inactiveDotStyle={{
+                        backgroundColor: 'black',
+                        // Define styles for inactive dots here
+                      }}
+                      inactiveDotOpacity={0.4}
+                      inactiveDotScale={0.6}
+                    /> */}
                     </>
                   );
                 } else {
@@ -942,81 +846,80 @@ const UsersProfile = (props: UserProfileProps) => {
               }}
               //  ItemSeparatorComponent={renderIndicator}
             />
-          ) : userProfile != '' && !userProfile.social_account_status ? (
+          ) : userProfile != '' ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item, index}) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
-                if (item.post_gallery != null) {
-                  return (
-                    <CardView
-                      cardElevation={5}
-                      cardMaxElevation={5}
-                      // cornerRadius={15}
-                      style={{
-                        // padding: 16,
-                        backgroundColor: 'white',
-                        marginHorizontal: 15,
-                        marginTop: 10,
-                        paddingBottom: 14,
-                        paddingTop: 10,
-                        marginBottom: 5,
-                      }}>
-                      <View style={styles.rowContainer1}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            props.navigation.navigate('UsersProfile', {item});
+                return (
+                  <CardView
+                    cardElevation={5}
+                    cardMaxElevation={5}
+                    // cornerRadius={15}
+                    style={{
+                      // padding: 16,
+                      backgroundColor: 'white',
+                      marginHorizontal: 15,
+                      marginTop: 10,
+                      paddingBottom: 14,
+                      paddingTop: 10,
+                      marginBottom: 5,
+                    }}>
+                    <View style={styles.rowContainer1}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          props.navigation.navigate('UsersProfile', {item});
+                        }}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
                           }}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                            }}>
-                            <Image
-                              source={
-                                item.profile_pic != null
-                                  ? {uri: item.profile_pic}
-                                  : require('../../../../../assets/images/pic.jpeg')
-                              }
-                              style={styles.profilepic1}
-                            />
-                            <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
-                              {item.full_name}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                        // onPress={toggleModal}
-                        >
                           <Image
-                            source={require('../../../../../assets/images/dot.png')}
-                            style={{height: 18, width: 18}}
+                            source={
+                              item.profile_pic != null
+                                ? {uri: item.profile_pic}
+                                : require('../../../../../assets/images/pic.jpeg')
+                            }
+                            style={styles.profilepic1}
                           />
-                        </TouchableOpacity>
-                      </View>
-                      {/* <View style={{paddingHorizontal: 16, marginTop: 10}}>
+                          <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
+                            {item.full_name}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                      // onPress={toggleModal}
+                      >
+                        <Image
+                          source={require('../../../../../assets/images/dot.png')}
+                          style={{height: 18, width: 18}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    {/* <View style={{paddingHorizontal: 16, marginTop: 10}}>
                       <Image source={item.src} style={{width: '100%'}} />
                     </View> */}
-                      {userProfile != '' && item.post_gallery != null ? (
-                        <>
-                          <Carousel
-                            // layout={'tinder'}
-                            ref={isCarousel}
-                            data={item.post_gallery}
-                            renderItem={({item, index}) => (
-                              <CrouselImages
-                                item={item}
-                                index={index}
-                                length={len}
-                              />
-                            )}
-                            sliderWidth={SLIDER_WIDTH}
-                            itemWidth={ITEM_WIDTH}
-                            onSnapToItem={index => setIndex(index)}
-                          />
-                          {/* <Pagination
+                    {userProfile != '' && item.post_gallery != null ? (
+                      <>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarousel}
+                          data={item.post_gallery}
+                          renderItem={({item, index}) => (
+                            <CrouselImages
+                              item={item}
+                              index={index}
+                              length={len}
+                            />
+                          )}
+                          sliderWidth={SLIDER_WIDTH}
+                          itemWidth={ITEM_WIDTH}
+                          onSnapToItem={index => setIndex(index)}
+                        />
+                        {/* <Pagination
                           dotsLength={item.post_gallery.length}
                           activeDotIndex={index}
                           carouselRef={isCarousel}
@@ -1035,107 +938,127 @@ const UsersProfile = (props: UserProfileProps) => {
                           inactiveDotOpacity={0.4}
                           inactiveDotScale={0.6}
                         /> */}
-                        </>
-                      ) : (
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: screenWidth,
-                            height: screenWidth - 32,
-                            //backgroundColor: 'red',
-                          }}>
-                          <View
-                            style={{
-                              backgroundColor: '#4B2A6A',
-                              height: 1,
-                              width: '84%',
-                              marginEnd: 32,
-                              alignSelf: 'center',
-                            }}></View>
-                          <Text
-                            style={{
-                              color: '#4B2A6A',
-                              fontSize: 40,
-                              textAlign: 'left',
-                              alignSelf: 'flex-start',
-                              marginStart: 16,
-                            }}>
-                            “
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: '#4B2A6A',
-                              marginHorizontal: 32,
-                              marginEnd: 64,
-                            }}>
-                            {item.caption}
-                          </Text>
-                          <Text
-                            style={{
-                              color: '#4B2A6A',
-                              fontSize: 40,
-                              textAlign: 'right',
-                              alignSelf: 'flex-end',
-                              marginEnd: 48,
-                            }}>
-                            ”
-                          </Text>
-                          <View
-                            style={{
-                              backgroundColor: '#4B2A6A',
-                              height: 1,
-                              width: '84%',
-                              marginEnd: 32,
-                              alignSelf: 'center',
-                            }}></View>
-                        </View>
-                      )}
-                      <View style={styles.likecommentContainer}>
-                        <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
-                          <Icon
-                            name="thumbs-up"
-                            size={15}
-                            color={item.like ? 'red' : 'grey'}
-                            style={{marginLeft: 5}}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => gotoChangeToggle(index)}>
-                          <Icon
-                            name="comment"
-                            color="grey"
-                            size={15}
-                            style={{marginLeft: 5}}
-                          />
-                        </TouchableOpacity>
-                      </View>
-
-                      {/* reply comment Section */}
+                      </>
+                    ) : (
                       <View
                         style={{
-                          marginLeft: 6,
-                          paddingHorizontal: 16,
-                          paddingVertical: 10,
+                          flex: 1,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: screenWidth,
+                          height: screenWidth - 32,
+                          //backgroundColor: 'red',
                         }}>
-                        {userProfile != '' &&
-                        item.post_like != null &&
-                        item.post_like.length == 1 &&
-                        item.post_like[0].post_like_username == 'username' &&
-                        item.post_like_count > 0 ? (
-                          <TouchableOpacity
-                            onPress={() => {
-                              props.navigation.navigate('ProfileScreen');
-                            }}>
+                        <View
+                          style={{
+                            backgroundColor: '#4B2A6A',
+                            height: 1,
+                            width: '84%',
+                            marginEnd: 32,
+                            alignSelf: 'center',
+                          }}></View>
+                        <Text
+                          style={{
+                            color: '#4B2A6A',
+                            fontSize: 40,
+                            textAlign: 'left',
+                            alignSelf: 'flex-start',
+                            marginStart: 16,
+                          }}>
+                          “
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: '700',
+                            color: '#4B2A6A',
+                            marginHorizontal: 32,
+                            marginEnd: 64,
+                          }}>
+                          {item.caption}
+                        </Text>
+                        <Text
+                          style={{
+                            color: '#4B2A6A',
+                            fontSize: 40,
+                            textAlign: 'right',
+                            alignSelf: 'flex-end',
+                            marginEnd: 48,
+                          }}>
+                          ”
+                        </Text>
+                        <View
+                          style={{
+                            backgroundColor: '#4B2A6A',
+                            height: 1,
+                            width: '84%',
+                            marginEnd: 32,
+                            alignSelf: 'center',
+                          }}></View>
+                      </View>
+                    )}
+                    <View style={styles.likecommentContainer}>
+                      <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
+                        <Icon
+                          name="thumbs-up"
+                          size={15}
+                          color={item.like ? 'red' : 'grey'}
+                          style={{marginLeft: 5}}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
+                        <Icon
+                          name="comment"
+                          color="grey"
+                          size={15}
+                          style={{marginLeft: 5}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    {/* reply comment Section */}
+                    <View
+                      style={{
+                        marginLeft: 6,
+                        paddingHorizontal: 16,
+                        paddingVertical: 10,
+                      }}>
+                      {userProfile != '' &&
+                      item.post_like != null &&
+                      item.post_like.length == 1 &&
+                      item.post_like[0].post_like_username == 'username' &&
+                      item.post_like_count > 0 ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            props.navigation.navigate('ProfileScreen');
+                          }}>
+                          <Text>
+                            Liked by
+                            <Text style={styles.boldText}> You</Text>
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => {
+                            item.user_role == 'STUDENTS' &&
+                              props.navigation.navigate('UsersProfile', {
+                                item: items,
+                              });
+                          }}>
+                          {item.post_like != null && item.post_like_count > 0 && (
                             <Text>
                               Liked by
-                              <Text style={styles.boldText}> You</Text>
+                              <Text style={styles.boldText}>
+                                {' '}
+                                {item.post_like[0].post_like_username}
+                              </Text>
                             </Text>
-                          </TouchableOpacity>
-                        ) : (
+                          )}
+                        </TouchableOpacity>
+                      )}
+                      {userProfile != '' &&
+                        item.post_like != null &&
+                        item.post_like.length >= 2 && (
                           <TouchableOpacity
                             onPress={() => {
                               item.user_role == 'STUDENTS' &&
@@ -1143,194 +1066,109 @@ const UsersProfile = (props: UserProfileProps) => {
                                   item: items,
                                 });
                             }}>
-                            {item.post_like != null &&
-                              item.post_like_count > 0 && (
-                                <Text>
-                                  Liked by
-                                  <Text style={styles.boldText}>
-                                    {' '}
-                                    {item.post_like[0].post_like_username}
-                                  </Text>
-                                </Text>
-                              )}
-                          </TouchableOpacity>
-                        )}
-                        {userProfile != '' &&
-                          item.post_like != null &&
-                          item.post_like.length >= 2 && (
-                            <TouchableOpacity
-                              onPress={() => {
-                                item.user_role == 'STUDENTS' &&
-                                  props.navigation.navigate('UsersProfile', {
-                                    item: items,
-                                  });
-                              }}>
-                              <Text>
-                                Liked by{' '}
-                                <Text style={styles.boldText}>
-                                  {item.post_like[0].post_like_username}
-                                </Text>{' '}
-                                and
-                                <Text style={styles.boldText}>
-                                  {item.post_like.length - 1}Others
-                                </Text>
+                            <Text>
+                              Liked by{' '}
+                              <Text style={styles.boldText}>
+                                {item.post_like[0].post_like_username}
+                              </Text>{' '}
+                              and
+                              <Text style={styles.boldText}>
+                                {item.post_like.length - 1}Others
                               </Text>
-                            </TouchableOpacity>
-                          )}
-
-                        {item.full_name != null && (
-                          <Text
-                            style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
-                            {item.full_name}
-                          </Text>
-                        )}
-                        {item.caption != null && <Text>{item.caption}</Text>}
-                        {userProfile != '' &&
-                          item.comment_post != null &&
-                          item.comment_post.map((item, index) => {
-                            if (index <= 2) {
-                              return (
-                                <View
-                                  style={styles.messageContainer}
-                                  key={item + 'sap' + index}>
-                                  <View style={{flexDirection: 'row', flex: 1}}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        item.user_role == 'STUDENTS' &&
-                                          props.navigation.navigate(
-                                            'UsersProfile',
-                                            {
-                                              item: items,
-                                            },
-                                          );
-                                      }}>
-                                      <Text
-                                        style={{fontWeight: 'bold', flex: 1}}>
-                                        {item.comment_username}
-                                      </Text>
-                                    </TouchableOpacity>
-                                    <Text style={{marginLeft: 5, flex: 2}}>
-                                      {item.comment}
-                                    </Text>
-                                  </View>
-                                  <View
-                                    style={{
-                                      flexDirection: 'row',
-                                    }}>
-                                    <TouchableOpacity
-                                      onPress={() => gotoCommentLike(item)}>
-                                      <Icon
-                                        name="thumbs-up"
-                                        size={15}
-                                        color={
-                                          item.likes_status ? 'red' : 'grey'
-                                        }
-                                        style={{marginLeft: 5}}
-                                      />
-                                    </TouchableOpacity>
-                                  </View>
-                                </View>
-                              );
-                            }
-                          })}
-                        {/*end of reply comment Section */}
-                        {item.total_comment >= 3 && (
-                          <TouchableOpacity
-                            onPress={() => {
-                              props.navigation.navigate('PostDetailScreen', {
-                                item,
-                              });
-                            }}>
-                            <Text style={{fontSize: 12, marginTop: 10}}>
-                              VIEW ALL {item.total_comment} COMMENTS
                             </Text>
                           </TouchableOpacity>
                         )}
-                        <Text style={{fontSize: 12, marginTop: 10}}>
-                          {item.post_created_on}
+
+                      {item.full_name != null && (
+                        <Text
+                          style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
+                          {item.full_name}
                         </Text>
-                      </View>
-                      {item.commentToggle == true ? (
-                        <View style={{marginTop: 32}}>
-                          <View style={styles.border}></View>
-                          <View style={styles.rowContainer}>
-                            <TextInput
-                              placeholder="Add a comment"
-                              value={commentValue}
-                              onChangeText={setComment}
-                            />
-                            <TouchableOpacity
-                              style={styles.postbtn}
-                              onPress={() => gotoComment(item)}>
-                              <Text style={{color: 'white'}}>Post</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      ) : (
-                        <View></View>
                       )}
-                    </CardView>
-                  );
-                } else {
-                  return (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: screenWidth,
-                        height: screenWidth - 32,
-                        //backgroundColor: 'red',
-                      }}>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'left',
-                          alignSelf: 'flex-start',
-                          marginStart: 16,
-                        }}>
-                        “
+                      {item.caption != null && <Text>{item.caption}</Text>}
+                      {userProfile != '' &&
+                        item.comment_post != null &&
+                        item.comment_post.map((item, index) => {
+                          if (index <= 2) {
+                            return (
+                              <View
+                                style={styles.messageContainer}
+                                key={item + 'sap' + index}>
+                                <View style={{flexDirection: 'row', flex: 1}}>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      item.user_role == 'STUDENTS' &&
+                                        props.navigation.navigate(
+                                          'UsersProfile',
+                                          {
+                                            item: items,
+                                          },
+                                        );
+                                    }}>
+                                    <Text style={{fontWeight: 'bold', flex: 1}}>
+                                      {item.comment_username}
+                                    </Text>
+                                  </TouchableOpacity>
+                                  <Text style={{marginLeft: 5, flex: 2}}>
+                                    {item.comment}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    flexDirection: 'row',
+                                  }}>
+                                  <TouchableOpacity
+                                    onPress={() => gotoCommentLike(item)}>
+                                    <Icon
+                                      name="thumbs-up"
+                                      size={15}
+                                      color={item.likes_status ? 'red' : 'grey'}
+                                      style={{marginLeft: 5}}
+                                    />
+                                  </TouchableOpacity>
+                                </View>
+                              </View>
+                            );
+                          }
+                        })}
+                      {/*end of reply comment Section */}
+                      {item.total_comment >= 3 && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            props.navigation.navigate('PostDetailScreen', {
+                              item,
+                            });
+                          }}>
+                          <Text style={{fontSize: 12, marginTop: 10}}>
+                            VIEW ALL {item.total_comment} COMMENTS
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      <Text style={{fontSize: 12, marginTop: 10}}>
+                        {item.post_created_on}
                       </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: '700',
-                          color: '#4B2A6A',
-                          marginHorizontal: 32,
-                          marginEnd: 64,
-                        }}>
-                        {item.caption}
-                      </Text>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'right',
-                          alignSelf: 'flex-end',
-                          marginEnd: 48,
-                        }}>
-                        ”
-                      </Text>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
                     </View>
-                  );
-                }
+                    {item.commentToggle == true ? (
+                      <View style={{marginTop: 32}}>
+                        <View style={styles.border}></View>
+                        <View style={styles.rowContainer}>
+                          <TextInput
+                            placeholder="Add a comment"
+                            value={commentValue}
+                            onChangeText={setComment}
+                          />
+                          <TouchableOpacity
+                            style={styles.postbtn}
+                            onPress={() => gotoComment(item)}>
+                            <Text style={{color: 'white'}}>Post</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    ) : (
+                      <View></View>
+                    )}
+                  </CardView>
+                );
               }}
               //  ItemSeparatorComponent={renderIndicator}
             />
@@ -1351,73 +1189,7 @@ const UsersProfile = (props: UserProfileProps) => {
           )}
         </ScrollView>
       )}
-
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        backdropOpacity={0.4}>
-        <View
-          style={{
-            //height: hp('55'),
-            backgroundColor: Colors.$backgroundColor,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 20,
-
-            borderRadius: 5,
-          }}>
-          {/* <Image
-            source={Images.profile_img2}
-            style={{
-              height: 50,
-              width: 50,
-              tintColor: 'grey',
-              borderRadius: 25,
-            }}
-          /> */}
-          <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
-            <Text
-              style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-              Are you sure you want to cancel the request ?
-            </Text>
-            {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-              Zatchup won't tell @{userData.following_username} that they have
-              been removed from the Followers.
-            </Text> */}
-          </View>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 30,
-            }}></View>
-          <Button
-            //color={Colors.$backgroundColor}
-            title="Remove"
-            onPress={gotoRemove}
-          />
-          <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 12,
-            }}></View>
-          <Button
-            //color={Colors.$backgroundColor}
-            title="Cancel"
-            onPress={toggleModal}
-          />
-          <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
     </View>
   );
 };
-export default UsersProfile;
+export default UserProfileScreen;

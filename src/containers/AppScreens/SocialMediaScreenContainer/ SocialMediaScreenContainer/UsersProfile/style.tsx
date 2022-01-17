@@ -208,5 +208,14 @@ const styles = ScaledSheet.create({
     //padding:'15@ms',
     alignSelf: 'center',
   },
+  removebtn: {
+    backgroundColor: 'rgb(70,50,103)',
+    height: hp(4),
+    width: wp(18),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+    marginStart: 16,
+  },
 });
 export default styles;

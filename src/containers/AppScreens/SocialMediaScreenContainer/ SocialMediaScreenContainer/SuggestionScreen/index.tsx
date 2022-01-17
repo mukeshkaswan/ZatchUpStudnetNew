@@ -133,6 +133,55 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
     );
   };
 
+  const gotoFollow = async item => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      follow_status: 1,
+      following_user_id: item.id,
+    };
+
+    dispatch(
+      userActions.followUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result follow user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              getSuggestions();
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const renderItem = ({item, index}) => {
     return (
       <View
@@ -165,7 +214,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
               borderColor: 'grey',
               marginEnd: 8,
             }}
-            onPress={() => {}}>
+            onPress={() => gotoFollow(item)}>
             <Text style={{color: '#fff'}}>Follow</Text>
           </TouchableOpacity>
         </View>
