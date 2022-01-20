@@ -169,7 +169,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
                 oldPassword,
               )
               .then(({user}) => {
-                console.log('User==>>', user, oldPassword);
+               // console.log('User==>>', user, oldPassword);
                 auth().currentUser.updatePassword(newPassword);
               
               })

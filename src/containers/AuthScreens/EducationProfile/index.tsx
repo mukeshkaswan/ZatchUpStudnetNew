@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -10,7 +10,7 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -22,16 +22,16 @@ import {
   Validate,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {RadioButton} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface EducationProfileScreenProps {
   navigation: any;
@@ -103,7 +103,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -148,6 +148,8 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
   };
 
   useEffect(() => {
+    console.log('props.route.params educ', props.route.params)
+
     //   const school_id =  props.route.params.school_id ;
     // const fetchProducts = async () => {
     //     const school_id = await AsyncStorage.getItem('school_id')
@@ -213,7 +215,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -319,7 +321,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
     const classError = Validate('class', standardclasskey);
 
-   // const schoolidError = Validate('schoolid', SchoolID);
+    // const schoolidError = Validate('schoolid', SchoolID);
     const rollnoError = Validate('rollno', RollNo);
     const desError = Validate('Des', Des);
 
@@ -329,33 +331,33 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
       joiningstandardError ||
       joiningcurrentError ||
       classError ||
-    //  schoolidError ||
+      //  schoolidError ||
       rollnoError ||
       desError
     ) {
       //this._scrollView.scrollTo(0);
       Toast.show(
         courseError ||
-          dobError ||
-          joiningstandardError ||
-          joiningcurrentError ||
-          classError ||
-         // schoolidError ||
-          rollnoError ||
-          desError,
+        dobError ||
+        joiningstandardError ||
+        joiningcurrentError ||
+        classError ||
+        // schoolidError ||
+        rollnoError ||
+        desError,
         Toast.SHORT,
       );
 
       return false;
     } else {
-      
+
       setLoading(true);
 
-    
-     
+
+
 
       let rawdata = {
-       
+
         class_id: classidparm,
         comment: Des,
         course_end_year: null,
@@ -373,7 +375,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         standard_start_year: null,
       };
 
-  
+
       let token = '';
       try {
         const value = await AsyncStorage.getItem('token');
@@ -391,12 +393,12 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         token: token,
         data: rawdata,
       };
-     
+
 
       dispatch(
         userActions.getAddRegisteredEiCourse({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after Add Course result',
@@ -504,16 +506,16 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
     result.results.map((element: any) => {
 
-      if(element.view_for== 'STUDENT' ){
+      if (element.view_for == 'STUDENT') {
         let obj = {
-          label:  element.course_name,
-          value:  element.id,
+          label: element.course_name,
+          value: element.id,
           description: element.description,
-          start_date:  element.start_date,
+          start_date: element.start_date,
         };
         city.push(obj);
       }
-     
+
     });
 
     setselectedCourse(city);
@@ -547,7 +549,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     dispatch(
       userActions.getStandardClass({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -605,7 +607,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     dispatch(
       userActions.getStandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -663,7 +665,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     dispatch(
       userActions.getCourselist({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -701,7 +703,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps={'always'}
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <CustomStatusBar />
@@ -715,7 +717,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         <ScrollView>
           <View style={styles.inputContainer}>
             <View>
-              <TouchableOpacity
+              {props.route.params.true != true ? <TouchableOpacity
                 onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
                 <View
                   style={{
@@ -745,16 +747,33 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                     }}
                     source={Images.edit_icon}
                   />
-                  {/* <Image
-                                    style={{ marginLeft: 10, }}
-                                    source={Images.verfied}
-                                /> */}
-                  {/* <Text style={{marginTop: 2, fontSize: 18, marginLeft: 10,}}>
-                                    {props.route.params.nameofschool + '(' + props.route.params.school_zatchup_id + ')'} 
- 
-                                </Text> */}
+
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> :
+                <View
+                  style={{
+                    marginBottom: 1,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingHorizontal: 8,
+                  }}>
+                  <Text
+                    style={{
+                      marginTop: 2,
+                      fontSize: 15,
+                      marginLeft: 5,
+                      flex: 1,
+                      flexWrap: 'wrap',
+                    }}>
+                    {props.route.params.nameofschool +
+                      '(' +
+                      props.route.params.school_zatchup_id +
+                      ')'}
+                  </Text>
+
+
+                </View>
+              }
 
               <View style={{}}>
                 <CustomDropdown
@@ -792,7 +811,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               </View>
               <TouchableOpacity
-                style={{marginTop: '2%', marginLeft: 5, marginRight: 5}}
+                style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}
                 onPress={showDatepicker}>
                 <View >
                   <TextField
@@ -821,7 +840,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               )}
 
-              <View style={{marginTop: '1%'}}>
+              <View style={{ marginTop: '1%' }}>
                 <CustomDropdown
                   placeholder={'Select Joining Standard'}
                   data={selectedJoiningStandard}
@@ -849,7 +868,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               </View>
 
-              <View style={{marginTop: '1%'}}>
+              <View style={{ marginTop: '1%' }}>
                 <CustomDropdown
                   placeholder={'Select Current Standard'}
                   data={selectedJoiningStandard}
@@ -878,7 +897,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               </View>
 
-              <View style={{marginTop: '1%'}}>
+              <View style={{ marginTop: '1%' }}>
                 <CustomDropdown
                   placeholder={'Select Class'}
                   data={selectedsetStandardClass}
@@ -913,7 +932,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 />
               </View> */}
 
-              <View style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+              <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                 <TextField
                   placeholder={'Enter Roll Number'}
                   keyboardType="numeric"

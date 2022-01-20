@@ -178,6 +178,21 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     }
   };
 
+
+  const writeUserData = (params) => {
+    firestore()
+      .collection('users')
+      .doc(params.id)
+      .set(params)
+      .then((user) => {
+        console.log('user addd', user);
+
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const onPressSignup = () => {
     // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     //  var key = Email.indexOf("@") != -1 ? 'email' : 'mobile'
@@ -280,7 +295,6 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           callback: ({ result, error }) => {
             console.log('result', result)
             if (result.status === true) {
-              setLoading(false);
               auth()
                 .createUserWithEmailAndPassword(
                   result.firebase_username + '@zatchup.com',
@@ -308,39 +322,40 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                     params.phone = Email;
                   }
 
-                  firestore()
-                    .collection('users')
-                    .add(params)
-                    .then(() => {
-                      console.log('SignUp add in dataBase');
-                      props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
-                      _storeData();
-                    }).catch(error => {
-                      console.log(error)
-                    })
+                  setLoading(false);
+
+
+                  writeUserData(params);
+                  props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
+                  _storeData();
+
+                  // firestore()
+                  //   .collection('users')
+                  //   .add(params)
+                  //   .then(() => {
+                  //     console.log('SignUp add in dataBase');
+                  //     props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
+                  //     _storeData();
+                  //   }).catch(error => {
+                  //     console.log(error)
+                  //   })
 
                 })
                 .catch((error) => {
+
+                  setLoading(false);
+
                   if (error.code === 'auth/email-already-in-use') {
+
                   }
 
                   if (error.code === 'auth/invalid-email') {
+                    
                   }
 
                   console.error(error);
                 });
 
-
-
-
-              // console.warn(
-              //   'after register result',
-              //   JSON.stringify(result.status, undefined, 2),
-              //   props.navigation.navigate('Otp', {username: Email}),
-              // );
-              // // setSpinnerStart(false);
-              // _storeData();
-              // setLoading(false);
             }
 
             if (result.status === false) {

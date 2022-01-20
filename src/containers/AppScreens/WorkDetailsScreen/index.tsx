@@ -26,7 +26,7 @@ import {
   CustomDropdown,
 } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
-
+import ProgressLoader from 'rn-progress-loader';
 import {
   NavigationContainer,
   useIsFocused,
@@ -36,7 +36,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import styles from './style.tsx';
+import styles from './style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as userActions from '../../../actions/user-actions-types';
 
 interface WorkDetailsProps {
   navigation: any;
@@ -63,6 +65,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
   const [mode1, setMode1] = useState('date');
   const [show1, setShow1] = useState(false);
+  const dispatch = useDispatch();
+
 
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
@@ -74,48 +78,9 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
       value: '1',
     },
   ]);
-  const [dropdown, setdropdown] = useState([
-    {
-      label: 'Doctor',
-      value: '0',
-    },
-    {
-      label: 'Architech',
-      value: '1',
-    },
-    {
-      label: 'Scientist',
-      value: '2',
-    },
-    {
-      label: 'Chartered Accountant',
-      value: '3',
-    },
-    {
-      label: 'Actor/Entertainment Professional',
-      value: '4',
-    },
-    {
-      label: 'Journalist',
-      value: '5',
-    },
-    {
-      label: 'Chartered Finanacial Analyst',
-      value: '6',
-    },
-    {
-      label: 'IT Professional',
-      value: '7',
-    },
-    {
-      label: 'Lawyer',
-      value: '8',
-    },
-    {
-      label: 'Other',
-      value: '9',
-    },
-  ]);
+  const [workdropdown, setWorkdropdown] = useState([]);
+  const [countrydropdown, setCountry] = useState([]);
+
 
   const gototChangeEmplyType = value => {
     if (value == 0) {
@@ -127,7 +92,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     }
   };
   const gototfieldType = value => {
-    if (value == 9) {
+    console.log('value',value);
+    if (value == 13) {
       setother('other');
     } else {
       setother('other_status');
@@ -164,7 +130,6 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   const showDatepicker1 = () => {
     showMode1('date');
   };
-  const dispatch = useDispatch();
 
   const renderIndicator = () => {
     return (
@@ -183,12 +148,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   };
 
   useEffect(() => {
-    setStateKey('');
 
-    setCityKey('');
-
-    getState();
-    // getStepCountAPi();
+    WorkDepartments();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -204,162 +165,52 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     return true;
   }
 
-  /***************************User User Add EI Data*******************************/
 
-  const getdataStateKey = async result => {
-    var state = [];
-    result.results.map((element: any) => {
-      let obj = {
-        label: element.state,
-        value: element.id,
-      };
 
-      state.push(obj);
-    });
-    setSelectedState(state);
-    //console.log('dsfsdfds',state)
-  };
+  const getdata = async result => {
 
-  const getdataCityKey = async result => {
-    var city = [];
+    var other:any = [];
 
     result.results.map((element: any) => {
       let obj = {
-        label: element.city,
+        label: element.name,
         value: element.id,
+       
       };
-      city.push(obj);
-    });
-
-    setselectedCity(city);
-  };
-
-  const getdataSchoolKey = async result => {
-    //  var school = [];
-    var school = [
-      {
-        label: 'Others',
-        value: 0,
-      },
-    ];
-
-    result.results.map((element: any) => {
-      let obj = {
-        label: element.name_of_school,
-        value: element.id,
-        university: element.university,
-        address1: element.address1,
-        school_code: element.school_code,
-        address2: element.address2,
-      };
-      school.unshift(obj);
+      other.push(obj);
     });
 
     //console.log('dsfsdfds',state)
-    setselectedSchool(school);
-  };
-  /***************************User GET School*******************************/
-
-  const getSchool = async id => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-
-    const data = {
-      id: id,
-      token: token,
-    };
-    setLoading(true);
-    dispatch(
-      userActions.getSchool({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
-
-              getdataSchoolKey(result),
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            setLoading(false);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
+    setWorkdropdown(other);
   };
 
-  /***************************User GET School*******************************/
 
-  /***************************User GET City*******************************/
+  const getdataCountry = async result => {
 
-  const getCity = async id => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
+    var country:any = [];
 
-    const data = {
-      id: id,
-      token: token,
-    };
+    result.data.map((element: any) => {
+      let obj = {
+        label: element.name,
+        value: element.id,
+       
+      };
+      country.push(obj);
+    });
 
-    setLoading(true);
-
-    dispatch(
-      userActions.getCity({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
-
-              getdataCityKey(result),
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            setLoading(false);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
+    //console.log('dsfsdfds',state)
+    setCountry(country);
   };
 
-  /***************************User GET City*******************************/
 
-  /***************************User GET States*******************************/
+  
 
-  const getState = async () => {
-    // var key = email.indexOf("@") != -1 ? 'email' : 'email'
+
+
+
+  /***************************User GET Work Departments*******************************/
+
+  const WorkDepartments = async () => {
 
     var token = '';
     try {
@@ -378,16 +229,19 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     setLoading(true);
 
     dispatch(
-      userActions.getStates({
+      userActions.getAllWorkDepartments({
         data,
         callback: ({ result, error }) => {
           if (result) {
             console.warn(
-              'after State Api Data result',
+              'after Work Departments Api Data result',
               JSON.stringify(result, undefined, 2),
 
-              getdataStateKey(result),
+              // getdataStateKey(result),
             );
+
+            getdata(result);
+            Country();
 
             setLoading(false);
           }
@@ -403,7 +257,59 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
       }),
     );
   };
+ 
 
+
+  /***************************User GET Country*******************************/
+
+  const Country = async () => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getCountry({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after Country Api Data result',
+              JSON.stringify(result, undefined, 2),
+
+            );
+
+             getdataCountry(result);
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+ 
+
+  
   return (
     <View style={styles.container}>
       <HeaderTitleWithBack
@@ -427,8 +333,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
             {/* <Text style={styles.fillText_Add}>Employment Profile</Text> */}
             <CustomDropdown
               placeholder={'Select Your Job Title'}
-              data={dropdown}
-              selectedValue={setdropdown}
+              data={workdropdown}
+              selectedValue={workdropdown}
               SelectedLanguagedata={(selectedValue: any) =>
                 gototfieldType(selectedValue)
               }
@@ -474,7 +380,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
                 <CustomDropdown
                   placeholder={'Select Country'}
-                  data={KYC_type_doc}
+                  data={countrydropdown}
                   selectedValue={KYC_type_doc_Selected}
                   SelectedLanguagedata={(selectedValue: any) => { }}
                 />
@@ -639,7 +545,6 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
           <View style={{ marginTop: 10, marginBottom: 10 }}>
             <CustomButton
               title={'Submit'}
-
             //onPress={() => props.navigation.navigate('Home')}
             />
           </View>

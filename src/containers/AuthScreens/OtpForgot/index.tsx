@@ -74,14 +74,15 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                 data,
                 callback: ({ result, error }) => {
                     if (result.status === true) {
-                        console.warn(
-                            'after otp Re Send result',
-                            JSON.stringify(result, undefined, 2),
-                            Toast.show(result.message, Toast.SHORT)
+                        // console.warn(
+                        //     'after otp Re Send result',
+                        //     JSON.stringify(result, undefined, 2),
+                           
 
-                            // props.navigation.navigate('eKYC')
-                            // props.navigation.navigate('eKYC'),
-                        );
+                        //     // props.navigation.navigate('eKYC')
+                        //     // props.navigation.navigate('eKYC'),
+                        // );
+                        Toast.show(result.message, Toast.SHORT)
                         // setSpinnerStart(false);
                         setLoading(false);
                     }

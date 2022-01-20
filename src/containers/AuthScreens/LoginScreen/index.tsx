@@ -110,7 +110,6 @@ const LoginScreen = (props: LoginScreenProps) => {
               //   JSON.stringify(result.status, undefined, 2),
 
               // );
-              setLoading(false);
 
 
               auth()
@@ -119,15 +118,20 @@ const LoginScreen = (props: LoginScreenProps) => {
                 password,
               )
               .then(({user}) => {
+                setLoading(false);
+
                 console.log('FirebaseUSerLogin===>>>', user);
                 props.navigation.navigate('OtpLogin', {
-                  firebase_id: result.firebase_username,
+                  firebase_id: user._user.uid,
                   username: email,
                   firebase:  user._user.uid,
                 });
                
               })
+              
               .catch((error) => {
+                setLoading(false);
+
                 if (error.code === 'auth/email-already-in-use') {
                 }
 

@@ -42,7 +42,7 @@ interface ResetPasswordScreenProps {
 }
 
 const ReminderTitleScreen = (props: ResetPasswordScreenProps) => {
-  console.log('props==>>>>', props);
+//  console.log('props==>>>>', props);
 
   const {item} = props.route.params;
 

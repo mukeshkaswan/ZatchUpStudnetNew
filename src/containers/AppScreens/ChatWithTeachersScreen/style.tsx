@@ -113,8 +113,8 @@ container: {
          
       },
       userImageWrapper: {
-        width: 80,
-        height: 80,
+        width: 55,
+        height: 55,
         borderRadius: 80 / 2,
         justifyContent: 'center',
         alignItems: 'center',
@@ -129,8 +129,8 @@ container: {
       },
       msgCardHeaderWrapper: {flexDirection: 'row',alignItems:'center'},
       userNameStyle: {
-        fontSize: 18,
-        fontWeight: '700',
+        fontSize: 16,
+       // fontWeight: '700',
         marginLeft:10
       },
       timeTextStyle: {

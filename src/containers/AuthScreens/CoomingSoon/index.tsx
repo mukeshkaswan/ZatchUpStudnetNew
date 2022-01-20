@@ -461,9 +461,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         {is_kyc_approved == true && is_approved == true ? <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={styles.image_menu} />
         </TouchableOpacity> : <TouchableOpacity onPress={onBurgerBarPress}>
-          <Image source={Images.menu_dash} style={{ marginLeft: 15,
-        marginTop: 10,
-        tintColor: '#FFFFFF',}} />
+          <Image source={Images.menu_dash} style={{
+            marginLeft: 15,
+            marginTop: 10,
+            tintColor: '#FFFFFF',
+          }} />
         </TouchableOpacity>}
 
         {is_kyc_approved == true && is_approved == true ? <View style={styles.tv_view}>
@@ -491,7 +493,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               value={cityname}
               style={{ color: '#000', }}
               placeholderTextColor="#000"
-              placeholder="Search City"
+              placeholder="Search..."
               keyboardType="default"
 
             />
@@ -596,9 +598,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         /> : null}
       </View>
 
-
-
-
       <View style={{
         flex: 1,
         alignItems: 'center',
@@ -607,7 +606,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       }}>
         <Text style={{ color: '#7B7B7B', fontSize: 26, fontWeight: 'bold' }}>
           No Post Uploaded
-
         </Text>
       </View>
 

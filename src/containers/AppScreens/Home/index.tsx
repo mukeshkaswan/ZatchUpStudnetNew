@@ -13,11 +13,13 @@ import {
   ImageBackground,
   FlatList,
   Platform,
-  TextInput
+  TextInput,
+  RefreshControl,
+  ScrollView
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
-import { TextField, CustomButton, CustomStatusBar } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, Validate } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
@@ -35,9 +37,8 @@ import {
 } from 'react-native-responsive-screen';
 import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler';
+//import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -45,6 +46,7 @@ const screenWidth = Dimensions.get('window').width;
 
 interface HomeScreenProps {
   navigation: any;
+  route: any;
 }
 const HomeScreen = (props: HomeScreenProps) => {
   const isFocused = useIsFocused();
@@ -63,17 +65,30 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
+  const [schoolid, setSchoolid] = useState('');
+  const [addmissionnumber, setAddmissionnumber] = useState('');
+  const [rollno, setRollNo] = useState('');
+  const [class_id, setclass_id] = useState('');
+  const [course_id, setcourse_id] = useState('');
+  const [oldrollno, setOldRollNo] = useState('');
 
+
+  const [oldvalue, setoldvalue] = useState('');
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const [setdatafromlist, setDataCourseInList] = useState([]);
   const [citydata, setCityData] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisibleno, setModalVisibleNo] = useState(false);
+  const [isModalVisiblerollno, setModalVisibleRollNo] = useState(false);
+
+
   const [cityname, onChangecityname] = useState('');
   const [cityid, onSetCityid] = useState('');
   const [stateid, onSetStateid] = useState('');
   const [countryid, onSetCountryid] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
 
 
@@ -97,16 +112,54 @@ const HomeScreen = (props: HomeScreenProps) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const toggleModalNo = async (id, admission_number) => {
 
+    //console.log('school_id', admission_number)
+    setModalVisibleNo(!isModalVisibleno);
+    setSchoolid(id);
+
+    if (admission_number != null) {
+      setAddmissionnumber(admission_number);
+      setoldvalue(admission_number);
+
+
+    }
+    else {
+      setAddmissionnumber('');
+      setoldvalue('');
+    }
+  };
+
+  const toggleModalRollNo = async (class_id, course_id, roll_no) => {
+
+
+    setModalVisibleRollNo(!isModalVisiblerollno);
+
+    setRollNo(roll_no);
+    setOldRollNo(roll_no);
+    setclass_id(class_id);
+    setcourse_id(course_id);
+  };
+
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+  const onRefresh = React.useCallback(() => {
+    getEducationProfile();
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
 
 
   useEffect(() => {
 
+
     getEducationProfile();
 
-    getStepCountAPi();
+    //  getStepCountAPi();
 
-    getAuthUserInfoApi();
+    //getAuthUserInfoApi();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -233,18 +286,20 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
-              // getdataCourseKey(result)
-              // getEicourseconfirmationlist(),
-              Toast.show('Course deleted successfully', Toast.SHORT),
-              getEducationProfile()
-
-              // props.navigation.navigate('SelectStudent'),
-            );
-            // setSpinnerStart(false);
             setLoading(false);
+
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
+            //   // getdataCourseKey(result)
+            //   // getEicourseconfirmationlist(),
+
+
+            //   // props.navigation.navigate('SelectStudent'),
+            // );
+            Toast.show('Course deleted successfully', Toast.SHORT),
+              getEducationProfile()
+            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -293,18 +348,19 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
-              // getdataCourseKey(result)
-              // getEicourseconfirmationlist(),
-              Toast.show('School deleted successfully', Toast.SHORT),
-              getEducationProfile()
-
-              // props.navigation.navigate('SelectStudent'),
-            );
-            // setSpinnerStart(false);
             setLoading(false);
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
+            //   // getdataCourseKey(result)
+            //   // getEicourseconfirmationlist(),
+
+
+            //   // props.navigation.navigate('SelectStudent'),
+            // );
+            Toast.show('School deleted successfully', Toast.SHORT),
+              getEducationProfile()
+            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -351,11 +407,11 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -405,11 +461,11 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result step count',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
@@ -537,15 +593,16 @@ const HomeScreen = (props: HomeScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataProfile(result),
+
+            // );
+            getdataProfile(result),
               getdataCourse(result),
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -590,11 +647,11 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
 
         callback: ({ results, error }) => {
-          console.warn(
-            'after city result data',
-            results
-            //  getdataProfile(result),
-          );
+          // console.warn(
+          //   'after city result data',
+          //   results
+          //   //  getdataProfile(result),
+          // );
           if (results && results.length > 0) {
 
             // setSpinnerStart(false);
@@ -629,11 +686,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
       setModalVisible(!isModalVisible);
 
-
     } else {
-
-
-
 
       var token = '';
       try {
@@ -663,13 +716,13 @@ const HomeScreen = (props: HomeScreenProps) => {
             if (result.status === true) {
               setLoading(false);
 
-              console.warn(
-                'after result',
-                JSON.stringify(result, undefined, 2),
+              // console.warn(
+              //   'after result',
+              //   JSON.stringify(result, undefined, 2),
 
-                //  getdataProfile(result),
-                //  getdataCourse(result),
-              );
+              //   //  getdataProfile(result),
+              //   //  getdataCourse(result),
+              // );
               setModalVisible(!isModalVisible);
 
               Toast.show('Location updated successfully', Toast.SHORT);
@@ -691,6 +744,162 @@ const HomeScreen = (props: HomeScreenProps) => {
       );
     };
   }
+
+
+  /***************************User GET Admission Number Model Submit *******************************/
+
+  const onPressModalSubmitRollNo = async () => {
+
+    const schoolidError = Validate('rollno_', rollno);
+
+    if (
+      schoolidError
+
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        schoolidError,
+        Toast.SHORT,
+      );
+
+      return false;
+    } else {
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        old_value: oldrollno,
+        course_id: course_id,
+        class_id: class_id,
+        value: rollno,
+        key: "roll_no",
+      };
+
+
+      setLoading(true);
+
+      dispatch(
+        userActions.getUsereditadmissionrollnotwo({
+          data,
+
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+
+              setLoading(false);
+
+              // console.warn(
+              //   'after result',
+              //   JSON.stringify(result, undefined, 2),
+              // );
+
+              setModalVisibleRollNo(!isModalVisiblerollno);
+
+              Toast.show('Successfully Added', Toast.SHORT);
+
+              getEducationProfile();
+
+              // setSpinnerStart(false);
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show('You are not Approved By School', Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    };
+  }
+
+  /***************************User GET Admission Number Model Submit *******************************/
+
+  const onPressModalSubmitAdmissionNo = async () => {
+
+    const schoolidError = Validate('addmissionno', addmissionnumber);
+
+    if (
+      schoolidError
+
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        schoolidError,
+        Toast.SHORT,
+      );
+
+      return false;
+    } else {
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        old_value: oldvalue,
+        school_id: schoolid,
+        value: addmissionnumber,
+        class_id: "",
+        key: "admission_number",
+      };
+      setLoading(true);
+
+      dispatch(
+        userActions.getUsereditadmissionrollno({
+          data,
+
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+
+              setLoading(false);
+
+              // console.warn(
+              //   'after result',
+              //   JSON.stringify(result, undefined, 2),
+              // );
+
+              setModalVisibleNo(!isModalVisibleno);
+
+              Toast.show('Successfully Added', Toast.SHORT);
+
+              getEducationProfile();
+
+              // setSpinnerStart(false);
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show('You are not Approved By School', Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    };
+  }
+
 
 
   const getSearchcitydata = async (value) => {
@@ -758,9 +967,63 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={styles.Personal_Tvheader}>School Details</Text>
+                    {kyc_approved == '1' && i.approved == 0 && i.is_onboard == true && i.is_students_verified == true && i.is_active_subscription == true ? <TouchableOpacity style={{
+                      backgroundColor: '#333A41',
+                      width: 58,
+                      height: 27,
+                      marginTop: 16,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      //  borderRadius: 20,
+                      // marginLeft: 20,
+                    }}
+                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}>
+                      <Text style={{ color: 'white', fontSize: 11 }}>Get Verify</Text>
+                    </TouchableOpacity> : null}
+
 
                     <View style={{ flexDirection: 'row' }}>
-                      <TouchableOpacity
+
+                      {i.approved == 1 ? <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => props.navigation.navigate('CoursesPendingScreen', { 'school_id': i.school_id })}>
+
+                        <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 15,
+                            //  marginLeft: 20,
+                            marginRight: 15,
+                          }}
+                          source={Images.pending}
+                        />
+                        
+                      </TouchableOpacity> : null}
+
+                      {kyc_approved == '1' && i.firebase_id != null ? <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}>
+
+                        {/* <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 15,
+                            //  marginLeft: 20,
+                            marginRight: 15,
+                          }}
+                          source={Images.delete_icon}
+                        /> */}
+                        <Icon name="chat" size={32} color="#00B031" style={{
+
+                          marginTop: 12,
+                          //  marginLeft: 20,
+                          marginRight: 15,
+                        }} />
+                      </TouchableOpacity> : null}
+
+                      {i.approved != '1' ? (<TouchableOpacity
                         underlayColor="none"
                         onPress={() => DeleteSchool(i.school_id)}>
 
@@ -774,10 +1037,11 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.delete_icon}
                         />
-                      </TouchableOpacity>
+                      </TouchableOpacity>) : null}
 
-                      <TouchableOpacity
+                      {i.is_onboard == true ? <TouchableOpacity
                         underlayColor="none"
+                        onPress={() => props.navigation.navigate('SelectStudentFromLogin', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
                       >
                         <Image
                           style={{
@@ -789,7 +1053,21 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.add_more}
                         />
-                      </TouchableOpacity>
+                      </TouchableOpacity> : <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => props.navigation.navigate('AddCourseDetailsOthers', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
+                      >
+                        <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 15,
+                            //  marginLeft: 20,
+                            marginRight: 15,
+                          }}
+                          source={Images.add_more}
+                        />
+                      </TouchableOpacity>}
                     </View>
 
                     {/* <Image
@@ -830,10 +1108,10 @@ const HomeScreen = (props: HomeScreenProps) => {
                         {i.name_of_school}
                       </Text>
                     </View>
-                    <View style={styles.view_Row}>
+                   {i.school_code != null ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
                       <Text style={styles.view_Tv_2}>{i.school_code}</Text>
-                    </View>
+                    </View>:null}
 
                     <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>State :</Text>
@@ -844,19 +1122,45 @@ const HomeScreen = (props: HomeScreenProps) => {
                       <Text style={styles.view_Tv_2}>{i.city}</Text>
                     </View>
 
-                    <View style={styles.view_Row}>
+                  {i.is_onboard == true ?   <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>School Address :</Text>
                       <Text style={styles.view_Tv_2}>
                         {i.address1 + ' ' + i.address2}
                       </Text>
-                    </View>
+                    </View>:null}
 
-                    <View style={styles.view_Row}>
+                    {i.admission_number != null &&  i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
                         School Admission Number :
                       </Text>
-                      <Text style={styles.view_Tv_2}>{i.admission_number}</Text>
-                    </View>
+                      <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => toggleModalNo(i.school_id, i.admission_number)}
+                      >
+                        <Text style={styles.view_Tv_2}>{i.admission_number}</Text>
+                      </TouchableOpacity>
+
+
+                    </View> : i.admission_number == null &&  i.is_onboard == true ? <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>
+                        School Admission Number :
+                      </Text>
+                      <TouchableOpacity
+                        underlayColor="none"
+                        onPress={() => toggleModalNo(i.school_id)}
+                      >
+                        <Image
+                          style={{
+                            height: 28,
+                            width: 28,
+                            marginTop: 5,
+                            marginLeft: 15,
+                            marginRight: 15,
+                          }}
+                          source={Images.add_more}
+                        />
+                      </TouchableOpacity>
+                    </View>:null}
                   </View>
                   <View
                     style={{
@@ -1004,7 +1308,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                     </View>
                                   )}
 
-                                  {standard.class_detail &&
+                                  {standard.class_detail != [] &&
                                     standard.is_current_standard == true ? (
                                     <View>
                                       {standard.class_detail.map(class_i => {
@@ -1022,31 +1326,21 @@ const HomeScreen = (props: HomeScreenProps) => {
                                               <Text style={styles.view_Tv_1}>
                                                 Roll Number :
                                               </Text>
-                                              <Text style={styles.view_Tv_2}>
-                                                {class_i.roll_no}
-                                              </Text>
+                                              <TouchableOpacity
+                                                underlayColor="none"
+                                                onPress={() => toggleModalRollNo(class_i.class_id, course.course_id, class_i.roll_no)}
+                                              >
+                                                <Text style={styles.view_Tv_2}>
+                                                  {class_i.roll_no}
+                                                </Text>
+                                              </TouchableOpacity>
+
                                             </View>
                                           </View>
                                         );
                                       })}
                                     </View>
-                                  ) : (
-                                    <View>
-                                      <View style={styles.view_Row}>
-                                        <Text style={styles.view_Tv_1}>
-                                          Class (Sub-Section) :
-                                        </Text>
-                                        <Text style={styles.view_Tv_2}>{''}</Text>
-                                      </View>
-
-                                      <View style={styles.view_Row}>
-                                        <Text style={styles.view_Tv_1}>
-                                          Roll Number :
-                                        </Text>
-                                        <Text style={styles.view_Tv_2}>{''}</Text>
-                                      </View>
-                                    </View>
-                                  )}
+                                  ) : null}
 
                                   <View style={styles.underview} />
                                   <View
@@ -1217,44 +1511,80 @@ const HomeScreen = (props: HomeScreenProps) => {
           </View>
         </TouchableOpacity>
       </View> */}
-      <ScrollView>
-        <View style={styles.overlay}>
-          <View>
-            <View style={styles.avatarStyle}>
-              <Image
-                source={{ uri: profilepic }}
+      <ScrollView style={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            // title="Pull to refresh" 
+            // tintColor="#fff" 
+            //  titleColor="#fff"
+            colors={["rgb(70,50,103)"]}
+          />
+        }>
+
+
+
+        <View >
+
+          {kyc_approved == '1' ? (<TouchableOpacity onPress={() => props.navigation.navigate('PendingRequestScreen')} >
+            <Image
+              style={{
+                height: 32,
+                width: 32,
+                marginTop: 10,
+                marginRight: 18,
+                alignSelf: 'flex-end'
+              }}
+              source={Images.pending}
+            />
+          </TouchableOpacity>
+          ) : null}
+          <View style={styles.avatarStyle}>
+
+
+            <Image
+              source={{ uri: profilepic }}
+              style={{
+                height: 100,
+                width: 100,
+                resizeMode: 'cover',
+                borderRadius: 50,
+              }}
+            />
+            {kyc_approved == '1' ? (
+              <View
                 style={{
-                  height: 100,
-                  width: 100,
-                  resizeMode: 'cover',
-                  borderRadius: 50,
-                }}
-              />
-              {kyc_approved == '1' ? (
-                <View
-                  style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 15,
-                    position: 'absolute',
-                    right: 0,
-                  }}>
-                  <Image
-                    source={Images.blue_tick}
-                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
-                  />
-                </View>
-              ) : null}
-            </View>
+                  height: 30,
+                  width: 30,
+                  borderRadius: 15,
+                  position: 'absolute',
+                  right: 0,
+                }}>
+                <Image
+                  source={Images.blue_tick}
+                  style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
+                />
+              </View>
+            ) : null}
+
+
+
+
+
           </View>
-          <Text style={styles.textStyle}>{username}</Text>
-          {/* <Text style={styles.textStyle_}>
+
+
+        </View>
+        <Text style={styles.textStyle}>{username}</Text>
+        {/* <Text style={styles.textStyle_}>
             {'Unique ZatchUp ID' + ':' + zatchupid}
           </Text> */}
-          <Text style={styles.textStyle_}>
-            {'Unique ZatchUp ID' + ':' + 'XXXXXXXX'}
-          </Text>
-        </View>
+        {zatchupid != null ? <Text style={styles.textStyle_}>
+          {'Unique ZatchUp ID' + ':' + zatchupid}
+        </Text> : <Text style={styles.textStyle_}>
+          {'Unique ZatchUp ID' + ':' + 'XXXXXXXX'}
+        </Text>}
 
         {/* <ImageBackground
           source={{ uri: 'http://staging.zatchup.com/zatchup/assets/images/cover-pic-default.png' }}
@@ -1351,7 +1681,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
               <Text style={styles.Personal_Tv}>Add Your City</Text>
 
-              {country == '' && country == null ? <TouchableOpacity
+              {country == null ? <TouchableOpacity
                 underlayColor="none"
                 onPress={toggleModal}
               >
@@ -1585,6 +1915,89 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               <TouchableOpacity
                 onPress={() => onPressModalSubmit()}
+                style={styles.submitbtn}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+
+
+          </View>
+        </Modal>
+
+
+        {/* add your admission no modal */}
+        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
+
+          <View style={styles.modalContainer}>
+
+            <TouchableOpacity
+              onPress={toggleModalNo}
+              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
+              <View style={styles.textinputContainer}>
+                <Image
+                  source={Images.search}
+                  style={{ marginLeft: 10, tintColor: 'grey' }}
+                />
+
+                <TextInput
+                  placeholder="Enter admission number"
+                  keyboardType='number-pad'
+                  onChangeText={val => setAddmissionnumber(val)}
+                  value={addmissionnumber}
+                />
+
+              </View>
+
+
+              <TouchableOpacity
+                onPress={() => onPressModalSubmitAdmissionNo()}
+                style={styles.submitbtn}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+
+
+          </View>
+        </Modal>
+
+        {/* add your roll no modal */}
+        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
+
+          <View style={styles.modalContainer}>
+
+            <TouchableOpacity
+              onPress={toggleModalRollNo}
+              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
+              <View style={styles.textinputContainer}>
+                <Image
+                  source={Images.search}
+                  style={{ marginLeft: 10, tintColor: 'grey' }}
+                />
+
+                <TextInput
+                  placeholder="Enter roll number"
+                  keyboardType='number-pad'
+                  onChangeText={val => setRollNo(val)}
+                  value={rollno}
+                />
+
+              </View>
+
+
+              <TouchableOpacity
+                onPress={() => onPressModalSubmitRollNo()}
                 style={styles.submitbtn}>
                 <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
               </TouchableOpacity>

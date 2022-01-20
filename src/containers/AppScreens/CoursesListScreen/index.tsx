@@ -90,9 +90,9 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
           if (results && results.length > 0) {
 
             // setSpinnerStart(false);
-            // console.log('results Data', results.id[0]);
-            getCourseList(855);
-            setSchoolID(855);
+            console.log('results Data', results[0].id);
+            getCourseList(results[0].id);
+            setSchoolID(results[0].id);
             setLoading(false);
           }
           else if (results && results.length == []) {
@@ -138,9 +138,10 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
         data,
 
         callback: ({ results, error }) => {
-          if (results && results.length > 0) {
+          if (results) {
 
             // setSpinnerStart(false);
+            console.log('results',results)
             setCourseData(results),
 
               setLoading(false);
@@ -200,7 +201,7 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
         <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>Action</Text>
       </View>
 
-      <FlatList
+      {coursedata.length > 0 ? (<FlatList
         data={coursedata}
         renderItem={({ item, index }) =>
 
@@ -218,6 +219,11 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
         }
 
       />
+      ) : (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 15 }}>No ZatchUp StarClass Course in your gallery, Please contact your School for adding Courses</Text>
+        </View>
+      )}
     </View>
 
 

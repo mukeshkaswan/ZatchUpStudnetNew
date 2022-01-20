@@ -104,8 +104,6 @@ const ModelComponent = ({ f_username,f_password, keyy, uidd, onPress, isvisible,
   const ChangePassword = () => {
 
 
-    console.log('this is the recived f_password--->', f_password)
-    console.log('this is the recived f_username--->', f_username)
 
 
     //this.props.navigation.navigate('LoginScreen');

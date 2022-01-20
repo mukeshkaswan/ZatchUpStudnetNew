@@ -143,7 +143,7 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
           if (results && results.length > 0) {
 
             // setSpinnerStart(false);
-            console.log('results Data Lecture history......', results);
+          //  console.log('results Data Lecture history......', results);
             setLectureData(results),
 
               setLoading(false);
@@ -203,7 +203,7 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
             Play Timing
           </Text>
         </View>
-        <FlatList
+        {lecturedata.length > 0 ? (   <FlatList
           data={lecturedata}
           renderItem={({ item, index }) => (
             <View
@@ -217,7 +217,13 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
             </View>
           )}
         />
+        ) : (
+          <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:50 }}>
+            <Text style={{ fontSize: 15 }}>Records Not Available</Text>
+          </View>
+        )}
       </View>
+
     </View>
   );
 };

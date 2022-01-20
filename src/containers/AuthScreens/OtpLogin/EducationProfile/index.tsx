@@ -215,12 +215,12 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result step count',
+            //   JSON.stringify(result, undefined, 2),
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             setLoading(false);
           }

@@ -217,3 +217,47 @@ export const getProfileDetailForSchool= createAction(PROFILEDETAILOFSCHOOL);
 export const GETADMISSIONNUMBERDETAILBYSCHOOL = 'GETADMISSIONNUMBERDETAILBYSCHOOL';
 export const getGetAdmissionNumberDetailBySchool= createAction(GETADMISSIONNUMBERDETAILBYSCHOOL);
 
+
+// this is for Get User Course Delete Not Confirm
+export const USERCOURSEDELETENOT = 'USERCOURSEDELETENOT';
+export const getUserCourseDeleteNotConfirm= createAction(USERCOURSEDELETENOT);
+
+
+// this is for Get User edit admission roll no
+export const USEREDITADMISSIONROLLNO = 'USEREDITADMISSIONROLLNO';
+export const getUsereditadmissionrollno= createAction(USEREDITADMISSIONROLLNO);
+
+// this is for Get All Work Departments
+export const GETALLWORKDEPARTMENTS = 'GETALLWORKDEPARTMENTS';
+export const getAllWorkDepartments= createAction(GETALLWORKDEPARTMENTS);
+
+// this is for Get Country
+export const GETCOUNTRY = 'GETCOUNTRY';
+export const getCountry= createAction(GETCOUNTRY);
+
+
+// this is for Get User edit admission roll no two
+export const USEREDITADMISSIONROLLNOTWO = 'USEREDITADMISSIONROLLNOTWO';
+export const getUsereditadmissionrollnotwo= createAction(USEREDITADMISSIONROLLNOTWO);
+
+// this is for Get Chat Teacher List
+export const CHATTEACHERLIST = 'CHATTEACHERLIST';
+export const getChatTeacherList= createAction(CHATTEACHERLIST);
+
+// this is for Get Pending user change detail list
+export const PENDINGUSERCHANGEDETAILLIST = 'PENDINGUSERCHANGEDETAILLIST';
+export const getPendinguserchangedetaillist= createAction(PENDINGUSERCHANGEDETAILLIST);
+
+// this is for Get Delete Pending User Request
+export const DELETEPENDINGUSERREQUEST = 'DELETEPENDINGUSERREQUEST';
+export const getDeletePendingUserRequest= createAction(DELETEPENDINGUSERREQUEST);
+
+// this is for Get Upload ekyc for detail chnage
+export const UPLOADEKYCFORDETAILCHANGE = 'UPLOADEKYCFORDETAILCHANGE';
+export const getUploadekycfordetailchnage= createAction(UPLOADEKYCFORDETAILCHANGE);
+
+
+// this is for Get Pending Course List Of User
+export const USERPENDINGCOURSELISTOFUSER = 'USERPENDINGCOURSELISTOFUSER';
+export const getPendingCourseListOfUser= createAction(USERPENDINGCOURSELISTOFUSER);
+

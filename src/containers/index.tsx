@@ -57,4 +57,9 @@ export {default as SchoolConfirmationScreen} from './AppScreens/SchoolConfirmati
 export {default as EditCourseScreen} from './AppScreens/EditCourseScreen';
 export {default as SearchSchoolDetail} from './AppScreens/SearchSchoolDetail';
 export {default as AddCourseDetailsOthersEdit} from './AuthScreens/AddCourseDetailsOthersEdit';
+export {default as GetVerifyWebView} from './AppScreens/GetVerifyWebView';
+export {default as SingleChatWebView} from './AppScreens/SingleChatWebView';
+export {default as SIngleChatWithTeacherWebView} from './AppScreens/SIngleChatWithTeacherWebView';
+export {default as SelectStudentFromLogin} from './AuthScreens/SelectStudentFromLogin';
+
 

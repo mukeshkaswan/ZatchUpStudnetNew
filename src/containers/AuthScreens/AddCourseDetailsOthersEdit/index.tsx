@@ -35,7 +35,11 @@ import ProgressLoader from 'rn-progress-loader';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import {
+  NavigationContainer,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 interface AddCourseDetailsOthersScreenProps {
   navigation: any;
   route: any;
@@ -50,6 +54,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const dispatch = useDispatch();
   const [Course_Selected, setCourseTypeSelected] = useState('');
   const [min_date, setmin] = useState('2015-01-01');
+  const isFocused = useIsFocused();
 
   const [CourseTypeOther, setCourseTypeOther] = useState([
     {
@@ -151,7 +156,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   useEffect(() => {
 
     AddmissionNo();
-   
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -159,7 +164,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         handleBackButtonClick,
       );
     };
-  }, []);
+  }, [isFocused]);
 
   function handleBackButtonClick() {
     props.navigation.goBack();
@@ -176,7 +181,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         school_id: props.route.params.school_id,
       });
     }
-      setCourse(''),
+    setCourse(''),
       setDes(''),
       setDate_Copy(''),
       setDate_Copy1('')
@@ -192,10 +197,10 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
     } else {
       setValue('Alumni');
-     // setDate_Copy1(props.route.params.end_date);
-     // setDate_Copy(props.route.params.start_date);
-     setDate_Copy1(result.data.course_end_year);
-     setDate_Copy(result.data.course_start_year);
+      // setDate_Copy1(props.route.params.end_date);
+      // setDate_Copy(props.route.params.start_date);
+      setDate_Copy1(result.data.course_end_year);
+      setDate_Copy(result.data.course_start_year);
     }
 
 

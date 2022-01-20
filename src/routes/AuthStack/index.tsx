@@ -58,7 +58,11 @@ import {
   EditCourseScreen,
   ProfileScreen,
   SearchSchoolDetail,
-  AddCourseDetailsOthersEdit
+  AddCourseDetailsOthersEdit,
+  GetVerifyWebView,
+  SingleChatWebView,
+  SIngleChatWithTeacherWebView,
+  SelectStudentFromLogin
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -362,11 +366,34 @@ function AuthStack() {
         component={ProfileScreen}
         options={{ header: () => null }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="AddCourseDetailsOthersEdit"
         component={AddCourseDetailsOthersEdit}
         options={{ header: () => null }}
       />
+
+      <Stack.Screen
+        name="GetVerifyWebView"
+        component={GetVerifyWebView}
+        options={{ header: () => null }}
+      />
+
+      <Stack.Screen
+        name="SingleChatWebView"
+        component={SingleChatWebView}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="SIngleChatWithTeacherWebView"
+        component={SIngleChatWithTeacherWebView}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="SelectStudentFromLogin"
+        component={SelectStudentFromLogin}
+        options={{ header: () => null }}
+      />
+
 
       {/* <Stack.Screen
         name="messagechat"

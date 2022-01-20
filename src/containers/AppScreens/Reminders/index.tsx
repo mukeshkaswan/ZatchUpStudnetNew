@@ -79,7 +79,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
     );
   };
   useEffect(() => {
-    console.log('hey......');
+    //console.log('hey......');
     getRemindersApi();
   }, []);
 
@@ -110,10 +110,10 @@ const Reminders = (props: ResetPasswordScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.log(
-              'after result reminders',
-              JSON.stringify(result, undefined, 2),
-            );
+            // console.log(
+            //   'after result reminders',
+            //   JSON.stringify(result, undefined, 2),
+            // );
 
             setLoading(false);
             if (result.status) {
@@ -155,7 +155,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
                     paddingEnd: 12,
                   }}>
                   <Text style={styles.schoolremindertext}>{item.message}</Text>
-                  <Text>{item.recived_time}</Text>
+                  <Text style={{marginTop:30,fontSize:12,color:'#4B2A6A'}}>{'-Send By: ' + item.sender_name}</Text>
                 </View>
                 {item.attachment != null && (
                   <View style={styles.reminderarrowcontainer}>

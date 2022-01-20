@@ -1,4 +1,4 @@
-import React, {Component, FC, useEffect, useState} from 'react';
+import React, { Component, FC, useEffect, useState } from 'react';
 
 import {
   View,
@@ -21,7 +21,7 @@ import {
   HeaderTitleWithBack,
   CustomDropdown,
 } from '../../../components';
-import {RadioButton, Text} from 'react-native-paper';
+import { RadioButton, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   widthPercentageToDP as wp,
@@ -29,7 +29,7 @@ import {
 } from 'react-native-responsive-screen';
 import styles from './style.tsx';
 import fonts from '../../../components/fonts';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 
@@ -40,7 +40,7 @@ import {
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 interface ResetPasswordScreenProps {
   navigation: any;
 }
@@ -106,7 +106,7 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -175,21 +175,17 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.getSchoolZatchUpId({
           data,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
-              console.warn(
-                'after result Zatch Up ID',
-                JSON.stringify(result, undefined, 2),
-                Data(result),
-                // console.log('result.data.state_id',result.data.state_id),
-                // setStateKey(result.data.state_id),
-                //  setCityKey(result.data.city_id),
-                //  setSchoolKey(result.data.city_id),
+              // console.warn(
+              //   'after result Zatch Up ID',
+              //   JSON.stringify(result, undefined, 2),
 
-                //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-              );
-              // setSpinnerStart(false);
-              setLoading(false);
+              // );
+              Data(result),
+
+                // setSpinnerStart(false);
+                setLoading(false);
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
@@ -238,14 +234,14 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -292,14 +288,14 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result step count',
+            //   JSON.stringify(result, undefined, 2),
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -360,12 +356,12 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         stateError ||
-          cityError ||
-          schoolError ||
-          schoolnameError ||
-          BoardError ||
-          zatchupidError ||
-          addressError,
+        cityError ||
+        schoolError ||
+        schoolnameError ||
+        BoardError ||
+        zatchupidError ||
+        addressError,
         Toast.SHORT,
       );
 
@@ -443,16 +439,17 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.getAddEi({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
-              console.warn(
-                'after AddEi result',
-                JSON.stringify(result.status, undefined, 2),
-                submit(result.data),
-                // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-              );
-              // setSpinnerStart(false);
-              setLoading(false);
+              // console.warn(
+              //   'after AddEi result',
+              //   JSON.stringify(result.status, undefined, 2),
+
+              //   // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+              // );
+              submit(result.data),
+                // setSpinnerStart(false);
+                setLoading(false);
             }
             if (!error) {
               console.warn(JSON.stringify(error, undefined, 2));
@@ -569,18 +566,19 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getSchool({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataSchoolKey(result),
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            getdataSchoolKey(result),
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -631,18 +629,19 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getCity({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataCityKey(result),
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            getdataCityKey(result),
+
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -693,16 +692,17 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getStates({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after State Api Data result',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after State Api Data result',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataStateKey(result),
+              
 
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            getdataStateKey(result),
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -777,20 +777,20 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
     {
       schooldatkey != '0'
         ? props.navigation.navigate('Onboarded', {
-            data: props.route.params.data,
-            school_id: schoolKey[0].value,
-            nameofschool: schoolKey[0].label,
-            school_zatchup_id: ID,
-            state: stateKey[0].label,
-            city: cityKey[0].label,
-            address: address,
-            board: Board,
-          })
+          data: props.route.params.data,
+          school_id: schoolKey[0].value,
+          nameofschool: schoolKey[0].label,
+          school_zatchup_id: ID,
+          state: stateKey[0].label,
+          city: cityKey[0].label,
+          address: address,
+          board: Board,
+        })
         : props.navigation.navigate('AddCourseDetailsOthers', {
-            nameofschool: schoolname,
-            board: Board,
-            school_id: data.school_id,
-          });
+          nameofschool: schoolname,
+          board: Board,
+          school_id: data.school_id,
+        });
     }
 
     // { selectedSchool != '2' ? props.navigation.navigate('Onboarded', { data: props.route.params.data }) : props.navigation.navigate('AddCourseDetailsOthers') }
@@ -803,16 +803,16 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
         headerTitle="Please Add Your School"
       />
 
-      <View style={{paddingHorizontal: 16, paddingVertical: 18}}>
+      <View style={{ paddingHorizontal: 16, paddingVertical: 18 }}>
         <TextField
           placeholder={'Enter Your ZatchUp ID'}
-          //  onChangeText={val => setID(val)}
-          //   value={ID}
-          //   onEndEditing={val => getDetailZatchupID(val)}
-          //    onEndEditing={() => getDetailZatchupID}
-          //   onEndEditing={(value) => getDetailZatchupID()}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
         />
-        <Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>
+        <Text style={{ textAlign: 'center', fontSize: 15, marginTop: 10 }}>
           OR
         </Text>
 
@@ -865,28 +865,28 @@ const AddSchoolScreen = (props: ResetPasswordScreenProps) => {
           placeholder={'Select School'}
           data={KYC_type_doc}
           selectedValue={KYC_type_doc_Selected}
-          SelectedLanguagedata={(selectedValue: any) => {}}
+          SelectedLanguagedata={(selectedValue: any) => { }}
         />
-        <View style={{marginTop: 10, marginBottom: 10}}>
+        <View style={{ marginTop: 10, marginBottom: 10 }}>
           <TextField
             placeholder={'Address'}
             multiline={true}
-            //onChangeText={val => setDess(val)} value={Dess}
+          //onChangeText={val => setDess(val)} value={Dess}
           />
         </View>
         <TextField
           placeholder={'Enter Your Board/University'}
-          //  onChangeText={val => setID(val)}
-          //   value={ID}
-          //   onEndEditing={val => getDetailZatchupID(val)}
-          //    onEndEditing={() => getDetailZatchupID}
-          //   onEndEditing={(value) => getDetailZatchupID()}
+        //  onChangeText={val => setID(val)}
+        //   value={ID}
+        //   onEndEditing={val => getDetailZatchupID(val)}
+        //    onEndEditing={() => getDetailZatchupID}
+        //   onEndEditing={(value) => getDetailZatchupID()}
         />
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <CustomButton
             title={'Submit'}
 
-            //onPress={() => props.navigation.navigate('Home')}
+          //onPress={() => props.navigation.navigate('Home')}
           />
         </View>
       </View>

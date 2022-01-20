@@ -26,89 +26,6 @@ import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScrollView} from 'react-native-gesture-handler';
 const screenWidth = Dimensions.get('window').width;
-const data = [
-  {
-    id: 1,
-    name: 'Mukesh Sharma',
-    time: '2:26PM',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: false,
-  },
-  {
-    id: 2,
-    name: 'Prashant Chaudhary',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 3,
-    name: 'Mukesh Sharma',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 4,
-    name: 'Prashant Sharma',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 5,
-    name: 'Prashant Chaudhary',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 6,
-    name: 'Prashant Chaudhary',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 7,
-    name: 'Mukesh Sharma',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 8,
-    name: 'Prashant Sharma',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-  {
-    id: 9,
-    name: 'Prashant Chaudhary',
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-  },
-];
 
 interface NotificationsScreenProps {
   navigation: any;
@@ -162,13 +79,14 @@ const Notifications = (props: NotificationsScreenProps) => {
 
         callback: ({result, error}) => {
           if (result.status === true) {
-            console.warn(
-              'after result Notification',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result Notification',
+            //   JSON.stringify(result, undefined, 2),
 
-              setData(result.results),
-              //   getdataCourse(result)
-            );
+             
+            //   //   getdataCourse(result)
+            // );
+            setData(result.results),
             // setSpinnerStart(false);
             setLoading(false);
           }

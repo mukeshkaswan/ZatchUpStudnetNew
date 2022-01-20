@@ -1,6 +1,6 @@
 import React, { Component, FC, useState, useEffect, useRef } from 'react';
 import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput, Dimensions } from 'react-native';
-import styles from './style.tsx';
+import styles from './style';
 import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
-import Orientation from 'react-native-orientation-locker';
+//import Orientation from 'react-native-orientation-locker';
 
 const {
   width, height
@@ -98,18 +98,18 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
   }
 
 
-  const onFullScreen = () => {
-    if (!isFullScreen) {
-      Orientation.lockToLandscape();
-    } else {
-      if (Platform.OS === 'ios') {
-        Orientation.lockToPortrait();
-      }
-      Orientation.lockToPortrait();
-    }
-    setFullscreen(!isFullScreen);
-    // this.setState({isFullScreen: !this.state.isFullScreen});
-  };
+  // const onFullScreen = () => {
+  //   if (!isFullScreen) {
+  //     Orientation.lockToLandscape();
+  //   } else {
+  //     if (Platform.OS === 'ios') {
+  //       Orientation.lockToPortrait();
+  //     }
+  //     Orientation.lockToPortrait();
+  //   }
+  //   setFullscreen(!isFullScreen);
+  //   // this.setState({isFullScreen: !this.state.isFullScreen});
+  // };
   const getData = async (results) => {
     results.map((element: any) => {
       setCoursepreview(element.course_preview);
@@ -240,34 +240,18 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
         headerTitle="Course Preview"
       />
 
-      {isFullScreen ? <Video
-        ref={ref}
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          bottom: 0,
-        }}
-        //url={courseDetails.course_preview}
-        video={{ uri: coursepreview }}
-        //  placeholder={courseDetails.course_image}
-        placeholderStyle={{ width: width - 32, height: height / 4 }}
-        onFullScreen={onFullScreen}
-        //theme={theme}
-        controls={true}
-        disableFullscreen={false}
-      /> : (<ScrollView >
+     <ScrollView >
         <Video
           ref={ref}
-          style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
-          //  url={'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_10MB.mp4'}
-          video={{ uri: coursepreview }}
-          videoWidth={width - 100}
+         // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
+           url={{uri:coursepreview}}
+         // video={{ uri: coursepreview }}
+       //   videoWidth={width - 100}
           //thumbnail={{ uri: courseimage }}
           thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-          onFullScreen={onFullScreen}
+         // onFullScreen={onFullScreen}
           // theme={theme}
-          controls={true}
+         // controls={true}
           resizeMode="contain"
           showDuration
         />
@@ -346,7 +330,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             />
           </View>
         </View>
-      </ScrollView>)}
+      </ScrollView>
 
     </View>
 

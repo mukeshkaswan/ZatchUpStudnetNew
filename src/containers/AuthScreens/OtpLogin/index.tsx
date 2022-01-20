@@ -105,6 +105,51 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
     }
   };
 
+
+  
+  const UserCourseDelete = async token => {
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getUserCourseDeleteNotConfirm({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //   'after.....>',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  }
   const getData = async result => {
     // console.log('tokenlogin', result.token)
     try {
@@ -115,7 +160,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
     } catch (e) {
       // saving error
     }
-
+    UserCourseDelete(result.token);
     getStepCountAPi(result.token);
   };
 
@@ -229,9 +274,11 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
               console.warn(
                 'after otp result',
                 // JSON.stringify(result, undefined, 2),
-                getData(result),
                 // props.navigation.navigate('Home'),
               );
+
+              getData(result),
+
               //setSpinnerStart(false);
               setLoading(false);
             }

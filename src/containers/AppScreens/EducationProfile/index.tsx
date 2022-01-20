@@ -200,12 +200,12 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 data,
                 callback: ({ result, error }) => {
                     if (result) {
-                        console.warn(
-                            'after result step count',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result step count',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -456,12 +456,13 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                     callback: ({ result, error }) => {
 
                         if (result.status === true) {
-                            console.warn(
-                                'after Add Course result',
-                                JSON.stringify(result.status, undefined, 2),
-                                //submit(result.data)
-                                props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })
-                            );
+                            // console.warn(
+                            //     'after Add Course result',
+                            //     JSON.stringify(result.status, undefined, 2),
+                            //     //submit(result.data)
+                            // );
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })
+
                             // setSpinnerStart(false);
                             setLoading(false);
                         }
@@ -615,14 +616,15 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataStandardClassKey(result)
+                            
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataStandardClassKey(result)
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -679,14 +681,15 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataStandardKey(result)
+                            
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataStandardKey(result)
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -741,14 +744,15 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataCourseKey(result)
+                            
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataCourseKey(result)
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -963,7 +967,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                                         // console.log('school index x',data)
 
                                         if (data.length > 0) {
-                                            console.log('setClassIDParm', data[0].value)
+                                            // console.log('setClassIDParm', data[0].value)
                                             setClassIDParm(data[0].value);
 
                                         }

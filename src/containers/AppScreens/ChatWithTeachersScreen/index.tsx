@@ -1,9 +1,9 @@
-   
-   
-import React, { Component, FC, useState } from 'react';
+
+
+import React, { Component, FC, useState, useEffect } from 'react';
 import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler } from 'react-native';
-import styles from './style.tsx';  
-import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn,HeaderTitleWithBack } from '../../../components';
+import styles from './style';
+import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,98 +14,28 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
+import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect
+} from '@react-navigation/native';
 
-
-
-const teacher_chat_data = [
-    {
-      id: 1,
-      name: 'Mukesh Sharma',
-      time: '2:26PM',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: false,
-    },
-    {
-      id: 2,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 3,
-      name: 'Mukesh Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 4,
-      name: 'Prashant Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 5,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 6,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 7,
-      name: 'Mukesh Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 8,
-      name: 'Prashant Sharma',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-    {
-      id: 9,
-      name: 'Prashant Chaudhary',
-      time: 'Yesterday',
-      profileImage: Images.profile_img2,
-      message:
-        'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-      msg_read: true,
-    },
-  ];
 interface ResetPasswordScreenProps {
   navigation: any;
+  route: any;
+
 }
 
-const ChatWithTeachersScreen= (props: ResetPasswordScreenProps) => {
-const renderIndicator = () => {
+const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
+
+  const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [lecturedata, setLectureData] = useState([]);
+
+
+  const renderIndicator = () => {
     return (
       <View style={{}}>
 
@@ -120,62 +50,120 @@ const renderIndicator = () => {
     );
   }
 
-   
+  useEffect(() => {
+
+    getTeacherChatData();
+
+
+  }, [isFocused]);
+
+
+
+  /***************************User GET Chat Teacher List Data*******************************/
+
+  const getTeacherChatData = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: 1085,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getChatTeacherList({
+        data,
+
+        callback: ({ results, error }) => {
+          if (results && results.length > 0) {
+            setLoading(false);
+
+            // setSpinnerStart(false);
+           // console.log('results ......', results);
+            setLectureData(results);
+
+          }
+          else if (results && results.length == []) {
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
 
   return (
     <View style={styles.container}>
-    <CustomStatusBar />
-    <HeaderTitleWithBack
-           navigation={props.navigation}
-          headerTitle="Teachers for Chat"
-        />
-       <FlatList
-             data={teacher_chat_data}
-            renderItem={({ item }) =>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                      <View style={styles.listCardWrapper}>
-          <View style={styles.userImageWrapper}>
-            <Image style={styles.userImageStyle} source={item.profileImage} />
-          </View>
-          <View style={styles.msgCardRightWrapper}>
-            <View style={styles.msgCardHeaderWrapper}>
-              <View style={{flex: 1}}>
-                <Text
-                  style={styles.userNameStyle}>
-                  {item.name}
-                </Text>
+      {isLoading && renderIndicator()}
+      <CustomStatusBar />
+      <HeaderTitleWithBack
+        navigation={props.navigation}
+        headerTitle="Start New Chat"
+      />
+      <FlatList
+        data={lecturedata}
+        renderItem={({ item }) =>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.listCardWrapper}>
+              <View style={styles.userImageWrapper}>
+                <Image style={styles.userImageStyle} source={{uri:item.profile_pic}} />
               </View>
-              <TouchableOpacity onPress={() => props.navigation.navigate('TeacherMessageChat')}>
-              <View style={{height: 15, width: 15}}>
-              <Image
-                    style={{height: '100%', width: '100%'}}
-                    source={Images.rightarrow}
-                  />
+              <View style={styles.msgCardRightWrapper}>
+                <View style={styles.msgCardHeaderWrapper}>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={styles.userNameStyle}>
+                      {item.name_of_teacher}
+                    </Text>
                   </View>
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={() => props.navigation.navigate('SIngleChatWithTeacherWebView',{'user_id':props.route.params.user_id,'firebase_id':item.firebase_id})}>
+                    <View style={{ }}>
+                      <Image
+                        style={{ height: 25, width: 25,marginRight:10}}
+                        source={Images.rightarrow}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-  </View>
-        </View>
-        <View
-          style={{
-            height: 2,
-            width: '90%',
-            marginLeft: 100,
-            // marginRight:10,
-            backgroundColor: '#E9E9E9',
-          }}
-        />
-            </ScrollView>
-          }
-            
-          />
-            
-                     
-     
-        
-            
- </View>
+            <View
+              style={{
+                height: 2,
+                width: '90%',
+                marginLeft: 100,
+                // marginRight:10,
+                backgroundColor: '#E9E9E9',
+              }}
+            />
+          </ScrollView>
+        }
+
+      />
+
+
+
+
+
+    </View>
 
   );
 }

@@ -33,7 +33,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {
   TouchableHighlight,
   TouchableOpacity,
@@ -159,8 +163,11 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
       return () =>
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
-    }, [])
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+    }, []),
   );
   // function handleBackButtonClick() {
   // props.navigation.goBack();
@@ -588,38 +595,52 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             SetSchoolid(result);
+
             if (result.data.length > 0) {
               var newAr = [];
+              var newApiArr = [];
+              for (let i in result.data) {
+                if (result.data[i].ei_detail.course_detail.length > 0) {
+                  newApiArr.push(result.data[i]);
+                }
+              }
 
-              if (result.data[0].ei_detail.course_detail.length > 0) {
+             // console.log('newApiArray....>', newApiArr);
 
-                if (result.data[0].ei_detail.course_detail[0]
-                  .standard_detail != null) {
+              if (newApiArr[0].ei_detail.course_detail.length > 0) {
+               // console.log('newApiArray 1', 'huy 1');
 
-                  for (let i in result.data[0].ei_detail.course_detail[0]
+                if (
+                  newApiArr[0].ei_detail.course_detail[0].standard_detail !=
+                  null
+                ) {
+                //  console.log('newApiArray 2', 'huy 2');
+
+                  for (let i in newApiArr[0].ei_detail.course_detail[0]
                     .standard_detail) {
                     let flag = '';
                     if (
-                      result.data[0].ei_detail.course_detail[0].standard_detail[i]
+                      newApiArr[0].ei_detail.course_detail[0].standard_detail[i]
                         .class_detail.length > 0
                     ) {
                       flag =
-                        result.data[0].ei_detail.course_detail[0].standard_detail[i]
-                          .class_detail[0].class_name;
+                        newApiArr[0].ei_detail.course_detail[0].standard_detail[
+                          i
+                        ].class_detail[0].class_name;
                     }
                     let item = {
-                      ...result.data[0].ei_detail.course_detail[0].standard_detail[
-                      i
-                      ],
+                      ...newApiArr[0].ei_detail.course_detail[0]
+                        .standard_detail[i],
                       className: flag,
                     };
                     newAr.push(item);
                   }
                 }
-
               }
 
-              let newObject = Object.assign([], result.data);
+              //console.log('--------', newAr);
+
+              let newObject = Object.assign([], newApiArr);
               let arrr = [];
               for (let i in newObject) {
                 for (let j in newObject[i].ei_detail.course_detail) {
@@ -631,13 +652,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 }
               }
 
+            //  console.log('=======', arrr);
+
               let newD = [];
-              for (let i in result.data[0]) {
-                let item = { ...result.data[0].ei_detail, course_detail: arrr };
+              for (let i in newApiArr[0]) {
+                let item = { ...newApiArr[0].ei_detail, course_detail: arrr };
                 newD.push({ ei_detail: item });
               }
 
-              console.log('AddFlag===>>', newD);
+             // console.log('AddFlag===>>', newD);
 
               let newArr = [];
               for (let i in newD[0].ei_detail.course_detail[0]
@@ -655,7 +678,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 };
                 newArr.push(item);
               }
-              console.log('NewArrr==>>', newArr);
+            //  console.log('NewArrr==>>', newArr);
 
               let ar = [];
               for (let i in newD[0].ei_detail.course_detail) {
@@ -679,14 +702,13 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
               let newObj = { ...result, data: newCourseList };
 
-              console.log('newData==>>', newObj);
+            //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
               getdataCourseKey(newObj);
             } else {
               getdataCourseKey(result);
             }
             // getdataCourseKey(result);
-
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -811,7 +833,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   const showDatepicker = index => () => {
     // showMode('date');
 
-    console.log('index', index, setdatafromlist);
+    //console.log('index', index, setdatafromlist);
 
     let newAr = Object.assign([], setdatafromlist);
 
@@ -825,7 +847,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       }
     }
 
-    console.log('After Click', newAr);
+   // console.log('After Click', newAr);
 
     setDataCourseInList(newAr);
 
@@ -833,7 +855,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   };
 
   const showDatepickerEndDate = index => () => {
-    console.log('index', index, setdatafromlist);
+   // console.log('index', index, setdatafromlist);
 
     let newAr = Object.assign([], setdatafromlist);
 
@@ -846,7 +868,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       }
     }
 
-    console.log('After Click', newAr);
+   // console.log('After Click', newAr);
 
     setDataCourseInList(newAr);
     //showModeEndDate('date');
@@ -865,7 +887,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
       }
-      console.log('newArrrDismiss==>>', newAr);
+     // console.log('newArrrDismiss==>>', newAr);
       setDataCourseInList(newAr);
     } else {
       let newAr = Object.assign([], setdatafromlist);
@@ -874,7 +896,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
       }
-      console.log('newArrrDismiss==>>', newAr);
+     // console.log('newArrrDismiss==>>', newAr);
       setDataCourseInList(newAr);
       return;
     }
@@ -898,15 +920,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // YYYY-MM-DD
   };
   const onChange = (event, selectedDate, standarad_i, index) => {
-    console.log('SelectedEvent===>>', event);
-    console.log('SelectedDate===>>', selectedDate);
-    console.log('SelectedDate===>>', standarad_i, index);
+    // console.log('SelectedEvent===>>', event);
+    // console.log('SelectedDate===>>', selectedDate);
+    // console.log('SelectedDate===>>', standarad_i, index);
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
 
     if (event.type == 'set') {
       //ok button
-      console.log('Current Date Select', selectedDate);
+    //  console.log('Current Date Select', selectedDate);
 
       let newAr = Object.assign([], setdatafromlist);
 
@@ -915,7 +937,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
           false;
       }
-      console.log('newArrrSet==>>', newAr);
+     // console.log('newArrrSet==>>', newAr);
       setDataCourseInList(newAr);
 
       //setDate(currentDate);
@@ -947,7 +969,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       ('0' + currentDate.getDate()).slice(-2);
     // console.log('A date has been picked: ' + day + '-' + month + '-' + year);
     //setDate_Copy(MyDateString);
-    console.log(MyDateString);
+    //console.log(MyDateString);
     CallApiEditStartDate(MyDateString, standarad_i);
 
     // YYYY-MM-DD
@@ -1008,7 +1030,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         }
       }
     }
-    console.log('newArr', newArr);
+   // console.log('newArr', newArr);
   };
 
   const Skippedstandard = id => {
@@ -1028,23 +1050,18 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     return true;
   };
 
-
-
-
   const gotoNavigate = async () => {
-
     USERCOURSECONFIRMATION();
 
     const value = await AsyncStorage.getItem('tokenlogin');
 
-    console.log('value', value);
+   // console.log('value', value);
 
     if (value == '' || value == null) {
       props.navigation.navigate('Personalinfo', {
         schoolidkey: schoolidkey,
       });
-    }
-    else {
+    } else {
       props.navigation.navigate('CoomingSoon');
     }
 
@@ -1052,9 +1069,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // props.navigation.navigate('Personalinfo', {
     //   schoolidkey: schoolidkey,
     // })
-  }
-
-
+  };
 
   /***************************User getStepCountAPi *******************************/
 
@@ -1073,7 +1088,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     const data = {
       token: token,
       school_id: schoolidkey,
-
     };
     setLoading(true);
 
@@ -1085,7 +1099,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.warn(
               'after user confirmation result step',
               JSON.stringify(result, undefined, 2),
-
             );
             // setSpinnerStart(false);
             setLoading(false);
@@ -1185,25 +1198,31 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </Text>
                 </View>
 
-                {props.route.params.otherscourse != 'otherscourse' ? <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>School Address :</Text>
-                  <Text
-                    style={{
-                      marginTop: 5,
-                      fontSize: 17,
-                      color: '#565656',
-                      flexWrap: 'wrap',
-                      flex: 1,
-                      marginLeft: 5,
-                    }}>
-                    {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
-                  </Text>
-                </View> : null}
+                {props.route.params.otherscourse != 'otherscourse' ? (
+                  <View style={styles.view_Row_}>
+                    <Text style={styles.view_Tv_1}>School Address :</Text>
+                    <Text
+                      style={{
+                        marginTop: 5,
+                        fontSize: 17,
+                        color: '#565656',
+                        flexWrap: 'wrap',
+                        flex: 1,
+                        marginLeft: 5,
+                      }}>
+                      {item.ei_detail.address1 + ' ' + item.ei_detail.address2}
+                    </Text>
+                  </View>
+                ) : null}
 
-                {props.route.params.otherscourse != 'otherscourse' ? <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>Pincode :</Text>
-                  <Text style={styles.view_Tv_2}>{item.ei_detail.pincode}</Text>
-                </View> : null}
+                {props.route.params.otherscourse != 'otherscourse' ? (
+                  <View style={styles.view_Row_}>
+                    <Text style={styles.view_Tv_1}>Pincode :</Text>
+                    <Text style={styles.view_Tv_2}>
+                      {item.ei_detail.pincode}
+                    </Text>
+                  </View>
+                ) : null}
 
                 <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>University/Board :</Text>
@@ -1234,7 +1253,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false && item.ei_detail.name_of_school != "Others"
+                              i.is_current_course == false &&
+                                item.ei_detail.name_of_school != 'Others'
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1248,19 +1268,24 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                     props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                 })
-                                : item.ei_detail.name_of_school == "Others"
-                                  ? props.navigation.navigate('AddCourseDetailsOthersEdit', {
-                                    data: i.is_current == true ? true : false,
-                                    nameofschool: item.ei_detail.name_of_school,
-                                    course_name: i.course_name,
-                                    start_date: '2018-01-06',
-                                    end_date: '2022-01-06',
-                                    description: i.description,
-                                    course_type: i.course_type,
-                                    course_id: i.course_id,
-                                    school_id: item.ei_detail.id,
-                                    confirmation: 'EIconfirmation'
-                                  }) : props.navigation.navigate(
+                                : item.ei_detail.name_of_school == 'Others'
+                                  ? props.navigation.navigate(
+                                    'AddCourseDetailsOthersEdit',
+                                    {
+                                      data: i.is_current_course == true ? true : false,
+                                      nameofschool:
+                                        item.ei_detail.name_of_school,
+                                      course_name: i.course_name,
+                                      start_date: '2018-01-06',
+                                      end_date: '2022-01-06',
+                                      description: i.description,
+                                      course_type: i.course_type,
+                                      course_id: i.course_id,
+                                      school_id: item.ei_detail.id,
+                                      confirmation: 'EIconfirmation',
+                                    },
+                                  )
+                                  : props.navigation.navigate(
                                     'EducationProfileEdit',
                                     {
                                       school_id: item.ei_detail.id,

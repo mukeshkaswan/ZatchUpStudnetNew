@@ -143,7 +143,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
     React.useEffect(() => {
 
-        console.log('this is the recived props--->', props.route.params)
+       // console.log('this is the recived props--->', props.route.params)
         //   setCourseKey(props.route.params.course_name)
 
         getCourseListData(props.route.params.school_id, props.route.params.course_id)
@@ -255,12 +255,12 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 data,
                 callback: ({ result, error }) => {
                     if (result) {
-                        console.warn(
-                            'after result step count',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result step count',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -416,12 +416,13 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                     callback: ({ result, error }) => {
 
                         if (result.status === true) {
-                            console.warn(
-                                'after Add Course result',
-                                JSON.stringify(result.status, undefined, 2),
-                                //submit(result.data)
-                                props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, })
-                            );
+                            // console.warn(
+                            //     'after Add Course result',
+                            //     JSON.stringify(result.status, undefined, 2),
+                            //     //submit(result.data)
+                            // );
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, })
+
                             // setSpinnerStart(false);
                             setLoading(false);
                         }
@@ -587,14 +588,15 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataStandardClassKey(result)
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataStandardClassKey(result)
+
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -651,14 +653,15 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataStandardKey(result)
+                            
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataStandardKey(result)
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -714,14 +717,15 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        console.warn(
-                            'after result',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            getdataCourseKey(result)
 
-                            //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                        );
+                        //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                        // );
+                        getdataCourseKey(result)
+
                         // setSpinnerStart(false);
                         setLoading(false);
                     }

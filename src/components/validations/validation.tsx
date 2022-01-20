@@ -266,6 +266,31 @@ const validation = {
     },
   },
 
+  addmissionno: {
+    presence: {
+      message: 'Admission number is required',
+    },
+    format: {
+      //pattern: /^[0-9]{12}$/
+      pattern: /^[0-9\b]+$/,
+      
+      message: "Admission number is required"
+    },
+  },
+
+
+  rollno_: {
+    presence: {
+      message: 'Roll number is required',
+    },
+    format: {
+      //pattern: /^[0-9]{12}$/
+      pattern: /^[0-9\b]+$/,
+      
+      message: "Roll number is required"
+    },
+  },
+
   rollno: {
     presence: {
       message: 'Please enter your roll no',

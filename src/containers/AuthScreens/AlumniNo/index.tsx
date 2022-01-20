@@ -645,7 +645,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         <ScrollView>
           <View style={styles.inputContainer}>
             <View>
-              <TouchableOpacity
+            {props.route.params.true != true ?  <TouchableOpacity
                 onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
                 <View
                   style={{
@@ -676,29 +676,32 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     source={Images.edit_icon}
                   />
                 </View>
-                {/* <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                                    <Text style={{ marginTop: 2, fontSize: 17, marginLeft: 10, }}>
-                                        {props.route.params.nameofschool}
-                                        <Text
-                                            style={{ marginTop: 2, fontSize: 18, marginLeft: 10, }}
-                                        >
+               
+              </TouchableOpacity>:
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: 1,
+                    alignItems: 'center',
+                    paddingHorizontal: 8,
+                  }}>
+                  <Text
+                    style={{
+                      marginTop: 2,
+                      fontSize: 15,
+                      marginLeft: 5,
+                      flex: 1,
+                      flexWrap: 'wrap',
+                    }}>
+                    {props.route.params.nameofschool +
+                      '(' +
+                      props.route.params.school_zatchup_id +
+                      ')'}
+                  </Text>
+                
+                </View>}
 
-                                            {'('}
-                                            {props.route.params.school_zatchup_id}
-                                            {')'}
 
-                                        </Text>
-                                    </Text>
-                                    <Image
-                                        style={{
-                                            marginLeft: 10, width: 28,
-                                            height: 28,
-                                            resizeMode: 'contain'
-                                        }}
-                                        source={Images.edit_icon}
-                                    />
-                                </View> */}
-              </TouchableOpacity>
               <View style={{}}>
                 <CustomDropdown
                   placeholder={'Select Course'}

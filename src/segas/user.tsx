@@ -58,7 +58,17 @@ import {
   SEARCHLISTFORSCHOOLSTUDENT,
   PROFILEDETAILOFUSER,
   PROFILEDETAILOFSCHOOL,
-  GETADMISSIONNUMBERDETAILBYSCHOOL
+  GETADMISSIONNUMBERDETAILBYSCHOOL,
+  USERCOURSEDELETENOT,
+  USEREDITADMISSIONROLLNO,
+  GETALLWORKDEPARTMENTS,
+  GETCOUNTRY,
+  USEREDITADMISSIONROLLNOTWO,
+  CHATTEACHERLIST,
+  PENDINGUSERCHANGEDETAILLIST,
+  DELETEPENDINGUSERREQUEST,
+  UPLOADEKYCFORDETAILCHANGE,
+  USERPENDINGCOURSELISTOFUSER
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -114,7 +124,7 @@ function* updatePersonalinfo({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('login result', JSON.stringify(result, undefined, 2));
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -152,7 +162,7 @@ function* registerUser({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('register result', JSON.stringify(result, undefined, 2));
+      // console.log('register result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // console.log('result',result.error.email[0]);
       //  Toast.show(result.error.email[0]);
@@ -196,10 +206,10 @@ function* KycSuccess({ payload: { data, callback } }) {
   };
   // console.warn('data in saga----4324---------------->', payload);
   const { result, error } = yield call(httpClient, payload);
-  console.log('kyc error', JSON.stringify(error, undefined, 2));
+  //  console.log('kyc error', JSON.stringify(error, undefined, 2));
   if (!error) {
     if (result) {
-      console.log('kyc result', JSON.stringify(result, undefined, 2));
+      //  console.log('kyc result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -282,10 +292,10 @@ function* registerOtpSuccess({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'otp Register success data  result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'otp Register success data  result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       //console.log('result',result.error);
       //  Toast.show(result.error);
@@ -345,7 +355,7 @@ function* getStates({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get States result', JSON.stringify(result, undefined, 2));
+      // console.log('get States result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -371,7 +381,7 @@ function* getCity({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get City result', JSON.stringify(result, undefined, 2));
+      // console.log('get City result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -397,7 +407,7 @@ function* getSchool({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get School result', JSON.stringify(result, undefined, 2));
+      //  console.log('get School result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -425,7 +435,7 @@ function* getAddEi({ payload: { data_update, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('add ei result', JSON.stringify(result, undefined, 2));
+      // console.log('add ei result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -451,10 +461,10 @@ function* getCourselist({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Course list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Course list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -480,10 +490,10 @@ function* getEditCourseList({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Course list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Course list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -509,10 +519,10 @@ function* getStandard({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Standard list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Standard list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -538,10 +548,10 @@ function* getStandardEdit({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Standard list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Standard list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -568,10 +578,10 @@ function* getStandardClass({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Standard list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Standard list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -601,10 +611,10 @@ function* getAddRegisteredEiCourse({ payload: { data_update, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'add Registered Course result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'add Registered Course result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -633,10 +643,10 @@ function* getEiCourseConfirmationList({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Ei Course Confirmation List result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Ei Course Confirmation List result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -661,10 +671,10 @@ function* getRegStepCount({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Step Count result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Step Count result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -695,7 +705,7 @@ function* getDeleteCourseData({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
+      // console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -727,7 +737,7 @@ function* getDeleteCourseStandard({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Delete Course Standard Result', JSON.stringify(result, undefined, 2));
+      //console.log('Delete Course Standard Result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -756,10 +766,10 @@ function* getCheckUserKyc({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Check User Kyc Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Check User Kyc Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -788,10 +798,10 @@ function* getAuthUserInfo({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Auth User Info Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Auth User Info Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -819,10 +829,10 @@ function* getReminders({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Auth User Info Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Auth User Info Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -855,10 +865,10 @@ function* getAddProfilePicInfo({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Add Profile Pic Info Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Add Profile Pic Info Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -888,7 +898,7 @@ function* getAddCourseByUser({ payload: { data_update, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('add Course By User', JSON.stringify(result, undefined, 2));
+      // console.log('add Course By User', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -918,10 +928,10 @@ function* getAddPastEiCourse({ payload: { data_update, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'add Past Course By User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'add Past Course By User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -951,10 +961,10 @@ function* getAddmissionNoBySchool({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Addmission no by school By User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Addmission no by school By User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -980,10 +990,10 @@ function* getCourselistOther({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'get Course list other result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Course list other result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1015,7 +1025,7 @@ function* getUploadFile({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Upload File User', JSON.stringify(result, undefined, 2));
+      // console.log('Upload File User', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1047,10 +1057,10 @@ function* getAdminForgotPassword({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'get Admin Forgot Password User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Admin Forgot Password User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1081,10 +1091,10 @@ function* getAdminVerifyResetPassword({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'get Admin Verify Reset Password User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Admin Verify Reset Password User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1117,10 +1127,10 @@ function* getAdminSetNewPassword({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'get Admin Set New Password User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Admin Set New Password User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1150,10 +1160,10 @@ function* getSchoolZatchUpId({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'get Admin ZatchUp ID User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Admin ZatchUp ID User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1179,10 +1189,10 @@ function* getStudentEducationProfile({ payload: { data, callback } }) {
   //callback({result, error});
   if (!error) {
     if (result) {
-      console.log(
-        'Student Education Profile list  result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Student Education Profile list  result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1216,10 +1226,10 @@ function* getResetPassword({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'get Reset Password User',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'get Reset Password User',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -1245,10 +1255,10 @@ function* getNotificationFetch({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log(
-        'Student Notification list result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Student Notification list result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1262,7 +1272,7 @@ function* getNotificationFetch({ payload: { data, callback } }) {
 /***************************User Skipped standard Data Auth Segas*******************************/
 
 function* getskipped({ payload: { data, callback } }) {
-  console.warn('data in saga Skipped standard', data);
+  //console.warn('data in saga Skipped standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
 
@@ -1279,10 +1289,10 @@ function* getskipped({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Skipped Standard Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Skipped Standard Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1296,7 +1306,7 @@ function* getskipped({ payload: { data, callback } }) {
 /***************************User Edit standard Data Auth Segas*******************************/
 
 function* geteditcoursestandard({ payload: { data, callback } }) {
-  console.warn('data in saga Edit standard', data);
+  //console.warn('data in saga Edit standard', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
   formdata.append('standard_start_year', data.standard_start_year);
@@ -1315,7 +1325,7 @@ function* geteditcoursestandard({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Edit Standard Result', JSON.stringify(result, undefined, 2));
+      // console.log('Edit Standard Result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1329,7 +1339,7 @@ function* geteditcoursestandard({ payload: { data, callback } }) {
 /***************************User Edit standard drop down Data Auth Segas*******************************/
 
 function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
-  console.warn('data in saga Edit standard drop down', data);
+  //console.warn('data in saga Edit standard drop down', data);
   const formdata = new FormData();
   formdata.append('standard_id', data.standard_id);
   formdata.append('standard_start_year', data.standard_start_year);
@@ -1349,10 +1359,10 @@ function* geteditcoursestandarddropdown({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log(
-        'Edit Standard drop down Result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Edit Standard drop down Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1379,7 +1389,7 @@ function* getClassListByStandard({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get Class result', JSON.stringify(result, undefined, 2));
+      // console.log('get Class result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1406,7 +1416,7 @@ function* getadduserstepseven({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get Add Step Seven result', JSON.stringify(result, undefined, 2));
+      // console.log('get Add Step Seven result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1436,7 +1446,7 @@ function* getusercourseconfirmation({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1464,11 +1474,11 @@ function* getCitySearch({ payload: { data, callback } }) {
   };
   const { result, error } = yield call(httpClient, payload);
   //callback({result, error});
-  console.log('get City Search R', result, error);
+  //console.log('get City Search R', result, error);
 
   if (!error) {
     if (result) {
-      console.log('get City Search Result', JSON.stringify(result, undefined, 2));
+      // console.log('get City Search Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1503,7 +1513,7 @@ function* getAddcitystateofuser({ payload: { data, callback } }) {
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get User Add City of user result', JSON.stringify(result, undefined, 2));
+      // console.log('get User Add City of user result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1567,7 +1577,7 @@ function* getSchoollistforstarclass({ payload: { data, callback } }) {
 
   if (!error) {
     if (result) {
-      console.log('get School List For Start Class Result', JSON.stringify(result, undefined, 2));
+      //  console.log('get School List For Start Class Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1598,7 +1608,7 @@ function* getCoursePreview({ payload: { data, callback } }) {
 
   if (!error) {
     if (result) {
-      console.log('get Course Preview Result', JSON.stringify(result, undefined, 2));
+      // console.log('get Course Preview Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1629,7 +1639,7 @@ function* getStartClasslecturelist({ payload: { data, callback } }) {
 
   if (!error) {
     if (result) {
-      console.log('get Star Clas lecture List Result', JSON.stringify(result, undefined, 2));
+      //  console.log('get Star Clas lecture List Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1659,7 +1669,7 @@ function* getStartClasslecturelistcoursepreview({ payload: { data, callback } })
   callback({ result, error });
   if (!error) {
     if (result) {
-      console.log('get Star Clas lecture List Course Preview Result', JSON.stringify(result, undefined, 2));
+      // console.log('get Star Clas lecture List Course Preview Result', JSON.stringify(result, undefined, 2));
 
       callback({ result, error });
       // const userToken = result.token;
@@ -1692,7 +1702,7 @@ function* getLecturehistory({ payload: { data, callback } }) {
 
   if (!error) {
     if (result) {
-      console.log('get Star Class Lecture History List Result', JSON.stringify(result, undefined, 2));
+      //  console.log('get Star Class Lecture History List Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1722,7 +1732,7 @@ function* getUpdateschoolcoursedetailbyuser({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('get Update School Course Details By User Result', JSON.stringify(result, undefined, 2));
+      //console.log('get Update School Course Details By User Result', JSON.stringify(result, undefined, 2));
 
       callback({ result, error });
       // const userToken = JSON.stringify(data).st result.token;
@@ -1752,11 +1762,11 @@ function* getSearchSchoolStudentSearchList({ payload: { data, callback } }) {
   };
   const { result, error } = yield call(httpClient, payload);
   //callback({result, error});
-  console.log('get City Search R', result, error);
+  // console.log('get City Search R', result, error);
 
   if (!error) {
     if (result) {
-      console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -1784,10 +1794,10 @@ function* getProfileDetailForUser({ payload: { data, callback } }) {
   //callback({result, error});
   if (!error) {
     if (result) {
-      console.log(
-        'Profile Detail For User result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Profile Detail For User result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1814,10 +1824,10 @@ function* getProfileDetailForSchool({ payload: { data, callback } }) {
   //callback({result, error});
   if (!error) {
     if (result) {
-      console.log(
-        'Profile Detail For School result',
-        JSON.stringify(result, undefined, 2),
-      );
+      // console.log(
+      //   'Profile Detail For School result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1832,7 +1842,7 @@ function* getProfileDetailForSchool({ payload: { data, callback } }) {
 /***************************User Get Admission Number Detail By School Auth Segas*******************************/
 
 function* getGetAdmissionNumberDetailBySchool({ payload: { data, callback } }) {
-  console.warn('data in saga Get Admission Number Detail By School', data);
+  //console.warn('data in saga Get Admission Number Detail By School', data);
   const formdata = new FormData();
   formdata.append('course_id', data.course_id);
   formdata.append('course_type', "");
@@ -1851,7 +1861,336 @@ function* getGetAdmissionNumberDetailBySchool({ payload: { data, callback } }) {
   const { result, error } = yield call(httpClient, payload);
   if (!error) {
     if (result) {
-      console.log('Get Admission Number Detail By School', JSON.stringify(result, undefined, 2));
+      // console.log('Get Admission Number Detail By School', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User User Course Delete Not Confirm Auth Segas*******************************/
+
+function* getUserCourseDeleteNotConfirm({ payload: { data, callback } }) {
+  // console.warn('data in saga Get User Course Delete Not Confirm', data);
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: {},
+    method: 'POST',
+    url: 'user/user-course-delete-not-conformation/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Get User Course Delete Not Confirm', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User Get User edit admission roll no Auth Segas*******************************/
+
+function* getUsereditadmissionrollno({ payload: { data, callback } }) {
+
+  // console.warn('data in saga Get User edit admission roll no School', data);
+
+  const datakey = {
+    old_value: data.old_value,
+    school_id: data.school_id,
+    value: data.value,
+    class_id: data.class_id,
+    key: "admission_number",
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/edit-admission-roll-no/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Get User edit admission roll no By School', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET All Work Departments Auth Segas*******************************/
+
+function* getAllWorkDepartments({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/get-all-work-departments/`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'GET All Work Department result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Country Auth Segas*******************************/
+
+function* getCountry({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/get_country/`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'GET All Country Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Get User edit admission roll no two Auth Segas*******************************/
+
+function* getUsereditadmissionrollnotwo({ payload: { data, callback } }) {
+
+  //console.warn('data in saga Get User edit admission roll no School', data);
+
+  const datakey = {
+    old_value: data.old_value,
+    course_id: data.course_id,
+    value: data.value,
+    class_id: data.class_id,
+    key: "roll_no",
+
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/edit-admission-roll-no/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Get User edit admission roll no By School', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Chat Teacher List Auth Segas*******************************/
+
+function* getChatTeacherList({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `chat/teachers_list_based_on_school/?ei_id=${data.id}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      //console.log('get Teacher Chat List Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Pending user change detail list Auth Segas*******************************/
+
+function* getPendinguserchangedetaillist({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/pending-user-change-detail-list/?page_size=100&page=1`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Pending user change detail list Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+
+/***************************User Delete Pending User Request Auth Segas*******************************/
+
+function* getDeletePendingUserRequest({ payload: { data, callback } }) {
+  console.warn('data in saga Delete Course', data);
+
+
+  const datakey = {
+    id: data.id,
+    type: data.type,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/delete_pending_user_request/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Upload ekyc for detail chnage list Auth Segas*******************************/
+
+function* getUploadekycfordetailchnage({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/upload-ekyc-for-detail-change-list/?page_size=100&page=1`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      console.log('get Upload ekyc for detail chnage list Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User GET Pending Course List Of User list Auth Segas*******************************/
+
+function* getPendingCourseListOfUser({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/pending-course-list-of-user/?school_id=${data.school_id}`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Student Education Profile list  result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -1919,9 +2258,18 @@ function* User() {
     yield takeLatest(PROFILEDETAILOFUSER, getProfileDetailForUser),
     yield takeLatest(PROFILEDETAILOFSCHOOL, getProfileDetailForSchool),
     yield takeLatest(GETADMISSIONNUMBERDETAILBYSCHOOL, getGetAdmissionNumberDetailBySchool),
+    yield takeLatest(USERCOURSEDELETENOT, getUserCourseDeleteNotConfirm),
+    yield takeLatest(USEREDITADMISSIONROLLNO, getUsereditadmissionrollno),
+    yield takeLatest(GETALLWORKDEPARTMENTS, getAllWorkDepartments),
+    yield takeLatest(GETCOUNTRY, getCountry),
+    yield takeLatest(USEREDITADMISSIONROLLNOTWO, getUsereditadmissionrollnotwo),
+    yield takeLatest(CHATTEACHERLIST, getChatTeacherList),
+    yield takeLatest(PENDINGUSERCHANGEDETAILLIST, getPendinguserchangedetaillist),
+    yield takeLatest(DELETEPENDINGUSERREQUEST, getDeletePendingUserRequest),
+    yield takeLatest(UPLOADEKYCFORDETAILCHANGE, getUploadekycfordetailchnage),
+    yield takeLatest(USERPENDINGCOURSELISTOFUSER, getPendingCourseListOfUser),
 
-
-
+    
   ]);
 }
 

@@ -158,11 +158,11 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after user confirmation result step',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after user confirmation result step',
+            //   JSON.stringify(result, undefined, 2),
 
-            );
+            // );
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -214,12 +214,12 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                 data,
                 callback: ({ result, error }) => {
                     if (result) {
-                        console.warn(
-                            'after result upload file',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result upload file',
+                        //     JSON.stringify(result, undefined, 2),
 
-                            // props.navigation.navigate('Approval')
-                        );
+                        //     // props.navigation.navigate('Approval')
+                        // );
                         setImagename(result.filename)
 
                         Toast.show('Successfully Added ', Toast.SHORT);
@@ -275,11 +275,11 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                 data,
                 callback: ({ result, error }) => {
                     if (result) {
-                        console.warn(
-                            'after result step count',
-                            JSON.stringify(result, undefined, 2),
+                        // console.warn(
+                        //     'after result step count',
+                        //     JSON.stringify(result, undefined, 2),
 
-                        );
+                        // );
                         // setSpinnerStart(false);
                         setLoading(false);
                     }
@@ -351,12 +351,13 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                     data,
                     callback: ({ result, error }) => {
                         if (result) {
-                            console.warn(
-                                'after result add profile',
-                                JSON.stringify(result, undefined, 2),
-                                Toast.show('Profile Successfully Added', Toast.SHORT),
-                                props.navigation.navigate('Approval')
-                            );
+                            // console.warn(
+                            //     'after result add profile',
+                            //     JSON.stringify(result, undefined, 2),
+                               
+                            // );
+                            Toast.show('Profile Successfully Added', Toast.SHORT),
+                            props.navigation.navigate('Approval')
                             // setSpinnerStart(false);
 
                             setLoading(false);

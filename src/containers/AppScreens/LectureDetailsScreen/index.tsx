@@ -84,8 +84,10 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
     setdes(results.lecture_description);
     setUploaddate(results.upload_date);
     setStandard(results.standard);
+    setPlay(results.lecture);
 
 
+    
 
   };
 
@@ -120,13 +122,13 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
 
           if (result) {
 
-            console.warn(
-              'after result',
-              JSON.stringify(result.data, undefined, 2),
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result.data, undefined, 2),
 
-              //  getdataProfile(result),
-              //  getdataCourse(result),
-            );
+            //   //  getdataProfile(result),
+            //   //  getdataCourse(result),
+            // );
             setLoading(false);
 
 
@@ -218,9 +220,9 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
           </View>
           <View style={{ paddingHorizontal: 10, alignSelf: 'center', width: '100%' }}>
             <Video
-              style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
-             // video={{ uri: lecturetitle }}
-              url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
+             // style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
+              video={{ uri: play }}
+             // url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
 
               videoWidth={width - 10}
              // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}

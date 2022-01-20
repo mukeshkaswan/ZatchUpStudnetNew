@@ -65,7 +65,7 @@ const ProfileScreen = (props: CoomingSoonScreenProps) => {
 
   useEffect(() => {
 
-    console.log('props.route.params.user_id', props.route.params.user_id);
+   // console.log('props.route.params.user_id', props.route.params.user_id);
     getUserProfile(props.route.params.user_id);
 
   }, [isFocused]);
@@ -155,15 +155,16 @@ const ProfileScreen = (props: CoomingSoonScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
-            console.warn(
-              'after User Data result------->',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after User Data result------->',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataProfile(result),
-              getdataCourse(result),
+             
 
-              // getdataCourse(result),
-            );
+            //   // getdataCourse(result),
+            // );
+            getdataProfile(result),
+            getdataCourse(result),
             // setSpinnerStart(false);
             setLoading(false);
           }

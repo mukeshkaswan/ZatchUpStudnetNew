@@ -3,28 +3,30 @@ import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, Toucha
 import styles from './style';
 import { Images } from '../../../components/index';
 import OtpInputs from 'react-native-otp-inputs';
-import { TextField, CustomButton, CustomStatusBar, BackBtn } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, BackBtn, HeaderTitleWithBack } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     NavigationContainer,
     useIsFocused,
     useFocusEffect,
-  } from '@react-navigation/native';
-interface SelectStudentScreenProps { navigation: any }
+} from '@react-navigation/native';
+interface SelectStudentScreenProps {
+    navigation: any; route: any;
+}
 
-const SelectStudent = (props: SelectStudentScreenProps) => {
+const SelectStudentFromLogin = (props: SelectStudentScreenProps) => {
 
     const [allSelected, setSelected] = useState(false);
     const [studentSelect, setStudentSelect] = useState(true);
     const isFocused = useIsFocused();
 
     function handleBackButtonClick() {
-        const value =  AsyncStorage.getItem('tokenlogin');
+        const value = AsyncStorage.getItem('tokenlogin');
 
-        if(value != null ){
+        if (value != null) {
             props.navigation.goBack(null);
-        }else{
+        } else {
             Alert.alert(
                 'ZatchUp',
                 'Do you want to exit?',
@@ -36,17 +38,17 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             return true;
         }
 
-      
+
     }
 
 
     useEffect(() => {
+        console.log('props.route.params', props.route.params)
 
-
-        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-        return () => {
-            BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
-        };
+        // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        // return () => {
+        //     BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+        // };
     }, [isFocused]);
 
 
@@ -55,7 +57,10 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             <CustomStatusBar />
             {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
 
-
+            <HeaderTitleWithBack
+                navigation={props.navigation}
+                headerTitle="Select Student"
+            />
             <View style={styles.enterTextConatiner}>
                 <Text style={styles.enterText}>Are you currently a student?</Text>
             </View>
@@ -155,7 +160,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             <View style={styles.inputContainer}>
 
                 <View>
-                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect }) }} />
+                    {studentSelect == true ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('EducationProfile', { 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'school_id': props.route.params.school_id,'true':true }) }} /> : <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('AlumniNo', { 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'school_id': props.route.params.school_id,'true':true}) }} />}
                     {/* <CustomButton title={'Next'} onPress={() =>{studentSelect? props.navigation.navigate('CurrentSchoolinfo',{data:'name'}): props.navigation.goBack()}} /> */}
 
                 </View>
@@ -168,5 +173,5 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
     );
 };
 
-export default SelectStudent;
+export default SelectStudentFromLogin;
 
