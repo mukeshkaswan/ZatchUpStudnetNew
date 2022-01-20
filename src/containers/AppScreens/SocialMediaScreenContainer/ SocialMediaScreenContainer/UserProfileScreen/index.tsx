@@ -553,7 +553,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 <TouchableOpacity
                   onPress={() => {
                     props.navigation.navigate('FollowersScreen', {
-                      item: {...userProfile, user_id},
+                      item: {...userProfile, user_id, flag: 'self'},
                     });
                   }}>
                   <Text style={styles.boldText}>
@@ -868,28 +868,23 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       marginBottom: 5,
                     }}>
                     <View style={styles.rowContainer1}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          props.navigation.navigate('UsersProfile', {item});
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
                         }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                          }}>
-                          <Image
-                            source={
-                              item.profile_pic != null
-                                ? {uri: item.profile_pic}
-                                : require('../../../../../assets/images/pic.jpeg')
-                            }
-                            style={styles.profilepic1}
-                          />
-                          <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
-                            {item.full_name}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
+                        <Image
+                          source={
+                            item.profile_pic != null
+                              ? {uri: item.profile_pic}
+                              : require('../../../../../assets/images/pic.jpeg')
+                          }
+                          style={styles.profilepic1}
+                        />
+                        <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
+                          {item.full_name}
+                        </Text>
+                      </View>
                       <TouchableOpacity
                       // onPress={toggleModal}
                       >
@@ -1026,34 +1021,44 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       {userProfile != '' &&
                       item.post_like != null &&
                       item.post_like.length == 1 &&
-                      item.post_like[0].post_like_username == 'username' &&
+                      item.post_like[0].post_like_user_id == user_id &&
                       item.post_like_count > 0 ? (
-                        <TouchableOpacity
-                          onPress={() => {
-                            props.navigation.navigate('ProfileScreen');
-                          }}>
+                        <View>
                           <Text>
                             Liked by
                             <Text style={styles.boldText}> You</Text>
                           </Text>
-                        </TouchableOpacity>
+                        </View>
                       ) : (
                         <TouchableOpacity
                           onPress={() => {
-                            item.user_role == 'STUDENTS' &&
-                              props.navigation.navigate('UsersProfile', {
-                                item: items,
-                              });
+                            item.post_like[0].user_role == 'EIREPRESENTATIVE'
+                              ? props.navigation.navigate('SchoolProfile', {
+                                  item: {
+                                    user_id:
+                                      item.post_like[0].post_like_user_id,
+                                  },
+                                })
+                              : item.post_like[0].post_like_user_id != user_id
+                              ? props.navigation.navigate('UsersProfile', {
+                                  item: {
+                                    user_id:
+                                      item.post_like[0].post_like_user_id,
+                                  },
+                                })
+                              : {};
                           }}>
-                          {item.post_like != null && item.post_like_count > 0 && (
-                            <Text>
-                              Liked by
-                              <Text style={styles.boldText}>
-                                {' '}
-                                {item.post_like[0].post_like_username}
+                          {item.post_like != null &&
+                            item.post_like.length == 1 &&
+                            item.post_like_count > 0 && (
+                              <Text>
+                                Liked by
+                                <Text style={styles.boldText}>
+                                  {' '}
+                                  {item.post_like[0].post_like_username}
+                                </Text>
                               </Text>
-                            </Text>
-                          )}
+                            )}
                         </TouchableOpacity>
                       )}
                       {userProfile != '' &&
@@ -1061,19 +1066,30 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         item.post_like.length >= 2 && (
                           <TouchableOpacity
                             onPress={() => {
-                              item.user_role == 'STUDENTS' &&
-                                props.navigation.navigate('UsersProfile', {
-                                  item: items,
-                                });
+                              item.post_like[0].user_role == 'EIREPRESENTATIVE'
+                                ? props.navigation.navigate('SchoolProfile', {
+                                    item: {
+                                      user_id:
+                                        item.post_like[0].post_like_user_id,
+                                    },
+                                  })
+                                : item.post_like[0].post_like_user_id != user_id
+                                ? props.navigation.navigate('UsersProfile', {
+                                    item: {
+                                      user_id:
+                                        item.post_like[0].post_like_user_id,
+                                    },
+                                  })
+                                : {};
                             }}>
                             <Text>
                               Liked by{' '}
                               <Text style={styles.boldText}>
                                 {item.post_like[0].post_like_username}
                               </Text>{' '}
-                              and
+                              and{' '}
                               <Text style={styles.boldText}>
-                                {item.post_like.length - 1}Others
+                                {item.post_like.length - 1 + ' '}Others
                               </Text>
                             </Text>
                           </TouchableOpacity>
@@ -1096,14 +1112,25 @@ const UserProfileScreen = (props: UserProfileProps) => {
                                 key={item + 'sap' + index}>
                                 <View style={{flexDirection: 'row', flex: 1}}>
                                   <TouchableOpacity
+                                    disabled={
+                                      user_id == item.user ? true : false
+                                    }
                                     onPress={() => {
-                                      item.user_role == 'STUDENTS' &&
-                                        props.navigation.navigate(
-                                          'UsersProfile',
-                                          {
-                                            item: items,
-                                          },
-                                        );
+                                      item.user_role == 'EIREPRESENTATIVE'
+                                        ? props.navigation.navigate(
+                                            'SchoolProfile',
+                                            {
+                                              item: {user_id: item.user},
+                                            },
+                                          )
+                                        : item.user_id != user_id
+                                        ? props.navigation.navigate(
+                                            'UsersProfile',
+                                            {
+                                              item: {user_id: item.user},
+                                            },
+                                          )
+                                        : {};
                                     }}>
                                     <Text style={{fontWeight: 'bold', flex: 1}}>
                                       {item.comment_username}

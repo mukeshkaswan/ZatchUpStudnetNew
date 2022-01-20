@@ -689,7 +689,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     itemWidth={ITEM_WIDTH}
                     onSnapToItem={index => setIndex(index)}
                   />
-                  <Pagination
+                  {/* <Pagination
                     dotsLength={postDetails.post_gallery.length}
                     activeDotIndex={index}
                     carouselRef={isCarousel}
@@ -707,7 +707,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     }}
                     inactiveDotOpacity={0.4}
                     inactiveDotScale={0.6}
-                  />
+                  /> */}
                 </>
               )}
             </View>
@@ -715,7 +715,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               <TouchableOpacity
                 style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => {
-                  props.navigation.navigate('ProfileScreen');
+                  postDetails.user_role == 'EIREPRESENTATIVE'
+                    ? props.navigation.navigate('SchoolProfile', {
+                        item: {user_id: postDetails.user_id},
+                      })
+                    : postDetails.user_id != 'userid'
+                    ? props.navigation.navigate('UsersProfile', {
+                        item: {user_id: postDetails.user_id},
+                      })
+                    : props.navigation.navigate('UserProfileScreen', {
+                        item: {user_id: postDetails.user_id},
+                      });
                 }}>
                 <Image
                   source={
@@ -744,7 +754,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               <TouchableOpacity
                 style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => {
-                  props.navigation.navigate('ProfileScreen');
+                  postDetails.user_role == 'EIREPRESENTATIVE'
+                    ? props.navigation.navigate('SchoolProfile', {
+                        item: {user_id: postDetails.user_id},
+                      })
+                    : postDetails.user_id != 'userid'
+                    ? props.navigation.navigate('UsersProfile', {
+                        item: {user_id: postDetails.user_id},
+                      })
+                    : props.navigation.navigate('UserProfileScreen', {
+                        item: {user_id: postDetails.user_id},
+                      });
                 }}>
                 <Image
                   source={
@@ -777,7 +797,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                       }}>
                       <TouchableOpacity
                         onPress={() => {
-                          props.navigation.navigate('ProfileScreen');
+                          item.user_role == 'EIREPRESENTATIVE'
+                            ? props.navigation.navigate('SchoolProfile', {
+                                item: {user_id: item.user},
+                              })
+                            : item.user != 'userid'
+                            ? props.navigation.navigate('UsersProfile', {
+                                item: {user_id: item.user},
+                              })
+                            : props.navigation.navigate('UserProfileScreen', {
+                                item: {user_id: item.user},
+                              });
                         }}>
                         <Image
                           source={
@@ -796,7 +826,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                       <View style={{marginLeft: 10, flex: 2}}>
                         <TouchableOpacity
                           onPress={() => {
-                            props.navigation.navigate('ProfileScreen');
+                            item.user_role == 'EIREPRESENTATIVE'
+                              ? props.navigation.navigate('SchoolProfile', {
+                                  item: {user_id: item.user},
+                                })
+                              : item.user != 'userid'
+                              ? props.navigation.navigate('UsersProfile', {
+                                  item: {user_id: item.user},
+                                })
+                              : props.navigation.navigate('UserProfileScreen', {
+                                  item: {user_id: item.user},
+                                });
                           }}>
                           <Text style={styles.nametext}>
                             {item.comment_username}
@@ -866,7 +906,26 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               }}>
                               <TouchableOpacity
                                 onPress={() => {
-                                  props.navigation.navigate('ProfileScreen');
+                                  item.user_role == 'EIREPRESENTATIVE'
+                                    ? props.navigation.navigate(
+                                        'SchoolProfile',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : item.user != 'userid'
+                                    ? props.navigation.navigate(
+                                        'UsersProfile',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : props.navigation.navigate(
+                                        'UserProfileScreen',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      );
                                 }}>
                                 <Image
                                   source={
@@ -885,7 +944,26 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               <View style={{marginLeft: 10, flex: 2}}>
                                 <TouchableOpacity
                                   onPress={() => {
-                                    props.navigation.navigate('ProfileScreen');
+                                    item.user_role == 'EIREPRESENTATIVE'
+                                      ? props.navigation.navigate(
+                                          'SchoolProfile',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        )
+                                      : item.user_id != 'userid'
+                                      ? props.navigation.navigate(
+                                          'UsersProfile',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        )
+                                      : props.navigation.navigate(
+                                          'UserProfileScreen',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        );
                                   }}>
                                   <Text style={styles.nametext}>
                                     {item.reply_username}
@@ -985,23 +1063,77 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 paddingVertical: 10,
               }}>
               {postDetails.post_like != null &&
-                postDetails.post_like.length > 0 &&
-                postDetails.post_like_count > 0 &&
-                postDetails.post_like.map((item, index) => {
-                  return (
+                postDetails.post_like.length == 1 &&
+                postDetails.post_like_count > 0 && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
+                        ? props.navigation.navigate('SchoolProfile', {
+                            item: {
+                              user_id:
+                                postDetails.post_like[0].post_like_user_id,
+                            },
+                          })
+                        : postDetails.post_like[0].post_like_user_id != 'userid'
+                        ? props.navigation.navigate('UsersProfile', {
+                            item: {
+                              user_id:
+                                postDetails.post_like[0].post_like_user_id,
+                            },
+                          })
+                        : props.navigation.navigate('UserProfileScreen', {
+                            item: {
+                              user_id:
+                                postDetails.post_like[0].post_like_user_id,
+                            },
+                          });
+                    }}>
                     <Text>
                       Liked by{' '}
                       <Text style={styles.boldtext}>
-                        {item.post_like_username}
+                        {postDetails.post_like[0].post_like_username}
                       </Text>
-                      {index > 0 && (
-                        <Text style={styles.boldtext}>
-                          {'and' + postDetails.post_like.length - 1 + ' Others'}
-                        </Text>
-                      )}
                     </Text>
-                  );
-                })}
+                  </TouchableOpacity>
+                )}
+              {postDetails.post_like != null &&
+                postDetails.post_like.length > 1 &&
+                postDetails.post_like_count > 0 && (
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text>Liked by </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
+                          ? props.navigation.navigate('SchoolProfile', {
+                              item: {
+                                user_id:
+                                  postDetails.post_like[0].post_like_user_id,
+                              },
+                            })
+                          : postDetails.post_like[0].post_like_user_id !=
+                            'userid'
+                          ? props.navigation.navigate('UsersProfile', {
+                              item: {
+                                user_id:
+                                  postDetails.post_like[0].post_like_user_id,
+                              },
+                            })
+                          : props.navigation.navigate('UserProfileScreen', {
+                              item: {
+                                user_id:
+                                  postDetails.post_like[0].post_like_user_id,
+                              },
+                            });
+                      }}>
+                      <Text style={styles.boldtext}>
+                        {postDetails.post_like[0].post_like_username}
+                      </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.boldtext}>
+                      {' and ' + (postDetails.post_like.length - 1) + ' Others'}
+                    </Text>
+                  </View>
+                )}
               <Text style={{fontSize: 12, marginTop: 10}}>
                 {postDetails.post_created_on}
               </Text>

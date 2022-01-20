@@ -148,6 +148,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [username, setuserName] = useState('');
   const [commentValue, setComment] = useState('');
   const [customItem, setCustomItem] = useState('');
+  const [reportId, setReportId] = useState('');
+  const [checkboxValue, setCheckboxValue] = React.useState([
+    {report_option: 'Suspicious or Fake', checked: false},
+
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
+    {
+      report_option: 'Intellectual property infringement or defamation',
+      checked: false,
+    },
+  ]);
   useEffect(() => {
     //getEducationProfile();
     onChangecityname('');
@@ -156,7 +168,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     getStepCountAPi();
     getAuthUserInfoApi();
     getPostDataApi();
-
+    getReportData();
     // getAuthUserInfoApi();
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -299,6 +311,129 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               setuserName(result.full_name),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  /**************************get report data  ********************/
+
+  const getReportData = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      type: 'post',
+      parameter: 'type_of_report',
+    };
+
+    dispatch(
+      userActions.getReportData({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report data',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              let newData = [];
+              for (let i in result.data) {
+                newData.push({...result.data[i], checked: false});
+              }
+
+              console.log('newData==>>', newData);
+
+              setCheckboxValue(newData);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const gotoReportPost = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      post_id: customItem.id,
+      report_id: reportId,
+    };
+
+    dispatch(
+      userActions.reportPost({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report data',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+            }
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -820,6 +955,38 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     );
   };
 
+  const checkboxHandler = (value, index) => {
+    //console.log('value', value);
+    setReportId(value.id);
+    const newValue = checkboxValue.map((checkbox, i) => {
+      if (i !== index)
+        return {
+          ...checkbox,
+          checked: false,
+        };
+      if (i === index) {
+        const item = {
+          ...checkbox,
+          checked: !checkbox.checked,
+        };
+        return item;
+      }
+      return checkbox;
+    });
+    setCheckboxValue(newValue);
+  };
+
+  const gotoReport = () => {
+    console.log(customItem, reportId);
+    if (reportId == '') {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
+    setModalVisible2(!isModalVisible2);
+
+    gotoReportPost();
+  };
+
   return (
     <View style={styles.container}>
       {/* <CustomStatusBar /> */}
@@ -1217,7 +1384,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                           ? props.navigation.navigate('SchoolProfile', {
                               item: items,
                             })
-                          : props.navigation.navigate('UsersProfile', {
+                          : item.user_id != userid
+                          ? props.navigation.navigate('UsersProfile', {
+                              item: items,
+                            })
+                          : props.navigation.navigate('UserProfileScreen', {
                               item: items,
                             });
                       }}>
@@ -1233,19 +1404,25 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                           ? props.navigation.navigate('SchoolProfile', {
                               item: items,
                             })
-                          : props.navigation.navigate('UsersProfile', {
+                          : item.user_id != userid
+                          ? props.navigation.navigate('UsersProfile', {
+                              item: items,
+                            })
+                          : props.navigation.navigate('UserProfileScreen', {
                               item: items,
                             });
                       }}>
-                      {item.post_like != null && item.post_like_count > 0 && (
-                        <Text>
-                          Liked by
-                          <Text style={styles.boldText}>
-                            {' '}
-                            {item.post_like[0].post_like_username}
+                      {item.post_like != null &&
+                        item.post_like.length == 1 &&
+                        item.post_like_count > 0 && (
+                          <Text>
+                            Liked by
+                            <Text style={styles.boldText}>
+                              {' '}
+                              {item.post_like[0].post_like_username}
+                            </Text>
                           </Text>
-                        </Text>
-                      )}
+                        )}
                     </TouchableOpacity>
                   )}
                   {posts != [] &&
@@ -1253,16 +1430,32 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     item.post_like.length >= 2 && (
                       <TouchableOpacity
                         onPress={() => {
-                          props.navigation.navigate('ProfileScreen');
+                          item.post_like[0].user_role == 'EIREPRESENTATIVE'
+                            ? props.navigation.navigate('SchoolProfile', {
+                                item: {
+                                  user_id: item.post_like[0].post_like_user_id,
+                                },
+                              })
+                            : item.post_like[0].post_like_user_id != userid
+                            ? props.navigation.navigate('UsersProfile', {
+                                item: {
+                                  user_id: item.post_like[0].post_like_user_id,
+                                },
+                              })
+                            : props.navigation.navigate('UserProfileScreen', {
+                                item: {
+                                  user_id: item.post_like[0].post_like_user_id,
+                                },
+                              });
                         }}>
                         <Text>
                           Liked by{' '}
                           <Text style={styles.boldText}>
-                            {item.post_like[0].post_like_username}
-                          </Text>{' '}
-                          and
+                            {item.post_like[0].post_like_username + ' '}
+                          </Text>
+                          and{' '}
                           <Text style={styles.boldText}>
-                            {item.post_like.length - 1}Others
+                            {item.post_like.length - 1 + ' Others'}
                           </Text>
                         </Text>
                       </TouchableOpacity>
@@ -1289,13 +1482,20 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                                     ? props.navigation.navigate(
                                         'SchoolProfile',
                                         {
-                                          item: items,
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : item.user_id != userid
+                                    ? props.navigation.navigate(
+                                        'UsersProfile',
+                                        {
+                                          item: {user_id: item.user},
                                         },
                                       )
                                     : props.navigation.navigate(
-                                        'UsersProfile',
+                                        'UserProfileScreen',
                                         {
-                                          item: items,
+                                          item: {user_id: item.user},
                                         },
                                       );
                                 }}>
@@ -1336,8 +1536,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       </Text>
                     </TouchableOpacity>
                   )}
-                  <Text style={{fontSize: 12, marginTop: 10}}>
-                    {item.post_created_on}
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      marginTop: 10,
+                    }}>
+                    {item.post_created_on.toUpperCase()}
                   </Text>
                 </View>
                 {item.commentToggle == true ? (
@@ -1378,14 +1582,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             borderRadius: 5,
             justifyContent: 'center',
           }}>
-          <TouchableOpacity onPress={toggleModal2}>
-            <Text style={styles.btn}>Report</Text>
-          </TouchableOpacity>
-          <View style={styles.mborder}></View>
-          <TouchableOpacity onPress={() => Logout()}>
-            <Text style={styles.btn}>Unfollow</Text>
-          </TouchableOpacity>
-          <View style={styles.mborder}></View>
+          {customItem.user_id != userid && (
+            <>
+              <TouchableOpacity onPress={toggleModal2}>
+                <Text style={styles.btn}>Report</Text>
+              </TouchableOpacity>
+              <View style={styles.mborder}></View>
+              <TouchableOpacity onPress={() => Logout()}>
+                <Text style={styles.btn}>Unfollow</Text>
+              </TouchableOpacity>
+              <View style={styles.mborder}></View>
+            </>
+          )}
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('PostDetailScreen', {item: customItem});
@@ -1425,47 +1633,46 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           <View style={styles.mborder}></View>
           <View style={{paddingHorizontal: 16}}>
             <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
-            <View style={styles.rowContent}>
-              <Text style={styles.reporttext}>Suspicious or Fake</Text>
-              <CustomCheckbox onPress={checkedterm} checked={allSelected} />
-            </View>
-            <View style={styles.rowContent}>
-              <Text style={styles.reporttext}>
-                Harassment or hateful speech
-              </Text>
-              <CustomCheckbox
-                onPress={checkedterm}
-                // checked={allSelected}
-              />
-            </View>
-            <View style={styles.rowContent}>
-              <Text style={styles.reporttext}>Violence or physical harm</Text>
-              <CustomCheckbox
-                onPress={checkedterm}
-                // checked={allSelected}
-              />
-            </View>
-            <View style={styles.rowContent}>
-              <Text style={styles.reporttext}>Adult Content</Text>
-              <CustomCheckbox
-                onPress={checkedterm}
-                //  checked={allSelected}
-              />
-            </View>
-            <View style={styles.rowContent}>
-              <Text style={styles.reporttext}>
-                Intellectual property infringement or defamation
-              </Text>
-              <CustomCheckbox
-                onPress={checkedterm}
-                // checked={allSelected}
-              />
-            </View>
+            {checkboxValue.map((checkbox, i) => (
+              <View key={i} style={styles.rowContent}>
+                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
+                {/* <CustomCheckbox
+                onPress={(value) => checkboxHandler(value, i)}
+                 checked={checkbox.checked}
+              /> */}
+                <TouchableOpacity onPress={() => checkboxHandler(checkbox, i)}>
+                  <View
+                    style={{
+                      // backgroundColor: '#4B2A6A',
+                      height: 22,
+                      width: 22,
+                      borderRadius: 11,
+                      borderColor: '#4B2A6A',
+                      borderWidth: 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    {checkbox.checked && (
+                      <View
+                        style={{
+                          backgroundColor: '#4B2A6A',
+                          height: 12,
+                          width: 12,
+                          borderRadius: 6,
+                        }}></View>
+                    )}
+                  </View>
+                  <View></View>
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
           <View style={styles.mborder}></View>
           <View
             style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
-            <TouchableOpacity style={styles.postbtn}>
+            <TouchableOpacity
+              style={styles.postbtn}
+              onPress={() => gotoReport()}>
               <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
           </View>

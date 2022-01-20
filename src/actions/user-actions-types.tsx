@@ -95,6 +95,15 @@ export const POSTOFUSER = 'POSTOFUSER';
 export const getPostOfUser = createAction(POSTOFUSER);
 export const GETREMINDERS = 'GETREMINDERS';
 export const getReminders = createAction(GETREMINDERS);
+
+// this is report data
+export const GETREPORTDATA = 'GETREPORTDATA';
+export const getReportData = createAction(GETREPORTDATA);
+
+// this is report data
+export const REPORTPOST = 'REPORTPOST';
+export const reportPost = createAction(REPORTPOST);
+
 // this is for Get Add Profile Pic Info success
 export const ADDPROFILEPICINFO = 'ADDPROFILEPICINFO';
 export const getAddProfilePicInfo = createAction(ADDPROFILEPICINFO);

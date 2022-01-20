@@ -98,6 +98,7 @@ const UsersProfile = (props: UserProfileProps) => {
   useEffect(() => {
     getUserProfile(user_id);
     getUserCoverMediaPic(user_id);
+    getReportData();
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -205,6 +206,70 @@ const UsersProfile = (props: UserProfileProps) => {
             console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
           } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const getReportData = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      type: 'user',
+      parameter: 'type_of_user',
+    };
+
+    dispatch(
+      userActions.getReportData({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report data user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              let newData = [];
+              for (let i in result.data) {
+                newData.push({...result.data[i], checked: false});
+              }
+
+              console.log('newData==>>', newData);
+
+              //setCheckboxValue(newData);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -541,7 +606,7 @@ const UsersProfile = (props: UserProfileProps) => {
               }
               resizeMode="stretch"
               style={{width: '100%', height: 100}}>
-              <View
+              {/* <View
                 style={{
                   backgroundColor: 'black',
                   height: 30,
@@ -555,7 +620,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   color="white"
                   style={{margin: 5}}
                 />
-              </View>
+              </View> */}
             </ImageBackground>
 
             <View style={styles.rowContainer}>
@@ -575,7 +640,7 @@ const UsersProfile = (props: UserProfileProps) => {
                       borderRadius: 50,
                     }}
                   />
-                  <Icon
+                  {/* <Icon
                     name={'camera'}
                     size={15}
                     style={{
@@ -585,7 +650,7 @@ const UsersProfile = (props: UserProfileProps) => {
                       bottom: 0,
                       marginRight: 8,
                     }}
-                  />
+                  /> */}
                 </View>
 
                 <View>
@@ -614,9 +679,15 @@ const UsersProfile = (props: UserProfileProps) => {
             <View style={styles.likecontainer}>
               <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
+                  disabled={
+                    userProfile.follow_request_status == 2 &&
+                    userProfile.social_account_status
+                      ? false
+                      : true
+                  }
                   onPress={() => {
                     props.navigation.navigate('FollowersScreen', {
-                      item: {...userProfile, user_id},
+                      item: {...userProfile, user_id, flag: 'user'},
                     });
                   }}>
                   <Text style={styles.boldText}>
@@ -626,6 +697,12 @@ const UsersProfile = (props: UserProfileProps) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
+                  disabled={
+                    userProfile.follow_request_status == 2 &&
+                    userProfile.social_account_status
+                      ? false
+                      : true
+                  }
                   onPress={() => {
                     props.navigation.navigate('FollowingScreen', {
                       item: {...userProfile, user_id},
@@ -688,69 +765,61 @@ const UsersProfile = (props: UserProfileProps) => {
               </View>
             </View>
           </View>
-          {userProfile.educationdetail != null &&
-            userProfile.educationdetail.map((item, index) => {
-              if (item.course_detail != null && item.course_detail.length > 0) {
-                return (
-                  <Card style={styles.cardContent}>
-                    <View style={styles.cardtitlecontent}>
-                      <Text style={styles.cardtitletext}>Education</Text>
-                    </View>
-                    <View style={styles.borderstyle}></View>
-                    <View style={styles.textcontainer}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.Personal_Tv}>
-                          {item.name_of_school}
-                        </Text>
-                        {item.is_active_subscription && (
-                          <Icon
-                            name="check-circle"
-                            size={17}
-                            color="#4E387E"
-                            style={{marginLeft: 5, marginTop: 2}}
-                          />
-                        )}
+          <Card style={styles.cardContent}>
+            {userProfile.educationdetail != null &&
+              userProfile.educationdetail.map((item, index) => {
+                if (
+                  item.course_detail != null &&
+                  item.course_detail.length > 0
+                ) {
+                  return (
+                    <>
+                      {index == 0 && (
+                        <View style={styles.cardtitlecontent}>
+                          <Text style={styles.cardtitletext}>Education</Text>
+                        </View>
+                      )}
+                      <View style={styles.borderstyle}></View>
+                      <View style={styles.textcontainer}>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text style={styles.Personal_Tv}>
+                            {item.name_of_school}
+                          </Text>
+                          {item.is_active_subscription && (
+                            <Icon
+                              name="check-circle"
+                              size={17}
+                              color="#4E387E"
+                              style={{marginLeft: 5, marginTop: 2}}
+                            />
+                          )}
+                        </View>
+                        {item.course_detail.map((item, index) => {
+                          return (
+                            <View style={styles.view_Row}>
+                              <Text style={styles.view_Tv_1}>
+                                {item.course_name}
+                              </Text>
+                              <Text style={styles.view_Tv_2}>
+                                {'(' +
+                                  item.start_year +
+                                  ' - ' +
+                                  item.end_year +
+                                  ')'}
+                              </Text>
+                            </View>
+                          );
+                        })}
                       </View>
-                      {item.course_detail.map((item, index) => {
-                        return (
-                          <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>
-                              {item.course_name}
-                            </Text>
-                            <Text style={styles.view_Tv_2}>
-                              {'(' +
-                                item.start_year +
-                                ' - ' +
-                                item.end_year +
-                                ')'}
-                            </Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </Card>
-                );
-              }
-            })}
+                    </>
+                  );
+                }
+              })}
+          </Card>
           <Card style={styles.cardContent}>
             <View style={styles.cardtitlecontent}>
               <View>
                 <Text style={styles.cardtitletext}>Personal Information</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.changebtn}
-                onPress={() => {
-                  props.navigation.navigate('eKYC');
-                }}>
-                <Text style={{color: 'rgb(70,50,103)'}}>Change Name</Text>
-              </TouchableOpacity>
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('SettingScreen');
-                  }}>
-                  <Image source={images.edit_icon} style={styles.editicon} />
-                </TouchableOpacity>
               </View>
             </View>
 
@@ -793,47 +862,43 @@ const UsersProfile = (props: UserProfileProps) => {
               </View> */}
             </View>
           </Card>
-          {userProfile != '' && !userProfile.social_account_status && (
-            <Card style={styles.cardContent}>
-              <View style={styles.cardtitlecontent}>
-                <Text style={styles.cardtitletext}>Posts</Text>
-                <TouchableOpacity
-                  style={styles.postbtn}
-                  onPress={() => {
-                    props.navigation.navigate('CreatePostScreen');
-                  }}>
-                  <Text style={{color: 'white'}}>Add Posts</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.borderstyle}></View>
-              <View style={styles.tabrowContainer}>
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => active_data('thData')}>
-                    <Icon
-                      name="th"
-                      size={30}
-                      color={data === 'thData' ? '#4B2A6A' : 'grey'}
-                    />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => active_data('Image')}>
-                    <Icon
-                      name="image"
-                      size={30}
-                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                      style={{marginLeft: 80}}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Card>
-          )}
           {userProfile != '' &&
-          !userProfile.social_account_status &&
+            userProfile.follow_request_status == 2 &&
+            userProfile.social_account_status && (
+              <Card style={styles.cardContent}>
+                <View style={styles.cardtitlecontent}>
+                  <Text style={styles.cardtitletext}>Posts</Text>
+                </View>
+                <View style={styles.borderstyle}></View>
+                <View style={styles.tabrowContainer}>
+                  <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => active_data('thData')}>
+                      <Icon
+                        name="th"
+                        size={30}
+                        color={data === 'thData' ? '#4B2A6A' : 'grey'}
+                      />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => active_data('Image')}>
+                      <Icon
+                        name="image"
+                        size={30}
+                        color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                        style={{marginLeft: 80}}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Card>
+            )}
+          {userProfile != '' &&
+          userProfile.follow_request_status == 2 &&
+          userProfile.social_account_status &&
           !(data === 'Image') ? (
             <FlatList
               data={userProfile.social_post}
@@ -858,7 +923,7 @@ const UsersProfile = (props: UserProfileProps) => {
                         itemWidth={ITEM_WIDTH}
                         onSnapToItem={index => setIndex(index)}
                       />
-                      <Pagination
+                      {/* <Pagination
                         dotsLength={len}
                         activeDotIndex={index}
                         carouselRef={isCarousel}
@@ -876,7 +941,7 @@ const UsersProfile = (props: UserProfileProps) => {
                         }}
                         inactiveDotOpacity={0.4}
                         inactiveDotScale={0.6}
-                      />
+                      /> */}
                     </>
                   );
                 } else {
@@ -942,7 +1007,9 @@ const UsersProfile = (props: UserProfileProps) => {
               }}
               //  ItemSeparatorComponent={renderIndicator}
             />
-          ) : userProfile != '' && !userProfile.social_account_status ? (
+          ) : userProfile != '' &&
+            userProfile.follow_request_status == 2 &&
+            userProfile.social_account_status ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item, index}) => {
@@ -988,7 +1055,7 @@ const UsersProfile = (props: UserProfileProps) => {
                           </View>
                         </TouchableOpacity>
                         <TouchableOpacity
-                        // onPress={toggleModal}
+                        //onPress={toggleModal}
                         >
                           <Image
                             source={require('../../../../../assets/images/dot.png')}
@@ -1126,24 +1193,31 @@ const UsersProfile = (props: UserProfileProps) => {
                         item.post_like.length == 1 &&
                         item.post_like[0].post_like_username == 'username' &&
                         item.post_like_count > 0 ? (
-                          <TouchableOpacity
-                            onPress={() => {
-                              props.navigation.navigate('ProfileScreen');
-                            }}>
-                            <Text>
-                              Liked by
-                              <Text style={styles.boldText}> You</Text>
-                            </Text>
-                          </TouchableOpacity>
+                          <Text>
+                            Liked by
+                            <Text style={styles.boldText}> You</Text>
+                          </Text>
                         ) : (
                           <TouchableOpacity
                             onPress={() => {
-                              item.user_role == 'STUDENTS' &&
-                                props.navigation.navigate('UsersProfile', {
-                                  item: items,
-                                });
+                              item.post_like[0].user_role == 'EIREPRESENTATIVE'
+                                ? props.navigation.navigate('SchoolProfile', {
+                                    item: {
+                                      user_id:
+                                        item.post_like[0].post_like_user_id,
+                                    },
+                                  })
+                                : item.post_like[0].post_like_user_id != user_id
+                                ? props.navigation.navigate('UsersProfile', {
+                                    item: {
+                                      user_id:
+                                        item.post_like[0].post_like_user_id,
+                                    },
+                                  })
+                                : {};
                             }}>
                             {item.post_like != null &&
+                              item.post_like.length == 1 &&
                               item.post_like_count > 0 && (
                                 <Text>
                                   Liked by
@@ -1160,19 +1234,32 @@ const UsersProfile = (props: UserProfileProps) => {
                           item.post_like.length >= 2 && (
                             <TouchableOpacity
                               onPress={() => {
-                                item.user_role == 'STUDENTS' &&
-                                  props.navigation.navigate('UsersProfile', {
-                                    item: items,
-                                  });
+                                item.post_like[0].user_role ==
+                                'EIREPRESENTATIVE'
+                                  ? props.navigation.navigate('SchoolProfile', {
+                                      item: {
+                                        user_id:
+                                          item.post_like[0].post_like_user_id,
+                                      },
+                                    })
+                                  : item.post_like[0].post_like_user_id !=
+                                    user_id
+                                  ? props.navigation.navigate('UsersProfile', {
+                                      item: {
+                                        user_id:
+                                          item.post_like[0].post_like_user_id,
+                                      },
+                                    })
+                                  : {};
                               }}>
                               <Text>
                                 Liked by{' '}
                                 <Text style={styles.boldText}>
                                   {item.post_like[0].post_like_username}
                                 </Text>{' '}
-                                and
+                                and{' '}
                                 <Text style={styles.boldText}>
-                                  {item.post_like.length - 1}Others
+                                  {item.post_like.length - 1 + ' '}Others
                                 </Text>
                               </Text>
                             </TouchableOpacity>
@@ -1195,14 +1282,25 @@ const UsersProfile = (props: UserProfileProps) => {
                                   key={item + 'sap' + index}>
                                   <View style={{flexDirection: 'row', flex: 1}}>
                                     <TouchableOpacity
+                                      disabled={
+                                        user_id == item.user ? true : false
+                                      }
                                       onPress={() => {
-                                        item.user_role == 'STUDENTS' &&
-                                          props.navigation.navigate(
-                                            'UsersProfile',
-                                            {
-                                              item: items,
-                                            },
-                                          );
+                                        item.user_role == 'EIREPRESENTATIVE'
+                                          ? props.navigation.navigate(
+                                              'SchoolProfile',
+                                              {
+                                                item: {user_id: item.user},
+                                              },
+                                            )
+                                          : item.user != user_id
+                                          ? props.navigation.navigate(
+                                              'UsersProfile',
+                                              {
+                                                item: {user_id: item.user},
+                                              },
+                                            )
+                                          : {};
                                       }}>
                                       <Text
                                         style={{fontWeight: 'bold', flex: 1}}>
@@ -1247,7 +1345,7 @@ const UsersProfile = (props: UserProfileProps) => {
                           </TouchableOpacity>
                         )}
                         <Text style={{fontSize: 12, marginTop: 10}}>
-                          {item.post_created_on}
+                          {item.post_created_on.toUpperCase()}
                         </Text>
                       </View>
                       {item.commentToggle == true ? (
@@ -1378,7 +1476,7 @@ const UsersProfile = (props: UserProfileProps) => {
           <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
             <Text
               style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-              Are you sure you want to cancel the request ?
+              Are you sure you want to unfollow ?
             </Text>
             {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
               Zatchup won't tell @{userData.following_username} that they have

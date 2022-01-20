@@ -179,13 +179,20 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
   const Item = ({item}) => (
     <TouchableOpacity
       style={styles.item}
+      disabled={
+        item.profile_block || item.notification_type == 'delete' ? true : false
+      }
       onPress={() => {
-        item.user_role == 'EIREPRESENTATIVE'
-          ? props.navigation.navigate('SchoolProfile', {
-              item: item,
-            })
-          : props.navigation.navigate('UsersProfile', {
-              item: item,
+        item.notification_type == 'request'
+          ? item.user_role == 'EIREPRESENTATIVE'
+            ? props.navigation.navigate('SchoolProfile', {
+                item: item,
+              })
+            : props.navigation.navigate('UsersProfile', {
+                item: item,
+              })
+          : props.navigation.navigate('PostDetailScreen', {
+              item,
             });
       }}>
       <Image

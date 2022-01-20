@@ -76,6 +76,8 @@ import {
   FOLLOWUSER,
   GETFOLLOWERS,
   GETFOLLOWING,
+  GETREPORTDATA,
+  REPORTPOST,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1271,6 +1273,74 @@ function* getFollowing({payload: {data, callback}}) {
   }
 }
 
+/*************************get suggestion of get following     **************/
+function* getReportData({payload: {data, callback}}) {
+  console.warn('data in saga Auth User Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/report/masterreportlist/?' +
+      data.parameter +
+      '=' +
+      data.type,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Get report data Result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************report post*******************************/
+
+function* reportPost({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    post_id: data.post_id,
+    report_id: data.report_id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/report/userreportpost/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('report post success', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************change follow request status*******************************/
 
 function* changeFollowRequestStatus({payload: {data, callback}}) {
@@ -1316,6 +1386,9 @@ function* followUser({payload: {data, callback}}) {
     following_user_id: data.following_user_id,
   };
 
+  if (data.hasOwnProperty('follow_user_id')) {
+    params.follow_user_id = data.follow_user_id;
+  }
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -2523,6 +2596,8 @@ function* User() {
     yield takeLatest(GETFOLLOWREQUEST, getFollowRequest),
     yield takeLatest(GETFOLLOWERS, getFollowers),
     yield takeLatest(GETFOLLOWING, getFollowing),
+    yield takeLatest(GETREPORTDATA, getReportData),
+    yield takeLatest(REPORTPOST, reportPost),
     yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
   ]);
 }

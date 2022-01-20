@@ -191,15 +191,15 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
         }}>
         <Image
           source={
-            item.following_request_user_profile_pic != null
-              ? {uri: item.following_request_user_profile_pic}
+            item.follow_request_user_profile_pic != null
+              ? {uri: item.follow_request_user_profile_pic}
               : require('../../../../../assets/images/pic.jpeg')
           }
           style={styles.profileImg}
         />
         <View style={styles.childContainer}>
           <View>
-            <Text style={styles.name}>{item.following_username}</Text>
+            <Text style={styles.name}>{item.follow_username}</Text>
             <Text style={{fontSize: 13}}>Suggested for you</Text>
           </View>
           <View style={{flexDirection: 'row'}}>

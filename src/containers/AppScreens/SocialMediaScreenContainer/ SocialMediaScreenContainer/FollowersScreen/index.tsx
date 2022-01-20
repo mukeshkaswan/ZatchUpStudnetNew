@@ -123,7 +123,7 @@ interface NotificationsScreenProps {
 }
 const FollowersScreen = (props: NotificationsScreenProps) => {
   const {
-    item: {user_id},
+    item: {user_id, flag},
   } = props.route.params;
   console.log('schoolDetail=====>>', props.route);
   const isFocused = useIsFocused();
@@ -293,6 +293,56 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
     );
   };
 
+  const gotoRemoveItem = async item => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      follow_status: 0,
+      following_user_id: item.following_user_id,
+      follow_user_id: item.follow_user_id,
+    };
+
+    dispatch(
+      userActions.followUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result follow user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              getFollowers(user_id);
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const toggleModal = () => {
     console.log('hey');
     setModalVisible(!isModalVisible);
@@ -307,7 +357,12 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
   const gotoRemove = () => {
     console.log(userData);
     setModalVisible(!isModalVisible);
-    gotoFollow(userData);
+    if (userData.flag != 'remove') {
+      gotoFollow(userData);
+    } else {
+      console.log('hey');
+      gotoRemoveItem(userData);
+    }
   };
 
   const renderIndicator = () => {
@@ -370,48 +425,65 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   </Text> */}
                 </View>
               </View>
-              <View style={styles.Title_view}>
-                {item.social_account_status == 0 ? (
+              {flag != 'self' ? (
+                <View style={styles.Title_view}>
+                  {item.social_account_status == 0 ? (
+                    <TouchableOpacity
+                      style={styles.removebtn}
+                      onPress={() => gotoFollow(item)}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Follow
+                      </Text>
+                    </TouchableOpacity>
+                  ) : item.social_account_status == 1 ? (
+                    <TouchableOpacity
+                      style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
+                      onPress={toggleModalItem({...item, flag: 'requested'})}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Requested
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[styles.removebtn, {backgroundColor: '#28a745'}]}
+                      onPress={toggleModalItem({...item, flag: 'following'})}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Following
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              ) : (
+                <View style={styles.Title_view}>
                   <TouchableOpacity
                     style={styles.removebtn}
-                    onPress={() => gotoFollow(item)}>
+                    onPress={toggleModalItem({...item, flag: 'remove'})}>
                     <Text
                       style={{
                         color: 'white',
                         fontSize: hp(1.8),
                         fontWeight: 'bold',
                       }}>
-                      Follow
+                      Remove
                     </Text>
                   </TouchableOpacity>
-                ) : item.social_account_status == 1 ? (
-                  <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
-                    onPress={toggleModalItem(item)}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Requested
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#28a745'}]}
-                    onPress={toggleModalItem(item)}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Following
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
+                </View>
+              )}
             </CardView>
           )}
           //  ItemSeparatorComponent={renderIndicator}
