@@ -11,6 +11,7 @@ import {
   Dimensions,
   ScrollView,
   Alert,
+  Linking
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -82,6 +83,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const [date_copy, setDate_Copy] = useState('');
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const URL = "http://staging.zatchup.com/zatchup/#/user/terms-conditions/user/view?pageName=tc"
 
   const renderIndicator = () => {
     return (
@@ -350,7 +352,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                   }
 
                   if (error.code === 'auth/invalid-email') {
-                    
+
                   }
 
                   console.error(error);
@@ -382,6 +384,12 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       );
     }
   };
+
+
+  const termurl = () => {
+    Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
+
+  }
   return (
     <View style={styles.container}>
       <CustomStatusBar />
@@ -396,7 +404,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           <Text style={styles.signupText1}>Sign Up</Text>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView >
         <View style={styles.inputContainer}>
           <View style={[styles.firstnameContainer, styles.inputmarginBottom]}>
             <View style={{ flex: 1, marginRight: '2%' }}>
@@ -515,7 +523,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             </View>
           </View>
 
-          {customgenderView && (
+          {Custom && (
             <View style={{}}>
               <View
                 style={{
@@ -600,15 +608,9 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             />
           </View>
         </View>
-        <View style={{ margin: 0, padding: 0 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <CheckBox
-            title={
-              <Text style={styles.agreetext}>
-                {' '}
-                I agree with{' '}
-                <Text style={styles.termText}>Terms & Conditions</Text>
-              </Text>
-            }
+
             checkedIcon={
               <Image source={Images.checkbox_select} style={styles.checkbox} />
             }
@@ -629,8 +631,32 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             onPress={checkedterm}
           // onPress={() => setCount(count + 1)}
           />
+          {/* <TouchableOpacity
+            onPress={termurl}>
+
+            <Text style={styles.agreetext}>
+              {' '}
+              I agree with{' '}
+              <Text style={styles.termText}>Terms & Conditions</Text>
+            </Text>
+
+            
+          </TouchableOpacity> */}
+
+
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.agreetext}>
+              {' '}
+              I agree with{' '}
+            </Text>
+            <TouchableOpacity onPress={termurl} >
+              <Text style={styles.termText}>Terms & Conditions</Text>
+            </TouchableOpacity>
+
+          </View>
+
         </View>
-        <View style={{ padding: '5%' }}>
+        <View style={{ padding: '5%', marginBottom: '5%' }}>
           <CustomButton
             title={'Sign Up'}
             onPress={onPressSignup}

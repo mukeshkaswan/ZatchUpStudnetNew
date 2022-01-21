@@ -1465,7 +1465,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false
+                              i.is_current_course == false && i.standard_detail != null && i.standard_detail.length > 0
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1486,9 +1486,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       school_id: item.ei_detail.id,
                                       course_id: i.course_id,
                                       nameofschool:
-                                      item.ei_detail.name_of_school,
+                                        item.ei_detail.name_of_school,
                                       school_zatchup_id:
-                                      item.ei_detail.school_code,
+                                        item.ei_detail.school_code,
                                       course_name: i.course_name,
                                       description: i.description,
                                       roll_no: i.roll_no,

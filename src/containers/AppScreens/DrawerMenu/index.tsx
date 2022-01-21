@@ -136,8 +136,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
               <Image
                 source={{uri: profilepic}}
                 style={{
-                  height: '100%',
-                  width: '100%',
+                  height: 100,
+                  width: 100,
                   resizeMode: 'cover',
                   borderRadius: 45,
                 }}
@@ -204,13 +204,19 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('ResetPassword');
-            }}>
+            }}
+            style={{
+              flexDirection: 'row',
+               marginTop: 140,
+             
+            }}
+            >
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 margin: 5,
-                marginTop: 140,
+               
                 marginLeft: 15,
               }}>
               <Image

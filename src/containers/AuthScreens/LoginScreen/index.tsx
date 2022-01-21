@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -7,17 +7,18 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   Alert,
+  TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
   CustomStatusBar,
   Validate,
 } from '../../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
@@ -60,7 +61,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -85,7 +86,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
     var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
     const emailError = Validate(key, email);
-    const passwordError = Validate('password', password);
+    const passwordError = Validate('password_', password);
 
     if (emailError || passwordError) {
       Toast.show(emailError || passwordError, Toast.SHORT);
@@ -102,7 +103,7 @@ const LoginScreen = (props: LoginScreenProps) => {
       dispatch(
         userActions.emailLogin({
           data,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === 'True') {
 
               // console.warn(
@@ -113,33 +114,33 @@ const LoginScreen = (props: LoginScreenProps) => {
 
 
               auth()
-              .signInWithEmailAndPassword(
-                result.firebase_username + '@zatchup.com',
-                password,
-              )
-              .then(({user}) => {
-                setLoading(false);
+                .signInWithEmailAndPassword(
+                  result.firebase_username + '@zatchup.com',
+                  password,
+                )
+                .then(({ user }) => {
+                  setLoading(false);
 
-                console.log('FirebaseUSerLogin===>>>', user);
-                props.navigation.navigate('OtpLogin', {
-                  firebase_id: user._user.uid,
-                  username: email,
-                  firebase:  user._user.uid,
+                  console.log('FirebaseUSerLogin===>>>', user);
+                  props.navigation.navigate('OtpLogin', {
+                    firebase_id: user._user.uid,
+                    username: email,
+                    firebase: user._user.uid,
+                  });
+
+                })
+
+                .catch((error) => {
+                  setLoading(false);
+
+                  if (error.code === 'auth/email-already-in-use') {
+                  }
+
+                  if (error.code === 'auth/invalid-email') {
+                  }
+
+                  console.error(error);
                 });
-               
-              })
-              
-              .catch((error) => {
-                setLoading(false);
-
-                if (error.code === 'auth/email-already-in-use') {
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                }
-
-                console.error(error);
-              });
               //return;
               props.navigation.navigate('OtpLogin', {
                 firebase_id: result.firebase_username,
@@ -165,7 +166,7 @@ const LoginScreen = (props: LoginScreenProps) => {
       <CustomStatusBar />
       {isLoading && renderIndicator()}
 
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <View style={styles.logoContainer}>
           <Image style={styles.logo} source={Images.logo} />
         </View>
@@ -200,18 +201,26 @@ const LoginScreen = (props: LoginScreenProps) => {
               <CustomButton
                 title={'Sign In'}
                 onPress={onPressLogin}
-                //onPress={() => props.navigation.navigate('Home')}
+              //onPress={() => props.navigation.navigate('Home')}
               />
             </View>
           </KeyboardAvoidingView>
 
-          <View style={styles.forgotPassword}>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 50, marginRight: 50
+            }}
+            onPress={() => props.navigation.navigate('ForgotPassword')}>
             <Text
               style={styles.forgotPasswordText}
-              onPress={() => props.navigation.navigate('ForgotPassword')}>
+            >
               Forgot Password ?
             </Text>
-          </View>
+
+          </TouchableOpacity>
+
         </View>
 
         <View style={styles.bottomText}>

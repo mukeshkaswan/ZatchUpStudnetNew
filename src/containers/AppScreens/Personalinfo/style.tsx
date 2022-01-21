@@ -12,7 +12,9 @@ const styles = ScaledSheet.create({
 
     logoContainer: {
         alignItems: 'center',
-        marginTop: '15%',
+        marginTop: '10%',
+        marginRight:50,
+        marginLeft:50
     },
     logo: {
         width: Dimensions.get('window').width * 0.4,

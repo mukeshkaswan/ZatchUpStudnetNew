@@ -682,10 +682,19 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const onPressModalSubmit = async () => {
 
-    if (cityname == '') {
+    const citynameError = Validate('cityname', cityname);
 
-      setModalVisible(!isModalVisible);
+    if (
+      citynameError
 
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        citynameError,
+        Toast.SHORT,
+      );
+
+      return false;
     } else {
 
       var token = '';

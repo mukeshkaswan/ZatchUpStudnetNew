@@ -171,6 +171,9 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
               .then(({user}) => {
                // console.log('User==>>', user, oldPassword);
                 auth().currentUser.updatePassword(newPassword);
+                setoldPassword('');
+                setnewPassword('');
+                setconfirmPassword('');
               
               })
               .catch((error) => {

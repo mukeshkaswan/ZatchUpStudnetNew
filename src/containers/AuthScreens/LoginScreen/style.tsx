@@ -33,10 +33,11 @@ const styles = ScaledSheet.create({
     forgotPasswordText: {
        // fontFamily: 'Lato-Medium',
         fontSize: hp(2.3),
-        textAlign: 'center',
-        fontStyle: 'italic',
-        marginTop: '10%',
-        width: '100%',
+      //  textAlign: 'center',
+      //  fontStyle: 'italic',
+      
+        marginTop: 30,
+       // width: '100%',
 
     },
     dontAccountText: {

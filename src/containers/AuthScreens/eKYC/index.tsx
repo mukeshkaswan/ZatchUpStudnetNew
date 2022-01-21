@@ -80,6 +80,8 @@ const eKyc = (props: eKycScreenProps) => {
 
   useEffect(() => {
     getData();
+    getAuthUserInfoApi();
+
     //getStepCountAPi()
     // getUserKYC();
     // getAuthUserInfoApi();
@@ -117,7 +119,7 @@ const eKyc = (props: eKycScreenProps) => {
 
       if (username !== null) {
         // value previously stored
-        setName(username.split(/\s/).join(''));
+        // setName(username.split(/\s/).join(''));
       }
       if (dob !== null) {
         // value previously stored
@@ -300,6 +302,8 @@ const eKyc = (props: eKycScreenProps) => {
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
+            setName(result.full_name);
+
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -551,12 +555,12 @@ const eKyc = (props: eKycScreenProps) => {
     // props.navigation.navigate('eKycSuccess', {
     //   username: 'jfdsfsdlfjs',
     // });
-    if (props.route.params.hasOwnProperty('signup') && props.route.params.signup == 'signup' ) {
+    if (props.route.params.hasOwnProperty('signup') && props.route.params.signup == 'signup') {
       props.navigation.navigate('eKycSuccess', {
         username: 'jfdsfsdlfjs',
       });
     }
-    else   {
+    else {
       if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 1) {
         props.navigation.navigate('eKycSuccess', {
           username: 'jfdsfsdlfjs',
@@ -636,7 +640,7 @@ const eKyc = (props: eKycScreenProps) => {
                   <TouchableOpacity
                     onPress={() => getImageFrontCamera()}
                     style={{
-                     // height: 50,
+                      // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -648,7 +652,7 @@ const eKyc = (props: eKycScreenProps) => {
                   <TouchableOpacity
                     onPress={() => getImageFrontGallery()}
                     style={{
-                     // height: 50,
+                      // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -659,7 +663,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.close()}
-                    style={{ padding: 15, backgroundColor: '#4B2A6A'}}>
+                    style={{ padding: 15, backgroundColor: '#4B2A6A' }}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>
@@ -690,12 +694,12 @@ const eKyc = (props: eKycScreenProps) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                     //alignItems: 'stretch',
-                   // marginTop: 10,
+                    // marginTop: 10,
                   }}>
                   <TouchableOpacity
                     onPress={() => getImageBackCamera()}
                     style={{
-                     // height: 50,
+                      // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -707,7 +711,7 @@ const eKyc = (props: eKycScreenProps) => {
                   <TouchableOpacity
                     onPress={() => getImageBackGallery()}
                     style={{
-                     // height: 50,
+                      // height: 50,
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
@@ -718,7 +722,7 @@ const eKyc = (props: eKycScreenProps) => {
 
                   <TouchableOpacity
                     onPress={() => refRBSheetBack.current.close()}
-                    style={{  padding: 15, backgroundColor: '#4B2A6A' }}>
+                    style={{ padding: 15, backgroundColor: '#4B2A6A' }}>
                     <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                       {'Cancel'}
                     </Text>

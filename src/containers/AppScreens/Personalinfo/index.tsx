@@ -455,24 +455,24 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                         flexDirection: 'column',
                         alignContent: 'space-around',
                         //alignItems: 'stretch',
-                        marginTop: 10
+                        //marginTop: 10
                     }}>
 
                         <TouchableOpacity
                             onPress={() => OpenCamera()}
-                            style={{ height: 50, padding: 15, backgroundColor: '#FFFFFF' }} >
+                            style={{  padding: 15, backgroundColor: '#FFFFFF' }} >
                             <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => getImage()}
-                            style={{ height: 50, padding: 15, backgroundColor: '#FFFFFF' }} >
+                            style={{  padding: 15, backgroundColor: '#FFFFFF' }} >
                             <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => refRBSheet.current.close()}
-                            style={{ height: 50, padding: 15, backgroundColor:'#4B2A6A'}} >
+                            style={{padding: 15, backgroundColor:'#4B2A6A'}} >
                             <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
                         </TouchableOpacity>
 
@@ -481,15 +481,17 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
                 <View style={{ flex: 1 }}>
-                    <TouchableOpacity onPress={() => refRBSheet.current.open()}
+                    <TouchableOpacity 
+                    onPress={() => refRBSheet.current.open()}
                     //onPress={getImage}
+                    style={styles.logoContainer}
                     >
 
-                        <View style={styles.logoContainer}>
+                        <View >
 
                             {frontimage == '' ? <Image style={{
-                                width: 150,
-                                height: 150,
+                                width: 140,
+                                height: 140,
                                 borderRadius: 150 / 2,
                                 overflow: "hidden",
                                 borderWidth: 3,
@@ -499,8 +501,8 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                                 //  source={{ uri: frontimage }}
                                 source={Images.crete_camera}
                             /> : <Image style={{
-                                width: 150,
-                                height: 150,
+                                width: 140,
+                                height: 140,
                                 borderRadius: 150 / 2,
                                 overflow: "hidden",
                                 borderWidth: 3,

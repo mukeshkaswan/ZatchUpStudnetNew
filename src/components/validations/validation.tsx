@@ -2,7 +2,7 @@
 const validation = {
   mobile: {
     presence: {
-      message: 'Please enter mobile number or email id',
+      message: 'Please enter a valid email or phone number',
     },
     format: {
       pattern: /^[0-9]{10,10}$/,
@@ -11,7 +11,7 @@ const validation = {
   },
   email: {
     presence: {
-      message: 'Please enter mobile number or email id',
+      message: 'Please enter a valid email or phone number',
     },
     format: {
       pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/,
@@ -224,6 +224,19 @@ const validation = {
     },
   },
 
+  coursekey_: {
+    presence: {
+      message: 'Please select Course Type',
+    },
+  },
+
+  cityname: {
+    presence: {
+      message: 'Please Add City',
+    },
+  },
+  
+
   joiningstandardkey: {
     presence: {
       message: 'Please select your joining standard',
@@ -376,6 +389,12 @@ const validation = {
       maximum: 12,
       message: 'Your password must be between 8 and 12 characters',
     },
+  },
+
+  password_: {
+    presence: {
+      message: 'Please enter a valid password',
+    }
   },
   new_password: {
     presence: {

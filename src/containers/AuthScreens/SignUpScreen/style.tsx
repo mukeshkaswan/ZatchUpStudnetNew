@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {ScaledSheet} from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters';
 import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions } from 'react-native';
 import { Images } from '../../../components/index';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import OtpInputs from 'react-native-otp-inputs';
-import { TextField, CustomButton, CustomStatusBar, BackBtn,Colors } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, BackBtn, Colors } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 const styles = ScaledSheet.create({
     container: {
@@ -12,7 +12,7 @@ const styles = ScaledSheet.create({
         backgroundColor: Colors.$backgroundColor,
     },
     signupConatiner: {
-        flexDirection: 'row',  marginTop: '5%',width:'100%'
+        flexDirection: 'row', marginTop: '5%', width: '100%'
     },
     backbtnCss: {
         width: '12%',
@@ -20,13 +20,13 @@ const styles = ScaledSheet.create({
     },
     signupTextq: {
         width: '75%',
-       // justifyContent: 'center', alignContent: 'center', alignItems: 'center',
-        
+        // justifyContent: 'center', alignContent: 'center', alignItems: 'center',
+
 
     },
-    inputmarginBottom:{
-        marginBottom:'5%',
-      },
+    inputmarginBottom: {
+        marginBottom: '5%',
+    },
     signupText1: {
         textAlign: 'center',
         fontFamily: 'Lato-Semibold',
@@ -55,8 +55,8 @@ const styles = ScaledSheet.create({
     inputContainer: {
         padding: '5%',
         flex: 1,
-        marginTop: '5%',
-        
+        marginTop: '1%',
+
     },
     firstnameContainer: {
         flexDirection: 'row',
@@ -93,17 +93,23 @@ const styles = ScaledSheet.create({
 
     },
     checkbox: {
-      //  width: Dimensions.get('window').width * 0.1,
-      //  height: Dimensions.get('window').width * 0.1,
-         width: 25,
-         height: 25,
+        //  width: Dimensions.get('window').width * 0.1,
+        //  height: Dimensions.get('window').width * 0.1,
+        width: 20,
+        height: 20,
         resizeMode: 'contain',
     },
     agreetext: {
-        fontFamily: 'Lato-Regular', color: 'rgb(51,51,51)', fontSize: hp(2.4)
-    }, 
-    termText:{
-        fontFamily:'Lato-Semibold',fontSize:hp(2.4),color:'rgb(70,50,103)', textDecorationLine: 'underline',textDecorationColor:'rgb(70,50,103)'
+        fontFamily: 'Lato-Regular', color: 'rgb(51,51,51)', fontSize: hp(2.0)
+    },
+    termText: {
+        fontFamily: 'Lato-Semibold',
+        fontSize: hp(2.0),
+        color: 'rgb(70,50,103)',
+        textDecorationLine: 'underline',
+        textDecorationColor: 'rgb(70,50,103)',
+
+
     },
 });
 

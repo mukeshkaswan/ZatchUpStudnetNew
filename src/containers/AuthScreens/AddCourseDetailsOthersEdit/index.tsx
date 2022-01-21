@@ -282,7 +282,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const CourseAdded = async () => {
     var dobErrorend: any
     const coursenameError = Validate('coursename', Course);
-    const courseError = Validate('coursekey', Course_Selected);
+    const courseError = Validate('coursekey_', Course_Selected);
     const dobError = Validate('startdate', date_copy);
     if (value == 'Alumni') {
       dobErrorend = Validate('enddate', date_copy1);
