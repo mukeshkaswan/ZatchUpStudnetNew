@@ -1,4 +1,4 @@
-import React, { Component, FC, useState, useEffect } from 'react';
+import React, { Component, FC, useState, useEffect, useRef } from 'react';
 import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput, Dimensions } from 'react-native';
 import styles from './style.tsx';
 import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
@@ -51,6 +51,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   const [play, setPlay] = useState('');
   const [standard, setStandard] = useState('');
 
+  const ref = useRef();
 
 
 
@@ -87,7 +88,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
     setPlay(results.lecture);
 
 
-    
+
 
   };
 
@@ -218,16 +219,21 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Play : </Text>
             <Text style={styles.coursetext1}>AAA003348</Text>
           </View>
-          <View style={{ paddingHorizontal: 10, alignSelf: 'center', width: '100%' }}>
             <Video
-             // style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
-              video={{ uri: play }}
-             // url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
+              ref={ref}
 
-              videoWidth={width - 10}
-             // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
+              // style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
+              //video={{ uri: play }}
+              url={{ uri: play }}
+              resizeMode="contain"
+              showDuration
+              // url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
+
+             // videoWidth={width - 10}
+              rotateToFullScreen={true}
+              lockRatio={16 / 9}
+            // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
             />
-          </View>
 
         </View>
       </ScrollView>

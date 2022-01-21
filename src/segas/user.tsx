@@ -68,7 +68,11 @@ import {
   PENDINGUSERCHANGEDETAILLIST,
   DELETEPENDINGUSERREQUEST,
   UPLOADEKYCFORDETAILCHANGE,
-  USERPENDINGCOURSELISTOFUSER
+  USERPENDINGCOURSELISTOFUSER,
+  USERDELETEPENDINGCOURSEDETAIL,
+  USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID,
+  USERCOURSEDELETEBEFORECONFORMATION,
+  USERCOURSECONFIRM
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2200,6 +2204,152 @@ function* getPendingCourseListOfUser({ payload: { data, callback } }) {
     }
   }
 }
+
+
+/***************************User delete pending course detail Auth Segas*******************************/
+
+function* getUserdeletependingcoursedetail({ payload: { data, callback } }) {
+  console.warn('data in saga Delete pending Course', data);
+
+
+  const datakey = {
+    course_id: data.course_id,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/delete-pending-course-detail/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User change course standard detail by student by id Auth Segas*******************************/
+
+function* getUserchangecoursestandarddetailbystudentbyid({ payload: { data, callback } }) {
+  
+  console.warn('data in saga change course standard detail', data);
+
+
+  const datakey = {
+    course_id: data.course_id,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/change-course-standard-detail-by-student-by-id/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Delete Course Result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Course Delete Befor Conformation Auth Segas*******************************/
+
+function* getUserCourseDeleteBeforConformation({ payload: { data, callback } }) {
+
+  console.warn('data in saga Get User Course Delete Befor Conformation', data);
+const datakey = {
+    course_id: data.course_id,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/user-course-delete-beforeconformation/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('Get User Course Delete Not Confirm', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User Course Confirmation - 2 Step Auth Segas*******************************/
+
+function* getUserCourseConfirm({ payload: { data, callback } }) {
+
+  const datakey = {
+    school_id: data.school_id,
+    existing_course:data.existing_course,
+   // before_exist: data.course_id,
+   // course_id: data.course_id,
+
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    data: datakey,
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/user-course-conformation/`,
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -2268,8 +2418,17 @@ function* User() {
     yield takeLatest(DELETEPENDINGUSERREQUEST, getDeletePendingUserRequest),
     yield takeLatest(UPLOADEKYCFORDETAILCHANGE, getUploadekycfordetailchnage),
     yield takeLatest(USERPENDINGCOURSELISTOFUSER, getPendingCourseListOfUser),
+    yield takeLatest(USERDELETEPENDINGCOURSEDETAIL, getUserdeletependingcoursedetail),
+    yield takeLatest(USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID, getUserchangecoursestandarddetailbystudentbyid),
+    yield takeLatest(USERCOURSEDELETEBEFORECONFORMATION, getUserCourseDeleteBeforConformation),
+    yield takeLatest(USERCOURSECONFIRM, getUserCourseConfirm),
 
     
+    
+    
+
+
+
   ]);
 }
 

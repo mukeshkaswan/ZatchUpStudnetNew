@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
-//import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation-locker';
 
 const {
   width, height
@@ -98,18 +98,18 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
   }
 
 
-  // const onFullScreen = () => {
-  //   if (!isFullScreen) {
-  //     Orientation.lockToLandscape();
-  //   } else {
-  //     if (Platform.OS === 'ios') {
-  //       Orientation.lockToPortrait();
-  //     }
-  //     Orientation.lockToPortrait();
-  //   }
-  //   setFullscreen(!isFullScreen);
-  //   // this.setState({isFullScreen: !this.state.isFullScreen});
-  // };
+  const onFullScreen = () => {
+    if (!isFullScreen) {
+      Orientation.lockToLandscape();
+    } else {
+      if (Platform.OS === 'ios') {
+        Orientation.lockToPortrait();
+      }
+      Orientation.lockToPortrait();
+    }
+    setFullscreen(!isFullScreen);
+    // this.setState({isFullScreen: !this.state.isFullScreen});
+  };
   const getData = async (results) => {
     results.map((element: any) => {
       setCoursepreview(element.course_preview);
@@ -254,6 +254,8 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
          // controls={true}
           resizeMode="contain"
           showDuration
+          rotateToFullScreen={true}
+          lockRatio={16 / 9}
         />
 
         <View style={{ paddingHorizontal: 10, marginTop: 10, }}>

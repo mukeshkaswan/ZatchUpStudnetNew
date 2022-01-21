@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.corbt.keepawake.KCKeepAwakePackage;
+import org.wonday.orientation.OrientationPackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
@@ -50,6 +52,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
+            new KCKeepAwakePackage(),
+            new OrientationPackage(),
             new ReactNativeFirebaseFirestorePackage(),
             new RNCWebViewPackage(),
             new ClipboardPackage(),
@@ -69,6 +73,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new ReactNativeFirebaseAppPackage(),
              new ReactNativeFirebaseAuthPackage(),
                       new LinearGradientPackage()
+
                       //new SplashScreenReactPackage()  //here
               );
           }

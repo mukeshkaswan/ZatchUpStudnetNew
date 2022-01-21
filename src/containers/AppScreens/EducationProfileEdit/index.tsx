@@ -143,7 +143,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
     React.useEffect(() => {
 
-       // console.log('this is the recived props--->', props.route.params)
+        // console.log('this is the recived props--->', props.route.params)
         //   setCourseKey(props.route.params.course_name)
 
         getCourseListData(props.route.params.school_id, props.route.params.course_id)
@@ -370,7 +370,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
             let rawdata = {
 
-                //   "admission_no": SchoolID,
+                "admission_no": null,
                 "class_id": classidparm,
                 "comment": Des,
                 "course_end_year": null,
@@ -388,7 +388,13 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 "standard_start_year": null,
                 "existing_course_id": props.route.params.course_id,
                 "description": Des,
-                "join_start_year": date_copy
+                "join_start_year": date_copy,
+                "course_in_school": true,
+                "school_onboarded": true,
+                "course_type": "Regular",
+                "left_standard_id": standardidparm,
+                "course_name": null,
+
             }
 
             let token = '';
@@ -421,7 +427,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             //     JSON.stringify(result.status, undefined, 2),
                             //     //submit(result.data)
                             // );
-                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, })
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool })
 
                             // setSpinnerStart(false);
                             setLoading(false);
@@ -657,7 +663,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                         //     'after result',
                         //     JSON.stringify(result, undefined, 2),
 
-                            
+
 
                         //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
                         // );

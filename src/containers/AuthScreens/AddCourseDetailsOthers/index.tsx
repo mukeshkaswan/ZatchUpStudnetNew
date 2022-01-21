@@ -169,6 +169,25 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     return true;
   }
 
+  const submit = async () => {
+
+    if(props.route.params.is_onboarded == '0'){
+      props.navigation.navigate('EIconfirmation', {
+        'otherscourse':'otherscourse'
+      })
+    }
+    else{
+      props.navigation.navigate('AddMoreCourseDetailsOthers', {
+        school_id: props.route.params.school_id,
+      })
+    }
+
+
+  
+
+  }
+
+
   const CourseAdded = async () => {
     var dobErrorend: any
     const coursenameError = Validate('coursename', Course);
@@ -237,10 +256,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
               console.warn(
                 'after Add Course result',
                 JSON.stringify(result.status, undefined, 2),
-                //submit(result.data)
-                props.navigation.navigate('AddMoreCourseDetailsOthers', {
-                  school_id: props.route.params.school_id,
-                }),
+                submit(),
+               
                 setCourse(''),
                 setDes(''),
                 setDate_Copy(''),

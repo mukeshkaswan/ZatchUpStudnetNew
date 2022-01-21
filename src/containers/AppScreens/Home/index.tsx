@@ -998,7 +998,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.pending}
                         />
-                        
+
                       </TouchableOpacity> : null}
 
                       {kyc_approved == '1' && i.firebase_id != null ? <TouchableOpacity
@@ -1108,10 +1108,10 @@ const HomeScreen = (props: HomeScreenProps) => {
                         {i.name_of_school}
                       </Text>
                     </View>
-                   {i.school_code != null ? <View style={styles.view_Row}>
+                    {i.school_code != null ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
                       <Text style={styles.view_Tv_2}>{i.school_code}</Text>
-                    </View>:null}
+                    </View> : null}
 
                     <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>State :</Text>
@@ -1122,14 +1122,14 @@ const HomeScreen = (props: HomeScreenProps) => {
                       <Text style={styles.view_Tv_2}>{i.city}</Text>
                     </View>
 
-                  {i.is_onboard == true ?   <View style={styles.view_Row}>
+                    {i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>School Address :</Text>
                       <Text style={styles.view_Tv_2}>
                         {i.address1 + ' ' + i.address2}
                       </Text>
-                    </View>:null}
+                    </View> : null}
 
-                    {i.admission_number != null &&  i.is_onboard == true ? <View style={styles.view_Row}>
+                    {i.admission_number != null && i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
                         School Admission Number :
                       </Text>
@@ -1141,7 +1141,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       </TouchableOpacity>
 
 
-                    </View> : i.admission_number == null &&  i.is_onboard == true ? <View style={styles.view_Row}>
+                    </View> : i.admission_number == null && i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
                         School Admission Number :
                       </Text>
@@ -1160,7 +1160,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           source={Images.add_more}
                         />
                       </TouchableOpacity>
-                    </View>:null}
+                    </View> : null}
                   </View>
                   <View
                     style={{
@@ -1185,7 +1185,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                               <TouchableOpacity
                                 underlayColor="none"
-                              //  onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id })}
+                                onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id,'login':true})}
                               >
 
                                 <Image

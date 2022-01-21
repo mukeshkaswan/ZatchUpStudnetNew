@@ -159,9 +159,16 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      getEicourseconfirmationlist();
-      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
+      if (props.route.params.login == true) {
+        Coursechangecoursestandarddetail(props.route.params.course_id);
+        CourseDeleteBeforeConformation(props.route.params.course_id);
+
+      } else {
+        getEicourseconfirmationlist();
+
+      }
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
       return () =>
         BackHandler.removeEventListener(
           'hardwareBackPress',
@@ -191,6 +198,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     return true;
   }
   const SetSchoolid = async result => {
+
+    console.log('result9211', result);
+
     result.data.map((element: any) => {
       setSchoolIDKey(element.ei_detail.id);
       console.log('school id', element.ei_detail.id);
@@ -231,6 +241,140 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     setKey(true);
     // console.log('dsfsdfds----------------------------->>>>>>>', state)
   };
+
+
+
+  /***************************User get Course change course standard detail *******************************/
+
+  const Coursechangecoursestandarddetail = async id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      course_id: id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserchangecoursestandarddetailbystudentbyid({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            console.warn(
+              'after result.....1',
+              JSON.stringify(result, undefined, 2),
+              // getdataCourseKey(result)
+              // getEicourseconfirmationlist(),
+
+
+              // props.navigation.navigate('SelectStudent'),
+            );
+
+
+            // Toast.show('Course is Deleted successfully', Toast.SHORT),
+            // getData()
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User get Course Delete Before Conformation *******************************/
+
+  const CourseDeleteBeforeConformation = async id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      course_id: id,
+    };
+    //setLoading(true);
+
+    dispatch(
+      userActions.getUserCourseDeleteBeforConformation({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            console.warn(
+              'after result.....2',
+              JSON.stringify(result, undefined, 2),
+              // getdataCourseKey(result)
+              // getEicourseconfirmationlist(),
+
+
+              // props.navigation.navigate('SelectStudent'),
+            );
+            getEicourseconfirmationlist();
+
+            // getEicourseconfirmationlist();
+
+
+            // Toast.show('Course is Deleted successfully', Toast.SHORT),
+            // getData()
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+
   /***************************User get Edit standard drop down class list *******************************/
 
   const CallApiEditDropDown = async (id, index) => {
@@ -590,11 +734,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         callback: ({ result, error }) => {
           if (result) {
             console.log(
-              'after result',
+              'after result .......>test',
               result,
               // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            SetSchoolid(result);
+            // SetSchoolid(result);
+            // return
 
             if (result.data.length > 0) {
               var newAr = [];
@@ -605,16 +750,17 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 }
               }
 
-             // console.log('newApiArray....>', newApiArr);
+              //console.log('newApiArray....1>', newApiArr);
 
               if (newApiArr[0].ei_detail.course_detail.length > 0) {
-               // console.log('newApiArray 1', 'huy 1');
+                // console.log('newApiArray 1', newApiArr[0].ei_detail.id);
+                setSchoolIDKey(newApiArr[0].ei_detail.id);
 
                 if (
                   newApiArr[0].ei_detail.course_detail[0].standard_detail !=
                   null
                 ) {
-                //  console.log('newApiArray 2', 'huy 2');
+                  //  console.log('newApiArray 2', 'huy 2');
 
                   for (let i in newApiArr[0].ei_detail.course_detail[0]
                     .standard_detail) {
@@ -652,7 +798,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 }
               }
 
-            //  console.log('=======', arrr);
+              //  console.log('=======', arrr);
 
               let newD = [];
               for (let i in newApiArr[0]) {
@@ -660,7 +806,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 newD.push({ ei_detail: item });
               }
 
-             // console.log('AddFlag===>>', newD);
+              // console.log('AddFlag===>>', newD);
 
               let newArr = [];
               for (let i in newD[0].ei_detail.course_detail[0]
@@ -678,7 +824,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 };
                 newArr.push(item);
               }
-            //  console.log('NewArrr==>>', newArr);
+              //  console.log('NewArrr==>>', newArr);
 
               let ar = [];
               for (let i in newD[0].ei_detail.course_detail) {
@@ -702,7 +848,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
               let newObj = { ...result, data: newCourseList };
 
-            //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
+              //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
               getdataCourseKey(newObj);
             } else {
@@ -847,7 +993,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       }
     }
 
-   // console.log('After Click', newAr);
+    // console.log('After Click', newAr);
 
     setDataCourseInList(newAr);
 
@@ -855,7 +1001,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   };
 
   const showDatepickerEndDate = index => () => {
-   // console.log('index', index, setdatafromlist);
+    // console.log('index', index, setdatafromlist);
 
     let newAr = Object.assign([], setdatafromlist);
 
@@ -868,7 +1014,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       }
     }
 
-   // console.log('After Click', newAr);
+    // console.log('After Click', newAr);
 
     setDataCourseInList(newAr);
     //showModeEndDate('date');
@@ -887,7 +1033,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
       }
-     // console.log('newArrrDismiss==>>', newAr);
+      // console.log('newArrrDismiss==>>', newAr);
       setDataCourseInList(newAr);
     } else {
       let newAr = Object.assign([], setdatafromlist);
@@ -896,7 +1042,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       for (let i in newAr[0].ei_detail.course_detail[0].standard_detail) {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showEnd = false;
       }
-     // console.log('newArrrDismiss==>>', newAr);
+      // console.log('newArrrDismiss==>>', newAr);
       setDataCourseInList(newAr);
       return;
     }
@@ -928,7 +1074,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     if (event.type == 'set') {
       //ok button
-    //  console.log('Current Date Select', selectedDate);
+      //  console.log('Current Date Select', selectedDate);
 
       let newAr = Object.assign([], setdatafromlist);
 
@@ -937,7 +1083,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
           false;
       }
-     // console.log('newArrrSet==>>', newAr);
+      // console.log('newArrrSet==>>', newAr);
       setDataCourseInList(newAr);
 
       //setDate(currentDate);
@@ -1030,7 +1176,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         }
       }
     }
-   // console.log('newArr', newArr);
+    // console.log('newArr', newArr);
   };
 
   const Skippedstandard = id => {
@@ -1051,11 +1197,19 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   };
 
   const gotoNavigate = async () => {
-    USERCOURSECONFIRMATION();
+
+    if (props.route.params.login == true) {
+
+      USERCOURSECONFIRMATION_2();
+
+    } else {
+      USERCOURSECONFIRMATION();
+
+    }
 
     const value = await AsyncStorage.getItem('tokenlogin');
 
-   // console.log('value', value);
+    // console.log('value', value);
 
     if (value == '' || value == null) {
       props.navigation.navigate('Personalinfo', {
@@ -1071,7 +1225,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // })
   };
 
-  /***************************User getStepCountAPi *******************************/
+  /***************************User Course Confirm-1*******************************/
 
   const USERCOURSECONFIRMATION = async () => {
     var token = '';
@@ -1097,7 +1251,65 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         callback: ({ result, error }) => {
           if (result) {
             console.warn(
-              'after user confirmation result step',
+              'after user confirmation result step 1',
+              JSON.stringify(result, undefined, 2),
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User Course Confirm-2*******************************/
+
+  const USERCOURSECONFIRMATION_2 = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: schoolidkey,
+      existing_course: props.route.params.course_id
+      //   course_id: props.route.params.course_id,
+      // before_exist: props.route.params.course_id,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserCourseConfirm({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after user confirmation result step 2',
               JSON.stringify(result, undefined, 2),
             );
             // setSpinnerStart(false);
@@ -1151,7 +1363,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                     {item.ei_detail.school_code}
                   </Text>
 
-                  <TouchableOpacity
+                  {props.route.params.login != true ? <TouchableOpacity
                     underlayColor="none"
                     onPress={() => DeleteSchool(item.ei_detail.id)}>
                     <Image
@@ -1164,7 +1376,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                       }}
                       source={Images.delete}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> : null}
                 </View>
                 <View
                   style={[styles.view_Row, { justifyContent: 'space-between' }]}>
@@ -1253,8 +1465,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false &&
-                                item.ei_detail.name_of_school != 'Others'
+                              i.is_current_course == false
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1268,8 +1479,22 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                     props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                 })
-                                : item.ei_detail.name_of_school == 'Others'
+                                : i.standard_detail != null && i.standard_detail.length > 0 && i.is_current_course == true
                                   ? props.navigation.navigate(
+                                    'EducationProfileEdit',
+                                    {
+                                      school_id: item.ei_detail.id,
+                                      course_id: i.course_id,
+                                      nameofschool:
+                                      item.ei_detail.name_of_school,
+                                      school_zatchup_id:
+                                      item.ei_detail.school_code,
+                                      course_name: i.course_name,
+                                      description: i.description,
+                                      roll_no: i.roll_no,
+                                    },
+                                  )
+                                  : props.navigation.navigate(
                                     'AddCourseDetailsOthersEdit',
                                     {
                                       data: i.is_current_course == true ? true : false,
@@ -1285,20 +1510,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       confirmation: 'EIconfirmation',
                                     },
                                   )
-                                  : props.navigation.navigate(
-                                    'EducationProfileEdit',
-                                    {
-                                      school_id: item.ei_detail.id,
-                                      course_id: i.course_id,
-                                      nameofschool:
-                                        item.ei_detail.name_of_school,
-                                      school_zatchup_id:
-                                        item.ei_detail.school_code,
-                                      course_name: i.course_name,
-                                      description: i.description,
-                                      roll_no: i.roll_no,
-                                    },
-                                  );
                             }}>
                             <Image
                               style={styles.editicon}

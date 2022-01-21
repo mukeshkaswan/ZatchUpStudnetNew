@@ -48,8 +48,7 @@ const CurrentSchoolinfo = (
   const [selectedBoard, setselectedBoard] = useState('');
   const [valuestate, setstatevalue] = useState('');
   const [opening_date, setopening_date] = useState('');
-
-
+  const [is_onboarded, setis_onboarded] = useState('');
   const [address, setaddress] = useState('');
   const [addresssingle, setaddresssingle] = useState('');
   const [address_, setaddress2] = useState('');
@@ -496,6 +495,8 @@ const CurrentSchoolinfo = (
         address2: element.address2,
         pincode: element.pincode,
         opening_date: element.opening_date,
+        is_onboarded: element.is_onboarded,
+
 
 
       };
@@ -716,7 +717,7 @@ const CurrentSchoolinfo = (
     console.log('schoolKey', schoolKey[0].value);
 
     {
-      schooldatkey != '0'
+      schooldatkey != '0' && is_onboarded != '0' 
         ? props.navigation.navigate('Onboarded', {
           data: props.route.params.data,
           school_id: schoolKey[0].value,
@@ -732,7 +733,8 @@ const CurrentSchoolinfo = (
           nameofschool: schoolname,
           board: Board,
           school_id: data.school_id,
-          data: props.route.params.data
+          data: props.route.params.data,
+          is_onboarded:is_onboarded
         });
     }
 
@@ -866,15 +868,19 @@ const CurrentSchoolinfo = (
                 //console.log('str4',str4)
 
                 setaddress(str4);
-
                 setBoard(data[0].university);
                 setaddresssingle(data[0].address1);
                 setID(data[0].school_code);
                 setopening_date(data[0].opening_date);
+                setis_onboarded(data[0].is_onboarded);
+                setSchoolname(data[0].label);
+
+                
               }else{
                 setaddress('');
                 setBoard('');
-                setID('')
+                setID('');
+                setSchoolname('');
               }
               // if (selectedValue !== 0) {
               //   var data = [];

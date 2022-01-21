@@ -41,6 +41,10 @@ target 'ZatchUp' do
 
   pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
 
+  pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
+
+  pod 'react-native-keep-awake', :path => '../node_modules/react-native-keep-awake'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

@@ -215,6 +215,7 @@ dependencies {
 
     implementation project(':react-native-splash-screen')
   //  implementation project(':@react-native-community_picker')
+    compile project(':react-native-keep-awake')
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

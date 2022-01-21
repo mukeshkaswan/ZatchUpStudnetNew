@@ -261,3 +261,23 @@ export const getUploadekycfordetailchnage= createAction(UPLOADEKYCFORDETAILCHANG
 export const USERPENDINGCOURSELISTOFUSER = 'USERPENDINGCOURSELISTOFUSER';
 export const getPendingCourseListOfUser= createAction(USERPENDINGCOURSELISTOFUSER);
 
+
+// this is for Get User delete pending course detail
+export const USERDELETEPENDINGCOURSEDETAIL = 'USERDELETEPENDINGCOURSEDETAIL';
+export const getUserdeletependingcoursedetail= createAction(USERDELETEPENDINGCOURSEDETAIL);
+
+
+// this is for Get User change course standard detail by student by id
+export const USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID = 'USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID';
+export const getUserchangecoursestandarddetailbystudentbyid= createAction(USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID);
+
+
+// this is for Get User Course Delete Befor Conformation
+export const USERCOURSEDELETEBEFORECONFORMATION = 'USERCOURSEDELETEBEFORECONFORMATION';
+export const getUserCourseDeleteBeforConformation= createAction(USERCOURSEDELETEBEFORECONFORMATION);
+
+
+
+// this is for Get User Confirm
+export const USERCOURSECONFIRM = 'USERCOURSECONFIRM';
+export const getUserCourseConfirm= createAction(USERCOURSECONFIRM);
