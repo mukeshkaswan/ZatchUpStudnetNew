@@ -147,14 +147,14 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   useEffect(() => {
 
-    if(props.route.params.data == true){
+    if (props.route.params.data == true) {
       setValue('Student');
 
-    }else{
+    } else {
       setValue('Alumni');
 
     }
- 
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -171,19 +171,19 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   const submit = async () => {
 
-    if(props.route.params.is_onboarded == '0'){
+    if (props.route.params.is_onboarded == '0') {
       props.navigation.navigate('EIconfirmation', {
-        'otherscourse':'otherscourse'
+        'otherscourse': 'otherscourse'
       })
     }
-    else{
+    else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
       })
     }
 
 
-  
+
 
   }
 
@@ -193,6 +193,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     const coursenameError = Validate('coursename', Course);
     const courseError = Validate('coursekey_', Course_Selected);
     const dobError = Validate('startdate', date_copy);
+    
     if (value == 'Alumni') {
       dobErrorend = Validate('enddate', date_copy1);
     }
@@ -206,7 +207,10 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
       );
 
       return false;
-    } else {
+
+    }
+
+    else {
       setLoading(true);
       var key =
         Course_Selected == 0
@@ -257,7 +261,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                 'after Add Course result',
                 JSON.stringify(result.status, undefined, 2),
                 submit(),
-               
+
                 setCourse(''),
                 setDes(''),
                 setDate_Copy(''),
@@ -289,6 +293,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         }),
       );
     }
+
+
   };
 
   return (

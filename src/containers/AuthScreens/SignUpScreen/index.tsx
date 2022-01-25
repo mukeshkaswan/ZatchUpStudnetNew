@@ -61,6 +61,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const [SecureTextEntryRepassword, setSecureTextEntryRepassword] =
     useState(true);
   const [KYC_type_doc_Selected, setKYCSelected] = useState('');
+  const [Course_Selected, setCourseTypeSelected] = useState('');
 
   const dispatch = useDispatch();
 
@@ -199,6 +200,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     //  var key = Email.indexOf("@") != -1 ? 'email' : 'mobile'
     // var hasNumber = /\d/;
+    // var pronounError;
     var hasNumber = /^[0-9]{10,10}$/
     // var key =
     //   Email.indexOf('@') == -1
@@ -214,6 +216,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     const genderError = Validate('gender', male || Female || Custom);
     const lastameError = Validate('last_name', Lastname);
     const emailError = Validate(key, Email);
+
     // const emailError = Validate('email', Email);
     const passwordError = Validate('password', Password);
     const confirmPasswordError = Validate(
@@ -223,21 +226,35 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     );
     const termError = Validate('checkedterm', allSelected);
 
+    if (Custom) {
+      var courseError = Validate('pronoun_', Course_Selected);
+
+    }
+
+
+
+
+
+
+
     if (
       firstnameError ||
       lastameError ||
       emailError ||
       genderError ||
+      courseError ||
       dobError ||
       passwordError ||
       confirmPasswordError ||
       termError
+
     ) {
       Toast.show(
         firstnameError ||
         lastameError ||
         emailError ||
         genderError ||
+        courseError ||
         dobError ||
         passwordError ||
         confirmPasswordError ||
@@ -250,9 +267,9 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       var data = '';
       var key =
-        KYC_type_doc_Selected == 0
+        Course_Selected == 0
           ? 'He'
-          : KYC_type_doc_Selected == 1
+          : Course_Selected == 1
             ? 'She'
             : 'They';
       if (format.test(Email)) {
@@ -534,8 +551,13 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 <CustomDropdown
                   placeholder={'Select your pronoun'}
                   data={KYC_type_doc}
-                  selectedValue={KYC_type_doc_Selected}
-                  SelectedLanguagedata={selectedValue => selectedValue}
+                  value={Course_Selected}
+                  SelectedLanguagedata={(selectedValue: any) => {
+                    console.log('selectedValue', selectedValue)
+                    setCourseTypeSelected(selectedValue);
+                    // setID('')
+                  }}
+                //SelectedLanguagedata={selectedValue => selectedValue}
                 />
               </View>
 

@@ -991,6 +991,22 @@ const HomeScreen = (props: HomeScreenProps) => {
                     </TouchableOpacity> : null}
 
 
+                    {i.approved == 2 && i.is_rejected == true && i.is_active_subscription == true ? <TouchableOpacity style={{
+                      backgroundColor: '#333A41',
+                      width: 58,
+                      height: 27,
+                      marginTop: 16,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      //  borderRadius: 20,
+                      // marginLeft: 20,
+                    }}
+                    // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
+                    >
+                      <Text style={{ color: 'white', fontSize: 11 }}>Re-Verify</Text>
+                    </TouchableOpacity> : null}
+
+
                     <View style={{ flexDirection: 'row' }}>
 
                       {i.approved == 1 ? <TouchableOpacity
@@ -1194,7 +1210,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                               <TouchableOpacity
                                 underlayColor="none"
-                                onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id,'login':true})}
+                                onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
                               >
 
                                 <Image

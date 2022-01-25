@@ -230,6 +230,12 @@ const validation = {
     },
   },
 
+  pronoun_: {
+    presence: {
+      message: 'Please select your pronoun',
+    },
+  },
+
   cityname: {
     presence: {
       message: 'Please Add City',

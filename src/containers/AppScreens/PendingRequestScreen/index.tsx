@@ -407,10 +407,13 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
         <Text style={styles.pendingtextt}>Pending Requests</Text>
 
         <View
+        
           style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+           
+            
           <Text style={styles.snotext}>Field Name</Text>
-          <Text style={styles.lecturetitletext}>School Name</Text>
-          <Text style={styles.topictext}>Course</Text>
+          <Text style={styles.lecturetitletext}>Field Value</Text>
+          <Text style={styles.topictext}>Field New Value</Text>
           <Text
             style={{
               flex: 1,
@@ -419,6 +422,7 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
             }}>
             Delete
           </Text>
+
         </View>
         <FlatList
           data={data}
@@ -426,8 +430,8 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
             <View
               style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
               <Text style={styles.snotext}>{item.field_name}</Text>
-              <Text style={styles.lecturetitletext}>{item.school_name}</Text>
-              <Text style={styles.topictext}>{item.course_name}</Text>
+              <Text style={styles.lecturetitletext}>{item.old_value}</Text>
+              <Text style={styles.topictext}>{item.new_value}</Text>
               <TouchableOpacity
                 underlayColor="none"
                 onPress={() => Delete(item.id)}>
