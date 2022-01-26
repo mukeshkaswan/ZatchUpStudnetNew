@@ -978,7 +978,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     <Text style={styles.Personal_Tvheader}>School Details</Text>
                     {kyc_approved == '1' && i.approved == 0 && i.is_onboard == true && i.is_students_verified == true && i.is_active_subscription == true ? <TouchableOpacity style={{
                       backgroundColor: '#333A41',
-                      width: 58,
+                      width: 64,
                       height: 27,
                       marginTop: 16,
                       justifyContent: 'center',
@@ -987,13 +987,13 @@ const HomeScreen = (props: HomeScreenProps) => {
                       // marginLeft: 20,
                     }}
                       onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}>
-                      <Text style={{ color: 'white', fontSize: 11 }}>Get Verify</Text>
+                      <Text style={{ color: 'white', fontSize: 11}}>Get Verified</Text>
                     </TouchableOpacity> : null}
 
 
                     {i.approved == 2 && i.is_rejected == true && i.is_active_subscription == true ? <TouchableOpacity style={{
                       backgroundColor: '#333A41',
-                      width: 58,
+                      //width: 100,
                       height: 27,
                       marginTop: 16,
                       justifyContent: 'center',
@@ -1001,9 +1001,10 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
+                    onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}
                     // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                     >
-                      <Text style={{ color: 'white', fontSize: 11 }}>Re-Verify</Text>
+                      <Text style={{ color: 'white', fontSize: 12,marginLeft:5,marginRight:5 }}>Resend for Verification</Text>
                     </TouchableOpacity> : null}
 
 
@@ -1026,7 +1027,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       </TouchableOpacity> : null}
 
-                      {kyc_approved == '1' && i.firebase_id != null ? <TouchableOpacity
+                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2  ? <TouchableOpacity
                         underlayColor="none"
                         onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}>
 
@@ -1048,7 +1049,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         }} />
                       </TouchableOpacity> : null}
 
-                      {i.approved != '1' ? (<TouchableOpacity
+                      {i.approved != '1' && i.approved != 2  ? (<TouchableOpacity
                         underlayColor="none"
                         onPress={() => DeleteSchool(i.school_id)}>
 
@@ -1064,7 +1065,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         />
                       </TouchableOpacity>) : null}
 
-                      {i.is_onboard == true ? <TouchableOpacity
+                      {i.is_onboard == true && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
                         onPress={() => props.navigation.navigate('SelectStudentFromLogin', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
                       >
@@ -1078,7 +1079,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.add_more}
                         />
-                      </TouchableOpacity> : <TouchableOpacity
+                      </TouchableOpacity> : i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
                         onPress={() => props.navigation.navigate('AddCourseDetailsOthers', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
                       >
@@ -1092,7 +1093,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.add_more}
                         />
-                      </TouchableOpacity>}
+                      </TouchableOpacity>:null}
                     </View>
 
                     {/* <Image
@@ -1208,7 +1209,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                             <View style={{ flexDirection: 'row' }}>
 
-                              <TouchableOpacity
+                             {i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
                                 onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
                               >
@@ -1223,9 +1224,9 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   }}
                                   source={Images.edit_icon}
                                 />
-                              </TouchableOpacity>
+                              </TouchableOpacity>:null}
 
-                              <TouchableOpacity
+                              {i.approved != 2 ?   <TouchableOpacity
                                 underlayColor="none"
                                 onPress={() => DeleteCourse(course.course_id)}
                               >
@@ -1239,7 +1240,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   }}
                                   source={Images.delete_icon}
                                 />
-                              </TouchableOpacity>
+                              </TouchableOpacity>:null}
                             </View>
                             {/* <TouchableOpacity>
                               <Image
