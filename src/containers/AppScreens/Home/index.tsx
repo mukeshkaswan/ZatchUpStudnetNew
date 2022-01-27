@@ -48,6 +48,41 @@ interface HomeScreenProps {
   navigation: any;
   route: any;
 }
+
+const list = [
+  {
+    id: 1,
+    name: 'test',
+    time: '2022-01-01-present',
+    profileImage: Images.profile_img2,
+    address:
+      'Lorem Ipsum is simply dummy text of the printing .',
+    msg_read: false,
+  },
+  {
+    id: 2,
+    name: 'angular',
+    time: '2022-01=-01',
+    profileImage: Images.profile_img2,
+    address:
+      'India rajasthan jaipur.',
+    msg_read: true,
+  },
+  {
+    id: 3,
+    name: 'react',
+    time: '2022-01-22',
+    profileImage: Images.profile_img2,
+    address:
+      ' afghanistan ghazi.',
+    msg_read: true,
+  },
+
+
+
+];
+
+
 const HomeScreen = (props: HomeScreenProps) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -77,6 +112,8 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const [setdatafromlist, setDataCourseInList] = useState([]);
+  const [setdatafromworklist, setDataCourseInWorkList] = useState([]);
+
   const [citydata, setCityData] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -223,6 +260,45 @@ const HomeScreen = (props: HomeScreenProps) => {
   const getdataCourse = async result => {
     setDataCourseInList(result.data);
   };
+
+  const getdataWorkDetails = async result => {
+    //setDataCourseInList(result.data);
+
+    var Profile = [];
+    result.data.map((element: any) => {
+
+     
+      // var obj = {
+      //   id: element.first_name,
+      // }
+      Profile.push(element.work_detail);
+    });
+
+    getdataWorkDetails2(Profile)
+
+
+
+    
+
+  };
+
+  const getdataWorkDetails2 = async result => {
+
+   // console.log('Profileelement1',result)
+
+    result.map((element: any) => {
+
+      setDataCourseInWorkList(element);
+
+      // console.log('Profileelement',element)
+
+      // var obj = {
+      //   id: element.first_name,
+      // }
+    });
+
+  }
+
 
   const DeleteSchool = async id => {
     Alert.alert(
@@ -599,8 +675,10 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
             // );
-            getdataProfile(result),
+              getdataProfile(result),
               getdataCourse(result),
+              getdataWorkDetails(result),
+
               // setSpinnerStart(false);
               setLoading(false);
           }
@@ -987,7 +1065,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       // marginLeft: 20,
                     }}
                       onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}>
-                      <Text style={{ color: 'white', fontSize: 11}}>Get Verified</Text>
+                      <Text style={{ color: 'white', fontSize: 11 }}>Get Verified</Text>
                     </TouchableOpacity> : null}
 
 
@@ -1001,10 +1079,10 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                    onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}
+                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}
                     // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                     >
-                      <Text style={{ color: 'white', fontSize: 12,marginLeft:5,marginRight:5 }}>Resend for Verification</Text>
+                      <Text style={{ color: 'white', fontSize: 12, marginLeft: 5, marginRight: 5 }}>Resend for Verification</Text>
                     </TouchableOpacity> : null}
 
 
@@ -1027,7 +1105,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       </TouchableOpacity> : null}
 
-                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2  ? <TouchableOpacity
+                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
                         onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}>
 
@@ -1049,7 +1127,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         }} />
                       </TouchableOpacity> : null}
 
-                      {i.approved != '1' && i.approved != 2  ? (<TouchableOpacity
+                      {i.approved != '1' && i.approved != 2 ? (<TouchableOpacity
                         underlayColor="none"
                         onPress={() => DeleteSchool(i.school_id)}>
 
@@ -1093,7 +1171,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           }}
                           source={Images.add_more}
                         />
-                      </TouchableOpacity>:null}
+                      </TouchableOpacity> : null}
                     </View>
 
                     {/* <Image
@@ -1209,7 +1287,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                             <View style={{ flexDirection: 'row' }}>
 
-                             {i.approved != 2 ? <TouchableOpacity
+                              {i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
                                 onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
                               >
@@ -1224,9 +1302,9 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   }}
                                   source={Images.edit_icon}
                                 />
-                              </TouchableOpacity>:null}
+                              </TouchableOpacity> : null}
 
-                              {i.approved != 2 ?   <TouchableOpacity
+                              {i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
                                 onPress={() => DeleteCourse(course.course_id)}
                               >
@@ -1240,7 +1318,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   }}
                                   source={Images.delete_icon}
                                 />
-                              </TouchableOpacity>:null}
+                              </TouchableOpacity> : null}
                             </View>
                             {/* <TouchableOpacity>
                               <Image
@@ -1829,6 +1907,55 @@ const HomeScreen = (props: HomeScreenProps) => {
 
             <View
               style={styles.underview}
+            />
+
+            <FlatList
+              style={{ marginBottom: 10 }}
+              data={setdatafromworklist}
+              renderItem={({ item }) => (
+                <View>
+                  <View style={{ marginTop: 10, paddingHorizontal: 16, flexDirection: 'row', flex: 1 }}>
+                    <Image source={require('../../../assets/images/college2.jpg')}
+                      style={{ height: 80, width: 120, flex: 1.5, borderRadius: 5, resizeMode: 'contain' }}
+                    />
+                    <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 16,color:'#000'}}>{item.job_title}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Image
+                            style={{
+                              height: 28,
+                              width: 28,
+
+                              marginTop: 5,
+                              // marginLeft: 20,
+                              marginRight: 15,
+                            }}
+                            source={Images.edit_icon}
+                          />
+                          <Image
+                            style={{
+                              height: 28,
+                              width: 28,
+
+                              marginTop: 5,
+                              // marginLeft: 20,
+                              marginRight: 15,
+                            }}
+                            source={Images.delete_icon}
+                          />
+                        </View>
+                      </View>
+
+                      <Text style={{ fontSize: 16, }}>{item.company_name}</Text>
+                     {item.is_currently_work == true ?  <Text>{item.start_date + ' - ' + 'Present'}</Text> :<Text>{item.start_date + ' - ' + item.end_date}</Text> }
+                      <Text>{item.work_country + '  ' + item.work_state +  '  ' +  item.work_city}</Text>
+                    </View>
+                  </View>
+                  <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15, }}>{item.work_description}</Text>
+                </View>
+              )}
+            //  ItemSeparatorComponent={renderIndicator}
             />
             {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>

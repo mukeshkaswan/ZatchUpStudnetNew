@@ -281,3 +281,15 @@ export const getUserCourseDeleteBeforConformation= createAction(USERCOURSEDELETE
 // this is for Get User Confirm
 export const USERCOURSECONFIRM = 'USERCOURSECONFIRM';
 export const getUserCourseConfirm= createAction(USERCOURSECONFIRM);
+
+// this is for Get User Get State
+export const USERGETSTATE = 'USERGETSTATE';
+export const getUserGetState= createAction(USERGETSTATE);
+
+// this is for Get User Get City
+export const USERGETCITY = 'USERGETCITY';
+export const getUserGetCity= createAction(USERGETCITY);
+
+// this is for Get User Work Detail
+export const USERWORKDETAIL = 'USERWORKDETAIL';
+export const getUserWorkDetail= createAction(USERWORKDETAIL);

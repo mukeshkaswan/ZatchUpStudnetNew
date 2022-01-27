@@ -121,7 +121,7 @@ const CurrentSchoolinfo = (
     return true;
   }
   const Data = async result => {
-     console.log('result.data.address1',result.data.address1)
+    console.log('result.data.address1', result.data.address1)
     var dsfdsf = result.data.state_id;
 
     setStateKey(result.data.state_id.toString());
@@ -396,7 +396,7 @@ const CurrentSchoolinfo = (
         // "school_data": {}
       });
 
-     
+
 
       const data_update = {
         token: token,
@@ -703,7 +703,7 @@ const CurrentSchoolinfo = (
   /***************************User GET States*******************************/
 
   const submit = async data => {
-  
+
 
 
     var stateKey = [];
@@ -717,7 +717,7 @@ const CurrentSchoolinfo = (
     console.log('schoolKey', schoolKey[0].value);
 
     {
-      schooldatkey != '0' && is_onboarded != '0' 
+      schooldatkey != '0' && is_onboarded != '0'
         ? props.navigation.navigate('Onboarded', {
           data: props.route.params.data,
           school_id: schoolKey[0].value,
@@ -734,7 +734,7 @@ const CurrentSchoolinfo = (
           board: Board,
           school_id: data.school_id,
           data: props.route.params.data,
-          is_onboarded:is_onboarded
+          is_onboarded: is_onboarded
         });
     }
 
@@ -844,13 +844,13 @@ const CurrentSchoolinfo = (
             value={schooldatkey}
             //selectedValue={selectedSchool}
             SelectedLanguagedata={selectedValue => {
-             
+
               setSchoolKey(selectedValue);
-              console.log('selectedValue-selectedValue',selectedValue)
+              console.log('selectedValue-selectedValue', selectedValue)
               var data = [];
               data = selectedSchool.filter(x => x.value == selectedValue);
               // console.log('school index address + {" "}+ address2 x',schooldatkey)
-              if (data.length > 0 && selectedValue != 0 ) {
+              if (data.length > 0 && selectedValue != 0) {
                 console.log('school name list data', data)
 
                 var str1 = data[0].address1;
@@ -875,8 +875,8 @@ const CurrentSchoolinfo = (
                 setis_onboarded(data[0].is_onboarded);
                 setSchoolname(data[0].label);
 
-                
-              }else{
+
+              } else {
                 setaddress('');
                 setBoard('');
                 setID('');

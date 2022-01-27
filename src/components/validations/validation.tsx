@@ -597,6 +597,70 @@ const validation = {
       message: 'Please Enter Valid Postal Code',
     },
   },
+
+  Status: {
+    presence: {
+      message: 'Status is required',
+    },
+  },
+
+  Department: {
+    presence: {
+      message: 'Department is required',
+    },
+  },
+
+  companyname: {
+    presence: {
+      message: 'Company name is required',
+    },
+  },
+
+
+  jobtitle: {
+    presence: {
+      message: 'Job title is required',
+    },
+  },
+
+  countrydatkey: {
+    presence: {
+      message: 'Country is required',
+    },
+  },
+
+
+  statedatkey: {
+    presence: {
+      message: 'State is required',
+    },
+  },
+
+  citydatkey: {
+    presence: {
+      message: 'City is required',
+    },
+  },
+
+  des: {
+    presence: {
+      message: 'Description is required',
+    },
+  },
+
+  des_: {
+    presence: {
+      message: 'Work description is required',
+    },
+  },
+
+  otherworkdepartment: {
+    presence: {
+      message: 'Work department other is required',
+    },
+  },
+
+
 };
 
 export default validation;

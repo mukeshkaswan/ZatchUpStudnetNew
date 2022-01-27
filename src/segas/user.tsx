@@ -72,7 +72,10 @@ import {
   USERDELETEPENDINGCOURSEDETAIL,
   USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID,
   USERCOURSEDELETEBEFORECONFORMATION,
-  USERCOURSECONFIRM
+  USERCOURSECONFIRM,
+  USERGETSTATE,
+  USERGETCITY,
+  USERWORKDETAIL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2245,7 +2248,7 @@ function* getUserdeletependingcoursedetail({ payload: { data, callback } }) {
 /***************************User change course standard detail by student by id Auth Segas*******************************/
 
 function* getUserchangecoursestandarddetailbystudentbyid({ payload: { data, callback } }) {
-  
+
   console.warn('data in saga change course standard detail', data);
 
 
@@ -2284,7 +2287,7 @@ function* getUserchangecoursestandarddetailbystudentbyid({ payload: { data, call
 function* getUserCourseDeleteBeforConformation({ payload: { data, callback } }) {
 
   console.warn('data in saga Get User Course Delete Befor Conformation', data);
-const datakey = {
+  const datakey = {
     course_id: data.course_id,
   };
 
@@ -2319,9 +2322,9 @@ function* getUserCourseConfirm({ payload: { data, callback } }) {
 
   const datakey = {
     school_id: data.school_id,
-    existing_course:data.existing_course,
-   // before_exist: data.course_id,
-   // course_id: data.course_id,
+    existing_course: data.existing_course,
+    // before_exist: data.course_id,
+    // course_id: data.course_id,
 
   };
 
@@ -2340,6 +2343,96 @@ function* getUserCourseConfirm({ payload: { data, callback } }) {
   if (!error) {
     if (result) {
       // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET State Work Auth Segas*******************************/
+
+function* getUserGetState({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/get_state/${data.id}/`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get City result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User GET City Work Auth Segas*******************************/
+
+function* getUserGetCity({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/get_city/${data.id}/`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get City result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+
+
+
+/***************************User Work Details Add Auth Segas*******************************/
+
+function* getUserWorkDetail({ payload: { data_update, callback } }) {
+  console.warn('data in saga Work Details Add', data_update);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data_update.token}`,
+      'Content-Type': 'application/json',
+    },
+    data: data_update.data,
+    method: 'POST',
+    url: 'user/workdetail/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log('add ei result', JSON.stringify(result, undefined, 2));
       callback({ result, error });
       // const userToken = result.token;
       // const data = result.data;
@@ -2422,10 +2515,14 @@ function* User() {
     yield takeLatest(USERCHANGECOURSESTANDARDDETAILBYSTUDENTBYID, getUserchangecoursestandarddetailbystudentbyid),
     yield takeLatest(USERCOURSEDELETEBEFORECONFORMATION, getUserCourseDeleteBeforConformation),
     yield takeLatest(USERCOURSECONFIRM, getUserCourseConfirm),
+    yield takeLatest(USERGETSTATE, getUserGetState),
+    yield takeLatest(USERGETCITY, getUserGetCity),
+    yield takeLatest(USERWORKDETAIL, getUserWorkDetail),
 
-    
-    
-    
+
+
+
+
 
 
 
