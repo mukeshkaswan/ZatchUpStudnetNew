@@ -42,12 +42,15 @@ import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
+import Popover from 'react-native-popover-view';
 import {Images} from '../../../../../components/index';
 import Modal from 'react-native-modal';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+//import Icon from 'react-native-vector-icons/Ionicons'
 
 const screenWidth = Dimensions.get('window').width;
 const data = [
@@ -94,11 +97,182 @@ const UsersProfile = (props: UserProfileProps) => {
   const [commentValue, setComment] = useState('');
   const [sociaMedialPic, setSocialMediaPic] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
+  const [threeDot, setthreeDot] = React.useState(false);
+  const [reportId, setReportId] = useState('');
+  const [isModalVisible3, setModalVisible3] = useState(false);
+  const [isreportmodal, setreportmodal] = useState(false);
+  const [customItem, setCustomItem] = useState('');
+  const [isreportprofilemodal, setreportprofilemodal] = useState(false);
+  const [checkboxValue, setCheckboxValue] = React.useState([
+    {report_option: 'Was not my Batchmate', checked: false},
+
+    {report_option: 'Was not my Classmate', checked: false},
+    {report_option: 'Fake Profile', checked: false},
+  ]);
+  const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
+    {report_option: 'Suspicious or Fake', checked: false},
+
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
+    {
+      report_option: 'Intellectual property infringement or defamation',
+      checked: false,
+    },
+  ]);
+
+  const reportprofilemodal = () => {
+    setreportprofilemodal(!isreportprofilemodal);
+    setreportmodal('');
+    setthreeDot(false);
+  };
+  const reportmodal = () => {
+    setreportmodal(!isreportmodal);
+    setModalVisible3('');
+    // reportprofilemodal('')
+    //setthreeDot(false);
+  };
+  const toggleModal3 = item => {
+    setCustomItem(item);
+    setModalVisible3(!isModalVisible3);
+    setthreeDot(false);
+    setreportprofilemodal('');
+  };
+
+  const checkboxHandler = (value, index) => {
+    console.log('value', value);
+    setReportId(value.id);
+    const newValue = checkboxValue.map((checkbox, i) => {
+      if (i !== index)
+        return {
+          ...checkbox,
+          checked: false,
+        };
+      if (i === index) {
+        const item = {
+          ...checkbox,
+          checked: !checkbox.checked,
+        };
+        return item;
+      }
+      return checkbox;
+    });
+    setCheckboxValue(newValue);
+  };
+
+  const reportcheckboxHandler = (value, index) => {
+    console.log('value', value);
+    setReportId(value.id);
+    const newValue = reportcheckboxValue.map((checkbox, i) => {
+      if (i !== index)
+        return {
+          ...checkbox,
+          checked: false,
+        };
+      if (i === index) {
+        const item = {
+          ...checkbox,
+          checked: !checkbox.checked,
+        };
+        return item;
+      }
+      return checkbox;
+    });
+    setreportCheckboxValue(newValue);
+  };
+  const blockprofile = async () => {
+    setthreeDot(false);
+    Alert.alert(
+      'ZatchUp',
+      ' Are you sure you want to Block Profile?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Yes'},
+      ],
+      {cancelable: false},
+    );
+    return true;
+  };
+
+  const gotoReportPost = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      post_id: customItem.id,
+      report_id: reportId,
+    };
+
+    console.log('ReportPost==>>', data);
+
+    dispatch(
+      userActions.reportPost({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report data',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const gotoReport = () => {
+    // console.log(customItem, reportId);
+    if (reportId == '') {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
+    setreportmodal(!isreportmodal);
+    gotoReportPost();
+  };
 
   useEffect(() => {
+    console.log('hey...');
     getUserProfile(user_id);
     getUserCoverMediaPic(user_id);
     getReportData();
+    getReportPostData();
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -233,12 +407,12 @@ const UsersProfile = (props: UserProfileProps) => {
     };
 
     dispatch(
-      userActions.getReportData({
+      userActions.getReportDataUser({
         data,
         callback: ({result, error}) => {
           if (result) {
             console.warn(
-              'after result report data user',
+              'after result report data userr',
               JSON.stringify(result, undefined, 2),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
@@ -248,9 +422,72 @@ const UsersProfile = (props: UserProfileProps) => {
                 newData.push({...result.data[i], checked: false});
               }
 
-              console.log('newData==>>', newData);
-
+              console.log('newDataUser==>>', newData);
+              setCheckboxValue(newData);
               //setCheckboxValue(newData);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const getReportPostData = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      type: 'post',
+      parameter: 'type_of_report',
+    };
+
+    dispatch(
+      userActions.getReportData({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report data post',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              let newData = [];
+              for (let i in result.data) {
+                newData.push({...result.data[i], checked: false});
+              }
+
+              console.log('newDataa==>>', newData);
+              setreportCheckboxValue(newData);
             }
             // setSpinnerStart(false);
             setLoading(false);
@@ -527,8 +764,69 @@ const UsersProfile = (props: UserProfileProps) => {
     );
   };
 
+  const gotoReportProfile = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      reported_user_id: user_id,
+      report_id: reportId,
+    };
+    setreportprofilemodal(!isreportprofilemodal);
+
+    // console.log('data==>>>', data);
+    // return;
+
+    dispatch(
+      userActions.reportProfile({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result report profile',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const toggleModal = () => {
-    console.log('hey');
+    //console.log('hey');
     setModalVisible(!isModalVisible);
   };
 
@@ -536,10 +834,17 @@ const UsersProfile = (props: UserProfileProps) => {
     setModalVisible(!isModalVisible);
     gotoFollow();
   };
+  const threedot = () => {
+    setthreeDot(true);
+    // setTimeout(() => {
+    //   setthreeDot(false);
+    // }, 3000);
+  };
 
   const isCarousel = useRef(null);
 
   function CrouselImages({item, index, length}) {
+    let _menu = null;
     return (
       <View
         style={{
@@ -605,22 +910,50 @@ const UsersProfile = (props: UserProfileProps) => {
                   : require('../../../../../assets/images/college2.jpg')
               }
               resizeMode="stretch"
-              style={{width: '100%', height: 100}}>
-              {/* <View
+              style={{width: '100%', height: 130}}>
+              <View
                 style={{
                   backgroundColor: 'black',
                   height: 30,
                   width: 30,
                   justifyContent: 'center',
                   margin: 10,
+                  alignSelf: 'flex-end',
                 }}>
-                <Icon
-                  name="camera"
-                  size={18}
-                  color="white"
-                  style={{margin: 5}}
-                />
-              </View> */}
+                <TouchableOpacity onPress={threedot}>
+                  <Image
+                    source={require('../../../../../assets/images/dot.png')}
+                    style={{
+                      tintColor: 'white',
+                      resizeMode: 'stretch',
+                      height: 20,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              {threeDot == true && (
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    width: 170,
+                    alignSelf: 'flex-end',
+                    marginTop: -8,
+                    marginRight: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: 'lightgrey',
+                  }}>
+                  <TouchableOpacity onPress={reportprofilemodal}>
+                    <Text style={{fontSize: hp(2)}}>Report Profile</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => blockprofile()}>
+                    <Text style={{fontSize: hp(2), marginTop: 10}}>
+                      Block Profile
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </ImageBackground>
 
             <View style={styles.rowContainer}>
@@ -742,7 +1075,10 @@ const UsersProfile = (props: UserProfileProps) => {
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#28a745'}]}
+                    style={[
+                      styles.removebtn,
+                      {backgroundColor: '#28a745', width: 110},
+                    ]}
                     onPress={toggleModal}>
                     <Text
                       style={{
@@ -1054,9 +1390,7 @@ const UsersProfile = (props: UserProfileProps) => {
                             </Text>
                           </View>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                        //onPress={toggleModal}
-                        >
+                        <TouchableOpacity onPress={() => toggleModal3(item)}>
                           <Image
                             source={require('../../../../../assets/images/dot.png')}
                             style={{height: 18, width: 18}}
@@ -1513,6 +1847,190 @@ const UsersProfile = (props: UserProfileProps) => {
           <TouchableOpacity onPress={toggleModal}>
             <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
           </TouchableOpacity>
+        </View>
+      </Modal>
+
+      {/* modal for report profile */}
+      <Modal
+        isVisible={isreportprofilemodal}
+        onBackdropPress={reportprofilemodal}
+        backdropOpacity={0.4}>
+        <View style={styles.modalContainer}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: hp(2.4),
+                }}>
+                Report Profile
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={reportprofilemodal}>
+              <Image
+                source={Images.closeicon}
+                style={{height: 15, width: 15, marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.mborder}></View>
+          <View style={{paddingHorizontal: 16}}>
+            {checkboxValue.map((checkbox, i) => (
+              <View key={i} style={styles.rowContent}>
+                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
+                {/* <CustomCheckbox
+                onPress={(value) => checkboxHandler(value, i)}
+                 checked={checkbox.checked}
+              /> */}
+                <TouchableOpacity onPress={() => checkboxHandler(checkbox, i)}>
+                  <View
+                    style={{
+                      // backgroundColor: '#4B2A6A',
+                      height: 22,
+                      width: 22,
+                      borderRadius: 11,
+                      borderColor: '#4B2A6A',
+                      borderWidth: 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    {checkbox.checked && (
+                      <View
+                        style={{
+                          backgroundColor: '#4B2A6A',
+                          height: 12,
+                          width: 12,
+                          borderRadius: 6,
+                        }}></View>
+                    )}
+                  </View>
+                  <View></View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View style={styles.mborder}></View>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <TouchableOpacity
+              style={styles.postbtn}
+              onPress={gotoReportProfile}>
+              <Text style={{color: 'white'}}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        isVisible={isModalVisible3}
+        onBackdropPress={toggleModal3}
+        backdropOpacity={0.4}>
+        <View
+          style={{
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 20,
+            borderRadius: 5,
+            justifyContent: 'center',
+          }}>
+          {/* {customItem.user_id != userid && ( */}
+          <>
+            <TouchableOpacity onPress={reportmodal}>
+              <Text style={styles.btn}>Report</Text>
+            </TouchableOpacity>
+            <View style={styles.mborder}></View>
+            {/* <TouchableOpacity
+               onPress={() => blockprofile()}
+               >
+                <Text style={styles.btn}>Unfollow</Text>
+              </TouchableOpacity> */}
+            {/* <View style={styles.mborder}></View> */}
+          </>
+          {/* )} */}
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('PostDetailScreen');
+            }}>
+            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+          </TouchableOpacity>
+          <View style={styles.mborder}></View>
+          <TouchableOpacity onPress={toggleModal3}>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+      {/* modal for report */}
+      <Modal
+        isVisible={isreportmodal}
+        onBackdropPress={reportmodal}
+        backdropOpacity={0.4}>
+        <View style={styles.modalContainer}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: hp(2.4),
+                }}>
+                Report
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={reportmodal}>
+              <Image
+                source={Images.closeicon}
+                style={{height: 15, width: 15, marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.mborder}></View>
+          <View style={{paddingHorizontal: 16}}>
+            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
+            {reportcheckboxValue.map((checkbox, i) => (
+              <View key={i} style={styles.rowContent}>
+                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
+                {/* <CustomCheckbox
+                onPress={(value) => checkboxHandler(value, i)}
+                 checked={checkbox.checked}
+              /> */}
+                <TouchableOpacity
+                  onPress={() => reportcheckboxHandler(checkbox, i)}>
+                  <View
+                    style={{
+                      // backgroundColor: '#4B2A6A',
+                      height: 22,
+                      width: 22,
+                      borderRadius: 11,
+                      borderColor: '#4B2A6A',
+                      borderWidth: 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    {checkbox.checked && (
+                      <View
+                        style={{
+                          backgroundColor: '#4B2A6A',
+                          height: 12,
+                          width: 12,
+                          borderRadius: 6,
+                        }}></View>
+                    )}
+                  </View>
+                  <View></View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View style={styles.mborder}></View>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <TouchableOpacity
+              style={styles.postbtn}
+              onPress={() => gotoReport()}>
+              <Text style={{color: 'white'}}>Submit</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>

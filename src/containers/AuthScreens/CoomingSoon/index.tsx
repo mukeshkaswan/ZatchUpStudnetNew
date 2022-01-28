@@ -460,6 +460,59 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     );
   };
 
+  /*************Unfollow *************/
+
+  const gotoUnfollow = async () => {
+    // console.log('customItem', customItem);
+    // return;
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      follow_status: 0,
+      following_user_id: customItem.user_id,
+    };
+
+    dispatch(
+      userActions.followUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result unfollow user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+              getPostDataApi();
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
   /**************GET POST API CALL ***********/
 
   const getPostDataApi = async () => {
@@ -1588,7 +1641,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 <Text style={styles.btn}>Report</Text>
               </TouchableOpacity>
               <View style={styles.mborder}></View>
-              <TouchableOpacity onPress={() => Logout()}>
+              <TouchableOpacity onPress={gotoUnfollow}>
                 <Text style={styles.btn}>Unfollow</Text>
               </TouchableOpacity>
               <View style={styles.mborder}></View>

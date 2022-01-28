@@ -78,8 +78,13 @@ import {
   GETFOLLOWING,
   GETREPORTDATA,
   REPORTPOST,
+  UPLOADPOSTIMAGEVIDEOS,
+  REPORTPROFILE,
+  GETREPORTDATAUSER,
+  CREATEPOST,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
+import HttpClientPost from './http-client-post';
 import Toast from 'react-native-simple-toast';
 // http://172.105.61.231:3000/api/user/user-verify/
 /***************************User Login Auth Segas*******************************/
@@ -1308,6 +1313,41 @@ function* getReportData({payload: {data, callback}}) {
   }
 }
 
+/*************************get suggestion of get following     **************/
+function* getReportDataUser({payload: {data, callback}}) {
+  console.warn('data in saga Auth User Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/report/masterreportlist/?' +
+      data.parameter +
+      '=' +
+      data.type,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Get report data Result User',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************report post*******************************/
 
 function* reportPost({payload: {data, callback}}) {
@@ -1331,6 +1371,42 @@ function* reportPost({payload: {data, callback}}) {
   if (!error) {
     if (result) {
       console.log('report post success', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************report post*******************************/
+
+function* reportProfile({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    reported_user_id: data.reported_user_id,
+    report_id: data.report_id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/profile/profile_report/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'report profile success',
+        JSON.stringify(result, undefined, 2),
+      );
       callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
@@ -1404,6 +1480,42 @@ function* followUser({payload: {data, callback}}) {
     if (result) {
       console.log(
         'follow the user by another user',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************create post request status*******************************/
+
+function* createPost({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    caption: data.caption,
+    post_gallery: data.post_gallery,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/post/uploaduserpost/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'post creayed by the user',
         JSON.stringify(result, undefined, 2),
       );
       callback({result, error});
@@ -1662,6 +1774,42 @@ function* getUploadFile({payload: {data, callback}}) {
   if (!error) {
     if (result) {
       console.log('Upload File User', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = JSON.stringify(data).st result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User Get Upload post image and videos*******************************/
+
+function* uploadPostImageVideos({payload: {data, callback}}) {
+  console.warn('data in saga Upload File By User', data);
+  const formdata = new FormData();
+  formdata.append('myFile', data.myFile);
+  formdata.append('folder_name', data.folder_name);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      'Content-Type': 'application/json',
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'uploadFile',
+    // redirect: 'follow'
+  };
+  //console.warn('data in saga ADD  Course By User------------->', payload);
+  const {result, error} = yield call(HttpClientPost, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'Upload Post Image/Videos',
+        JSON.stringify(result, undefined, 2),
+      );
       callback({result, error});
       // const userToken = JSON.stringify(data).st result.token;
       // const data = result.data;
@@ -2542,6 +2690,7 @@ function* User() {
     yield takeLatest(GETADDMISSIONNODETAILBYSCHOOL, getAddmissionNoBySchool),
     yield takeLatest(GETCOURSELISTOTHER, getCourselistOther),
     yield takeLatest(UPLOADFILE, getUploadFile),
+    yield takeLatest(UPLOADPOSTIMAGEVIDEOS, uploadPostImageVideos),
     yield takeLatest(ADMINFORGOTPASSWORD, getAdminForgotPassword),
     yield takeLatest(ADMINVEROFYRESETPASSWORD, getAdminVerifyResetPassword),
     yield takeLatest(SETNEWPASSWORD, getAdminSetNewPassword),
@@ -2597,8 +2746,11 @@ function* User() {
     yield takeLatest(GETFOLLOWERS, getFollowers),
     yield takeLatest(GETFOLLOWING, getFollowing),
     yield takeLatest(GETREPORTDATA, getReportData),
+    yield takeLatest(GETREPORTDATAUSER, getReportDataUser),
     yield takeLatest(REPORTPOST, reportPost),
+    yield takeLatest(REPORTPROFILE, reportProfile),
     yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
+    yield takeLatest(CREATEPOST, createPost),
   ]);
 }
 

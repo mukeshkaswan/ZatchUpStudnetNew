@@ -79,7 +79,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -214,6 +214,8 @@ dependencies {
     implementation project(':react-native-linear-gradient')
 
     implementation project(':react-native-splash-screen')
+
+    compile project(':react-native-ssl-pinning')
   //  implementation project(':@react-native-community_picker')
 
 

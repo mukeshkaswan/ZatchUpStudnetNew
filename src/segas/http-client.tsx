@@ -1,6 +1,6 @@
 import {call, select, put, delay} from 'redux-saga/effects';
 import {showLoader, hideLoader} from '../actions/app-actions-types';
-import getAxiosInstance from '../utilities/axiosInstance';
+import {getAxiosInstance} from '../utilities/axiosInstance';
 import Idx from 'idx';
 import Toast from 'react-native-simple-toast';
 
@@ -18,7 +18,7 @@ function* HttpClient(payload) {
     JSON.stringify(data, undefined, 2),
   );
   const axiosInstance = getAxiosInstance();
-  
+
   try {
     const {data: result} = yield call(axiosInstance, data);
     if (!payload.hideLoader) {

@@ -217,5 +217,31 @@ const styles = ScaledSheet.create({
     borderRadius: 6,
     marginStart: 16,
   },
+  modalContainer: {
+    backgroundColor: 'white',
+
+    paddingVertical: 10,
+
+    borderRadius: 5,
+  },
+  rowContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  mborder: {
+    borderWidth: 0.5,
+    borderColor: 'lightgrey',
+    width: '100%',
+    marginTop: 12,
+  },
+  reporttext: {
+    fontSize: hp(2.1),
+  },
+  btn: {
+    color: 'red',
+    marginTop: 10,
+    fontWeight: 'bold',
+  },
 });
 export default styles;

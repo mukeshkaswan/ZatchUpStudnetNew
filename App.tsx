@@ -6,25 +6,34 @@
  * @flow strict-local
  */
 
-import React, { useEffect, useState } from 'react';
-import { View, StatusBar, LogBox, StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StatusBar, LogBox, StyleSheet} from 'react-native';
 import Routes from './src/routes';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistStore} from 'redux-persist';
 import sagas from './src/segas';
 import reducer from './src/reducers';
-import { createStore, applyMiddleware } from 'redux';
+import {createStore, applyMiddleware, StoreEnhancer, Middleware} from 'redux';
+import createDebugger from 'redux-flipper';
 
 LogBox.ignoreAllLogs();
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const middlewares = [
+  /* other middlewares */
+  sagaMiddleware,
+  createDebugger(),
+];
+// if (__DEV__) {
+//   middlewares.push(createDebugger());
+// }
+const store = createStore(reducer, applyMiddleware(...middlewares));
 const persistor = persistStore(store);
 sagaMiddleware.run(sagas);
-interface AppProps { }
+interface AppProps {}
 
 const App = (props: AppProps) => {
   return (

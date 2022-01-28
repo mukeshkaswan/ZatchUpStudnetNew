@@ -72,6 +72,11 @@ export const getAddmissionNoBySchool = createAction(
 // this is for Upload File User Info success
 export const UPLOADFILE = 'UPLOADFILE';
 export const getUploadFile = createAction(UPLOADFILE);
+
+//this is for the upload the post image and video
+export const UPLOADPOSTIMAGEVIDEOS = 'UPLOADPOSTIMAGEVIDEOS';
+export const uploadPostImageVideos = createAction(UPLOADPOSTIMAGEVIDEOS);
+
 // this is for get admin/verify_reset_password/
 export const ADMINVEROFYRESETPASSWORD = 'ADMINVEROFYRESETPASSWORD';
 export const getAdminVerifyResetPassword = createAction(
@@ -100,9 +105,17 @@ export const getReminders = createAction(GETREMINDERS);
 export const GETREPORTDATA = 'GETREPORTDATA';
 export const getReportData = createAction(GETREPORTDATA);
 
+// this is report data of user
+export const GETREPORTDATAUSER = 'GETREPORTDATAUSER';
+export const getReportDataUser = createAction(GETREPORTDATAUSER);
+
 // this is report data
 export const REPORTPOST = 'REPORTPOST';
 export const reportPost = createAction(REPORTPOST);
+
+// this is report profile
+export const REPORTPROFILE = 'REPORTPROFILE';
+export const reportProfile = createAction(REPORTPROFILE);
 
 // this is for Get Add Profile Pic Info success
 export const ADDPROFILEPICINFO = 'ADDPROFILEPICINFO';
@@ -143,6 +156,10 @@ export const getSchoolProfile = createAction(GETSCHOOLPROFILE);
 //this is the alumni details of post
 export const GETALUMIGALLERYDETAIL = 'GETALUMIGALLERYDETAIL';
 export const getAlumniGalleryDetail = createAction(GETALUMIGALLERYDETAIL);
+
+//this is the alumni details of post
+export const CREATEPOST = 'CREATEPOST';
+export const createPost = createAction(CREATEPOST);
 
 // this is the suggestion for user
 export const GETSUGGESTIONS = 'GETSUGGESTIONS';

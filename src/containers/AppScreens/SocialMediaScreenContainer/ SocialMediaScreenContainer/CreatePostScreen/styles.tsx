@@ -50,11 +50,11 @@ const styles = ScaledSheet.create({
   },
   deleteicon: {
     resizeMode: 'cover',
-    position: 'absolute',
+
     marginTop: 10,
     width: 20,
     height: 20,
-    alignSelf: 'flex-end',
+    // alignSelf: 'flex-end',
     marginRight: 10,
   },
   addphotoText: {
