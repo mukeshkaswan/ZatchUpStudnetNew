@@ -75,7 +75,10 @@ import {
   USERCOURSECONFIRM,
   USERGETSTATE,
   USERGETCITY,
-  USERWORKDETAIL
+  USERWORKDETAIL,
+  DELETEWORKDETAIL,
+  UPLOADEKYCFORDETAILCHANGES,
+  UPLOADEKYCFORDETAILCHANGESDOB
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -766,7 +769,7 @@ function* getCheckUserKyc({ payload: { data, callback } }) {
       //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
       'Content-Type': 'application/json',
     },
-    //data: JSON.stringify(data.course_id),
+    data: {},
     method: 'POST',
     url: 'user/check-user-ekyc/',
   };
@@ -2443,6 +2446,131 @@ function* getUserWorkDetail({ payload: { data_update, callback } }) {
   }
 }
 
+
+
+/***************************User Delete Work Details Auth Segas*******************************/
+
+function* getUserDeleteWorkDetail({ payload: { data, callback } }) {
+
+  const datakey = {
+    id: data.id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    data: datakey,
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/delete-work-detail/`,
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Upload ekyc for detail change Auth Segas*******************************/
+
+function* getUploadekycfordetailchange({ payload: { data, callback } }) {
+  console.warn('data in saga', data);
+
+
+  let formdata = new FormData();
+  formdata.append('kyc_type', data.kyc_type);
+  formdata.append('kyc_id_no', data.kyc_id_no);
+  formdata.append('kyc_name', data.kyc_name);
+  formdata.append('kyc_document', data.kyc_document);
+  formdata.append('kyc_document_back', data.kyc_document_back);
+
+  // formdata.append('kyc_type', 'ADHAR');
+  // formdata.append('kyc_id_no', '1234567890');
+  // formdata.append('kyc_name', 'mukesh');
+  // formdata.append('kyc_dob', '2020-5-15');
+  // formdata.append('kyc_document', data.kyc_document);
+  // formdata.append('kyc_document_back', data.kyc_document_back);
+  //  console.warn('data in saga-------------------->', formdata);
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/upload-ekyc-for-detail-change/',
+  };
+  // console.warn('data in saga----4324---------------->', payload);
+  const { result, error } = yield call(httpClient, payload);
+  //  console.log('kyc error', JSON.stringify(error, undefined, 2));
+  if (!error) {
+    if (result) {
+      //  console.log('kyc result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Upload ekyc for detail change dob Auth Segas*******************************/
+
+function* getUploadekycfordetailchangedob({ payload: { data, callback } }) {
+  console.warn('data in saga', data);
+
+
+  let formdata = new FormData();
+  formdata.append('kyc_type', data.kyc_type);
+  formdata.append('kyc_id_no', data.kyc_id_no);
+  formdata.append('kyc_dob', data.kyc_dob);
+  formdata.append('kyc_document', data.kyc_document);
+  formdata.append('kyc_document_back', data.kyc_document_back);
+
+  // formdata.append('kyc_type', 'ADHAR');
+  // formdata.append('kyc_id_no', '1234567890');
+  // formdata.append('kyc_name', 'mukesh');
+  // formdata.append('kyc_dob', '2020-5-15');
+  // formdata.append('kyc_document', data.kyc_document);
+  // formdata.append('kyc_document_back', data.kyc_document_back);
+  //  console.warn('data in saga-------------------->', formdata);
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/upload-ekyc-for-detail-change/',
+  };
+  // console.warn('data in saga----4324---------------->', payload);
+  const { result, error } = yield call(httpClient, payload);
+  //  console.log('kyc error', JSON.stringify(error, undefined, 2));
+  if (!error) {
+    if (result) {
+      //  console.log('kyc result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -2518,13 +2646,9 @@ function* User() {
     yield takeLatest(USERGETSTATE, getUserGetState),
     yield takeLatest(USERGETCITY, getUserGetCity),
     yield takeLatest(USERWORKDETAIL, getUserWorkDetail),
-
-
-
-
-
-
-
+    yield takeLatest(DELETEWORKDETAIL, getUserDeleteWorkDetail),
+    yield takeLatest(UPLOADEKYCFORDETAILCHANGES, getUploadekycfordetailchange),
+    yield takeLatest(UPLOADEKYCFORDETAILCHANGESDOB, getUploadekycfordetailchangedob),
 
   ]);
 }

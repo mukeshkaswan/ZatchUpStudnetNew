@@ -342,11 +342,11 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                   }
 
                   setLoading(false);
+                  _storeData();
 
 
                   writeUserData(params);
                   props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
-                  _storeData();
 
                   // firestore()
                   //   .collection('users')

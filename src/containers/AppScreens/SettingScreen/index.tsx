@@ -1,4 +1,4 @@
-import React, {Component, FC, useState, useEffect} from 'react';
+import React, { Component, FC, useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -30,13 +30,13 @@ import {
   useIsFocused,
   DrawerActions,
 } from '@react-navigation/native';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   widthPercentageToDP as wp,
@@ -46,7 +46,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
-import {CheckBox} from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import axios from 'axios';
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -156,7 +156,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -173,9 +173,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -248,6 +248,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       //   id: element.first_name,
       // }
       // Profile.push(obj);
+      
     });
     _storeData();
 
@@ -261,6 +262,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       await AsyncStorage.setItem('username', username);
       await AsyncStorage.setItem('profilepic', profilepic);
       await AsyncStorage.setItem('kyckey', kyc_approved.toString());
+      await AsyncStorage.setItem('dob', dob);
+
     } catch (e) {
       // saving error
     }
@@ -293,18 +296,20 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           'content-type': 'multipart/form-data',
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log('Data==>>', data);
         //   Alert.alert('hey...');
         if (data.status) {
+          setLoading(false);
+
           console.warn(
             'after setting call api',
             JSON.stringify(data, undefined, 2),
 
-            getdataProfile(data),
-            getdataCourse(data),
+        
           );
-          setLoading(false);
+          getdataProfile(data);
+          getdataCourse(data);
           // setSpinnerStart(false);
         }
       })
@@ -315,7 +320,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getStudentEducationProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           console.log('hey.......kamal');
           if (result.status) {
             console.warn(
@@ -357,8 +362,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       KYC_type_doc_Selected == 0
         ? 'He'
         : KYC_type_doc_Selected == 1
-        ? 'She'
-        : 'They';
+          ? 'She'
+          : 'They';
     const data = {
       token: token,
       father_name: newfathername,
@@ -379,7 +384,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.updatePersonalinfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status) {
             setModalVisible(false);
             getEducationProfile();
@@ -431,21 +436,53 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   }}>
                   <View style={styles.addcitycontainer}>
                     <Text style={styles.title_text}>Personal Setting</Text>
-                    <TouchableOpacity onPress={toggleModal}>
+                   {kyc_approved != '0' ?  <TouchableOpacity onPress={toggleModal}>
                       <Image source={Images.edit_icon} style={styles.addicon} />
-                    </TouchableOpacity>
+                    </TouchableOpacity>:null}
                     {/* Modal */}
                   </View>
 
                   <View style={styles.border}></View>
-                  <View style={{marginTop: 15}}>
+                  <View style={{ marginTop: 10 }}>
                     <View style={styles.text_container}>
                       <Text style={styles.detail_text}>Name : </Text>
                       <Text>{username}</Text>
+                      {kyc_approved != '0' ?   <TouchableOpacity
+                        onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+
+                        <Image
+                          style={{
+                            height: 20,
+                            width: 20,
+
+                            //marginTop: 5,
+                            marginLeft: 5,
+                            // marginRight: 15,
+                          }}
+                          source={Images.edit_icon}
+                        />
+                      </TouchableOpacity>:null}
+
                     </View>
                     <View style={styles.text_container}>
                       <Text style={styles.detail_text}>DOB : </Text>
                       <Text>{dob}</Text>
+                      {kyc_approved != '0' ?    <TouchableOpacity
+                        onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+
+                        <Image
+                          style={{
+                            height: 20,
+                            width: 20,
+
+                            //marginTop: 5,
+                            marginLeft: 5,
+                            // marginRight: 15,
+                          }}
+                          source={Images.edit_icon}
+                        />
+                      </TouchableOpacity>:null}
+
                     </View>
 
                     {Gender == 'M' ? (
@@ -464,7 +501,67 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         <Text>Custom</Text>
                       </View>
                     )}
-                    <View style={styles.text_container}>
+
+                    {email != '' ? <View style={styles.text_container}>
+
+                      {email != '' ? <View style={{ flexDirection: 'row' }}>
+
+                        <Text style={styles.detail_text}>Email : </Text>
+                        <Text>{email}</Text>
+                      </View> : null}
+
+
+
+
+                      {phone == '' ? <TouchableOpacity
+                      // onPress={toggleModal2}
+                      >
+                        <Image
+                          source={Images.phone_icon}
+                          style={{
+                            resizeMode: 'stretch',
+                            tintColor: 'green',
+                            marginLeft: 8,
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </TouchableOpacity> : null}
+
+                    </View> : null}
+
+
+                    {phone != '' ? <View style={styles.text_container}>
+
+
+
+
+                      {phone != '' ? <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.detail_text}>
+                          Phone Number :
+                        </Text>
+                        <Text>{phone}</Text>
+
+                      </View> : null}
+
+
+                      {email == '' ? <TouchableOpacity
+                      // onPress={toggleModal2}
+                      >
+                        <Image
+                          source={Images.inbox}
+                          style={{
+                            resizeMode: 'stretch',
+                            tintColor: 'green',
+                            marginLeft: 8,
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </TouchableOpacity> : null}
+
+                    </View> : null}
+                    {/* <View style={styles.text_container}>
                       {phone == '' ? (
                         <>
                           <Text style={styles.detail_text}>Email : </Text>
@@ -509,7 +606,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           />
                         </TouchableOpacity>
                       )}
-                    </View>
+                    </View> */}
                     {fathername != '' && (
                       <View style={styles.text_container}>
                         <Text style={styles.detail_text}>Father's Name : </Text>
@@ -536,17 +633,17 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     {phone == '' ? (
                       <>
                         <Text style={styles.detail_text}>Email : </Text>
-                        <Text style={{textAlign: 'center'}}>{email}</Text>
+                        <Text style={{ textAlign: 'center' }}>{email}</Text>
                       </>
                     ) : (
                       <>
                         <Text style={styles.detail_text}>Mobile Number : </Text>
-                        <Text style={{textAlign: 'center'}}>{phone}</Text>
+                        <Text style={{ textAlign: 'center' }}>{phone}</Text>
                       </>
                     )}
 
                     <Switch
-                      trackColor={{false: 'grey', true: 'lightgreen'}}
+                      trackColor={{ false: 'grey', true: 'lightgreen' }}
                       thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch1}
@@ -557,9 +654,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   <View style={styles.border1}></View>
                   <View style={styles.privacyrowcontainer}>
                     <Text style={styles.detail_text}>Date of Birth : </Text>
-                    <Text style={{textAlign: 'center'}}>{dob}</Text>
+                    <Text style={{ textAlign: 'center' }}>{dob}</Text>
                     <Switch
-                      trackColor={{false: 'grey', true: 'lightgreen'}}
+                      trackColor={{ false: 'grey', true: 'lightgreen' }}
                       thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch2}
@@ -571,22 +668,22 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     {Gender == 'M' ? (
                       <>
                         <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{textAlign: 'center'}}>Male</Text>
+                        <Text style={{ textAlign: 'center' }}>Male</Text>
                       </>
                     ) : Gender == 'F' ? (
                       <>
                         <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{textAlign: 'center'}}>Female</Text>
+                        <Text style={{ textAlign: 'center' }}>Female</Text>
                       </>
                     ) : (
                       <>
                         <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{textAlign: 'center'}}>Custom</Text>
+                        <Text style={{ textAlign: 'center' }}>Custom</Text>
                       </>
                     )}
 
                     <Switch
-                      trackColor={{false: 'grey', true: 'lightgreen'}}
+                      trackColor={{ false: 'grey', true: 'lightgreen' }}
                       thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch3}
@@ -609,10 +706,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     }}>
                     <TouchableOpacity
                       onPress={toggleModal}
-                      style={{alignSelf: 'flex-end'}}>
+                      style={{ alignSelf: 'flex-end' }}>
                       <Image
                         source={Images.closeicon}
-                        style={{height: 18, width: 18, marginRight: 10}}
+                        style={{ height: 18, width: 18, marginRight: 10 }}
                       />
                     </TouchableOpacity>
                     <Text
@@ -660,7 +757,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           marginRight: 25,
                         },
                       ]}>
-                      <View style={{flex: 1}}>
+                      <View style={{ flex: 1 }}>
                         <CheckBox
                           title=" Male"
                           checkedIcon="dot-circle-o"
@@ -685,11 +782,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                             fontFamily: 'Lato-Regular',
                           }}
                           onPress={checkedMale}
-                          // fontFamily={'Lato-Regular'}
+                        // fontFamily={'Lato-Regular'}
                         />
                       </View>
 
-                      <View style={{flex: 1}}>
+                      <View style={{ flex: 1 }}>
                         <CheckBox
                           title=" Female"
                           checkedIcon="dot-circle-o"
@@ -710,11 +807,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           uncheckedColor={'#fff'}
                           checkedColor={'rgb(70,50,103)'}
                           onPress={checkedFemale}
-                          // fontFamily={'Lato-Regular'}
+                        // fontFamily={'Lato-Regular'}
                         />
                       </View>
 
-                      <View style={{flex: 1}}>
+                      <View style={{ flex: 1 }}>
                         <CheckBox
                           title=" Custom"
                           checkedIcon="dot-circle-o"
@@ -734,7 +831,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           }}
                           uncheckedColor={'lightgrey'}
                           checkedColor={'rgb(70,50,103)'}
-                          textStyle={{color: '#33333380'}}
+                          textStyle={{ color: '#33333380' }}
                           onPress={checkedCustom}
                         />
                       </View>
@@ -757,7 +854,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           />
                         </View>
 
-                        <View style={{marginBottom: '3%'}}>
+                        <View style={{ marginBottom: '3%' }}>
                           <TextField
                             placeholder={'Gender (optional)'}
                             imageIcon={''}
@@ -777,7 +874,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         justifyContent: 'center',
                         borderRadius: 10,
                       }}>
-                      <Text style={{color: 'white'}} onPress={onPressSubmit}>
+                      <Text style={{ color: 'white' }} onPress={onPressSubmit}>
                         Submit
                       </Text>
                     </TouchableOpacity>
@@ -799,17 +896,17 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     }}>
                     <TouchableOpacity
                       onPress={toggleModal2}
-                      style={{alignSelf: 'flex-end'}}>
+                      style={{ alignSelf: 'flex-end' }}>
                       <Image
                         source={Images.closeicon}
-                        style={{height: 18, width: 18, marginRight: 10}}
+                        style={{ height: 18, width: 18, marginRight: 10 }}
                       />
                     </TouchableOpacity>
 
                     <Text style={styles.labeltext}>Email</Text>
                     <View style={styles.textinputcontainer}>
                       <TextInput
-                        style={{paddingLeft: 10}}
+                        style={{ paddingLeft: 10 }}
                         onChangeText={onChangeNumber}
                         value={number}
                         placeholder="Add Email"
@@ -827,7 +924,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         justifyContent: 'center',
                         borderRadius: 10,
                       }}>
-                      <Text style={{color: 'white'}}>Submit</Text>
+                      <Text style={{ color: 'white' }}>Submit</Text>
                     </TouchableOpacity>
                   </View>
                 </Modal>
@@ -857,13 +954,524 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       />
       {isLoading && renderIndicator()}
 
-      <FlatList
+      {/* <FlatList
         data={setdatafromlist}
         // keyExtractor={item => item.id.toString()}
         ItemSeparatorComponent={ItemSeprator}
         //  ItemSeparatorComponent={this.SeparatorComponent}
-        renderItem={({item, index}) => rednderItemList(item, index)}
-      />
+        renderItem={({ item, index }) => rednderItemList(item, index)}
+      /> */}
+
+
+      <View>
+        <CardView
+          cardElevation={5}
+          cardMaxElevation={5}
+          // cornerRadius={15}
+          style={{
+            // width: '95%',
+
+            backgroundColor: 'white',
+            marginHorizontal: 15,
+            marginTop: 20,
+            paddingBottom: 14,
+            paddingTop: 10,
+          }}>
+          <View style={styles.addcitycontainer}>
+            <Text style={styles.title_text}>Personal Setting</Text>
+            {kyc_approved != '0' ?  <TouchableOpacity onPress={toggleModal}>
+              <Image source={Images.edit_icon} style={styles.addicon} />
+            </TouchableOpacity>:null}
+            {/* Modal */}
+          </View>
+
+          <View style={styles.border}></View>
+          <View style={{ marginTop: 10 }}>
+            <View style={styles.text_container}>
+              <Text style={styles.detail_text}>Name : </Text>
+              <Text>{username}</Text>
+              {kyc_approved != '0' ?   <TouchableOpacity
+                onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+
+                <Image
+                  style={{
+                    height: 20,
+                    width: 20,
+
+                    //marginTop: 5,
+                    marginLeft: 5,
+                    // marginRight: 15,
+                  }}
+                  source={Images.edit_icon}
+                />
+              </TouchableOpacity>:null}
+
+            </View>
+            <View style={styles.text_container}>
+              <Text style={styles.detail_text}>DOB : </Text>
+              <Text>{dob}</Text>
+              {kyc_approved != '0' ?   <TouchableOpacity
+                onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+
+                <Image
+                  style={{
+                    height: 20,
+                    width: 20,
+
+                    //marginTop: 5,
+                    marginLeft: 5,
+                    // marginRight: 15,
+                  }}
+                  source={Images.edit_icon}
+                />
+              </TouchableOpacity>:null}
+
+            </View>
+
+            {Gender == 'M' ? (
+              <View style={styles.text_container}>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text>Male</Text>
+              </View>
+            ) : Gender == 'F' ? (
+              <View style={styles.text_container}>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text>Female</Text>
+              </View>
+            ) : (
+              <View style={styles.text_container}>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text>Custom</Text>
+              </View>
+            )}
+
+            {email != '' ? <View style={styles.text_container}>
+
+              {email != '' ? <View style={{ flexDirection: 'row' }}>
+
+                <Text style={styles.detail_text}>Email : </Text>
+                <Text>{email}</Text>
+              </View> : null}
+
+
+
+
+              {phone == '' ? <TouchableOpacity
+              // onPress={toggleModal2}
+              >
+                <Image
+                  source={Images.phone_icon}
+                  style={{
+                    resizeMode: 'stretch',
+                    tintColor: 'green',
+                    marginLeft: 8,
+                    width: 20,
+                    height: 20,
+                  }}
+                />
+              </TouchableOpacity> : null}
+
+            </View> : null}
+
+
+            {phone != '' ? <View style={styles.text_container}>
+
+
+
+
+              {phone != '' ? <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.detail_text}>
+                  Phone Number :
+                </Text>
+                <Text>{phone}</Text>
+
+              </View> : null}
+
+
+              {email == '' ? <TouchableOpacity
+              // onPress={toggleModal2}
+              >
+                <Image
+                  source={Images.inbox}
+                  style={{
+                    resizeMode: 'stretch',
+                    tintColor: 'green',
+                    marginLeft: 8,
+                    width: 20,
+                    height: 20,
+                  }}
+                />
+              </TouchableOpacity> : null}
+
+            </View> : null}
+            {/* <View style={styles.text_container}>
+                      {phone == '' ? (
+                        <>
+                          <Text style={styles.detail_text}>Email : </Text>
+                          <Text>{email}</Text>
+                        </>
+                      ) : (
+                        <>
+                          <Text style={styles.detail_text}>
+                            Phone Number :{' '}
+                          </Text>
+                          <Text>{phone}</Text>
+                        </>
+                      )}
+                      {phone == '' ? (
+                        <TouchableOpacity
+                        // onPress={toggleModal2}
+                        >
+                          <Image
+                            source={Images.phone_icon}
+                            style={{
+                              resizeMode: 'stretch',
+                              tintColor: 'green',
+                              marginLeft: 8,
+                              width: 20,
+                              height: 20,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                        // onPress={toggleModal2}
+                        >
+                          <Image
+                            source={Images.inbox}
+                            style={{
+                              resizeMode: 'stretch',
+                              tintColor: 'green',
+                              marginLeft: 8,
+                              width: 20,
+                              height: 20,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      )}
+                    </View> */}
+            {fathername != '' && (
+              <View style={styles.text_container}>
+                <Text style={styles.detail_text}>Father's Name : </Text>
+                <Text>{fathername}</Text>
+              </View>
+            )}
+            {mothername != '' && (
+              <View style={styles.text_container}>
+                <Text style={styles.detail_text}>Mother's Name : </Text>
+                <Text>{mothername}</Text>
+              </View>
+            )}
+          </View>
+        </CardView>
+        <CardView
+          cardElevation={5}
+          cardMaxElevation={5}
+          //cornerRadius={20}
+          style={styles.card}>
+          <Text style={styles.title_text}>Privacy Setting</Text>
+
+          <View style={styles.border}></View>
+          <View style={styles.privacyrowcontainer}>
+            {phone == '' ? (
+              <>
+                <Text style={styles.detail_text}>Email : </Text>
+                <Text style={{ textAlign: 'center' }}>{email}</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.detail_text}>Mobile Number : </Text>
+                <Text style={{ textAlign: 'center' }}>{phone}</Text>
+              </>
+            )}
+
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch1}
+              value={isEnabled}
+            />
+          </View>
+
+          <View style={styles.border1}></View>
+          <View style={styles.privacyrowcontainer}>
+            <Text style={styles.detail_text}>Date of Birth : </Text>
+            <Text style={{ textAlign: 'center' }}>{dob}</Text>
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch2}
+              value={isEnabled2}
+            />
+          </View>
+          <View style={styles.border1}></View>
+          <View style={styles.privacyrowcontainer}>
+            {Gender == 'M' ? (
+              <>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={{ textAlign: 'center' }}>Male</Text>
+              </>
+            ) : Gender == 'F' ? (
+              <>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={{ textAlign: 'center' }}>Female</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={{ textAlign: 'center' }}>Custom</Text>
+              </>
+            )}
+
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch3}
+              value={isEnabled3}
+            />
+          </View>
+        </CardView>
+
+        {/* edit personal information modal */}
+        <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+          <View
+            style={{
+              //height: hp('55'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              borderRadius: 5,
+            }}>
+            <TouchableOpacity
+              onPress={toggleModal}
+              style={{ alignSelf: 'flex-end' }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 20,
+                marginVertical: 5,
+                fontWeight: 'bold',
+              }}>
+              Personal Information
+            </Text>
+            <Text style={styles.labeltext}>Mother's Name</Text>
+            <View style={styles.textinputcontainer}>
+              {/* <TextInput
+                        style={{paddingLeft: 10}}
+                        onChangeText={onChangeNumber}
+                        value={number}
+                        placeholder="Enter Your Mother's Name"
+                        keyboardType="default"
+                      /> */}
+              <TextField
+                placeholder={'Enter Your Mother Name'}
+                //imageIcon={Images.calendar_icon}
+                onChangeText={val => setnewnnewMothername(val)}
+                value={newmothername}
+              />
+            </View>
+            <Text style={styles.labeltext}>Father's Name</Text>
+            <View style={styles.textinputcontainer}>
+              <TextField
+                placeholder={'Enter Your Father Name'}
+                //imageIcon={Images.calendar_icon}
+                onChangeText={val => setnewnnewFathername(val)}
+                value={newfathername}
+              />
+            </View>
+            <Text style={styles.labeltext}>Gender</Text>
+
+            <View
+              style={[
+                styles.inputmarginBottom,
+                {
+                  flexDirection: 'row',
+                  // flex: 1,
+                  marginLeft: 25,
+                  marginRight: 25,
+                },
+              ]}>
+              <View style={{ flex: 1 }}>
+                <CheckBox
+                  title=" Male"
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle"
+                  checked={male}
+                  containerStyle={{
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                  }}
+                  titleProps={{
+                    style: {
+                      color: 'rgba(51,51,51,0.5)',
+                      fontFamily: 'Lato-Regular',
+                    },
+                  }}
+                  uncheckedColor={'#fff'}
+                  checkedColor={'rgb(70,50,103)'}
+                  textStyle={{
+                    color: '#33333380',
+                    fontFamily: 'Lato-Regular',
+                  }}
+                  onPress={checkedMale}
+                // fontFamily={'Lato-Regular'}
+                />
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <CheckBox
+                  title=" Female"
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle"
+                  checked={Female}
+                  containerStyle={{
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                  }}
+                  titleProps={{
+                    style: {
+                      color: 'rgba(51,51,51,0.5)',
+                      fontFamily: 'Lato-Regular',
+                    },
+                  }}
+                  uncheckedColor={'#fff'}
+                  checkedColor={'rgb(70,50,103)'}
+                  onPress={checkedFemale}
+                // fontFamily={'Lato-Regular'}
+                />
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <CheckBox
+                  title=" Custom"
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle"
+                  checked={Custom}
+                  containerStyle={{
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                  }}
+                  titleProps={{
+                    style: {
+                      color: 'rgba(51,51,51,0.5 )',
+                      fontFamily: 'Lato-Regular',
+                    },
+                  }}
+                  uncheckedColor={'lightgrey'}
+                  checkedColor={'rgb(70,50,103)'}
+                  textStyle={{ color: '#33333380' }}
+                  onPress={checkedCustom}
+                />
+              </View>
+            </View>
+            {customgenderView && (
+              <View style={{}}>
+                <View
+                  style={{
+                    marginBottom: '2%',
+                  }}>
+                  {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
+
+                  <CustomDropdown
+                    placeholder={'Select your pronoun'}
+                    data={KYC_type_doc}
+                    selectedValue={KYC_type_doc}
+                    SelectedLanguagedata={selectedValue =>
+                      selectedValue
+                    }
+                  />
+                </View>
+
+                <View style={{ marginBottom: '3%' }}>
+                  <TextField
+                    placeholder={'Gender (optional)'}
+                    imageIcon={''}
+                    onChangeText={val => setCustomGender(val)}
+                    value={CustomGender}
+                  />
+                </View>
+              </View>
+            )}
+            <TouchableOpacity
+              style={{
+                height: hp('4.5'),
+                width: wp('40'),
+                backgroundColor: 'rgb(70,50,103)',
+                marginTop: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 10,
+              }}>
+              <Text style={{ color: 'white' }} onPress={onPressSubmit}>
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        {/* add mail and add number modal */}
+        <Modal
+          isVisible={isModalVisible2}
+          onBackdropPress={toggleModal2}>
+          <View
+            style={{
+              height: hp('22'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              borderRadius: 5,
+            }}>
+            <TouchableOpacity
+              onPress={toggleModal2}
+              style={{ alignSelf: 'flex-end' }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.labeltext}>Email</Text>
+            <View style={styles.textinputcontainer}>
+              <TextInput
+                style={{ paddingLeft: 10 }}
+                onChangeText={onChangeNumber}
+                value={number}
+                placeholder="Add Email"
+                keyboardType="default"
+              />
+            </View>
+
+            <TouchableOpacity
+              style={{
+                height: hp('4.5'),
+                width: wp('40'),
+                backgroundColor: 'rgb(70,50,103)',
+                marginTop: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 10,
+              }}>
+              <Text style={{ color: 'white' }}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 };

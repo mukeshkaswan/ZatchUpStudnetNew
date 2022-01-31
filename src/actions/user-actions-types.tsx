@@ -293,3 +293,16 @@ export const getUserGetCity= createAction(USERGETCITY);
 // this is for Get User Work Detail
 export const USERWORKDETAIL = 'USERWORKDETAIL';
 export const getUserWorkDetail= createAction(USERWORKDETAIL);
+
+// this is for Get User Delete Work Detail
+export const DELETEWORKDETAIL = 'DELETEWORKDETAIL';
+export const getUserDeleteWorkDetail= createAction(DELETEWORKDETAIL);
+
+// this is for Get Uploade kyc for detail change
+export const UPLOADEKYCFORDETAILCHANGES = 'UPLOADEKYCFORDETAILCHANGES';
+export const getUploadekycfordetailchange= createAction(UPLOADEKYCFORDETAILCHANGES);
+
+
+// this is for Get Uploade kyc for detail change dob
+export const UPLOADEKYCFORDETAILCHANGESDOB = 'UPLOADEKYCFORDETAILCHANGESDOB';
+export const getUploadekycfordetailchangedob= createAction(UPLOADEKYCFORDETAILCHANGESDOB);

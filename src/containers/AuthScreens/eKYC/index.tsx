@@ -54,6 +54,8 @@ const eKyc = (props: eKycScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const [KYC_type_doc_Selected, setKYCSelected] = useState('');
   const [keyInput, setKYCTextInput] = useState('');
+  const [kycidno, setKYCidno] = useState('');
+
   const refRBSheet = useRef();
   const refRBSheetBack = useRef();
 
@@ -79,11 +81,19 @@ const eKyc = (props: eKycScreenProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
+
     getData();
     getAuthUserInfoApi();
 
+    if (props.route.params.Editusername == true || props.route.params.Editdob == true) {
+
+      getUserKYC();
+
+
+    }
+
     //getStepCountAPi()
-    // getUserKYC();
     // getAuthUserInfoApi();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -115,6 +125,7 @@ const eKyc = (props: eKycScreenProps) => {
     try {
       const username = await AsyncStorage.getItem('username');
       const dob = await AsyncStorage.getItem('dob');
+      console.log('dob', dob);
       //const res = str.replace(/ /g, '')
 
       if (username !== null) {
@@ -303,6 +314,8 @@ const eKyc = (props: eKycScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setName(result.full_name);
+            getData();
+            //  setDate_Copy(result.)
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -353,14 +366,16 @@ const eKyc = (props: eKycScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
+            setLoading(false);
             console.warn(
               'after result check user kyc',
               JSON.stringify(result, undefined, 2),
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
+            setDate_Copy(result.data.kyc_dob);
+            setKYCidno(result.data.kyc_id_no);
             // setSpinnerStart(false);
-            setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -439,6 +454,224 @@ const eKyc = (props: eKycScreenProps) => {
       }),
     );
   };
+
+
+  const onPressKycSuccessDetailsChange = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const IDSelecterror = Validate('kycidselect', KYC_type_doc_Selected);
+
+    console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
+
+    if (KYC_type_doc_Selected == 0) {
+      var IDError = Validate('AadharNumber', ID);
+    }
+    if (KYC_type_doc_Selected == 1) {
+      var IDError = Validate('DrivingLicence', ID);
+    }
+    if (KYC_type_doc_Selected == 2) {
+      var IDError = Validate('PassportNumber', ID);
+    }
+
+    const NameError = Validate('kycidname', Name);
+    const DOBError = Validate('dob', date_copy);
+    const FrontImageError = Validate('FrontImage', frontimagename);
+    // if (KYC_type_doc_Selected == 0) {
+    //   var backimagenameError = Validate('BackImage', backimagename);
+    // }
+
+    if (
+      IDSelecterror ||
+      IDError ||
+      NameError ||
+      DOBError ||
+      FrontImageError
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        IDSelecterror ||
+        IDError ||
+        NameError ||
+        DOBError ||
+        FrontImageError,
+        Toast.SHORT,
+      );
+
+      return false;
+    } else {
+      var key =
+        KYC_type_doc_Selected == 0
+          ? 'Aadhaar Card'
+          : KYC_type_doc_Selected == 1
+            ? 'Driving Licence'
+            : 'Passport Number';
+      // console.log('KYC_type_doc_Selected', key);
+      const data = {
+        token: token,
+        kyc_type: key,
+        kyc_id_no: ID,
+        kyc_name: Name,
+        kyc_document: frontimage,
+        kyc_document_back: backimage,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.getUploadekycfordetailchange({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+              // setSpinnerStart(false);
+              setLoading(false);
+              console.warn(
+                'after upload-ekyc-for-detail-change result',
+                JSON.stringify(result, undefined, 2),
+              );
+              //  navigate()
+              Toast.show('KYC ADDED Successfully', Toast.SHORT);
+
+              props.navigation.navigate('SettingScreen');
+              // setSpinnerStart(false);
+              // setLoading(false);
+            }
+
+            if (!error) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              setLoading(false);
+              // signOut();
+            } else {
+              // setError(true);
+              // signOut();
+              setLoading(false);
+
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
+
+
+  const onPressKycSuccessDetailsChangedob = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const IDSelecterror = Validate('kycidselect', KYC_type_doc_Selected);
+
+    console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
+
+    if (KYC_type_doc_Selected == 0) {
+      var IDError = Validate('AadharNumber', ID);
+    }
+    if (KYC_type_doc_Selected == 1) {
+      var IDError = Validate('DrivingLicence', ID);
+    }
+    if (KYC_type_doc_Selected == 2) {
+      var IDError = Validate('PassportNumber', ID);
+    }
+
+    const NameError = Validate('kycidname', Name);
+    const DOBError = Validate('dob', date_copy);
+    const FrontImageError = Validate('FrontImage', frontimagename);
+    // if (KYC_type_doc_Selected == 0) {
+    //   var backimagenameError = Validate('BackImage', backimagename);
+    // }
+
+    if (
+      IDSelecterror ||
+      IDError ||
+      NameError ||
+      DOBError ||
+      FrontImageError
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        IDSelecterror ||
+        IDError ||
+        NameError ||
+        DOBError ||
+        FrontImageError,
+        Toast.SHORT,
+      );
+
+      return false;
+    } else {
+      var key =
+        KYC_type_doc_Selected == 0
+          ? 'Aadhaar Card'
+          : KYC_type_doc_Selected == 1
+            ? 'Driving Licence'
+            : 'Passport Number';
+      // console.log('KYC_type_doc_Selected', key);
+      const data = {
+        token: token,
+        kyc_type: key,
+        kyc_id_no: ID,
+        //  kyc_name: Name,
+        kyc_dob: date_copy,
+        kyc_document: frontimage,
+        kyc_document_back: backimage,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.getUploadekycfordetailchangedob({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+              // setSpinnerStart(false);
+              setLoading(false);
+              console.warn(
+                'after upload-ekyc-for-detail-change result',
+                JSON.stringify(result, undefined, 2),
+              );
+              //  navigate()
+              Toast.show('KYC ADDED Successfully', Toast.SHORT);
+
+              props.navigation.navigate('SettingScreen');
+              // setSpinnerStart(false);
+              // setLoading(false);
+            }
+
+            if (!error) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              setLoading(false);
+              // signOut();
+            } else {
+              // setError(true);
+              // signOut();
+              setLoading(false);
+
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
+
 
   const onPressKycSuccess = async () => {
     var token = '';
@@ -787,16 +1020,27 @@ const eKyc = (props: eKycScreenProps) => {
               </View>
             ) : null}
 
-            <View style={{ marginBottom: '5%', flex: 1 }}>
+            {props.route.params.Editusername == true ? <View style={{ marginBottom: '5%', flex: 1 }}>
               <TextField
                 placeholder={'Enter Your Name'}
                 onChangeText={val => setName(val)}
                 value={Name}
+                editable={true}
                 imageIcon={Images.user_icon}
               />
-            </View>
+            </View> : <View style={{ marginBottom: '5%', flex: 1 }}>
+              <TextField
+                placeholder={'Enter Your Name'}
+                onChangeText={val => setName(val)}
+                value={Name}
+                editable={false}
+                imageIcon={Images.user_icon}
+              />
+            </View>}
 
-            <TouchableOpacity onPress={showDatepicker}>
+            {props.route.params.Editdob == true ? <TouchableOpacity
+              onPress={showDatepicker}
+            >
               <View style={styles.inputmarginBottom}>
                 <TextField
                   placeholder={'Date of Birth'}
@@ -805,7 +1049,14 @@ const eKyc = (props: eKycScreenProps) => {
                   value={date_copy.toString()}
                 />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> : <View style={styles.inputmarginBottom}>
+              <TextField
+                placeholder={'Date of Birth'}
+                imageIcon={Images.calendar_icon}
+                editable={false}
+                value={date_copy.toString()}
+              />
+            </View>}
             {/* <View style={{ marginBottom: '5%', flex: 1 }}>
                         <TextField placeholder={'Enter Your Address'} imageIcon={Images.calendar_icon} />
                     </View> */}
@@ -886,14 +1137,20 @@ const eKyc = (props: eKycScreenProps) => {
             </TouchableOpacity>
 
             <View>
-              <CustomButton
+              {props.route.params.Editusername == true ? <CustomButton
                 title={'Verify Your KYC'}
-                onPress={onPressKycSuccess}
-              // onPress={() => {
-              //    // setKYC_type_doc()
-              //     props.navigation.navigate('eKycSuccess')}
-              // }
-              />
+                onPress={onPressKycSuccessDetailsChange}
+
+              /> : props.route.params.Editdob == true ?
+                <CustomButton
+                  title={'Verify Your KYC'}
+                  onPress={onPressKycSuccessDetailsChangedob}
+
+                /> : <CustomButton
+                  title={'Verify Your KYC'}
+                  onPress={onPressKycSuccess}
+
+                />}
             </View>
           </View>
         </ScrollView>

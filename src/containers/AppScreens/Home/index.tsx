@@ -267,7 +267,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     var Profile = [];
     result.data.map((element: any) => {
 
-     
+
       // var obj = {
       //   id: element.first_name,
       // }
@@ -278,13 +278,13 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
 
-    
+
 
   };
 
   const getdataWorkDetails2 = async result => {
 
-   // console.log('Profileelement1',result)
+    // console.log('Profileelement1',result)
 
     result.map((element: any) => {
 
@@ -311,6 +311,24 @@ const HomeScreen = (props: HomeScreenProps) => {
           style: 'cancel',
         },
         { text: 'Yes', onPress: () => Coursedelete(id) },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  };
+
+
+  const DeleteWork = async id => {
+    Alert.alert(
+      'Delete Work Details',
+      'Are you sure you want delete this work details ?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => DeleteWorkDetails(id) },
       ],
       { cancelable: false },
     );
@@ -397,6 +415,68 @@ const HomeScreen = (props: HomeScreenProps) => {
       }),
     );
   };
+
+
+  /***************************User get Delete work details from list *******************************/
+
+  const DeleteWorkDetails = async id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserDeleteWorkDetail({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
+            //   // getdataCourseKey(result)
+            //   // getEicourseconfirmationlist(),
+
+
+            //   // props.navigation.navigate('SelectStudent'),
+            // );
+            Toast.show('Work Detail Deleted Successfully', Toast.SHORT),
+              getEducationProfile()
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
 
 
   /***************************User get Delete course list *******************************/
@@ -669,18 +749,19 @@ const HomeScreen = (props: HomeScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
-            // console.warn(
-            //   'after result',
-            //   JSON.stringify(result, undefined, 2),
+            setLoading(false),
+
+              // console.warn(
+              //   'after result',
+              //   JSON.stringify(result, undefined, 2),
 
 
-            // );
+              // );
               getdataProfile(result),
               getdataCourse(result),
-              getdataWorkDetails(result),
+              getdataWorkDetails(result);
 
-              // setSpinnerStart(false);
-              setLoading(false);
+            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1751,17 +1832,30 @@ const HomeScreen = (props: HomeScreenProps) => {
               </View>
             )}
 
-            {phone == '' ? (
+            {/* {email != '' ? 
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Email :</Text>
                 <Text style={styles.view_Tv_2}>{email}</Text>
               </View>
-            ) : (
+             : phone != '' ? 
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Phone :</Text>
                 <Text style={styles.view_Tv_2}>{phone}</Text>
               </View>
-            )}
+            :null} */}
+
+
+
+            {email != '' ? <View style={styles.view_Row_}>
+              <Text style={styles.view_Tv_1}>Email :</Text>
+              <Text style={styles.view_Tv_2}>{email}</Text>
+            </View> : null}
+
+            {phone != '' ? <View style={styles.view_Row_}>
+              <Text style={styles.view_Tv_1}>Phone :</Text>
+              <Text style={styles.view_Tv_2}>{phone}</Text>
+            </View> : null}
+
 
             <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Father's Name :</Text>
@@ -1783,7 +1877,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             cornerRadius={10}
             style={styles.Cardview}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-              <Text style={styles.Personal_Tv}>Add Your City</Text>
+              <Text style={styles.Personal_Tv}>Your Current City</Text>
 
               {country == null ? <TouchableOpacity
                 underlayColor="none"
@@ -1920,7 +2014,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     />
                     <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16,color:'#000'}}>{item.job_title}</Text>
+                        <Text style={{ fontSize: 16, color: '#000' }}>{item.job_title}</Text>
                         <View style={{ flexDirection: 'row' }}>
                           <Image
                             style={{
@@ -1933,23 +2027,29 @@ const HomeScreen = (props: HomeScreenProps) => {
                             }}
                             source={Images.edit_icon}
                           />
-                          <Image
-                            style={{
-                              height: 28,
-                              width: 28,
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() => DeleteWork(item.id)}>
 
-                              marginTop: 5,
-                              // marginLeft: 20,
-                              marginRight: 15,
-                            }}
-                            source={Images.delete_icon}
-                          />
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+
+                                marginTop: 5,
+                                // marginLeft: 20,
+                                marginRight: 15,
+                              }}
+                              source={Images.delete_icon}
+                            />
+                          </TouchableOpacity>
+
                         </View>
                       </View>
 
                       <Text style={{ fontSize: 16, }}>{item.company_name}</Text>
-                     {item.is_currently_work == true ?  <Text>{item.start_date + ' - ' + 'Present'}</Text> :<Text>{item.start_date + ' - ' + item.end_date}</Text> }
-                      <Text>{item.work_country + '  ' + item.work_state +  '  ' +  item.work_city}</Text>
+                      {item.is_currently_work == true ? <Text>{item.start_date + ' - ' + 'Present'}</Text> : <Text>{item.start_date + ' - ' + item.end_date}</Text>}
+                      <Text>{item.work_country + '  ' + item.work_state + '  ' + item.work_city}</Text>
                     </View>
                   </View>
                   <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15, }}>{item.work_description}</Text>
@@ -1970,7 +2070,19 @@ const HomeScreen = (props: HomeScreenProps) => {
             cardElevation={5}
             cardMaxElevation={5}
             cornerRadius={10}
-            style={styles.Cardview}>
+            style={{backgroundColor: '#FFFFFF',
+            marginLeft: 15,
+            marginRight: 15,
+            marginTop: 30,
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 6,
+            shadowOpacity: 0.26,
+            elevation: 8,
+            //  backgroundColor: 'white',
+            //  padding: 20,
+            borderRadius: 5,
+            marginBottom:20}}>
 
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

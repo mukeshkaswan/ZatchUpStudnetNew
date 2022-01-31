@@ -19,6 +19,7 @@ const styles = ScaledSheet.create({
   text_container: {
     flexDirection: 'row',
     marginLeft: 18,
+    marginTop:15
   },
   border: {
     borderBottomWidth: 1,

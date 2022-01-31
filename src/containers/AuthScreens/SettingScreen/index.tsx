@@ -26,11 +26,6 @@ const SettingScreen= (props: ResetPasswordScreenProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [number, onChangeNumber] = React.useState(null);
 
-
-
-  
-   
-  
   const [Gender, setGender] = useState('');
    
   const [count, setCount] = useState(0);
@@ -101,7 +96,7 @@ return (
     <CustomStatusBar />
     <HeaderTitleWithBack
            navigation={props.navigation}
-          headerTitle="Settings"
+          headerTitle="Setting"
         />
        
        <CardView

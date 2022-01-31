@@ -149,6 +149,7 @@ const styles = ScaledSheet.create({
     //  backgroundColor: 'white',
     //  padding: 20,
     borderRadius: 5,
+   // marginBottom:20
   },
   Cardview_city: {
     backgroundColor: '#FFFFFF',
