@@ -541,11 +541,34 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               JSON.stringify(result, undefined, 2),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            let newArr = [];
+            // let newArr = [];
+            // for (let i in result.data) {
+            //   newArr.push({...result.data[i], commentToggle: false});
+            // }
+
+            let newArrr = [];
             for (let i in result.data) {
-              newArr.push({...result.data[i], commentToggle: false});
+              let newSubArr = [];
+              if (result.data[i].comment_post != null) {
+                for (let j in result.data[i].comment_post) {
+                  newSubArr.push({
+                    ...result.data[i].comment_post[j],
+                    showMore: false,
+                  });
+                }
+              } else {
+                newSubArr = result.data[i].comment_post;
+              }
+              newArrr.push({
+                ...result.data[i],
+                comment_post: newSubArr,
+                commentToggle: false,
+              });
             }
-            setPosts(newArr);
+
+            console.log('NewArray==>>', newArrr);
+
+            setPosts(newArrr);
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -1133,6 +1156,30 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     gotoReportPost();
   };
 
+  const gotoShowMore = (ind, index) => {
+    console.log(ind, index);
+
+    let newArr = Object.assign([], posts);
+
+    for (let i in newArr) {
+      if (i == ind) {
+        for (let j in newArr[i].comment_post) {
+          if (j == index && !newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = true;
+          } else if (j == index && newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = false;
+          } else {
+            newArr[i].comment_post[j].showMore = false;
+          }
+        }
+      }
+    }
+
+    console.log('After Change==>>', newArr);
+
+    setPosts(newArr);
+  };
+
   return (
     <View style={styles.container}>
       {/* <CustomStatusBar /> */}
@@ -1349,6 +1396,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           renderItem={({item, index}) => {
             let len = item.post_gallery != null ? item.post_gallery.length : 0;
             let items = item;
+            let ind = index;
             if (item.post_gallery == null) {
               let s = item.caption;
               var parts = s.match(/[\s\S]{1,140}/g) || [];
@@ -1562,55 +1610,67 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     item.comment_post.map((item, index) => {
                       if (index <= 2) {
                         return (
-                          <View
-                            style={styles.messageContainer}
-                            key={item + 'sap' + index}>
-                            <View style={{flexDirection: 'row', flex: 1}}>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  item.user_role == 'EIREPRESENTATIVE'
-                                    ? props.navigation.navigate(
-                                        'SchoolProfile',
-                                        {
-                                          item: {user_id: item.user},
-                                        },
-                                      )
-                                    : item.user_id != userid
-                                    ? props.navigation.navigate(
-                                        'UsersProfile',
-                                        {
-                                          item: {user_id: item.user},
-                                        },
-                                      )
-                                    : props.navigation.navigate(
-                                        'UserProfileScreen',
-                                        {
-                                          item: {user_id: item.user},
-                                        },
-                                      );
+                          <View key={item + 'sap' + index}>
+                            <View style={styles.messageContainer}>
+                              <View style={{flexDirection: 'row', flex: 1}}>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    item.user_role == 'EIREPRESENTATIVE'
+                                      ? props.navigation.navigate(
+                                          'SchoolProfile',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        )
+                                      : item.user_id != userid
+                                      ? props.navigation.navigate(
+                                          'UsersProfile',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        )
+                                      : props.navigation.navigate(
+                                          'UserProfileScreen',
+                                          {
+                                            item: {user_id: item.user},
+                                          },
+                                        );
+                                  }}>
+                                  <Text style={{fontWeight: 'bold', flex: 1}}>
+                                    {item.comment_username}
+                                  </Text>
+                                </TouchableOpacity>
+                                <Text
+                                  style={{marginLeft: 5, flex: 2}}
+                                  numberOfLines={item.showMore ? 0 : 1}>
+                                  {item.comment}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
                                 }}>
-                                <Text style={{fontWeight: 'bold', flex: 1}}>
-                                  {item.comment_username}
+                                <TouchableOpacity
+                                  onPress={() => gotoCommentLike(item)}>
+                                  <Icon
+                                    name="thumbs-up"
+                                    size={15}
+                                    color={item.likes_status ? 'red' : 'grey'}
+                                    style={{marginLeft: 5}}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                            {item.comment.length > 50 && (
+                              <TouchableOpacity
+                                onPress={() => gotoShowMore(ind, index)}>
+                                <Text>
+                                  {item.showMore
+                                    ? '[Show Less]'
+                                    : '[Show More]'}
                                 </Text>
                               </TouchableOpacity>
-                              <Text style={{marginLeft: 5, flex: 2}}>
-                                {item.comment}
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                              }}>
-                              <TouchableOpacity
-                                onPress={() => gotoCommentLike(item)}>
-                                <Icon
-                                  name="thumbs-up"
-                                  size={15}
-                                  color={item.likes_status ? 'red' : 'grey'}
-                                  style={{marginLeft: 5}}
-                                />
-                              </TouchableOpacity>
-                            </View>
+                            )}
                           </View>
                         );
                       }
