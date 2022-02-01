@@ -12,7 +12,6 @@ import {
   Alert,
   Dimensions,
   TextInput,
-  Button,
 } from 'react-native';
 import {
   TextField,
@@ -842,6 +841,7 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   const isCarousel = useRef(null);
+  const isCarouselText = useRef(null);
 
   function CrouselImages({item, index, length}) {
     let _menu = null;
@@ -867,21 +867,113 @@ const UsersProfile = (props: UserProfileProps) => {
             backgroundColor: '#d2d2d2',
           }}
         />
-        <Text
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  function CrouselText({item, index, length}) {
+    return (
+      <View
+        style={{
+          //borderWidth: 0.5,
+          // padding: 20,
+          marginHorizontal: 8,
+          //borderRadius: 20,
+          alignItems: 'center',
+          marginTop: 16,
+          // backgroundColor: 'red',
+          //  borderColor: 'grey',
+        }}>
+        <View
           style={{
-            marginVertical: 10,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: screenWidth,
+            height: screenWidth - 32,
+            //backgroundColor: 'red',
           }}>
-          {index + 1}/{length}
-        </Text>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'left',
+              alignSelf: 'flex-start',
+              marginStart: 16,
+            }}>
+            “
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '700',
+              color: '#4B2A6A',
+              marginHorizontal: 32,
+              marginEnd: 64,
+            }}>
+            {item}
+          </Text>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'right',
+              alignSelf: 'flex-end',
+              marginEnd: 48,
+            }}>
+            ”
+          </Text>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+        </View>
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
       </View>
     );
   }
@@ -1102,6 +1194,9 @@ const UsersProfile = (props: UserProfileProps) => {
             </View>
           </View>
           <Card style={styles.cardContent}>
+            <View style={styles.cardtitlecontent}>
+              <Text style={styles.cardtitletext}>Education</Text>
+            </View>
             {userProfile.educationdetail != null &&
               userProfile.educationdetail.map((item, index) => {
                 if (
@@ -1110,15 +1205,14 @@ const UsersProfile = (props: UserProfileProps) => {
                 ) {
                   return (
                     <>
-                      {index == 0 && (
-                        <View style={styles.cardtitlecontent}>
-                          <Text style={styles.cardtitletext}>Education</Text>
-                        </View>
-                      )}
                       <View style={styles.borderstyle}></View>
                       <View style={styles.textcontainer}>
                         <View style={{flexDirection: 'row'}}>
-                          <Text style={styles.Personal_Tv}>
+                          <Text
+                            style={[
+                              styles.Personal_Tv,
+                              {fontWeight: '700', color: '#5790c2'},
+                            ]}>
                             {item.name_of_school}
                           </Text>
                           {item.is_active_subscription && (
@@ -1133,7 +1227,8 @@ const UsersProfile = (props: UserProfileProps) => {
                         {item.course_detail.map((item, index) => {
                           return (
                             <View style={styles.view_Row}>
-                              <Text style={styles.view_Tv_1}>
+                              <Text
+                                style={[styles.view_Tv_1, {fontWeight: '700'}]}>
                                 {item.course_name}
                               </Text>
                               <Text style={styles.view_Tv_2}>
@@ -1241,6 +1336,12 @@ const UsersProfile = (props: UserProfileProps) => {
               renderItem={({item}) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
                 if (item.post_gallery != null) {
                   return (
                     <>
@@ -1259,85 +1360,25 @@ const UsersProfile = (props: UserProfileProps) => {
                         itemWidth={ITEM_WIDTH}
                         onSnapToItem={index => setIndex(index)}
                       />
-                      {/* <Pagination
-                        dotsLength={len}
-                        activeDotIndex={index}
-                        carouselRef={isCarousel}
-                        dotStyle={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 5,
-                          marginHorizontal: 8,
-                          backgroundColor: '#F4BB41',
-                        }}
-                        tappableDots={true}
-                        inactiveDotStyle={{
-                          backgroundColor: 'black',
-                          // Define styles for inactive dots here
-                        }}
-                        inactiveDotOpacity={0.4}
-                        inactiveDotScale={0.6}
-                      /> */}
                     </>
                   );
                 } else {
                   return (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: screenWidth,
-                        height: screenWidth - 32,
-                        //backgroundColor: 'red',
-                      }}>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'left',
-                          alignSelf: 'flex-start',
-                          marginStart: 16,
-                        }}>
-                        “
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: '700',
-                          color: '#4B2A6A',
-                          marginHorizontal: 32,
-                          marginEnd: 64,
-                        }}>
-                        {item.caption}
-                      </Text>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'right',
-                          alignSelf: 'flex-end',
-                          marginEnd: 48,
-                        }}>
-                        ”
-                      </Text>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
-                    </View>
+                    <Carousel
+                      // layout={'tinder'}
+                      ref={isCarouselText}
+                      data={parts}
+                      renderItem={({item, index}) => (
+                        <CrouselText
+                          item={item}
+                          index={index}
+                          length={lenCap}
+                        />
+                      )}
+                      sliderWidth={SLIDER_WIDTH}
+                      itemWidth={ITEM_WIDTH}
+                      onSnapToItem={index => setIndex(index)}
+                    />
                   );
                 }
               }}
@@ -1351,7 +1392,12 @@ const UsersProfile = (props: UserProfileProps) => {
               renderItem={({item, index}) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
-                let items = item;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
                 if (item.post_gallery != null) {
                   return (
                     <CardView
@@ -1417,83 +1463,23 @@ const UsersProfile = (props: UserProfileProps) => {
                             itemWidth={ITEM_WIDTH}
                             onSnapToItem={index => setIndex(index)}
                           />
-                          {/* <Pagination
-                          dotsLength={item.post_gallery.length}
-                          activeDotIndex={index}
-                          carouselRef={isCarousel}
-                          dotStyle={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            marginHorizontal: 8,
-                            backgroundColor: '#F4BB41',
-                          }}
-                          tappableDots={true}
-                          inactiveDotStyle={{
-                            backgroundColor: 'black',
-                            // Define styles for inactive dots here
-                          }}
-                          inactiveDotOpacity={0.4}
-                          inactiveDotScale={0.6}
-                        /> */}
                         </>
                       ) : (
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: screenWidth,
-                            height: screenWidth - 32,
-                            //backgroundColor: 'red',
-                          }}>
-                          <View
-                            style={{
-                              backgroundColor: '#4B2A6A',
-                              height: 1,
-                              width: '84%',
-                              marginEnd: 32,
-                              alignSelf: 'center',
-                            }}></View>
-                          <Text
-                            style={{
-                              color: '#4B2A6A',
-                              fontSize: 40,
-                              textAlign: 'left',
-                              alignSelf: 'flex-start',
-                              marginStart: 16,
-                            }}>
-                            “
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: '#4B2A6A',
-                              marginHorizontal: 32,
-                              marginEnd: 64,
-                            }}>
-                            {item.caption}
-                          </Text>
-                          <Text
-                            style={{
-                              color: '#4B2A6A',
-                              fontSize: 40,
-                              textAlign: 'right',
-                              alignSelf: 'flex-end',
-                              marginEnd: 48,
-                            }}>
-                            ”
-                          </Text>
-                          <View
-                            style={{
-                              backgroundColor: '#4B2A6A',
-                              height: 1,
-                              width: '84%',
-                              marginEnd: 32,
-                              alignSelf: 'center',
-                            }}></View>
-                        </View>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarouselText}
+                          data={parts}
+                          renderItem={({item, index}) => (
+                            <CrouselText
+                              item={item}
+                              index={index}
+                              length={lenCap}
+                            />
+                          )}
+                          sliderWidth={SLIDER_WIDTH}
+                          itemWidth={ITEM_WIDTH}
+                          onSnapToItem={index => setIndex(index)}
+                        />
                       )}
                       <View style={styles.likecommentContainer}>
                         <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
@@ -1824,11 +1810,11 @@ const UsersProfile = (props: UserProfileProps) => {
               width: '100%',
               marginTop: 30,
             }}></View>
-          <Button
+          {/* <Button
             //color={Colors.$backgroundColor}
             title="Remove"
             onPress={gotoRemove}
-          />
+          /> */}
           <TouchableOpacity onPress={gotoRemove}>
             <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
           </TouchableOpacity>
@@ -1839,11 +1825,11 @@ const UsersProfile = (props: UserProfileProps) => {
               width: '100%',
               marginTop: 12,
             }}></View>
-          <Button
+          {/* <Button
             //color={Colors.$backgroundColor}
             title="Cancel"
             onPress={toggleModal}
-          />
+          /> */}
           <TouchableOpacity onPress={toggleModal}>
             <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
           </TouchableOpacity>

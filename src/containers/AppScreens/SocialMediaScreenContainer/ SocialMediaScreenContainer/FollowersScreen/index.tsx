@@ -8,7 +8,7 @@ import {
   Image,
   Alert,
   Keyboard,
-  Button,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -28,7 +28,6 @@ import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
@@ -533,11 +532,11 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
               width: '100%',
               marginTop: 30,
             }}></View>
-          <Button
+          {/* <Button
             //color={Colors.$backgroundColor}
             title="Remove"
             onPress={gotoRemove}
-          />
+          /> */}
           <TouchableOpacity onPress={gotoRemove}>
             <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
           </TouchableOpacity>
@@ -548,11 +547,11 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
               width: '100%',
               marginTop: 12,
             }}></View>
-          <Button
+          {/* <Button
             //color={Colors.$backgroundColor}
             title="Cancel"
             onPress={toggleModal}
-          />
+          /> */}
           <TouchableOpacity onPress={toggleModal}>
             <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
           </TouchableOpacity>

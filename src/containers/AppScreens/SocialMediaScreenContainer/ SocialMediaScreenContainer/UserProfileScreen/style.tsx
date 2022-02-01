@@ -211,5 +211,19 @@ const styles = ScaledSheet.create({
     //padding:'15@ms',
     alignSelf: 'center',
   },
+  mborder: {
+    borderWidth: 0.5,
+    borderColor: 'lightgrey',
+    width: '100%',
+    marginTop: 12,
+  },
+  reporttext: {
+    fontSize: hp(2.1),
+  },
+  btn: {
+    color: 'red',
+    marginTop: 10,
+    fontWeight: 'bold',
+  },
 });
 export default styles;

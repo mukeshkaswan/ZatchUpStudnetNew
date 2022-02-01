@@ -48,6 +48,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {ScrollView} from 'react-native-gesture-handler';
 const Data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}];
 
 interface NotificationsScreenProps {
@@ -280,7 +281,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         navigation={props.navigation}
       />
 
-      {picdata.length == 0 && (
+      <ScrollView>
         <CardView
           cardElevation={5}
           cardMaxElevation={5}
@@ -314,104 +315,66 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               style={styles.textinput}
               onChangeText={val => addCaption(val)}
               value={Caption}
+              maxLength={700}
             />
           </View>
+          <Text style={{alignSelf: 'flex-end'}}>{Caption.length}/700</Text>
         </CardView>
-      )}
 
-      {picdata.length > 0 && (
-        <FlatList
-          ListHeaderComponent={() => (
-            <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
-              //cornerRadius={20}
-              style={styles.card}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image
-                    source={Images.profile_img2}
-                    style={{
-                      height: 50,
-                      width: 50,
-                      tintColor: 'grey',
-                      borderRadius: 25,
-                    }}
-                  />
-                  <Text style={styles.nametext}>Simmi Sharma</Text>
-                </View>
-              </View>
+        {picdata.length > 0 && (
+          <FlatList
+            style={{flex: 1}}
+            data={picdata}
+            numColumns={3}
+            renderItem={_renderItem}
+            keyExtractor={(item, index) => item + 'Sap' + index}
+          />
+        )}
 
-              <View style={styles.textinputContainer}>
-                <TextInput
-                  placeholder="Write a caption"
-                  multiline={true}
-                  numberOfLines={4}
-                  style={styles.textinput}
-                  onChangeText={val => addCaption(val)}
-                  value={Caption}
-                />
-              </View>
-            </CardView>
-          )}
-          style={{flex: 1}}
-          data={picdata}
-          numColumns={3}
-          renderItem={_renderItem}
-          keyExtractor={(item, index) => item + 'Sap' + index}
-          ListFooterComponent={() => (
-            <View>
-              <TouchableOpacity
-                onPress={() => getImageFrontGallery()}
-                style={{
-                  backgroundColor: '#4B2A6A',
-                  height: screenWidth / 3 - 21,
-                  width: screenWidth / 3 - 21,
-                  marginLeft: 16,
-                  borderRadius: 10,
-                  marginTop: 16,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon
-                  name="camera"
-                  size={25}
-                  color="white"
-                  style={{margin: 5}}
-                />
-                <Text style={styles.addphotoText}>Add Photo</Text>
-              </TouchableOpacity>
+        {picdata.length == 0 && (
+          <TouchableOpacity
+            onPress={() => getImageFrontGallery()}
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: screenWidth / 3 - 21,
+              width: screenWidth / 3 - 21,
+              marginLeft: 16,
+              borderRadius: 10,
+              marginTop: 16,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+            <Text style={styles.addphotoText}>Add Photo</Text>
+          </TouchableOpacity>
+        )}
 
-              <View style={{paddingHorizontal: 16, marginVertical: 10}}>
-                <CustomButton title={'Post'} onPress={onPressAddpost} />
-              </View>
+        {picdata.length > 0 && (
+          <TouchableOpacity
+            onPress={() => getImageFrontGallery()}
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: screenWidth / 3 - 21,
+              width: screenWidth / 3 - 21,
+              marginLeft: 16,
+              marginTop: 16,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+            <Text style={styles.addphotoText}>Add Photo</Text>
+          </TouchableOpacity>
+        )}
+
+        {(picdata.length > 0 || Caption != '') && (
+          <View>
+            <View style={{paddingHorizontal: 16, marginVertical: 10}}>
+              <CustomButton title={'Post'} onPress={onPressAddpost} />
             </View>
-          )}
-        />
-      )}
-
-      {picdata.length == 0 && (
-        <TouchableOpacity
-          onPress={() => getImageFrontGallery()}
-          style={{
-            backgroundColor: '#4B2A6A',
-            height: screenWidth / 3 - 21,
-            width: screenWidth / 3 - 21,
-            marginLeft: 16,
-            borderRadius: 10,
-            marginTop: 16,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Icon name="camera" size={25} color="white" style={{margin: 5}} />
-          <Text style={styles.addphotoText}>Add Photo</Text>
-        </TouchableOpacity>
-      )}
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 };

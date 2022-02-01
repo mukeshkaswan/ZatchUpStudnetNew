@@ -41,6 +41,7 @@ import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
+import Modal from 'react-native-modal';
 
 const screenWidth = Dimensions.get('window').width;
 const data = [
@@ -86,6 +87,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [comment, pressComment] = useState(false);
   const [commentValue, setComment] = useState('');
   const [sociaMedialPic, setSocialMediaPic] = useState('');
+  const [isModalVisible3, setModalVisible3] = useState(false);
 
   useEffect(() => {
     getUserProfile(user_id);
@@ -410,6 +412,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   // };
 
   const isCarousel = useRef(null);
+  const isCarouselText = useRef(null);
 
   function CrouselImages({item, index, length}) {
     return (
@@ -434,24 +437,120 @@ const UserProfileScreen = (props: UserProfileProps) => {
             backgroundColor: '#d2d2d2',
           }}
         />
-        <Text
-          style={{
-            marginVertical: 10,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
-          }}>
-          {index + 1}/{length}
-        </Text>
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
       </View>
     );
   }
+
+  function CrouselText({item, index, length}) {
+    return (
+      <View
+        style={{
+          //borderWidth: 0.5,
+          // padding: 20,
+          marginHorizontal: 8,
+          //borderRadius: 20,
+          alignItems: 'center',
+          marginTop: 16,
+          // backgroundColor: 'red',
+          //  borderColor: 'grey',
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: screenWidth,
+            height: screenWidth - 32,
+            //backgroundColor: 'red',
+          }}>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'left',
+              alignSelf: 'flex-start',
+              marginStart: 16,
+            }}>
+            “
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '700',
+              color: '#4B2A6A',
+              marginHorizontal: 32,
+              marginEnd: 64,
+            }}>
+            {item}
+          </Text>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'right',
+              alignSelf: 'flex-end',
+              marginEnd: 48,
+            }}>
+            ”
+          </Text>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+        </View>
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  const toggleModal3 = () => {
+    setModalVisible3(!isModalVisible3);
+  };
 
   return (
     <View style={styles.container}>
@@ -594,50 +693,60 @@ const UserProfileScreen = (props: UserProfileProps) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {userProfile.educationdetail != null &&
-            userProfile.educationdetail.map((item, index) => {
-              if (item.course_detail != null && item.course_detail.length > 0) {
-                return (
-                  <Card style={styles.cardContent}>
-                    <View style={styles.cardtitlecontent}>
-                      <Text style={styles.cardtitletext}>Education</Text>
-                    </View>
-                    <View style={styles.borderstyle}></View>
-                    <View style={styles.textcontainer}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.Personal_Tv}>
-                          {item.name_of_school}
-                        </Text>
-                        {item.is_active_subscription && (
-                          <Icon
-                            name="check-circle"
-                            size={17}
-                            color="#4E387E"
-                            style={{marginLeft: 5, marginTop: 2}}
-                          />
-                        )}
+          <Card style={styles.cardContent}>
+            <View style={styles.cardtitlecontent}>
+              <Text style={styles.cardtitletext}>Education</Text>
+            </View>
+            {userProfile.educationdetail != null &&
+              userProfile.educationdetail.map((item, index) => {
+                if (
+                  item.course_detail != null &&
+                  item.course_detail.length > 0
+                ) {
+                  return (
+                    <>
+                      <View style={styles.borderstyle}></View>
+                      <View style={styles.textcontainer}>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text
+                            style={[
+                              styles.Personal_Tv,
+                              {fontWeight: '700', color: '#5790c2'},
+                            ]}>
+                            {item.name_of_school}
+                          </Text>
+                          {item.is_active_subscription && (
+                            <Icon
+                              name="check-circle"
+                              size={17}
+                              color="#4E387E"
+                              style={{marginLeft: 5, marginTop: 2}}
+                            />
+                          )}
+                        </View>
+                        {item.course_detail.map((item, index) => {
+                          return (
+                            <View style={styles.view_Row}>
+                              <Text
+                                style={[styles.view_Tv_1, {fontWeight: '700'}]}>
+                                {item.course_name}
+                              </Text>
+                              <Text style={styles.view_Tv_2}>
+                                {'(' +
+                                  item.start_year +
+                                  ' - ' +
+                                  item.end_year +
+                                  ')'}
+                              </Text>
+                            </View>
+                          );
+                        })}
                       </View>
-                      {item.course_detail.map((item, index) => {
-                        return (
-                          <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>
-                              {item.course_name}
-                            </Text>
-                            <Text style={styles.view_Tv_2}>
-                              {'(' +
-                                item.start_year +
-                                ' - ' +
-                                item.end_year +
-                                ')'}
-                            </Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </Card>
-                );
-              }
-            })}
+                    </>
+                  );
+                }
+              })}
+          </Card>
           <Card style={styles.cardContent}>
             <View style={styles.cardtitlecontent}>
               <View>
@@ -742,8 +851,15 @@ const UserProfileScreen = (props: UserProfileProps) => {
             <FlatList
               data={userProfile.social_post}
               renderItem={({item}) => {
+                let newArrCap = [];
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
                 if (item.post_gallery != null) {
                   return (
                     <>
@@ -762,85 +878,25 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         itemWidth={ITEM_WIDTH}
                         onSnapToItem={index => setIndex(index)}
                       />
-                      {/* <Pagination
-                      dotsLength={len}
-                      activeDotIndex={index}
-                      carouselRef={isCarousel}
-                      dotStyle={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: 5,
-                        marginHorizontal: 8,
-                        backgroundColor: '#F4BB41',
-                      }}
-                      tappableDots={true}
-                      inactiveDotStyle={{
-                        backgroundColor: 'black',
-                        // Define styles for inactive dots here
-                      }}
-                      inactiveDotOpacity={0.4}
-                      inactiveDotScale={0.6}
-                    /> */}
                     </>
                   );
                 } else {
                   return (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: screenWidth,
-                        height: screenWidth - 32,
-                        //backgroundColor: 'red',
-                      }}>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'left',
-                          alignSelf: 'flex-start',
-                          marginStart: 16,
-                        }}>
-                        “
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: '700',
-                          color: '#4B2A6A',
-                          marginHorizontal: 32,
-                          marginEnd: 64,
-                        }}>
-                        {item.caption}
-                      </Text>
-                      <Text
-                        style={{
-                          color: '#4B2A6A',
-                          fontSize: 40,
-                          textAlign: 'right',
-                          alignSelf: 'flex-end',
-                          marginEnd: 48,
-                        }}>
-                        ”
-                      </Text>
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 1,
-                          width: '84%',
-                          marginEnd: 32,
-                          alignSelf: 'center',
-                        }}></View>
-                    </View>
+                    <Carousel
+                      // layout={'tinder'}
+                      ref={isCarouselText}
+                      data={parts}
+                      renderItem={({item, index}) => (
+                        <CrouselText
+                          item={item}
+                          index={index}
+                          length={lenCap}
+                        />
+                      )}
+                      sliderWidth={SLIDER_WIDTH}
+                      itemWidth={ITEM_WIDTH}
+                      onSnapToItem={index => setIndex(index)}
+                    />
                   );
                 }
               }}
@@ -853,6 +909,12 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
                 return (
                   <CardView
                     cardElevation={5}
@@ -885,9 +947,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           {item.full_name}
                         </Text>
                       </View>
-                      <TouchableOpacity
-                      // onPress={toggleModal}
-                      >
+                      <TouchableOpacity onPress={toggleModal3}>
                         <Image
                           source={require('../../../../../assets/images/dot.png')}
                           style={{height: 18, width: 18}}
@@ -914,83 +974,23 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           itemWidth={ITEM_WIDTH}
                           onSnapToItem={index => setIndex(index)}
                         />
-                        {/* <Pagination
-                          dotsLength={item.post_gallery.length}
-                          activeDotIndex={index}
-                          carouselRef={isCarousel}
-                          dotStyle={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            marginHorizontal: 8,
-                            backgroundColor: '#F4BB41',
-                          }}
-                          tappableDots={true}
-                          inactiveDotStyle={{
-                            backgroundColor: 'black',
-                            // Define styles for inactive dots here
-                          }}
-                          inactiveDotOpacity={0.4}
-                          inactiveDotScale={0.6}
-                        /> */}
                       </>
                     ) : (
-                      <View
-                        style={{
-                          flex: 1,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          width: screenWidth,
-                          height: screenWidth - 32,
-                          //backgroundColor: 'red',
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: '#4B2A6A',
-                            height: 1,
-                            width: '84%',
-                            marginEnd: 32,
-                            alignSelf: 'center',
-                          }}></View>
-                        <Text
-                          style={{
-                            color: '#4B2A6A',
-                            fontSize: 40,
-                            textAlign: 'left',
-                            alignSelf: 'flex-start',
-                            marginStart: 16,
-                          }}>
-                          “
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: '700',
-                            color: '#4B2A6A',
-                            marginHorizontal: 32,
-                            marginEnd: 64,
-                          }}>
-                          {item.caption}
-                        </Text>
-                        <Text
-                          style={{
-                            color: '#4B2A6A',
-                            fontSize: 40,
-                            textAlign: 'right',
-                            alignSelf: 'flex-end',
-                            marginEnd: 48,
-                          }}>
-                          ”
-                        </Text>
-                        <View
-                          style={{
-                            backgroundColor: '#4B2A6A',
-                            height: 1,
-                            width: '84%',
-                            marginEnd: 32,
-                            alignSelf: 'center',
-                          }}></View>
-                      </View>
+                      <Carousel
+                        // layout={'tinder'}
+                        ref={isCarouselText}
+                        data={parts}
+                        renderItem={({item, index}) => (
+                          <CrouselText
+                            item={item}
+                            index={index}
+                            length={lenCap}
+                          />
+                        )}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={ITEM_WIDTH}
+                        onSnapToItem={index => setIndex(index)}
+                      />
                     )}
                     <View style={styles.likecommentContainer}>
                       <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
@@ -1095,13 +1095,15 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           </TouchableOpacity>
                         )}
 
-                      {item.full_name != null && (
+                      {item.full_name != null && item.post_gallery != null && (
                         <Text
                           style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
                           {item.full_name}
                         </Text>
                       )}
-                      {item.caption != null && <Text>{item.caption}</Text>}
+                      {item.caption != null && item.post_gallery != null && (
+                        <Text>{item.caption}</Text>
+                      )}
                       {userProfile != '' &&
                         item.comment_post != null &&
                         item.comment_post.map((item, index) => {
@@ -1216,6 +1218,44 @@ const UserProfileScreen = (props: UserProfileProps) => {
           )}
         </ScrollView>
       )}
+      <Modal
+        isVisible={isModalVisible3}
+        onBackdropPress={toggleModal3}
+        backdropOpacity={0.4}>
+        <View
+          style={{
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 20,
+            borderRadius: 5,
+            justifyContent: 'center',
+          }}>
+          {/* {customItem.user_id != userid && ( */}
+          <>
+            <TouchableOpacity>
+              <Text style={styles.btn}>Delete</Text>
+            </TouchableOpacity>
+            <View style={styles.mborder}></View>
+            {/* <TouchableOpacity
+               onPress={() => blockprofile()}
+               >
+                <Text style={styles.btn}>Unfollow</Text>
+              </TouchableOpacity> */}
+            {/* <View style={styles.mborder}></View> */}
+          </>
+          {/* )} */}
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('PostDetailScreen');
+            }}>
+            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+          </TouchableOpacity>
+          <View style={styles.mborder}></View>
+          <TouchableOpacity onPress={toggleModal3}>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
