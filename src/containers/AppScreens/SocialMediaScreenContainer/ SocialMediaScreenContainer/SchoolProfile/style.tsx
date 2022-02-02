@@ -154,6 +154,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     backgroundColor: 'rgb(70,50,103)',
+    paddingVertical: 5,
   },
   profilepic: {
     height: 50,
@@ -312,6 +313,42 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+
+    paddingVertical: 10,
+
+    borderRadius: 5,
+  },
+  rowContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  mborder: {
+    borderWidth: 0.5,
+    borderColor: 'lightgrey',
+    width: '100%',
+    marginTop: 12,
+  },
+  reporttext: {
+    fontSize: hp(2.1),
+  },
+  btn: {
+    color: 'red',
+    marginTop: 10,
+    fontWeight: 'bold',
+  },
+  textinputContainer: {
+    borderWidth: 0.5,
+    marginTop: 10,
+  },
+  textinput: {
+    textAlignVertical: 'top',
+    paddingHorizontal: 8,
+    fontSize: hp(2),
   },
 });
 export default styles;

@@ -1390,7 +1390,9 @@ function* reportProfile({payload: {data, callback}}) {
     reported_user_id: data.reported_user_id,
     report_id: data.report_id,
   };
-
+  if (data.hasOwnProperty('profile_report_comment')) {
+    params.profile_report_comment = data.profile_report_comment;
+  }
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
