@@ -88,6 +88,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [commentValue, setComment] = useState('');
   const [sociaMedialPic, setSocialMediaPic] = useState('');
   const [isModalVisible3, setModalVisible3] = useState(false);
+  const [customItem, setCustomItem] = useState('');
 
   useEffect(() => {
     getUserProfile(user_id);
@@ -175,16 +176,44 @@ const UserProfileScreen = (props: UserProfileProps) => {
             );
 
             if (result.status) {
-              let newArr = [];
+              // let newArr = [];
+              // for (let i in result.data[0].social_post) {
+              //   newArr.push({
+              //     ...result.data[0].social_post[i],
+              //     commentValue: '',
+              //     commentToggle: false,
+              //   });
+              // }
+
+              //let newObject = {...result.data[0], social_post: newArr};
+
+              //console.log('+++++', newObject);
+
+              let newArrr = [];
+
               for (let i in result.data[0].social_post) {
-                newArr.push({
+                let newSubArr = [];
+                if (result.data[0].social_post[i].comment_post != null) {
+                  for (let j in result.data[0].social_post[i].comment_post) {
+                    newSubArr.push({
+                      ...result.data[0].social_post[i].comment_post[j],
+                      showMore: false,
+                    });
+                  }
+                } else {
+                  newSubArr = result.data[0].social_post[i].comment_post;
+                }
+                newArrr.push({
                   ...result.data[0].social_post[i],
-                  commentValue: '',
+                  comment_post: newSubArr,
                   commentToggle: false,
+                  commentValue: '',
                 });
               }
 
-              let newObject = {...result.data[0], social_post: newArr};
+              console.log('NewArray==>>', newArrr);
+
+              let newObject = {...result.data[0], social_post: newArrr};
 
               console.log('+++++', newObject);
 
@@ -386,6 +415,53 @@ const UserProfileScreen = (props: UserProfileProps) => {
     );
   };
 
+  const gotoDeletePost = async () => {
+    setModalVisible3(!isModalVisible3);
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: customItem.id,
+    };
+    console.log(data);
+
+    dispatch(
+      userActions.deletePost({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after delete the post',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            setLoading(false);
+            getUserProfile(user_id);
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+            }
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const gotoChangeToggle = async index => {
     let newObj = Object.assign({}, userProfile);
     for (let i in userProfile.social_post) {
@@ -548,7 +624,37 @@ const UserProfileScreen = (props: UserProfileProps) => {
     );
   }
 
-  const toggleModal3 = () => {
+  const gotoShowMore = (ind, index) => {
+    console.log(ind, index);
+
+    let newArr = Object.assign([], userProfile.social_post);
+
+    for (let i in newArr) {
+      if (i == ind) {
+        for (let j in newArr[i].comment_post) {
+          if (j == index && !newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = true;
+          } else if (j == index && newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = false;
+          } else {
+            newArr[i].comment_post[j].showMore = false;
+          }
+        }
+      }
+    }
+
+    // console.log('After Change==>>', newArr);
+
+    let newObject = {...userProfile, social_post: newArr};
+
+    console.log('+++++', newObject);
+
+    setUserProfile(newObject);
+  };
+
+  const toggleModal3 = item => {
+    // console.log(item);
+    setCustomItem(item);
     setModalVisible3(!isModalVisible3);
   };
 
@@ -906,6 +1012,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
             <FlatList
               data={userProfile.social_post}
               renderItem={({item, index}) => {
+                let ind = index;
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
@@ -947,7 +1054,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           {item.full_name}
                         </Text>
                       </View>
-                      <TouchableOpacity onPress={toggleModal3}>
+                      <TouchableOpacity onPress={() => toggleModal3(item)}>
                         <Image
                           source={require('../../../../../assets/images/dot.png')}
                           style={{height: 18, width: 18}}
@@ -1109,53 +1216,68 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         item.comment_post.map((item, index) => {
                           if (index <= 2) {
                             return (
-                              <View
-                                style={styles.messageContainer}
-                                key={item + 'sap' + index}>
-                                <View style={{flexDirection: 'row', flex: 1}}>
-                                  <TouchableOpacity
-                                    disabled={
-                                      user_id == item.user ? true : false
-                                    }
-                                    onPress={() => {
-                                      item.user_role == 'EIREPRESENTATIVE'
-                                        ? props.navigation.navigate(
-                                            'SchoolProfile',
-                                            {
-                                              item: {user_id: item.user},
-                                            },
-                                          )
-                                        : item.user_id != user_id
-                                        ? props.navigation.navigate(
-                                            'UsersProfile',
-                                            {
-                                              item: {user_id: item.user},
-                                            },
-                                          )
-                                        : {};
+                              <View key={item + 'sap' + index}>
+                                <View style={styles.messageContainer}>
+                                  <View style={{flexDirection: 'row', flex: 1}}>
+                                    <TouchableOpacity
+                                      disabled={
+                                        user_id == item.user ? true : false
+                                      }
+                                      onPress={() => {
+                                        item.user_role == 'EIREPRESENTATIVE'
+                                          ? props.navigation.navigate(
+                                              'SchoolProfile',
+                                              {
+                                                item: {user_id: item.user},
+                                              },
+                                            )
+                                          : item.user_id != user_id
+                                          ? props.navigation.navigate(
+                                              'UsersProfile',
+                                              {
+                                                item: {user_id: item.user},
+                                              },
+                                            )
+                                          : {};
+                                      }}>
+                                      <Text
+                                        style={{fontWeight: 'bold', flex: 1}}>
+                                        {item.comment_username}
+                                      </Text>
+                                    </TouchableOpacity>
+                                    <Text
+                                      style={{marginLeft: 5, flex: 2}}
+                                      numberOfLines={item.showMore ? 0 : 1}>
+                                      {item.comment}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                      flexDirection: 'row',
                                     }}>
-                                    <Text style={{fontWeight: 'bold', flex: 1}}>
-                                      {item.comment_username}
+                                    <TouchableOpacity
+                                      onPress={() => gotoCommentLike(item)}>
+                                      <Icon
+                                        name="thumbs-up"
+                                        size={15}
+                                        color={
+                                          item.likes_status ? 'red' : 'grey'
+                                        }
+                                        style={{marginLeft: 5}}
+                                      />
+                                    </TouchableOpacity>
+                                  </View>
+                                </View>
+                                {item.comment.length > 50 && (
+                                  <TouchableOpacity
+                                    onPress={() => gotoShowMore(ind, index)}>
+                                    <Text>
+                                      {item.showMore
+                                        ? '[Show Less]'
+                                        : '[Show More]'}
                                     </Text>
                                   </TouchableOpacity>
-                                  <Text style={{marginLeft: 5, flex: 2}}>
-                                    {item.comment}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flexDirection: 'row',
-                                  }}>
-                                  <TouchableOpacity
-                                    onPress={() => gotoCommentLike(item)}>
-                                    <Icon
-                                      name="thumbs-up"
-                                      size={15}
-                                      color={item.likes_status ? 'red' : 'grey'}
-                                      style={{marginLeft: 5}}
-                                    />
-                                  </TouchableOpacity>
-                                </View>
+                                )}
                               </View>
                             );
                           }
@@ -1232,7 +1354,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
           }}>
           {/* {customItem.user_id != userid && ( */}
           <>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => gotoDeletePost()}>
               <Text style={styles.btn}>Delete</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
@@ -1246,7 +1368,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
           {/* )} */}
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen');
+              props.navigation.navigate('PostDetailScreen', {item: customItem});
             }}>
             <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
           </TouchableOpacity>

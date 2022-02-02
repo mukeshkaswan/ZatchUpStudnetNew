@@ -82,6 +82,7 @@ import {
   REPORTPROFILE,
   GETREPORTDATAUSER,
   CREATEPOST,
+  DELETEPOST,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -1528,6 +1529,41 @@ function* createPost({payload: {data, callback}}) {
   }
 }
 
+/***************************delete post request status*******************************/
+
+function* deletePost({payload: {data, callback}}) {
+  //  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    id: data.id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/post/userpostdelete/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'post deleted by the user',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /*************************get notification of users     **************/
 function* getUserNotification({payload: {data, callback}}) {
   console.warn('data in saga Auth User Info', data);
@@ -2751,6 +2787,7 @@ function* User() {
     yield takeLatest(REPORTPROFILE, reportProfile),
     yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
     yield takeLatest(CREATEPOST, createPost),
+    yield takeLatest(DELETEPOST, deletePost),
   ]);
 }
 

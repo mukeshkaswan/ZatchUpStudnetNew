@@ -170,16 +170,39 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             );
 
             if (result.status) {
-              let newArr = [];
+              // let newArr = [];
+              // for (let i in result.data[0].social_post) {
+              //   newArr.push({
+              //     ...result.data[0].social_post[i],
+              //     //commentValue: '',
+              //     commentToggle: false,
+              //   });
+              // }
+
+              let newArrr = [];
+
               for (let i in result.data[0].social_post) {
-                newArr.push({
+                let newSubArr = [];
+                if (result.data[0].social_post[i].comment_post != null) {
+                  for (let j in result.data[0].social_post[i].comment_post) {
+                    newSubArr.push({
+                      ...result.data[0].social_post[i].comment_post[j],
+                      showMore: false,
+                    });
+                  }
+                } else {
+                  newSubArr = result.data[0].social_post[i].comment_post;
+                }
+                newArrr.push({
                   ...result.data[0].social_post[i],
-                  //commentValue: '',
+                  comment_post: newSubArr,
                   commentToggle: false,
                 });
               }
 
-              let newObject = {...result.data[0], social_post: newArr};
+              console.log('NewArray==>>', newArrr);
+
+              let newObject = {...result.data[0], social_post: newArrr};
 
               console.log('+++++', newObject);
 
@@ -349,101 +372,36 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     );
   };
 
-  const renderItem1 = ({item}) => (
-    <View
-      style={{
-        borderRadius: 10,
-        backgroundColor: 'white',
-        margin: 5,
-        padding: 8,
-        alignItems: 'center',
-        width: 380,
-      }}>
-      <Image
-        source={require('../../../../../assets/images/college2.jpg')}
-        style={styles.image1}
-      />
-    </View>
-  );
-  const renderItem2 = ({item}) => (
-    <Card style={styles.cardcontent}>
-      <View style={{padding: 16}}>
-        <View style={styles.cardcontent1}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={require('../../../../../assets/images/pic.jpeg')}
-              style={styles.profilepic}
-            />
-            <Text style={styles.nametext}>Rahul Yadav</Text>
-          </View>
-          <Icon name="ellipsis-v" color="grey" size={20} />
-        </View>
+  const gotoShowMore = (ind, index) => {
+    console.log(ind, index);
 
-        <Image
-          source={require('../../../../../assets/images/video.jpg')}
-          style={{width: '100%', height: 150, borderRadius: 15}}
-        />
-        <View style={{flexDirection: 'row', marginTop: 5}}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('PostDetailScreen');
-            }}>
-            <Icon
-              name="thumbs-up"
-              size={15}
-              color="grey"
-              style={{marginLeft: 5}}
-            />
-          </TouchableOpacity>
-          <Icon name="comment" color="grey" size={15} style={{marginLeft: 5}} />
-        </View>
+    let newArr = Object.assign([], schoolDetail.social_post);
 
-        <FlatList
-          data={data2}
-          renderItem={({item}) => (
-            <View
-              style={{
-                flex: 1,
+    for (let i in newArr) {
+      if (i == ind) {
+        for (let j in newArr[i].comment_post) {
+          if (j == index && !newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = true;
+          } else if (j == index && newArr[i].comment_post[j].showMore) {
+            newArr[i].comment_post[j].showMore = false;
+          } else {
+            newArr[i].comment_post[j].showMore = false;
+          }
+        }
+      }
+    }
 
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                marginTop: 10,
-              }}>
-              <Text style={{flex: 2.1, fontWeight: 'bold'}}>Rahul Yadav</Text>
-              <Text style={{flex: 5.2}}>
-                Lorem ipsum is simply dummy jlke{''}
-              </Text>
+    // console.log('After Change==>>', newArr);
 
-              <Icon
-                name="thumbs-up"
-                size={15}
-                color="grey"
-                style={{marginLeft: 5, alignSelf: 'flex-end'}}
-              />
-            </View>
-          )}
-          //  ItemSeparatorComponent={renderIndicator}
-        />
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate('PostDetailScreen');
-          }}>
-          <Text style={{fontSize: 12, marginTop: 10}}>VIEW ALL 3 COMMENT</Text>
-        </TouchableOpacity>
+    let newObject = {...schoolDetail, social_post: newArr};
 
-        <Text style={{fontSize: 12, marginTop: 8}}>1 Hour ago</Text>
-      </View>
-      <View style={{borderWidth: 0.5, borderColor: 'lightgrey'}}></View>
-      <View style={styles.cardrowContainer}>
-        <TextInput placeholder="Add a comment" />
-        <TouchableOpacity style={styles.postbtn}>
-          <Text style={{color: 'white'}}>Post</Text>
-        </TouchableOpacity>
-      </View>
-    </Card>
-  );
+    console.log('+++++', newObject);
+
+    setSchoolDetail(newObject);
+  };
 
   const isCarousel = useRef(null);
+  const isCarouselText = useRef(null);
 
   function CrouselImages({item, index, length}) {
     return (
@@ -467,21 +425,113 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             backgroundColor: '#d2d2d2',
           }}
         />
-        <Text
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  function CrouselText({item, index, length}) {
+    return (
+      <View
+        style={{
+          //borderWidth: 0.5,
+          // padding: 20,
+          marginHorizontal: 8,
+          //borderRadius: 20,
+          alignItems: 'center',
+          marginTop: 16,
+          // backgroundColor: 'red',
+          //  borderColor: 'grey',
+        }}>
+        <View
           style={{
-            marginVertical: 10,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: screenWidth,
+            height: screenWidth - 32,
+            //backgroundColor: 'red',
           }}>
-          {index + 1}/{length}
-        </Text>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'left',
+              alignSelf: 'flex-start',
+              marginStart: 16,
+            }}>
+            “
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '700',
+              color: '#4B2A6A',
+              marginHorizontal: 32,
+              marginEnd: 64,
+            }}>
+            {item}
+          </Text>
+          <Text
+            style={{
+              color: '#4B2A6A',
+              fontSize: 40,
+              textAlign: 'right',
+              alignSelf: 'flex-end',
+              marginEnd: 48,
+            }}>
+            ”
+          </Text>
+          <View
+            style={{
+              backgroundColor: '#4B2A6A',
+              height: 1,
+              width: '84%',
+              marginEnd: 32,
+              alignSelf: 'center',
+            }}></View>
+        </View>
+        {length > 1 && (
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
       </View>
     );
   }
@@ -619,10 +669,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   <Text>Followers</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('FollowingScreen');
-                  }}
+                <View
                   style={{
                     marginLeft: 20,
                     backgroundColor: 'green',
@@ -635,7 +682,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   <Text style={{color: 'white', fontWeight: 'bold'}}>
                     Following
                   </Text>
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={{marginTop: 10}}>
                 <TouchableOpacity
@@ -723,47 +770,53 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               </View>
             </View>
           </Card>
-          {!(data === 'Image') ? (
+          {schoolDetail != '' && !(data === 'Image') ? (
             <FlatList
               data={schoolDetail.social_post}
               // horizontal={true}
               // numColumns={2}
               renderItem={({item}) => {
-                let len = item.post_gallery.length;
-                return (
-                  <>
-                    <Carousel
-                      // layout={'tinder'}
-                      ref={isCarousel}
-                      data={item.post_gallery}
-                      renderItem={({item, index}) => (
-                        <CrouselImages item={item} index={index} length={len} />
-                      )}
-                      sliderWidth={SLIDER_WIDTH}
-                      itemWidth={ITEM_WIDTH}
-                      onSnapToItem={index => setIndex(index)}
-                    />
-                    {/* <Pagination
-                      dotsLength={len}
-                      activeDotIndex={index}
-                      carouselRef={isCarousel}
-                      dotStyle={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: 5,
-                        marginHorizontal: 8,
-                        backgroundColor: '#F4BB41',
-                      }}
-                      tappableDots={true}
-                      inactiveDotStyle={{
-                        backgroundColor: 'black',
-                        // Define styles for inactive dots here
-                      }}
-                      inactiveDotOpacity={0.4}
-                      inactiveDotScale={0.6}
-                    /> */}
-                  </>
-                );
+                let len =
+                  item.post_gallery != null ? item.post_gallery.length : 0;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
+                if (item.post_gallery != null) {
+                  return (
+                    <>
+                      <Carousel
+                        // layout={'tinder'}
+                        ref={isCarousel}
+                        data={item.post_gallery}
+                        renderItem={({item, index}) => (
+                          <CrouselImages
+                            item={item}
+                            index={index}
+                            length={len}
+                          />
+                        )}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={ITEM_WIDTH}
+                        onSnapToItem={index => setIndex(index)}
+                      />
+                    </>
+                  );
+                } else {
+                  <Carousel
+                    // layout={'tinder'}
+                    ref={isCarouselText}
+                    data={parts}
+                    renderItem={({item, index}) => (
+                      <CrouselText item={item} index={index} length={lenCap} />
+                    )}
+                    sliderWidth={SLIDER_WIDTH}
+                    itemWidth={ITEM_WIDTH}
+                    onSnapToItem={index => setIndex(index)}
+                  />;
+                }
               }}
               //  keyExtractor={item => item.id}
               //style={{alignSelf: 'center'}}
@@ -772,8 +825,16 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             <FlatList
               data={schoolDetail.social_post}
               renderItem={({item, index}) => {
-                let len = item.post_gallery.length;
+                let len =
+                  item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
+                let ind = index;
+                if (item.post_gallery == null) {
+                  let s = item.caption;
+                  var parts = s.match(/[\s\S]{1,140}/g) || [];
+                  console.log(parts);
+                  var lenCap = parts.length;
+                }
                 return (
                   <CardView
                     cardElevation={5}
@@ -821,7 +882,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     {/* <View style={{paddingHorizontal: 16, marginTop: 10}}>
                       <Image source={item.src} style={{width: '100%'}} />
                     </View> */}
-                    {schoolDetail != '' && (
+                    {schoolDetail != '' && item.post_gallery != null ? (
                       <>
                         <Carousel
                           // layout={'tinder'}
@@ -838,26 +899,23 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                           itemWidth={ITEM_WIDTH}
                           onSnapToItem={index => setIndex(index)}
                         />
-                        {/* <Pagination
-                          dotsLength={item.post_gallery.length}
-                          activeDotIndex={index}
-                          carouselRef={isCarousel}
-                          dotStyle={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            marginHorizontal: 8,
-                            backgroundColor: '#F4BB41',
-                          }}
-                          tappableDots={true}
-                          inactiveDotStyle={{
-                            backgroundColor: 'black',
-                            // Define styles for inactive dots here
-                          }}
-                          inactiveDotOpacity={0.4}
-                          inactiveDotScale={0.6}
-                        /> */}
                       </>
+                    ) : (
+                      <Carousel
+                        // layout={'tinder'}
+                        ref={isCarouselText}
+                        data={parts}
+                        renderItem={({item, index}) => (
+                          <CrouselText
+                            item={item}
+                            index={index}
+                            length={lenCap}
+                          />
+                        )}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={ITEM_WIDTH}
+                        onSnapToItem={index => setIndex(index)}
+                      />
                     )}
                     <View style={styles.likecommentContainer}>
                       <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
@@ -892,7 +950,17 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       item.post_like_count > 0 ? (
                         <TouchableOpacity
                           onPress={() => {
-                            props.navigation.navigate('ProfileScreen');
+                            item.user_role == 'EIREPRESENTATIVE'
+                              ? props.navigation.navigate('SchoolProfile', {
+                                  item: items,
+                                })
+                              : item.user_id != 'userid'
+                              ? props.navigation.navigate('UsersProfile', {
+                                  item: items,
+                                })
+                              : props.navigation.navigate('UserProfileScreen', {
+                                  item: items,
+                                });
                           }}>
                           <Text>
                             Liked by
@@ -902,20 +970,29 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       ) : (
                         <TouchableOpacity
                           onPress={() => {
-                            item.user_role == 'STUDENTS' &&
-                              props.navigation.navigate('UsersProfile', {
-                                item: items,
-                              });
+                            item.user_role == 'EIREPRESENTATIVE'
+                              ? props.navigation.navigate('SchoolProfile', {
+                                  item: items,
+                                })
+                              : item.user_id != 'userid'
+                              ? props.navigation.navigate('UsersProfile', {
+                                  item: items,
+                                })
+                              : props.navigation.navigate('UserProfileScreen', {
+                                  item: items,
+                                });
                           }}>
-                          {item.post_like != null && item.post_like_count > 0 && (
-                            <Text>
-                              Liked by
-                              <Text style={styles.boldText}>
-                                {' '}
-                                {item.post_like[0].post_like_username}
+                          {item.post_like != null &&
+                            item.post_like.length == 1 &&
+                            item.post_like_count > 0 && (
+                              <Text>
+                                Liked by
+                                <Text style={styles.boldText}>
+                                  {' '}
+                                  {item.post_like[0].post_like_username}
+                                </Text>
                               </Text>
-                            </Text>
-                          )}
+                            )}
                         </TouchableOpacity>
                       )}
                       {schoolDetail != '' &&
@@ -923,72 +1000,114 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                         item.post_like.length >= 2 && (
                           <TouchableOpacity
                             onPress={() => {
-                              item.user_role == 'STUDENTS' &&
-                                props.navigation.navigate('UsersProfile', {
-                                  item: items,
-                                });
+                              item.user_role == 'EIREPRESENTATIVE'
+                                ? props.navigation.navigate('SchoolProfile', {
+                                    item: items,
+                                  })
+                                : item.user_id != 'userid'
+                                ? props.navigation.navigate('UsersProfile', {
+                                    item: items,
+                                  })
+                                : props.navigation.navigate(
+                                    'UserProfileScreen',
+                                    {
+                                      item: items,
+                                    },
+                                  );
                             }}>
                             <Text>
-                              Liked by{' '}
+                              Liked by
                               <Text style={styles.boldText}>
-                                {item.post_like[0].post_like_username}
-                              </Text>{' '}
-                              and
+                                {' ' +
+                                  item.post_like[0].post_like_username +
+                                  ' '}
+                              </Text>
+                              and{' '}
                               <Text style={styles.boldText}>
-                                {item.post_like.length - 1}Others
+                                {item.post_like.length - 1 + ' Others'}
                               </Text>
                             </Text>
                           </TouchableOpacity>
                         )}
 
-                      {item.full_name != null && (
+                      {item.full_name != null && item.post_gallery != null && (
                         <Text
                           style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
                           {item.full_name}
                         </Text>
                       )}
-                      {item.caption != null && <Text>{item.caption}</Text>}
+                      {item.caption != null && item.post_gallery != null && (
+                        <Text>{item.caption}</Text>
+                      )}
                       {schoolDetail != '' &&
                         item.comment_post != null &&
                         item.comment_post.map((item, index) => {
-                          if (index <= 2) {
+                          if (index <= 2 && item.comment != '') {
                             return (
-                              <View
-                                style={styles.messageContainer}
-                                key={item + 'sap' + index}>
-                                <View style={{flexDirection: 'row', flex: 1}}>
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      item.user_role == 'STUDENTS' &&
-                                        props.navigation.navigate(
-                                          'UsersProfile',
-                                          {
-                                            item: items,
-                                          },
-                                        );
+                              <View key={item + 'sap' + index}>
+                                <View style={styles.messageContainer}>
+                                  <View style={{flexDirection: 'row', flex: 1}}>
+                                    <TouchableOpacity
+                                      onPress={() => {
+                                        item.user_role == 'EIREPRESENTATIVE'
+                                          ? props.navigation.navigate(
+                                              'SchoolProfile',
+                                              {
+                                                item: items,
+                                              },
+                                            )
+                                          : item.user_id != 'userid'
+                                          ? props.navigation.navigate(
+                                              'UsersProfile',
+                                              {
+                                                item: items,
+                                              },
+                                            )
+                                          : props.navigation.navigate(
+                                              'UserProfileScreen',
+                                              {
+                                                item: items,
+                                              },
+                                            );
+                                      }}>
+                                      <Text
+                                        style={{fontWeight: 'bold', flex: 1}}>
+                                        {item.comment_username}
+                                      </Text>
+                                    </TouchableOpacity>
+                                    <Text
+                                      style={{marginLeft: 5, flex: 2}}
+                                      numberOfLines={item.showMore ? 0 : 1}>
+                                      {item.comment}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                      flexDirection: 'row',
                                     }}>
-                                    <Text style={{fontWeight: 'bold', flex: 1}}>
-                                      {item.comment_username}
+                                    <TouchableOpacity
+                                      onPress={() => gotoCommentLike(item)}>
+                                      <Icon
+                                        name="thumbs-up"
+                                        size={15}
+                                        color={
+                                          item.likes_status ? 'red' : 'grey'
+                                        }
+                                        style={{marginLeft: 5}}
+                                      />
+                                    </TouchableOpacity>
+                                  </View>
+                                </View>
+                                {item.comment.length > 50 && (
+                                  <TouchableOpacity
+                                    onPress={() => gotoShowMore(ind, index)}>
+                                    <Text>
+                                      {item.showMore
+                                        ? '[Show Less]'
+                                        : '[Show More]'}
                                     </Text>
                                   </TouchableOpacity>
-                                  <Text style={{marginLeft: 5, flex: 2}}>
-                                    {item.comment}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flexDirection: 'row',
-                                  }}>
-                                  <TouchableOpacity
-                                    onPress={() => gotoCommentLike(item)}>
-                                    <Icon
-                                      name="thumbs-up"
-                                      size={15}
-                                      color={item.likes_status ? 'red' : 'grey'}
-                                      style={{marginLeft: 5}}
-                                    />
-                                  </TouchableOpacity>
-                                </View>
+                                )}
                               </View>
                             );
                           }

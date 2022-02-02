@@ -157,9 +157,13 @@ export const getSchoolProfile = createAction(GETSCHOOLPROFILE);
 export const GETALUMIGALLERYDETAIL = 'GETALUMIGALLERYDETAIL';
 export const getAlumniGalleryDetail = createAction(GETALUMIGALLERYDETAIL);
 
-//this is the alumni details of post
+//this is the create post by the user
 export const CREATEPOST = 'CREATEPOST';
 export const createPost = createAction(CREATEPOST);
+
+//this is the delete post by the user
+export const DELETEPOST = 'DELETEPOST';
+export const deletePost = createAction(DELETEPOST);
 
 // this is the suggestion for user
 export const GETSUGGESTIONS = 'GETSUGGESTIONS';
