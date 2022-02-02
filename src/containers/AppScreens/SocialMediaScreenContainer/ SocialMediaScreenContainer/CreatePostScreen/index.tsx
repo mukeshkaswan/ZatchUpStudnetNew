@@ -10,8 +10,10 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import styles from './styles';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -280,8 +282,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-
-      <ScrollView>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
         <CardView
           cardElevation={5}
           cardMaxElevation={5}
@@ -374,7 +375,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             </View>
           </View>
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

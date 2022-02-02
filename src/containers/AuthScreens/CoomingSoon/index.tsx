@@ -53,6 +53,7 @@ import {
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {ScreenHeight} from 'react-native-elements/dist/helpers';
 
 const data1 = [
   {
@@ -909,28 +910,33 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         style={{
           //borderWidth: 0.5,
           // padding: 20,
-          marginHorizontal: 8,
+          // marginHorizontal:10 ,
           //borderRadius: 20,
           alignItems: 'center',
           marginTop: 16,
-          // backgroundColor: 'red',
+          // backgroundColor: 'lightgrey',
           //  borderColor: 'grey',
+          width: '100%',
+          borderWidth: 1,
+          //height:screenWidth-55,
+          borderColor: 'lightgrey',
         }}>
         <View
           style={{
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            width: screenWidth,
+            width: screenWidth - 180,
             height: screenWidth - 32,
             //backgroundColor: 'red',
           }}>
           <View
             style={{
               backgroundColor: '#4B2A6A',
+              // backgroundColor: 'pink',
               height: 1,
-              width: '84%',
-              marginEnd: 32,
+              width: '95%',
+              //marginEnd: 32,
               alignSelf: 'center',
             }}></View>
           <Text
@@ -948,8 +954,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               fontSize: 16,
               fontWeight: '700',
               color: '#4B2A6A',
-              marginHorizontal: 32,
-              marginEnd: 64,
+              // marginHorizontal: 32,
+              // marginEnd: 64,
             }}>
             {item}
           </Text>
@@ -959,7 +965,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               fontSize: 40,
               textAlign: 'right',
               alignSelf: 'flex-end',
-              marginEnd: 48,
+              marginEnd: 20,
             }}>
             ”
           </Text>
@@ -967,8 +973,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             style={{
               backgroundColor: '#4B2A6A',
               height: 1,
-              width: '84%',
-              marginEnd: 32,
+              width: '95%',
+              // marginEnd: 32,
               alignSelf: 'center',
             }}></View>
         </View>
@@ -984,7 +990,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               opacity: 0.7,
               borderRadius: 12,
               padding: 2,
-              paddingHorizontal: 6,
+              paddingHorizontal: 8,
+              marginRight: 5,
             }}>
             {index + 1}/{length}
           </Text>
