@@ -107,15 +107,16 @@ const MySchool = (props: HomeScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-            // console.warn(
-            //   'after result Auth User INfo',
-            //   JSON.stringify(result, undefined, 2),
-             
-            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            // );
-            setUserid(result.user_id)
-            // setSpinnerStart(false);
             setLoading(false);
+            console.warn(
+              'after result Auth User sdfsdf INfo',
+              JSON.stringify(result, undefined, 2),
+             
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            setUserid(result.user_id)
+            console.log('result.user_id',result.user_id)
+            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -163,11 +164,11 @@ const MySchool = (props: HomeScreenProps) => {
         callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
-            // console.warn(
-            //   'after result step count',
-            //   JSON.stringify(result, undefined, 2),
-            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            // );
+            console.warn(
+              'after result step count',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
             // setSpinnerStart(false);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
@@ -369,7 +370,7 @@ const MySchool = (props: HomeScreenProps) => {
         <View style={styles.mainBoxesContainer}>
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home')}>
+            onPress={() => props.navigation.navigate('Home',{'user_id':userid})}>
             <View style={styles.boxcontainer}>
               <Image
                 style={{ width: 70, height: 70, resizeMode: 'contain' }}

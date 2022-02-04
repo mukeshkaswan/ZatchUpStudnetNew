@@ -199,7 +199,7 @@ const styles = ScaledSheet.create({
     backgroundColor: '#FFFFFF',
     marginLeft: 15,
     marginRight: 15,
-    marginTop: 30,
+    marginTop: 15,
     marginBottom: 10,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },

@@ -428,7 +428,7 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
           data={data}
           renderItem={({ item }) => (
             <View
-              style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
+              style={[styles.coursestextcontainer, { backgroundColor: 'white', }]}>
               <Text style={styles.snotext}>{item.field_name}</Text>
               <Text style={styles.lecturetitletext}>{item.old_value}</Text>
               <Text style={styles.topictext}>{item.new_value}</Text>
@@ -497,7 +497,7 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
           )}
         />
       </View> : <View style={styles.boxcontainer}>
-        <Text style={styles.pendingtext}>Pending Requests</Text>
+        <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
         <View style={styles.mainbordercontainer}>
           <View style={styles.bordercontainer}>
             <Text style={{ fontSize: 16 }}>Records Not Available</Text>

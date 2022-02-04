@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -11,7 +11,8 @@ import {
   Dimensions,
   ScrollView,
   Alert,
-  Linking
+  Linking,
+  SafeAreaView,
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -24,6 +25,7 @@ import {
   CustomDropdown,
   Validate,
 } from '../../../components';
+import Modal from 'react-native-modal';
 const screenWidth = Dimensions.get('window').width;
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -35,6 +37,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore'
+import Icon from 'react-native-vector-icons/Ionicons';
+import { WebView } from 'react-native-webview';
 
 interface SignUpScreenProps {
   navigation: any;
@@ -58,8 +62,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const [pronoun, setSelectpronoun] = useState('');
   const [SecureTextEntry, setSecureTextEntry] = useState(true);
-  const [SecureTextEntryRepassword, setSecureTextEntryRepassword] =
-    useState(true);
+  const [SecureTextEntryRepassword, setSecureTextEntryRepassword] = useState(true);
   const [KYC_type_doc_Selected, setKYCSelected] = useState('');
   const [Course_Selected, setCourseTypeSelected] = useState('');
 
@@ -84,6 +87,10 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const [date_copy, setDate_Copy] = useState('');
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const [isVisible, setisVisible] = useState(false);
+
+
+
   const URL = "http://staging.zatchup.com/zatchup/#/user/terms-conditions/user/view?pageName=tc"
 
   const renderIndicator = () => {
@@ -403,10 +410,21 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   };
 
 
+  const termPage = () => {
+    // Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
+    setisVisible(true);
+  }
   const termurl = () => {
     Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
 
   }
+
+  const onClose = () => {
+
+    setisVisible(false);
+
+  };
+
   return (
     <View style={styles.container}>
       <CustomStatusBar />
@@ -671,11 +689,17 @@ const SignUpScreen = (props: SignUpScreenProps) => {
               {' '}
               I agree with{' '}
             </Text>
-            <TouchableOpacity onPress={termurl} >
+            <TouchableOpacity
+
+              // onPress={termurl} 
+              onPress={termPage}
+            >
               <Text style={styles.termText}>Terms & Conditions</Text>
             </TouchableOpacity>
 
           </View>
+
+
 
         </View>
         <View style={{ padding: '5%', marginBottom: '5%' }}>
@@ -685,9 +709,80 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           //onPress={() => props.navigation.navigate('Otp')}
           />
         </View>
+
+        <Modal style={{ padding: 0, margin: 0 }} isVisible={isVisible}>
+          <CustomWebView
+
+            back={onClose} />
+        </Modal>
       </ScrollView>
     </View>
   );
 };
 
+
+
+function CustomWebView({ back }) {
+  const [loading, setLoading] = useState(true);
+  const webviewRef = useRef(null)
+
+  const gotoLoading = (load) => () => {
+    setLoading(load);
+  };
+
+  const gotoNavigate = () => {
+    back && back();
+  };
+
+  // useEffect(() => {
+  //   ApiCall();
+  // }, []);
+
+  // const ApiCall = () => {
+  //   ApiClient.get('')
+  //     .then(({data}) => {
+  //       console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  return (
+    <>
+      <SafeAreaView style={{ flex: 0, backgroundColor: '$backgroundColor' }} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '$backgroundColor' }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+          }}>
+          <WebView
+
+            //ref={webviewRef}
+            ref={webviewRef}
+
+            style={{}}
+            source={{
+              uri: 'http://staging.zatchup.com/zatchup/#/user/terms-conditions/user/view?pageName=tc',
+            }}
+            
+          // onError={() => {
+          //   this.webView.reload();
+          // }}
+          // onLoadStart={() => gotoLoading(true)}
+          // onLoad={() => gotoLoading(false)}
+          />
+
+          <TouchableOpacity
+            onPress={gotoNavigate}
+            style={{ position: 'absolute', padding: 8, zIndex: 9 }}>
+            <Icon name={'close'} size={24} color={'#4B2A6A'} />
+          </TouchableOpacity>
+          {/* {loading && <ProgressIndicator isLoading={loading} />} */}
+        </View>
+      </SafeAreaView>
+    </>
+  );
+}
 export default SignUpScreen;

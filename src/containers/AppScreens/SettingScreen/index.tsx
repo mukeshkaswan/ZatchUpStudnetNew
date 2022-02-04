@@ -62,6 +62,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
+  const [Course_Selected, setCourseTypeSelected] = useState('');
 
   const [number, onChangeNumber] = React.useState(null);
 
@@ -248,7 +249,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       //   id: element.first_name,
       // }
       // Profile.push(obj);
-      
+
     });
     _storeData();
 
@@ -306,7 +307,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             'after setting call api',
             JSON.stringify(data, undefined, 2),
 
-        
+
           );
           getdataProfile(data);
           getdataCourse(data);
@@ -347,71 +348,96 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
   const onPressSubmit = async () => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('tokenlogin');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
+
+    const newError = Validate('newmothername', newmothername);
+    const genderError = Validate('gender', male || Female || Custom);
+
+  
+
+    if (Custom) {
+      var courseError = Validate('pronoun_', Course_Selected);
+
     }
-    //   Alert.alert(Gender);
-    var key =
-      KYC_type_doc_Selected == 0
-        ? 'He'
-        : KYC_type_doc_Selected == 1
-          ? 'She'
-          : 'They';
-    const data = {
-      token: token,
-      father_name: newfathername,
-      mother_name: newmothername,
-      pronoun: GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
-      gender:
-        GenderForModal == 'M' || GenderForModal == 'F' ? GenderForModal : 'C',
-      profile_pic: profilepic,
-      custom_gender:
-        GenderForModal == 'M' || GenderForModal == 'F' ? '' : CustomGender,
-    };
 
-    // console.log('data====>>>', data);
-    // return;
+    if (
+      newError||genderError||courseError
 
-    setLoading(true);
+    ) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(
+        newError||
+        genderError||
+        courseError,
+        Toast.LONG,
+      );
 
-    dispatch(
-      userActions.updatePersonalinfo({
-        data,
-        callback: ({ result, error }) => {
-          if (result.status) {
-            setModalVisible(false);
-            getEducationProfile();
-            // console.warn(
-            //   'after login result',
-            //   JSON.stringify(result.status, undefined, 2),
+      return false;
+    } else {
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+      //   Alert.alert(Gender);
+      var key =
+        KYC_type_doc_Selected == 0
+          ? 'He'
+          : KYC_type_doc_Selected == 1
+            ? 'She'
+            : 'They';
+      const data = {
+        token: token,
+        father_name: newfathername,
+        mother_name: newmothername,
+        pronoun: GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
+        gender:
+          GenderForModal == 'M' || GenderForModal == 'F' ? GenderForModal : 'C',
+        profile_pic: profilepic,
+        custom_gender:
+          GenderForModal == 'M' || GenderForModal == 'F' ? '' : CustomGender,
+      };
 
-            // );
-            setLoading(false);
-            //return;
-            // props.navigation.navigate('OtpLogin', {
-            //   firebase_id: result.firebase_username,
-            //   username: email,
-            // });
-          }
-          if (result.status === false) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            setLoading(false);
-            Toast.show(result.error.message[0], Toast.SHORT);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-    // }
+      // console.log('data====>>>', data);
+      // return;
+
+      setLoading(true);
+
+      dispatch(
+        userActions.updatePersonalinfo({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status) {
+              setModalVisible(false);
+              getEducationProfile();
+              // console.warn(
+              //   'after login result',
+              //   JSON.stringify(result.status, undefined, 2),
+
+              // );
+              setLoading(false);
+              //return;
+              // props.navigation.navigate('OtpLogin', {
+              //   firebase_id: result.firebase_username,
+              //   username: email,
+              // });
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show(result.error.message[0], Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
   };
 
   const rednderItemList = (item, index) => {
@@ -436,9 +462,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   }}>
                   <View style={styles.addcitycontainer}>
                     <Text style={styles.title_text}>Personal Setting</Text>
-                   {kyc_approved != '0' ?  <TouchableOpacity onPress={toggleModal}>
+                    {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
                       <Image source={Images.edit_icon} style={styles.addicon} />
-                    </TouchableOpacity>:null}
+                    </TouchableOpacity> : null}
                     {/* Modal */}
                   </View>
 
@@ -447,7 +473,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     <View style={styles.text_container}>
                       <Text style={styles.detail_text}>Name : </Text>
                       <Text>{username}</Text>
-                      {kyc_approved != '0' ?   <TouchableOpacity
+                      {kyc_approved != '0' ? <TouchableOpacity
                         onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
 
                         <Image
@@ -461,13 +487,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           }}
                           source={Images.edit_icon}
                         />
-                      </TouchableOpacity>:null}
+                      </TouchableOpacity> : null}
 
                     </View>
                     <View style={styles.text_container}>
                       <Text style={styles.detail_text}>DOB : </Text>
                       <Text>{dob}</Text>
-                      {kyc_approved != '0' ?    <TouchableOpacity
+                      {kyc_approved != '0' ? <TouchableOpacity
                         onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
 
                         <Image
@@ -481,7 +507,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                           }}
                           source={Images.edit_icon}
                         />
-                      </TouchableOpacity>:null}
+                      </TouchableOpacity> : null}
 
                     </View>
 
@@ -729,12 +755,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         placeholder="Enter Your Mother's Name"
                         keyboardType="default"
                       /> */}
-                      <TextField
+                      {/* <TextField
                         placeholder={'Enter Your Mother Name'}
                         //imageIcon={Images.calendar_icon}
                         onChangeText={val => setnewnnewMothername(val)}
                         value={newmothername}
-                      />
+                      /> */}
                     </View>
                     <Text style={styles.labeltext}>Father's Name</Text>
                     <View style={styles.textinputcontainer}>
@@ -874,7 +900,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         justifyContent: 'center',
                         borderRadius: 10,
                       }}>
-                      <Text style={{ color: 'white' }} onPress={onPressSubmit}>
+                      <Text style={{ color: 'white' }} 
+                      onPress={onPressSubmit}>
                         Submit
                       </Text>
                     </TouchableOpacity>
@@ -979,9 +1006,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           }}>
           <View style={styles.addcitycontainer}>
             <Text style={styles.title_text}>Personal Setting</Text>
-            {kyc_approved != '0' ?  <TouchableOpacity onPress={toggleModal}>
+            {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
               <Image source={Images.edit_icon} style={styles.addicon} />
-            </TouchableOpacity>:null}
+            </TouchableOpacity> : null}
             {/* Modal */}
           </View>
 
@@ -990,7 +1017,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             <View style={styles.text_container}>
               <Text style={styles.detail_text}>Name : </Text>
               <Text>{username}</Text>
-              {kyc_approved != '0' ?   <TouchableOpacity
+              {kyc_approved != '0' ? <TouchableOpacity
                 onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
 
                 <Image
@@ -1004,13 +1031,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   }}
                   source={Images.edit_icon}
                 />
-              </TouchableOpacity>:null}
+              </TouchableOpacity> : null}
 
             </View>
             <View style={styles.text_container}>
               <Text style={styles.detail_text}>DOB : </Text>
               <Text>{dob}</Text>
-              {kyc_approved != '0' ?   <TouchableOpacity
+              {kyc_approved != '0' ? <TouchableOpacity
                 onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
 
                 <Image
@@ -1024,7 +1051,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   }}
                   source={Images.edit_icon}
                 />
-              </TouchableOpacity>:null}
+              </TouchableOpacity> : null}
 
             </View>
 
@@ -1383,21 +1410,22 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={{}}>
                 <View
                   style={{
-                    marginBottom: '2%',
+                    marginBottom: '2%',width:250
                   }}>
                   {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
 
                   <CustomDropdown
                     placeholder={'Select your pronoun'}
                     data={KYC_type_doc}
-                    selectedValue={KYC_type_doc}
-                    SelectedLanguagedata={selectedValue =>
-                      selectedValue
-                    }
+                    value={Course_Selected}
+                   
+                    SelectedLanguagedata={(selectedValue: any) => {
+                      setCourseTypeSelected(selectedValue);
+                    }}
                   />
                 </View>
 
-                <View style={{ marginBottom: '3%' }}>
+                <View style={{ marginBottom: '3%' ,width:250}}>
                   <TextField
                     placeholder={'Gender (optional)'}
                     imageIcon={''}
@@ -1416,8 +1444,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 10,
-              }}>
-              <Text style={{ color: 'white' }} onPress={onPressSubmit}>
+              }}
+              onPress={() => onPressSubmit()}
+              >
+              <Text style={{ color: 'white' }} 
+             >
                 Submit
               </Text>
             </TouchableOpacity>

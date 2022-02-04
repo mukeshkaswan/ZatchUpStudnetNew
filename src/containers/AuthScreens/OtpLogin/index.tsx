@@ -57,31 +57,31 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
   const getData_is_kyc_rejected = async result => {
     if (result.reg_step == 1) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
-        props.navigation.navigate('eKYC');
+        props.navigation.navigate('eKYC',{'Editdobsignup': true });
       }
     } else if (result.reg_step == 2) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent');
+        props.navigation.navigate('SelectStudent',{'re_verify':false});
       }
     } else if (result.reg_step == 4) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent');
+        props.navigation.navigate('SelectStudent',{'re_verify':false});
       }
     } else if (result.reg_step == 6) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
         props.navigation.navigate('Personalinfo');
       }
     } else if (result.reg_step ==7) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
         Toast.show('Login Successfully', Toast.SHORT)
        // props.navigation.navigate('MySchoolScreen')
@@ -92,16 +92,16 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       }
     } else if (result.reg_step == 5) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':''});
+        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
        // props.navigation.navigate('Personalinfo');
 
-        props.navigation.navigate('SelectStudent');
+        props.navigation.navigate('SelectStudent',{'re_verify':false});
        
       }
     } else {
       // console.log('step_4', '4')
-      props.navigation.navigate('SelectStudent');
+      props.navigation.navigate('SelectStudent',{'re_verify':false});
     }
   };
 

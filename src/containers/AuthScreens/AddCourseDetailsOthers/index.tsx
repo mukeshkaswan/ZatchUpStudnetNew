@@ -173,12 +173,14 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
     if (props.route.params.is_onboarded == '0') {
       props.navigation.navigate('EIconfirmation', {
-        'otherscourse': 'otherscourse'
+        'otherscourse': 'otherscourse',
+        're_verify':props.route.params.re_verify
       })
     }
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
+        're_verify':props.route.params.re_verify
       })
     }
 

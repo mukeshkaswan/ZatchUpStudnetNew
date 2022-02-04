@@ -174,11 +174,12 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const submit = async result => {
 
     if (props.route.params.confirmation === 'EIconfirmation') {
-      props.navigation.navigate('EIconfirmation');
+      props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify});
     }
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
+        're_verify':props.route.params.re_verify
       });
     }
     setCourse(''),

@@ -11,7 +11,7 @@ import {
     useIsFocused,
     useFocusEffect,
   } from '@react-navigation/native';
-interface SelectStudentScreenProps { navigation: any }
+interface SelectStudentScreenProps { navigation: any; route: any; }
 
 const SelectStudent = (props: SelectStudentScreenProps) => {
 
@@ -155,7 +155,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             <View style={styles.inputContainer}>
 
                 <View>
-                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect }) }} />
+                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect,'re_verify':props.route.params.re_verify }) }} />
                     {/* <CustomButton title={'Next'} onPress={() =>{studentSelect? props.navigation.navigate('CurrentSchoolinfo',{data:'name'}): props.navigation.goBack()}} /> */}
 
                 </View>

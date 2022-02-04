@@ -581,7 +581,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               // getdataCourseKey(result)
               // getEicourseconfirmationlist(),
               Toast.show('School deleted successfully', Toast.SHORT),
-              props.navigation.navigate('SelectStudent'),
+              props.navigation.navigate('SelectStudent', { 're_verify': props.route.params.re_verify }),
             );
             // setSpinnerStart(false);
             setLoading(false);
@@ -1198,11 +1198,23 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   const gotoNavigate = async () => {
 
+    console.log('props.route.params.re_verify',props.route.params.re_verify);
+
+
+   // return
+
+
     if (props.route.params.login == true) {
 
       USERCOURSECONFIRMATION_2();
 
-    } else {
+    }
+    else if (props.route.params.re_verify == true) {
+
+      USERCOURSECONFIRMATIONREVERIFY();
+
+    }
+    else {
       USERCOURSECONFIRMATION();
 
     }
@@ -1219,10 +1231,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       props.navigation.navigate('CoomingSoon');
     }
 
-    // console.log('huy naviagte -----------> ')
-    // props.navigation.navigate('Personalinfo', {
-    //   schoolidkey: schoolidkey,
-    // })
+   
   };
 
   /***************************User Course Confirm-1*******************************/
@@ -1231,6 +1240,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
+
       if (value !== null) {
         // value previously stored
         token = value;
@@ -1238,6 +1248,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     } catch (e) {
       // error reading value
     }
+
+
 
     const data = {
       token: token,
@@ -1310,6 +1322,64 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           if (result) {
             console.warn(
               'after user confirmation result step 2',
+              JSON.stringify(result, undefined, 2),
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Alert.alert(error.message[0])
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User Course Confirm Re-verify*******************************/
+
+  const USERCOURSECONFIRMATIONREVERIFY = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+
+
+    const data = {
+      token: token,
+      school_id: schoolidkey,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getusercourseconfirmationreverify({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after user confirmation Re-verify',
               JSON.stringify(result, undefined, 2),
             );
             // setSpinnerStart(false);
@@ -1478,6 +1548,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   coursekeyothersAlumni:
                                     props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
+                                  're_verify': props.route.params.re_verify
                                 })
                                 : i.standard_detail != null && i.standard_detail.length > 0 && i.is_current_course == true
                                   ? props.navigation.navigate(
@@ -1492,6 +1563,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       course_name: i.course_name,
                                       description: i.description,
                                       roll_no: i.roll_no,
+                                      're_verify': props.route.params.re_verify
                                     },
                                   )
                                   : props.navigation.navigate(
@@ -1508,6 +1580,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       course_id: i.course_id,
                                       school_id: item.ei_detail.id,
                                       confirmation: 'EIconfirmation',
+                                      're_verify': props.route.params.re_verify
                                     },
                                   )
                             }}>

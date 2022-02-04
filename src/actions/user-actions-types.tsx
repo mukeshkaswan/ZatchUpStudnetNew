@@ -156,6 +156,12 @@ export const getadduserstepseven = createAction(ADDUSERSTEPSEVEN);
 export const USERCOURSECONFIRMATION = 'USERCOURSECONFIRMATION';
 export const getusercourseconfirmation = createAction(USERCOURSECONFIRMATION);
 
+
+// this is for Add User Course Confirmation Re verify
+export const USERCOURSECONFIRMATIONREVERIFY = 'USERCOURSECONFIRMATIONREVERIFY';
+export const getusercourseconfirmationreverify = createAction(USERCOURSECONFIRMATIONREVERIFY);
+
+
 // this is for Add User Course Delete Standard 
 export const USERDELETECOURSESTANDARD = 'USERDELETECOURSESTANDARD';
 export const getDeleteCourseStandard = createAction(USERDELETECOURSESTANDARD);

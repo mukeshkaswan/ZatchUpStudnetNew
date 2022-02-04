@@ -66,7 +66,7 @@ const styles = ScaledSheet.create({
         flexDirection: 'column'
     },
     view_Row: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     view_Tv_1: {
         marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656'

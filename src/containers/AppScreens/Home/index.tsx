@@ -191,6 +191,8 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   useEffect(() => {
 
+    //console.log('props.route.params.user_id ',props.route.params )
+    UserCourseDelete();
 
     getEducationProfile();
 
@@ -724,6 +726,61 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   // console.log('dsfsdfds----------------------------->>>>>>>', state)
 
+
+  const UserCourseDelete = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getUserCourseDeleteNotConfirm({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //   'after.....>',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  }
   /***************************User GET Education Profile list *******************************/
 
   const getEducationProfile = async () => {
@@ -799,7 +856,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       key: value,
 
     };
-    setLoading(true);
+    //setLoading(true);
 
     dispatch(
       userActions.getCitySearch({
@@ -1160,7 +1217,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}
+                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false,'re_verify':true })}
                     // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                     >
                       <Text style={{ color: 'white', fontSize: 12, marginLeft: 5, marginRight: 5 }}>Resend for Verification</Text>
@@ -1432,7 +1489,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   Course Duration :
                                 </Text>
                                 <Text style={styles.view_Tv_2}>
-                                  {course.start_year + i.end_year}
+                                  {course.start_year + '  ' + course.end_year}
                                 </Text>
                               </View>
                             )
@@ -2070,19 +2127,21 @@ const HomeScreen = (props: HomeScreenProps) => {
             cardElevation={5}
             cardMaxElevation={5}
             cornerRadius={10}
-            style={{backgroundColor: '#FFFFFF',
-            marginLeft: 15,
-            marginRight: 15,
-            marginTop: 30,
-            shadowColor: 'black',
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 6,
-            shadowOpacity: 0.26,
-            elevation: 8,
-            //  backgroundColor: 'white',
-            //  padding: 20,
-            borderRadius: 5,
-            marginBottom:20}}>
+            style={{
+              backgroundColor: '#FFFFFF',
+              marginLeft: 15,
+              marginRight: 15,
+              marginTop: 30,
+              shadowColor: 'black',
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 6,
+              shadowOpacity: 0.26,
+              elevation: 8,
+              //  backgroundColor: 'white',
+              //  padding: 20,
+              borderRadius: 5,
+              marginBottom: 10
+            }}>
 
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -2159,6 +2218,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 />
 
                 <TextInput
+                style={{width:'85%'}}
                   //onChangeText={onChangeNumber}
                   onChangeText={value => getSearchcitydata(value)}
                   value={cityname}
@@ -2170,7 +2230,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               {citydata.length > 0 ? <FlatList
                 data={citydata}
-                style={{ height: '45%' }}
+                style={{ height: '25%' }}
                 // keyExtractor={item => item.id.toString()}
                 // ItemSeparatorComponent={ItemSepratorcity}
                 //  ItemSeparatorComponent={this.SeparatorComponent}

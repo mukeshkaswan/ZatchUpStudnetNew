@@ -34,6 +34,7 @@ import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { color } from 'react-native-elements/dist/helpers';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -824,6 +825,7 @@ const eKyc = (props: eKycScreenProps) => {
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 5) {
         props.navigation.navigate('SelectStudent', {
           username: 'jfdsfsdlfjs',
+          're_verify':false
         });
       }
 
@@ -1013,7 +1015,6 @@ const eKyc = (props: eKycScreenProps) => {
                 <TextField
                   placeholder={'Enter ID'}
                   maxLength={8}
-                  //  keyboardType=""
                   onChangeText={val => setID(val)}
                   value={ID}
                 />
@@ -1028,7 +1029,15 @@ const eKyc = (props: eKycScreenProps) => {
                 editable={true}
                 imageIcon={Images.user_icon}
               />
-            </View> : <View style={{ marginBottom: '5%', flex: 1 }}>
+            </View> : props.route.params.Editdobsignup == true ? <View style={{ marginBottom: '5%', flex: 1 }}>
+              <TextField
+                placeholder={'Enter Your Name'}
+                onChangeText={val => setName(val)}
+                value={Name}
+                editable={true}
+                imageIcon={Images.user_icon}
+              />
+            </View> : <View style={{ marginBottom: '5%', flex: 1, borderColor:'#4B2A6A',borderWidth:1 ,borderBottomLeftRadius:12,borderBottomEndRadius:12,borderTopLeftRadius:12,borderTopEndRadius:12 }}>
               <TextField
                 placeholder={'Enter Your Name'}
                 onChangeText={val => setName(val)}
@@ -1049,12 +1058,24 @@ const eKyc = (props: eKycScreenProps) => {
                   value={date_copy.toString()}
                 />
               </View>
-            </TouchableOpacity> : <View style={styles.inputmarginBottom}>
+            </TouchableOpacity> : props.route.params.Editdobsignup == true ? <TouchableOpacity
+              onPress={showDatepicker}
+            >
+              <View style={styles.inputmarginBottom}>
+                <TextField
+                  placeholder={'Date of Birth'}
+                  imageIcon={Images.calendar_icon}
+                  editable={false}
+                  value={date_copy.toString()}
+                />
+              </View>
+            </TouchableOpacity> : <View style={{ marginBottom: '5%',borderColor:'#4B2A6A',borderWidth:1 ,borderBottomLeftRadius:12,borderBottomEndRadius:12,borderTopLeftRadius:12,borderTopEndRadius:12}}>
               <TextField
                 placeholder={'Date of Birth'}
                 imageIcon={Images.calendar_icon}
                 editable={false}
                 value={date_copy.toString()}
+
               />
             </View>}
             {/* <View style={{ marginBottom: '5%', flex: 1 }}>

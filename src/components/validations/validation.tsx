@@ -660,6 +660,15 @@ const validation = {
     },
   },
 
+  newmothername: {
+    presence: {
+      message: 'Mother name is required.',
+    },
+  },
+
+
+ 
+
 
 };
 

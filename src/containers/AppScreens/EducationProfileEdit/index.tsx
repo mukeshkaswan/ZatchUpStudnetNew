@@ -427,7 +427,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             //     JSON.stringify(result.status, undefined, 2),
                             //     //submit(result.data)
                             // );
-                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool })
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool,'re_verify':props.route.params.re_verify })
 
                             // setSpinnerStart(false);
                             setLoading(false);

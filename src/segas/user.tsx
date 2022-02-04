@@ -78,7 +78,8 @@ import {
   USERWORKDETAIL,
   DELETEWORKDETAIL,
   UPLOADEKYCFORDETAILCHANGES,
-  UPLOADEKYCFORDETAILCHANGESDOB
+  UPLOADEKYCFORDETAILCHANGESDOB,
+  USERCOURSECONFIRMATIONREVERIFY
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -1440,15 +1441,21 @@ function* getadduserstepseven({ payload: { data, callback } }) {
 /***************************User Course Confirmation Step Auth Segas*******************************/
 
 function* getusercourseconfirmation({ payload: { data, callback } }) {
-  const formdata = new FormData();
-  formdata.append('school_id', data.school_id);
+ // const formdata = new FormData();
+//  formdata.append('school_id', data.school_id);
+
+const datakey = {
+  id: data.id,
+  school_id: data.school_id,
+};
+
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
       // "Content-Type": "application/json"
     },
     method: 'POST',
-    data: formdata,
+    data: datakey,
     //  url: `user/getcitybystateid/${data.id}/`,
     url: `user/user-course-conformation/`,
   };
@@ -1466,6 +1473,45 @@ function* getusercourseconfirmation({ payload: { data, callback } }) {
     }
   }
 }
+
+
+/***************************User Course Confirmation Re verify Step Auth Segas*******************************/
+
+function* getusercourseconfirmationreverify({ payload: { data, callback } }) {
+  // const formdata = new FormData();
+ //  formdata.append('school_id', data.school_id);
+ 
+ const datakey = {
+   id: data.id,
+   school_id: data.school_id,
+   re_verify:true
+ };
+ 
+   const payload = {
+     headers: {
+       Authorization: `Bearer ${data.token}`,
+       // "Content-Type": "application/json"
+     },
+     method: 'POST',
+     data: datakey,
+     //  url: `user/getcitybystateid/${data.id}/`,
+     url: `user/user-course-conformation/`,
+   };
+   const { result, error } = yield call(httpClient, payload);
+   callback({ result, error });
+   if (!error) {
+     if (result) {
+       // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+       callback({ result, error });
+       // const userToken = result.token;
+       // const data = result.data;
+       // yield put(loginSuccess({userToken, data}));
+     } else {
+       Toast.show(result.message);
+     }
+   }
+ }
+ 
 
 
 /***************************User GET Search City Auth Segas*******************************/
@@ -2615,6 +2661,7 @@ function* User() {
     yield takeLatest(EDITCOURSESTANDARDDROPDOWN, geteditcoursestandarddropdown),
     yield takeLatest(ADDUSERSTEPSEVEN, getadduserstepseven),
     yield takeLatest(USERCOURSECONFIRMATION, getusercourseconfirmation),
+    yield takeLatest(USERCOURSECONFIRMATIONREVERIFY, getusercourseconfirmationreverify),
     yield takeLatest(USERDELETECOURSESTANDARD, getDeleteCourseStandard),
     yield takeLatest(CITYLISTSEARCH, getCitySearch),
     yield takeLatest(ADDCITYSTATEFORUSER, getAddcitystateofuser),

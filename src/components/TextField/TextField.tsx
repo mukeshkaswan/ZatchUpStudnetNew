@@ -70,6 +70,7 @@ export default class TextField extends Component<AppProps, {}> {
           //  placeholderTextColor={'red'}
           underlineColorAndroid="transparent"
           //  placeholderTextColor = {'#333'}
+          
           onChangeText={this.props.onChangeText}
           secureTextEntry={this.props.secureTextEntry}
           editable={this.props.editable}

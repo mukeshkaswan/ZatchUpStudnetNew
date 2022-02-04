@@ -728,13 +728,15 @@ const CurrentSchoolinfo = (
           address: address,
           board: Board,
           opening_da: opening_date,
+          're_verify':props.route.params.re_verify
         })
         : props.navigation.navigate('AddCourseDetailsOthers', {
           nameofschool: schoolname,
           board: Board,
           school_id: data.school_id,
           data: props.route.params.data,
-          is_onboarded: is_onboarded
+          is_onboarded: is_onboarded,
+          're_verify':props.route.params.re_verify
         });
     }
 

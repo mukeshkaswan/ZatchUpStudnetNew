@@ -62,7 +62,7 @@ const eKycSuccess = (props: eKycSuccesscreenProps) => {
 
 
                     <View>
-                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent')} />
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent',{'re_verify':false})} />
                     </View>
                 </View>
 

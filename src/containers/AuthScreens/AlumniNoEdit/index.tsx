@@ -649,6 +649,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
+                  're_verify':props.route.params.re_verify
                 }),
               );
               // setSpinnerStart(false);
@@ -774,6 +775,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
+                  're_verify':props.route.params.re_verify
                 }),
 
                 //   props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })

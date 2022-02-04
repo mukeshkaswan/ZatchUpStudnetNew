@@ -264,7 +264,9 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                                         </TouchableOpacity> */}
 
 
-                                        <TouchableOpacity onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': schoolname, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid })} >
+                                        <TouchableOpacity 
+                                        style={{justifyContent:'flex-end'}}
+                                        onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': schoolname, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid ,'re_verify':props.route.params.re_verify})} >
                                             <View >
                                                 <Image
                                                     style={styles.editiconCopy}
@@ -297,7 +299,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                 </CardView>} />
 
-                        <TouchableOpacity onPress={() => props.navigation.navigate('AddCourseDetailsOthers')}  >
+                        <TouchableOpacity onPress={() => props.navigation.navigate('AddCourseDetailsOthers',{'re_verify':props.route.params.re_verify})}  >
                             <View style={{ flexDirection: 'row', marginBottom: '3%', marginTop: '6%', }}>
                                 <Image source={Images.addmore_school_icon} style={styles.checkbox}></Image>
                                 <View style={{ marginLeft: 15, marginTop: 5 }}><Text style={styles.fillText_Add}>Add More Course</Text></View>
@@ -306,7 +308,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                     </View>
 
                     <View>
-                        <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EIconfirmation',{'otherscourse':'otherscourse'})} />
+                        <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EIconfirmation',{'otherscourse':'otherscourse','re_verify':props.route.params.re_verify})} />
                     </View>
                 </View>
 

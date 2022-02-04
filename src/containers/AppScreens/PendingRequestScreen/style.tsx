@@ -61,6 +61,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: 5,
     marginHorizontal: 10,
     paddingVertical: 10,
+    alignItems:'center'
   },
 
   eyeimage: {

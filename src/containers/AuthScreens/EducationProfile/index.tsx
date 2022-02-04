@@ -411,6 +411,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                   city: props.route.params.city,
                   address: props.route.params.address,
                   board: props.route.params.board,
+                  're_verify':props.route.params.re_verify
                 }),
               );
               // setSpinnerStart(false);
@@ -718,7 +719,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
           <View style={styles.inputContainer}>
             <View>
               {props.route.params.true != true ? <TouchableOpacity
-                onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
+                onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'re_verify':props.route.params.re_verify})}>
                 <View
                   style={{
                     marginBottom: 1,
