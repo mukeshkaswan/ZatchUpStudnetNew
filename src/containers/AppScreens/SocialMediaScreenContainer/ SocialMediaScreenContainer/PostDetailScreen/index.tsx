@@ -120,6 +120,67 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const [index, setIndex] = useState(0);
   const [postCommentToggle, setPostCommentToggle] = useState(false);
   const [comment, setComment] = useState('');
+  const [isModalVisible3, setModalVisible3] = useState(false);
+  const toggleModal3 = item => {
+    //setCustomItem(item);
+    setModalVisible3(!isModalVisible3);
+  };
+  const [isreportmodal, setreportmodal] = useState(false);
+  const reportmodal = () => {
+    setreportmodal(!isreportmodal);
+    setModalVisible3('');
+    // reportprofilemodal('')
+    //setthreeDot(false);
+  };
+
+  const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
+    {report_option: 'Suspicious or Fake', checked: false},
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
+    {
+      report_option: 'Intellectual property infringement or defamation',
+      checked: false,
+    },
+  ]);
+
+  const reportcheckboxHandler = (value, index) => {
+    console.log('value', value);
+    // setReportId(value.id);
+    const newValue = reportcheckboxValue.map((checkbox, i) => {
+      if (i !== index)
+        return {
+          ...checkbox,
+          checked: false,
+        };
+      if (i === index) {
+        const item = {
+          ...checkbox,
+          checked: !checkbox.checked,
+        };
+        return item;
+      }
+      return checkbox;
+    });
+    setreportCheckboxValue(newValue);
+  };
+
+  const renderIndicator = () => {
+    return (
+      <View style={{}}>
+        <ProgressLoader
+          visible={true}
+          isModal={true}
+          isHUD={true}
+          //hudColor={"#ffffff00"}
+          hudColor={'#4B2A6A'}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          color={'white'}
+        />
+      </View>
+    );
+  };
+
   const pressReply = (item, index) => {
     setPostCommentToggle(false);
     console.log(item);
@@ -359,12 +420,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
       token: token,
       id: id,
     };
-
+    setLoading(true);
     dispatch(
       userActions.getPostDetails({
         data,
         callback: ({result, error}) => {
           if (result) {
+            setLoading(false);
             console.warn(
               'after result post details',
               JSON.stringify(result, undefined, 2),
@@ -574,22 +636,6 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     );
   };
 
-  const renderIndicator = () => {
-    return (
-      <View style={{}}>
-        <ProgressLoader
-          visible={true}
-          isModal={true}
-          isHUD={true}
-          //hudColor={"#ffffff00"}
-          hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
-          color={'white'}
-        />
-      </View>
-    );
-  };
-
   const isCarousel = useRef(null);
 
   function CrouselImages({item, index, length}) {
@@ -654,6 +700,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
   return (
     <View style={styles.container}>
+      {isLoading && renderIndicator()}
       <CustomStatusBar />
       <CustomHeader
         Title={'Post Details'}
@@ -740,8 +787,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               {/* <Text style={{fontWeight: 'bold', marginLeft: 30}}>
                 Following
               </Text> */}
-
-              <Icon name="ellipsis-v" color="grey" size={20} />
+              <TouchableOpacity onPress={toggleModal3}>
+                <Icon name="ellipsis-v" color="grey" size={20} />
+              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -1172,6 +1220,113 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           </View>
         </ScrollView>
       )}
+      <Modal
+        isVisible={isModalVisible3}
+        onBackdropPress={toggleModal3}
+        backdropOpacity={0.4}>
+        <View
+          style={{
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 20,
+            borderRadius: 5,
+            justifyContent: 'center',
+          }}>
+          {/* {customItem.user_id != userid && ( */}
+          <>
+            <TouchableOpacity onPress={reportmodal}>
+              <Text style={styles.btn}>Report</Text>
+            </TouchableOpacity>
+
+            {/* <TouchableOpacity
+               onPress={() => blockprofile()}
+               >
+                <Text style={styles.btn}>Unfollow</Text>
+              </TouchableOpacity> */}
+            {/* <View style={styles.mborder}></View> */}
+          </>
+          {/* )} */}
+
+          <View style={styles.mborder}></View>
+          <TouchableOpacity onPress={toggleModal3}>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+      {/* modal for report */}
+      <Modal
+        isVisible={isreportmodal}
+        onBackdropPress={reportmodal}
+        backdropOpacity={0.4}>
+        <View style={styles.modalContainer}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: hp(2.4),
+                }}>
+                Report
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={reportmodal}>
+              <Image
+                source={Images.closeicon}
+                style={{height: 15, width: 15, marginRight: 10}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.mborder}></View>
+          <View style={{paddingHorizontal: 16}}>
+            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
+            {reportcheckboxValue.map((checkbox, i) => (
+              <View key={i} style={styles.rowContent}>
+                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
+                {/* <CustomCheckbox
+                onPress={(value) => checkboxHandler(value, i)}
+                 checked={checkbox.checked}
+              /> */}
+                <TouchableOpacity
+                  onPress={() => reportcheckboxHandler(checkbox, i)}>
+                  <View
+                    style={{
+                      // backgroundColor: '#4B2A6A',
+                      height: 22,
+                      width: 22,
+                      borderRadius: 11,
+                      borderColor: '#4B2A6A',
+                      borderWidth: 2,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    {checkbox.checked && (
+                      <View
+                        style={{
+                          backgroundColor: '#4B2A6A',
+                          height: 12,
+                          width: 12,
+                          borderRadius: 6,
+                        }}></View>
+                    )}
+                  </View>
+                  <View></View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View style={styles.mborder}></View>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <TouchableOpacity
+              style={styles.postbtn}
+              // onPress={() => gotoReport()}
+            >
+              <Text style={{color: 'white'}}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
