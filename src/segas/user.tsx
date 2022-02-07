@@ -841,7 +841,10 @@ function* getPostOfUser({payload: {data, callback}}) {
     },
     //data: JSON.stringify(data.course_id),
     method: 'GET',
-    url: 'socialmedia/post/user_following_post/?page=1&page_size=20&count_type=true',
+    url:
+      'socialmedia/post/user_following_post/?page=' +
+      data.page +
+      '&page_size=9&count_type=true',
   };
   const {result, error} = yield call(httpClient, payload);
   if (!error) {

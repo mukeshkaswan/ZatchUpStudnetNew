@@ -15,6 +15,7 @@ import {
   Platform,
   TextInput,
   Keyboard,
+  RefreshControl,
 } from 'react-native';
 import styles from './style';
 import {CustomCheckbox} from '../../../components';
@@ -39,6 +40,7 @@ import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
+import Video from 'react-native-video-player';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   widthPercentageToDP as wp,
@@ -54,7 +56,7 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {ScreenHeight} from 'react-native-elements/dist/helpers';
-
+import ProgressLoader from 'rn-progress-loader';
 const data1 = [
   {
     id: 1,
@@ -95,6 +97,8 @@ const data1 = [
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
+const {width, height} = Dimensions.get('screen');
+
 const data = [
   {
     id: 1,
@@ -129,6 +133,7 @@ const data = [
 ];
 
 const CoomingSoon = (props: CoomingSoonScreenProps) => {
+  const ref = useRef();
   const [password, setPassword] = useState('');
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -150,6 +155,10 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [commentValue, setComment] = useState('');
   const [customItem, setCustomItem] = useState('');
   const [reportId, setReportId] = useState('');
+  const [loading, setLoadingg] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
   const [checkboxValue, setCheckboxValue] = React.useState([
     {report_option: 'Suspicious or Fake', checked: false},
 
@@ -168,7 +177,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
     getStepCountAPi();
     getAuthUserInfoApi();
-    getPostDataApi();
+    getPostDataApi(1);
     getReportData();
     // getAuthUserInfoApi();
     const keyboardDidShowListener = Keyboard.addListener(
@@ -496,7 +505,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
-              getPostDataApi();
+              getPostDataApi(1);
             } else {
               // setSchoolDetail('');
             }
@@ -516,7 +525,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
   /**************GET POST API CALL ***********/
 
-  const getPostDataApi = async () => {
+  const getPostDataApi = async p => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -530,13 +539,19 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
     const data = {
       token: token,
+      page: p,
     };
 
+    console.log('page==>>', data);
+    setLoading(true);
     dispatch(
       userActions.getPostOfUser({
         data,
         callback: ({result, error}) => {
           if (result) {
+            setLoadingg(false);
+            setLoading(false);
+
             console.warn(
               'after result Auth User INfo',
               JSON.stringify(result, undefined, 2),
@@ -569,9 +584,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
             console.log('NewArray==>>', newArrr);
 
-            setPosts(newArrr);
             // setSpinnerStart(false);
-            setLoading(false);
+            let array = p == 1 ? newArrr : posts.concat(newArrr);
+
+            console.log('arrray', array);
+            setPosts(array);
+            setHasMore(newArrr.length == 9 ? true : false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -594,6 +612,20 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         },
       }),
     );
+  };
+
+  const onEndReached = async () => {
+    setPage(page + 1);
+    setLoadingg(true);
+    await getPostDataApi(page + 1);
+    // this.setState({page: page + 1, loading: true}, this.CallApi);
+  };
+
+  const _handleRefresh = async () => {
+    setPage(1);
+    setPosts([]);
+    await getPostDataApi(1);
+    //  this.setState({page: 1, Data: []}, this.CallApi);
   };
 
   /***************************User GET City Search Name list *******************************/
@@ -863,6 +895,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const isCarouselText = useRef(null);
 
   function CrouselImages({item, index, length}) {
+    // if (item.post_extension != 'mp4') {
     return (
       <View
         style={{
@@ -879,7 +912,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           resizeMode="contain"
           style={{
             width: screenWidth - 64,
-            height: 200,
+            height: screenWidth - 64,
             backgroundColor: '#d2d2d2',
           }}
         />
@@ -902,6 +935,55 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         )}
       </View>
     );
+    // } else {
+    //   console.log('URL++++++Videos==>>>', item.post_image);
+    //   return (
+    //     <View
+    //       style={{
+    //         //borderWidth: 0.5,
+    //         // padding: 20,
+    //         marginHorizontal: 8,
+    //         //borderRadius: 20,
+    //         alignItems: 'center',
+    //         // backgroundColor: 'red',
+    //         //  borderColor: 'grey',
+    //       }}>
+    //       <Video
+    //         ref={ref}
+    //         // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
+    //         uri={{uri: item.post_image}}
+    //         // video={{ uri: coursepreview }}
+    //         //   videoWidth={width - 100}
+    //         //thumbnail={{ uri: courseimage }}
+    //         thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+    //         // onFullScreen={onFullScreen}
+    //         // theme={theme}
+    //         // controls={true}
+    //         resizeMode="contain"
+    //         showDuration
+    //         // rotateToFullScreen={true}
+    //         lockRatio={16 / 9}
+    //       />
+    //       {length > 1 && (
+    //         <Text
+    //           style={{
+    //             marginVertical: 10,
+    //             fontSize: 12,
+    //             position: 'absolute',
+    //             color: '#fff',
+    //             right: 0,
+    //             backgroundColor: '#4B2A6A',
+    //             opacity: 0.7,
+    //             borderRadius: 12,
+    //             padding: 2,
+    //             paddingHorizontal: 6,
+    //           }}>
+    //           {index + 1}/{length}
+    //         </Text>
+    //       )}
+    //     </View>
+    //   );
+    // }
   }
 
   function CrouselText({item, index, length}) {
@@ -1029,7 +1111,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getPostDataApi();
+            getPostDataApi(1);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1072,7 +1154,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getPostDataApi();
+            getPostDataApi(1);
             setComment('');
           }
           if (!error) {
@@ -1117,7 +1199,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getPostDataApi();
+            getPostDataApi(1);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1400,6 +1482,65 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           )}
           style={{flex: 1, width: '100%'}}
           data={posts}
+          refreshControl={
+            <RefreshControl
+              colors={['#4B2A6A']}
+              refreshing={refreshing}
+              onRefresh={_handleRefresh}
+            />
+          }
+          ListEmptyComponent={() =>
+            loading ? (
+              <View
+                style={{
+                  height: height - 56,
+                  width,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={{fontSize: 18}}>
+                  No Notifications are available
+                </Text>
+              </View>
+            ) : (
+              <View></View>
+            )
+          }
+          ListFooterComponent={() =>
+            hasMore && posts != null && posts.length > 0 && !loading ? (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#fff',
+                  alignItems: 'center',
+                  paddingBottom: 8,
+                }}
+                onPress={() => onEndReached()}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    textDecorationLine: 'underline',
+                  }}>
+                  Load More
+                </Text>
+              </TouchableOpacity>
+            ) : loading || isLoading ? (
+              <ProgressLoader
+                visible={true}
+                isModal={true}
+                isHUD={true}
+                //hudColor={"#ffffff00"}
+                hudColor={'#4B2A6A'}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                }}
+                color={'white'}
+              />
+            ) : (
+              <View></View>
+            )
+          }
           renderItem={({item, index}) => {
             let len = item.post_gallery != null ? item.post_gallery.length : 0;
             let items = item;
@@ -1477,7 +1618,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       onSnapToItem={index => setIndex(index)}
                     />
                   </>
-                ) : (
+                ) : parts != null && parts.length > 0 ? (
                   <Carousel
                     // layout={'tinder'}
                     ref={isCarouselText}
@@ -1489,6 +1630,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     itemWidth={ITEM_WIDTH}
                     onSnapToItem={index => setIndex(index)}
                   />
+                ) : (
+                  <View></View>
                 )}
                 <View style={styles.likecommentContainer}>
                   <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
@@ -1706,15 +1849,24 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     <View style={styles.border}></View>
                     <View style={styles.rowContainer}>
                       <TextInput
+                        style={{width: screenWidth - 120}}
                         placeholder="Add a comment"
                         value={commentValue}
                         onChangeText={setComment}
+                        multiline={true}
                       />
-                      <TouchableOpacity
-                        style={styles.postbtn}
-                        onPress={() => gotoComment(item)}>
-                        <Text style={{color: 'white'}}>Post</Text>
-                      </TouchableOpacity>
+                      <View
+                        style={{
+                          alignSelf: 'flex-end',
+                          marginBottom: 5,
+                          marginLeft: 5,
+                        }}>
+                        <TouchableOpacity
+                          style={styles.postbtn}
+                          onPress={() => gotoComment(item)}>
+                          <Text style={{color: 'white'}}>Post</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 ) : (
