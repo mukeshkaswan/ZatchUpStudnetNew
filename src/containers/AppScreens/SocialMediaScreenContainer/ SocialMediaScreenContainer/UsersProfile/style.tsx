@@ -153,14 +153,14 @@ const styles = ScaledSheet.create({
     width: 20,
     height: 20,
   },
+
   postbtn: {
-    borderWidth: 1,
+    backgroundColor: '#4B2A6A',
     height: 30,
-    width: 80,
-    justifyContent: 'center',
+    width: 60,
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 5,
-    backgroundColor: 'rgb(70,50,103)',
   },
   tabrowContainer: {
     flexDirection: 'row',
@@ -242,6 +242,12 @@ const styles = ScaledSheet.create({
     color: 'red',
     marginTop: 10,
     fontWeight: 'bold',
+  },
+  rowContainer2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
   },
 });
 export default styles;

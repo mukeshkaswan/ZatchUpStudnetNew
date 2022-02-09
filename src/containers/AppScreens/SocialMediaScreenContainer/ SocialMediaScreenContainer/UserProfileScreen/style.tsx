@@ -153,7 +153,7 @@ const styles = ScaledSheet.create({
     width: 20,
     height: 20,
   },
-  postbtn: {
+  addpostbtn: {
     borderWidth: 1,
     height: 30,
     width: 80,
@@ -224,6 +224,14 @@ const styles = ScaledSheet.create({
     color: 'red',
     marginTop: 10,
     fontWeight: 'bold',
+  },
+  postbtn: {
+    backgroundColor: '#4B2A6A',
+    height: 30,
+    width: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
   },
 });
 export default styles;

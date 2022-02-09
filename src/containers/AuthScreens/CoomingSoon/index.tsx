@@ -895,27 +895,43 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const isCarouselText = useRef(null);
 
   function CrouselImages({item, index, length}) {
-    // if (item.post_extension != 'mp4') {
     return (
       <View
         style={{
-          //borderWidth: 0.5,
-          // padding: 20,
           marginHorizontal: 8,
-          //borderRadius: 20,
           alignItems: 'center',
-          // backgroundColor: 'red',
-          //  borderColor: 'grey',
         }}>
-        <Image
-          source={{uri: item.post_image}}
-          resizeMode="contain"
-          style={{
-            width: screenWidth - 64,
-            height: screenWidth - 64,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{
+              uri:
+                item.post_image != null
+                  ? item.post_image
+                  : 'https://i.picsum.photos/id/866/1600/900.jpg',
+            }}
+            resizeMode="contain"
+            style={{
+              width: screenWidth - 64,
+              height: screenWidth - 64,
+              backgroundColor: '#d2d2d2',
+            }}
+          />
+        ) : (
+          // <Text>kamal</Text>
+          <Video
+            key={item + 'sap'}
+            ref={ref}
+            // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
+            video={{
+              uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
+            }}
+            // video={{ uri: coursepreview }}
+            thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+            //resizeMode="contain"
+            //showDuration
+            //lockRatio={16 / 9}
+          />
+        )}
         {length > 1 && (
           <Text
             style={{
@@ -935,55 +951,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         )}
       </View>
     );
-    // } else {
-    //   console.log('URL++++++Videos==>>>', item.post_image);
-    //   return (
-    //     <View
-    //       style={{
-    //         //borderWidth: 0.5,
-    //         // padding: 20,
-    //         marginHorizontal: 8,
-    //         //borderRadius: 20,
-    //         alignItems: 'center',
-    //         // backgroundColor: 'red',
-    //         //  borderColor: 'grey',
-    //       }}>
-    //       <Video
-    //         ref={ref}
-    //         // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
-    //         uri={{uri: item.post_image}}
-    //         // video={{ uri: coursepreview }}
-    //         //   videoWidth={width - 100}
-    //         //thumbnail={{ uri: courseimage }}
-    //         thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-    //         // onFullScreen={onFullScreen}
-    //         // theme={theme}
-    //         // controls={true}
-    //         resizeMode="contain"
-    //         showDuration
-    //         // rotateToFullScreen={true}
-    //         lockRatio={16 / 9}
-    //       />
-    //       {length > 1 && (
-    //         <Text
-    //           style={{
-    //             marginVertical: 10,
-    //             fontSize: 12,
-    //             position: 'absolute',
-    //             color: '#fff',
-    //             right: 0,
-    //             backgroundColor: '#4B2A6A',
-    //             opacity: 0.7,
-    //             borderRadius: 12,
-    //             padding: 2,
-    //             paddingHorizontal: 6,
-    //           }}>
-    //           {index + 1}/{length}
-    //         </Text>
-    //       )}
-    //     </View>
-    //   );
-    // }
   }
 
   function CrouselText({item, index, length}) {

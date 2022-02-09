@@ -1268,17 +1268,28 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         <View style={styles.border}></View>
                         <View style={styles.rowContainer}>
                           <TextInput
+                            multiline={true}
+                            style={{
+                              width: screenWidth - 120,
+                            }}
                             placeholder="Reply Comment"
                             value={item.commentReplyValue}
                             onChangeText={text =>
                               gotoChangeComment(text, item, index)
                             }
                           />
-                          <TouchableOpacity
-                            style={styles.postbtn}
-                            onPress={() => gotoReplyComment(item, index)}>
-                            <Text style={{color: 'white'}}>Reply</Text>
-                          </TouchableOpacity>
+                          <View
+                            style={{
+                              alignSelf: 'flex-end',
+                              marginBottom: 5,
+                              marginLeft: 5,
+                            }}>
+                            <TouchableOpacity
+                              style={styles.postbtn}
+                              onPress={() => gotoReplyComment(item, index)}>
+                              <Text style={{color: 'white'}}>Reply</Text>
+                            </TouchableOpacity>
+                          </View>
                         </View>
                       </View>
                     ) : (
@@ -1448,23 +1459,38 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               item.isComment ? (
                                 <View>
                                   <View style={styles.border}></View>
-                                  <View style={styles.rowContainer}>
+                                  <View
+                                    style={[
+                                      styles.rowContainer,
+                                      {marginRight: 16},
+                                    ]}>
                                     <TextInput
+                                      multiline={true}
+                                      style={{
+                                        width: screenWidth - 150,
+                                      }}
                                       placeholder="Reply Comment"
                                       value={item.commentReplyValue}
                                       onChangeText={text =>
                                         gotoChangeComment(text, item, index)
                                       }
                                     />
-                                    <TouchableOpacity
-                                      style={styles.postbtn}
-                                      onPress={() =>
-                                        gotoReplyComment(item, index)
-                                      }>
-                                      <Text style={{color: 'white'}}>
-                                        Reply
-                                      </Text>
-                                    </TouchableOpacity>
+                                    <View
+                                      style={{
+                                        alignSelf: 'flex-end',
+                                        marginBottom: 5,
+                                        marginLeft: 5,
+                                      }}>
+                                      <TouchableOpacity
+                                        style={styles.postbtn}
+                                        onPress={() =>
+                                          gotoReplyComment(item, index)
+                                        }>
+                                        <Text style={{color: 'white'}}>
+                                          Replyy
+                                        </Text>
+                                      </TouchableOpacity>
+                                    </View>
                                   </View>
                                 </View>
                               ) : (
@@ -1590,15 +1616,24 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 <View style={styles.border}></View>
                 <View style={styles.rowContainer}>
                   <TextInput
+                    style={{width: screenWidth - 120}}
+                    multiline={true}
                     placeholder="Add a comment"
                     value={comment}
                     onChangeText={setComment}
                   />
-                  <TouchableOpacity
-                    style={styles.postbtn}
-                    onPress={gotoComment}>
-                    <Text style={{color: 'white'}}>Post</Text>
-                  </TouchableOpacity>
+                  <View
+                    style={{
+                      alignSelf: 'flex-end',
+                      marginBottom: 5,
+                      marginLeft: 5,
+                    }}>
+                    <TouchableOpacity
+                      style={styles.postbtn}
+                      onPress={gotoComment}>
+                      <Text style={{color: 'white'}}>Post</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </>
             )}

@@ -350,5 +350,11 @@ const styles = ScaledSheet.create({
     paddingHorizontal: 8,
     fontSize: hp(2),
   },
+  rowContainer2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
 });
 export default styles;

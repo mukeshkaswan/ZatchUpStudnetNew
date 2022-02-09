@@ -1541,19 +1541,30 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       </Text>
                     </View>
                     {item.commentToggle == true ? (
-                      <View style={{marginTop: 32}}>
+                      <View>
                         <View style={styles.border}></View>
-                        <View style={styles.rowContainer}>
+                        <View style={styles.rowContainer2}>
                           <TextInput
+                            style={{
+                              width: screenWidth - 120,
+                            }}
                             placeholder="Add a comment"
                             value={commentValue}
                             onChangeText={setComment}
+                            multiline={true}
                           />
-                          <TouchableOpacity
-                            style={styles.postbtn}
-                            onPress={() => gotoComment(item)}>
-                            <Text style={{color: 'white'}}>Post</Text>
-                          </TouchableOpacity>
+                          <View
+                            style={{
+                              alignSelf: 'flex-end',
+                              marginBottom: 5,
+                              marginLeft: 5,
+                            }}>
+                            <TouchableOpacity
+                              style={styles.postbtn}
+                              onPress={() => gotoComment(item)}>
+                              <Text style={{color: 'white'}}>Post</Text>
+                            </TouchableOpacity>
+                          </View>
                         </View>
                       </View>
                     ) : (

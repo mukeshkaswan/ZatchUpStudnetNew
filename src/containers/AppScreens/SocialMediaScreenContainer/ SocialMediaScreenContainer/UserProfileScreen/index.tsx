@@ -790,7 +790,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
               </View>
             </View>
             <TouchableOpacity
-              style={styles.postbtn}
+              style={styles.addpostbtn}
               onPress={() => {
                 props.navigation.navigate('CreatePostScreen');
               }}>
@@ -919,7 +919,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
               <View style={styles.cardtitlecontent}>
                 <Text style={styles.cardtitletext}>Posts</Text>
                 <TouchableOpacity
-                  style={styles.postbtn}
+                  style={styles.addpostbtn}
                   onPress={() => {
                     props.navigation.navigate('CreatePostScreen');
                   }}>
@@ -1300,13 +1300,17 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       </Text>
                     </View>
                     {item.commentToggle == true ? (
-                      <View style={{marginTop: 32}}>
+                      <View>
                         <View style={styles.border}></View>
-                        <View style={styles.rowContainer}>
+                        <View style={styles.rowContainer1}>
                           <TextInput
+                            style={{
+                              width: screenWidth - 120,
+                            }}
                             placeholder="Add a comment"
                             value={commentValue}
                             onChangeText={setComment}
+                            multiline={true}
                           />
                           <TouchableOpacity
                             style={styles.postbtn}
