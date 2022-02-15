@@ -172,6 +172,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   ]);
   useEffect(() => {
     //getEducationProfile();
+    setPage(1);
     onChangecityname('');
     setCityData([]);
 
@@ -202,7 +203,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
-  }, [isFocused]);
+  }, []);
 
   const pressComment = () => {
     showComment(true);
@@ -900,6 +901,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         style={{
           marginHorizontal: 8,
           alignItems: 'center',
+          // backgroundColor: 'red',
         }}>
         {item.post_extension != 'mp4' ? (
           <Image
@@ -918,24 +920,32 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           />
         ) : (
           // <Text>kamal</Text>
-          <Video
-            key={item + 'sap'}
-            ref={ref}
-            // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
-            video={{
-              uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
-            }}
-            // video={{ uri: coursepreview }}
-            thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-            //resizeMode="contain"
-            //showDuration
-            //lockRatio={16 / 9}
-          />
+          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
+            <Video
+              key={item + 'sap'}
+              ref={ref}
+              videoWidth={screenWidth - 64}
+              videoHeight={screenWidth - 64}
+              style={{
+                backgroundColor: '#d2d2d2',
+                alignSelf: 'center',
+              }}
+              video={{
+                uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
+              }}
+              // video={{ uri: coursepreview }}
+              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+              //resizeMode="contain"
+              //showDuration
+              //lockRatio={16 / 9}
+            />
+          </View>
         )}
         {length > 1 && (
           <Text
             style={{
-              marginVertical: 10,
+              margin: 10,
+              marginEnd: 20,
               fontSize: 12,
               position: 'absolute',
               color: '#fff',
@@ -1580,8 +1590,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       renderItem={({item, index}) => (
                         <CrouselImages item={item} index={index} length={len} />
                       )}
-                      sliderWidth={SLIDER_WIDTH}
-                      itemWidth={ITEM_WIDTH}
+                      sliderWidth={screenWidth - 32}
+                      itemWidth={screenWidth - 32}
+                      layoutCardOffset={'0'}
                       onSnapToItem={index => setIndex(index)}
                     />
                   </>
@@ -1593,8 +1604,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     renderItem={({item, index}) => (
                       <CrouselText item={item} index={index} length={lenCap} />
                     )}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
+                    sliderWidth={screenWidth - 32}
+                    itemWidth={screenWidth - 64}
+                    layoutCardOffset={'0'}
                     onSnapToItem={index => setIndex(index)}
                   />
                 ) : (

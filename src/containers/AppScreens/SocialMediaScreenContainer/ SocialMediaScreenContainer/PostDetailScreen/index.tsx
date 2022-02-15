@@ -41,6 +41,7 @@ import ProgressLoader from 'rn-progress-loader';
 import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Video from 'react-native-video-player';
 const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
@@ -103,13 +104,15 @@ export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const PostDetailScreen = (props: NotificationsScreenProps) => {
-  console.log(props.route);
+  console.log('props', props.route);
   const {
-    item: {id},
+    item: {id, user_id},
   } = props.route.params;
   console.log('+++++++', id);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const [flagId, setFlagId] = useState(id);
+  const [pId, setPId] = useState(id);
   const [isLoading, setLoading] = useState(false);
   const [setdatafromlist, setData] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -124,16 +127,28 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const [captionPart, setCaptionPart] = useState([]);
   const [captionLength, setCaptionLength] = useState(0);
   const [reportId, setReportId] = useState('');
-  const toggleModal3 = item => {
+  const [allPost, setAllPost] = useState([]);
+  const [userid, setUserid] = useState('');
+  const [replyShowModal, setReplyShowModal] = useState(false);
+  const [replyItem, setReplyItem] = useState('');
+  const toggleModal3 = (item: any) => {
     //setCustomItem(item);
     setModalVisible3(!isModalVisible3);
+  };
+
+  const setshowReplyModal = (item: any) => {
+    //setCustomItem(item);
+    setReplyShowModal(!replyShowModal);
   };
   const [isreportmodal, setreportmodal] = useState(false);
   const reportmodal = () => {
     setreportmodal(!isreportmodal);
     setModalVisible3('');
-    // reportprofilemodal('')
-    //setthreeDot(false);
+  };
+
+  const gotoSetShowReplyModal = item => {
+    setReplyItem(item);
+    setReplyShowModal(true);
   };
 
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
@@ -147,7 +162,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     },
   ]);
 
-  const reportcheckboxHandler = (value, index) => {
+  const reportcheckboxHandler = (
+    value: {report_option?: string; checked?: boolean; id?: any},
+    index: number,
+  ) => {
     console.log('value', value);
     setReportId(value.id);
     const newValue = reportcheckboxValue.map((checkbox, i) => {
@@ -184,7 +202,15 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     );
   };
 
-  const pressReply = (item, index) => {
+  const pressReply = (
+    item: {
+      parent: number;
+      isComment: any;
+      hasOwnProperty: (arg0: string) => any;
+      reply_comment: string | any[] | null;
+    },
+    index: string | number,
+  ) => {
     setPostCommentToggle(false);
     console.log(item);
     let newObj = Object.assign({}, postDetails);
@@ -256,7 +282,16 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     setPostDetails(newObj);
   };
 
-  const gotoChangeComment = (text, item, index) => {
+  const gotoChangeComment = (
+    text: string,
+    item: {
+      parent: number;
+      hasOwnProperty: (arg0: string) => any;
+      reply_comment: string | any[] | null;
+      isComment: any;
+    },
+    index: string | number,
+  ) => {
     console.log(item);
     let newObj = Object.assign({}, postDetails);
     let newOb = Object.assign({}, postDetails);
@@ -300,7 +335,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     setPostDetails(item.parent == 0 ? newObj : newOb);
   };
 
-  const gotoReplyComment = async (item, index) => {
+  const gotoReplyComment = async (item, index, key) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -314,8 +349,11 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
     const data = {
       token: token,
-      comment_id: item.id,
-      reply_comment: item.commentReplyValue,
+      comment_id: item.comment_on_post,
+      reply_comment:
+        key == 'reply'
+          ? item.reply_username + ' - ' + item.commentReplyValue
+          : item.commentReplyValue,
       user_id: postDetails.user_id,
     };
     console.log('-----++---', data);
@@ -350,9 +388,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   };
 
   useEffect(() => {
-    getPostDetails(id);
-    getReportPostData();
+    getPostDetails(pId);
     // getAuthUserInfoApi();
+    getReportPostData();
+    getPostOfUser(user_id);
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -405,6 +444,186 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
     props.navigation.navigate('LoginScreen');
     //  BackHandler.exitApp()
+  };
+
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo++++++',
+              JSON.stringify(result, undefined, 2),
+              //  setuserName(result.full_name),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            console.log('USER_ID' + result.user_id),
+              setUserid(result.user_id),
+              // setSpinnerStart(false);
+              setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const gotoDeleteComment = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: replyItem.id,
+      type: replyItem.type,
+    };
+
+    // console.log('DataCommetnDelete==>>', data);
+    // return;
+
+    dispatch(
+      userActions.deleteComment({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'delete the comment of user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              setReplyShowModal(!replyShowModal);
+              getPostDetails(id);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const getPostOfUser = async (id: any) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      user_id: id,
+      count_type: false,
+    };
+
+    dispatch(
+      userActions.getUserAllPost({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'get all the post of user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              let newData = [];
+              for (let i in result.data) {
+                if (i < 9 && result.data[i].post_gallery != null) {
+                  newData.push(result.data[i]);
+                }
+              }
+              console.log('newDataOfAllPost', newData);
+              setAllPost(newData);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   const getReportPostData = async () => {
@@ -471,7 +690,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   };
 
   /**********get post details api */
-  const getPostDetails = async id => {
+  const getPostDetails = async (id: any) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -493,6 +712,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
+            getAuthUserInfoApi();
             setLoading(false);
             console.warn(
               'after result post details',
@@ -584,7 +804,12 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     );
   };
 
-  const gotoLikeUnlike = async item => {
+  const gotoLikeUnlike = async (item: {
+    parent: number;
+    likes_status: any;
+    reply_comment_likes: any;
+    id: any;
+  }) => {
     console.log(item);
     var token = '';
     try {
@@ -856,27 +1081,49 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     );
   }
 
+  const gotoNavigate = item => {
+    setPId(item.id);
+    props.navigation.push('PostDetailScreen', {item});
+  };
+
   const renderItem = ({item}) => (
-    <View
+    <TouchableOpacity
       style={{
         borderRadius: 10,
         backgroundColor: 'white',
         margin: 5,
         padding: 8,
         alignItems: 'center',
-      }}>
-      <Image
-        source={
-          item.post_image != null
-            ? {uri: item.post_image}
-            : require('../../../../../assets/images/college2.jpg')
-        }
-        style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
-      />
-    </View>
+      }}
+      onPress={() => gotoNavigate(item)}>
+      {item.post_gallery[0].post_extension != 'mp4' ? (
+        <Image
+          source={
+            item.post_gallery[0].post_image != null
+              ? {uri: item.post_gallery[0].post_image}
+              : require('../../../../../assets/images/college2.jpg')
+          }
+          style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
+        />
+      ) : (
+        <Video
+          key={item + 'sap'}
+          // ref={refe => (this.ref = refe)}
+          style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
+          video={{
+            uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
+    </TouchableOpacity>
   );
 
-  const gotoShowReply = index => {
+  const gotoShowReply = (index: string | number) => {
     console.log(index);
 
     let newArr = Object.assign({}, postDetails);
@@ -898,7 +1145,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     setPostDetails(newArr);
   };
 
-  const gotoShowMore = index => {
+  const gotoShowMore = (index: string | number) => {
     console.log(index);
 
     let newArr = Object.assign({}, postDetails);
@@ -920,7 +1167,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     setPostDetails(newArr);
   };
 
-  const gotoShowMoreReplyComment = (ind, index) => {
+  const gotoShowMoreReplyComment = (
+    ind: string | number,
+    index: string | number,
+  ) => {
     console.log(ind, index);
 
     let newArr = Object.assign({}, postDetails);
@@ -1059,7 +1309,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     )}
                     sliderWidth={SLIDER_WIDTH}
                     itemWidth={ITEM_WIDTH}
-                    onSnapToItem={index => setIndex(index)}
+                    onSnapToItem={(index: React.SetStateAction<number>) =>
+                      setIndex(index)
+                    }
                   />
                 </>
               ) : (
@@ -1076,7 +1328,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   )}
                   sliderWidth={SLIDER_WIDTH}
                   itemWidth={ITEM_WIDTH}
-                  onSnapToItem={index => setIndex(index)}
+                  onSnapToItem={(index: React.SetStateAction<number>) =>
+                    setIndex(index)
+                  }
                 />
               )}
             </View>
@@ -1088,7 +1342,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     ? props.navigation.navigate('SchoolProfile', {
                         item: {user_id: postDetails.user_id},
                       })
-                    : postDetails.user_id != 'userid'
+                    : postDetails.user_id != userid
                     ? props.navigation.navigate('UsersProfile', {
                         item: {user_id: postDetails.user_id},
                       })
@@ -1120,93 +1374,64 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 marginVertical: 5,
               }}></View>
 
-            <View style={styles.rowContainer}>
-              <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center'}}
-                onPress={() => {
-                  postDetails.user_role == 'EIREPRESENTATIVE'
-                    ? props.navigation.navigate('SchoolProfile', {
-                        item: {user_id: postDetails.user_id},
-                      })
-                    : postDetails.user_id != 'userid'
-                    ? props.navigation.navigate('UsersProfile', {
-                        item: {user_id: postDetails.user_id},
-                      })
-                    : props.navigation.navigate('UserProfileScreen', {
-                        item: {user_id: postDetails.user_id},
-                      });
-                }}>
-                <Image
-                  source={
-                    postDetails.profile_pic != null
-                      ? {uri: postDetails.profile_pic}
-                      : Images.profile_img2
-                  }
-                  style={styles.profileImage}
-                />
-                <View>
-                  <Text style={styles.nametext}>{postDetails.full_name}</Text>
-                  <Text style={styles.nametext}>{postDetails.caption}</Text>
-                  <Text style={[styles.nametext, {fontWeight: '300'}]}>
-                    {postDetails.post_created_on}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            {postDetails.caption != null && postDetails.caption != '' && (
+              <View style={styles.rowContainer}>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', alignItems: 'center'}}
+                  onPress={() => {
+                    postDetails.user_role == 'EIREPRESENTATIVE'
+                      ? props.navigation.navigate('SchoolProfile', {
+                          item: {user_id: postDetails.user_id},
+                        })
+                      : postDetails.user_id != userid
+                      ? props.navigation.navigate('UsersProfile', {
+                          item: {user_id: postDetails.user_id},
+                        })
+                      : props.navigation.navigate('UserProfileScreen', {
+                          item: {user_id: postDetails.user_id},
+                        });
+                  }}>
+                  <Image
+                    source={
+                      postDetails.profile_pic != null
+                        ? {uri: postDetails.profile_pic}
+                        : Images.profile_img2
+                    }
+                    style={styles.profileImage}
+                  />
+                  <View>
+                    <Text style={styles.nametext}>{postDetails.full_name}</Text>
+                    <Text style={styles.nametext}>{postDetails.caption}</Text>
+                    <Text style={[styles.nametext, {fontWeight: '300'}]}>
+                      {postDetails.post_created_on}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
 
             <FlatList
               data={postDetails.comment_post}
               renderItem={({item, index}) => {
                 let ind = index;
-                return (
-                  <View>
-                    <View style={styles.rowContainer}>
-                      <View style={{flex: 1}}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            flex: 1,
-                          }}>
-                          <TouchableOpacity
-                            onPress={() => {
-                              item.user_role == 'EIREPRESENTATIVE'
-                                ? props.navigation.navigate('SchoolProfile', {
-                                    item: {user_id: item.user},
-                                  })
-                                : item.user != 'userid'
-                                ? props.navigation.navigate('UsersProfile', {
-                                    item: {user_id: item.user},
-                                  })
-                                : props.navigation.navigate(
-                                    'UserProfileScreen',
-                                    {
-                                      item: {user_id: item.user},
-                                    },
-                                  );
+                if (item.comment != '' && item.comment != null) {
+                  return (
+                    <View>
+                      <View style={styles.rowContainer}>
+                        <View style={{flex: 1}}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              flex: 1,
                             }}>
-                            <Image
-                              source={
-                                item.comment_user_profile_pic != null
-                                  ? {uri: item.comment_user_profile_pic}
-                                  : Images.profile_img2
-                              }
-                              style={{
-                                height: 40,
-                                width: 40,
-                                borderRadius: 50,
-                                tintColor: 'grey',
-                              }}
-                            />
-                          </TouchableOpacity>
-                          <View style={{marginLeft: 10, flex: 2}}>
                             <TouchableOpacity
                               onPress={() => {
                                 item.user_role == 'EIREPRESENTATIVE'
                                   ? props.navigation.navigate('SchoolProfile', {
                                       item: {user_id: item.user},
                                     })
-                                  : item.user != 'userid'
+                                  : item.user != userid
                                   ? props.navigation.navigate('UsersProfile', {
                                       item: {user_id: item.user},
                                     })
@@ -1217,166 +1442,197 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                       },
                                     );
                               }}>
-                              <Text style={styles.nametext}>
-                                {item.comment_username}
+                              <Image
+                                source={
+                                  item.comment_user_profile_pic != null
+                                    ? {uri: item.comment_user_profile_pic}
+                                    : Images.profile_img2
+                                }
+                                style={{
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: 50,
+                                  tintColor: 'grey',
+                                }}
+                              />
+                            </TouchableOpacity>
+                            <View style={{marginLeft: 10, flex: 2}}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  item.user_role == 'EIREPRESENTATIVE'
+                                    ? props.navigation.navigate(
+                                        'SchoolProfile',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : item.user != userid
+                                    ? props.navigation.navigate(
+                                        'UsersProfile',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : props.navigation.navigate(
+                                        'UserProfileScreen',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      );
+                                }}>
+                                <Text style={styles.nametext}>
+                                  {item.comment_username}
+                                </Text>
+                              </TouchableOpacity>
+                              <Text
+                                style={{marginLeft: 10}}
+                                numberOfLines={item.showMore ? 0 : 1}>
+                                {item.comment}
+                              </Text>
+                            </View>
+                          </View>
+                          {item.comment.length > 40 && (
+                            <TouchableOpacity
+                              style={{marginStart: 60}}
+                              onPress={() => gotoShowMore(index)}>
+                              <Text>
+                                {item.showMore ? '[Show Less]' : '[Show More]'}
                               </Text>
                             </TouchableOpacity>
-                            <Text
-                              style={{marginLeft: 10}}
-                              numberOfLines={item.showMore ? 0 : 1}>
-                              {item.comment}
-                            </Text>
-                          </View>
+                          )}
                         </View>
-                        {item.comment.length > 50 && (
-                          <TouchableOpacity
-                            style={{marginStart: 60}}
-                            onPress={() => gotoShowMore(index)}>
-                            <Text>
-                              {item.showMore ? '[Show Less]' : '[Show More]'}
-                            </Text>
-                          </TouchableOpacity>
-                        )}
-                      </View>
-                      {/* <Icon name="ellipsis-v" color="grey" size={20} /> */}
-                      <TouchableOpacity onPress={() => gotoLikeUnlike(item)}>
-                        <Icon
-                          name="thumbs-up"
-                          size={15}
-                          color={item.likes_status ? 'red' : 'grey'}
-                          style={{marginLeft: 5}}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{flexDirection: 'row', marginLeft: 78}}>
-                      <Text style={{fontSize: 12}}>
-                        {item.comment_created_on}
-                      </Text>
-                      {item.likes > 0 && (
-                        <Text style={[styles.liketext, {fontSize: 12}]}>
-                          {item.likes + ' Like'}
-                        </Text>
-                      )}
-                      <Text
-                        style={[styles.liketext, {fontSize: 12}]}
-                        onPress={() => pressReply(item, index)}>
-                        Reply
-                      </Text>
-                    </View>
-                    {item.isComment ? (
-                      <View>
-                        <View style={styles.border}></View>
-                        <View style={styles.rowContainer}>
-                          <TextInput
-                            multiline={true}
-                            style={{
-                              width: screenWidth - 120,
-                            }}
-                            placeholder="Reply Comment"
-                            value={item.commentReplyValue}
-                            onChangeText={text =>
-                              gotoChangeComment(text, item, index)
-                            }
+                        {/* <Icon name="ellipsis-v" color="grey" size={20} /> */}
+                        <TouchableOpacity onPress={() => gotoLikeUnlike(item)}>
+                          <Icon
+                            name="thumbs-up"
+                            size={15}
+                            color={item.likes_status ? 'red' : 'grey'}
+                            style={{marginLeft: 5}}
                           />
-                          <View
-                            style={{
-                              alignSelf: 'flex-end',
-                              marginBottom: 5,
-                              marginLeft: 5,
-                            }}>
-                            <TouchableOpacity
-                              style={styles.postbtn}
-                              onPress={() => gotoReplyComment(item, index)}>
-                              <Text style={{color: 'white'}}>Reply</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      </View>
-                    ) : (
-                      <View></View>
-                    )}
-
-                    {item.hasOwnProperty('showReply') && (
-                      <View
-                        style={{
-                          marginStart: 80,
-                          marginTop: 4,
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: '#000',
-                            height: 1,
-                            width: 20,
-                            marginEnd: 8,
-                          }}></View>
-                        <TouchableOpacity onPress={() => gotoShowReply(index)}>
-                          <Text style={{fontWeight: '700'}}>
-                            {item.showReply
-                              ? 'Hide reply(' + item.reply_comment.length + ')'
-                              : 'View reply(' + item.reply_comment.length + ')'}
-                          </Text>
                         </TouchableOpacity>
                       </View>
-                    )}
-                    {item.reply_comment != null &&
-                      item.hasOwnProperty('showReply') &&
-                      item.showReply &&
-                      item.reply_comment.length > 0 && (
-                        <FlatList
-                          style={{marginStart: 16}}
-                          data={item.reply_comment}
-                          renderItem={({item, index}) => (
-                            <View>
-                              <View style={styles.rowContainer}>
-                                <View style={{flex: 1}}>
-                                  <View
-                                    style={{
-                                      flexDirection: 'row',
-                                      alignItems: 'center',
-                                      flex: 1,
-                                    }}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        item.user_role == 'EIREPRESENTATIVE'
-                                          ? props.navigation.navigate(
-                                              'SchoolProfile',
-                                              {
-                                                item: {user_id: item.user},
-                                              },
-                                            )
-                                          : item.user != 'userid'
-                                          ? props.navigation.navigate(
-                                              'UsersProfile',
-                                              {
-                                                item: {user_id: item.user},
-                                              },
-                                            )
-                                          : props.navigation.navigate(
-                                              'UserProfileScreen',
-                                              {
-                                                item: {user_id: item.user},
-                                              },
-                                            );
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginLeft: 78,
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{fontSize: 12}}>
+                          {item.comment_created_on}
+                        </Text>
+                        {item.likes > 0 && (
+                          <Text style={[styles.liketext, {fontSize: 12}]}>
+                            {item.likes + ' Like'}
+                          </Text>
+                        )}
+                        <Text
+                          style={[styles.liketext, {fontSize: 12}]}
+                          onPress={() => pressReply(item, index)}>
+                          Reply
+                        </Text>
+                        {userid == postDetails.user_id ? (
+                          <TouchableOpacity
+                            onPress={() =>
+                              gotoSetShowReplyModal({...item, type: 'comment'})
+                            }>
+                            <Text style={[styles.liketext, {fontSize: 12}]}>
+                              ...
+                            </Text>
+                          </TouchableOpacity>
+                        ) : userid == item.user ? (
+                          <TouchableOpacity
+                            onPress={() =>
+                              gotoSetShowReplyModal({...item, type: 'comment'})
+                            }>
+                            <Text style={[styles.liketext, {fontSize: 12}]}>
+                              ...
+                            </Text>
+                          </TouchableOpacity>
+                        ) : (
+                          <View></View>
+                        )}
+                      </View>
+                      {item.isComment ? (
+                        <View>
+                          <View style={styles.border}></View>
+                          <View style={styles.rowContainer}>
+                            <TextInput
+                              multiline={true}
+                              style={{
+                                width: screenWidth - 120,
+                              }}
+                              placeholder="Reply Comment"
+                              value={item.commentReplyValue}
+                              onChangeText={text =>
+                                gotoChangeComment(text, item, index)
+                              }
+                            />
+                            <View
+                              style={{
+                                alignSelf: 'flex-end',
+                                marginBottom: 5,
+                                marginLeft: 5,
+                              }}>
+                              <TouchableOpacity
+                                style={styles.postbtn}
+                                onPress={() =>
+                                  gotoReplyComment(item, index, 'notReply')
+                                }>
+                                <Text style={{color: 'white'}}>Reply</Text>
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        </View>
+                      ) : (
+                        <View></View>
+                      )}
+
+                      {item.hasOwnProperty('showReply') && (
+                        <View
+                          style={{
+                            marginStart: 80,
+                            marginTop: 4,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
+                          <View
+                            style={{
+                              backgroundColor: '#000',
+                              height: 1,
+                              width: 20,
+                              marginEnd: 8,
+                            }}></View>
+                          <TouchableOpacity
+                            onPress={() => gotoShowReply(index)}>
+                            <Text style={{fontWeight: '700'}}>
+                              {item.showReply
+                                ? 'Hide reply(' +
+                                  item.reply_comment.length +
+                                  ')'
+                                : 'View reply(' +
+                                  item.reply_comment.length +
+                                  ')'}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                      {item.reply_comment != null &&
+                        item.hasOwnProperty('showReply') &&
+                        item.showReply &&
+                        item.reply_comment.length > 0 && (
+                          <FlatList
+                            style={{marginStart: 16}}
+                            data={item.reply_comment}
+                            renderItem={({item, index}) => (
+                              <View>
+                                <View style={styles.rowContainer}>
+                                  <View style={{flex: 1}}>
+                                    <View
+                                      style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        flex: 1,
                                       }}>
-                                      <Image
-                                        source={
-                                          item.comment_user_profile_pic != null
-                                            ? {
-                                                uri: item.comment_user_profile_pic,
-                                              }
-                                            : Images.profile_img2
-                                        }
-                                        style={{
-                                          height: 40,
-                                          width: 40,
-                                          borderRadius: 50,
-                                          tintColor: 'grey',
-                                        }}
-                                      />
-                                    </TouchableOpacity>
-                                    <View style={{marginLeft: 10, flex: 2}}>
                                       <TouchableOpacity
                                         onPress={() => {
                                           item.user_role == 'EIREPRESENTATIVE'
@@ -1386,7 +1642,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                                   item: {user_id: item.user},
                                                 },
                                               )
-                                            : item.user_id != 'userid'
+                                            : item.user != userid
                                             ? props.navigation.navigate(
                                                 'UsersProfile',
                                                 {
@@ -1400,108 +1656,194 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                                 },
                                               );
                                         }}>
-                                        <Text style={styles.nametext}>
-                                          {item.reply_username}
+                                        <Image
+                                          source={
+                                            item.comment_user_profile_pic !=
+                                            null
+                                              ? {
+                                                  uri: item.comment_user_profile_pic,
+                                                }
+                                              : Images.profile_img2
+                                          }
+                                          style={{
+                                            height: 40,
+                                            width: 40,
+                                            borderRadius: 50,
+                                            tintColor: 'grey',
+                                          }}
+                                        />
+                                      </TouchableOpacity>
+                                      <View style={{marginLeft: 10, flex: 2}}>
+                                        <TouchableOpacity
+                                          onPress={() => {
+                                            item.user_role == 'EIREPRESENTATIVE'
+                                              ? props.navigation.navigate(
+                                                  'SchoolProfile',
+                                                  {
+                                                    item: {user_id: item.user},
+                                                  },
+                                                )
+                                              : item.user_id != userid
+                                              ? props.navigation.navigate(
+                                                  'UsersProfile',
+                                                  {
+                                                    item: {user_id: item.user},
+                                                  },
+                                                )
+                                              : props.navigation.navigate(
+                                                  'UserProfileScreen',
+                                                  {
+                                                    item: {user_id: item.user},
+                                                  },
+                                                );
+                                          }}>
+                                          <Text style={styles.nametext}>
+                                            {item.reply_username}
+                                          </Text>
+                                        </TouchableOpacity>
+                                        <Text
+                                          style={{marginLeft: 10}}
+                                          numberOfLines={item.showMore ? 0 : 1}>
+                                          {item.reply_comment}
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    {item.reply_comment.length > 32 && (
+                                      <TouchableOpacity
+                                        style={{marginStart: 60}}
+                                        onPress={() =>
+                                          gotoShowMoreReplyComment(ind, index)
+                                        }>
+                                        <Text>
+                                          {item.showMore
+                                            ? '[Show Less]'
+                                            : '[Show More]'}
                                         </Text>
                                       </TouchableOpacity>
-                                      <Text
-                                        style={{marginLeft: 10}}
-                                        numberOfLines={item.showMore ? 0 : 1}>
-                                        {item.reply_comment}
-                                      </Text>
-                                    </View>
+                                    )}
                                   </View>
-                                  {item.reply_comment.length > 50 && (
+                                  {/* <Icon name="ellipsis-v" color="grey" size={20} /> */}
+                                  <TouchableOpacity
+                                    onPress={() => gotoLikeUnlike(item)}>
+                                    <Icon
+                                      name="thumbs-up"
+                                      size={15}
+                                      color={
+                                        item.reply_comment_likes
+                                          ? 'red'
+                                          : 'grey'
+                                      }
+                                      style={{marginLeft: 5}}
+                                    />
+                                  </TouchableOpacity>
+                                </View>
+                                <View
+                                  style={{
+                                    flexDirection: 'row',
+                                    marginLeft: 78,
+                                  }}>
+                                  <Text style={{fontSize: 12}}>
+                                    {item.reply_comment_time}
+                                  </Text>
+                                  {item.reply_comment_like_count > 0 && (
+                                    <Text
+                                      style={[styles.liketext, {fontSize: 12}]}>
+                                      {item.reply_comment_like_count + ' Like'}
+                                    </Text>
+                                  )}
+                                  <Text
+                                    style={[styles.liketext, {fontSize: 12}]}
+                                    onPress={() => pressReply(item, index)}>
+                                    Reply
+                                  </Text>
+                                  {userid == postDetails.user_id ? (
                                     <TouchableOpacity
-                                      style={{marginStart: 60}}
                                       onPress={() =>
-                                        gotoShowMoreReplyComment(ind, index)
+                                        gotoSetShowReplyModal({
+                                          ...item,
+                                          type: 'ReplyComment',
+                                        })
                                       }>
-                                      <Text>
-                                        {item.showMore
-                                          ? '[Show Less]'
-                                          : '[Show More]'}
+                                      <Text
+                                        style={[
+                                          styles.liketext,
+                                          {fontSize: 12},
+                                        ]}>
+                                        ...
                                       </Text>
                                     </TouchableOpacity>
+                                  ) : userid == item.reply_user ? (
+                                    <TouchableOpacity
+                                      onPress={() =>
+                                        gotoSetShowReplyModal({
+                                          ...item,
+                                          type: 'ReplyComment',
+                                        })
+                                      }>
+                                      <Text
+                                        style={[
+                                          styles.liketext,
+                                          {fontSize: 12},
+                                        ]}>
+                                        ...
+                                      </Text>
+                                    </TouchableOpacity>
+                                  ) : (
+                                    <View></View>
                                   )}
                                 </View>
-                                {/* <Icon name="ellipsis-v" color="grey" size={20} /> */}
-                                <TouchableOpacity
-                                  onPress={() => gotoLikeUnlike(item)}>
-                                  <Icon
-                                    name="thumbs-up"
-                                    size={15}
-                                    color={
-                                      item.reply_comment_likes ? 'red' : 'grey'
-                                    }
-                                    style={{marginLeft: 5}}
-                                  />
-                                </TouchableOpacity>
-                              </View>
-                              <View
-                                style={{flexDirection: 'row', marginLeft: 78}}>
-                                <Text style={{fontSize: 12}}>
-                                  {item.reply_comment_time}
-                                </Text>
-                                {item.reply_comment_like_count > 0 && (
-                                  <Text
-                                    style={[styles.liketext, {fontSize: 12}]}>
-                                    {item.reply_comment_like_count + ' Like'}
-                                  </Text>
-                                )}
-                                <Text
-                                  style={[styles.liketext, {fontSize: 12}]}
-                                  onPress={() => pressReply(item, index)}>
-                                  Reply
-                                </Text>
-                              </View>
-                              {item.hasOwnProperty('isComment') &&
-                              item.isComment ? (
-                                <View>
-                                  <View style={styles.border}></View>
-                                  <View
-                                    style={[
-                                      styles.rowContainer,
-                                      {marginRight: 16},
-                                    ]}>
-                                    <TextInput
-                                      multiline={true}
-                                      style={{
-                                        width: screenWidth - 150,
-                                      }}
-                                      placeholder="Reply Comment"
-                                      value={item.commentReplyValue}
-                                      onChangeText={text =>
-                                        gotoChangeComment(text, item, index)
-                                      }
-                                    />
+                                {item.hasOwnProperty('isComment') &&
+                                item.isComment ? (
+                                  <View>
+                                    <View style={styles.border}></View>
                                     <View
-                                      style={{
-                                        alignSelf: 'flex-end',
-                                        marginBottom: 5,
-                                        marginLeft: 5,
-                                      }}>
-                                      <TouchableOpacity
-                                        style={styles.postbtn}
-                                        onPress={() =>
-                                          gotoReplyComment(item, index)
-                                        }>
-                                        <Text style={{color: 'white'}}>
-                                          Replyy
-                                        </Text>
-                                      </TouchableOpacity>
+                                      style={[
+                                        styles.rowContainer,
+                                        {marginRight: 16},
+                                      ]}>
+                                      <TextInput
+                                        multiline={true}
+                                        style={{
+                                          width: screenWidth - 150,
+                                        }}
+                                        placeholder={'Reply Comment'}
+                                        value={item.commentReplyValue}
+                                        onChangeText={text =>
+                                          gotoChangeComment(text, item, index)
+                                        }
+                                      />
+                                      <View
+                                        style={{
+                                          alignSelf: 'flex-end',
+                                          marginBottom: 5,
+                                          marginLeft: 5,
+                                        }}>
+                                        <TouchableOpacity
+                                          style={styles.postbtn}
+                                          onPress={() =>
+                                            gotoReplyComment(
+                                              item,
+                                              index,
+                                              'reply',
+                                            )
+                                          }>
+                                          <Text style={{color: 'white'}}>
+                                            Reply
+                                          </Text>
+                                        </TouchableOpacity>
+                                      </View>
                                     </View>
                                   </View>
-                                </View>
-                              ) : (
-                                <View></View>
-                              )}
-                            </View>
-                          )}
-                        />
-                      )}
-                  </View>
-                );
+                                ) : (
+                                  <View></View>
+                                )}
+                              </View>
+                            )}
+                          />
+                        )}
+                    </View>
+                  );
+                }
               }}
             />
 
@@ -1547,7 +1889,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 postDetails.post_like[0].post_like_user_id,
                             },
                           })
-                        : postDetails.post_like[0].post_like_user_id != 'userid'
+                        : postDetails.post_like[0].post_like_user_id != userid
                         ? props.navigation.navigate('UsersProfile', {
                             item: {
                               user_id:
@@ -1583,8 +1925,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                   postDetails.post_like[0].post_like_user_id,
                               },
                             })
-                          : postDetails.post_like[0].post_like_user_id !=
-                            'userid'
+                          : postDetails.post_like[0].post_like_user_id != userid
                           ? props.navigation.navigate('UsersProfile', {
                               item: {
                                 user_id:
@@ -1638,20 +1979,39 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               </>
             )}
           </CardView>
-          <View style={{paddingHorizontal: 16}}>
-            <Text>
-              More Post from{' '}
-              <Text style={{fontWeight: 'bold'}}>{postDetails.full_name}</Text>
-            </Text>
-            <FlatList
-              data={postDetails.post_gallery}
-              // horizontal={true}
-              numColumns={2}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              //style={{alignSelf: 'center'}}
-            />
-          </View>
+          {allPost.length > 0 && (
+            <View style={{paddingHorizontal: 16}}>
+              <TouchableOpacity
+                onPress={() => {
+                  postDetails.user_role == 'EIREPRESENTATIVE'
+                    ? props.navigation.navigate('SchoolProfile', {
+                        item: postDetails,
+                      })
+                    : postDetails.user_id != userid
+                    ? props.navigation.navigate('UsersProfile', {
+                        item: postDetails,
+                      })
+                    : props.navigation.navigate('UserProfileScreen', {
+                        item: postDetails,
+                      });
+                }}>
+                <Text>
+                  More Post from{' '}
+                  <Text style={{fontWeight: 'bold'}}>
+                    {postDetails.full_name}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+              <FlatList
+                data={allPost}
+                // horizontal={true}
+                numColumns={2}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                //style={{alignSelf: 'center'}}
+              />
+            </View>
+          )}
         </ScrollView>
       )}
       <Modal
@@ -1758,6 +2118,29 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
           </View>
+        </View>
+      </Modal>
+
+      {/********* Modal for Delete comment **********/}
+      <Modal
+        isVisible={replyShowModal}
+        onBackdropPress={setshowReplyModal}
+        backdropOpacity={0.4}>
+        <View
+          style={{
+            alignItems: 'center',
+            backgroundColor: 'white',
+            paddingVertical: 20,
+            borderRadius: 5,
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={gotoDeleteComment}>
+            <Text style={styles.btn}>Delete</Text>
+          </TouchableOpacity>
+          <View style={styles.mborder}></View>
+          <TouchableOpacity onPress={setshowReplyModal}>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>

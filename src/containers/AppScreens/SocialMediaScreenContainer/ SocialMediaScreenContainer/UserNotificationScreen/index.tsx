@@ -186,13 +186,13 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         item.notification_type == 'request'
           ? item.user_role == 'EIREPRESENTATIVE'
             ? props.navigation.navigate('SchoolProfile', {
-                item: item,
+                item: {school_id: item.school_id, user_id: item.user_id},
               })
             : props.navigation.navigate('UsersProfile', {
-                item: item,
+                item: {user_id: item.user_id},
               })
           : props.navigation.navigate('PostDetailScreen', {
-              item,
+              item: {id: item.user_post_id},
             });
       }}>
       <Image
@@ -204,7 +204,11 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         style={styles.profileImg}
       />
       <View style={{flex: 1, marginStart: 12}}>
-        <Text style={styles.title}>{item.message}</Text>
+        <Text
+          style={styles.title}
+          numberOfLines={item.message.length > 100 ? 1 : 0}>
+          {item.message}
+        </Text>
         <Text style={{fontSize: 12}}>{item.notification_time}</Text>
       </View>
     </TouchableOpacity>

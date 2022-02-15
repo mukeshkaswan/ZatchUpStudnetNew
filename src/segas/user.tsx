@@ -83,6 +83,8 @@ import {
   GETREPORTDATAUSER,
   CREATEPOST,
   DELETEPOST,
+  GETUSERALLPOST,
+  DELETECOMMENT,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -1498,6 +1500,42 @@ function* followUser({payload: {data, callback}}) {
   }
 }
 
+/***************************get all post of user*******************************/
+
+function* getUserAllPost({payload: {data, callback}}) {
+  console.warn('data in saga Add Profile Pic Info', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    //data: JSON.stringify(data.course_id),
+    method: 'GET',
+    url:
+      'socialmedia/post/userpostdetailinfo/?user_id=' +
+      data.user_id +
+      '&count_type=' +
+      data.count_type,
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'get all the post of user',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************create post request status*******************************/
 
 function* createPost({payload: {data, callback}}) {
@@ -1557,6 +1595,44 @@ function* deletePost({payload: {data, callback}}) {
     if (result) {
       console.log(
         'post deleted by the user',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************delete comment request status*******************************/
+
+function* deleteComment({payload: {data, callback}}) {
+  //  console.warn('data in saga Add Profile Pic Info', data);
+  let params = {
+    id: data.id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url:
+      data.type == 'comment'
+        ? 'socialmedia/comment/postcommentdelete/'
+        : 'socialmedia/comment/replycommentdelete/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'comment deleted by the user',
         JSON.stringify(result, undefined, 2),
       );
       callback({result, error});
@@ -2793,6 +2869,8 @@ function* User() {
     yield takeLatest(CHANGEFOLLOWREQUESTSTATUS, changeFollowRequestStatus),
     yield takeLatest(CREATEPOST, createPost),
     yield takeLatest(DELETEPOST, deletePost),
+    yield takeLatest(GETUSERALLPOST, getUserAllPost),
+    yield takeLatest(DELETECOMMENT, deleteComment),
   ]);
 }
 

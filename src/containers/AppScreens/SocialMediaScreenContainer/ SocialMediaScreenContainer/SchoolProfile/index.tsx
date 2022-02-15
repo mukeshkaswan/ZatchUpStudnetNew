@@ -1537,7 +1537,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                         </TouchableOpacity>
                       )}
                       <Text style={{fontSize: 12, marginTop: 10}}>
-                        {item.post_created_on}
+                        {item.post_created_on.toUpperCase()}
                       </Text>
                     </View>
                     {item.commentToggle == true ? (

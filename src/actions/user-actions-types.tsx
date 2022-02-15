@@ -145,6 +145,14 @@ export const replyComment = createAction(REPLYCOMMENT);
 export const GETUSERPROFILE = 'GETUSERPROFILE';
 export const getUserProfile = createAction(GETUSERPROFILE);
 
+//this is the for user all post
+export const GETUSERALLPOST = 'GETUSERALLPOST';
+export const getUserAllPost = createAction(GETUSERALLPOST);
+
+// this is the delete comment for the user
+export const DELETECOMMENT = 'DELETECOMMENT';
+export const deleteComment = createAction(DELETECOMMENT);
+
 //this is the for user cover pic of post
 export const GETUSERCOVERMEDIAPIC = 'GETUSERCOVERMEDIAPIC';
 export const getUserCoverMediaPic = createAction(GETUSERCOVERMEDIAPIC);
