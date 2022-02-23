@@ -73,7 +73,7 @@ export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const UserProfileScreen = (props: UserProfileProps) => {
-  console.log('=====', props.route);
+  console.log('=====Self', props.route);
   const {
     item: {user_id},
   } = props.route.params;
@@ -91,6 +91,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [customItem, setCustomItem] = useState('');
 
   useEffect(() => {
+    console.log('=====Self 22', props.route);
+    Alert.alert('Self');
     getUserProfile(user_id);
     getUserCoverMediaPic(user_id);
     const keyboardDidShowListener = Keyboard.addListener(
@@ -106,15 +108,15 @@ const UserProfileScreen = (props: UserProfileProps) => {
       },
     );
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
+    // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    // return () => {
+    //   BackHandler.removeEventListener(
+    //     'hardwareBackPress',
+    //     handleBackButtonClick,
+    //   );
+    //   keyboardDidHideListener.remove();
+    //   keyboardDidShowListener.remove();
+    // };
   }, [isFocused]);
 
   function handleBackButtonClick() {
@@ -148,6 +150,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   };
 
   const getUserProfile = async user_id => {
+    console.log('=====Self 23');
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -163,12 +166,13 @@ const UserProfileScreen = (props: UserProfileProps) => {
       token: token,
       user_id: user_id,
     };
-
+    // console.log('=====Self 25');
     dispatch(
       userActions.getUserProfile({
         data,
         callback: ({result, error}) => {
           if (result) {
+            console.log('=====Self 24');
             console.warn(
               'after result user profile details',
               JSON.stringify(result, undefined, 2),
@@ -211,7 +215,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 });
               }
 
-              console.log('NewArray==>>', newArrr);
+              console.log('NewArray==>> 111', newArrr);
 
               let newObject = {...result.data[0], social_post: newArrr};
 

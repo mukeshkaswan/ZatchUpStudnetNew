@@ -120,7 +120,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const [cityname, onChangecityname] = useState('');
   const [citydata, setCityData] = useState([]);
-  const [userid, setUserid] = useState(false);
+  const [userid, setUserid] = useState('');
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [is_kyc_approved, setIs_kyc_approved] = useState();
   const [is_approved, setis_approved] = useState();
