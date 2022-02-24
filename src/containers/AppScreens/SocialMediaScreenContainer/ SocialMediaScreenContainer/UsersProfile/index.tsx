@@ -264,7 +264,7 @@ const UsersProfile = (props: UserProfileProps) => {
               JSON.stringify(result, undefined, 2),
               setUserid(result.user_id),
               setuserName(result.full_name),
-              setTempUserId(result.user_id),
+              //setTempUserId(result.user_id),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
@@ -304,10 +304,18 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   useEffect(() => {
-    // Alert.alert('hey...');
+    console.log('hey...' + tempUserId);
     if (tempUserId == '') {
       console.log('Hello Hey........');
 
+      getAuthUserInfoApi();
+      getUserProfile(user_id);
+      getUserCoverMediaPic(user_id);
+      getReportData();
+      getReportPostData();
+    } else if (tempUserId == user_id) {
+      return;
+    } else {
       getAuthUserInfoApi();
       getUserProfile(user_id);
       getUserCoverMediaPic(user_id);
@@ -398,6 +406,7 @@ const UsersProfile = (props: UserProfileProps) => {
             );
 
             if (result.status) {
+              setTempUserId(user_id);
               // let newArr = [];
               // for (let i in result.data[0].social_post) {
               //   newArr.push({

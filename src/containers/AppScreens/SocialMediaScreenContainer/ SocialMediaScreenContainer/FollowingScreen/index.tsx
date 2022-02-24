@@ -133,8 +133,9 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [following, setFollowingList] = useState([]);
   const [userData, setuserdata] = useState('');
-
+  const [userid, setUserid] = useState('');
   useEffect(() => {
+    getAuthUserInfoApi();
     getFollowing(user_id);
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -159,6 +160,60 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
       keyboardDidShowListener.remove();
     };
   }, [isFocused]);
+
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
+              setUserid(result.user_id),
+              //setTempUserId(result.user_id),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   const getFollowing = async user_id => {
     var token = '';
@@ -364,13 +419,17 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
                     {item.following_username}
                   </Text>
-                  {/* <Text style={{color: 'grey', fontWeight: 'bold'}}>
-                    School Mates
-                  </Text> */}
+                  {userid == item.following_user_id && (
+                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                      Self
+                    </Text>
+                  )}
                 </View>
               </View>
               <View style={styles.Title_view}>
-                {item.social_account_status == 0 ? (
+                {userid == item.following_user_id ? (
+                  <View></View>
+                ) : item.social_account_status == 0 ? (
                   <TouchableOpacity
                     style={styles.removebtn}
                     onPress={() => gotoFollow(item)}>
