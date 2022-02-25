@@ -131,6 +131,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const [userid, setUserid] = useState('');
   const [replyShowModal, setReplyShowModal] = useState(false);
   const [replyItem, setReplyItem] = useState('');
+  const [key, setKey] = useState('');
   const toggleModal3 = (item: any) => {
     //setCustomItem(item);
     setModalVisible3(!isModalVisible3);
@@ -144,6 +145,66 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const reportmodal = () => {
     setreportmodal(!isreportmodal);
     setModalVisible3('');
+  };
+
+  const reportmodalWithKey = key => {
+    // setreportmodal(!isreportmodal);
+    setModalVisible3('');
+
+    setKey(key);
+
+    if (key == 'delete') {
+      gotoDeletePost();
+    } else {
+      setreportmodal(!isreportmodal);
+    }
+  };
+
+  const gotoDeletePost = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: postDetails.id,
+    };
+    console.log(data);
+
+    dispatch(
+      userActions.deletePost({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after delete the post',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            props.navigation.navigate('CoomingSoon');
+            //  setLoading(false);
+            // getUserProfile(user_id);
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+            }
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   const gotoSetShowReplyModal = item => {
@@ -388,6 +449,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   };
 
   useEffect(() => {
+    getAuthUserInfoApi();
     getPostDetails(pId);
     // getAuthUserInfoApi();
     getReportPostData();
@@ -1367,12 +1429,14 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 <Icon name="ellipsis-v" color="grey" size={20} />
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                borderWidth: 0.2,
-                borderColor: 'grey',
-                marginVertical: 5,
-              }}></View>
+            {postDetails.caption != null && postDetails.caption != '' && (
+              <View
+                style={{
+                  borderWidth: 0.2,
+                  borderColor: 'grey',
+                  marginVertical: 5,
+                }}></View>
+            )}
 
             {postDetails.caption != null && postDetails.caption != '' && (
               <View style={styles.rowContainer}>
@@ -1906,7 +1970,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     <Text>
                       Liked by{' '}
                       <Text style={styles.boldtext}>
-                        {postDetails.post_like[0].post_like_username}
+                        {postDetails.post_like[0].post_like_user_id == userid
+                          ? 'you'
+                          : postDetails.post_like[0].post_like_username}
                       </Text>
                     </Text>
                   </TouchableOpacity>
@@ -1940,7 +2006,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                             });
                       }}>
                       <Text style={styles.boldtext}>
-                        {postDetails.post_like[0].post_like_username}
+                        {postDetails.post_like[0].post_like_user_id == userid
+                          ? 'you'
+                          : postDetails.post_like[0].post_like_username}
                       </Text>
                     </TouchableOpacity>
                     <Text style={styles.boldtext}>
@@ -2028,8 +2096,15 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           }}>
           {/* {customItem.user_id != userid && ( */}
           <>
-            <TouchableOpacity onPress={reportmodal}>
-              <Text style={styles.btn}>Report</Text>
+            <TouchableOpacity
+              onPress={() =>
+                postDetails.user_id == userid
+                  ? reportmodalWithKey('delete')
+                  : reportmodalWithKey('report')
+              }>
+              <Text style={styles.btn}>
+                {postDetails.user_id == userid ? 'Delete' : 'Report'}
+              </Text>
             </TouchableOpacity>
 
             {/* <TouchableOpacity

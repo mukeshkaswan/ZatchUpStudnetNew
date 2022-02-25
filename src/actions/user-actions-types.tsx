@@ -173,6 +173,10 @@ export const createPost = createAction(CREATEPOST);
 export const DELETEPOST = 'DELETEPOST';
 export const deletePost = createAction(DELETEPOST);
 
+// this is for change personal profile pic
+export const CHANGEPROFILEIMAGE = 'CHANGEPROFILEIMAGE';
+export const changeProfileImage = createAction(CHANGEPROFILEIMAGE);
+
 // this is the suggestion for user
 export const GETSUGGESTIONS = 'GETSUGGESTIONS';
 export const getSuggestions = createAction(GETSUGGESTIONS);

@@ -85,6 +85,7 @@ import {
   DELETEPOST,
   GETUSERALLPOST,
   DELETECOMMENT,
+  CHANGEPROFILEIMAGE,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -987,6 +988,40 @@ function* replyComment({payload: {data, callback}}) {
   if (!error) {
     if (result) {
       console.log('reply comment', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+/**************this is for profile image change */
+
+function* changeProfileImage({payload: {data, callback}}) {
+  console.warn('data in saga', data);
+  const formdata = new FormData();
+  formdata.append('socialmedia_coverpic', data.socialmedia_coverpic);
+  formdata.append('socialmedia_profilepic', data.socialmedia_profilepic);
+  formdata.append('user', data.user);
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: formdata,
+    method: 'POST',
+    url: 'user/socia_media_image_uplode/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'upload profile pic of user',
+        JSON.stringify(result, undefined, 2),
+      );
       callback({result, error});
       // const userToken = result.token;
       // const data = result.data;
@@ -2871,6 +2906,7 @@ function* User() {
     yield takeLatest(DELETEPOST, deletePost),
     yield takeLatest(GETUSERALLPOST, getUserAllPost),
     yield takeLatest(DELETECOMMENT, deleteComment),
+    yield takeLatest(CHANGEPROFILEIMAGE, changeProfileImage),
   ]);
 }
 

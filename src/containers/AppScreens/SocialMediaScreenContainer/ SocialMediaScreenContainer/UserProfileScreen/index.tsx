@@ -12,7 +12,9 @@ import {
   Alert,
   Dimensions,
   TextInput,
+  Platform,
 } from 'react-native';
+import {CheckBox, BottomSheet, ListItem} from 'react-native-elements';
 import {
   TextField,
   CustomButton,
@@ -43,6 +45,7 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import RenderItem from './RenderItem';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const data = [
   {
@@ -69,6 +72,17 @@ const data2 = [
   },
 ];
 
+const list = [
+  {title: 'Open Camera', id: 'Camera'},
+  {title: 'Open Gallary', id: 'Gallary'},
+  {
+    title: 'Cancel',
+    id: 'Close',
+    containerStyle: {backgroundColor: '#4B2A6A'},
+    titleStyle: {color: 'white'},
+  },
+];
+
 export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 const screenWidth = Dimensions.get('window').width;
@@ -91,6 +105,13 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [isModalVisible3, setModalVisible3] = useState(false);
   const [customItem, setCustomItem] = useState('');
   const [tempUserId, setUserId] = useState('');
+  const [key, setkey] = useState('');
+
+  const [backgroundImage, setbackgroundimage] = useState('');
+  const [profile, setprofilepic] = useState('');
+  const [backgroundimagePath, setbackgroundimagepath] = useState('');
+  const [profileimagepath, setprofileimagepath] = useState('');
+  const [actionsheet, setactionsheetopen] = useState(false);
 
   useEffect(() => {
     // Alert.alert('Self');
@@ -122,6 +143,60 @@ const UserProfileScreen = (props: UserProfileProps) => {
     //   keyboardDidShowListener.remove();
     // };
   }, [isFocused]);
+
+  const onPressBottomSheet = i => {
+    if (i == 0) {
+      ImagePicker.openCamera({
+        width: 300,
+        height: 400,
+        cropping: true,
+        cropperCircleOverlay: true,
+      }).then(image => {
+        let source = {
+          uri: image.path,
+          type: image.mime,
+          name: Platform.OS === 'android' ? image.path : image.path,
+        };
+        //this.CallUploadImageApi(source);
+        setactionsheetopen(false);
+        if (key == 'background') {
+          setbackgroundimage(source);
+          setbackgroundimagepath(source.uri);
+          gotoUploadImage(source, 'background');
+        } else {
+          setprofilepic(source);
+          setprofileimagepath(source.uri);
+          gotoUploadImage(source, 'profile');
+        }
+      });
+    } else if (i == 1) {
+      ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+        cropperCircleOverlay: true,
+      }).then(image => {
+        let source = {
+          uri: image.path,
+          type: image.mime,
+          name: Platform.OS === 'android' ? image.path : image.path,
+        };
+        // this.CallUploadImageApi(source);
+        setactionsheetopen(false);
+        if (key == 'background') {
+          setbackgroundimage(source);
+          setbackgroundimagepath(source.uri);
+          gotoUploadImage(source, 'background');
+        } else {
+          setprofilepic(source);
+          setprofileimagepath(source.uri);
+          gotoUploadImage(source, 'profile');
+        }
+      });
+    } else if (i == 2) {
+      setactionsheetopen(false);
+    }
+  };
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -563,6 +638,54 @@ const UserProfileScreen = (props: UserProfileProps) => {
     // return true;
   };
 
+  const gotoUploadImage = async (source, key) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      socialmedia_coverpic: key == 'background' ? source : '',
+      socialmedia_profilepic: key != 'background' ? source : '',
+      user: user_id,
+    };
+    console.log(data);
+
+    dispatch(
+      userActions.changeProfileImage({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after upload the profile pic',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            setLoading(false);
+            // getUserProfile(user_id);
+            // if (result.status) {
+            //   Toast.show(result.message, Toast.SHORT);
+            // }
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   return (
     <View style={styles.container}>
       <HeaderTitleWithBack
@@ -582,8 +705,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
             <ImageBackground
               source={
                 sociaMedialPic.hasOwnProperty('cover_pic') &&
+                backgroundimagePath == '' &&
                 sociaMedialPic.cover_pic != null
                   ? {uri: sociaMedialPic.cover_pic}
+                  : backgroundimagePath != ''
+                  ? {uri: backgroundimagePath}
                   : require('../../../../../assets/images/college2.jpg')
               }
               resizeMode="stretch"
@@ -596,12 +722,18 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   justifyContent: 'center',
                   margin: 10,
                 }}>
-                <Icon
-                  name="camera"
-                  size={18}
-                  color="white"
-                  style={{margin: 5}}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setactionsheetopen(true);
+                    setkey('background');
+                  }}>
+                  <Icon
+                    name="camera"
+                    size={18}
+                    color="white"
+                    style={{margin: 5}}
+                  />
+                </TouchableOpacity>
               </View>
             </ImageBackground>
 
@@ -611,8 +743,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   <Image
                     source={
                       sociaMedialPic.hasOwnProperty('profile_pic') &&
+                      profileimagepath == '' &&
                       sociaMedialPic.profile_pic != null
                         ? {uri: sociaMedialPic.profile_pic}
+                        : profileimagepath != ''
+                        ? {uri: profileimagepath}
                         : require('../../../../../assets/images/pic.jpeg')
                     }
                     style={{
@@ -622,17 +757,28 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       borderRadius: 50,
                     }}
                   />
-                  <Icon
-                    name={'camera'}
-                    size={15}
+                  <TouchableOpacity
                     style={{
-                      backgroundColor: '#ccc',
+                      // backgroundColor: 'red',
+                      //  width: 20,
+                      // height: 20,
                       position: 'absolute',
                       right: 0,
                       bottom: 0,
                       marginRight: 8,
                     }}
-                  />
+                    onPress={() => {
+                      setactionsheetopen(true);
+                      setkey('profilepic');
+                    }}>
+                    <Icon
+                      name={'camera'}
+                      size={15}
+                      style={{
+                        backgroundColor: '#ccc',
+                      }}
+                    />
+                  </TouchableOpacity>
                 </View>
 
                 <View>
@@ -643,9 +789,10 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       marginTop: 30,
                     }}>
                     <TouchableOpacity
-                      onPress={() => {
-                        props.navigation.navigate('PostDetailScreen');
-                      }}>
+                    // onPress={() => {
+                    //   props.navigation.navigate('PostDetailScreen');
+                    // }}
+                    >
                       <Text style={styles.nametext}>{userProfile.name}</Text>
                     </TouchableOpacity>
                     <Icon
@@ -828,7 +975,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   onPress={() => {
                     props.navigation.navigate('CreatePostScreen');
                   }}>
-                  <Text style={{color: 'white'}}>Add Posts</Text>
+                  <Text style={{color: 'white'}}>Add Media</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.borderstyle}></View>
@@ -1276,6 +1423,21 @@ const UserProfileScreen = (props: UserProfileProps) => {
           )}
         </ScrollView>
       )}
+      <BottomSheet
+        isVisible={actionsheet}
+        containerStyle={{backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)'}}>
+        {list.map((l, i) => (
+          <ListItem
+            key={i}
+            containerStyle={l.containerStyle}
+            onPress={() => onPressBottomSheet(i)}>
+            <ListItem.Content>
+              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
+
       <Modal
         isVisible={isModalVisible3}
         onBackdropPress={toggleModal3}
