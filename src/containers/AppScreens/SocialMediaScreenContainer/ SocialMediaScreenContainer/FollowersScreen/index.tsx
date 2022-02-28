@@ -475,10 +475,16 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
                     {item.follow_username}
                   </Text>
-                  {userid == item.follow_user_id && (
+                  {userid == item.follow_user_id ? (
                     <Text style={{color: 'grey', fontWeight: 'bold'}}>
                       Self
                     </Text>
+                  ) : item.is_school_mates == true ? (
+                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                      Schoolmates
+                    </Text>
+                  ) : (
+                    <View></View>
                   )}
                 </View>
               </View>
@@ -488,6 +494,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                 <View style={styles.Title_view}>
                   {item.social_account_status == 0 ? (
                     <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
                       style={styles.removebtn}
                       onPress={() => gotoFollow(item)}>
                       <Text
@@ -501,6 +508,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                     </TouchableOpacity>
                   ) : item.social_account_status == 1 ? (
                     <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
                       style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
                       onPress={toggleModalItem({...item, flag: 'requested'})}>
                       <Text
@@ -514,6 +522,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
                       style={[styles.removebtn, {backgroundColor: '#28a745'}]}
                       onPress={toggleModalItem({...item, flag: 'following'})}>
                       <Text

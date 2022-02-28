@@ -650,6 +650,11 @@ const UsersProfile = (props: UserProfileProps) => {
       // error reading value
     }
 
+    if (item.commentValue.trim() == '') {
+      Toast.show('Please enter the comment', Toast.SHORT);
+      return;
+    }
+
     const data = {
       token: token,
       post_id: item.id,
@@ -975,6 +980,11 @@ const UsersProfile = (props: UserProfileProps) => {
     console.log(user_id);
     await props.navigation.navigate(route, {item: {user_id}});
     // return true;
+  };
+
+  const GoToNavigate = items => {
+    console.log('item', items);
+    props.navigation.navigate('PostDetailScreen', {item: items});
   };
 
   return (
@@ -1325,6 +1335,7 @@ const UsersProfile = (props: UserProfileProps) => {
             <FlatList
               data={userProfile.social_post}
               renderItem={({item}) => {
+                let items = item;
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 if (item.post_gallery == null) {
@@ -1345,6 +1356,9 @@ const UsersProfile = (props: UserProfileProps) => {
                             item={item}
                             index={index}
                             length={len}
+                            data={data}
+                            goToNavigate={GoToNavigate}
+                            items={items}
                           />
                         )}
                         sliderWidth={screenWidth - 16}
@@ -1365,6 +1379,9 @@ const UsersProfile = (props: UserProfileProps) => {
                           item={item}
                           index={index}
                           length={lenCap}
+                          data={data}
+                          goToNavigate={GoToNavigate}
+                          items={items}
                         />
                       )}
                       sliderWidth={screenWidth - 16}
@@ -1384,6 +1401,7 @@ const UsersProfile = (props: UserProfileProps) => {
               data={userProfile.social_post}
               renderItem={({item, index}) => {
                 let ind = index;
+                let items = item;
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 if (item.post_gallery == null) {
@@ -1416,6 +1434,8 @@ const UsersProfile = (props: UserProfileProps) => {
                     lenCap={lenCap}
                     item={item}
                     index={index}
+                    items={items}
+                    goToNav={GoToNavigate}
                   />
                   // <CardView
                   //   cardElevation={5}
@@ -2060,17 +2080,22 @@ const UsersProfile = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({item, index, length, data}) {
+function CrouselImages({items, goToNavigate, item, index, length, data}) {
   let _menu = null;
+
+  const gotoNavigate = () => {
+    goToNavigate && goToNavigate(items);
+  };
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <Image
         source={{uri: item.post_image}}
         resizeMode="contain"
@@ -2097,20 +2122,25 @@ function CrouselImages({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
-function CrouselText({item, index, length, data}) {
+function CrouselText({items, goToNavigate, item, index, length, data}) {
+  const gotoNavigate = () => {
+    goToNavigate && goToNavigate(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         // backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
@@ -2184,7 +2214,7 @@ function CrouselText({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

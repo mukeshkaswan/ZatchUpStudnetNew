@@ -73,8 +73,15 @@ function RenderItem({
   isCarouselText,
   isCarousel,
   data,
+  goToNav,
 }) {
   const [indexx, setIndex] = useState(0);
+
+  const gotoNav = () => {
+    console.log('item', items);
+    goToNav && goToNav(items);
+  };
+
   return (
     <CardView
       cardElevation={5}
@@ -131,6 +138,8 @@ function RenderItem({
                 index={index}
                 length={len}
                 data={data}
+                items={items}
+                gotoNav={gotoNav}
               />
             )}
             sliderWidth={screenWidth}
@@ -150,6 +159,8 @@ function RenderItem({
               index={index}
               length={lenCap}
               data={data}
+              items={items}
+              gotoNav={gotoNav}
             />
           )}
           sliderWidth={screenWidth + 16}
@@ -377,9 +388,13 @@ function RenderItem({
   );
 }
 
-function CrouselImages({item, index, length, data}) {
+function CrouselImages({items, gotoNav, item, index, length, data}) {
+  const gotoNavigate = () => {
+    gotoNav && gotoNav(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
@@ -387,7 +402,8 @@ function CrouselImages({item, index, length, data}) {
         // backgroundColor: 'red',
         marginStart: 3,
         // marginStart: !(data === 'Image') ? 16 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <Image
         source={{uri: item.post_image}}
         resizeMode="contain"
@@ -415,13 +431,17 @@ function CrouselImages({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
-function CrouselText({item, index, length, data}) {
+function CrouselText({items, gotoNav, item, index, length, data}) {
+  const gotoNavigate = () => {
+    gotoNav && gotoNav(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
@@ -429,7 +449,8 @@ function CrouselText({item, index, length, data}) {
         // backgroundColor: 'red',
         marginStart: 3,
         // marginStart: !(data === 'Image') ? 16 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
@@ -503,7 +524,7 @@ function CrouselText({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

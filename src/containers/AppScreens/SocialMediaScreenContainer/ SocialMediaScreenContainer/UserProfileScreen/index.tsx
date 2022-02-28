@@ -12,6 +12,7 @@ import {
   Alert,
   Dimensions,
   TextInput,
+  RefreshControl,
   Platform,
 } from 'react-native';
 import {CheckBox, BottomSheet, ListItem} from 'react-native-elements';
@@ -112,6 +113,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [backgroundimagePath, setbackgroundimagepath] = useState('');
   const [profileimagepath, setprofileimagepath] = useState('');
   const [actionsheet, setactionsheetopen] = useState(false);
+  const [refreshing] = useState(false);
 
   useEffect(() => {
     // Alert.alert('Self');
@@ -378,6 +380,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
       }
     } catch (e) {
       // error reading value
+    }
+
+    if (item.commentValue.trim() == '') {
+      Toast.show('Please enter the comment', Toast.SHORT);
+      return;
     }
 
     const data = {
@@ -686,6 +693,16 @@ const UserProfileScreen = (props: UserProfileProps) => {
     );
   };
 
+  const _onRefresh = () => {
+    getUserProfile(user_id);
+    getUserCoverMediaPic(user_id);
+  };
+
+  const GoToNavigate = items => {
+    console.log('item', items);
+    props.navigation.navigate('PostDetailScreen', {item: items});
+  };
+
   return (
     <View style={styles.container}>
       <HeaderTitleWithBack
@@ -694,7 +711,14 @@ const UserProfileScreen = (props: UserProfileProps) => {
       />
 
       {userProfile != '' && (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={_onRefresh}
+              title="Loading..."
+            />
+          }>
           <View
             style={{
               backgroundColor: 'white',
@@ -1012,6 +1036,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 let newArrCap = [];
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
+                let items = item;
                 if (item.post_gallery == null) {
                   let s = item.caption;
                   var parts = s.match(/[\s\S]{1,140}/g) || [];
@@ -1031,6 +1056,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
                             index={index}
                             length={len}
                             data={data}
+                            goToNavigate={GoToNavigate}
+                            items={items}
                           />
                         )}
                         sliderWidth={screenWidth - 16}
@@ -1052,6 +1079,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           index={index}
                           length={lenCap}
                           data={data}
+                          goToNavigate={GoToNavigate}
+                          items={items}
                         />
                       )}
                       sliderWidth={screenWidth - 16}
@@ -1101,6 +1130,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     user_id={user_id}
                     data={data}
                     props={props}
+                    goToNav={GoToNavigate}
                   />
                   // <CardView
                   //   cardElevation={5}
@@ -1480,16 +1510,23 @@ const UserProfileScreen = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({item, index, length, data}) {
+function CrouselImages({items, item, index, length, data, goToNavigate}) {
+  //console.log('item', item);
+
+  const gotoNavigate = () => {
+    goToNavigate && goToNavigate(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <Image
         source={{uri: item.post_image}}
         resizeMode="contain"
@@ -1516,20 +1553,25 @@ function CrouselImages({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
-function CrouselText({item, index, length, data}) {
+function CrouselText({items, item, index, length, data, goToNavigate}) {
+  const gotoNavigate = () => {
+    goToNavigate && goToNavigate(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         // backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
@@ -1603,7 +1645,7 @@ function CrouselText({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

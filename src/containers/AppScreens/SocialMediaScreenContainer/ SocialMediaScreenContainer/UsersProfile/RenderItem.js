@@ -78,6 +78,8 @@ function RenderItem({
   item,
   index,
   goToNavigate,
+  goToNav,
+  items,
 }) {
   const [indexx, setIndex] = useState(0);
 
@@ -104,6 +106,11 @@ function RenderItem({
     // props.navigation.navigate('UsersProfile', {
     //     item: {user_id: item.user},
     //   });
+  };
+
+  const gotoNav = () => {
+    console.log('item', items);
+    goToNav && goToNav(items);
   };
 
   return (
@@ -166,6 +173,8 @@ function RenderItem({
                 index={index}
                 length={len}
                 data={data}
+                items={items}
+                gotoNav={gotoNav}
               />
             )}
             sliderWidth={screenWidth - 44}
@@ -185,6 +194,8 @@ function RenderItem({
               index={index}
               length={lenCap}
               data={data}
+              items={items}
+              gotoNav={gotoNav}
             />
           )}
           sliderWidth={screenWidth - 44}
@@ -196,14 +207,19 @@ function RenderItem({
       <View style={styles.likecommentContainer}>
         <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
           <Icon
-            name="thumbs-up"
+            name={item.like ? 'star' : 'star-o'}
             size={15}
-            color={item.like ? 'red' : 'grey'}
+            color={'#000'}
             style={{marginLeft: 5}}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
-          <Icon name="comment" color="grey" size={15} style={{marginLeft: 5}} />
+          <Icon
+            name="comment-o"
+            color="#000"
+            size={15}
+            style={{marginLeft: 5}}
+          />
         </TouchableOpacity>
       </View>
 
@@ -356,9 +372,9 @@ function RenderItem({
                       }}>
                       <TouchableOpacity onPress={() => gotoCommentLike(item)}>
                         <Icon
-                          name="thumbs-up"
+                          name={item.likes_status ? 'star' : 'star-o'}
                           size={15}
-                          color={item.likes_status ? 'red' : 'grey'}
+                          color={'#000'}
                           style={{marginLeft: 5}}
                         />
                       </TouchableOpacity>
@@ -426,17 +442,22 @@ function RenderItem({
   );
 }
 
-function CrouselImages({item, index, length, data}) {
+function CrouselImages({items, gotoNav, item, index, length, data}) {
   let _menu = null;
+
+  const gotoNavigate = () => {
+    gotoNav && gotoNav(items);
+  };
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <Image
         source={{uri: item.post_image}}
         resizeMode="contain"
@@ -463,20 +484,25 @@ function CrouselImages({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
-function CrouselText({item, index, length, data}) {
+function CrouselText({items, gotoNav, item, index, length, data}) {
+  const gotoNavigate = () => {
+    gotoNav && gotoNav(items);
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
         // backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 56,
-      }}>
+      }}
+      onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
@@ -550,7 +576,7 @@ function CrouselText({item, index, length, data}) {
           {index + 1}/{length}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

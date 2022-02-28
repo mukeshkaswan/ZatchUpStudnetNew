@@ -143,14 +143,19 @@ function RenderItem({
       <View style={styles.likecommentContainer}>
         <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
           <Icon
-            name="thumbs-up"
+            name={item.like ? 'star' : 'star-o'}
             size={15}
-            color={item.like ? 'red' : 'grey'}
+            color={'#000'}
             style={{marginLeft: 5}}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
-          <Icon name="comment" color="grey" size={15} style={{marginLeft: 5}} />
+          <Icon
+            name="comment-o"
+            color="#000"
+            size={15}
+            style={{marginLeft: 5}}
+          />
         </TouchableOpacity>
       </View>
 
@@ -293,9 +298,9 @@ function RenderItem({
                       }}>
                       <TouchableOpacity onPress={() => gotoCommentLike(item)}>
                         <Icon
-                          name="thumbs-up"
+                          name={item.likes_status ? 'star' : 'star-o'}
                           size={15}
-                          color={item.likes_status ? 'red' : 'grey'}
+                          color={'#000'}
                           style={{marginLeft: 5}}
                         />
                       </TouchableOpacity>

@@ -65,11 +65,15 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
 
   const [frontimage, setImageFront] = useState();
   const [picdata, setpicdata] = useState([]);
+  const [userid, setUserid] = useState('');
+  const [username, setUsername] = useState('');
+  const [userProfilePic, setUserProfilePic] = useState('');
 
   const [pic] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // console.log('rtyuigfghj', props)
+    getAuthUserInfoApi();
     addCaption('');
 
     // Clear();
@@ -77,10 +81,61 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     // loadphoto();
   }, [isFocused]);
 
-  // const Clear = async () => {
-  //   await AsyncStorage.removeItem('tokenlogin');
-  //   await AsyncStorage.removeItem('token');
-  // };
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo++++++',
+              JSON.stringify(result, undefined, 2),
+              //  setuserName(result.full_name),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            console.log('USER_ID' + result.user_id);
+            setUserid(result.user_id);
+            setUsername(result.full_name);
+            setUserProfilePic(result.profile_pic);
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   const onPressAddpost = async () => {
     var token = '';
@@ -296,7 +351,11 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
-                source={Images.profile_img2}
+                source={
+                  userProfilePic != ''
+                    ? {uri: userProfilePic}
+                    : Images.profile_img2
+                }
                 style={{
                   height: 50,
                   width: 50,
@@ -304,7 +363,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
                   borderRadius: 25,
                 }}
               />
-              <Text style={styles.nametext}>Simmi Sharma</Text>
+              <Text style={styles.nametext}>{username}</Text>
             </View>
           </View>
 

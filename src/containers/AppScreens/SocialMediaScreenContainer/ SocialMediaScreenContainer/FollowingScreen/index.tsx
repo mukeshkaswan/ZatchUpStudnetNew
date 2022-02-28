@@ -419,10 +419,16 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
                     {item.following_username}
                   </Text>
-                  {userid == item.following_user_id && (
+                  {userid == item.following_user_id ? (
                     <Text style={{color: 'grey', fontWeight: 'bold'}}>
                       Self
                     </Text>
+                  ) : item.is_school_mates == true ? (
+                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                      Schoolmates
+                    </Text>
+                  ) : (
+                    <View></View>
                   )}
                 </View>
               </View>
@@ -431,6 +437,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   <View></View>
                 ) : item.social_account_status == 0 ? (
                   <TouchableOpacity
+                    disabled={item.student_verified ? true : false}
                     style={styles.removebtn}
                     onPress={() => gotoFollow(item)}>
                     <Text
@@ -444,6 +451,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   </TouchableOpacity>
                 ) : item.social_account_status == 1 ? (
                   <TouchableOpacity
+                    disabled={item.student_verified ? true : false}
                     style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
                     onPress={toggleModalItem(item)}>
                     <Text
@@ -457,6 +465,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
+                    disabled={item.student_verified ? true : false}
                     style={[styles.removebtn, {backgroundColor: '#28a745'}]}
                     onPress={toggleModalItem(item)}>
                     <Text
@@ -525,7 +534,9 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
             onPress={gotoRemove}
           /> */}
           <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
+            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
+              Unfollow
+            </Text>
           </TouchableOpacity>
           <View
             style={{

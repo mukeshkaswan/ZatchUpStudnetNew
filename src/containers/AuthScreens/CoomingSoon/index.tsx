@@ -1093,6 +1093,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       // error reading value
     }
 
+    if (item.commentValue.trim() == '') {
+      Toast.show('Please enter the comment', Toast.SHORT);
+      return;
+    }
+
     const data = {
       token: token,
       post_id: item.id,
@@ -1407,53 +1412,59 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           justifyContent: 'center',
         }}>
         <FlatList
-          ListHeaderComponent={() => (
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 16,
-                  marginTop: 8,
-                }}>
-                <Text style={{fontWeight: '700'}}>Notification</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate('UserNotificationScreen')
-                  }>
-                  <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                </TouchableOpacity>
+          ListHeaderComponent={() =>
+            posts.length > 0 ? (
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 16,
+                    marginTop: 8,
+                  }}>
+                  <Text style={{fontWeight: '700'}}>Notification</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('UserNotificationScreen')
+                    }>
+                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 16,
+                    marginTop: 8,
+                  }}>
+                  <Text style={{fontWeight: '700'}}>Suggestion for you</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('SuggestionScreen')
+                    }>
+                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 16,
+                    marginTop: 8,
+                  }}>
+                  <Text style={{fontWeight: '700'}}>Follow Request</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate('FollowRequestScreen')
+                    }>
+                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 16,
-                  marginTop: 8,
-                }}>
-                <Text style={{fontWeight: '700'}}>Suggestion for you</Text>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('SuggestionScreen')}>
-                  <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 16,
-                  marginTop: 8,
-                }}>
-                <Text style={{fontWeight: '700'}}>Follow Request</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate('FollowRequestScreen')
-                  }>
-                  <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
+            ) : (
+              <View></View>
+            )
+          }
           style={{flex: 1, width: '100%'}}
           data={posts}
           refreshControl={
@@ -1892,10 +1903,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <TouchableOpacity onPress={toggleModal2}>
                 <Text style={styles.btn}>Report</Text>
               </TouchableOpacity>
-              <View style={styles.mborder}></View>
-              <TouchableOpacity onPress={gotoUnfollow}>
-                <Text style={styles.btn}>Unfollow</Text>
-              </TouchableOpacity>
+
+              {!customItem.student_verified && (
+                <>
+                  <View style={styles.mborder}></View>
+                  <TouchableOpacity onPress={gotoUnfollow}>
+                    <Text style={styles.btn}>Unfollow</Text>
+                  </TouchableOpacity>
+                </>
+              )}
               <View style={styles.mborder}></View>
             </>
           )}

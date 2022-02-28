@@ -407,16 +407,24 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     } catch (e) {
       // error reading value
     }
+    console.log(item, index, key);
+
+    if (item.commentReplyValue.trim() == '') {
+      Toast.show('Please enter the comment', Toast.SHORT);
+      return;
+    }
 
     const data = {
       token: token,
-      comment_id: item.comment_on_post,
+      comment_id: key == 'notReply' ? item.id : item.comment_on_post,
       reply_comment:
         key == 'reply'
           ? item.reply_username + ' - ' + item.commentReplyValue
           : item.commentReplyValue,
-      user_id: postDetails.user_id,
     };
+    if (key != 'notReply') {
+      data.user_id = postDetails.user_id;
+    }
     console.log('-----++---', data);
 
     dispatch(
@@ -975,6 +983,11 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
       // error reading value
     }
 
+    if (comment.trim() == '') {
+      Toast.show('Please enter the comment', Toast.SHORT);
+      return;
+    }
+
     const data = {
       token: token,
       post_id: postDetails.id,
@@ -1429,16 +1442,20 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 <Icon name="ellipsis-v" color="grey" size={20} />
               </TouchableOpacity>
             </View>
-            {postDetails.caption != null && postDetails.caption != '' && (
-              <View
-                style={{
-                  borderWidth: 0.2,
-                  borderColor: 'grey',
-                  marginVertical: 5,
-                }}></View>
-            )}
+            {postDetails.post_gallery != null &&
+              postDetails.comment_post != null &&
+              postDetails.comment_post.length > 0 &&
+              postDetails.comment_post.every(item => item.comment != '') &&
+              postDetails.post_gallery.length > 0 && (
+                <View
+                  style={{
+                    borderWidth: 0.2,
+                    borderColor: 'grey',
+                    marginVertical: 5,
+                  }}></View>
+              )}
 
-            {postDetails.caption != null && postDetails.caption != '' && (
+            {postDetails.post_gallery != null && postDetails.length > 0 && (
               <View style={styles.rowContainer}>
                 <TouchableOpacity
                   style={{flexDirection: 'row', alignItems: 'center'}}
@@ -1568,9 +1585,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         {/* <Icon name="ellipsis-v" color="grey" size={20} /> */}
                         <TouchableOpacity onPress={() => gotoLikeUnlike(item)}>
                           <Icon
-                            name="thumbs-up"
+                            name={item.likes_status ? 'star' : 'star-o'}
                             size={15}
-                            color={item.likes_status ? 'red' : 'grey'}
+                            color={'#000'}
                             style={{marginLeft: 5}}
                           />
                         </TouchableOpacity>
@@ -1790,13 +1807,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                   <TouchableOpacity
                                     onPress={() => gotoLikeUnlike(item)}>
                                     <Icon
-                                      name="thumbs-up"
-                                      size={15}
-                                      color={
+                                      name={
                                         item.reply_comment_likes
-                                          ? 'red'
-                                          : 'grey'
+                                          ? 'star'
+                                          : 'star-o'
                                       }
+                                      size={15}
+                                      color={'#000'}
                                       style={{marginLeft: 5}}
                                     />
                                   </TouchableOpacity>
@@ -1920,16 +1937,16 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               }}>
               <TouchableOpacity onPress={gotoLikeUnLikePost}>
                 <Icon
-                  name="thumbs-up"
+                  name={postDetails.like ? 'star' : 'star-o'}
                   size={15}
-                  color={postDetails.like ? 'red' : 'grey'}
+                  color={'#000'}
                   style={{marginLeft: 5}}
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={gotoSetToggle}>
                 <Icon
-                  name="comment"
-                  color="grey"
+                  name="comment-o"
+                  color="#000"
                   size={15}
                   style={{marginLeft: 5}}
                 />
