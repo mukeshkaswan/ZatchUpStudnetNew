@@ -412,8 +412,8 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
            
             
           <Text style={styles.snotext}>Field Name</Text>
-          <Text style={styles.lecturetitletext}>Field Value</Text>
-          <Text style={styles.topictext}>Field New Value</Text>
+          <Text style={styles.lecturetitletext}>Existing</Text>
+          <Text style={styles.topictext}>New</Text>
           <Text
             style={{
               flex: 1,
@@ -463,8 +463,8 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
         <View
           style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
           <Text style={styles.snotext}>Field Name</Text>
-          <Text style={styles.lecturetitletext}>Old Value</Text>
-          <Text style={styles.topictext}>New Value</Text>
+          <Text style={styles.lecturetitletext}>Existing</Text>
+          <Text style={styles.topictext}>New</Text>
           <Text
             style={{
               flex: 1,

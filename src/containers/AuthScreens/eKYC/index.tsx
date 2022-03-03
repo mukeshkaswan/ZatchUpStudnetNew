@@ -825,7 +825,7 @@ const eKyc = (props: eKycScreenProps) => {
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 5) {
         props.navigation.navigate('SelectStudent', {
           username: 'jfdsfsdlfjs',
-          're_verify':false
+          're_verify': false
         });
       }
 
@@ -1037,7 +1037,7 @@ const eKyc = (props: eKycScreenProps) => {
                 editable={true}
                 imageIcon={Images.user_icon}
               />
-            </View> : <View style={{ marginBottom: '5%', flex: 1, borderColor:'#4B2A6A',borderWidth:1 ,borderBottomLeftRadius:12,borderBottomEndRadius:12,borderTopLeftRadius:12,borderTopEndRadius:12 }}>
+            </View> : <View style={{ marginBottom: '5%', flex: 1, borderColor: '#4B2A6A', borderWidth: 1, borderBottomLeftRadius: 12, borderBottomEndRadius: 12, borderTopLeftRadius: 12, borderTopEndRadius: 12 }}>
               <TextField
                 placeholder={'Enter Your Name'}
                 onChangeText={val => setName(val)}
@@ -1069,7 +1069,7 @@ const eKyc = (props: eKycScreenProps) => {
                   value={date_copy.toString()}
                 />
               </View>
-            </TouchableOpacity> : <View style={{ marginBottom: '5%',borderColor:'#4B2A6A',borderWidth:1 ,borderBottomLeftRadius:12,borderBottomEndRadius:12,borderTopLeftRadius:12,borderTopEndRadius:12}}>
+            </TouchableOpacity> : <View style={{ marginBottom: '5%', borderColor: '#4B2A6A', borderWidth: 1, borderBottomLeftRadius: 12, borderBottomEndRadius: 12, borderTopLeftRadius: 12, borderTopEndRadius: 12 }}>
               <TextField
                 placeholder={'Date of Birth'}
                 imageIcon={Images.calendar_icon}

@@ -222,7 +222,12 @@ const Messages = (props: MessagesScreenProps) => {
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
-            <Image source={Images.search} style={styles.inbox_iconreminder} />
+            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 5, marginTop: 11, height: 30, width: 30
+            }} />
+            {/* <Image source={Images.search} style={styles.inbox_iconreminder} /> */}
           </TouchableOpacity>
           <View
             style={{
@@ -254,7 +259,12 @@ const Messages = (props: MessagesScreenProps) => {
           }}
           style={styles.dot_view}>
           <View>
-            <Image source={Images.inbox_icon} style={styles.dot_image} />
+            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
+            }} />
+            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
             <View
               style={{
                 position: 'absolute',

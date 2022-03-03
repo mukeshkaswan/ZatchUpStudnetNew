@@ -667,6 +667,12 @@ const validation = {
   },
 
 
+  newfathername: {
+    presence: {
+      message: 'Father name is required.',
+    },
+  },
+
  
 
 

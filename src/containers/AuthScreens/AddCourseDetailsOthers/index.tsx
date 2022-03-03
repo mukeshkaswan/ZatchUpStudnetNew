@@ -49,6 +49,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const dispatch = useDispatch();
   const [Course_Selected, setCourseTypeSelected] = useState('');
   const [min_date, setmin] = useState('2015-01-01');
+  const [flag, setFlag] = useState(false);
 
   const [CourseTypeOther, setCourseTypeOther] = useState([
     {
@@ -174,13 +175,13 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (props.route.params.is_onboarded == '0') {
       props.navigation.navigate('EIconfirmation', {
         'otherscourse': 'otherscourse',
-        're_verify':props.route.params.re_verify
+        're_verify': props.route.params.re_verify
       })
     }
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
-        're_verify':props.route.params.re_verify
+        're_verify': props.route.params.re_verify
       })
     }
 
@@ -195,7 +196,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     const coursenameError = Validate('coursename', Course);
     const courseError = Validate('coursekey_', Course_Selected);
     const dobError = Validate('startdate', date_copy);
-    
+
     if (value == 'Alumni') {
       dobErrorend = Validate('enddate', date_copy1);
     }
@@ -459,6 +460,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
             <View>
               <CustomButton
                 title={'Add'}
+                disabled={flag}
                 onPress={() => CourseAdded()}
               //  onPress={() => props.navigation.navigate('AddMoreCourseDetailsOthers')}
               />

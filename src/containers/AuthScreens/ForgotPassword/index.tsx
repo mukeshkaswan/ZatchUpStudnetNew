@@ -21,10 +21,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
     // console.log('rtyuigfghj', props)
   }, []);
 
-
-
-
-
+  
   const getData = async () => {
  
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;

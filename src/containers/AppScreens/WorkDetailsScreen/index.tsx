@@ -128,6 +128,12 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   };
 
   const onChange1 = (event, selectedDate) => {
+
+
+    setDate_Course2('');
+    
+    setDate2(new Date());
+
     const currentDate = selectedDate;
     setShow1(Platform.OS === 'ios');
     if (event.type == 'set') {
@@ -561,7 +567,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
 
     if (othervalue == '13') {
-       otherworkError = Validate('otherworkdepartment', workprofile);
+      otherworkError = Validate('otherworkdepartment', workprofile);
       des_Error = Validate('des_', des);
 
     } else {
@@ -582,7 +588,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     if (
       StatusError ||
       DepartmentError ||
-      otherworkError||
+      otherworkError ||
       companynameError ||
       jobtitleError ||
       countryError ||
@@ -597,14 +603,14 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
       Toast.show(
         StatusError ||
         DepartmentError ||
-        otherworkError||
+        otherworkError ||
         companynameError ||
         jobtitleError ||
         countryError ||
         stateError ||
         cityError ||
         desError ||
-        des_Error||
+        des_Error ||
         startdateError ||
         endateError,
         Toast.SHORT,
@@ -645,7 +651,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
         // error reading value
       }
 
-      if(allSelected){
+      if (allSelected) {
         var raw = JSON.stringify({
           company_name: companyname,
           end_year: 0,
@@ -660,7 +666,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
           work_type: key,
         });
       }
-      else{
+      else {
         var raw = JSON.stringify({
           company_name: companyname,
           end_year: 0,
@@ -673,11 +679,11 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
           work_description: des,
           work_state: stateKey[0].label,
           work_type: key,
-          end_date:startDate2
+          end_date: startDate2
         });
       }
 
-      
+
 
 
 
@@ -699,8 +705,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
                 // submit(result.data),
                 // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
               );
-               Toast.show('Successfully Work Added', Toast.SHORT);
-               props.navigation.navigate('Home');
+              Toast.show('Successfully Work Added', Toast.SHORT);
+              props.navigation.navigate('Home');
 
               // setSpinnerStart(false);
               setLoading(false);

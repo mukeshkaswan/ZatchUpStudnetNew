@@ -33,13 +33,75 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   const [username, setUsername] = useState('');
   const [profilepic, setProfilePic] = useState('');
   const [kycapprovedkey, setKycapproved] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   // const [username, setUsername] = useState('');
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
     getDataMenu();
+    getAuthUserInfoApi();
+
   }, [isFocused]);
+
+
+
+
+  /***************************User Auth User Info*******************************/
+
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
+              setProfilePic(result.profile_pic)
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   const getDataMenu = async () => {
     var token = '';
@@ -52,7 +114,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
         setUsername(user);
       }
       if (profil !== null) {
-        setProfilePic(profil);
+        //setProfilePic(profil);
       }
 
       if (kyckey !== null) {

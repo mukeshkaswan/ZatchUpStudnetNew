@@ -89,6 +89,11 @@ export const getReminders = createAction(GETREMINDERS);
 export const ADDPROFILEPICINFO = 'ADDPROFILEPICINFO';
 export const getAddProfilePicInfo = createAction(ADDPROFILEPICINFO);
 
+
+// this is for Get Add Profile Pic Info success
+export const ADDPROFILEPICINFOEDU = 'ADDPROFILEPICINFOEDU';
+export const getAddProfilePicInfoEdu = createAction(ADDPROFILEPICINFOEDU);
+
 // this is for Get Edit Standard List Info success
 export const EDITSTANDARD = 'EDITSTANDARD';
 export const getStandardEdit = createAction(EDITSTANDARD);
@@ -312,3 +317,4 @@ export const getUploadekycfordetailchange= createAction(UPLOADEKYCFORDETAILCHANG
 // this is for Get Uploade kyc for detail change dob
 export const UPLOADEKYCFORDETAILCHANGESDOB = 'UPLOADEKYCFORDETAILCHANGESDOB';
 export const getUploadekycfordetailchangedob= createAction(UPLOADEKYCFORDETAILCHANGESDOB);
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -41,7 +41,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
+import RBSheet from "react-native-raw-bottom-sheet";
+import ImagePicker from 'react-native-image-crop-picker';
 const screenWidth = Dimensions.get('window').width;
 
 interface HomeScreenProps {
@@ -106,7 +107,9 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [class_id, setclass_id] = useState('');
   const [course_id, setcourse_id] = useState('');
   const [oldrollno, setOldRollNo] = useState('');
-
+  const refRBSheet = useRef();
+  const [frontimage, setImageURI] = useState('');
+  const [imagename, setImagename] = useState('');
 
   const [oldvalue, setoldvalue] = useState('');
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
@@ -1154,7 +1157,6 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   }
 
-
   const rednderItemListcitydata = (item, index) => {
 
     return (
@@ -1166,8 +1168,6 @@ const HomeScreen = (props: HomeScreenProps) => {
         <TouchableOpacity
           underlayColor="none"
           onPress={() => Setcitynametext(item)}>
-
-
           <View>
             <Text style={{ color: '#000', fontSize: 16, padding: 5 }}>{item.display}</Text>
           </View>
@@ -1217,7 +1217,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false,'re_verify':true })}
+                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 're_verify': true })}
                     // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                     >
                       <Text style={{ color: 'white', fontSize: 12, marginLeft: 5, marginRight: 5 }}>Resend for Verification</Text>
@@ -1371,6 +1371,14 @@ const HomeScreen = (props: HomeScreenProps) => {
                       </Text>
                     </View> : null}
 
+
+                    {i.pincode != '' ? <View style={styles.view_Row}>
+                      <Text style={styles.view_Tv_1}>Pincode :</Text>
+                      <Text style={styles.view_Tv_2}>
+                        {i.pincode}
+                      </Text>
+                    </View> : null}
+
                     {i.admission_number != null && i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
                         School Admission Number :
@@ -1480,7 +1488,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   Course Duration :
                                 </Text>
                                 <Text style={styles.view_Tv_2}>
-                                  {course.start_year + '-' + 'Current'}
+                                  {course.start_year + ' - ' + 'Current'}
                                 </Text>
                               </View>
                             ) : (
@@ -1489,7 +1497,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   Course Duration :
                                 </Text>
                                 <Text style={styles.view_Tv_2}>
-                                  {course.start_year + '  ' + course.end_year}
+                                  {course.start_year + ' - ' + course.end_year}
                                 </Text>
                               </View>
                             )
@@ -1543,9 +1551,9 @@ const HomeScreen = (props: HomeScreenProps) => {
                                         Standard :
                                       </Text>
                                       <Text style={styles.view_Tv_2}>
-                                        {standard.standard_name +
-                                          '-' +
-                                          standard.standard_end_year}
+                                        {standard.standard_name + ' ' +
+
+                                          '(' + standard.standard_start_year + ' - ' + standard.standard_end_year + ')'}
                                       </Text>
                                     </View>
                                   )}
@@ -1636,6 +1644,196 @@ const HomeScreen = (props: HomeScreenProps) => {
     props.navigation.goBack(null);
     return true;
   };
+
+
+
+  const OpenCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      let parts = image.path.split('/');
+      let uri = Platform.OS === 'ios' ? `file:///${image.path}` : image.path;
+      let name = parts[parts.length - 1];
+      let type = image.mime;
+
+      const file = {
+        uri,
+        name,
+        type,
+      };
+      // setImage(file);
+      //   setImageFrontName(name)
+      setImageURI(image.path)
+      UploadFile(file)
+      refRBSheet.current.close();
+
+
+
+    });
+  }
+
+  const getImage = () => {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+      //  cropperCircleOverlay: true,
+      freeStyleCropEnabled: true,
+      avoidEmptySpaceAroundImage: true,
+    }).then(image => {
+      let parts = image.path.split('/');
+      let uri = Platform.OS === 'ios' ? `file:///${image.path}` : image.path;
+      let name = parts[parts.length - 1];
+      let type = image.mime;
+
+      const file = {
+        uri,
+        name,
+        type,
+      };
+      // setImage(file);
+      //   setImageFrontName(name)
+      setImageURI(image.path)
+      UploadFile(file)
+      refRBSheet.current.close();
+
+
+    });
+  };
+
+
+  /***************************User Upload File*******************************/
+
+
+  const UploadFile = async (file) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      file_name: file,
+    }
+    dispatch(
+      userActions.getUploadFile({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //     'after result upload file',
+            //     JSON.stringify(result, undefined, 2),
+
+            //     // props.navigation.navigate('Approval')
+            // );
+            //  setImagename(result.filename)
+            AddProfile(result.filename);
+
+            //  Toast.show('Successfully Added ', Toast.SHORT);
+
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  }
+
+
+
+
+  const AddProfile = async (filename) => {
+
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+
+    const data = {
+      token: token,
+      profile_pic: filename
+
+    }
+    setLoading(true);
+
+    dispatch(
+      userActions.getAddProfilePicInfoEdu({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+
+            // console.warn(
+            //     'after result add profile',
+            //     JSON.stringify(result, undefined, 2),
+
+            // );
+            Toast.show('Successfully Updated', Toast.SHORT),
+            getEducationProfile();
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  }
+
+
+
   return (
     <View style={styles.container}>
       {/* <CustomStatusBar /> */}
@@ -1769,6 +1967,53 @@ const HomeScreen = (props: HomeScreenProps) => {
 
         <View >
 
+
+          <RBSheet
+            ref={refRBSheet}
+            // closeOnDragDown={true}
+            //closeOnPressMask={false}
+            height={183}
+            nabledGestureInteraction={true}
+            enabledContentTapInteraction={false}
+            closeOnDragDown={true}
+            closeOnPressMask={false}
+            //  openDuration={10}
+            customStyles={{
+              wrapper: {
+                backgroundColor: "transparent"
+              },
+              draggableIcon: {
+                backgroundColor: "#000"
+              }
+            }}
+          >
+            <View style={{
+              flexDirection: 'column',
+              alignContent: 'space-around',
+              //alignItems: 'stretch',
+              //marginTop: 10
+            }}>
+
+              <TouchableOpacity
+                onPress={() => OpenCamera()}
+                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => getImage()}
+                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => refRBSheet.current.close()}
+                style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
+                <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
+              </TouchableOpacity>
+
+            </View>
+          </RBSheet>
           {kyc_approved == '1' ? (<TouchableOpacity onPress={() => props.navigation.navigate('PendingRequestScreen')} >
             <Image
               style={{
@@ -1784,16 +2029,25 @@ const HomeScreen = (props: HomeScreenProps) => {
           ) : null}
           <View style={styles.avatarStyle}>
 
+            <TouchableOpacity
+              onPress={() => refRBSheet.current.open()}
+            //onPress={getImage}
 
-            <Image
-              source={{ uri: profilepic }}
-              style={{
-                height: 100,
-                width: 100,
-                resizeMode: 'cover',
-                borderRadius: 50,
-              }}
-            />
+            >
+
+              <View >
+                <Image
+                  source={{ uri: profilepic }}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    resizeMode: 'cover',
+                    borderRadius: 50,
+                  }}
+                />
+
+              </View>
+            </TouchableOpacity>
             {kyc_approved == '1' ? (
               <View
                 style={{
@@ -1825,7 +2079,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         {zatchupid != null ? <Text style={styles.textStyle_}>
           {'Unique ZatchUp ID' + ':' + zatchupid}
         </Text> : <Text style={styles.textStyle_}>
-          {'Unique ZatchUp ID' + ':' + 'XXXXXXXX'}
+          {'Unique ZatchUp ID' + ':' + 'XXXXXXXXX'}
         </Text>}
 
         {/* <ImageBackground
@@ -2218,7 +2472,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 />
 
                 <TextInput
-                style={{width:'85%'}}
+                  style={{ width: '85%' }}
                   //onChangeText={onChangeNumber}
                   onChangeText={value => getSearchcitydata(value)}
                   value={cityname}

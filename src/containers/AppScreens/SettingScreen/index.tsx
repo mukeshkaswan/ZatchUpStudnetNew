@@ -350,6 +350,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const onPressSubmit = async () => {
 
     const newError = Validate('newmothername', newmothername);
+
+    const newfatherError = Validate('newfathername', newfathername);
+
     const genderError = Validate('gender', male || Female || Custom);
 
   
@@ -360,12 +363,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     }
 
     if (
-      newError||genderError||courseError
+      newError||newfatherError||genderError||courseError
 
     ) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        newError||
+        newError||newfatherError||
         genderError||
         courseError,
         Toast.LONG,

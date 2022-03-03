@@ -79,7 +79,8 @@ import {
   DELETEWORKDETAIL,
   UPLOADEKYCFORDETAILCHANGES,
   UPLOADEKYCFORDETAILCHANGESDOB,
-  USERCOURSECONFIRMATIONREVERIFY
+  USERCOURSECONFIRMATIONREVERIFY,
+  ADDPROFILEPICINFOEDU
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -870,6 +871,45 @@ function* getAddProfilePicInfo({ payload: { data, callback } }) {
       'Content-Type': 'application/json',
     },
     data: formdata,
+    method: 'POST',
+    url: 'user/add-profile-pic-info/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Add Profile Pic Info Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User Delete Course Data Auth Segas*******************************/
+
+function* getAddProfilePicInfoEdu({ payload: { data, callback } }) {
+  
+  console.warn('data in saga Add Profile Pic Info', data);
+
+  const datakey = {
+    profile_pic: data.profile_pic,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
     method: 'POST',
     url: 'user/add-profile-pic-info/',
   };
@@ -2696,7 +2736,11 @@ function* User() {
     yield takeLatest(DELETEWORKDETAIL, getUserDeleteWorkDetail),
     yield takeLatest(UPLOADEKYCFORDETAILCHANGES, getUploadekycfordetailchange),
     yield takeLatest(UPLOADEKYCFORDETAILCHANGESDOB, getUploadekycfordetailchangedob),
+    yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
 
+
+
+    
   ]);
 }
 

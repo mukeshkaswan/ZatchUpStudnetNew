@@ -111,11 +111,11 @@ const MySchool = (props: HomeScreenProps) => {
             console.warn(
               'after result Auth User sdfsdf INfo',
               JSON.stringify(result, undefined, 2),
-             
+
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setUserid(result.user_id)
-            console.log('result.user_id',result.user_id)
+            console.log('result.user_id', result.user_id)
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -218,7 +218,12 @@ const MySchool = (props: HomeScreenProps) => {
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
-            <Image source={Images.search} style={styles.inbox_iconreminder} />
+            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 5, marginTop: 11, height: 30, width: 30
+            }} />
+            {/* <Image source={Images.search} style={styles.inbox_iconreminder} /> */}
           </TouchableOpacity>
 
           <View
@@ -241,7 +246,13 @@ const MySchool = (props: HomeScreenProps) => {
           }}
           style={styles.dot_view}>
           <View>
-            <Image source={Images.inbox_icon} style={styles.dot_image} />
+            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
+
+            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
+            }} />
             <View
               style={{
                 position: 'absolute',
@@ -276,7 +287,7 @@ const MySchool = (props: HomeScreenProps) => {
 
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home',{'user_id':userid})}>
+            onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
             <View style={styles.boxcontainer}>
               <Image
                 style={{ width: 70, height: 70, resizeMode: 'contain' }}
@@ -326,7 +337,7 @@ const MySchool = (props: HomeScreenProps) => {
           </TouchableOpacity>
         </View> */}
         {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
-          onPress={() => props.navigation.navigate('ChatWithTeachersScreen',{'user_id':userid})}>
+          onPress={() => props.navigation.navigate('ChatWithTeachersScreen', { 'user_id': userid })}>
           <View
             style={{
               paddingHorizontal: 16,
@@ -370,7 +381,7 @@ const MySchool = (props: HomeScreenProps) => {
         <View style={styles.mainBoxesContainer}>
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home',{'user_id':userid})}>
+            onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
             <View style={styles.boxcontainer}>
               <Image
                 style={{ width: 70, height: 70, resizeMode: 'contain' }}

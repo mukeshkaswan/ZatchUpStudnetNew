@@ -10,12 +10,13 @@ export default function Buttons({
   backgroundColor = '',
   borderColor = '',
   borderWidth = '',
-  textColor = ''
+  textColor = '',
+  flag,
 }) {
 
   return (
     <View style={styles.conatiner}>
-      <TouchableOpacity onPress={onPress} style={[styles.buttonContainer, backgroundColor == 'green' && styles.bg, backgroundColor == 'none' && styles.border]}>
+      <TouchableOpacity disabled={flag} onPress={onPress} style={[styles.buttonContainer, backgroundColor == 'green' && styles.bg, backgroundColor == 'none' && styles.border]}>
         <Text style={[styles.buttonTitle, textColor != '' && styles.textcolor]}>{title}</Text>
       </TouchableOpacity>
     </View>

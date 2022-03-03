@@ -41,6 +41,7 @@ import {
   DrawerActions,
   useFocusEffect
 } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [password, setPassword] = useState('');
   const isFocused = useIsFocused();
@@ -458,7 +459,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       {/* <CustomHeader Title={'School Information'} /> */}
 
       <View style={styles.child_view}>
-        {is_kyc_approved == true && is_approved == true ? <TouchableOpacity onPress={onBurgerBarPress}>
+        {is_kyc_approved == true ? <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={styles.image_menu} />
         </TouchableOpacity> : <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={{
@@ -468,7 +469,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           }} />
         </TouchableOpacity>}
 
-        {is_kyc_approved == true && is_approved == true ? <View style={styles.tv_view}>
+        {is_kyc_approved == true ? <View style={styles.tv_view}>
           {/* <Text style={styles.ZatchUp_tv}>Home</Text> */}
           {/* <Text style={styles.TM_tv}>TM</Text> */}
           <View style={{
@@ -487,11 +488,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               source={Images.search}
               style={{ marginLeft: 10, tintColor: '#000' }}
             />
+
             <TextInput
               //onChangeText={onChangeNumber}
               onChangeText={value => getSearchcitydata(value)}
               value={cityname}
-              style={{ color: '#000', }}
+              style={{ color: '#000', width: '85%' }}
               placeholderTextColor="#000"
               placeholder="Search..."
               keyboardType="default"
@@ -527,7 +529,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
-            <Image source={Images.search} style={styles.inbox_iconreminder} />
+            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 5, marginTop: 11, height: 30, width: 30
+            }} />
+            {/* <Image source={Images.search} style={styles.inbox_iconreminder} /> */}
           </TouchableOpacity>
           <View
             style={{
@@ -559,7 +566,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           }}
           style={styles.dot_view}>
           <View>
-            <Image source={Images.inbox_icon} style={styles.dot_image} />
+            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
+            }} />
+            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
             <View
               style={{
                 position: 'absolute',

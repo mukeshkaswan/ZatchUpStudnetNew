@@ -299,15 +299,15 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                 </CardView>} />
 
-                        <TouchableOpacity onPress={() => props.navigation.navigate('AddCourseDetailsOthers',{'re_verify':props.route.params.re_verify})}  >
+                        {/* <TouchableOpacity onPress={() => props.navigation.navigate('AddCourseDetailsOthers',{'re_verify':props.route.params.re_verify})}  >
                             <View style={{ flexDirection: 'row', marginBottom: '3%', marginTop: '6%', }}>
                                 <Image source={Images.addmore_school_icon} style={styles.checkbox}></Image>
                                 <View style={{ marginLeft: 15, marginTop: 5 }}><Text style={styles.fillText_Add}>Add More Course</Text></View>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
-                    <View>
+                    <View style={{marginTop:20}}>
                         <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EIconfirmation',{'otherscourse':'otherscourse','re_verify':props.route.params.re_verify})} />
                     </View>
                 </View>
