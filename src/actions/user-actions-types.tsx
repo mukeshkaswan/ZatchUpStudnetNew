@@ -318,3 +318,7 @@ export const getUploadekycfordetailchange= createAction(UPLOADEKYCFORDETAILCHANG
 export const UPLOADEKYCFORDETAILCHANGESDOB = 'UPLOADEKYCFORDETAILCHANGESDOB';
 export const getUploadekycfordetailchangedob= createAction(UPLOADEKYCFORDETAILCHANGESDOB);
 
+
+// this is for otp login skip
+export const OTP_SUCCESS_SKIP = 'OTP_SUCCESS_SKIP';
+export const otpSuccessSkip = createAction(OTP_SUCCESS_SKIP);

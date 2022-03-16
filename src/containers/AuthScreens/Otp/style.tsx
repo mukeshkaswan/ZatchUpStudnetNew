@@ -58,10 +58,18 @@ const styles = ScaledSheet.create({
     },
     
     OtpResendContainer:{
-        alignItems:'center',marginTop:'10%'
+        alignItems:'center',marginTop:'5%'
     },
     resendText:{
         fontFamily:'Lato-Regular',fontSize:hp(3.0),color:'rgb(70,50,103)', textDecorationLine: 'underline',textDecorationColor:'rgb(70,50,103)'
+    },
+
+    Skip:{
+        alignItems:'center',marginTop:'5%'
+    },
+  
+    skipText:{
+        fontFamily:'Lato-Regular',fontSize:hp(2.8),color:'rgb(70,50,103)', textDecorationColor:'rgb(70,50,103)'
     },
 
   

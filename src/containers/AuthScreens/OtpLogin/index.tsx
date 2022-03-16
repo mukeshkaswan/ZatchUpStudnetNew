@@ -314,6 +314,65 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
     }
   };
 
+
+
+  const onPressOtpSkip = () => {
+    
+      const data = {
+        firebase_id: props.route.params.firebase_id,
+        username: props.route.params.username,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.otpSuccessSkip({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === 'True') {
+              console.warn(
+                'after otp result',
+                // JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('Home'),
+              );
+
+              getData(result),
+
+              //setSpinnerStart(false);
+              setLoading(false);
+            }
+            if (result.status === 'False') {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              Toast.show(result.error, Toast.SHORT);
+              setLoading(false);
+
+              // signOut();
+            }
+
+            // if (!error) {
+            //   console.warn(JSON.stringify(error, undefined, 2));
+            //   // setLoginSuccess(result);
+            //   //Toast.show('Invalid Otp', Toast.SHORT);
+
+            //   setLoading(false);
+
+            //   // signOut();
+            // }
+            else {
+              // setError(true);
+              // signOut();
+              //   Toast.show('Invalid Otp', Toast.SHORT);
+
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    
+  };
+
   return (
     <View style={styles.container}>
       <CustomStatusBar />
@@ -354,6 +413,12 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
             onPress={onPressOtp}
           // onPress={() => props.navigation.navigate('Home')}
           />
+        </View>
+
+        <View style={styles.Skip}>
+          <Text style={styles.skipText} onPress={onPressOtpSkip}>
+            Skip
+          </Text>
         </View>
         <View style={styles.OtpResendContainer}>
           <Text style={styles.resendText} onPress={onPressResendOtp}>

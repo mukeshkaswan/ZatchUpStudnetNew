@@ -80,7 +80,8 @@ import {
   UPLOADEKYCFORDETAILCHANGES,
   UPLOADEKYCFORDETAILCHANGESDOB,
   USERCOURSECONFIRMATIONREVERIFY,
-  ADDPROFILEPICINFOEDU
+  ADDPROFILEPICINFOEDU,
+  OTP_SUCCESS_SKIP
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2656,6 +2657,35 @@ function* getUploadekycfordetailchangedob({ payload: { data, callback } }) {
     }
   }
 }
+/***************************User OTP SKIP Auth Segas*******************************/
+
+function* otpSuccessSkip({ payload: { data, callback } }) {
+  console.warn('data in saga', data);
+  const formdata = new FormData();
+  formdata.append('firebase_id', data.firebase_id);
+  formdata.append('username', data.username);
+  formdata.append('is_skip', true);
+
+
+  const payload = {
+    data: formdata,
+    method: 'POST',
+    url: 'user/verify-otp/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('otp result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 
 function* User() {
   yield all([
@@ -2737,7 +2767,11 @@ function* User() {
     yield takeLatest(UPLOADEKYCFORDETAILCHANGES, getUploadekycfordetailchange),
     yield takeLatest(UPLOADEKYCFORDETAILCHANGESDOB, getUploadekycfordetailchangedob),
     yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
+    yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
+    yield takeLatest(OTP_SUCCESS_SKIP, otpSuccessSkip),
 
+
+    
 
 
     

@@ -177,6 +177,53 @@ const Otp = (props: OtpScreenProps) => {
       );
     }
   };
+
+
+  const onPressOtpSkip = () => {
+ 
+      const data = {
+        username: props.route.params.username,
+        firebase_id: props.route.params.firebase_id,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.otpSuccessSkip({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === 'True') {
+              console.warn(
+                'after otp register result',
+                JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('eKYC')
+              
+                props.navigation.navigate('eKYC',{'signup':'signup','is_kyc_rejected':'','reg_step':'','Editdobsignup': true }),
+              );
+              // setSpinnerStart(false);
+              _storeData(result);
+
+              setLoading(false);
+            }
+
+            if (result.status  === 'False') {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              Toast.show('OTP is Not Valid',Toast.SHORT)
+              setLoading(false);
+              // signOut();
+            } else {
+
+              // setError(true);
+              // signOut();
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+  
+  };
   return (
     <View style={styles.container}>
       <CustomStatusBar />
@@ -214,6 +261,12 @@ const Otp = (props: OtpScreenProps) => {
             onPress={onPressOtp}
           // onPress={() => props.navigation.navigate('eKYC')}
           />
+        </View>
+
+         <View style={styles.Skip}>
+          <Text style={styles.skipText} onPress={onPressOtpSkip}>
+            Skip
+          </Text>
         </View>
         <View style={styles.OtpResendContainer}>
           <Text

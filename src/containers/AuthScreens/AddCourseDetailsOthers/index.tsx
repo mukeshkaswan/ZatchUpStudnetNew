@@ -8,11 +8,9 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   ScrollView,
-  BackHandler,
-
+  BackHandler, 
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-
 import styles from './style';
 import { Images } from '../../../components/index';
 import {
