@@ -81,7 +81,8 @@ import {
   UPLOADEKYCFORDETAILCHANGESDOB,
   USERCOURSECONFIRMATIONREVERIFY,
   ADDPROFILEPICINFOEDU,
-  OTP_SUCCESS_SKIP
+  OTP_SUCCESS_SKIP,
+  REQUESTCHANGEUSERDETAIL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2687,6 +2688,42 @@ function* otpSuccessSkip({ payload: { data, callback } }) {
 }
 
 
+/***************************Request Change User Detail*******************************/
+
+function* requestChangeUserDetail({ payload: { data, callback } }) {
+ 
+  console.warn('data in saga', data);
+
+  const params = {
+    class_id: data.class_id,
+    key: data.key,
+    old_value: data.old_value,
+    value: data.value,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/request-change-user-detail-by-ei/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -2769,6 +2806,7 @@ function* User() {
     yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
     yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
     yield takeLatest(OTP_SUCCESS_SKIP, otpSuccessSkip),
+    yield takeLatest(REQUESTCHANGEUSERDETAIL, requestChangeUserDetail),
 
 
     

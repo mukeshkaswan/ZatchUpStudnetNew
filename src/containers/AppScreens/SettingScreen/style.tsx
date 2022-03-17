@@ -1,11 +1,11 @@
-import {Dimensions} from 'react-native';
-import {ScaledSheet} from 'react-native-size-matters';
+import { Dimensions } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const screenWidth = Dimensions.get('window').width;
-import {Colors} from '../../../components/index';
+import { Colors } from '../../../components/index';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = ScaledSheet.create({
   container: {
@@ -19,7 +19,7 @@ const styles = ScaledSheet.create({
   text_container: {
     flexDirection: 'row',
     marginLeft: 18,
-    marginTop:15
+    marginTop: 15
   },
   border: {
     borderBottomWidth: 1,
@@ -41,7 +41,7 @@ const styles = ScaledSheet.create({
     marginLeft: 10,
     color: 'rgb(70,50,103)',
   },
-  image: {width: 20, height: 20, marginStart: 8},
+  image: { width: 20, height: 20, marginStart: 8 },
   addicon: {
     height: 25,
     width: 25,
@@ -81,7 +81,7 @@ const styles = ScaledSheet.create({
     alignSelf: 'flex-start',
     paddingLeft: 20,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   textinputcontainer: {
     borderWidth: 1,
@@ -89,6 +89,50 @@ const styles = ScaledSheet.create({
     borderColor: 'lightgrey',
     width: 300,
     borderRadius: 10,
+    marginTop: 5
   },
+  logoContainer: {
+    alignItems: 'center',
+    alignSelf: 'center',
+
+
+  },
+  messagelogo: {
+    width: Dimensions.get('window').width * 0.6,
+    height: Dimensions.get('window').width * 0.6,
+    resizeMode: 'contain',
+  },
+
+  inputContainer: {
+    padding: '5%',
+    flex: 1,
+  },
+
+  enterText: {
+    fontFamily: 'Lato-Regular',
+    fontSize: hp(2.2),
+    textAlign: 'center',
+
+
+  },
+  otpContainer: {
+    paddingHorizontal: '9%', justifyContent: 'center',
+    alignItems: 'center',
+  },
+  OtpinputContainer: {
+    backgroundColor: 'lightgrey', borderRadius: 15, width: '22%', marginRight: '4%', height: 60, justifyContent: 'center',
+    alignItems: 'center',
+  },
+  otpinput: {
+    alignSelf: 'center', fontFamily: 'Lato-Regular', fontSize: 20, textAlign: 'center'
+  },
+
+  OtpResendContainer: {
+    alignItems: 'center', marginTop: '5%', marginBottom: '5%'
+  },
+  resendText: {
+    fontFamily: 'Lato-Regular', fontSize: hp(2.8), color: 'rgb(70,50,103)', textDecorationLine: 'underline', textDecorationColor: 'rgb(70,50,103)'
+  },
+
 });
 export default styles;

@@ -9,6 +9,16 @@ const validation = {
       message: 'Please enter a valid phone number',
     },
   },
+
+  numbers: {
+    presence: {
+      message: 'Please enter a valid phone number',
+    },
+    format: {
+      pattern: /^[0-9]{10,10}$/,
+      message: 'Please enter a valid phone number',
+    },
+  },
   email: {
     presence: {
       message: 'Please enter a valid email or phone number',

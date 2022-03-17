@@ -37,6 +37,7 @@ import * as userActions from '../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import OtpInputs from 'react-native-otp-inputs';
 
 import {
   widthPercentageToDP as wp,
@@ -63,6 +64,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
   const [Course_Selected, setCourseTypeSelected] = useState('');
+  const [otp, setOtp] = useState('');
 
   const [number, onChangeNumber] = React.useState(null);
 
@@ -94,6 +96,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [setdatafromlist, setDataCourseInList] = useState([]);
   const [KYC_type_doc_Selected, setKYCSelected] = useState('');
   const [CustomGender, setCustomGender] = useState('');
+  const [isotpVisiblemodal, setotpVisiblemodal] = useState(false);
+
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
       label: 'He',
@@ -138,6 +142,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
   const toggleModal2 = () => {
     setModalVisible2(!isModalVisible2);
+  };
+  const otptoggleModal = () => {
+   // setaddmobilenumberVisiblemodal('');
+    setotpVisiblemodal(!isotpVisiblemodal);
   };
   const toggleSwitch1 = () => {
     setIsEnabled(previousState => !previousState);
@@ -355,7 +363,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
     const genderError = Validate('gender', male || Female || Custom);
 
-  
+
 
     if (Custom) {
       var courseError = Validate('pronoun_', Course_Selected);
@@ -363,13 +371,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     }
 
     if (
-      newError||newfatherError||genderError||courseError
+      newError || newfatherError || genderError || courseError
 
     ) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        newError||newfatherError||
-        genderError||
+        newError || newfatherError ||
+        genderError ||
         courseError,
         Toast.LONG,
       );
@@ -443,527 +451,608 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     }
   };
 
-  const rednderItemList = (item, index) => {
-    return (
-      <>
-        {item.educationdetail.length > 0 &&
-          item.educationdetail.map(i => {
-            return (
-              <View>
-                <CardView
-                  cardElevation={5}
-                  cardMaxElevation={5}
-                  // cornerRadius={15}
-                  style={{
-                    // width: '95%',
 
-                    backgroundColor: 'white',
-                    marginHorizontal: 15,
-                    marginTop: 20,
-                    paddingBottom: 14,
-                    paddingTop: 10,
-                  }}>
-                  <View style={styles.addcitycontainer}>
-                    <Text style={styles.title_text}>Personal Setting</Text>
-                    {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
-                      <Image source={Images.edit_icon} style={styles.addicon} />
-                    </TouchableOpacity> : null}
-                    {/* Modal */}
-                  </View>
+  const onPressSubmitNumber = async () => {
 
-                  <View style={styles.border}></View>
-                  <View style={{ marginTop: 10 }}>
-                    <View style={styles.text_container}>
-                      <Text style={styles.detail_text}>Name : </Text>
-                      <Text>{username}</Text>
-                      {kyc_approved != '0' ? <TouchableOpacity
-                        onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+    const newError = Validate('numbers', number);
 
-                        <Image
-                          style={{
-                            height: 20,
-                            width: 20,
 
-                            //marginTop: 5,
-                            marginLeft: 5,
-                            // marginRight: 15,
-                          }}
-                          source={Images.edit_icon}
-                        />
-                      </TouchableOpacity> : null}
+    if (
+      newError
 
-                    </View>
-                    <View style={styles.text_container}>
-                      <Text style={styles.detail_text}>DOB : </Text>
-                      <Text>{dob}</Text>
-                      {kyc_approved != '0' ? <TouchableOpacity
-                        onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+    ) {
+      Toast.show(
+        newError,
+        Toast.LONG,
+      );
 
-                        <Image
-                          style={{
-                            height: 20,
-                            width: 20,
+      return false;
+    }
 
-                            //marginTop: 5,
-                            marginLeft: 5,
-                            // marginRight: 15,
-                          }}
-                          source={Images.edit_icon}
-                        />
-                      </TouchableOpacity> : null}
+    else {
 
-                    </View>
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+      //   Alert.alert(Gender);
 
-                    {Gender == 'M' ? (
-                      <View style={styles.text_container}>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text>Male</Text>
-                      </View>
-                    ) : Gender == 'F' ? (
-                      <View style={styles.text_container}>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text>Female</Text>
-                      </View>
-                    ) : (
-                      <View style={styles.text_container}>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text>Custom</Text>
-                      </View>
-                    )}
+      const data = {
+        token: token,
+        class_id: "",
+        key: "phone",
+        old_value: 0,
+        value: number
 
-                    {email != '' ? <View style={styles.text_container}>
-
-                      {email != '' ? <View style={{ flexDirection: 'row' }}>
-
-                        <Text style={styles.detail_text}>Email : </Text>
-                        <Text>{email}</Text>
-                      </View> : null}
+      };
 
 
 
 
-                      {phone == '' ? <TouchableOpacity
-                      // onPress={toggleModal2}
-                      >
-                        <Image
-                          source={Images.phone_icon}
-                          style={{
-                            resizeMode: 'stretch',
-                            tintColor: 'green',
-                            marginLeft: 8,
-                            width: 20,
-                            height: 20,
-                          }}
-                        />
-                      </TouchableOpacity> : null}
+      setLoading(true);
 
-                    </View> : null}
+      dispatch(
+        userActions.requestChangeUserDetail({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status) {
+              // setModalVisible(false);
+              // getEducationProfile();
+              console.warn(
+                'after request Change User Detail result',
+                JSON.stringify(result.status, undefined, 2),
 
-
-                    {phone != '' ? <View style={styles.text_container}>
-
-
-
-
-                      {phone != '' ? <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.detail_text}>
-                          Phone Number :
-                        </Text>
-                        <Text>{phone}</Text>
-
-                      </View> : null}
-
-
-                      {email == '' ? <TouchableOpacity
-                      // onPress={toggleModal2}
-                      >
-                        <Image
-                          source={Images.inbox}
-                          style={{
-                            resizeMode: 'stretch',
-                            tintColor: 'green',
-                            marginLeft: 8,
-                            width: 20,
-                            height: 20,
-                          }}
-                        />
-                      </TouchableOpacity> : null}
-
-                    </View> : null}
-                    {/* <View style={styles.text_container}>
-                      {phone == '' ? (
-                        <>
-                          <Text style={styles.detail_text}>Email : </Text>
-                          <Text>{email}</Text>
-                        </>
-                      ) : (
-                        <>
-                          <Text style={styles.detail_text}>
-                            Phone Number :{' '}
-                          </Text>
-                          <Text>{phone}</Text>
-                        </>
-                      )}
-                      {phone == '' ? (
-                        <TouchableOpacity
-                        // onPress={toggleModal2}
-                        >
-                          <Image
-                            source={Images.phone_icon}
-                            style={{
-                              resizeMode: 'stretch',
-                              tintColor: 'green',
-                              marginLeft: 8,
-                              width: 20,
-                              height: 20,
-                            }}
-                          />
-                        </TouchableOpacity>
-                      ) : (
-                        <TouchableOpacity
-                        // onPress={toggleModal2}
-                        >
-                          <Image
-                            source={Images.inbox}
-                            style={{
-                              resizeMode: 'stretch',
-                              tintColor: 'green',
-                              marginLeft: 8,
-                              width: 20,
-                              height: 20,
-                            }}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    </View> */}
-                    {fathername != '' && (
-                      <View style={styles.text_container}>
-                        <Text style={styles.detail_text}>Father's Name : </Text>
-                        <Text>{fathername}</Text>
-                      </View>
-                    )}
-                    {mothername != '' && (
-                      <View style={styles.text_container}>
-                        <Text style={styles.detail_text}>Mother's Name : </Text>
-                        <Text>{mothername}</Text>
-                      </View>
-                    )}
-                  </View>
-                </CardView>
-                <CardView
-                  cardElevation={5}
-                  cardMaxElevation={5}
-                  //cornerRadius={20}
-                  style={styles.card}>
-                  <Text style={styles.title_text}>Privacy Setting</Text>
-
-                  <View style={styles.border}></View>
-                  <View style={styles.privacyrowcontainer}>
-                    {phone == '' ? (
-                      <>
-                        <Text style={styles.detail_text}>Email : </Text>
-                        <Text style={{ textAlign: 'center' }}>{email}</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={styles.detail_text}>Mobile Number : </Text>
-                        <Text style={{ textAlign: 'center' }}>{phone}</Text>
-                      </>
-                    )}
-
-                    <Switch
-                      trackColor={{ false: 'grey', true: 'lightgreen' }}
-                      thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch1}
-                      value={isEnabled}
-                    />
-                  </View>
-
-                  <View style={styles.border1}></View>
-                  <View style={styles.privacyrowcontainer}>
-                    <Text style={styles.detail_text}>Date of Birth : </Text>
-                    <Text style={{ textAlign: 'center' }}>{dob}</Text>
-                    <Switch
-                      trackColor={{ false: 'grey', true: 'lightgreen' }}
-                      thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch2}
-                      value={isEnabled2}
-                    />
-                  </View>
-                  <View style={styles.border1}></View>
-                  <View style={styles.privacyrowcontainer}>
-                    {Gender == 'M' ? (
-                      <>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{ textAlign: 'center' }}>Male</Text>
-                      </>
-                    ) : Gender == 'F' ? (
-                      <>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{ textAlign: 'center' }}>Female</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={styles.detail_text}>Gender : </Text>
-                        <Text style={{ textAlign: 'center' }}>Custom</Text>
-                      </>
-                    )}
-
-                    <Switch
-                      trackColor={{ false: 'grey', true: 'lightgreen' }}
-                      thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch3}
-                      value={isEnabled3}
-                    />
-                  </View>
-                </CardView>
-
-                {/* edit personal information modal */}
-                <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
-                  <View
-                    style={{
-                      //height: hp('55'),
-                      backgroundColor: Colors.$backgroundColor,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      paddingVertical: 20,
-                      paddingHorizontal: 10,
-                      borderRadius: 5,
-                    }}>
-                    <TouchableOpacity
-                      onPress={toggleModal}
-                      style={{ alignSelf: 'flex-end' }}>
-                      <Image
-                        source={Images.closeicon}
-                        style={{ height: 18, width: 18, marginRight: 10 }}
-                      />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        marginVertical: 5,
-                        fontWeight: 'bold',
-                      }}>
-                      Personal Information
-                    </Text>
-                    <Text style={styles.labeltext}>Mother's Name</Text>
-                    <View style={styles.textinputcontainer}>
-                      {/* <TextInput
-                        style={{paddingLeft: 10}}
-                        onChangeText={onChangeNumber}
-                        value={number}
-                        placeholder="Enter Your Mother's Name"
-                        keyboardType="default"
-                      /> */}
-                      {/* <TextField
-                        placeholder={'Enter Your Mother Name'}
-                        //imageIcon={Images.calendar_icon}
-                        onChangeText={val => setnewnnewMothername(val)}
-                        value={newmothername}
-                      /> */}
-                    </View>
-                    <Text style={styles.labeltext}>Father's Name</Text>
-                    <View style={styles.textinputcontainer}>
-                      <TextField
-                        placeholder={'Enter Your Father Name'}
-                        //imageIcon={Images.calendar_icon}
-                        onChangeText={val => setnewnnewFathername(val)}
-                        value={newfathername}
-                      />
-                    </View>
-                    <Text style={styles.labeltext}>Gender</Text>
-
-                    <View
-                      style={[
-                        styles.inputmarginBottom,
-                        {
-                          flexDirection: 'row',
-                          // flex: 1,
-                          marginLeft: 25,
-                          marginRight: 25,
-                        },
-                      ]}>
-                      <View style={{ flex: 1 }}>
-                        <CheckBox
-                          title=" Male"
-                          checkedIcon="dot-circle-o"
-                          uncheckedIcon="circle"
-                          checked={male}
-                          containerStyle={{
-                            padding: 0,
-                            margin: 0,
-                            backgroundColor: 'transparent',
-                            borderColor: 'transparent',
-                          }}
-                          titleProps={{
-                            style: {
-                              color: 'rgba(51,51,51,0.5)',
-                              fontFamily: 'Lato-Regular',
-                            },
-                          }}
-                          uncheckedColor={'#fff'}
-                          checkedColor={'rgb(70,50,103)'}
-                          textStyle={{
-                            color: '#33333380',
-                            fontFamily: 'Lato-Regular',
-                          }}
-                          onPress={checkedMale}
-                        // fontFamily={'Lato-Regular'}
-                        />
-                      </View>
-
-                      <View style={{ flex: 1 }}>
-                        <CheckBox
-                          title=" Female"
-                          checkedIcon="dot-circle-o"
-                          uncheckedIcon="circle"
-                          checked={Female}
-                          containerStyle={{
-                            padding: 0,
-                            margin: 0,
-                            backgroundColor: 'transparent',
-                            borderColor: 'transparent',
-                          }}
-                          titleProps={{
-                            style: {
-                              color: 'rgba(51,51,51,0.5)',
-                              fontFamily: 'Lato-Regular',
-                            },
-                          }}
-                          uncheckedColor={'#fff'}
-                          checkedColor={'rgb(70,50,103)'}
-                          onPress={checkedFemale}
-                        // fontFamily={'Lato-Regular'}
-                        />
-                      </View>
-
-                      <View style={{ flex: 1 }}>
-                        <CheckBox
-                          title=" Custom"
-                          checkedIcon="dot-circle-o"
-                          uncheckedIcon="circle"
-                          checked={Custom}
-                          containerStyle={{
-                            padding: 0,
-                            margin: 0,
-                            backgroundColor: 'transparent',
-                            borderColor: 'transparent',
-                          }}
-                          titleProps={{
-                            style: {
-                              color: 'rgba(51,51,51,0.5 )',
-                              fontFamily: 'Lato-Regular',
-                            },
-                          }}
-                          uncheckedColor={'lightgrey'}
-                          checkedColor={'rgb(70,50,103)'}
-                          textStyle={{ color: '#33333380' }}
-                          onPress={checkedCustom}
-                        />
-                      </View>
-                    </View>
-                    {customgenderView && (
-                      <View style={{}}>
-                        <View
-                          style={{
-                            marginBottom: '2%',
-                          }}>
-                          {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
-
-                          <CustomDropdown
-                            placeholder={'Select your pronoun'}
-                            data={KYC_type_doc}
-                            selectedValue={KYC_type_doc}
-                            SelectedLanguagedata={selectedValue =>
-                              selectedValue
-                            }
-                          />
-                        </View>
-
-                        <View style={{ marginBottom: '3%' }}>
-                          <TextField
-                            placeholder={'Gender (optional)'}
-                            imageIcon={''}
-                            onChangeText={val => setCustomGender(val)}
-                            value={CustomGender}
-                          />
-                        </View>
-                      </View>
-                    )}
-                    <TouchableOpacity
-                      style={{
-                        height: hp('4.5'),
-                        width: wp('40'),
-                        backgroundColor: 'rgb(70,50,103)',
-                        marginTop: 15,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 10,
-                      }}>
-                      <Text style={{ color: 'white' }} 
-                      onPress={onPressSubmit}>
-                        Submit
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </Modal>
-                {/* add mail and add number modal */}
-                <Modal
-                  isVisible={isModalVisible2}
-                  onBackdropPress={toggleModal2}>
-                  <View
-                    style={{
-                      height: hp('22'),
-                      backgroundColor: Colors.$backgroundColor,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      paddingVertical: 20,
-                      paddingHorizontal: 10,
-                      borderRadius: 5,
-                    }}>
-                    <TouchableOpacity
-                      onPress={toggleModal2}
-                      style={{ alignSelf: 'flex-end' }}>
-                      <Image
-                        source={Images.closeicon}
-                        style={{ height: 18, width: 18, marginRight: 10 }}
-                      />
-                    </TouchableOpacity>
-
-                    <Text style={styles.labeltext}>Email</Text>
-                    <View style={styles.textinputcontainer}>
-                      <TextInput
-                        style={{ paddingLeft: 10 }}
-                        onChangeText={onChangeNumber}
-                        value={number}
-                        placeholder="Add Email"
-                        keyboardType="default"
-                      />
-                    </View>
-
-                    <TouchableOpacity
-                      style={{
-                        height: hp('4.5'),
-                        width: wp('40'),
-                        backgroundColor: 'rgb(70,50,103)',
-                        marginTop: 15,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 10,
-                      }}>
-                      <Text style={{ color: 'white' }}>Submit</Text>
-                    </TouchableOpacity>
-                  </View>
-                </Modal>
-              </View>
-            );
-          })}
-      </>
-    );
+              );
+              setLoading(false);
+              toggleModal2();
+              otptoggleModal();
+              //return;
+              // props.navigation.navigate('OtpLogin', {
+              //   firebase_id: result.firebase_username,
+              //   username: email,
+              // });
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show(result.error.non_field_errors[0], Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
   };
+
+  // const rednderItemList = (item, index) => {
+  //   return (
+  //     <>
+  //       {item.educationdetail.length > 0 &&
+  //         item.educationdetail.map(i => {
+  //           return (
+  //             <View>
+  //               <CardView
+  //                 cardElevation={5}
+  //                 cardMaxElevation={5}
+  //                 // cornerRadius={15}
+  //                 style={{
+  //                   // width: '95%',
+
+  //                   backgroundColor: 'white',
+  //                   marginHorizontal: 15,
+  //                   marginTop: 20,
+  //                   paddingBottom: 14,
+  //                   paddingTop: 10,
+  //                 }}>
+  //                 <View style={styles.addcitycontainer}>
+  //                   <Text style={styles.title_text}>Personal Setting</Text>
+  //                   {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
+  //                     <Image source={Images.edit_icon} style={styles.addicon} />
+  //                   </TouchableOpacity> : null}
+  //                   {/* Modal */}
+  //                 </View>
+
+  //                 <View style={styles.border}></View>
+  //                 <View style={{ marginTop: 10 }}>
+  //                   <View style={styles.text_container}>
+  //                     <Text style={styles.detail_text}>Name : </Text>
+  //                     <Text>{username}</Text>
+  //                     {kyc_approved != '0' ? <TouchableOpacity
+  //                       onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+
+  //                       <Image
+  //                         style={{
+  //                           height: 20,
+  //                           width: 20,
+
+  //                           //marginTop: 5,
+  //                           marginLeft: 5,
+  //                           // marginRight: 15,
+  //                         }}
+  //                         source={Images.edit_icon}
+  //                       />
+  //                     </TouchableOpacity> : null}
+
+  //                   </View>
+  //                   <View style={styles.text_container}>
+  //                     <Text style={styles.detail_text}>DOB : </Text>
+  //                     <Text>{dob}</Text>
+  //                     {kyc_approved != '0' ? <TouchableOpacity
+  //                       onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+
+  //                       <Image
+  //                         style={{
+  //                           height: 20,
+  //                           width: 20,
+
+  //                           //marginTop: 5,
+  //                           marginLeft: 5,
+  //                           // marginRight: 15,
+  //                         }}
+  //                         source={Images.edit_icon}
+  //                       />
+  //                     </TouchableOpacity> : null}
+
+  //                   </View>
+
+  //                   {Gender == 'M' ? (
+  //                     <View style={styles.text_container}>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text>Male</Text>
+  //                     </View>
+  //                   ) : Gender == 'F' ? (
+  //                     <View style={styles.text_container}>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text>Female</Text>
+  //                     </View>
+  //                   ) : (
+  //                     <View style={styles.text_container}>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text>Custom</Text>
+  //                     </View>
+  //                   )}
+
+  //                   {email != '' ? <View style={styles.text_container}>
+
+  //                     {email != '' ? <View style={{ flexDirection: 'row' }}>
+
+  //                       <Text style={styles.detail_text}>Email : </Text>
+  //                       <Text>{email}</Text>
+  //                     </View> : null}
+
+
+
+
+  //                     {phone == '' ? <TouchableOpacity
+  //                     // onPress={toggleModal2}
+  //                     >
+  //                       <Image
+  //                         source={Images.phone_icon}
+  //                         style={{
+  //                           resizeMode: 'stretch',
+  //                           tintColor: 'green',
+  //                           marginLeft: 8,
+  //                           width: 20,
+  //                           height: 20,
+  //                         }}
+  //                       />
+  //                     </TouchableOpacity> : null}
+
+  //                   </View> : null}
+
+
+  //                   {phone != '' ? <View style={styles.text_container}>
+
+
+
+
+  //                     {phone != '' ? <View style={{ flexDirection: 'row' }}>
+  //                       <Text style={styles.detail_text}>
+  //                         Phone Number :
+  //                       </Text>
+  //                       <Text>{phone}</Text>
+
+  //                     </View> : null}
+
+
+  //                     {email == '' ? <TouchableOpacity
+  //                     // onPress={toggleModal2}
+  //                     >
+  //                       <Image
+  //                         source={Images.inbox}
+  //                         style={{
+  //                           resizeMode: 'stretch',
+  //                           tintColor: 'green',
+  //                           marginLeft: 8,
+  //                           width: 20,
+  //                           height: 20,
+  //                         }}
+  //                       />
+  //                     </TouchableOpacity> : null}
+
+  //                   </View> : null}
+  //                   {/* <View style={styles.text_container}>
+  //                     {phone == '' ? (
+  //                       <>
+  //                         <Text style={styles.detail_text}>Email : </Text>
+  //                         <Text>{email}</Text>
+  //                       </>
+  //                     ) : (
+  //                       <>
+  //                         <Text style={styles.detail_text}>
+  //                           Phone Number :{' '}
+  //                         </Text>
+  //                         <Text>{phone}</Text>
+  //                       </>
+  //                     )}
+  //                     {phone == '' ? (
+  //                       <TouchableOpacity
+  //                       // onPress={toggleModal2}
+  //                       >
+  //                         <Image
+  //                           source={Images.phone_icon}
+  //                           style={{
+  //                             resizeMode: 'stretch',
+  //                             tintColor: 'green',
+  //                             marginLeft: 8,
+  //                             width: 20,
+  //                             height: 20,
+  //                           }}
+  //                         />
+  //                       </TouchableOpacity>
+  //                     ) : (
+  //                       <TouchableOpacity
+  //                       // onPress={toggleModal2}
+  //                       >
+  //                         <Image
+  //                           source={Images.inbox}
+  //                           style={{
+  //                             resizeMode: 'stretch',
+  //                             tintColor: 'green',
+  //                             marginLeft: 8,
+  //                             width: 20,
+  //                             height: 20,
+  //                           }}
+  //                         />
+  //                       </TouchableOpacity>
+  //                     )}
+  //                   </View> */}
+  //                   {fathername != '' && (
+  //                     <View style={styles.text_container}>
+  //                       <Text style={styles.detail_text}>Father's Name : </Text>
+  //                       <Text>{fathername}</Text>
+  //                     </View>
+  //                   )}
+  //                   {mothername != '' && (
+  //                     <View style={styles.text_container}>
+  //                       <Text style={styles.detail_text}>Mother's Name : </Text>
+  //                       <Text>{mothername}</Text>
+  //                     </View>
+  //                   )}
+  //                 </View>
+  //               </CardView>
+  //               <CardView
+  //                 cardElevation={5}
+  //                 cardMaxElevation={5}
+  //                 //cornerRadius={20}
+  //                 style={styles.card}>
+  //                 <Text style={styles.title_text}>Privacy Setting</Text>
+
+  //                 <View style={styles.border}></View>
+  //                 <View style={styles.privacyrowcontainer}>
+  //                   {phone == '' ? (
+  //                     <>
+  //                       <Text style={styles.detail_text}>Email : </Text>
+  //                       <Text style={{ textAlign: 'center' }}>{email}</Text>
+  //                     </>
+  //                   ) : (
+  //                     <>
+  //                       <Text style={styles.detail_text}>Mobile Number : </Text>
+  //                       <Text style={{ textAlign: 'center' }}>{phone}</Text>
+  //                     </>
+  //                   )}
+
+  //                   <Switch
+  //                     trackColor={{ false: 'grey', true: 'lightgreen' }}
+  //                     thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
+  //                     ios_backgroundColor="#3e3e3e"
+  //                     onValueChange={toggleSwitch1}
+  //                     value={isEnabled}
+  //                   />
+  //                 </View>
+
+  //                 <View style={styles.border1}></View>
+  //                 <View style={styles.privacyrowcontainer}>
+  //                   <Text style={styles.detail_text}>Date of Birth : </Text>
+  //                   <Text style={{ textAlign: 'center' }}>{dob}</Text>
+  //                   <Switch
+  //                     trackColor={{ false: 'grey', true: 'lightgreen' }}
+  //                     thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+  //                     ios_backgroundColor="#3e3e3e"
+  //                     onValueChange={toggleSwitch2}
+  //                     value={isEnabled2}
+  //                   />
+  //                 </View>
+  //                 <View style={styles.border1}></View>
+  //                 <View style={styles.privacyrowcontainer}>
+  //                   {Gender == 'M' ? (
+  //                     <>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text style={{ textAlign: 'center' }}>Male</Text>
+  //                     </>
+  //                   ) : Gender == 'F' ? (
+  //                     <>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text style={{ textAlign: 'center' }}>Female</Text>
+  //                     </>
+  //                   ) : (
+  //                     <>
+  //                       <Text style={styles.detail_text}>Gender : </Text>
+  //                       <Text style={{ textAlign: 'center' }}>Custom</Text>
+  //                     </>
+  //                   )}
+
+  //                   <Switch
+  //                     trackColor={{ false: 'grey', true: 'lightgreen' }}
+  //                     thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
+  //                     ios_backgroundColor="#3e3e3e"
+  //                     onValueChange={toggleSwitch3}
+  //                     value={isEnabled3}
+  //                   />
+  //                 </View>
+  //               </CardView>
+
+  //               {/* edit personal information modal */}
+  //               <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+  //                 <View
+  //                   style={{
+  //                     //height: hp('55'),
+  //                     backgroundColor: Colors.$backgroundColor,
+  //                     justifyContent: 'center',
+  //                     alignItems: 'center',
+  //                     paddingVertical: 20,
+  //                     paddingHorizontal: 10,
+  //                     borderRadius: 5,
+  //                   }}>
+  //                   <TouchableOpacity
+  //                     onPress={toggleModal}
+  //                     style={{ alignSelf: 'flex-end' }}>
+  //                     <Image
+  //                       source={Images.closeicon}
+  //                       style={{ height: 18, width: 18, marginRight: 10 }}
+  //                     />
+  //                   </TouchableOpacity>
+  //                   <Text
+  //                     style={{
+  //                       fontSize: 20,
+  //                       marginVertical: 5,
+  //                       fontWeight: 'bold',
+  //                     }}>
+  //                     Personal Information
+  //                   </Text>
+  //                   <Text style={styles.labeltext}>Mother's Name</Text>
+  //                   <View style={styles.textinputcontainer}>
+  //                     {/* <TextInput
+  //                       style={{paddingLeft: 10}}
+  //                       onChangeText={onChangeNumber}
+  //                       value={number}
+  //                       placeholder="Enter Your Mother's Name"
+  //                       keyboardType="default"
+  //                     /> */}
+  //                     {/* <TextField
+  //                       placeholder={'Enter Your Mother Name'}
+  //                       //imageIcon={Images.calendar_icon}
+  //                       onChangeText={val => setnewnnewMothername(val)}
+  //                       value={newmothername}
+  //                     /> */}
+  //                   </View>
+  //                   <Text style={styles.labeltext}>Father's Name</Text>
+  //                   <View style={styles.textinputcontainer}>
+  //                     <TextField
+  //                       placeholder={'Enter Your Father Name'}
+  //                       //imageIcon={Images.calendar_icon}
+  //                       onChangeText={val => setnewnnewFathername(val)}
+  //                       value={newfathername}
+  //                     />
+  //                   </View>
+  //                   <Text style={styles.labeltext}>Gender</Text>
+
+  //                   <View
+  //                     style={[
+  //                       styles.inputmarginBottom,
+  //                       {
+  //                         flexDirection: 'row',
+  //                         // flex: 1,
+  //                         marginLeft: 25,
+  //                         marginRight: 25,
+  //                       },
+  //                     ]}>
+  //                     <View style={{ flex: 1 }}>
+  //                       <CheckBox
+  //                         title=" Male"
+  //                         checkedIcon="dot-circle-o"
+  //                         uncheckedIcon="circle"
+  //                         checked={male}
+  //                         containerStyle={{
+  //                           padding: 0,
+  //                           margin: 0,
+  //                           backgroundColor: 'transparent',
+  //                           borderColor: 'transparent',
+  //                         }}
+  //                         titleProps={{
+  //                           style: {
+  //                             color: 'rgba(51,51,51,0.5)',
+  //                             fontFamily: 'Lato-Regular',
+  //                           },
+  //                         }}
+  //                         uncheckedColor={'#fff'}
+  //                         checkedColor={'rgb(70,50,103)'}
+  //                         textStyle={{
+  //                           color: '#33333380',
+  //                           fontFamily: 'Lato-Regular',
+  //                         }}
+  //                         onPress={checkedMale}
+  //                       // fontFamily={'Lato-Regular'}
+  //                       />
+  //                     </View>
+
+  //                     <View style={{ flex: 1 }}>
+  //                       <CheckBox
+  //                         title=" Female"
+  //                         checkedIcon="dot-circle-o"
+  //                         uncheckedIcon="circle"
+  //                         checked={Female}
+  //                         containerStyle={{
+  //                           padding: 0,
+  //                           margin: 0,
+  //                           backgroundColor: 'transparent',
+  //                           borderColor: 'transparent',
+  //                         }}
+  //                         titleProps={{
+  //                           style: {
+  //                             color: 'rgba(51,51,51,0.5)',
+  //                             fontFamily: 'Lato-Regular',
+  //                           },
+  //                         }}
+  //                         uncheckedColor={'#fff'}
+  //                         checkedColor={'rgb(70,50,103)'}
+  //                         onPress={checkedFemale}
+  //                       // fontFamily={'Lato-Regular'}
+  //                       />
+  //                     </View>
+
+  //                     <View style={{ flex: 1 }}>
+  //                       <CheckBox
+  //                         title=" Custom"
+  //                         checkedIcon="dot-circle-o"
+  //                         uncheckedIcon="circle"
+  //                         checked={Custom}
+  //                         containerStyle={{
+  //                           padding: 0,
+  //                           margin: 0,
+  //                           backgroundColor: 'transparent',
+  //                           borderColor: 'transparent',
+  //                         }}
+  //                         titleProps={{
+  //                           style: {
+  //                             color: 'rgba(51,51,51,0.5 )',
+  //                             fontFamily: 'Lato-Regular',
+  //                           },
+  //                         }}
+  //                         uncheckedColor={'lightgrey'}
+  //                         checkedColor={'rgb(70,50,103)'}
+  //                         textStyle={{ color: '#33333380' }}
+  //                         onPress={checkedCustom}
+  //                       />
+  //                     </View>
+  //                   </View>
+  //                   {customgenderView && (
+  //                     <View style={{}}>
+  //                       <View
+  //                         style={{
+  //                           marginBottom: '2%',
+  //                         }}>
+  //                         {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
+
+  //                         <CustomDropdown
+  //                           placeholder={'Select your pronoun'}
+  //                           data={KYC_type_doc}
+  //                           selectedValue={KYC_type_doc}
+  //                           SelectedLanguagedata={selectedValue =>
+  //                             selectedValue
+  //                           }
+  //                         />
+  //                       </View>
+
+  //                       <View style={{ marginBottom: '3%' }}>
+  //                         <TextField
+  //                           placeholder={'Gender (optional)'}
+  //                           imageIcon={''}
+  //                           onChangeText={val => setCustomGender(val)}
+  //                           value={CustomGender}
+  //                         />
+  //                       </View>
+  //                     </View>
+  //                   )}
+  //                   <TouchableOpacity
+  //                     style={{
+  //                       height: hp('4.5'),
+  //                       width: wp('40'),
+  //                       backgroundColor: 'rgb(70,50,103)',
+  //                       marginTop: 15,
+  //                       alignItems: 'center',
+  //                       justifyContent: 'center',
+  //                       borderRadius: 10,
+  //                     }}>
+  //                     <Text style={{ color: 'white' }} 
+  //                     onPress={onPressSubmit}>
+  //                       Submit
+  //                     </Text>
+  //                   </TouchableOpacity>
+  //                 </View>
+  //               </Modal>
+  //               {/* add mail and add number modal */}
+  //               <Modal
+  //                 isVisible={isModalVisible2}
+  //                 onBackdropPress={toggleModal2}>
+  //                 <View
+  //                   style={{
+  //                     height: hp('22'),
+  //                     backgroundColor: Colors.$backgroundColor,
+  //                     justifyContent: 'center',
+  //                     alignItems: 'center',
+  //                     paddingVertical: 20,
+  //                     paddingHorizontal: 10,
+  //                     borderRadius: 5,
+  //                   }}>
+  //                   <TouchableOpacity
+  //                     onPress={toggleModal2}
+  //                     style={{ alignSelf: 'flex-end' }}>
+  //                     <Image
+  //                       source={Images.closeicon}
+  //                       style={{ height: 18, width: 18, marginRight: 10 }}
+  //                     />
+  //                   </TouchableOpacity>
+
+  //                   <Text style={styles.labeltext}>Email</Text>
+  //                   <View style={styles.textinputcontainer}>
+  //                     <TextInput
+  //                       style={{ paddingLeft: 10 }}
+  //                       onChangeText={onChangeNumber}
+  //                       value={number}
+  //                       placeholder="Add Email"
+  //                       keyboardType="default"
+  //                     />
+  //                   </View>
+
+  //                   <TouchableOpacity
+  //                     style={{
+  //                       height: hp('4.5'),
+  //                       width: wp('40'),
+  //                       backgroundColor: 'rgb(70,50,103)',
+  //                       marginTop: 15,
+  //                       alignItems: 'center',
+  //                       justifyContent: 'center',
+  //                       borderRadius: 10,
+  //                     }}>
+  //                     <Text style={{ color: 'white' }}>Submit</Text>
+  //                   </TouchableOpacity>
+  //                 </View>
+  //               </Modal>
+  //             </View>
+  //           );
+  //         })}
+  //     </>
+  //   );
+  // };
 
   const ItemSeprator = () => (
     <View
@@ -1087,7 +1176,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
 
               {phone == '' ? <TouchableOpacity
-              // onPress={toggleModal2}
+                onPress={toggleModal2}
               >
                 <Image
                   source={Images.phone_icon}
@@ -1413,7 +1502,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={{}}>
                 <View
                   style={{
-                    marginBottom: '2%',width:250
+                    marginBottom: '2%', width: 250
                   }}>
                   {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
 
@@ -1421,14 +1510,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     placeholder={'Select your pronoun'}
                     data={KYC_type_doc}
                     value={Course_Selected}
-                   
+
                     SelectedLanguagedata={(selectedValue: any) => {
                       setCourseTypeSelected(selectedValue);
                     }}
                   />
                 </View>
 
-                <View style={{ marginBottom: '3%' ,width:250}}>
+                <View style={{ marginBottom: '3%', width: 250 }}>
                   <TextField
                     placeholder={'Gender (optional)'}
                     imageIcon={''}
@@ -1449,9 +1538,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 borderRadius: 10,
               }}
               onPress={() => onPressSubmit()}
+            >
+              <Text style={{ color: 'white' }}
               >
-              <Text style={{ color: 'white' }} 
-             >
                 Submit
               </Text>
             </TouchableOpacity>
@@ -1480,18 +1569,20 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               />
             </TouchableOpacity>
 
-            <Text style={styles.labeltext}>Email</Text>
+            <Text style={styles.labeltext}>Mobile Number</Text>
             <View style={styles.textinputcontainer}>
               <TextInput
                 style={{ paddingLeft: 10 }}
                 onChangeText={onChangeNumber}
                 value={number}
-                placeholder="Add Email"
-                keyboardType="default"
+                placeholder="Enter Mobile Number"
+                keyboardType='number-pad'
+                maxLength={10}
               />
             </View>
 
             <TouchableOpacity
+              onPress={() => onPressSubmitNumber()}
               style={{
                 height: hp('4.5'),
                 width: wp('40'),
@@ -1505,8 +1596,68 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             </TouchableOpacity>
           </View>
         </Modal>
+
+        {/* modal for otp Login */}
+        <Modal
+          isVisible={isotpVisiblemodal}
+        // onBackdropPress={toggleModal2}
+        >
+          <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+            <CustomStatusBar />
+            {isLoading && renderIndicator()}
+            <TouchableOpacity
+              onPress={otptoggleModal}
+              style={{ alignSelf: 'flex-end' }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <View style={styles.logoContainer}>
+              <Image source={Images.message_icon} style={styles.messagelogo} />
+            </View>
+            <View style={styles.enterTextConatiner}>
+              <Text style={styles.enterText}>
+                {'Enter OTP Send On Your' + ' ' + number}
+              </Text>
+            </View>
+            <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+              <OtpInputs
+                inputContainerStyles={styles.OtpinputContainer}
+                inputStyles={styles.otpinput}
+                handleChange={val => setOtp(val)}
+                numberOfInputs={4}
+                focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+
+
+              />
+            </View>
+
+            <View style={{ width: 250, alignSelf: 'center' }}>
+              <CustomButton
+                title={'Submit'}
+              // onPress={onPressOtp}
+              // onPress={() => props.navigation.navigate('eKYC')}
+              />
+            </View>
+            <View style={styles.OtpResendContainer}>
+              <Text
+                style={styles.resendText}
+              // onPress={onPressResendOtp}
+              >
+                Resend Code
+              </Text>
+
+            </View>
+          </View>
+
+        </Modal>
       </View>
     </View>
   );
 };
 export default SettingScreen;
+
+
+
+

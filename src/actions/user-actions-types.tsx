@@ -322,3 +322,9 @@ export const getUploadekycfordetailchangedob= createAction(UPLOADEKYCFORDETAILCH
 // this is for otp login skip
 export const OTP_SUCCESS_SKIP = 'OTP_SUCCESS_SKIP';
 export const otpSuccessSkip = createAction(OTP_SUCCESS_SKIP);
+
+
+// this is for request Change User Detail by EI
+export const REQUESTCHANGEUSERDETAIL = 'REQUESTCHANGEUSERDETAIL';
+export const requestChangeUserDetail = createAction(REQUESTCHANGEUSERDETAIL);
+
