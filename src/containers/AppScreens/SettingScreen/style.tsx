@@ -120,7 +120,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
   },
   OtpinputContainer: {
-    backgroundColor: 'lightgrey', borderRadius: 15, width: '22%', marginRight: '4%', height: 60, justifyContent: 'center',
+    backgroundColor: '#fff', borderRadius: 15, width: '22%', marginRight: '4%', height: 60, justifyContent: 'center',
     alignItems: 'center',
   },
   otpinput: {

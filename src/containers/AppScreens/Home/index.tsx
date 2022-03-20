@@ -2327,7 +2327,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ fontSize: 16, color: '#000' }}>{item.job_title}</Text>
                         <View style={{ flexDirection: 'row' }}>
-                          <Image
+                          {/* <Image
                             style={{
                               height: 28,
                               width: 28,
@@ -2337,7 +2337,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                               marginRight: 15,
                             }}
                             source={Images.edit_icon}
-                          />
+                          /> */}
                           <TouchableOpacity
                             underlayColor="none"
                             onPress={() => DeleteWork(item.id)}>

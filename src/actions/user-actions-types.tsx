@@ -324,7 +324,33 @@ export const OTP_SUCCESS_SKIP = 'OTP_SUCCESS_SKIP';
 export const otpSuccessSkip = createAction(OTP_SUCCESS_SKIP);
 
 
-// this is for request Change User Detail by EI
+// this is for request Change User Detail by EI NO
 export const REQUESTCHANGEUSERDETAIL = 'REQUESTCHANGEUSERDETAIL';
 export const requestChangeUserDetail = createAction(REQUESTCHANGEUSERDETAIL);
 
+
+
+
+// this is for request Change User Detail by EI EMAIL
+export const REQUESTCHANGEUSERDETAILEMAIL = 'REQUESTCHANGEUSERDETAILEMAIL';
+export const requestChangeUserDetailEmail = createAction(REQUESTCHANGEUSERDETAILEMAIL);
+
+
+
+// this is for request Change User Detail by EI verify-otp
+export const REQUESTCHANGEUSERDETAILVERIFYOTP = 'REQUESTCHANGEUSERDETAILVERIFYOTP';
+export const requestChangeUserDetailVerifyOtp = createAction(REQUESTCHANGEUSERDETAILVERIFYOTP);
+
+
+// this is for request Change User Detail by EI verify-otp email
+export const REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL = 'REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL';
+export const requestChangeUserDetailVerifyOtpEmail = createAction(REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL);
+
+
+// this is for Get Re-send Otp data success otp-ei-request-for-detail no
+export const RESENDOTPEIDETAILCHANGE = 'RESENDOTPEIDETAILCHANGE';
+export const getResendotpEiRequest = createAction(RESENDOTPEIDETAILCHANGE);
+
+// this is for Get Re-send Otp data success otp-ei-request-for-detail email
+export const RESENDOTPEIDETAILCHANGEEMAIL = 'RESENDOTPEIDETAILCHANGEEMAIL';
+export const getResendotpEiRequestEmail = createAction(RESENDOTPEIDETAILCHANGEEMAIL);

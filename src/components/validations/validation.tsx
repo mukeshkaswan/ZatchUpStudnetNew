@@ -29,6 +29,17 @@ const validation = {
     },
   },
 
+
+  email_: {
+    presence: {
+      message: 'Please enter a valid email id',
+    },
+    format: {
+      pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/,
+      message: 'Please enter a valid email id',
+    },
+  },
+
   emailmobile: {
     presence: {
       message: 'Please enter mobile number or email id',

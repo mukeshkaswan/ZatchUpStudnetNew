@@ -63,10 +63,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
+  const [isModalVisible3, setModalVisible3] = useState(false);
   const [Course_Selected, setCourseTypeSelected] = useState('');
   const [otp, setOtp] = useState('');
-
+  const [otpemail, setOtpEmail] = useState('');
   const [number, onChangeNumber] = React.useState(null);
+  const [changeemail, onChangeEmail] = React.useState(null);
 
   const [Gender, setGender] = useState('');
   const [GenderForModal, setGenderForModal] = useState('');
@@ -97,6 +99,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [KYC_type_doc_Selected, setKYCSelected] = useState('');
   const [CustomGender, setCustomGender] = useState('');
   const [isotpVisiblemodal, setotpVisiblemodal] = useState(false);
+  const [isotpVisiblemodalemail, setotpVisiblemodalemail] = useState(false);
 
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
@@ -143,9 +146,18 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const toggleModal2 = () => {
     setModalVisible2(!isModalVisible2);
   };
+
+  const toggleModal3 = () => {
+    setModalVisible3(!isModalVisible3);
+  };
   const otptoggleModal = () => {
-   // setaddmobilenumberVisiblemodal('');
+    // setaddmobilenumberVisiblemodal('');
     setotpVisiblemodal(!isotpVisiblemodal);
+  };
+
+  const otptoggleModalEmail = () => {
+    // setaddmobilenumberVisiblemodal('');
+    setotpVisiblemodalemail(!isotpVisiblemodalemail);
   };
   const toggleSwitch1 = () => {
     setIsEnabled(previousState => !previousState);
@@ -531,6 +543,383 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       );
     }
   };
+
+
+
+  const onPressSubmitEmail = async () => {
+
+    const newError = Validate('email_', changeemail);
+
+
+    if (
+      newError
+
+    ) {
+      Toast.show(
+        newError,
+        Toast.LONG,
+      );
+
+      return false;
+    }
+
+    else {
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+      //   Alert.alert(Gender);
+
+      const data = {
+        token: token,
+        class_id: "",
+        key: "email",
+        old_value: 0,
+        value: changeemail
+
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.requestChangeUserDetailEmail({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status) {
+              // setModalVisible(false);
+              // getEducationProfile();
+              console.warn(
+                'after request Change User Detail result',
+                JSON.stringify(result.status, undefined, 2),
+
+              );
+              setLoading(false);
+              toggleModal3();
+              otptoggleModalEmail();
+              //return;
+              // props.navigation.navigate('OtpLogin', {
+              //   firebase_id: result.firebase_username,
+              //   username: email,
+              // });
+            }
+            if (result.status === false) {
+              console.warn(JSON.stringify(error, undefined, 2));
+              setLoading(false);
+              Toast.show(result.error.non_field_errors[0], Toast.SHORT);
+            } else {
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
+
+
+  const onPressOtp = async () => {
+
+    const otpError = Validate('otp', otp);
+
+    if (otpError) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(otpError, Toast.SHORT);
+
+      return false;
+    }
+
+    else {
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        key: "phone",
+        value: number,
+        verify_otp_no: otp,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.requestChangeUserDetailVerifyOtp({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+              console.warn(
+                'after otp result --->',
+                // JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('Home'),
+              );
+
+              //  getData(result),
+
+              //setSpinnerStart(false);
+              setLoading(false),
+
+              LogoutALert();
+            }
+            if (result.status === false) {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              setLoading(false);
+              Toast.show(result.error.message[0], Toast.SHORT);
+
+              // signOut();
+            }
+
+            // if (!error) {
+            //   console.warn(JSON.stringify(error, undefined, 2));
+            //   // setLoginSuccess(result);
+            //   //Toast.show('Invalid Otp', Toast.SHORT);
+
+            //   setLoading(false);
+
+            //   // signOut();
+            // }
+            else {
+              // setError(true);
+              // signOut();
+              //   Toast.show('Invalid Otp', Toast.SHORT);
+
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
+
+
+  const onPressOtpEmail = async () => {
+
+    const otpError = Validate('otp', otpemail);
+
+    if (otpError) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(otpError, Toast.SHORT);
+
+      return false;
+    }
+
+    else {
+
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        key: "email",
+        value: changeemail,
+        verify_otp_no: otpemail,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.requestChangeUserDetailVerifyOtpEmail({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === true) {
+              console.warn(
+                'after otp result --->',
+                // JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('Home'),
+              );
+
+              //  getData(result),
+
+              //setSpinnerStart(false);
+              setLoading(false),
+
+              LogoutALert();
+            }
+            if (result.status === false) {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              setLoading(false);
+              Toast.show(result.error.message[0], Toast.SHORT);
+
+              // signOut();
+            }
+
+            // if (!error) {
+            //   console.warn(JSON.stringify(error, undefined, 2));
+            //   // setLoginSuccess(result);
+            //   //Toast.show('Invalid Otp', Toast.SHORT);
+
+            //   setLoading(false);
+
+            //   // signOut();
+            // }
+            else {
+              // setError(true);
+              // signOut();
+              //   Toast.show('Invalid Otp', Toast.SHORT);
+
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
+
+
+  const onPressResendOtp =  async ()  => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      class_id: "",
+      key: "phone",
+      old_value: 0,
+      value: number
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getResendotpEiRequest({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after otp Re Send result',
+              JSON.stringify(result, undefined, 2),
+            );
+            Toast.show(result.message, Toast.SHORT);
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  const onPressResendOtpEmail =  async ()  => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      class_id: "",
+      key: "email",
+      old_value: 0,
+      value: changeemail
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getResendotpEiRequestEmail({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after otp Re Send result',
+              JSON.stringify(result, undefined, 2),
+            );
+            Toast.show(result.message, Toast.SHORT);
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  const LogoutALert = async () => {
+    try {
+      //   await AsyncStorage.removeItem('token')
+      await AsyncStorage.removeItem('username');
+      await AsyncStorage.removeItem('profilepic');
+      await AsyncStorage.removeItem('kyckey');
+      await AsyncStorage.removeItem('tokenlogin')
+      Toast.show('Logout Successfully ', Toast.SHORT);
+
+      props.navigation.navigate('LoginScreen');
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  };
+
 
   // const rednderItemList = (item, index) => {
   //   return (
@@ -1208,7 +1597,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
 
               {email == '' ? <TouchableOpacity
-              // onPress={toggleModal2}
+               onPress={toggleModal3}
               >
                 <Image
                   source={Images.inbox}
@@ -1546,7 +1935,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             </TouchableOpacity>
           </View>
         </Modal>
-        {/* add mail and add number modal */}
+        {/*  add number modal */}
         <Modal
           isVisible={isModalVisible2}
           onBackdropPress={toggleModal2}>
@@ -1597,12 +1986,66 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           </View>
         </Modal>
 
-        {/* modal for otp Login */}
+
+
+
+         {/*  add email modal */}
+         <Modal
+          isVisible={isModalVisible3}
+          onBackdropPress={toggleModal3}>
+          <View
+            style={{
+              height: hp('22'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              borderRadius: 5,
+            }}>
+            <TouchableOpacity
+              onPress={toggleModal3}
+              style={{ alignSelf: 'flex-end' }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.labeltext}>Email</Text>
+            <View style={styles.textinputcontainer}>
+              <TextInput
+                style={{ paddingLeft: 10 }}
+                onChangeText={onChangeEmail}
+                value={changeemail}
+                placeholder="Add Email"
+                keyboardType='email-address'
+                //maxLength={10}
+              />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => onPressSubmitEmail()}
+              style={{
+                height: hp('4.5'),
+                width: wp('40'),
+                backgroundColor: 'rgb(70,50,103)',
+                marginTop: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 10,
+              }}>
+              <Text style={{ color: 'white' }}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+        {/* modal for otp NO  */}
         <Modal
           isVisible={isotpVisiblemodal}
         // onBackdropPress={toggleModal2}
         >
-          <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+          <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
             <CustomStatusBar />
             {isLoading && renderIndicator()}
             <TouchableOpacity
@@ -1636,14 +2079,15 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             <View style={{ width: 250, alignSelf: 'center' }}>
               <CustomButton
                 title={'Submit'}
-              // onPress={onPressOtp}
+                onPress={onPressOtp}
+              //onPress={() => onPressSubmitNumber()}
               // onPress={() => props.navigation.navigate('eKYC')}
               />
             </View>
             <View style={styles.OtpResendContainer}>
               <Text
                 style={styles.resendText}
-              // onPress={onPressResendOtp}
+                onPress={onPressResendOtp}
               >
                 Resend Code
               </Text>
@@ -1652,6 +2096,67 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           </View>
 
         </Modal>
+
+
+
+         {/* modal for otp EMAIL  */}
+         <Modal
+          isVisible={isotpVisiblemodalemail}
+        // onBackdropPress={toggleModal2}
+        >
+          <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+            <CustomStatusBar />
+            {isLoading && renderIndicator()}
+            <TouchableOpacity
+              onPress={otptoggleModalEmail}
+              style={{ alignSelf: 'flex-end' }}>
+              <Image
+                source={Images.closeicon}
+                style={{ height: 18, width: 18, marginRight: 10 }}
+              />
+            </TouchableOpacity>
+            <View style={styles.logoContainer}>
+              <Image source={Images.message_icon} style={styles.messagelogo} />
+            </View>
+            <View style={styles.enterTextConatiner}>
+              <Text style={styles.enterText}>
+                {'Enter OTP Send On Your' + ' ' + changeemail}
+              </Text>
+            </View>
+            <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+              <OtpInputs
+                inputContainerStyles={styles.OtpinputContainer}
+                inputStyles={styles.otpinput}
+                handleChange={val => setOtpEmail(val)}
+                numberOfInputs={4}
+                focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+
+
+              />
+            </View>
+
+            <View style={{ width: 250, alignSelf: 'center' }}>
+              <CustomButton
+                title={'Submit'}
+                onPress={onPressOtpEmail}
+              //onPress={() => onPressSubmitNumber()}
+              // onPress={() => props.navigation.navigate('eKYC')}
+              />
+            </View>
+            <View style={styles.OtpResendContainer}>
+              <Text
+                style={styles.resendText}
+                onPress={onPressResendOtpEmail}
+              >
+                Resend Code
+              </Text>
+
+            </View>
+          </View>
+
+        </Modal>
+
+
       </View>
     </View>
   );

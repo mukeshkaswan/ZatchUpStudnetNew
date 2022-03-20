@@ -82,7 +82,12 @@ import {
   USERCOURSECONFIRMATIONREVERIFY,
   ADDPROFILEPICINFOEDU,
   OTP_SUCCESS_SKIP,
-  REQUESTCHANGEUSERDETAIL
+  REQUESTCHANGEUSERDETAIL,
+  REQUESTCHANGEUSERDETAILVERIFYOTP,
+  RESENDOTPEIDETAILCHANGE,
+  REQUESTCHANGEUSERDETAILEMAIL,
+  REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL,
+  RESENDOTPEIDETAILCHANGEEMAIL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2688,7 +2693,7 @@ function* otpSuccessSkip({ payload: { data, callback } }) {
 }
 
 
-/***************************Request Change User Detail*******************************/
+/***************************Request Change User Detail NO*******************************/
 
 function* requestChangeUserDetail({ payload: { data, callback } }) {
  
@@ -2723,6 +2728,186 @@ function* requestChangeUserDetail({ payload: { data, callback } }) {
   }
 }
 
+
+
+/***************************Request Change User Detail EMAIL*******************************/
+
+function* requestChangeUserDetailEmail({ payload: { data, callback } }) {
+ 
+  console.warn('data in saga', data);
+
+  const params = {
+    class_id: data.class_id,
+    key: data.key,
+    old_value: data.old_value,
+    value: data.value,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/request-change-user-detail-by-ei/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+
+/***************************Request Change User Detail Verify Otp*******************************/
+
+function* requestChangeUserDetailVerifyOtp({ payload: { data, callback } }) {
+ 
+  console.warn('data in saga', data);
+
+  const params = {
+    key: data.key,
+    verify_otp_no: data.verify_otp_no,
+    value: data.value,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/user-request-verify-otp-detail-change/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************Request Change User Detail Verify Otp email*******************************/
+
+function* requestChangeUserDetailVerifyOtpEmail({ payload: { data, callback } }) {
+ 
+  console.warn('data in saga', data);
+
+  const params = {
+    key: data.key,
+    verify_otp_no: data.verify_otp_no,
+    value: data.value,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/user-request-verify-otp-detail-change/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Re-send Otp data success otp-ei-request-for-detail*******************************/
+
+function* getResendotpEiRequest({ payload: { data, callback } }) {
+ 
+  const params = {
+    class_id: data.class_id,
+    key: data.key,
+    old_value: data.old_value,
+    value: data.value,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/resend-otp-ei-request-for-detail-change/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('otp Re-Send result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Re-send Otp data success otp-ei-request-for-detail email*******************************/
+
+function* getResendotpEiRequestEmail({ payload: { data, callback } }) {
+ 
+  const params = {
+    class_id: data.class_id,
+    key: data.key,
+    old_value: data.old_value,
+    value: data.value,
+  };
+
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/resend-otp-ei-request-for-detail-change/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('otp Re-Send result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 
 function* User() {
   yield all([
@@ -2807,13 +2992,14 @@ function* User() {
     yield takeLatest(ADDPROFILEPICINFOEDU, getAddProfilePicInfoEdu),
     yield takeLatest(OTP_SUCCESS_SKIP, otpSuccessSkip),
     yield takeLatest(REQUESTCHANGEUSERDETAIL, requestChangeUserDetail),
+    yield takeLatest(REQUESTCHANGEUSERDETAILVERIFYOTP, requestChangeUserDetailVerifyOtp),
+    yield takeLatest(RESENDOTPEIDETAILCHANGE, getResendotpEiRequest),
+    yield takeLatest(REQUESTCHANGEUSERDETAILEMAIL, requestChangeUserDetailEmail),
+    yield takeLatest(REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL, requestChangeUserDetailVerifyOtpEmail),
+    yield takeLatest(RESENDOTPEIDETAILCHANGEEMAIL, getResendotpEiRequestEmail),
 
-
-    
-
-
-    
   ]);
+  
 }
 
 export default User;
