@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.toyberman.RNSslPinningPackage;
+import com.toyberman.RNSslPinningPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import org.wonday.orientation.OrientationPackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
@@ -52,6 +54,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
+            new RNSslPinningPackage(),
             new KCKeepAwakePackage(),
             new OrientationPackage(),
             new ReactNativeFirebaseFirestorePackage(),

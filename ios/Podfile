@@ -45,6 +45,8 @@ target 'ZatchUp' do
 
   pod 'react-native-keep-awake', :path => '../node_modules/react-native-keep-awake'
 
+  pod 'RNSslPinning', :path => '../node_modules/react-native-ssl-pinning'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

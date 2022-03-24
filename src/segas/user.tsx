@@ -95,12 +95,20 @@ import Toast from 'react-native-simple-toast';
 /***************************User Login Auth Segas*******************************/
 
 function* emailLogin({ payload: { data, callback } }) {
-  console.warn('data in saga', data);
-  const formdata = new FormData();
-  formdata.append('username', data.username);
-  formdata.append('password', data.password);
+
+  // console.warn('data in saga', data);
+  // const formdata = new FormData();
+  // formdata.append('username', data.username);
+  // formdata.append('password', data.password);
+
+  const params = {
+    username: data.username,
+    password: data.password,
+   
+  };
+
   const payload = {
-    data: formdata,
+    data: params,
     method: 'POST',
     url: 'user/login/',
   };
@@ -247,7 +255,8 @@ function* otpSuccess({ payload: { data, callback } }) {
   formdata.append('firebase_id', data.firebase_id);
   formdata.append('phone_otp', data.phone_otp);
   formdata.append('username', data.username);
-  formdata.append('is_mobile', true);
+  formdata.append('is_skip',  "false");
+  //formdata.append('is_mobile', true);
 
 
   const payload = {
@@ -302,6 +311,8 @@ function* registerOtpSuccess({ payload: { data, callback } }) {
   const formdata = new FormData();
   formdata.append('username', data.username);
   formdata.append('verify_otp_no', data.verify_otp_no);
+  formdata.append('is_skip', "false");
+
 
   const payload = {
     data: formdata,
