@@ -35,6 +35,7 @@ const CustomDropdown: FC = ({
             label: placeholder,
             value: null,
           }}
+          
           disabled={disabled}
           // selectedValue={selectedValue}
           //  onValueChange={(value) => SelectedLanguagedata(value)}
@@ -69,14 +70,15 @@ const CustomDropdown: FC = ({
 const pickerStyle = {
   inputIOS: {
     color: '#D0D0D2',
-
     // paddingHorizontal: 5,
     // backgroundColor: 'red',
     borderRadius: 5,
+
   },
   placeholder: {
     //  color: 'white',
     color: '#A6A9A7',
+
   },
   iconContainer: {
     placeholderColor: 'red',
@@ -87,6 +89,7 @@ const pickerStyle = {
     color: '#000',
     //  paddingHorizontal: 5,
     // backgroundColor: 'red',
+  
     borderRadius: 5,
   },
 };

@@ -238,12 +238,6 @@ const SignUpScreen = (props: SignUpScreenProps) => {
 
     }
 
-
-
-
-
-
-
     if (
       firstnameError ||
       lastameError ||
@@ -348,11 +342,12 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                     params.phone = Email;
                   }
 
-                  setLoading(false);
                   _storeData();
 
 
                   writeUserData(params);
+                  setLoading(false);
+
                   props.navigation.navigate('Otp', { username: Email, firebase_id: user._user.uid, firebase_username: result.firebase_username })
 
                   // firestore()

@@ -389,7 +389,7 @@ const validation = {
       pattern:
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/, // Minimum eight characters, at least one letter, one number and one special character:
       message:
-        'Passwords must be alphanumeric and minimum of 8 digits. It is mandatory to use numbers and special characters in the password',
+        'Password must be alphanumeric and minimum of 8 digits. It is mandatory to use number, uppercase, lowercase and special character in the password.',
     },
     length: {
       minimum: 8,
@@ -409,7 +409,7 @@ const validation = {
       pattern:
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/, // Minimum eight characters, at least one letter, one number and one special character:
       message:
-        'Passwords must be alphanumeric and minimum of 8 digits. It is mandatory to use numbers and special characters in the password',
+        'Password must be alphanumeric and minimum of 8 digits. It is mandatory to use number, uppercase, lowercase and special character in the password.',
     },
     length: {
       minimum: 8,
@@ -509,47 +509,48 @@ const validation = {
 
   AadharNumber: {
     presence: {
-      message: 'Please enter your aadhaar card number',
+      message: 'Aadhaar number is required.',
     },
     format: {
       pattern: /^[0-9]{12}$/,
-      message: "Aadhaar number must be of 12 digits"
+      message: "Aadhaar number should be of 12 digits."
     },
     length: {
       minimum: 12,
       maximum: 12,
-      message: 'Aadhaar number must be of 12 digits',
+      message: 'Aadhaar number should be of 12 digits.',
     },
   },
 
   DrivingLicence: {
     presence: {
-      message: 'Please enter your driving licence number',
+      message: 'Govt issued id card is required.',
     },
+    
     // format: {
     //   pattern: /[a-z A-Z]{16}$/,
     //   message: "Driving licence number must be of 16 characters"
     // },
-    length: {
-      minimum: 16,
-      maximum: 16,
-      message: 'Driving licence number must be of 16 characters',
-    },
+    // length: {
+    //   minimum: 16,
+    //   maximum: 16,
+    //   message: 'Driving licence number must be of 16 characters',
+    // },
   },
 
   PassportNumber: {
     presence: {
-      message: 'Please enter your passport number',
+      message: 'Id card number is required.',
     },
     // format: {
     //   pattern: /[a-z A-Z]{16}$/,
     //   message: "Your driving licence number must be 16 characters"
     // },
-    length: {
-      minimum: 8,
-      maximum: 8,
-      message: 'Passport number must be of 8 characters',
-    },
+    // length: {
+    //   minimum: 8,
+    //   maximum: 8,
+    //   message: 'Passport number must be of 8 characters',
+    // },
   },
 
   accountNumber: {

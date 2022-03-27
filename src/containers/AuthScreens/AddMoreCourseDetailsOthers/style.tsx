@@ -47,7 +47,7 @@ const styles = ScaledSheet.create({
         // alignContent:'flex-end',
         // alignItems:'flex-end',
         //alignSelf:'flex-end',
-        marginLeft: '50%',
+        marginLeft: '15%',
         //left: 15,
         // marginRight: 10,
         // position: 'absolute',
@@ -75,7 +75,7 @@ const styles = ScaledSheet.create({
         marginTop: 5, fontSize: 18, marginLeft: 5, color: '#565656'
     },
     view_Tv_3: {
-        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656', marginBottom: 20
+        marginTop: 5, fontSize: 18, marginLeft: 20, color: '#565656', marginBottom: 20,width: '60%',
     },
     view_Row_: {
         flexDirection: 'row', marginTop: 5,

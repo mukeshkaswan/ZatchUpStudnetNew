@@ -62,7 +62,8 @@ import {
   GetVerifyWebView,
   SingleChatWebView,
   SIngleChatWithTeacherWebView,
-  SelectStudentFromLogin
+  SelectStudentFromLogin,
+  Comming
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -391,6 +392,11 @@ function AuthStack() {
       <Stack.Screen
         name="SelectStudentFromLogin"
         component={SelectStudentFromLogin}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="Comming"
+        component={Comming}
         options={{ header: () => null }}
       />
 

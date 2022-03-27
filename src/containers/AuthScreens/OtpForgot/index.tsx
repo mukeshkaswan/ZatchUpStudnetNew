@@ -9,6 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
+import {
+    NavigationContainer,
+    useIsFocused,
+    useFocusEffect,
+} from '@react-navigation/native';
 
 interface OtpForgotScreenProps { navigation: any, route: any, }
 
@@ -23,7 +28,8 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
     const [key, setkey] = useState('');
     const [firebaseusername, setfirebaseusername] = useState('');
     const [firebasepassword, setfirebasepassword] = useState('');
-
+    const [key1, setKey1] = useState('');
+    const isFocused = useIsFocused();
 
     const dispatch = useDispatch();
 
@@ -42,10 +48,17 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
         );
     }
 
+    useEffect(() => {
 
-    React.useEffect(() => {
-        // console.log('rtyuigfghj', props)
-    }, []);
+        var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (format.test(props.route.params.username)) {
+            setKey1('Email');
+        } else {
+            setKey1('Phone');
+
+        }
+    }, [isFocused]);
+
 
     const close = () => {
         // props.navigation.navigate('LoginScreen')
@@ -77,7 +90,7 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                         // console.warn(
                         //     'after otp Re Send result',
                         //     JSON.stringify(result, undefined, 2),
-                           
+
 
                         //     // props.navigation.navigate('eKYC')
                         //     // props.navigation.navigate('eKYC'),
@@ -142,8 +155,8 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                                 setSelected(!allSelected),
                                 setfirebaseusername(result.data.firebase_username),
                                 setfirebasepassword(result.data.firebase_password)
-                              //  console.log('key',result.data.key),
-                              //  console.log('uid',result.data.uid)
+                                //  console.log('key',result.data.key),
+                                //  console.log('uid',result.data.uid)
 
                                 // props.navigation.navigate('eKYC')
 
@@ -186,13 +199,17 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
 
                 <Image source={Images.message_icon} style={styles.messagelogo} />
             </View>
-            <ModelComponent f_username={firebaseusername} f_password={firebasepassword}   keyy={key} uidd={uid} onPress={submit} isvisible={allSelected} modeltype={modeltype} navigationss={props.navigation} />
+            <ModelComponent f_username={firebaseusername} f_password={firebasepassword} keyy={key} uidd={uid} onPress={submit} isvisible={allSelected} modeltype={modeltype} navigationss={props.navigation} />
 
             {/* <View style={styles.enterTextConatiner}>
         <Text style={styles.enterText}>Two Step Log-In</Text>
       </View> */}
             <View style={styles.enterTextConatiner}>
-                <Text style={styles.enterText}> {'Enter OTP Send On Your' + " " + props.route.params.mobile + "."}</Text>
+                {key1 == 'Email' ? <Text style={styles.enterText}>
+                    {'Enter the OTP received on your email id.'}
+                </Text> : <Text style={styles.enterText}>
+                    {'Enter the OTP received on your phone number.'}
+                </Text>}
 
                 {/* <Text style={styles.enterText}>Enter OTP that recieved on your phone number/email id.</Text> */}
             </View>
@@ -201,7 +218,7 @@ const OtpForgot = (props: OtpForgotScreenProps) => {
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtp(val)}
-                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
+                    focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
 
                 />
             </View>

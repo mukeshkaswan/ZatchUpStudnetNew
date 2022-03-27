@@ -20,6 +20,7 @@ import {
   CustomHeader,
   CustomDropdown,
   Validate,
+  HeaderTitleWithBack
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import { CheckBox } from 'react-native-elements';
@@ -411,7 +412,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                   city: props.route.params.city,
                   address: props.route.params.address,
                   board: props.route.params.board,
-                  're_verify':props.route.params.re_verify
+                  're_verify': props.route.params.re_verify
                 }),
               );
               // setSpinnerStart(false);
@@ -711,15 +712,19 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
         {isLoading && renderIndicator()}
 
-        <CustomHeader Title={'Add Course Details'} />
 
+        <HeaderTitleWithBack
+        navigation={props.navigation}
+        headerTitle="Add Course Details"
+      />
         {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
         <ScrollView>
           <View style={styles.inputContainer}>
             <View>
               {props.route.params.true != true ? <TouchableOpacity
-                onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'re_verify':props.route.params.re_verify})}>
+              //onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'re_verify':props.route.params.re_verify})}
+              >
                 <View
                   style={{
                     marginBottom: 1,
@@ -740,14 +745,14 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                       props.route.params.school_zatchup_id +
                       ')'}
                   </Text>
-                  <Image
+                  {/* <Image
                     style={{
                       width: 25,
                       height: 25,
                       resizeMode: 'contain',
                     }}
                     source={Images.edit_icon}
-                  />
+                  /> */}
 
                 </View>
               </TouchableOpacity> :

@@ -75,15 +75,9 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   }
 
-  const onPressLogin = async () => {
-    //  console.log(1 < 2 < 3);
-    //  console.log(3 > 2 > 1);
-    //   for(let i = 0; i < 4; i++) {
-    //     setTimeout(function() {
-    //        console.log(i);
-    //     }, i * 1000);
-    //  }
 
+  const onPressLogin = async () => {
+    
     var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
     const emailError = Validate(key, email);
     const passwordError = Validate('password_', password);
@@ -119,7 +113,6 @@ const LoginScreen = (props: LoginScreenProps) => {
                   password,
                 )
                 .then(({ user }) => {
-                  setLoading(false);
 
                   console.log('FirebaseUSerLogin===>>>', user);
                   props.navigation.navigate('OtpLogin', {
@@ -142,6 +135,8 @@ const LoginScreen = (props: LoginScreenProps) => {
                   console.error(error);
                 });
               //return;
+              setLoading(false);
+
               props.navigation.navigate('OtpLogin', {
                 firebase_id: result.firebase_username,
                 username: email,

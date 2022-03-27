@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -27,7 +27,7 @@ interface AppProps {
   customStyles?: any;
   onEndEditing: (email: any) => void;
 }
-interface State {}
+interface State { }
 
 export default class TextField extends Component<AppProps, {}> {
   static defaultProps = {
@@ -51,7 +51,7 @@ export default class TextField extends Component<AppProps, {}> {
   constructor(props: AppProps) {
     super(props);
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     //console.log("---------->", this.props);
@@ -64,13 +64,13 @@ export default class TextField extends Component<AppProps, {}> {
         ]}>
         <TextInput
           ref={ref =>
-            ref && ref.setNativeProps({style: {fontFamily: 'Lato-Regular'}})
+            ref && ref.setNativeProps({ style: { fontFamily: 'Lato-Regular' } })
           }
           maxLength={this.props.maxLength}
           //  placeholderTextColor={'red'}
           underlineColorAndroid="transparent"
           //  placeholderTextColor = {'#333'}
-          
+
           onChangeText={this.props.onChangeText}
           secureTextEntry={this.props.secureTextEntry}
           editable={this.props.editable}

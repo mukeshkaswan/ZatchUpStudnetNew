@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import {
   Text,
   View,
@@ -23,6 +23,11 @@ import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  NavigationContainer,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;
 
 interface OtpScreenProps {
@@ -33,6 +38,9 @@ interface OtpScreenProps {
 const Otp = (props: OtpScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState('');
+  const [key, setKey] = useState('');
+
+  const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
 
@@ -52,6 +60,18 @@ const Otp = (props: OtpScreenProps) => {
     );
   };
 
+  useEffect(() => {
+
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (format.test(props.route.params.username)) {
+      setKey('Email');
+    } else {
+      setKey('Phone');
+
+    }
+  }, [isFocused]);
+
+
   // const Validate = () => {
   //   if (otp === '') {
   //     Toast.show('Please enter a valid Otp', Toast.SHORT);
@@ -62,8 +82,8 @@ const Otp = (props: OtpScreenProps) => {
 
 
   const _storeData = async (data) => {
-   
-    console.log('token',data.token)
+
+    console.log('token', data.token)
     try {
       await AsyncStorage.setItem('token', data.token);
 
@@ -91,11 +111,11 @@ const Otp = (props: OtpScreenProps) => {
             // console.warn(
             //   'after otp Re Send result',
             //   JSON.stringify(result, undefined, 2),
-             
+
             //   // props.navigation.navigate('eKYC')
             //   // props.navigation.navigate('eKYC'),
             // );
-            Toast.show(result.message,Toast.SHORT)
+            Toast.show(result.message, Toast.SHORT)
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -150,8 +170,8 @@ const Otp = (props: OtpScreenProps) => {
                 'after otp register result',
                 JSON.stringify(result, undefined, 2),
                 // props.navigation.navigate('eKYC')
-              
-                props.navigation.navigate('eKYC',{'signup':'signup','is_kyc_rejected':'','reg_step':'','Editdobsignup': true }),
+
+                props.navigation.navigate('eKYC', { 'signup': 'signup', 'is_kyc_rejected': '', 'reg_step': '', 'Editdobsignup': true }),
               );
               // setSpinnerStart(false);
               _storeData(result);
@@ -162,7 +182,7 @@ const Otp = (props: OtpScreenProps) => {
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              Toast.show('OTP is Not Valid',Toast.SHORT)
+              Toast.show('OTP is Not Valid', Toast.SHORT)
               setLoading(false);
               // signOut();
             } else {
@@ -180,49 +200,49 @@ const Otp = (props: OtpScreenProps) => {
 
 
   const onPressOtpSkip = () => {
- 
-      const data = {
-        username: props.route.params.username,
-        firebase_id: props.route.params.firebase_id,
-      };
 
-      setLoading(true);
+    const data = {
+      username: props.route.params.username,
+      firebase_id: props.route.params.firebase_id,
+    };
 
-      dispatch(
-        userActions.otpSuccessSkip({
-          data,
-          callback: ({ result, error }) => {
-            if (result.status === 'True') {
-              console.warn(
-                'after otp register result',
-                JSON.stringify(result, undefined, 2),
-                // props.navigation.navigate('eKYC')
-              
-                props.navigation.navigate('eKYC',{'signup':'signup','is_kyc_rejected':'','reg_step':'','Editdobsignup': true }),
-              );
-              // setSpinnerStart(false);
-              _storeData(result);
+    setLoading(true);
 
-              setLoading(false);
-            }
+    dispatch(
+      userActions.otpSuccessSkip({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === 'True') {
+            console.warn(
+              'after otp register result',
+              JSON.stringify(result, undefined, 2),
+              // props.navigation.navigate('eKYC')
 
-            if (result.status  === 'False') {
-              //console.warn(JSON.stringify(error, undefined, 2));
-              // setLoginSuccess(result);
-              Toast.show('OTP is Not Valid',Toast.SHORT)
-              setLoading(false);
-              // signOut();
-            } else {
+              props.navigation.navigate('eKYC', { 'signup': 'signup', 'is_kyc_rejected': '', 'reg_step': '', 'Editdobsignup': true }),
+            );
+            // setSpinnerStart(false);
+            _storeData(result);
 
-              // setError(true);
-              // signOut();
-              setLoading(false);
-              console.warn(JSON.stringify(error, undefined, 2));
-            }
-          },
-        }),
-      );
-  
+            setLoading(false);
+          }
+
+          if (result.status === 'False') {
+            //console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            Toast.show('OTP is Not Valid', Toast.SHORT)
+            setLoading(false);
+            // signOut();
+          } else {
+
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
   };
   return (
     <View style={styles.container}>
@@ -239,9 +259,11 @@ const Otp = (props: OtpScreenProps) => {
         <Text style={styles.enterText}>Two Step Log-In</Text>
       </View> */}
       <View style={styles.enterTextConatiner}>
-        <Text style={styles.enterText}>
-          {'Enter OTP Send On Your'+ " " +props.route.params.username + "."}
-        </Text>
+        {key == 'Email' ? <Text style={styles.enterText}>
+          {'Enter the OTP received on your email id.'}
+        </Text>:<Text style={styles.enterText}>
+          {'Enter the OTP received on your phone number.'}
+        </Text>}
       </View>
       <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
         <OtpInputs
@@ -249,7 +271,7 @@ const Otp = (props: OtpScreenProps) => {
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
           numberOfInputs={4}
-          focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
+          focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
 
 
         />
@@ -263,11 +285,11 @@ const Otp = (props: OtpScreenProps) => {
           />
         </View>
 
-         <View style={styles.Skip}>
+        {/* <View style={styles.Skip}>
           <Text style={styles.skipText} onPress={onPressOtpSkip}>
             Skip
           </Text>
-        </View>
+        </View> */}
         <View style={styles.OtpResendContainer}>
           <Text
             style={styles.resendText}

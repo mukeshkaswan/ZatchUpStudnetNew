@@ -20,11 +20,11 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
     const isFocused = useIsFocused();
 
     function handleBackButtonClick() {
-        const value =  AsyncStorage.getItem('tokenlogin');
+        //const value =  AsyncStorage.getItem('tokenlogin');
 
-        if(value != null ){
-            props.navigation.goBack(null);
-        }else{
+        // if(value != null ){
+        //     props.navigation.goBack(null);
+        // }else{
             Alert.alert(
                 'ZatchUp',
                 'Do you want to exit?',
@@ -34,14 +34,13 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                 ],
                 { cancelable: false });
             return true;
-        }
+    
 
       
     }
 
 
     useEffect(() => {
-
 
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
         return () => {

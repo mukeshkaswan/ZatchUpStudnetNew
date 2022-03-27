@@ -96,19 +96,19 @@ import Toast from 'react-native-simple-toast';
 
 function* emailLogin({ payload: { data, callback } }) {
 
-  // console.warn('data in saga', data);
-  // const formdata = new FormData();
-  // formdata.append('username', data.username);
-  // formdata.append('password', data.password);
+  console.warn('data in saga', data);
+  const formdata = new FormData();
+  formdata.append('username', data.username);
+  formdata.append('password', data.password);
 
-  const params = {
-    username: data.username,
-    password: data.password,
+  // const params = {
+  //   username: data.username,
+  //   password: data.password,
    
-  };
+  // };
 
   const payload = {
-    data: params,
+    data: formdata,
     method: 'POST',
     url: 'user/login/',
   };

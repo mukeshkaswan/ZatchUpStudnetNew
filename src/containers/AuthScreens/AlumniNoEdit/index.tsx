@@ -56,7 +56,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   const [S_id, setSchooID] = useState('');
   const [CourseType, setCourseType] = useState('');
   const isFocused = useIsFocused();
-
+  const [flag, setFlag] = useState(false);
   const [selectedJoiningStandard, setJoiningStandard] = useState([]);
   const [joiningstandardkey, setJoiningStandardKey] = useState('');
   const [joiningstandardkey2, setJoiningStandardKey2] = useState('');
@@ -844,6 +844,15 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   value={courseedit}
                   disabled={coursekey == 0 ? true : false}
                   SelectedLanguagedata={selectedValue => {
+                    // setJoiningStandardKey('');
+                    // setSchooID('');
+                    // setJoiningStandardKey2('');
+                    // setDate_Course1('');
+                    // setDate_Course2('');
+                    // setDate_Course3('');
+                    // setDate_Course4('');
+                    // setCourse('');
+                    // setDess('');
                     setCourseKey(selectedValue);
                     setCourseedit(selectedValue);
 
@@ -1084,10 +1093,12 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
               {coursekey == 0 ? (
                 <CustomButton
                   title={'Save'}
+                  disabled={flag}
                   onPress={() => CourseAddedOther()}
                 />
               ) : (
-                <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
+                <CustomButton title={'Submit'} disabled={flag}
+                onPress={() => CourseAdded()} />
               )}
             </View>
           </View>

@@ -742,7 +742,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
       <HeaderTitleWithBack
         navigation={props.navigation}
-        headerTitle="Enter Your Work Details"
+        headerTitle="Add Profession"
       />
       <ScrollView>
         <View style={{ paddingHorizontal: 16 }}>

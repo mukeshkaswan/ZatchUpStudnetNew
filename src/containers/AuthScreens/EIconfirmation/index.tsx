@@ -62,6 +62,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   const [RollNo, setRollNo] = useState('');
   const [Course, setCourse] = useState('');
   const [SchoolID, setSchoolID] = useState('');
+  const [stepcount, setStepCount] = useState('');
+
   const [Des, setDes] = useState('');
   const [allSelected, setSelected] = useState(false);
   // const [value, setValue] = React.useState('first');
@@ -163,9 +165,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       if (props.route.params.login == true) {
         Coursechangecoursestandarddetail(props.route.params.course_id);
         CourseDeleteBeforeConformation(props.route.params.course_id);
-
+        getStepCountAPi()
       } else {
         getEicourseconfirmationlist();
+        getStepCountAPi()
 
       }
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -197,6 +200,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     );
     return true;
   }
+
+
+
   const SetSchoolid = async result => {
 
     console.log('result9211', result);
@@ -241,6 +247,68 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     setKey(true);
     // console.log('dsfsdfds----------------------------->>>>>>>', state)
   };
+
+
+
+  /***************************User getStepCountAPi *******************************/
+
+
+  const getStepCountAPi = async () => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    }
+    dispatch(
+      userActions.getRegStepCount({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+
+            console.warn(
+              'after result step count EI Confrimation page',
+              JSON.stringify(result, undefined, 2),
+
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            console.log('result.reg_step', result.reg_step)
+            setStepCount(result.reg_step);
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  }
+
 
 
 
@@ -1197,11 +1265,28 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   };
 
   const gotoNavigate = async () => {
+    Alert.alert(
+      'ZatchUp',
+      'Are you sure you want to Submit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => gotoNavigatee() },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  };
 
-    console.log('props.route.params.re_verify',props.route.params.re_verify);
+  const gotoNavigatee = async () => {
+
+    //  console.log('props.route.params.re_verify',props.route.params.re_verify);
 
 
-   // return
+    // return
 
 
     if (props.route.params.login == true) {
@@ -1223,7 +1308,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
     // console.log('value', value);
 
-    if (value == '' || value == null) {
+    if (value == '' || value == null || stepcount != '7') {
       props.navigation.navigate('Personalinfo', {
         schoolidkey: schoolidkey,
       });
@@ -1231,7 +1316,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       props.navigation.navigate('CoomingSoon');
     }
 
-   
+
   };
 
   /***************************User Course Confirm-1*******************************/
@@ -1535,18 +1620,18 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false && i.standard_detail != null && i.standard_detail.length > 0
+                              i.is_current_course == false  && props.route.params.AlumniNo == 'AlumniNo'
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                    item.ei_detail.school_code,
+                                  item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
                                   coursekeyothersAlumni:
-                                    props.route.params.coursekeyothersAlumni,
+                                  props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                   're_verify': props.route.params.re_verify
                                 })
@@ -1557,7 +1642,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       school_id: item.ei_detail.id,
                                       course_id: i.course_id,
                                       nameofschool:
-                                        item.ei_detail.name_of_school,
+                                      item.ei_detail.name_of_school,
                                       school_zatchup_id:
                                         item.ei_detail.school_code,
                                       course_name: i.course_name,
@@ -1602,7 +1687,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <Text style={styles.view_Tv_1_copy}>
                             Course Description :
                           </Text>
-                          <Text style={styles.view_Tv_2}>{i.description}</Text>
+                          <Text style={styles.view_Tv_2_}>{i.description}</Text>
                         </View>
 
                         <View style={styles.view_Row_}>
@@ -1982,7 +2067,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                     standarad_i.className != '' &&
                                     standarad_i.is_current_standard ==
                                     false && (
-                                      <View>
+                                      <View style={{ flexDirection: 'row' }}>
                                         <Text
                                           style={{
                                             marginTop: 5,
@@ -1990,7 +2075,17 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             marginLeft: 10,
                                             color: '#CCCCCC',
                                           }}>
-                                          Section : {standarad_i.className}
+                                          Section
+                                        </Text>
+
+                                        <Text
+                                          style={{
+                                            marginTop: 5,
+                                            fontSize: 15,
+                                            marginLeft: 10,
+                                            color: '#000',
+                                          }}>
+                                          {standarad_i.className}
                                         </Text>
                                       </View>
                                     )}
@@ -2097,9 +2192,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               justifyContent: 'center',
               // backgroundColor: '#979797'
             }}>
-            <Text style={{ color: '#7B7B7B', fontSize: 26, fontWeight: 'bold' }}>
+            {/* <Text style={{ color: '#7B7B7B', fontSize: 26, fontWeight: 'bold' }}>
               No School Available
-            </Text>
+            </Text> */}
           </View>
         )}
 

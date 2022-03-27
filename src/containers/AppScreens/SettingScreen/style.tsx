@@ -61,6 +61,15 @@ const styles = ScaledSheet.create({
     paddingTop: 8,
     paddingHorizontal: 8,
   },
+  cardp: {
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    marginTop: 20,
+    paddingBottom: 18,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    marginBottom:10
+  },
   privacyrowcontainer: {
     flexDirection: 'row',
     marginHorizontal: 8,

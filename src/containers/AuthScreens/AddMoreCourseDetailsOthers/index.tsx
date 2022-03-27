@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, FlatList, BackHandler } from 'react-native';
+import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, FlatList, BackHandler, Alert } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown, Validate, } from '../../../components';
@@ -74,11 +74,12 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
     const getDataFromAPi = async (result) => {
 
-        // console.log('dfssdfdsdsffff', result.results)
 
         setDataCourseList(result.results[0].course_data);
 
         result.results.map((element: any) => {
+
+            console.log('school name key',result.results[0])
 
             setState(element.state);
             setCity(element.city);
@@ -92,11 +93,26 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
     }
 
-    function handleBackButtonClick() {
-        props.navigation.goBack();
-        return true;
-    }
+    // function handleBackButtonClick() {
+    //     props.navigation.goBack();
+    //     return true;
+    // }
 
+    function handleBackButtonClick() {
+
+        Alert.alert(
+            'ZatchUp',
+            'Do you want to exit?',
+            [
+                { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            ],
+            { cancelable: false });
+        return true;
+
+
+
+    }
 
 
     const getCourseListData = async (school_id) => {
@@ -129,11 +145,11 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
-                        // console.warn(
-                        //     'afte',
-                        //     JSON.stringify(result.status, undefined, 2),
-                        //     // props.navigation.navigate('AddMoreCourseDetailsOthers', { 'school_id': props.route.params.school_id })
-                        // );
+                        console.warn(
+                            'afte',
+                            JSON.stringify(result, undefined, 2),
+                            // props.navigation.navigate('AddMoreCourseDetailsOthers', { 'school_id': props.route.params.school_id })
+                        );
                         getDataFromAPi(result)
 
                         // setSpinnerStart(false);
@@ -208,7 +224,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                 <View style={styles.view_Row}>
                                     <Text style={styles.view_Tv_1}>School Name :</Text>
-                                    <Text style={styles.view_Tv_2}>{schoolname}</Text>
+                                    <Text style={styles.view_Tv_2}>{props.route.params.schoolnamekey_}</Text>
 
                                 </View>
 
@@ -264,9 +280,9 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                                         </TouchableOpacity> */}
 
 
-                                        <TouchableOpacity 
-                                        style={{justifyContent:'flex-end'}}
-                                        onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': schoolname, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid ,'re_verify':props.route.params.re_verify})} >
+                                        <TouchableOpacity
+                                            style={{ justifyContent: 'flex-end' }}
+                                            onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': props.route.params.schoolnamekey_, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid, 're_verify': props.route.params.re_verify })} >
                                             <View >
                                                 <Image
                                                     style={styles.editiconCopy}
@@ -285,7 +301,8 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                                         <Text style={styles.view_Tv_1}>Ending Year :</Text>
                                         <Text style={styles.view_Tv_2}>{item.end_date}</Text>
                                     </View> : <View style={styles.view_Row_}>
-                                        <Text style={styles.view_Tv_1}>To Current</Text>
+                                        <Text style={styles.view_Tv_1}>Ending Year :</Text>
+                                        <Text style={styles.view_Tv_2}>To Current</Text>
                                         {/* <Text style={styles.view_Tv_2}>{item.end_date}</Text> */}
                                     </View>}
 
@@ -307,8 +324,8 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                         </TouchableOpacity> */}
                     </View>
 
-                    <View style={{marginTop:20}}>
-                        <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EIconfirmation',{'otherscourse':'otherscourse','re_verify':props.route.params.re_verify})} />
+                    <View style={{ marginTop: 20 }}>
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('EIconfirmation', { 'otherscourse': 'otherscourse', 're_verify': props.route.params.re_verify,'schoolnamekey_':props.route.params.schoolnamekey_ })} />
                     </View>
                 </View>
 

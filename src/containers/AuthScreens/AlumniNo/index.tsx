@@ -21,6 +21,7 @@ import {
   CustomHeader,
   CustomDropdown,
   Validate,
+  HeaderTitleWithBack
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import { CheckBox } from 'react-native-elements';
@@ -53,6 +54,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   const [value, setValue] = React.useState('first');
   const [Duration, setDuration] = useState('');
   const [setminimudate, setminimumDate] = useState('2015-01-01');
+  const [flag, setFlag] = useState(false);
 
   const [S_id, setSchooID] = useState('');
   const [CourseType, setCourseType] = useState('');
@@ -642,13 +644,17 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
 
         {isLoading && renderIndicator()}
 
-        <CustomHeader Title={'Add Course Details'} />
 
+        <HeaderTitleWithBack
+        navigation={props.navigation}
+        headerTitle="Add Course Details"
+      />
         <ScrollView>
           <View style={styles.inputContainer}>
             <View>
             {props.route.params.true != true ?  <TouchableOpacity
-                onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'re_verify':props.route.params.re_verify})}>
+               // onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'re_verify':props.route.params.re_verify})}
+                >
                 <View
                   style={{
                     flexDirection: 'row',
@@ -669,14 +675,14 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       props.route.params.school_zatchup_id +
                       ')'}
                   </Text>
-                  <Image
+                  {/* <Image
                     style={{
                       width: 25,
                       height: 25,
                       resizeMode: 'contain',
                     }}
                     source={Images.edit_icon}
-                  />
+                  /> */}
                 </View>
                
               </TouchableOpacity>:
@@ -955,10 +961,12 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
               {coursekey === 0 ? (
                 <CustomButton
                   title={'ADD'}
+                  disabled={flag}
                   onPress={() => CourseAddedOther()}
                 />
               ) : (
-                <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
+                <CustomButton title={'Submit'}  disabled={flag}
+                onPress={() => CourseAdded()} />
               )}
             </View>
           </View>

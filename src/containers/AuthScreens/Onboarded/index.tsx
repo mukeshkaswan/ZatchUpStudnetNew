@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, Alert, BackHandler } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
-import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown ,HeaderTitleWithBack } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
@@ -158,7 +158,12 @@ const Onboarded = (props: OnboardedScreenProps) => {
 
       <CustomStatusBar />
 
-      <CustomHeader Title={'Onboarded'} />
+      {/* <CustomHeader Title={'Onboarded'} /> */}
+
+      <HeaderTitleWithBack
+        navigation={props.navigation}
+        headerTitle="Onboarded"
+      />
 
       {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
@@ -184,7 +189,7 @@ const Onboarded = (props: OnboardedScreenProps) => {
 
           <View>
             {/* <CustomButton title={'Confirm'} onPress={() => props.navigation.navigate('EducationProfile')} /> */}
-            <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board,'re_verify':props.route.params.re_verify }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board,'re_verify':props.route.params.re_verify}) }} />
+            <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) }} />
 
           </View>
         </View>

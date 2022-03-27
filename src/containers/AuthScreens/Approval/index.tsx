@@ -31,7 +31,25 @@ const Approval = (props: ApprovalScreenProps) => {
 
 
     // };
-    const submit = async () => {
+
+
+    const gotoNavigate = async () => {
+        Alert.alert(
+          'ZatchUp',
+          'Your Profile is Sent for approval !! Please login again to continue.',
+          [
+            {
+              text: 'No',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Yes', onPress: () => submit()},
+          ],
+          {cancelable: false},
+        );
+        return true;
+      };
+    const submit  = async () => {
 
         var token = '';
         try {
@@ -193,7 +211,7 @@ const Approval = (props: ApprovalScreenProps) => {
 
                 <View>
                     <CustomButton title={'Continue'}
-                        onPress={() => submit()}
+                        onPress={() => gotoNavigate()}
                     //  onPress={() => props.navigation.navigate('LoginScreen')}
 
                     />

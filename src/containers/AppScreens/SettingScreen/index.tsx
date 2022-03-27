@@ -1470,6 +1470,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         renderItem={({ item, index }) => rednderItemList(item, index)}
       /> */}
 
+<ScrollView>
 
       <View>
         <CardView
@@ -1676,19 +1677,19 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           cardElevation={5}
           cardMaxElevation={5}
           //cornerRadius={20}
-          style={styles.card}>
+          style={styles.cardp}>
           <Text style={styles.title_text}>Privacy Setting</Text>
 
           <View style={styles.border}></View>
           <View style={styles.privacyrowcontainer}>
             {phone == '' ? (
               <>
-                <Text style={styles.detail_text}>Email : </Text>
+                <Text style={styles.detail_text}>Email</Text>
                 <Text style={{ textAlign: 'center' }}>{email}</Text>
               </>
             ) : (
               <>
-                <Text style={styles.detail_text}>Mobile Number : </Text>
+                <Text style={styles.detail_text}>Mobile Number</Text>
                 <Text style={{ textAlign: 'center' }}>{phone}</Text>
               </>
             )}
@@ -1704,7 +1705,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
           <View style={styles.border1}></View>
           <View style={styles.privacyrowcontainer}>
-            <Text style={styles.detail_text}>Date of Birth : </Text>
+            <Text style={styles.detail_text}>Date of Birth</Text>
             <Text style={{ textAlign: 'center' }}>{dob}</Text>
             <Switch
               trackColor={{ false: 'grey', true: 'lightgreen' }}
@@ -1718,17 +1719,17 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           <View style={styles.privacyrowcontainer}>
             {Gender == 'M' ? (
               <>
-                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={styles.detail_text}>Gender</Text>
                 <Text style={{ textAlign: 'center' }}>Male</Text>
               </>
             ) : Gender == 'F' ? (
               <>
-                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={styles.detail_text}>Gender</Text>
                 <Text style={{ textAlign: 'center' }}>Female</Text>
               </>
             ) : (
               <>
-                <Text style={styles.detail_text}>Gender : </Text>
+                <Text style={styles.detail_text}>Gender</Text>
                 <Text style={{ textAlign: 'center' }}>Custom</Text>
               </>
             )}
@@ -1741,6 +1742,46 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               value={isEnabled3}
             />
           </View>
+
+          <View style={styles.border1}></View>
+          <View style={styles.privacyrowcontainer}>
+            <Text style={styles.detail_text}>Profession</Text>
+            <Text style={{ textAlign: 'center' }}>{dob}</Text>
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch2}
+              value={isEnabled2}
+            />
+          </View>
+
+          <View style={styles.border1}></View>
+          <View style={styles.privacyrowcontainer}>
+            <Text style={styles.detail_text}>Current City</Text>
+            <Text style={{ textAlign: 'center' }}>{dob}</Text>
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch2}
+              value={isEnabled2}
+            />
+          </View>
+
+          <View style={styles.border1}></View>
+          <View style={styles.privacyrowcontainer}>
+            <Text style={styles.detail_text}>Deactivate Account</Text>
+            <Text style={{ textAlign: 'center' }}>{dob}</Text>
+            <Switch
+              trackColor={{ false: 'grey', true: 'lightgreen' }}
+              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch2}
+              value={isEnabled2}
+            />
+          </View>
+          {/* <View style={styles.border1}></View> */}
         </CardView>
 
         {/* edit personal information modal */}
@@ -2158,6 +2199,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
 
       </View>
+      </ScrollView>
     </View>
   );
 };

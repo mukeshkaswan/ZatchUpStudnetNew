@@ -66,11 +66,11 @@ const eKyc = (props: eKycScreenProps) => {
       value: '0',
     },
     {
-      label: 'Driving Licence',
+      label: 'Driving Licence/ Pan / Any other Govt issued ID card',
       value: '1',
     },
     {
-      label: 'Passport',
+      label: 'Any ID card issued by the educational institution',
       value: '2',
     },
   ]);
@@ -511,10 +511,10 @@ const eKyc = (props: eKycScreenProps) => {
     } else {
       var key =
         KYC_type_doc_Selected == 0
-          ? 'Aadhaar Card'
+          ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Driving Licence'
-            : 'Passport Number';
+            ? 'Dl'
+            : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -619,10 +619,10 @@ const eKyc = (props: eKycScreenProps) => {
     } else {
       var key =
         KYC_type_doc_Selected == 0
-          ? 'Aadhaar Card'
+          ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Driving Licence'
-            : 'Passport Number';
+            ? 'Dl'
+            : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -728,10 +728,10 @@ const eKyc = (props: eKycScreenProps) => {
     } else {
       var key =
         KYC_type_doc_Selected == 0
-          ? 'Aadhaar Card'
+          ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Driving Licence'
-            : 'Passport Number';
+            ? 'Dl'
+            : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -1003,7 +1003,7 @@ const eKyc = (props: eKycScreenProps) => {
               <View style={{ marginBottom: '5%', flex: 1 }}>
                 <TextField
                   placeholder={'Enter ID'}
-                  maxLength={16}
+                  maxLength={30}
                   autoCapitalize={'characters'}
                   // keyboardType=""
                   onChangeText={val => setID(val)}
@@ -1014,7 +1014,7 @@ const eKyc = (props: eKycScreenProps) => {
               <View style={{ marginBottom: '5%', flex: 1 }}>
                 <TextField
                   placeholder={'Enter ID'}
-                  maxLength={8}
+                  maxLength={30}
                   onChangeText={val => setID(val)}
                   value={ID}
                 />

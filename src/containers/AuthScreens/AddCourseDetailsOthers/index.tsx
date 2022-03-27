@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   ScrollView,
-  BackHandler, 
+  BackHandler,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import styles from './style';
@@ -22,6 +22,7 @@ import {
   CustomHeader,
   CustomDropdown,
   Validate,
+  HeaderTitleWithBack
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import { CheckBox } from 'react-native-elements';
@@ -179,7 +180,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
-        're_verify': props.route.params.re_verify
+        're_verify': props.route.params.re_verify,
+        'schoolnamekey_':props.route.params.nameofschool
       })
     }
 
@@ -307,7 +309,11 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         <CustomStatusBar />
         {isLoading && renderIndicator()}
 
-        <CustomHeader Title={'Add Course Details'} />
+
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Add Course Details"
+        />
 
         <ScrollView>
           <View style={styles.inputContainer}>
@@ -353,7 +359,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
 
 
-            <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+            <RadioButton.Group onValueChange={newValue => setValue(newValue)  } value={value}>
               <View style={{ flexDirection: 'row', marginTop: 20 }}>
 
                 <View style={{ flexDirection: 'row', marginLeft: 10, alignItems: 'center' }}>

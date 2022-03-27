@@ -23,7 +23,11 @@ import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-
+import {
+  NavigationContainer,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;
 
 interface OtpLoginScreenProps {
@@ -35,7 +39,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
 
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState('');
-
+  const [key, setKey] = useState('');
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
   const renderIndicator = () => {
@@ -54,6 +59,17 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
     );
   };
 
+
+  useEffect(() => {
+
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (format.test(props.route.params.username)) {
+      setKey('Email');
+    } else {
+      setKey('Phone');
+
+    }
+  }, [isFocused]);
   const getData_is_kyc_rejected = async result => {
     if (result.reg_step == 1) {
       if (result.is_kyc_rejected === true) {
@@ -83,11 +99,12 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
       } else {
+        
         Toast.show('Login Successfully', Toast.SHORT)
        // props.navigation.navigate('MySchoolScreen')
               // props.navigation.navigate('Home')
 
-        props.navigation.navigate('CoomingSoon')
+        props.navigation.navigate('Comming')
 
       }
     } else if (result.reg_step == 5) {
@@ -150,6 +167,10 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
     );
 
   }
+
+ 
+
+
   const getData = async result => {
     // console.log('tokenlogin', result.token)
     try {
@@ -389,10 +410,11 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
         <Text style={styles.enterText}>Two Step Log-In</Text>
       </View> */}
       <View style={styles.enterTextConatiner}>
-        <Text style={styles.enterText}>
-          {' '}
-          {'Enter OTP Send On Your' + ' ' + props.route.params.username + '.'}
-        </Text>
+      {key == 'Email' ? <Text style={styles.enterText}>
+          {'Enter the OTP received on your email id.'}
+        </Text>:<Text style={styles.enterText}>
+          {'Enter the OTP received on your phone number.'}
+        </Text>}
       </View>
       <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
         <OtpInputs
@@ -415,11 +437,11 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
           />
         </View>
 
-        <View style={styles.Skip}>
+        {/* <View style={styles.Skip}>
           <Text style={styles.skipText} onPress={onPressOtpSkip}>
             Skip
           </Text>
-        </View>
+        </View> */}
         <View style={styles.OtpResendContainer}>
           <Text style={styles.resendText} onPress={onPressResendOtp}>
             Resend Code
