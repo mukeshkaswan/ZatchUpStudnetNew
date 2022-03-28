@@ -1415,7 +1415,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 onPress={() => {
                   postDetails.user_role == 'EIREPRESENTATIVE'
                     ? props.navigation.navigate('SchoolProfile', {
-                        item: {user_id: postDetails.user_id},
+                        item: {
+                          user_id: postDetails.user_id,
+                          school_id: postDetails.school_id,
+                        },
                       })
                     : postDetails.user_id != userid
                     ? props.navigation.navigate('UsersProfile', {
@@ -1462,7 +1465,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   onPress={() => {
                     postDetails.user_role == 'EIREPRESENTATIVE'
                       ? props.navigation.navigate('SchoolProfile', {
-                          item: {user_id: postDetails.user_id},
+                          item: {
+                            user_id: postDetails.user_id,
+                            school_id: postDetails.school_id,
+                          },
                         })
                       : postDetails.user_id != userid
                       ? props.navigation.navigate('UsersProfile', {
@@ -1510,7 +1516,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               onPress={() => {
                                 item.user_role == 'EIREPRESENTATIVE'
                                   ? props.navigation.navigate('SchoolProfile', {
-                                      item: {user_id: item.user},
+                                      item: {
+                                        user_id: item.user,
+                                        school_id: item.school_id,
+                                      },
                                     })
                                   : item.user != userid
                                   ? props.navigation.navigate('UsersProfile', {
@@ -1544,7 +1553,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                     ? props.navigation.navigate(
                                         'SchoolProfile',
                                         {
-                                          item: {user_id: item.user},
+                                          item: {
+                                            user_id: item.user,
+                                            school_id: item.school_id,
+                                          },
                                         },
                                       )
                                     : item.user != userid
@@ -1720,7 +1732,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                             ? props.navigation.navigate(
                                                 'SchoolProfile',
                                                 {
-                                                  item: {user_id: item.user},
+                                                  item: {
+                                                    user_id: item.user,
+                                                    school_id: item.school_id,
+                                                  },
                                                 },
                                               )
                                             : item.user != userid
@@ -1761,7 +1776,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                               ? props.navigation.navigate(
                                                   'SchoolProfile',
                                                   {
-                                                    item: {user_id: item.user},
+                                                    item: {
+                                                      user_id: item.user,
+                                                      school_id: item.school_id,
+                                                    },
                                                   },
                                                 )
                                               : item.user_id != userid
@@ -1968,6 +1986,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                             item: {
                               user_id:
                                 postDetails.post_like[0].post_like_user_id,
+                              school_id: postDetails.post_like[0].school_id,
                             },
                           })
                         : postDetails.post_like[0].post_like_user_id != userid
@@ -2006,6 +2025,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               item: {
                                 user_id:
                                   postDetails.post_like[0].post_like_user_id,
+                                school_id: postDetails.post_like[0].school_id,
                               },
                             })
                           : postDetails.post_like[0].post_like_user_id != userid
