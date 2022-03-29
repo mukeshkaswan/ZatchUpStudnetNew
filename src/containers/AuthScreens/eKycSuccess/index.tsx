@@ -54,15 +54,12 @@ const eKycSuccess = (props: eKycSuccesscreenProps) => {
                     </View>
 
                     <View style={styles.enterTextConatiner}>
-                        <Text style={styles.enterText}>KYC Successfully done</Text>
+                        <Text style={styles.enterText}>KYC Added Successfully</Text>
                     </View>
 
 
-
-
-
                     <View>
-                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent',{'re_verify':false})} />
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent', { 're_verify': false })} />
                     </View>
                 </View>
 

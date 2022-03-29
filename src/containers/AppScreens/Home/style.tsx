@@ -242,12 +242,12 @@ const styles = ScaledSheet.create({
     //   position: 'absolute',
   },
   editicon2: {
-    height: 25,
+    height: 24,
     width: 24,
-    //marginLeft: 10,
+    marginRight: 13,
     marginTop: 5,
 
-    left: 5,
+   // right: 5,
     // marginRight: 10,
     //   position: 'absolute',
   },

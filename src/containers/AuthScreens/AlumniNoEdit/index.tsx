@@ -649,7 +649,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
-                  're_verify':props.route.params.re_verify
+                  're_verify': props.route.params.re_verify
                 }),
               );
               // setSpinnerStart(false);
@@ -775,7 +775,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
-                  're_verify':props.route.params.re_verify
+                  're_verify': props.route.params.re_verify
                 }),
 
                 //   props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })
@@ -847,12 +847,13 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     // setJoiningStandardKey('');
                     // setSchooID('');
                     // setJoiningStandardKey2('');
-                    // setDate_Course1('');
-                    // setDate_Course2('');
-                    // setDate_Course3('');
+                    setDate_Course1('');
+                    setDate_Course2('');
+                    //setDate_Course3('');
                     // setDate_Course4('');
                     // setCourse('');
                     // setDess('');
+
                     setCourseKey(selectedValue);
                     setCourseedit(selectedValue);
 
@@ -1098,7 +1099,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                 />
               ) : (
                 <CustomButton title={'Submit'} disabled={flag}
-                onPress={() => CourseAdded()} />
+                  onPress={() => CourseAdded()} />
               )}
             </View>
           </View>

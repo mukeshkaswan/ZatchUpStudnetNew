@@ -195,9 +195,8 @@ const HomeScreen = (props: HomeScreenProps) => {
   useEffect(() => {
 
     //console.log('props.route.params.user_id ',props.route.params )
-    UserCourseDelete();
 
-    getEducationProfile();
+    UserCourseDelete();
 
     //  getStepCountAPi();
 
@@ -679,6 +678,8 @@ const HomeScreen = (props: HomeScreenProps) => {
     });
     _storeData();
 
+
+
     // console.log(',.....................>data',Profile.length)
 
     //  setDataCourseInList(result.data);
@@ -747,6 +748,8 @@ const HomeScreen = (props: HomeScreenProps) => {
       token: token,
     };
 
+    setLoading(true);
+
     dispatch(
       userActions.getUserCourseDeleteNotConfirm({
         data,
@@ -760,6 +763,9 @@ const HomeScreen = (props: HomeScreenProps) => {
             // );
             // setSpinnerStart(false);
             setLoading(false);
+
+            getEducationProfile();
+
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -809,17 +815,18 @@ const HomeScreen = (props: HomeScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
-            setLoading(false),
 
-              // console.warn(
-              //   'after result',
-              //   JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after result',
+            //   JSON.stringify(result, undefined, 2),
 
 
-              // );
-              getdataProfile(result),
+            // );
+            getdataProfile(result),
               getdataCourse(result),
-              getdataWorkDetails(result);
+              getdataWorkDetails(result),
+
+              setLoading(false);
 
             // setSpinnerStart(false);
           }
@@ -1243,27 +1250,17 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       </TouchableOpacity> : null}
 
-                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
+                      {/* {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
                         onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}>
 
-                        {/* <Image
-                          style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 15,
-                            //  marginLeft: 20,
-                            marginRight: 15,
-                          }}
-                          source={Images.delete_icon}
-                        /> */}
+                        
                         <Icon name="chat" size={32} color="#00B031" style={{
 
                           marginTop: 12,
-                          //  marginLeft: 20,
                           marginRight: 15,
                         }} />
-                      </TouchableOpacity> : null}
+                      </TouchableOpacity> : null} */}
 
                       {i.approved != '1' && i.approved != 2 ? (<TouchableOpacity
                         underlayColor="none"
@@ -1332,23 +1329,25 @@ const HomeScreen = (props: HomeScreenProps) => {
                   <View>
                     <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>School Name :</Text>
-                      {i.approved == '1' ? (
-                        <Image
-                          style={styles.editicon2}
-                          source={Images.blue_tick}
-                        />
-                      ) : null}
+
                       <Text
                         style={{
                           marginTop: 5,
                           fontSize: 18,
-                          marginLeft: 10,
+                          marginLeft: 5,
                           color: '#565656',
                           flex: 1,
                           flexWrap: 'wrap',
                         }}>
                         {i.name_of_school}
                       </Text>
+
+                      {i.approved == '1' ? (
+                        <Image
+                          style={styles.editicon2}
+                          source={Images.blue_tick}
+                        />
+                      ) : null}
                     </View>
                     {i.school_code != null ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
@@ -1805,7 +1804,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
             // );
             Toast.show('Successfully Updated', Toast.SHORT),
-            getEducationProfile();
+              getEducationProfile();
 
           }
           if (!error) {
@@ -2402,7 +2401,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               <Text style={styles.Personal_Tv}>Add School</Text>
 
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false })}>
+                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false,'loginkey':'loginkey' })}>
                 <Image
                   style={{
                     height: 28,

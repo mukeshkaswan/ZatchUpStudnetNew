@@ -33,7 +33,7 @@ const styles = ScaledSheet.create({
 
     ZatchUp_tv: {
         color: '#FFFFFF',
-        marginRight: 20,
+        // marginRight: 10,
         fontSize: 28,
         fontWeight: 'bold',
         bottom: 5,

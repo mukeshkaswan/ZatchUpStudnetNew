@@ -245,7 +245,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // });
     setDataCourseInList(result.data);
     setKey(true);
-    // console.log('dsfsdfds----------------------------->>>>>>>', state)
+   console.log('dsfsdfds----------------------------->>>>>>>1', result)
   };
 
 
@@ -1313,7 +1313,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         schoolidkey: schoolidkey,
       });
     } else {
-      props.navigation.navigate('CoomingSoon');
+      props.navigation.navigate('MySchoolScreen');
     }
 
 

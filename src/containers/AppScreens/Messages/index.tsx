@@ -11,6 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  BackHandler,
   FlatList,
 } from 'react-native';
 import styles from './style';
@@ -68,8 +69,19 @@ const Messages = (props: MessagesScreenProps) => {
       }
     }, 1000);
 
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+
+      );
+    };
+
 
   }, [isFocused]);
+
+  
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -85,6 +97,37 @@ const Messages = (props: MessagesScreenProps) => {
 
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
+  };
+
+  function handleBackButtonClick() {
+    Alert.alert(
+      'Exit App',
+      'Do you want to exit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: onDeleteBTN },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  }
+
+
+  const onDeleteBTN = async () => {
+    try {
+      await AsyncStorage.removeItem('tokenlogin');
+      await AsyncStorage.removeItem('token');
+    } catch (e) {
+      // save error
+    }
+    Toast.show('Logout Successfully ', Toast.SHORT);
+
+    props.navigation.navigate('LoginScreen');
+    //  BackHandler.exitApp()
   };
 
 
@@ -217,7 +260,7 @@ const Messages = (props: MessagesScreenProps) => {
           {/* <Text style={styles.TM_tv}>TM</Text> */}
         </View>
 
-        <View style={styles.Notification_view}>
+        {/* <View style={styles.Notification_view}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Reminders');
@@ -227,7 +270,6 @@ const Messages = (props: MessagesScreenProps) => {
 
               marginRight: 5, marginTop: 11, height: 30, width: 30
             }} />
-            {/* <Image source={Images.search} style={styles.inbox_iconreminder} /> */}
           </TouchableOpacity>
           <View
             style={{
@@ -252,7 +294,7 @@ const Messages = (props: MessagesScreenProps) => {
               {unreadremindercount}{' '}
             </Text>
           </View>
-        </View>
+        </View> */}
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Notifications');

@@ -799,17 +799,14 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                                 <CustomDropdown placeholder={'Select Course'}
                                     data={selectedCourse}
                                     value={courseedit}
-                                    // value={{label: 'A', value: '0'}}
-                                    //valueitem={'red'}
-                                    // value={'ssddf'}
-                                    //  selectedValue={'ssddf'}
+                                    
                                     SelectedLanguagedata={(selectedValue) => {
                                         // getSchool(selectedValue);
                                         // setSchoolID('')
-                                        // setRollNo('')
-                                        // setDate_Copy('')
+                                        setRollNo('')
+                                        setDate_Copy('')
                                         // setStandarClassdKey('');
-                                        // setClass('');
+                                        setClass('');
                                         setCourseKey(selectedValue);
                                         setCourseedit(selectedValue)
                                         var data = [];

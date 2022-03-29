@@ -662,11 +662,9 @@ function* getEiCourseConfirmationList({ payload: { data, callback } }) {
     headers: {
       Authorization: `Bearer ${data.token}`,
       //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
-
       // "Content-Type": "application/json"
     },
     method: 'GET',
-    //  url: `user/class-list-by-standardid/?standard_id= ${data.id}`,
     url: 'user/get-ei-course-confirmation-list/',
   };
   const { result, error } = yield call(httpClient, payload);

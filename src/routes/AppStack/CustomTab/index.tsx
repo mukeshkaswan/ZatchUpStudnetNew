@@ -1,6 +1,6 @@
-import React, {useMemo, useRef} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, { useMemo, useRef } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
   interpolate,
@@ -8,7 +8,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
-import Svg, {Path} from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import {
   LoginScreen,
   SignUpScreen,
@@ -35,6 +35,7 @@ import {
   Messages,
   CoomingSoon,
   MySchoolScreen,
+  Reminders
 } from '../../../containers';
 
 // import AnimatedTabBar, { TabsConfigsType } from 'curved-bottom-navigation-bar';
@@ -43,21 +44,21 @@ import {
 
 const Tab = createBottomTabNavigator();
 
-const TabBarCustomButton = ({accessibilityState, children, onPress}) => {
+const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {
     return (
-      <View style={{flex: 1, alignItems: 'center'}}>
-        <View style={{flexDirection: 'row', position: 'absolute', top: 0}}>
-          <View style={{flex: 1, backgroundColor: '#ffffff'}}></View>
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
+          <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
           <Svg width={75} height={61} viewBox="0 0 75 61">
             <Path
               d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z"
               fill={'#ffffff'}
             />
           </Svg>
-          <View style={{flex: 1, backgroundColor: '#ffffff'}}></View>
+          <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
         </View>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -107,15 +108,17 @@ const CustomTabBar = () => {
           //  paddingTop: 25,
         },
       }}
-      initialRouteName={'Home_Tab'}>
+      initialRouteName={'MySchool_Tab'}>
+
+
       <Tab.Screen
-        name="Home_Tab"
-        component={CoomingSoon}
+        name="MySchool_Tab"
+        component={MySchoolScreen}
         options={{
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return (
               <Icon
-                name="calendar"
+                name="repeat"
                 size={24}
                 color={focused ? '#ffffff' : 'gray'}
               />
@@ -131,7 +134,7 @@ const CustomTabBar = () => {
         name="Messages_Tab"
         component={Messages}
         options={{
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return (
               <Icon
                 name="message-square"
@@ -145,27 +148,10 @@ const CustomTabBar = () => {
           },
         }}
       />
+
       <Tab.Screen
-        name="MySchool_Tab"
-        component={MySchoolScreen}
-        options={{
-          tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name="repeat"
-                size={24}
-                color={focused ? '#ffffff' : 'gray'}
-              />
-            );
-          },
-          tabBarButton: props => {
-            return <TabBarCustomButton {...props} />;
-          },
-        }}
-      />
-      {/* <Tab.Screen
-        name="MessagesMain_Tab"
-        component={Messages}
+        name="Reminders_Tab"
+        component={Reminders}
         options={{
           tabBarIcon: ({focused}) => {
             return (
@@ -180,7 +166,7 @@ const CustomTabBar = () => {
             return <TabBarCustomButton {...props} />;
           },
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };

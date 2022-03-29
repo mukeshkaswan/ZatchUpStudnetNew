@@ -756,6 +756,8 @@ const eKyc = (props: eKycScreenProps) => {
                 'after register result',
                 JSON.stringify(result, undefined, 2),
               );
+            //  Toast.show(result.message, Toast.SHORT);
+
               navigate()
               // props.navigation.navigate('eKycSuccess', {
               //   username: 'jfdsfsdlfjs',
@@ -817,7 +819,7 @@ const eKyc = (props: eKycScreenProps) => {
       }
 
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 7) {
-        props.navigation.navigate('CoomingSoon', {
+        props.navigation.navigate('MySchoolScreen', {
           username: 'jfdsfsdlfjs',
         });
       }

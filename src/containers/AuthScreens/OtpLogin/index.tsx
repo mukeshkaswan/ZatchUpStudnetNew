@@ -73,57 +73,59 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
   const getData_is_kyc_rejected = async result => {
     if (result.reg_step == 1) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('eKYC',{'Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'Editdobsignup': true });
       }
     } else if (result.reg_step == 2) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent',{'re_verify':false});
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
       }
     } else if (result.reg_step == 4) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent',{'re_verify':false});
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
       }
     } else if (result.reg_step == 6) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
         props.navigation.navigate('Personalinfo');
       }
-    } else if (result.reg_step ==7) {
+    } else if (result.reg_step == 7) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        
-        Toast.show('Login Successfully', Toast.SHORT)
-       // props.navigation.navigate('MySchoolScreen')
-              // props.navigation.navigate('Home')
 
-        props.navigation.navigate('Comming')
+        Toast.show('Login Successfully', Toast.SHORT)
+        // props.navigation.navigate('MySchoolScreen')
+        // props.navigation.navigate('Home')
+        props.navigation.navigate('MySchoolScreen')
+        //props.navigation.navigate('Comming')
+
+
 
       }
     } else if (result.reg_step == 5) {
       if (result.is_kyc_rejected === true) {
-        props.navigation.navigate('eKYC',{'is_kyc_rejected':result.is_kyc_rejected,'reg_step':result.reg_step,'signup':'','Editdobsignup': true });
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-       // props.navigation.navigate('Personalinfo');
+        // props.navigation.navigate('Personalinfo');
 
-        props.navigation.navigate('SelectStudent',{'re_verify':false});
-       
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
+
       }
     } else {
       // console.log('step_4', '4')
-      props.navigation.navigate('SelectStudent',{'re_verify':false});
+      props.navigation.navigate('SelectStudent', { 're_verify': false });
     }
   };
 
 
-  
+
   const UserCourseDelete = async token => {
 
     const data = {
@@ -168,7 +170,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
 
   }
 
- 
+
 
 
   const getData = async result => {
@@ -177,7 +179,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       await AsyncStorage.setItem('tokenlogin', result.token);
       await AsyncStorage.setItem('token', result.token);
       await AsyncStorage.setItem('username', result.first_name + ' ' + result.last_name);
-     // await AsyncStorage.setItem('dob', date_copy);
+      // await AsyncStorage.setItem('dob', date_copy);
     } catch (e) {
       // saving error
     }
@@ -300,8 +302,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
 
               getData(result),
 
-              //setSpinnerStart(false);
-              setLoading(false);
+                //setSpinnerStart(false);
+                setLoading(false);
             }
             if (result.status === 'False') {
               //console.warn(JSON.stringify(error, undefined, 2));
@@ -338,60 +340,60 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
 
 
   const onPressOtpSkip = () => {
-    
-      const data = {
-        firebase_id: props.route.params.firebase_id,
-        username: props.route.params.username,
-      };
 
-      setLoading(true);
+    const data = {
+      firebase_id: props.route.params.firebase_id,
+      username: props.route.params.username,
+    };
 
-      dispatch(
-        userActions.otpSuccessSkip({
-          data,
-          callback: ({ result, error }) => {
-            if (result.status === 'True') {
-              console.warn(
-                'after otp result',
-                // JSON.stringify(result, undefined, 2),
-                // props.navigation.navigate('Home'),
-              );
+    setLoading(true);
 
-              getData(result),
+    dispatch(
+      userActions.otpSuccessSkip({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === 'True') {
+            console.warn(
+              'after otp result',
+              // JSON.stringify(result, undefined, 2),
+              // props.navigation.navigate('Home'),
+            );
+
+            getData(result),
 
               //setSpinnerStart(false);
               setLoading(false);
-            }
-            if (result.status === 'False') {
-              //console.warn(JSON.stringify(error, undefined, 2));
-              // setLoginSuccess(result);
-              Toast.show(result.error, Toast.SHORT);
-              setLoading(false);
+          }
+          if (result.status === 'False') {
+            //console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            Toast.show(result.error, Toast.SHORT);
+            setLoading(false);
 
-              // signOut();
-            }
+            // signOut();
+          }
 
-            // if (!error) {
-            //   console.warn(JSON.stringify(error, undefined, 2));
-            //   // setLoginSuccess(result);
-            //   //Toast.show('Invalid Otp', Toast.SHORT);
+          // if (!error) {
+          //   console.warn(JSON.stringify(error, undefined, 2));
+          //   // setLoginSuccess(result);
+          //   //Toast.show('Invalid Otp', Toast.SHORT);
 
-            //   setLoading(false);
+          //   setLoading(false);
 
-            //   // signOut();
-            // }
-            else {
-              // setError(true);
-              // signOut();
-              //   Toast.show('Invalid Otp', Toast.SHORT);
+          //   // signOut();
+          // }
+          else {
+            // setError(true);
+            // signOut();
+            //   Toast.show('Invalid Otp', Toast.SHORT);
 
-              setLoading(false);
-              console.warn(JSON.stringify(error, undefined, 2));
-            }
-          },
-        }),
-      );
-    
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
   };
 
   return (
@@ -410,9 +412,9 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
         <Text style={styles.enterText}>Two Step Log-In</Text>
       </View> */}
       <View style={styles.enterTextConatiner}>
-      {key == 'Email' ? <Text style={styles.enterText}>
+        {key == 'Email' ? <Text style={styles.enterText}>
           {'Enter the OTP received on your email id.'}
-        </Text>:<Text style={styles.enterText}>
+        </Text> : <Text style={styles.enterText}>
           {'Enter the OTP received on your phone number.'}
         </Text>}
       </View>
@@ -422,7 +424,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
           inputStyles={styles.otpinput}
           handleChange={val => setOtp(val)}
           numberOfInputs={4}
-          focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
+          focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
 
 
         // value={otp}

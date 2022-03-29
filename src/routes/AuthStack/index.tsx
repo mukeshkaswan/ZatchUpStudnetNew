@@ -198,11 +198,7 @@ function AuthStack() {
         options={{ header: () => null }}
       />
 
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{ headerShown: false }}
-      />
+
 
       <Stack.Screen
         name="MySchoolScreen"
@@ -210,11 +206,13 @@ function AuthStack() {
         options={{ headerShown: false }}
       />
 
+
       <Stack.Screen
-        name="Messages"
-        component={Messages}
-        options={{ header: () => null }}
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
       />
+
 
       <Stack.Screen
         name="Splash"
@@ -236,9 +234,16 @@ function AuthStack() {
 
       <Stack.Screen
         name="CoomingSoon"
-        component={DrawerNav}
+        component={CoomingSoon}
         options={{ header: () => null }}
       />
+
+      <Stack.Screen
+        name="Messages"
+        component={Messages}
+        options={{ header: () => null }}
+      />
+
 
       <Stack.Screen
         name="ResetPassword"
@@ -394,7 +399,7 @@ function AuthStack() {
         component={SelectStudentFromLogin}
         options={{ header: () => null }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Comming"
         component={Comming}
         options={{ header: () => null }}

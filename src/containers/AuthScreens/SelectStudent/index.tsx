@@ -3,14 +3,14 @@ import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, Toucha
 import styles from './style';
 import { Images } from '../../../components/index';
 import OtpInputs from 'react-native-otp-inputs';
-import { TextField, CustomButton, CustomStatusBar, BackBtn } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, BackBtn, HeaderTitleWithBack } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     NavigationContainer,
     useIsFocused,
     useFocusEffect,
-  } from '@react-navigation/native';
+} from '@react-navigation/native';
 interface SelectStudentScreenProps { navigation: any; route: any; }
 
 const SelectStudent = (props: SelectStudentScreenProps) => {
@@ -25,18 +25,18 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
         // if(value != null ){
         //     props.navigation.goBack(null);
         // }else{
-            Alert.alert(
-                'ZatchUp',
-                'Do you want to exit?',
-                [
-                    { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                    { text: 'Yes', onPress: () => BackHandler.exitApp() },
-                ],
-                { cancelable: false });
-            return true;
-    
+        Alert.alert(
+            'ZatchUp',
+            'Do you want to exit?',
+            [
+                { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            ],
+            { cancelable: false });
+        return true;
 
-      
+
+
     }
 
 
@@ -53,7 +53,10 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
         <View style={styles.container}>
             <CustomStatusBar />
             {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
-
+            {props.route.params.loginkey === 'loginkey' ? <HeaderTitleWithBack
+                navigation={props.navigation}
+                headerTitle="Select Student"
+            /> : null}
 
             <View style={styles.enterTextConatiner}>
                 <Text style={styles.enterText}>Are you currently a student?</Text>
@@ -154,7 +157,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             <View style={styles.inputContainer}>
 
                 <View>
-                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect,'re_verify':props.route.params.re_verify }) }} />
+                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />
                     {/* <CustomButton title={'Next'} onPress={() =>{studentSelect? props.navigation.navigate('CurrentSchoolinfo',{data:'name'}): props.navigation.goBack()}} /> */}
 
                 </View>

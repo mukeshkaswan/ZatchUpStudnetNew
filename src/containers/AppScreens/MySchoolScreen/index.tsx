@@ -213,7 +213,7 @@ const MySchool = (props: HomeScreenProps) => {
           <Text style={styles.TM_tv}>TM</Text>
         </View>
 
-        <View style={styles.Notification_view}>
+        {/* <View style={styles.Notification_view}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Reminders');
@@ -223,7 +223,6 @@ const MySchool = (props: HomeScreenProps) => {
 
               marginRight: 5, marginTop: 11, height: 30, width: 30
             }} />
-            {/* <Image source={Images.search} style={styles.inbox_iconreminder} /> */}
           </TouchableOpacity>
 
           <View
@@ -239,7 +238,7 @@ const MySchool = (props: HomeScreenProps) => {
             }}>
             <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text>
           </View>
-        </View>
+        </View> */}
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Notifications');
