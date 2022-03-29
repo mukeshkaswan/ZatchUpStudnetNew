@@ -19,6 +19,7 @@ import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
+import Toast from 'react-native-simple-toast';
 import {
   NavigationContainer,
   useIsFocused,
@@ -60,21 +61,78 @@ const MySchool = (props: HomeScreenProps) => {
   };
 
 
+  // useEffect(() => {
+
+
+  //   const dataSetTimeOut = setTimeout(() => {
+
+  //     getStepCountAPi();
+
+  //     return () => {
+  //       dataSetTimeOut.clear();
+  //     }
+  //   }, 500);
+
+
+  // }, [isFocused]);
+
+
+
   useEffect(() => {
 
 
     const dataSetTimeOut = setTimeout(() => {
+
+      getAuthUserInfoApi();
 
       getStepCountAPi();
 
       return () => {
         dataSetTimeOut.clear();
       }
-    }, 500);
+    }, 1000);
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+
+      );
+    };
 
 
   }, [isFocused]);
 
+  function handleBackButtonClick() {
+    Alert.alert(
+      'Exit App',
+      'Do you want to exit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: onDeleteBTN },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  }
+
+  const onDeleteBTN = async () => {
+    try {
+      await AsyncStorage.removeItem('tokenlogin');
+      await AsyncStorage.removeItem('token');
+    } catch (e) {
+      // save error
+    }
+    Toast.show('Logout Successfully ', Toast.SHORT);
+
+    props.navigation.navigate('LoginScreen');
+    //  BackHandler.exitApp()
+  };
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -290,10 +348,10 @@ const MySchool = (props: HomeScreenProps) => {
             <View style={styles.boxcontainer}>
               <Image
                 style={{ width: 70, height: 70, resizeMode: 'contain' }}
-                source={Images.shareprofile}
+                source={Images.profilebookicon}
               />
               <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>View My Education Profile</Text>
+                <Text style={styles.text}>My Education Profile</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -307,7 +365,7 @@ const MySchool = (props: HomeScreenProps) => {
                 source={Images.logo}
               />
               <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>Zatchup Star{'\n'}Class</Text>
+                <Text style={styles.text}>My{'\n'}Classroom</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -384,10 +442,10 @@ const MySchool = (props: HomeScreenProps) => {
             <View style={styles.boxcontainer}>
               <Image
                 style={{ width: 70, height: 70, resizeMode: 'contain' }}
-                source={Images.shareprofile}
+                source={Images.profilebookicon}
               />
               <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>View My Education Profile</Text>
+                <Text style={styles.text}>My Education Profile</Text>
               </View>
             </View>
           </TouchableOpacity>

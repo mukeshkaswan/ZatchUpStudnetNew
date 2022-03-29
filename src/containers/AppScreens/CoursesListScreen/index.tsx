@@ -141,7 +141,7 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
           if (results) {
 
             // setSpinnerStart(false);
-            console.log('results',results)
+            console.log('results', results)
             setCourseData(results),
 
               setLoading(false);
@@ -180,7 +180,7 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
             style={{ paddingLeft: 10 }}
             onChangeText={onChangeNumber}
             value={number}
-            placeholder="Search"
+            placeholder="Search..."
             keyboardType='default'
           />
           <TouchableOpacity style={styles.applybtn}>
@@ -221,7 +221,7 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
       />
       ) : (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 15 }}>No ZatchUp StarClass Course in your gallery, Please contact your School for adding Courses</Text>
+          <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
         </View>
       )}
     </View>

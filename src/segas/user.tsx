@@ -87,7 +87,10 @@ import {
   RESENDOTPEIDETAILCHANGE,
   REQUESTCHANGEUSERDETAILEMAIL,
   REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL,
-  RESENDOTPEIDETAILCHANGEEMAIL
+  RESENDOTPEIDETAILCHANGEEMAIL,
+  SCHOOLISTONUSER,
+  USERSETTINGSTATUS,
+  USERSETTINGSTATUSPOST
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -2187,6 +2190,36 @@ function* getChatTeacherList({ payload: { data, callback } }) {
 }
 
 
+
+/***************************User GET School List On User Auth Segas*******************************/
+
+function* getSchoolListOnUser({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `chat/school_list_on_user/`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+      //console.log('get Teacher Chat List Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 /***************************User GET Pending user change detail list Auth Segas*******************************/
 
 function* getPendinguserchangedetaillist({ payload: { data, callback } }) {
@@ -2918,6 +2951,68 @@ function* getResendotpEiRequestEmail({ payload: { data, callback } }) {
   }
 }
 
+
+/***************************User GET User Setting Status Auth Segas*******************************/
+
+function* getUserSettingStatus({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/setting_status/${data.id}/`,
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get City result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************User GET User Setting Status Post*******************************/
+
+function* getUserSettingStatusPost({ payload: { data, callback } }) {
+ 
+  const params = {
+    is_disabled: data.is_disabled,
+    status_type: data.status_type,
+    user: data.user,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/setting_status/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('User Setting Status Post result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -2983,6 +3078,7 @@ function* User() {
     yield takeLatest(GETCOUNTRY, getCountry),
     yield takeLatest(USEREDITADMISSIONROLLNOTWO, getUsereditadmissionrollnotwo),
     yield takeLatest(CHATTEACHERLIST, getChatTeacherList),
+    yield takeLatest(SCHOOLISTONUSER, getSchoolListOnUser),
     yield takeLatest(PENDINGUSERCHANGEDETAILLIST, getPendinguserchangedetaillist),
     yield takeLatest(DELETEPENDINGUSERREQUEST, getDeletePendingUserRequest),
     yield takeLatest(UPLOADEKYCFORDETAILCHANGE, getUploadekycfordetailchnage),
@@ -3006,7 +3102,13 @@ function* User() {
     yield takeLatest(REQUESTCHANGEUSERDETAILEMAIL, requestChangeUserDetailEmail),
     yield takeLatest(REQUESTCHANGEUSERDETAILVERIFYOTPEMAIL, requestChangeUserDetailVerifyOtpEmail),
     yield takeLatest(RESENDOTPEIDETAILCHANGEEMAIL, getResendotpEiRequestEmail),
+    yield takeLatest(USERSETTINGSTATUS, getUserSettingStatus),
+    yield takeLatest(USERSETTINGSTATUSPOST, getUserSettingStatusPost),
 
+
+    
+
+    
   ]);
   
 }

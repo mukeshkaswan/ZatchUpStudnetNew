@@ -49,7 +49,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     // console.log('rtyuigfghj', props)
     setEmail('');
     setPassword('');
-    Clear();
+    //Clear();
   }, [isFocused]);
 
   const renderIndicator = () => {
@@ -69,15 +69,257 @@ const LoginScreen = (props: LoginScreenProps) => {
   };
 
 
-  const Clear = async () => {
+  // const Clear = async () => {
 
-    await AsyncStorage.removeItem('tokenlogin')
+  //   await AsyncStorage.removeItem('tokenlogin')
+
+  // }
+
+  const onNaviagte = async (result,user) => {
+
+   // console.log('result123', result);
+
+    if (result.two_factor_authentication === 'False') {
+
+      onPressOtp(user);
+    }
+    else {
+
+      props.navigation.navigate('OtpLogin', {
+        firebase_id: user._user.uid,
+        username: email,
+        firebase: user._user.uid,
+      });
+    }
+
 
   }
 
 
-  const onPressLogin = async () => {
+  const onPressOtp = (user) => {
+
+  
+      const data = {
+        firebase_id: user._user.uid,
+        username: email,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.otpSuccessSkip({
+          data,
+          callback: ({ result, error }) => {
+            if (result.status === 'True') {
+              console.warn(
+                'after otp result 1',
+                // JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('Home'),
+              );
+
+             getData(result),
+
+                //setSpinnerStart(false);
+                setLoading(false);
+            }
+            if (result.status === 'False') {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              Toast.show(result.error, Toast.SHORT);
+              setLoading(false);
+
+              // signOut();
+            }
+
+            // if (!error) {
+            //   console.warn(JSON.stringify(error, undefined, 2));
+            //   // setLoginSuccess(result);
+            //   //Toast.show('Invalid Otp', Toast.SHORT);
+
+            //   setLoading(false);
+
+            //   // signOut();
+            // }
+            else {
+              // setError(true);
+              // signOut();
+              //   Toast.show('Invalid Otp', Toast.SHORT);
+
+              setLoading(false);
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
     
+  };
+
+
+  const getData = async result => {
+    // console.log('tokenlogin', result.token)
+    try {
+      await AsyncStorage.setItem('tokenlogin', result.token);
+      await AsyncStorage.setItem('token', result.token);
+      await AsyncStorage.setItem('username', result.first_name + ' ' + result.last_name);
+      // await AsyncStorage.setItem('dob', date_copy);
+    } catch (e) {
+      // saving error
+    }
+    UserCourseDelete(result.token);
+    getStepCountAPi(result.token);
+  };
+
+
+  const getData_is_kyc_rejected = async result => {
+    console.log('step 3')
+    if (result.reg_step == 1) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+        props.navigation.navigate('eKYC', { 'Editdobsignup': true });
+      }
+    } else if (result.reg_step == 2) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
+      }
+    } else if (result.reg_step == 4) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
+      }
+    } else if (result.reg_step == 6) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+        props.navigation.navigate('Personalinfo');
+      }
+    } else if (result.reg_step == 7) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+
+        Toast.show('Login Successfully', Toast.SHORT)
+        // props.navigation.navigate('MySchoolScreen')
+        // props.navigation.navigate('Home')
+        props.navigation.navigate('MySchoolScreen')
+        //props.navigation.navigate('Comming')
+
+
+
+      }
+    } else if (result.reg_step == 5) {
+      if (result.is_kyc_rejected === true) {
+        props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
+      } else {
+        // props.navigation.navigate('Personalinfo');
+
+        props.navigation.navigate('SelectStudent', { 're_verify': false });
+
+      }
+    } else {
+      // console.log('step_4', '4')
+      props.navigation.navigate('SelectStudent', { 're_verify': false });
+    }
+  };
+
+
+  /***************************User getStepCountAPi *******************************/
+
+  const getStepCountAPi = async token => {
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getRegStepCount({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result step count 2',
+              JSON.stringify(result, undefined, 2),
+              getData_is_kyc_rejected(result),
+
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  const UserCourseDelete = async token => {
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getUserCourseDeleteNotConfirm({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //   'after.....>',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  }
+
+
+
+  const onPressLogin = async () => {
+
     var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
     const emailError = Validate(key, email);
     const passwordError = Validate('password_', password);
@@ -115,11 +357,13 @@ const LoginScreen = (props: LoginScreenProps) => {
                 .then(({ user }) => {
 
                   console.log('FirebaseUSerLogin===>>>', user);
-                  props.navigation.navigate('OtpLogin', {
-                    firebase_id: user._user.uid,
-                    username: email,
-                    firebase: user._user.uid,
-                  });
+                  onNaviagte(result, user);
+
+                  // props.navigation.navigate('OtpLogin', {
+                  //   firebase_id: user._user.uid,
+                  //   username: email,
+                  //   firebase: user._user.uid,
+                  // });
 
                 })
 
@@ -137,10 +381,10 @@ const LoginScreen = (props: LoginScreenProps) => {
               //return;
               setLoading(false);
 
-              props.navigation.navigate('OtpLogin', {
-                firebase_id: result.firebase_username,
-                username: email,
-              });
+              // props.navigation.navigate('OtpLogin', {
+              //   firebase_id: result.firebase_username,
+              //   username: email,
+              // });
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));

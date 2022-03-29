@@ -52,16 +52,17 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
 
   useEffect(() => {
 
-    getTeacherChatData();
+    getSchoolList();
+
 
 
   }, [isFocused]);
 
 
 
-  /***************************User GET Chat Teacher List Data*******************************/
+  /***************************User GET School List Data*******************************/
 
-  const getTeacherChatData = async () => {
+  const getSchoolList = async () => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -75,7 +76,59 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
 
     const data = {
       token: token,
-      id: 1085,
+
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getSchoolListOnUser({
+        data,
+
+        callback: ({ results, error }) => {
+          if (results && results.length > 0) {
+            setLoading(false);
+
+            // setSpinnerStart(false);
+           //console.log('results ......school list', results[0].school_id);
+           getTeacherChatData(results[0].school_id);
+
+          //  setLectureData(results);
+
+          }
+          else if (results && results.length == []) {
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User GET Chat Teacher List Data*******************************/
+
+  const getTeacherChatData = async (school_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: school_id,
 
     };
     setLoading(true);

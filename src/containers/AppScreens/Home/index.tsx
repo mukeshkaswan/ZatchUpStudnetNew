@@ -1449,7 +1449,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                 />
                               </TouchableOpacity> : null}
 
-                              {i.approved != 2 ? <TouchableOpacity
+                              {i.approved != '1' && i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
                                 onPress={() => DeleteCourse(course.course_id)}
                               >
@@ -2401,7 +2401,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               <Text style={styles.Personal_Tv}>Add School</Text>
 
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false,'loginkey':'loginkey' })}>
+                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey' })}>
                 <Image
                   style={{
                     height: 28,

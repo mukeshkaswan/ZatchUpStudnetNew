@@ -245,7 +245,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     // });
     setDataCourseInList(result.data);
     setKey(true);
-   console.log('dsfsdfds----------------------------->>>>>>>1', result)
+    console.log('dsfsdfds----------------------------->>>>>>>1', result)
   };
 
 
@@ -649,8 +649,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               // getdataCourseKey(result)
               // getEicourseconfirmationlist(),
               Toast.show('School deleted successfully', Toast.SHORT),
-              props.navigation.navigate('SelectStudent', { 're_verify': props.route.params.re_verify }),
+              
             );
+            if(stepcount != '7'){
+              props.navigation.navigate('SelectStudent', { 're_verify': props.route.params.re_verify });
+
+            }
+            else{
+              props.navigation.navigate('MySchoolScreen');
+            }
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -1620,18 +1627,18 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false  && props.route.params.AlumniNo == 'AlumniNo'
+                              i.is_current_course == false && props.route.params.AlumniNo == 'AlumniNo'
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                  item.ei_detail.school_code,
+                                    item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
                                   coursekeyothersAlumni:
-                                  props.route.params.coursekeyothersAlumni,
+                                    props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                   're_verify': props.route.params.re_verify
                                 })
@@ -1642,7 +1649,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       school_id: item.ei_detail.id,
                                       course_id: i.course_id,
                                       nameofschool:
-                                      item.ei_detail.name_of_school,
+                                        item.ei_detail.name_of_school,
                                       school_zatchup_id:
                                         item.ei_detail.school_code,
                                       course_name: i.course_name,
@@ -1811,7 +1818,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             {
                                               height: hp(2.7),
                                               borderColor: '#000',
-                                              width: wp(15),
+                                              width: wp(18),
                                               alignItems: 'center',
                                               alignSelf: 'flex-end',
                                               marginTop: 5,
@@ -1827,10 +1834,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                           <Text
                                             style={{
                                               color: '#000',
-                                              fontSize: hp(1.4),
+                                              fontSize: hp(1.3),
                                               fontFamily: 'SFUIDisplay-Heavy',
                                             }}>
-                                            Skipped
+                                            Skip Standard
                                           </Text>
                                         </TouchableOpacity>
                                       ) : null}

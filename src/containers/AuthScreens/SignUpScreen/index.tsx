@@ -156,6 +156,8 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   };
 
   const checkedMale = () => {
+    setCourseTypeSelected('');
+    setCustomGender('');
     setMale(!male);
     setFemale(false);
     setCustom(false);
@@ -164,6 +166,8 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   };
 
   const checkedFemale = () => {
+    setCustomGender('');
+    setCourseTypeSelected('')
     setFemale(!Female);
     setCustom(false);
     setMale(false);
@@ -176,7 +180,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     setMale(false);
     setFemale(false);
     setcustomgenderView(true);
-    setGender('M');
+    setGender('C');
   };
 
   const _storeData = async () => {
@@ -268,6 +272,8 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       var data = '';
       var key =
+      Course_Selected == ''
+          ? '':
         Course_Selected == 0
           ? 'He'
           : Course_Selected == 1
@@ -286,6 +292,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             dob: date_copy,
             gender: Gender,
             pronoun: key,
+            custom_gender:CustomGender
           },
           is_term_cond: allSelected,
         };
@@ -302,6 +309,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             dob: date_copy,
             gender: Gender,
             pronoun: key,
+            custom_gender:CustomGender
           },
           is_term_cond: allSelected,
         };
@@ -381,9 +389,16 @@ const SignUpScreen = (props: SignUpScreenProps) => {
 
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
+
+              if(Email.indexOf('@') != -1){
+              Toast.show(result.error.email[0], Toast.SHORT);
+
+              }else{
+               Toast.show(result.error.phone[0], Toast.SHORT);
+
+              }
               // setLoginSuccess(result);
-              //Toast.show(result.error.email[0], Toast.SHORT);
-              Toast.show('User with this email address already exists.', Toast.SHORT);
+            //  Toast.show('User with this email address already exists.', Toast.SHORT);
 
               //  console.log('error Result',result.error.email[0])
 

@@ -60,6 +60,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled2, setIsEnabled2] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
+  const [isEnabledTwoFactor, setIsEnabledTwoFactor] = useState(false);
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
@@ -69,6 +70,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [otpemail, setOtpEmail] = useState('');
   const [number, onChangeNumber] = React.useState(null);
   const [changeemail, onChangeEmail] = React.useState(null);
+
+  const [userid, setUserid] = useState('');
+
 
   const [Gender, setGender] = useState('');
   const [GenderForModal, setGenderForModal] = useState('');
@@ -100,7 +104,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [CustomGender, setCustomGender] = useState('');
   const [isotpVisiblemodal, setotpVisiblemodal] = useState(false);
   const [isotpVisiblemodalemail, setotpVisiblemodalemail] = useState(false);
-
+  const dispatch = useDispatch();
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
       label: 'He',
@@ -165,6 +169,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const toggleSwitch2 = () => {
     setIsEnabled2(previousState => !previousState);
   };
+
+  const toggleSwitchTwoFactor = () => {
+    setIsEnabledTwoFactor(!isEnabledTwoFactor);
+
+    onPressChangeTwoFactorStaus(!isEnabledTwoFactor);
+  };
   const toggleSwitch3 = () => {
     setIsEnabled3(previousState => !previousState);
   };
@@ -213,8 +223,18 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   //   };
   // }, []);
   useEffect(() => {
-    getEducationProfile();
+
+
+    const dataSetTimeOut = setTimeout(() => {
+      getEducationProfile();
+      getAuthUserInfoApi();
+      return () => {
+          dataSetTimeOut.clear();
+      }
+  }, 500);
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
@@ -223,7 +243,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     };
   }, [isFocused]);
 
-  const dispatch = useDispatch();
 
   //console.log("this.props",this.props);
 
@@ -290,10 +309,189 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     }
   };
 
+
+
+  const onPressChangeTwoFactorStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "OTP",
+      user: 1237,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            //getSettingStatus();
+            getSettingStatus(1237);
+
+
+           // Toast.show(result.message, Toast.SHORT);
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  /***************************User Auth User  SettingS tatus Info*******************************/
+
+  const getSettingStatus = async (user_id) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: user_id
+    };
+
+    dispatch(
+      userActions.getUserSettingStatus({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result get User Setting Status >',
+              JSON.stringify(result, undefined, 2),
+
+            );
+            setIsEnabledTwoFactor(result.data[0].is_disabled);
+           // Alert.alert(JSON.stringify( result.data[0].is_disabled));
+
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  };
+
+  /***************************User Auth User Info*******************************/
+
+  const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
+
+            );
+          //  Alert.alert('Huy 1')
+            // setUserid(result.user_id);
+            // getSettingStatus(result.user_id);
+            // setUserid(1237);
+             getSettingStatus(1237);
+
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   /***************************User GET Education Profile list *******************************/
 
   const getEducationProfile = async () => {
-    //  Alert.alert('hey');
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -322,15 +520,15 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         //   Alert.alert('hey...');
         if (data.status) {
           setLoading(false);
+          // Alert.alert('getEducationProfile');
 
           console.warn(
             'after setting call api',
             JSON.stringify(data, undefined, 2),
-
-
           );
           getdataProfile(data);
           getdataCourse(data);
+
           // setSpinnerStart(false);
         }
       })
@@ -342,15 +540,18 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.getStudentEducationProfile({
         data,
         callback: ({ result, error }) => {
-          console.log('hey.......kamal');
+          console.log('hey.......kamal1');
           if (result.status) {
-            console.warn(
-              'after setting call api',
-              JSON.stringify(result, undefined, 2),
+            // console.warn(
+            //   'after setting call api',
+            //   JSON.stringify(result, undefined, 2),
 
-              getdataProfile(result),
+            //   getdataProfile(result),
+            //   getdataCourse(result),
+            // );
+               getdataProfile(result),
               getdataCourse(result),
-            );
+
             setLoading(false);
             // setSpinnerStart(false);
           }
@@ -673,7 +874,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               //setSpinnerStart(false);
               setLoading(false),
 
-              LogoutALert();
+                LogoutALert();
             }
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
@@ -757,7 +958,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               //setSpinnerStart(false);
               setLoading(false),
 
-              LogoutALert();
+                LogoutALert();
             }
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
@@ -792,7 +993,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
 
-  const onPressResendOtp =  async ()  => {
+  const onPressResendOtp = async () => {
 
     var token = '';
     try {
@@ -848,7 +1049,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
 
-  const onPressResendOtpEmail =  async ()  => {
+  const onPressResendOtpEmail = async () => {
 
     var token = '';
     try {
@@ -1470,150 +1671,150 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         renderItem={({ item, index }) => rednderItemList(item, index)}
       /> */}
 
-<ScrollView>
+      <ScrollView>
 
-      <View>
-        <CardView
-          cardElevation={5}
-          cardMaxElevation={5}
-          // cornerRadius={15}
-          style={{
-            // width: '95%',
+        <View>
+          <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            // cornerRadius={15}
+            style={{
+              // width: '95%',
 
-            backgroundColor: 'white',
-            marginHorizontal: 15,
-            marginTop: 20,
-            paddingBottom: 14,
-            paddingTop: 10,
-          }}>
-          <View style={styles.addcitycontainer}>
-            <Text style={styles.title_text}>Personal Setting</Text>
-            {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
-              <Image source={Images.edit_icon} style={styles.addicon} />
-            </TouchableOpacity> : null}
-            {/* Modal */}
-          </View>
-
-          <View style={styles.border}></View>
-          <View style={{ marginTop: 10 }}>
-            <View style={styles.text_container}>
-              <Text style={styles.detail_text}>Name : </Text>
-              <Text>{username}</Text>
-              {kyc_approved != '0' ? <TouchableOpacity
-                onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
-
-                <Image
-                  style={{
-                    height: 20,
-                    width: 20,
-
-                    //marginTop: 5,
-                    marginLeft: 5,
-                    // marginRight: 15,
-                  }}
-                  source={Images.edit_icon}
-                />
+              backgroundColor: 'white',
+              marginHorizontal: 15,
+              marginTop: 20,
+              paddingBottom: 14,
+              paddingTop: 10,
+            }}>
+            <View style={styles.addcitycontainer}>
+              <Text style={styles.title_text}>Personal Setting</Text>
+              {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
+                <Image source={Images.edit_icon} style={styles.addicon} />
               </TouchableOpacity> : null}
-
-            </View>
-            <View style={styles.text_container}>
-              <Text style={styles.detail_text}>DOB : </Text>
-              <Text>{dob}</Text>
-              {kyc_approved != '0' ? <TouchableOpacity
-                onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
-
-                <Image
-                  style={{
-                    height: 20,
-                    width: 20,
-
-                    //marginTop: 5,
-                    marginLeft: 5,
-                    // marginRight: 15,
-                  }}
-                  source={Images.edit_icon}
-                />
-              </TouchableOpacity> : null}
-
+              {/* Modal */}
             </View>
 
-            {Gender == 'M' ? (
+            <View style={styles.border}></View>
+            <View style={{ marginTop: 10 }}>
               <View style={styles.text_container}>
-                <Text style={styles.detail_text}>Gender : </Text>
-                <Text>Male</Text>
+                <Text style={styles.detail_text}>Name : </Text>
+                <Text>{username}</Text>
+                {kyc_approved != '0' ? <TouchableOpacity
+                  onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+
+                  <Image
+                    style={{
+                      height: 20,
+                      width: 20,
+
+                      //marginTop: 5,
+                      marginLeft: 5,
+                      // marginRight: 15,
+                    }}
+                    source={Images.edit_icon}
+                  />
+                </TouchableOpacity> : null}
+
               </View>
-            ) : Gender == 'F' ? (
               <View style={styles.text_container}>
-                <Text style={styles.detail_text}>Gender : </Text>
-                <Text>Female</Text>
+                <Text style={styles.detail_text}>DOB : </Text>
+                <Text>{dob}</Text>
+                {kyc_approved != '0' ? <TouchableOpacity
+                  onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+
+                  <Image
+                    style={{
+                      height: 20,
+                      width: 20,
+
+                      //marginTop: 5,
+                      marginLeft: 5,
+                      // marginRight: 15,
+                    }}
+                    source={Images.edit_icon}
+                  />
+                </TouchableOpacity> : null}
+
               </View>
-            ) : (
-              <View style={styles.text_container}>
-                <Text style={styles.detail_text}>Gender : </Text>
-                <Text>Custom</Text>
-              </View>
-            )}
 
-            {email != '' ? <View style={styles.text_container}>
+              {Gender == 'M' ? (
+                <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Gender : </Text>
+                  <Text>Male</Text>
+                </View>
+              ) : Gender == 'F' ? (
+                <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Gender : </Text>
+                  <Text>Female</Text>
+                </View>
+              ) : (
+                <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Gender : </Text>
+                  <Text>Custom</Text>
+                </View>
+              )}
 
-              {email != '' ? <View style={{ flexDirection: 'row' }}>
+              {email != '' ? <View style={styles.text_container}>
 
-                <Text style={styles.detail_text}>Email : </Text>
-                <Text>{email}</Text>
-              </View> : null}
+                {email != '' ? <View style={{ flexDirection: 'row' }}>
 
-
-
-
-              {phone == '' ? <TouchableOpacity
-                onPress={toggleModal2}
-              >
-                <Image
-                  source={Images.phone_icon}
-                  style={{
-                    resizeMode: 'stretch',
-                    tintColor: 'green',
-                    marginLeft: 8,
-                    width: 20,
-                    height: 20,
-                  }}
-                />
-              </TouchableOpacity> : null}
-
-            </View> : null}
-
-
-            {phone != '' ? <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Email : </Text>
+                  <Text>{email}</Text>
+                </View> : null}
 
 
 
 
-              {phone != '' ? <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.detail_text}>
-                  Phone Number :
-                </Text>
-                <Text>{phone}</Text>
+                {phone == '' ? <TouchableOpacity
+                  onPress={toggleModal2}
+                >
+                  <Image
+                    source={Images.phone_icon}
+                    style={{
+                      resizeMode: 'stretch',
+                      tintColor: 'green',
+                      marginLeft: 8,
+                      width: 20,
+                      height: 20,
+                    }}
+                  />
+                </TouchableOpacity> : null}
 
               </View> : null}
 
 
-              {email == '' ? <TouchableOpacity
-               onPress={toggleModal3}
-              >
-                <Image
-                  source={Images.inbox}
-                  style={{
-                    resizeMode: 'stretch',
-                    tintColor: 'green',
-                    marginLeft: 8,
-                    width: 20,
-                    height: 20,
-                  }}
-                />
-              </TouchableOpacity> : null}
+              {phone != '' ? <View style={styles.text_container}>
 
-            </View> : null}
-            {/* <View style={styles.text_container}>
+
+
+
+                {phone != '' ? <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.detail_text}>
+                    Phone Number :
+                  </Text>
+                  <Text>{phone}</Text>
+
+                </View> : null}
+
+
+                {email == '' ? <TouchableOpacity
+                  onPress={toggleModal3}
+                >
+                  <Image
+                    source={Images.inbox}
+                    style={{
+                      resizeMode: 'stretch',
+                      tintColor: 'green',
+                      marginLeft: 8,
+                      width: 20,
+                      height: 20,
+                    }}
+                  />
+                </TouchableOpacity> : null}
+
+              </View> : null}
+              {/* <View style={styles.text_container}>
                       {phone == '' ? (
                         <>
                           <Text style={styles.detail_text}>Email : </Text>
@@ -1659,546 +1860,586 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         </TouchableOpacity>
                       )}
                     </View> */}
-            {fathername != '' && (
-              <View style={styles.text_container}>
-                <Text style={styles.detail_text}>Father's Name : </Text>
-                <Text>{fathername}</Text>
-              </View>
-            )}
-            {mothername != '' && (
-              <View style={styles.text_container}>
-                <Text style={styles.detail_text}>Mother's Name : </Text>
-                <Text>{mothername}</Text>
-              </View>
-            )}
-          </View>
-        </CardView>
-        <CardView
-          cardElevation={5}
-          cardMaxElevation={5}
-          //cornerRadius={20}
-          style={styles.cardp}>
-          <Text style={styles.title_text}>Privacy Setting</Text>
+              {fathername != '' && (
+                <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Father's Name : </Text>
+                  <Text>{fathername}</Text>
+                </View>
+              )}
+              {mothername != '' && (
+                <View style={styles.text_container}>
+                  <Text style={styles.detail_text}>Mother's Name : </Text>
+                  <Text>{mothername}</Text>
+                </View>
+              )}
+            </View>
+          </CardView>
+          <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            //cornerRadius={20}
+            style={styles.cardp}>
+            <Text style={styles.title_text}>Privacy Setting</Text>
 
-          <View style={styles.border}></View>
-          <View style={styles.privacyrowcontainer}>
-            {phone == '' ? (
-              <>
-                <Text style={styles.detail_text}>Email</Text>
-                <Text style={{ textAlign: 'center' }}>{email}</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.detail_text}>Mobile Number</Text>
-                <Text style={{ textAlign: 'center' }}>{phone}</Text>
-              </>
-            )}
+            <View style={styles.border}></View>
+            <View style={styles.privacyrowcontainer}>
+              {phone == '' ? (
+                <>
+                  <Text style={styles.detail_text}>Email</Text>
+                  <Text style={{ textAlign: 'center' }}>{email}</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.detail_text}>Mobile Number</Text>
+                  <Text style={{ textAlign: 'center' }}>{phone}</Text>
+                </>
+              )}
 
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch1}
-              value={isEnabled}
-            />
-          </View>
-
-          <View style={styles.border1}></View>
-          <View style={styles.privacyrowcontainer}>
-            <Text style={styles.detail_text}>Date of Birth</Text>
-            <Text style={{ textAlign: 'center' }}>{dob}</Text>
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch2}
-              value={isEnabled2}
-            />
-          </View>
-          <View style={styles.border1}></View>
-          <View style={styles.privacyrowcontainer}>
-            {Gender == 'M' ? (
-              <>
-                <Text style={styles.detail_text}>Gender</Text>
-                <Text style={{ textAlign: 'center' }}>Male</Text>
-              </>
-            ) : Gender == 'F' ? (
-              <>
-                <Text style={styles.detail_text}>Gender</Text>
-                <Text style={{ textAlign: 'center' }}>Female</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.detail_text}>Gender</Text>
-                <Text style={{ textAlign: 'center' }}>Custom</Text>
-              </>
-            )}
-
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch3}
-              value={isEnabled3}
-            />
-          </View>
-
-          <View style={styles.border1}></View>
-          <View style={styles.privacyrowcontainer}>
-            <Text style={styles.detail_text}>Profession</Text>
-            <Text style={{ textAlign: 'center' }}>{dob}</Text>
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch2}
-              value={isEnabled2}
-            />
-          </View>
-
-          <View style={styles.border1}></View>
-          <View style={styles.privacyrowcontainer}>
-            <Text style={styles.detail_text}>Current City</Text>
-            <Text style={{ textAlign: 'center' }}>{dob}</Text>
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch2}
-              value={isEnabled2}
-            />
-          </View>
-
-          <View style={styles.border1}></View>
-          <View style={styles.privacyrowcontainer}>
-            <Text style={styles.detail_text}>Deactivate Account</Text>
-            <Text style={{ textAlign: 'center' }}>{dob}</Text>
-            <Switch
-              trackColor={{ false: 'grey', true: 'lightgreen' }}
-              thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch2}
-              value={isEnabled2}
-            />
-          </View>
-          {/* <View style={styles.border1}></View> */}
-        </CardView>
-
-        {/* edit personal information modal */}
-        <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
-          <View
-            style={{
-              //height: hp('55'),
-              backgroundColor: Colors.$backgroundColor,
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingVertical: 20,
-              paddingHorizontal: 10,
-              borderRadius: 5,
-            }}>
-            <TouchableOpacity
-              onPress={toggleModal}
-              style={{ alignSelf: 'flex-end' }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch1}
+                value={isEnabled}
               />
-            </TouchableOpacity>
-            <Text
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Date of Birth</Text>
+              <Text style={{ textAlign: 'center' }}>{dob}</Text>
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              {Gender == 'M' ? (
+                <>
+                  <Text style={styles.detail_text}>Gender</Text>
+                  <Text style={{ textAlign: 'center' }}>Male</Text>
+                </>
+              ) : Gender == 'F' ? (
+                <>
+                  <Text style={styles.detail_text}>Gender</Text>
+                  <Text style={{ textAlign: 'center' }}>Female</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.detail_text}>Gender</Text>
+                  <Text style={{ textAlign: 'center' }}>Custom</Text>
+                </>
+              )}
+
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch3}
+                value={isEnabled3}
+              />
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Profession</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Current City</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Enable Two-Factor Authentication</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitchTwoFactor}
+                value={isEnabledTwoFactor}
+              />
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Private Profile</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Enable Social Media</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+
+            <View style={styles.border1}></View>
+            <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Deactivate Account</Text>
+              {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+            {/* <View style={styles.border1}></View> */}
+          </CardView>
+
+          {/* edit personal information modal */}
+          <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+            <View
               style={{
-                fontSize: 20,
-                marginVertical: 5,
-                fontWeight: 'bold',
+                //height: hp('55'),
+                backgroundColor: Colors.$backgroundColor,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+                borderRadius: 5,
               }}>
-              Personal Information
-            </Text>
-            <Text style={styles.labeltext}>Mother's Name</Text>
-            <View style={styles.textinputcontainer}>
-              {/* <TextInput
+              <TouchableOpacity
+                onPress={toggleModal}
+                style={{ alignSelf: 'flex-end' }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 20,
+                  marginVertical: 5,
+                  fontWeight: 'bold',
+                }}>
+                Personal Information
+              </Text>
+              <Text style={styles.labeltext}>Mother's Name</Text>
+              <View style={styles.textinputcontainer}>
+                {/* <TextInput
                         style={{paddingLeft: 10}}
                         onChangeText={onChangeNumber}
                         value={number}
                         placeholder="Enter Your Mother's Name"
                         keyboardType="default"
                       /> */}
-              <TextField
-                placeholder={'Enter Your Mother Name'}
-                //imageIcon={Images.calendar_icon}
-                onChangeText={val => setnewnnewMothername(val)}
-                value={newmothername}
-              />
-            </View>
-            <Text style={styles.labeltext}>Father's Name</Text>
-            <View style={styles.textinputcontainer}>
-              <TextField
-                placeholder={'Enter Your Father Name'}
-                //imageIcon={Images.calendar_icon}
-                onChangeText={val => setnewnnewFathername(val)}
-                value={newfathername}
-              />
-            </View>
-            <Text style={styles.labeltext}>Gender</Text>
-
-            <View
-              style={[
-                styles.inputmarginBottom,
-                {
-                  flexDirection: 'row',
-                  // flex: 1,
-                  marginLeft: 25,
-                  marginRight: 25,
-                },
-              ]}>
-              <View style={{ flex: 1 }}>
-                <CheckBox
-                  title=" Male"
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle"
-                  checked={male}
-                  containerStyle={{
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: 'transparent',
-                  }}
-                  titleProps={{
-                    style: {
-                      color: 'rgba(51,51,51,0.5)',
-                      fontFamily: 'Lato-Regular',
-                    },
-                  }}
-                  uncheckedColor={'#fff'}
-                  checkedColor={'rgb(70,50,103)'}
-                  textStyle={{
-                    color: '#33333380',
-                    fontFamily: 'Lato-Regular',
-                  }}
-                  onPress={checkedMale}
-                // fontFamily={'Lato-Regular'}
+                <TextField
+                  placeholder={'Enter Your Mother Name'}
+                  //imageIcon={Images.calendar_icon}
+                  onChangeText={val => setnewnnewMothername(val)}
+                  value={newmothername}
                 />
               </View>
-
-              <View style={{ flex: 1 }}>
-                <CheckBox
-                  title=" Female"
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle"
-                  checked={Female}
-                  containerStyle={{
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: 'transparent',
-                  }}
-                  titleProps={{
-                    style: {
-                      color: 'rgba(51,51,51,0.5)',
-                      fontFamily: 'Lato-Regular',
-                    },
-                  }}
-                  uncheckedColor={'#fff'}
-                  checkedColor={'rgb(70,50,103)'}
-                  onPress={checkedFemale}
-                // fontFamily={'Lato-Regular'}
+              <Text style={styles.labeltext}>Father's Name</Text>
+              <View style={styles.textinputcontainer}>
+                <TextField
+                  placeholder={'Enter Your Father Name'}
+                  //imageIcon={Images.calendar_icon}
+                  onChangeText={val => setnewnnewFathername(val)}
+                  value={newfathername}
                 />
               </View>
+              <Text style={styles.labeltext}>Gender</Text>
 
-              <View style={{ flex: 1 }}>
-                <CheckBox
-                  title=" Custom"
-                  checkedIcon="dot-circle-o"
-                  uncheckedIcon="circle"
-                  checked={Custom}
-                  containerStyle={{
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: 'transparent',
-                  }}
-                  titleProps={{
-                    style: {
-                      color: 'rgba(51,51,51,0.5 )',
-                      fontFamily: 'Lato-Regular',
-                    },
-                  }}
-                  uncheckedColor={'lightgrey'}
-                  checkedColor={'rgb(70,50,103)'}
-                  textStyle={{ color: '#33333380' }}
-                  onPress={checkedCustom}
-                />
-              </View>
-            </View>
-            {customgenderView && (
-              <View style={{}}>
-                <View
-                  style={{
-                    marginBottom: '2%', width: 250
-                  }}>
-                  {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
-
-                  <CustomDropdown
-                    placeholder={'Select your pronoun'}
-                    data={KYC_type_doc}
-                    value={Course_Selected}
-
-                    SelectedLanguagedata={(selectedValue: any) => {
-                      setCourseTypeSelected(selectedValue);
+              <View
+                style={[
+                  styles.inputmarginBottom,
+                  {
+                    flexDirection: 'row',
+                    // flex: 1,
+                    marginLeft: 25,
+                    marginRight: 25,
+                  },
+                ]}>
+                <View style={{ flex: 1 }}>
+                  <CheckBox
+                    title=" Male"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle"
+                    checked={male}
+                    containerStyle={{
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
                     }}
+                    titleProps={{
+                      style: {
+                        color: 'rgba(51,51,51,0.5)',
+                        fontFamily: 'Lato-Regular',
+                      },
+                    }}
+                    uncheckedColor={'#fff'}
+                    checkedColor={'rgb(70,50,103)'}
+                    textStyle={{
+                      color: '#33333380',
+                      fontFamily: 'Lato-Regular',
+                    }}
+                    onPress={checkedMale}
+                  // fontFamily={'Lato-Regular'}
                   />
                 </View>
 
-                <View style={{ marginBottom: '3%', width: 250 }}>
-                  <TextField
-                    placeholder={'Gender (optional)'}
-                    imageIcon={''}
-                    onChangeText={val => setCustomGender(val)}
-                    value={CustomGender}
+                <View style={{ flex: 1 }}>
+                  <CheckBox
+                    title=" Female"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle"
+                    checked={Female}
+                    containerStyle={{
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
+                    }}
+                    titleProps={{
+                      style: {
+                        color: 'rgba(51,51,51,0.5)',
+                        fontFamily: 'Lato-Regular',
+                      },
+                    }}
+                    uncheckedColor={'#fff'}
+                    checkedColor={'rgb(70,50,103)'}
+                    onPress={checkedFemale}
+                  // fontFamily={'Lato-Regular'}
+                  />
+                </View>
+
+                <View style={{ flex: 1 }}>
+                  <CheckBox
+                    title=" Custom"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle"
+                    checked={Custom}
+                    containerStyle={{
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
+                    }}
+                    titleProps={{
+                      style: {
+                        color: 'rgba(51,51,51,0.5 )',
+                        fontFamily: 'Lato-Regular',
+                      },
+                    }}
+                    uncheckedColor={'lightgrey'}
+                    checkedColor={'rgb(70,50,103)'}
+                    textStyle={{ color: '#33333380' }}
+                    onPress={checkedCustom}
                   />
                 </View>
               </View>
-            )}
-            <TouchableOpacity
-              style={{
-                height: hp('4.5'),
-                width: wp('40'),
-                backgroundColor: 'rgb(70,50,103)',
-                marginTop: 15,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 10,
-              }}
-              onPress={() => onPressSubmit()}
-            >
-              <Text style={{ color: 'white' }}
+              {customgenderView && (
+                <View style={{}}>
+                  <View
+                    style={{
+                      marginBottom: '2%', width: 250
+                    }}>
+                    {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
+
+                    <CustomDropdown
+                      placeholder={'Select your pronoun'}
+                      data={KYC_type_doc}
+                      value={Course_Selected}
+
+                      SelectedLanguagedata={(selectedValue: any) => {
+                        setCourseTypeSelected(selectedValue);
+                      }}
+                    />
+                  </View>
+
+                  <View style={{ marginBottom: '3%', width: 250 }}>
+                    <TextField
+                      placeholder={'Gender (optional)'}
+                      imageIcon={''}
+                      onChangeText={val => setCustomGender(val)}
+                      value={CustomGender}
+                    />
+                  </View>
+                </View>
+              )}
+              <TouchableOpacity
+                style={{
+                  height: hp('4.5'),
+                  width: wp('40'),
+                  backgroundColor: 'rgb(70,50,103)',
+                  marginTop: 15,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 10,
+                }}
+                onPress={() => onPressSubmit()}
               >
-                Submit
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-        {/*  add number modal */}
-        <Modal
-          isVisible={isModalVisible2}
-          onBackdropPress={toggleModal2}>
-          <View
-            style={{
-              height: hp('22'),
-              backgroundColor: Colors.$backgroundColor,
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingVertical: 20,
-              paddingHorizontal: 10,
-              borderRadius: 5,
-            }}>
-            <TouchableOpacity
-              onPress={toggleModal2}
-              style={{ alignSelf: 'flex-end' }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.labeltext}>Mobile Number</Text>
-            <View style={styles.textinputcontainer}>
-              <TextInput
-                style={{ paddingLeft: 10 }}
-                onChangeText={onChangeNumber}
-                value={number}
-                placeholder="Enter Mobile Number"
-                keyboardType='number-pad'
-                maxLength={10}
-              />
+                <Text style={{ color: 'white' }}
+                >
+                  Submit
+                </Text>
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              onPress={() => onPressSubmitNumber()}
+          </Modal>
+          {/*  add number modal */}
+          <Modal
+            isVisible={isModalVisible2}
+            onBackdropPress={toggleModal2}>
+            <View
               style={{
-                height: hp('4.5'),
-                width: wp('40'),
-                backgroundColor: 'rgb(70,50,103)',
-                marginTop: 15,
-                alignItems: 'center',
+                height: hp('22'),
+                backgroundColor: Colors.$backgroundColor,
                 justifyContent: 'center',
-                borderRadius: 10,
+                alignItems: 'center',
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+                borderRadius: 5,
               }}>
-              <Text style={{ color: 'white' }}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+              <TouchableOpacity
+                onPress={toggleModal2}
+                style={{ alignSelf: 'flex-end' }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.labeltext}>Mobile Number</Text>
+              <View style={styles.textinputcontainer}>
+                <TextInput
+                  style={{ paddingLeft: 10 }}
+                  onChangeText={onChangeNumber}
+                  value={number}
+                  placeholder="Enter Mobile Number"
+                  keyboardType='number-pad'
+                  maxLength={10}
+                />
+              </View>
+
+              <TouchableOpacity
+                onPress={() => onPressSubmitNumber()}
+                style={{
+                  height: hp('4.5'),
+                  width: wp('40'),
+                  backgroundColor: 'rgb(70,50,103)',
+                  marginTop: 15,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 10,
+                }}>
+                <Text style={{ color: 'white' }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
 
 
 
 
-         {/*  add email modal */}
-         <Modal
-          isVisible={isModalVisible3}
-          onBackdropPress={toggleModal3}>
-          <View
-            style={{
-              height: hp('22'),
-              backgroundColor: Colors.$backgroundColor,
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingVertical: 20,
-              paddingHorizontal: 10,
-              borderRadius: 5,
-            }}>
-            <TouchableOpacity
-              onPress={toggleModal3}
-              style={{ alignSelf: 'flex-end' }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
+          {/*  add email modal */}
+          <Modal
+            isVisible={isModalVisible3}
+            onBackdropPress={toggleModal3}>
+            <View
+              style={{
+                height: hp('22'),
+                backgroundColor: Colors.$backgroundColor,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+                borderRadius: 5,
+              }}>
+              <TouchableOpacity
+                onPress={toggleModal3}
+                style={{ alignSelf: 'flex-end' }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
 
-            <Text style={styles.labeltext}>Email</Text>
-            <View style={styles.textinputcontainer}>
-              <TextInput
-                style={{ paddingLeft: 10 }}
-                onChangeText={onChangeEmail}
-                value={changeemail}
-                placeholder="Add Email"
-                keyboardType='email-address'
+              <Text style={styles.labeltext}>Email</Text>
+              <View style={styles.textinputcontainer}>
+                <TextInput
+                  style={{ paddingLeft: 10 }}
+                  onChangeText={onChangeEmail}
+                  value={changeemail}
+                  placeholder="Add Email"
+                  keyboardType='email-address'
                 //maxLength={10}
-              />
+                />
+              </View>
+
+              <TouchableOpacity
+                onPress={() => onPressSubmitEmail()}
+                style={{
+                  height: hp('4.5'),
+                  width: wp('40'),
+                  backgroundColor: 'rgb(70,50,103)',
+                  marginTop: 15,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 10,
+                }}>
+                <Text style={{ color: 'white' }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
+
+          {/* modal for otp NO  */}
+          <Modal
+            isVisible={isotpVisiblemodal}
+          // onBackdropPress={toggleModal2}
+          >
+            <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <CustomStatusBar />
+              {isLoading && renderIndicator()}
+              <TouchableOpacity
+                onPress={otptoggleModal}
+                style={{ alignSelf: 'flex-end' }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <View style={styles.logoContainer}>
+                <Image source={Images.message_icon} style={styles.messagelogo} />
+              </View>
+              <View style={styles.enterTextConatiner}>
+                <Text style={styles.enterText}>
+                  {'Enter OTP Send On Your' + ' ' + number}
+                </Text>
+              </View>
+              <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <OtpInputs
+                  inputContainerStyles={styles.OtpinputContainer}
+                  inputStyles={styles.otpinput}
+                  handleChange={val => setOtp(val)}
+                  numberOfInputs={4}
+                  focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+
+
+                />
+              </View>
+
+              <View style={{ width: 250, alignSelf: 'center' }}>
+                <CustomButton
+                  title={'Submit'}
+                  onPress={onPressOtp}
+                //onPress={() => onPressSubmitNumber()}
+                // onPress={() => props.navigation.navigate('eKYC')}
+                />
+              </View>
+              <View style={styles.OtpResendContainer}>
+                <Text
+                  style={styles.resendText}
+                  onPress={onPressResendOtp}
+                >
+                  Resend Code
+                </Text>
+
+              </View>
             </View>
 
-            <TouchableOpacity
-              onPress={() => onPressSubmitEmail()}
-              style={{
-                height: hp('4.5'),
-                width: wp('40'),
-                backgroundColor: 'rgb(70,50,103)',
-                marginTop: 15,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 10,
-              }}>
-              <Text style={{ color: 'white' }}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-
-        {/* modal for otp NO  */}
-        <Modal
-          isVisible={isotpVisiblemodal}
-        // onBackdropPress={toggleModal2}
-        >
-          <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
-            <CustomStatusBar />
-            {isLoading && renderIndicator()}
-            <TouchableOpacity
-              onPress={otptoggleModal}
-              style={{ alignSelf: 'flex-end' }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-            <View style={styles.logoContainer}>
-              <Image source={Images.message_icon} style={styles.messagelogo} />
-            </View>
-            <View style={styles.enterTextConatiner}>
-              <Text style={styles.enterText}>
-                {'Enter OTP Send On Your' + ' ' + number}
-              </Text>
-            </View>
-            <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
-              <OtpInputs
-                inputContainerStyles={styles.OtpinputContainer}
-                inputStyles={styles.otpinput}
-                handleChange={val => setOtp(val)}
-                numberOfInputs={4}
-                focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
-
-
-              />
-            </View>
-
-            <View style={{ width: 250, alignSelf: 'center' }}>
-              <CustomButton
-                title={'Submit'}
-                onPress={onPressOtp}
-              //onPress={() => onPressSubmitNumber()}
-              // onPress={() => props.navigation.navigate('eKYC')}
-              />
-            </View>
-            <View style={styles.OtpResendContainer}>
-              <Text
-                style={styles.resendText}
-                onPress={onPressResendOtp}
-              >
-                Resend Code
-              </Text>
-
-            </View>
-          </View>
-
-        </Modal>
+          </Modal>
 
 
 
-         {/* modal for otp EMAIL  */}
-         <Modal
-          isVisible={isotpVisiblemodalemail}
-        // onBackdropPress={toggleModal2}
-        >
-          <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
-            <CustomStatusBar />
-            {isLoading && renderIndicator()}
-            <TouchableOpacity
-              onPress={otptoggleModalEmail}
-              style={{ alignSelf: 'flex-end' }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-            <View style={styles.logoContainer}>
-              <Image source={Images.message_icon} style={styles.messagelogo} />
-            </View>
-            <View style={styles.enterTextConatiner}>
-              <Text style={styles.enterText}>
-                {'Enter OTP Send On Your' + ' ' + changeemail}
-              </Text>
-            </View>
-            <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
-              <OtpInputs
-                inputContainerStyles={styles.OtpinputContainer}
-                inputStyles={styles.otpinput}
-                handleChange={val => setOtpEmail(val)}
-                numberOfInputs={4}
-                focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+          {/* modal for otp EMAIL  */}
+          <Modal
+            isVisible={isotpVisiblemodalemail}
+          // onBackdropPress={toggleModal2}
+          >
+            <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <CustomStatusBar />
+              {isLoading && renderIndicator()}
+              <TouchableOpacity
+                onPress={otptoggleModalEmail}
+                style={{ alignSelf: 'flex-end' }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <View style={styles.logoContainer}>
+                <Image source={Images.message_icon} style={styles.messagelogo} />
+              </View>
+              <View style={styles.enterTextConatiner}>
+                <Text style={styles.enterText}>
+                  {'Enter OTP Send On Your' + ' ' + changeemail}
+                </Text>
+              </View>
+              <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <OtpInputs
+                  inputContainerStyles={styles.OtpinputContainer}
+                  inputStyles={styles.otpinput}
+                  handleChange={val => setOtpEmail(val)}
+                  numberOfInputs={4}
+                  focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
 
 
-              />
+                />
+              </View>
+
+              <View style={{ width: 250, alignSelf: 'center' }}>
+                <CustomButton
+                  title={'Submit'}
+                  onPress={onPressOtpEmail}
+                //onPress={() => onPressSubmitNumber()}
+                // onPress={() => props.navigation.navigate('eKYC')}
+                />
+              </View>
+              <View style={styles.OtpResendContainer}>
+                <Text
+                  style={styles.resendText}
+                  onPress={onPressResendOtpEmail}
+                >
+                  Resend Code
+                </Text>
+
+              </View>
             </View>
 
-            <View style={{ width: 250, alignSelf: 'center' }}>
-              <CustomButton
-                title={'Submit'}
-                onPress={onPressOtpEmail}
-              //onPress={() => onPressSubmitNumber()}
-              // onPress={() => props.navigation.navigate('eKYC')}
-              />
-            </View>
-            <View style={styles.OtpResendContainer}>
-              <Text
-                style={styles.resendText}
-                onPress={onPressResendOtpEmail}
-              >
-                Resend Code
-              </Text>
-
-            </View>
-          </View>
-
-        </Modal>
+          </Modal>
 
 
-      </View>
+        </View>
       </ScrollView>
     </View>
   );

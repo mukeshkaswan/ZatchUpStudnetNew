@@ -255,6 +255,10 @@ export const getUsereditadmissionrollnotwo= createAction(USEREDITADMISSIONROLLNO
 export const CHATTEACHERLIST = 'CHATTEACHERLIST';
 export const getChatTeacherList= createAction(CHATTEACHERLIST);
 
+// this is for Get School List On User
+export const SCHOOLISTONUSER = 'SCHOOLISTONUSER';
+export const getSchoolListOnUser= createAction(SCHOOLISTONUSER);
+
 // this is for Get Pending user change detail list
 export const PENDINGUSERCHANGEDETAILLIST = 'PENDINGUSERCHANGEDETAILLIST';
 export const getPendinguserchangedetaillist= createAction(PENDINGUSERCHANGEDETAILLIST);
@@ -354,3 +358,11 @@ export const getResendotpEiRequest = createAction(RESENDOTPEIDETAILCHANGE);
 // this is for Get Re-send Otp data success otp-ei-request-for-detail email
 export const RESENDOTPEIDETAILCHANGEEMAIL = 'RESENDOTPEIDETAILCHANGEEMAIL';
 export const getResendotpEiRequestEmail = createAction(RESENDOTPEIDETAILCHANGEEMAIL);
+
+// this is for Get User Setting Status
+export const USERSETTINGSTATUS = 'USERSETTINGSTATUS';
+export const getUserSettingStatus = createAction(USERSETTINGSTATUS);
+
+// this is for Get User Setting Status Post
+export const USERSETTINGSTATUSPOST = 'USERSETTINGSTATUSPOST';
+export const getUserSettingStatusPost = createAction(USERSETTINGSTATUSPOST);

@@ -56,6 +56,8 @@ const images = {
   school: require('../assets/images/school.png'),
   profile_default: require('../assets/images/profile_default.png'),
   pending: require('../assets/images/pending.png'),
+  pending: require('../assets/images/pending.png'),
+  profilebookicon: require('../assets/images/profilebookicon.png'),
 };
 
 export default images;

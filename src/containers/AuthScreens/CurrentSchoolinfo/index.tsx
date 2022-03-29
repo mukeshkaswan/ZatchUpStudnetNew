@@ -13,6 +13,7 @@ import {
   CustomHeader,
   CustomDropdown,
   Validate,
+  HeaderTitleWithBack
 } from '../../../components';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -752,9 +753,17 @@ const CurrentSchoolinfo = (
         {isLoading && renderIndicator()}
 
         {props.route.params.data === true ? (
-          <CustomHeader Title={'Add Current School'} />
+          // <CustomHeader Title={'Add Current School'} />
+          <HeaderTitleWithBack
+                navigation={props.navigation}
+                headerTitle="Add Current School"
+            />
         ) : (
-          <CustomHeader Title={'Add School'} />
+          // <CustomHeader Title={'Add School'} />
+          <HeaderTitleWithBack
+                navigation={props.navigation}
+                headerTitle="Add School"
+            />
         )}
 
         <View style={styles.fillTextContainer}>
