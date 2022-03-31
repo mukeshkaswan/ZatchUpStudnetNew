@@ -63,7 +63,9 @@ import {
   SingleChatWebView,
   SIngleChatWithTeacherWebView,
   SelectStudentFromLogin,
-  Comming
+  Comming,
+  KYCEiRequestSingle,
+  KYCEiRequestMultiple
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -404,6 +406,21 @@ function AuthStack() {
         component={Comming}
         options={{ header: () => null }}
       />
+
+
+      <Stack.Screen
+        name="KYCEiRequestSingle"
+        component={KYCEiRequestSingle}
+        options={{ header: () => null }}
+      />
+
+      <Stack.Screen
+        name="KYCEiRequestMultiple"
+        component={KYCEiRequestMultiple}
+        options={{ header: () => null }}
+      />
+
+
 
 
       {/* <Stack.Screen

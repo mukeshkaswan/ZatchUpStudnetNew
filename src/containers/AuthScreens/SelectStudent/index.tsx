@@ -41,6 +41,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
 
 
     useEffect(() => {
+        console.log('props.route.params.ei_request_count', props.route.params.ei_request_count);
 
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
         return () => {
@@ -156,9 +157,9 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
 
             <View style={styles.inputContainer}>
 
-                <View>
-                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />
-                    {/* <CustomButton title={'Next'} onPress={() =>{studentSelect? props.navigation.navigate('CurrentSchoolinfo',{data:'name'}): props.navigation.goBack()}} /> */}
+               <View>
+               {props.route.params.ei_request_count === 0 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />: props.route.params.ei_request_count === 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestSingle', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:props.route.params.ei_request_count > 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestMultiple', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:null}
+                   
 
                 </View>
 

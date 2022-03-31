@@ -8,7 +8,7 @@ export default ScaledSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: '2%',
-		
+
 
 	},
 	buttonContainer: {
@@ -21,7 +21,7 @@ export default ScaledSheet.create({
 	},
 	bg: {
 		backgroundColor: 'rgb(63,168,63)',
-		padding: '10%',
+		padding: '5%',
 
 
 	},
@@ -40,7 +40,7 @@ export default ScaledSheet.create({
 		fontFamily: 'Lato-Medium',
 		color: '#FFF',
 		textAlign: 'center',
-		fontSize: hp(2.5),
+		fontSize: hp(2.3),
 
 
 	}

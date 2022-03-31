@@ -1434,7 +1434,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                               {i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
-                                onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
+                               // onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
                               >
 
                                 <Image
@@ -1442,7 +1442,6 @@ const HomeScreen = (props: HomeScreenProps) => {
                                     height: 28,
                                     width: 28,
                                     marginTop: 10,
-                                    // marginLeft: 20,
                                     marginRight: 15,
                                   }}
                                   source={Images.edit_icon}

@@ -62,5 +62,7 @@ export {default as SingleChatWebView} from './AppScreens/SingleChatWebView';
 export {default as SIngleChatWithTeacherWebView} from './AppScreens/SIngleChatWithTeacherWebView';
 export {default as SelectStudentFromLogin} from './AuthScreens/SelectStudentFromLogin';
 export {default as Comming} from './AuthScreens/Comming';
+export {default as KYCEiRequestSingle} from './AppScreens/KYCEiRequestSingle';
+export {default as KYCEiRequestMultiple} from './AppScreens/KYCEiRequestMultiple';
 
 

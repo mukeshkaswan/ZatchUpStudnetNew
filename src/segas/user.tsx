@@ -90,7 +90,10 @@ import {
   RESENDOTPEIDETAILCHANGEEMAIL,
   SCHOOLISTONUSER,
   USERSETTINGSTATUS,
-  USERSETTINGSTATUSPOST
+  USERSETTINGSTATUSPOST,
+  EIDETAILFORALREADYSTUDENT,
+  SENTFORAPPROVALVIEWSTATUS,
+  LOGOUTVIEWSTATUS
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -3013,6 +3016,95 @@ function* getUserSettingStatusPost({ payload: { data, callback } }) {
 }
 
 
+/***************************User GET Ei detail for already students Segas*******************************/
+
+function* getEidetailforalreadystudents({ payload: { data, callback } }) {
+  console.warn('data in saga Ei detail for already students', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: {},
+    method: 'POST',
+    url: 'user/get-ei-detail-for-already-students/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Check User Kyc Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+/***************************User GET Sent for approval view status Segas*******************************/
+
+function* getSentforapprovalviewstatus({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/sent_for_approval_view_status/?status=SENTFORSIGNUP`,
+
+  };
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+
+  if (!error) {
+    if (result) {
+       console.log('get sent_for_approval_view_status', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Logout View Status Auth Segas*******************************/
+
+function* getLogoutViewStatus({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    method: 'GET',
+    url: 'user/logout_view_status/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'get Step Count result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -3104,9 +3196,9 @@ function* User() {
     yield takeLatest(RESENDOTPEIDETAILCHANGEEMAIL, getResendotpEiRequestEmail),
     yield takeLatest(USERSETTINGSTATUS, getUserSettingStatus),
     yield takeLatest(USERSETTINGSTATUSPOST, getUserSettingStatusPost),
-
-
-    
+    yield takeLatest(EIDETAILFORALREADYSTUDENT, getEidetailforalreadystudents),
+    yield takeLatest(SENTFORAPPROVALVIEWSTATUS, getSentforapprovalviewstatus),
+    yield takeLatest(LOGOUTVIEWSTATUS, getLogoutViewStatus),
 
     
   ]);

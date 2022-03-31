@@ -461,7 +461,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             // setUserid(result.user_id);
             // getSettingStatus(result.user_id);
             // setUserid(1237);
-             getSettingStatus(1237);
+             getSettingStatus(result.user_id);
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -509,7 +509,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setLoading(true);
 
     axios
-      .get('http://172.105.61.231:3000/api/user/student-education-profile/', {
+      .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-type': 'multipart/form-data',

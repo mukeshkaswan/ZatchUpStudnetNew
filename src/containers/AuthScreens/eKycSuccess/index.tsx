@@ -5,7 +5,7 @@ import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
 
-interface eKycSuccesscreenProps { navigation: any }
+interface eKycSuccesscreenProps { navigation: any ;  route: any;}
 
 const eKycSuccess = (props: eKycSuccesscreenProps) => {
     const [Aadhar, setAadhar] = useState('');
@@ -28,6 +28,8 @@ const eKycSuccess = (props: eKycSuccesscreenProps) => {
     //   }
 
     useEffect(() => {
+
+
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
@@ -59,7 +61,7 @@ const eKycSuccess = (props: eKycSuccesscreenProps) => {
 
 
                     <View>
-                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent', { 're_verify': false })} />
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('SelectStudent', { 're_verify': false ,'ei_request_count':props.route.params.ei_request_count})} />
                     </View>
                 </View>
 

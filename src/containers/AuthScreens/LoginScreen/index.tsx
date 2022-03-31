@@ -166,12 +166,13 @@ const LoginScreen = (props: LoginScreenProps) => {
       // saving error
     }
     UserCourseDelete(result.token);
+    getLogoutView(result.token);
     getStepCountAPi(result.token);
   };
 
 
   const getData_is_kyc_rejected = async result => {
-    console.log('step 3')
+   // console.log('step 3')
     if (result.reg_step == 1) {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
@@ -207,8 +208,6 @@ const LoginScreen = (props: LoginScreenProps) => {
         props.navigation.navigate('MySchoolScreen')
         //props.navigation.navigate('Comming')
 
-
-
       }
     } else if (result.reg_step == 5) {
       if (result.is_kyc_rejected === true) {
@@ -224,7 +223,7 @@ const LoginScreen = (props: LoginScreenProps) => {
       props.navigation.navigate('SelectStudent', { 're_verify': false });
     }
   };
-
+  
 
   /***************************User getStepCountAPi *******************************/
 
@@ -242,6 +241,53 @@ const LoginScreen = (props: LoginScreenProps) => {
               'after result step count 2',
               JSON.stringify(result, undefined, 2),
               getData_is_kyc_rejected(result),
+
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET Logout View Status *******************************/
+
+  const getLogoutView = async token => {
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getLogoutViewStatus({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result Logout View Status',
+              JSON.stringify(result, undefined, 2),
+            //  getData_is_kyc_rejected(result),
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );

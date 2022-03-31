@@ -758,7 +758,7 @@ const eKyc = (props: eKycScreenProps) => {
               );
             //  Toast.show(result.message, Toast.SHORT);
 
-              navigate()
+              navigate(result)
               // props.navigation.navigate('eKycSuccess', {
               //   username: 'jfdsfsdlfjs',
               // });
@@ -785,30 +785,30 @@ const eKyc = (props: eKycScreenProps) => {
   };
 
 
-  const navigate = async () => {
+  const navigate = async (result) => {
 
-    //  console.log('login singup value', props.route.params);
+     console.log('login singup result', result);
     // props.navigation.navigate('eKycSuccess', {
     //   username: 'jfdsfsdlfjs',
     // });
     if (props.route.params.hasOwnProperty('signup') && props.route.params.signup == 'signup') {
       props.navigation.navigate('eKycSuccess', {
-        username: 'jfdsfsdlfjs',
+        ei_request_count: result.ei_request_count,
       });
     }
     else {
       if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 1) {
         props.navigation.navigate('eKycSuccess', {
-          username: 'jfdsfsdlfjs',
+          ei_request_count: result.ei_request_count,
         });
       } else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 2) {
         props.navigation.navigate('eKycSuccess', {
-          username: 'jfdsfsdlfjs',
+          ei_request_count: result.ei_request_count,
         });
       }
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 4) {
         props.navigation.navigate('eKycSuccess', {
-          username: 'jfdsfsdlfjs',
+          ei_request_count: result.ei_request_count,
         });
       }
 

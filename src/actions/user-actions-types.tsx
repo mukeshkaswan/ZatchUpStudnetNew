@@ -366,3 +366,17 @@ export const getUserSettingStatus = createAction(USERSETTINGSTATUS);
 // this is for Get User Setting Status Post
 export const USERSETTINGSTATUSPOST = 'USERSETTINGSTATUSPOST';
 export const getUserSettingStatusPost = createAction(USERSETTINGSTATUSPOST);
+
+// this is for Get User get Ei detail for already students
+export const EIDETAILFORALREADYSTUDENT = 'EIDETAILFORALREADYSTUDENT';
+export const getEidetailforalreadystudents = createAction(EIDETAILFORALREADYSTUDENT);
+
+// this is for Get User sent for approval view status
+export const SENTFORAPPROVALVIEWSTATUS = 'SENTFORAPPROVALVIEWSTATUS';
+export const getSentforapprovalviewstatus = createAction(SENTFORAPPROVALVIEWSTATUS);
+
+
+// this is for Get User logout view status
+export const LOGOUTVIEWSTATUS = 'LOGOUTVIEWSTATUS';
+export const getLogoutViewStatus = createAction(LOGOUTVIEWSTATUS);
+
