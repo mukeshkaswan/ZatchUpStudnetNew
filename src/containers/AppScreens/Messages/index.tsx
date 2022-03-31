@@ -340,7 +340,7 @@ const Messages = (props: MessagesScreenProps) => {
 
         <WebView
           // source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-          source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
+          source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
 
           startInLoadingState={true}
           renderLoading={() => (

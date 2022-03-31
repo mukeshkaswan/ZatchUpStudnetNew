@@ -88,7 +88,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [profilepic, setProfilePic] = useState('');
   const [dob, setDob] = useState('');
   const [kyc_approved, setkyc_approved] = useState('');
-
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [fathername, setFathername] = useState('');
@@ -104,6 +103,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [CustomGender, setCustomGender] = useState('');
   const [isotpVisiblemodal, setotpVisiblemodal] = useState(false);
   const [isotpVisiblemodalemail, setotpVisiblemodalemail] = useState(false);
+  const [pronouncustom, setpronoun] = useState('');
+  const [pronouncustomcustom_gender, setpronouncustom_gender] = useState('');
+
+
   const dispatch = useDispatch();
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
@@ -229,12 +232,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       getEducationProfile();
       getAuthUserInfoApi();
       return () => {
-          dataSetTimeOut.clear();
+        dataSetTimeOut.clear();
       }
-  }, 500);
+    }, 500);
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-  
+
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
@@ -283,6 +286,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setMale(element.gender == 'M' ? true : false);
       setFemale(element.gender == 'F' ? true : false);
       setCustom(element.gender == 'C' ? true : false);
+      setpronoun(element.pronoun);
+      setpronouncustom_gender(element.custom_gender)
+
 
       // var obj = {
       //   id: element.first_name,
@@ -347,7 +353,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             getSettingStatus(1237);
 
 
-           // Toast.show(result.message, Toast.SHORT);
+            // Toast.show(result.message, Toast.SHORT);
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -400,7 +406,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
             );
             setIsEnabledTwoFactor(result.data[0].is_disabled);
-           // Alert.alert(JSON.stringify( result.data[0].is_disabled));
+            // Alert.alert(JSON.stringify( result.data[0].is_disabled));
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -457,11 +463,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               JSON.stringify(result, undefined, 2),
 
             );
-          //  Alert.alert('Huy 1')
+            //  Alert.alert('Huy 1')
             // setUserid(result.user_id);
             // getSettingStatus(result.user_id);
             // setUserid(1237);
-             getSettingStatus(result.user_id);
+            getSettingStatus(result.user_id);
 
             // setSpinnerStart(false);
             setLoading(false);
@@ -549,10 +555,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             //   getdataProfile(result),
             //   getdataCourse(result),
             // );
-               getdataProfile(result),
+            getdataProfile(result),
               getdataCourse(result),
 
-            setLoading(false);
+              setLoading(false);
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -1754,6 +1760,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   <Text>Custom</Text>
                 </View>
               )}
+
+              {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.text_container}>
+                <Text style={styles.detail_text}>pronoun : </Text>
+                <Text>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
+              </View> : null}
+
+
 
               {email != '' ? <View style={styles.text_container}>
 

@@ -217,7 +217,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
             setLoading(false);
 
           } else {
-            
+
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -230,7 +230,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      
+
       {/* <HeaderTitleWithBack
         navigation={props.navigation}
         headerTitle="Reminders"
@@ -334,6 +334,8 @@ const Reminders = (props: ResetPasswordScreenProps) => {
                     paddingEnd: 12,
                   }}>
                   <Text style={styles.schoolremindertext}>{item.message}</Text>
+                  {/* <Text style={{fontSize:12,alignItems:'flex-end'}}>{item.recieved_date}</Text> */}
+
                   <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A' }}>{'-Send By: ' + item.sender_name}</Text>
                 </View>
                 {item.attachment != null && (

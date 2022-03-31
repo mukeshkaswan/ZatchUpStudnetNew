@@ -395,6 +395,9 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                 "left_standard_id": standardidparm,
                 "course_name": null,
 
+
+
+
             }
 
             let token = '';
@@ -427,7 +430,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             //     JSON.stringify(result.status, undefined, 2),
                             //     //submit(result.data)
                             // );
-                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool,'re_verify':props.route.params.re_verify })
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool,'re_verify':props.route.params.re_verify,'change_course_id':courseidparm,'login':false })
 
                             // setSpinnerStart(false);
                             setLoading(false);

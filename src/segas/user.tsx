@@ -262,7 +262,7 @@ function* otpSuccess({ payload: { data, callback } }) {
   formdata.append('phone_otp', data.phone_otp);
   formdata.append('username', data.username);
   formdata.append('is_skip',  "false");
-  //formdata.append('is_mobile', true);
+  formdata.append('is_mobile', true);
 
 
   const payload = {
@@ -2464,6 +2464,7 @@ function* getUserCourseConfirm({ payload: { data, callback } }) {
   const datakey = {
     school_id: data.school_id,
     existing_course: data.existing_course,
+    change_course_id:data.change_course_id
     // before_exist: data.course_id,
     // course_id: data.course_id,
 
@@ -2716,6 +2717,7 @@ function* otpSuccessSkip({ payload: { data, callback } }) {
   formdata.append('firebase_id', data.firebase_id);
   formdata.append('username', data.username);
   formdata.append('is_skip', true);
+  formdata.append('is_mobile', true);
 
 
   const payload = {

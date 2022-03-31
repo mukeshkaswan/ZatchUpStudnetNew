@@ -182,14 +182,14 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Lecture Title : </Text>
             <Text style={styles.coursetext1}>{lecturetitle}</Text>
           </View>
-          <View style={styles.textcontainer}>
+          {/* <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Level of Education : </Text>
             <Text style={styles.coursetext1}>{level}</Text>
           </View>
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Field : </Text>
             <Text style={styles.coursetext1}>{field}</Text>
-          </View>
+          </View> */}
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Standard</Text>
             <Text style={styles.coursetext1}>{standard}</Text>

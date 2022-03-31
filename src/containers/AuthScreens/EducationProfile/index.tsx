@@ -412,7 +412,8 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                   city: props.route.params.city,
                   address: props.route.params.address,
                   board: props.route.params.board,
-                  're_verify': props.route.params.re_verify
+                  're_verify': props.route.params.re_verify,
+                  'login':false
                 }),
               );
               // setSpinnerStart(false);

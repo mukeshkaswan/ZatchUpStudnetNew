@@ -87,6 +87,9 @@ const MySchool = (props: HomeScreenProps) => {
 
       getStepCountAPi();
 
+      UserCourseDelete();
+
+
       return () => {
         dataSetTimeOut.clear();
       }
@@ -142,6 +145,65 @@ const MySchool = (props: HomeScreenProps) => {
   // );
 
 
+
+  const UserCourseDelete = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+
+    const data = {
+      token: token,
+    };
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserCourseDeleteNotConfirm({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //   'after.....>',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            // setSpinnerStart(false);
+            setLoading(false);
+
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
+  }
   /***************************User Auth User Info*******************************/
 
   const getAuthUserInfoApi = async () => {
@@ -362,7 +424,7 @@ const MySchool = (props: HomeScreenProps) => {
             <View style={styles.boxcontainer}>
               <Image
                 style={{ height: 100, width: 100, resizeMode: 'contain' }}
-                source={Images.logo}
+                source={Images.laptop_icon}
               />
               <View style={{ marginTop: 12 }}>
                 <Text style={styles.text}>My{'\n'}Classroom</Text>

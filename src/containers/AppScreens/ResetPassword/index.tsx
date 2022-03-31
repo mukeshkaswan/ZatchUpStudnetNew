@@ -274,7 +274,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
         <ScrollView>
           <View style={styles.inputContainer}>
             <View style={{flex: 1}}>
-              <View style={{marginTop: '30%'}}>
+              <View style={{marginTop: '5%'}}>
                 <TextField
                   secureTextEntry={SecureTextEntryold}
                   onIconPress={() => {

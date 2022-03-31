@@ -88,6 +88,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [isVisible, setisVisible] = useState(false);
+  const [isVisibleprivacy, setisVisiblePrivacy] = useState(false);
 
 
 
@@ -272,13 +273,13 @@ const SignUpScreen = (props: SignUpScreenProps) => {
       var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
       var data = '';
       var key =
-      Course_Selected == ''
-          ? '':
-        Course_Selected == 0
-          ? 'He'
-          : Course_Selected == 1
-            ? 'She'
-            : 'They';
+        Course_Selected == ''
+          ? '' :
+          Course_Selected == 0
+            ? 'He'
+            : Course_Selected == 1
+              ? 'She'
+              : 'They';
       if (format.test(Email)) {
         // console.log('email','email')
         data = {
@@ -292,7 +293,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             dob: date_copy,
             gender: Gender,
             pronoun: key,
-            custom_gender:CustomGender
+            custom_gender: CustomGender
           },
           is_term_cond: allSelected,
         };
@@ -309,7 +310,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             dob: date_copy,
             gender: Gender,
             pronoun: key,
-            custom_gender:CustomGender
+            custom_gender: CustomGender
           },
           is_term_cond: allSelected,
         };
@@ -390,15 +391,15 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
 
-              if(Email.indexOf('@') != -1){
-              Toast.show(result.error.email[0], Toast.SHORT);
+              if (Email.indexOf('@') != -1) {
+                Toast.show(result.error.email[0], Toast.SHORT);
 
-              }else{
-               Toast.show(result.error.phone[0], Toast.SHORT);
+              } else {
+                Toast.show(result.error.phone[0], Toast.SHORT);
 
               }
               // setLoginSuccess(result);
-            //  Toast.show('User with this email address already exists.', Toast.SHORT);
+              //  Toast.show('User with this email address already exists.', Toast.SHORT);
 
               //  console.log('error Result',result.error.email[0])
 
@@ -424,6 +425,11 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     // Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
     setisVisible(true);
   }
+
+  const PrivacyPage = () => {
+    // Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
+    setisVisiblePrivacy(true);
+  }
   const termurl = () => {
     Linking.openURL(URL).catch((err) => console.error('An error occurred', err));
 
@@ -432,6 +438,12 @@ const SignUpScreen = (props: SignUpScreenProps) => {
   const onClose = () => {
 
     setisVisible(false);
+
+  };
+
+  const onClosep = () => {
+
+    setisVisiblePrivacy(false);
 
   };
 
@@ -706,6 +718,18 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             >
               <Text style={styles.termText}>Terms & Conditions</Text>
             </TouchableOpacity>
+            <Text style={styles.agreetext}>
+              
+              {''} {'and'} {''}
+            </Text>
+
+            <TouchableOpacity
+
+              // onPress={termurl} 
+              onPress={PrivacyPage}
+            >
+              <Text style={styles.termText}>Privacy Policy</Text>
+            </TouchableOpacity>
 
           </View>
 
@@ -724,6 +748,13 @@ const SignUpScreen = (props: SignUpScreenProps) => {
           <CustomWebView
 
             back={onClose} />
+        </Modal>
+
+
+        <Modal style={{ padding: 0, margin: 0 }} isVisible={isVisibleprivacy}>
+          <CustomWebViewPrivacy
+
+            back={onClosep} />
         </Modal>
       </ScrollView>
     </View>
@@ -774,9 +805,76 @@ function CustomWebView({ back }) {
 
             style={{}}
             source={{
-              uri: 'http://staging.zatchup.com/zatchup/#/user/terms-conditions/user/view?pageName=tc',
+              uri: 'https://www.zatchup.com/preprod/#/user/terms-conditions/user/view?pageName=tc',
             }}
-            
+
+          // onError={() => {
+          //   this.webView.reload();
+          // }}
+          // onLoadStart={() => gotoLoading(true)}
+          // onLoad={() => gotoLoading(false)}
+          />
+
+          <TouchableOpacity
+            onPress={gotoNavigate}
+            style={{ position: 'absolute', padding: 8, zIndex: 9 }}>
+            <Icon name={'close'} size={24} color={'#4B2A6A'} />
+          </TouchableOpacity>
+          {/* {loading && <ProgressIndicator isLoading={loading} />} */}
+        </View>
+      </SafeAreaView>
+    </>
+  );
+}
+
+
+
+
+function CustomWebViewPrivacy({ back }) {
+  const [loading, setLoading] = useState(true);
+  const webviewReff = useRef(null)
+
+  const gotoLoading = (load) => () => {
+    setLoading(load);
+  };
+
+  const gotoNavigate = () => {
+    back && back();
+  };
+
+  // useEffect(() => {
+  //   ApiCall();
+  // }, []);
+
+  // const ApiCall = () => {
+  //   ApiClient.get('')
+  //     .then(({data}) => {
+  //       console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  return (
+    <>
+      <SafeAreaView style={{ flex: 0, backgroundColor: '$backgroundColor' }} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '$backgroundColor' }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+          }}>
+          <WebView
+
+            //ref={webviewRef}
+            ref={webviewReff}
+
+            style={{}}
+            source={{
+              uri: 'https://www.zatchup.com/preprod/#/user/terms-conditions/user/view?pageName=privacy-policy',
+            }}
+
           // onError={() => {
           //   this.webView.reload();
           // }}

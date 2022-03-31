@@ -174,14 +174,17 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (props.route.params.is_onboarded == '0') {
       props.navigation.navigate('EIconfirmation', {
         'otherscourse': 'otherscourse',
-        're_verify': props.route.params.re_verify
+        're_verify': props.route.params.re_verify,
+        'login':false
       })
+
     }
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
         're_verify': props.route.params.re_verify,
-        'schoolnamekey_':props.route.params.nameofschool
+        'schoolnamekey_':props.route.params.nameofschool,
+        'login':false
       })
     }
 
@@ -192,6 +195,9 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
 
   const CourseAdded = async () => {
+
+    setFlag(true);
+
     var dobErrorend: any
     const coursenameError = Validate('coursename', Course);
     const courseError = Validate('coursekey_', Course_Selected);
@@ -203,6 +209,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     const desError = Validate('Des', Des);
 
     if (coursenameError || courseError || dobError || dobErrorend || desError) {
+      setFlag(false);
+
       //this._scrollView.scrollTo(0);
       Toast.show(
         coursenameError || courseError || dobError || dobErrorend || desError,
@@ -248,7 +256,6 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         // error reading value
       }
 
-      console.log('token', token);
 
       let data_update = {
         token: token,
@@ -260,19 +267,21 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
           data_update,
           callback: ({ result, error }) => {
             if (result.status === true) {
+              setLoading(false);
+
               console.warn(
                 'after Add Course result',
                 JSON.stringify(result.status, undefined, 2),
-                submit(),
-
-                setCourse(''),
-                setDes(''),
-                setDate_Copy(''),
-                setDate_Copy1('')
-
+              
               );
+
+              submit(),
+
+              setCourse(''),
+              setDes(''),
+              setDate_Copy(''),
+              setDate_Copy1('')
               // setSpinnerStart(false);
-              setLoading(false);
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));

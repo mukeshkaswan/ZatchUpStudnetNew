@@ -241,7 +241,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
       />
 
      <ScrollView >
-        <Video
+       {coursepreview != '' && coursepreview != null ? <Video
           ref={ref}
          // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
            url={{uri:coursepreview}}
@@ -256,7 +256,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
           showDuration
           rotateToFullScreen={true}
           lockRatio={16 / 9}
-        />
+        />:null}
 
         <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
           <Text style={styles.titletext}>View Course</Text>
@@ -268,14 +268,14 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Course ID : </Text>
             <Text style={styles.coursetext1}>{courseid}</Text>
           </View>
-          <View style={styles.textcontainer}>
+          {/* <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Level of Education : </Text>
             <Text style={styles.coursetext1}>{level}</Text>
-          </View>
-          <View style={styles.textcontainer}>
+          </View> */}
+          {/* <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Field : </Text>
             <Text style={styles.coursetext1}>{field}</Text>
-          </View>
+          </View> */}
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Standard : </Text>
             <Text style={styles.coursetext1}>{standard}</Text>
@@ -292,14 +292,14 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
             <Text style={styles.coursetext1}>{facultydetails}</Text>
           </View>
-          <View style={styles.textcontainer}>
+          {/* <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Topic Cover : </Text>
             <Text style={styles.coursetext1}>{topiccover}</Text>
-          </View>
-          <View style={styles.textcontainer}>
+          </View> */}
+         {des != '' && des != null ? <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Description : </Text>
             <Text style={styles.coursetext1}>{des}</Text>
-          </View>
+          </View>:null}
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Date of Creating Course : </Text>
             <Text style={styles.coursetext1}>{creatingcoursedate}</Text>

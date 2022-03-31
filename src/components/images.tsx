@@ -58,6 +58,11 @@ const images = {
   pending: require('../assets/images/pending.png'),
   pending: require('../assets/images/pending.png'),
   profilebookicon: require('../assets/images/profilebookicon.png'),
+  edit_cam: require('../assets/images/edit_cam.png'),
+  laptop_icon: require('../assets/images/laptop_icon.png'),
+
+
+
 };
 
 export default images;

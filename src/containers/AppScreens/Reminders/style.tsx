@@ -12,7 +12,11 @@ const styles = ScaledSheet.create({
     backgroundColor: 'rgb(70,50,103)s', borderBottomEndRadius: 15, borderTopEndRadius: 15, height: hp('8'), width: wp('10'), alignItems: 'center', justifyContent: 'center'
   },
   schoolremindertext: {
-    fontSize: 18
+    fontSize: 18,
+    
+  },
+  time: {
+    fontSize: 12
   },
   child_view: {
     flexDirection: 'row',

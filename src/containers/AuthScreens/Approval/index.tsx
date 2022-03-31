@@ -203,9 +203,9 @@ const Approval = (props: ApprovalScreenProps) => {
             <View style={styles.enterTextConatiner}>
                 <Text style={styles.enterText}>Profile Created Successfully</Text>
             </View>
-            <View style={styles.enterTextConatiner_copy}>
+            {/* <View style={styles.enterTextConatiner_copy}>
                 <Text style={styles.enterText_copy}>Your profile is sent to your educational institutions for approval...</Text>
-            </View>
+            </View> */}
 
             <View style={styles.inputContainer}>
 

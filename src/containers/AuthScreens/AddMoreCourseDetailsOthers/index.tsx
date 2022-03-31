@@ -65,6 +65,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
     useEffect(() => {
 
         getCourseListData(props.route.params.school_id)
+
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
@@ -74,12 +75,12 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
     const getDataFromAPi = async (result) => {
 
-
+        
         setDataCourseList(result.results[0].course_data);
 
         result.results.map((element: any) => {
 
-            console.log('school name key',result.results[0])
+          //  console.log('school name key', result.results[0])
 
             setState(element.state);
             setCity(element.city);
@@ -117,26 +118,21 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
     const getCourseListData = async (school_id) => {
 
-
-        setLoading(true);
-
         let token = '';
         try {
             const value = await AsyncStorage.getItem('token');
             if (value !== null) {
-                // value previously stored
                 token = value;
             }
         } catch (e) {
-            // error reading value
         }
 
-        console.log('token', token)
 
         let data = {
             token: token,
             id: school_id,
         }
+        setLoading(true);
 
 
         dispatch(
@@ -145,6 +141,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                 callback: ({ result, error }) => {
 
                     if (result) {
+                        setLoading(false);
                         console.warn(
                             'afte',
                             JSON.stringify(result, undefined, 2),
@@ -153,7 +150,6 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                         getDataFromAPi(result)
 
                         // setSpinnerStart(false);
-                        setLoading(false);
                     }
                     if (result.status === false) {
                         console.warn(JSON.stringify(error, undefined, 2));
@@ -325,7 +321,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                     </View>
 
                     <View style={{ marginTop: 20 }}>
-                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('EIconfirmation', { 'otherscourse': 'otherscourse', 're_verify': props.route.params.re_verify,'schoolnamekey_':props.route.params.schoolnamekey_ })} />
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('EIconfirmation', { 'otherscourse': 'otherscourse', 're_verify': props.route.params.re_verify, 'schoolnamekey_': props.route.params.schoolnamekey_ ,'login':false})} />
                     </View>
                 </View>
 

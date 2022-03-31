@@ -305,6 +305,14 @@ const styles = ScaledSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
+  view_Tv_k: {
+    marginTop: 5,
+    fontSize: 18,
+    marginLeft: 5,
+    color: '#565656',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
   view_Tv_3: {
     marginTop: 5,
     fontSize: 18,

@@ -6,7 +6,7 @@ import styles from './styles';
 export default function Buttons({
   onPress,
   title,
-  disabled: any = false,
+  disabled,
   backgroundColor = '',
   borderColor = '',
   borderWidth = '',
@@ -16,7 +16,7 @@ export default function Buttons({
 
   return (
     <View style={styles.conatiner}>
-      <TouchableOpacity disabled={flag} onPress={onPress} style={[styles.buttonContainer, backgroundColor == 'green' && styles.bg, backgroundColor == 'none' && styles.border]}>
+      <TouchableOpacity disabled={disabled} onPress={onPress} style={[styles.buttonContainer, backgroundColor == 'green' && styles.bg, backgroundColor == 'none' && styles.border]}>
         <Text style={[styles.buttonTitle, textColor != '' && styles.textcolor]}>{title}</Text>
       </TouchableOpacity>
     </View>

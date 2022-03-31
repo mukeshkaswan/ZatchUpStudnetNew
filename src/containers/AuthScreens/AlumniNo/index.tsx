@@ -488,7 +488,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   school_zatchup_id: props.route.params.school_zatchup_id,
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
-                  're_verify':props.route.params.re_verify
+                  're_verify':props.route.params.re_verify,
+                  'login':false
+                  
                 }),
               );
               // setSpinnerStart(false);

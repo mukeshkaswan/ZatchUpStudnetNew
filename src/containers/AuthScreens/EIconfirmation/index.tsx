@@ -164,9 +164,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
       if (props.route.params.login == true) {
         Coursechangecoursestandarddetail(props.route.params.course_id);
-        CourseDeleteBeforeConformation(props.route.params.course_id);
+       // CourseDeleteBeforeConformation(props.route.params.course_id);
+        getEicourseconfirmationlist();
         getStepCountAPi()
-      } else {
+      } else if (props.route.params.login == false) {
         getEicourseconfirmationlist();
         getStepCountAPi()
 
@@ -393,7 +394,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       token: token,
       course_id: id,
     };
-    //setLoading(true);
+    setLoading(true);
 
     dispatch(
       userActions.getUserCourseDeleteBeforConformation({
@@ -404,34 +405,15 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
             console.warn(
               'after result.....2',
               JSON.stringify(result, undefined, 2),
-              // getdataCourseKey(result)
-              // getEicourseconfirmationlist(),
-
-
-              // props.navigation.navigate('SelectStudent'),
             );
-            getEicourseconfirmationlist();
-
-            // getEicourseconfirmationlist();
-
 
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
-            // getData()
-            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
             setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            // Alert.alert(error.message[0])
-            // signOut();
+
           } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -649,13 +631,13 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               // getdataCourseKey(result)
               // getEicourseconfirmationlist(),
               Toast.show('School deleted successfully', Toast.SHORT),
-              
+
             );
-            if(stepcount != '7'){
+            if (stepcount != '7') {
               props.navigation.navigate('SelectStudent', { 're_verify': props.route.params.re_verify });
 
             }
-            else{
+            else {
               props.navigation.navigate('MySchoolScreen');
             }
             // setSpinnerStart(false);
@@ -809,57 +791,67 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         callback: ({ result, error }) => {
           if (result) {
             console.log(
-              'after result .......>test',
-              result,
-              // props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+              'after result naveen ',
+              JSON.stringify(result) ,
             );
-            // SetSchoolid(result);
-            // return
+
+
 
             if (result.data.length > 0) {
-              var newAr = [];
-              var newApiArr = [];
+              var newAr:any = [];
+              var newApiArr:any = [];
               for (let i in result.data) {
                 if (result.data[i].ei_detail.course_detail.length > 0) {
+
                   newApiArr.push(result.data[i]);
+                  console.log('newApiArray.log',newApiArr);
                 }
               }
 
-              //console.log('newApiArray....1>', newApiArr);
+              console.log('newApiArray....1>', newApiArr);
+              // return
 
-              if (newApiArr[0].ei_detail.course_detail.length > 0) {
-                // console.log('newApiArray 1', newApiArr[0].ei_detail.id);
-                setSchoolIDKey(newApiArr[0].ei_detail.id);
 
-                if (
-                  newApiArr[0].ei_detail.course_detail[0].standard_detail !=
-                  null
-                ) {
-                  //  console.log('newApiArray 2', 'huy 2');
+              if(newApiArr.length > 0){
 
-                  for (let i in newApiArr[0].ei_detail.course_detail[0]
-                    .standard_detail) {
-                    let flag = '';
-                    if (
-                      newApiArr[0].ei_detail.course_detail[0].standard_detail[i]
-                        .class_detail.length > 0
-                    ) {
-                      flag =
-                        newApiArr[0].ei_detail.course_detail[0].standard_detail[
-                          i
-                        ].class_detail[0].class_name;
+              
+                if (newApiArr[0].ei_detail.course_detail.length > 0) {
+                  console.log('newApiArray 1', newApiArr[0].ei_detail.id);
+
+                  setSchoolIDKey(newApiArr[0].ei_detail.id);
+
+                  if (
+                    newApiArr[0].ei_detail.course_detail[0].standard_detail !=
+                    null
+
+                  ) {
+
+                    console.log('newApiArray 2', 'huy 2');
+
+                    for (let i in newApiArr[0].ei_detail.course_detail[0]
+                      .standard_detail) {
+                      let flag = '';
+                      if (
+                        newApiArr[0].ei_detail.course_detail[0].standard_detail[i]
+                          .class_detail.length > 0
+                      ) {
+                        flag =
+                          newApiArr[0].ei_detail.course_detail[0].standard_detail[
+                            i
+                          ].class_detail[0].class_name;
+                      }
+                      let item = {
+                        ...newApiArr[0].ei_detail.course_detail[0]
+                          .standard_detail[i],
+                        className: flag,
+                      };
+                      newAr.push(item);
                     }
-                    let item = {
-                      ...newApiArr[0].ei_detail.course_detail[0]
-                        .standard_detail[i],
-                      className: flag,
-                    };
-                    newAr.push(item);
                   }
                 }
-              }
 
-              //console.log('--------', newAr);
+              }               
+              console.log('--------', newAr);
 
               let newObject = Object.assign([], newApiArr);
               let arrr = [];
@@ -873,7 +865,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 }
               }
 
-              //  console.log('=======', arrr);
+              console.log('=======', arrr);
 
               let newD = [];
               for (let i in newApiArr[0]) {
@@ -881,7 +873,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 newD.push({ ei_detail: item });
               }
 
-              // console.log('AddFlag===>>', newD);
+              console.log('AddFlag===>>', newD);
 
               let newArr = [];
               for (let i in newD[0].ei_detail.course_detail[0]
@@ -899,7 +891,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 };
                 newArr.push(item);
               }
-              //  console.log('NewArrr==>>', newArr);
+              console.log('NewArrr==>>', newArr);
 
               let ar = [];
               for (let i in newD[0].ei_detail.course_detail) {
@@ -923,7 +915,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
               let newObj = { ...result, data: newCourseList };
 
-              //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
+              console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
               getdataCourseKey(newObj);
             } else {
@@ -936,19 +928,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
             setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-
-            // Alert.alert(error.message[0])
-
-            // signOut();
           } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -968,7 +949,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       state.push(obj);
     });
     setDataClassList(state);
-    //console.log('dsfsdfds',state)
   };
 
   /***************************User get Class List By Standard iD*******************************/
@@ -1294,9 +1274,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
 
     // return
+   // if (props.route.params.login == true) {
 
 
-    if (props.route.params.login == true) {
+    if (stepcount == '7') {
 
       USERCOURSECONFIRMATION_2();
 
@@ -1400,7 +1381,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     const data = {
       token: token,
       school_id: schoolidkey,
-      existing_course: props.route.params.course_id
+      existing_course: props.route.params.course_id,
+      change_course_id:props.route.params.change_course_id,
       //   course_id: props.route.params.course_id,
       // before_exist: props.route.params.course_id,
 
@@ -1818,7 +1800,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                             {
                                               height: hp(2.7),
                                               borderColor: '#000',
-                                              width: wp(18),
+                                              width: wp(16),
                                               alignItems: 'center',
                                               alignSelf: 'flex-end',
                                               marginTop: 5,
@@ -1837,7 +1819,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                               fontSize: hp(1.3),
                                               fontFamily: 'SFUIDisplay-Heavy',
                                             }}>
-                                            Skip Standard
+                                            SKIP
                                           </Text>
                                         </TouchableOpacity>
                                       ) : null}

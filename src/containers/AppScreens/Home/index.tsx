@@ -129,7 +129,8 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [stateid, onSetStateid] = useState('');
   const [countryid, onSetCountryid] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-
+  const [pronouncustom, setpronoun] = useState('');
+  const [pronouncustomcustom_gender, setpronouncustom_gender] = useState('');
 
 
   function handleBackButtonClick() {
@@ -196,7 +197,8 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     //console.log('props.route.params.user_id ',props.route.params )
 
-    UserCourseDelete();
+    // UserCourseDelete();
+    getEducationProfile();
 
     //  getStepCountAPi();
 
@@ -209,7 +211,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         handleBackButtonClick,
       );
     };
-  }, [isFocused]);
+  }, []);
 
 
   // useFocusEffect(
@@ -339,6 +341,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     return true;
   };
 
+
   const DeleteCourse = async id => {
     Alert.alert(
       'Delete Course',
@@ -354,6 +357,54 @@ const HomeScreen = (props: HomeScreenProps) => {
       { cancelable: false },
     );
     return true;
+  };
+
+
+
+  /***************************User get Course Delete Before Conformation *******************************/
+
+  const CourseDeleteBeforeConformation = async course_id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      course_id: course_id,
+    };
+    // setLoading(true);
+
+    dispatch(
+      userActions.getUserCourseDeleteBeforConformation({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            console.warn(
+              'after result.....2',
+              JSON.stringify(result, undefined, 2),
+            );
+            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true });
+            // Toast.show('Course is Deleted successfully', Toast.SHORT),
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
 
@@ -670,7 +721,8 @@ const HomeScreen = (props: HomeScreenProps) => {
       setState(element.location.state_name);
       setCity(element.location.city_name);
       setCountry(element.location.country_name);
-
+      setpronoun(element.pronoun);
+      setpronouncustom_gender(element.custom_gender)
       // var obj = {
       //   id: element.first_name,
       // }
@@ -764,7 +816,6 @@ const HomeScreen = (props: HomeScreenProps) => {
             // setSpinnerStart(false);
             setLoading(false);
 
-            getEducationProfile();
 
           }
           if (!error) {
@@ -1386,7 +1437,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                         underlayColor="none"
                         onPress={() => toggleModalNo(i.school_id, i.admission_number)}
                       >
-                        <Text style={styles.view_Tv_2}>{i.admission_number}</Text>
+                        <Text style={styles.view_Tv_k}>{i.admission_number}</Text>
                       </TouchableOpacity>
 
 
@@ -1434,7 +1485,9 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                               {i.approved != 2 ? <TouchableOpacity
                                 underlayColor="none"
-                               // onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
+                                //onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
+
+                                onPress={() => CourseDeleteBeforeConformation(course.course_id)}
                               >
 
                                 <Image
@@ -2045,6 +2098,20 @@ const HomeScreen = (props: HomeScreenProps) => {
                 />
 
               </View>
+
+              {profilepic != '' ? <View
+                style={{
+                  height: 25,
+                  width: 25,
+                  borderRadius: 15,
+                  position: 'absolute',
+                  bottom: 5,
+                }}>
+                <Image
+                  source={Images.edit_icon}
+                  style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
+                />
+              </View> : null}
             </TouchableOpacity>
             {kyc_approved == '1' ? (
               <View
@@ -2154,6 +2221,10 @@ const HomeScreen = (props: HomeScreenProps) => {
             :null} */}
 
 
+            {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.view_Row_}>
+              <Text style={styles.view_Tv_1}>pronoun :</Text>
+              <Text style={styles.view_Tv_2}>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
+            </View> : null}
 
             {email != '' ? <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Email :</Text>
@@ -2400,7 +2471,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               <Text style={styles.Personal_Tv}>Add School</Text>
 
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey' })}>
+                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey', 'ei_request_count': 0 })}>
                 <Image
                   style={{
                     height: 28,
@@ -2517,14 +2588,15 @@ const HomeScreen = (props: HomeScreenProps) => {
             </TouchableOpacity>
             <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
               <View style={styles.textinputContainer}>
-                <Image
+                {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
-                />
+                /> */}
 
                 <TextInput
-                  placeholder="Enter admission number"
-                  keyboardType='number-pad'
+                  placeholder=" Enter admission number"
+                  keyboardType='default'
+                  maxLength={20}
                   onChangeText={val => setAddmissionnumber(val)}
                   value={addmissionnumber}
                 />
@@ -2558,14 +2630,15 @@ const HomeScreen = (props: HomeScreenProps) => {
             </TouchableOpacity>
             <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
               <View style={styles.textinputContainer}>
-                <Image
+                {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
-                />
+                /> */}
 
                 <TextInput
-                  placeholder="Enter roll number"
+                  placeholder=" Enter roll number"
                   keyboardType='number-pad'
+                  maxLength={20}
                   onChangeText={val => setRollNo(val)}
                   value={rollno}
                 />

@@ -18,7 +18,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 const screenWidth = Dimensions.get('window').width;
 
-interface PersonalinfoScreenProps { navigation: any;route: any; }
+interface PersonalinfoScreenProps { navigation: any; route: any; }
 
 
 const Personalinfo = (props: PersonalinfoScreenProps) => {
@@ -35,7 +35,7 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
     useEffect(() => {
-     //  USERCOURSECONFIRMATION()
+        //  USERCOURSECONFIRMATION()
         getStepCountAPi()
         setMother('')
         setFather('')
@@ -134,58 +134,58 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
     /***************************User getStepCountAPi *******************************/
 
-  const USERCOURSECONFIRMATION = async () => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
+    const USERCOURSECONFIRMATION = async () => {
+        var token = '';
+        try {
+            const value = await AsyncStorage.getItem('token');
+            if (value !== null) {
+                // value previously stored
+                token = value;
+            }
+        } catch (e) {
+            // error reading value
+        }
 
-    const data = {
-      token: token,
-      school_id: props.route.params.schoolidkey,
+        const data = {
+            token: token,
+            school_id: props.route.params.schoolidkey,
 
+        };
+        setLoading(true);
+
+        dispatch(
+            userActions.getusercourseconfirmation({
+                data,
+                callback: ({ result, error }) => {
+                    if (result) {
+                        // console.warn(
+                        //   'after user confirmation result step',
+                        //   JSON.stringify(result, undefined, 2),
+
+                        // );
+                        // setSpinnerStart(false);
+                        setLoading(false);
+                    }
+                    if (!error) {
+                        console.warn(JSON.stringify(error, undefined, 2));
+                        // setLoginSuccess(result);
+                        setLoading(false);
+                        //console.log('dfdfdf--------', error)
+                        // Toast.show('Invalid credentials', Toast.SHORT);
+                        // Alert.alert(error.message[0])
+                        // signOut();
+                    } else {
+                        // setError(true);
+                        // signOut();
+                        // Alert.alert(result.status)
+                        // Toast.show('Invalid credentials', Toast.SHORT);
+                        setLoading(false);
+                        console.warn(JSON.stringify(error, undefined, 2));
+                    }
+                },
+            }),
+        );
     };
-    setLoading(true);
-
-    dispatch(
-      userActions.getusercourseconfirmation({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            // console.warn(
-            //   'after user confirmation result step',
-            //   JSON.stringify(result, undefined, 2),
-
-            // );
-            // setSpinnerStart(false);
-            setLoading(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            // Alert.alert(error.message[0])
-            // signOut();
-          } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-  };
 
 
 
@@ -354,10 +354,10 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                             // console.warn(
                             //     'after result add profile',
                             //     JSON.stringify(result, undefined, 2),
-                               
+
                             // );
                             Toast.show('Profile Successfully Added', Toast.SHORT),
-                            props.navigation.navigate('Approval')
+                                props.navigation.navigate('Approval')
                             // setSpinnerStart(false);
 
                             setLoading(false);
@@ -417,7 +417,7 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                                 color: 'white',
                                 fontSize: hp(2.8),
                                 fontFamily: 'Lato-Regular',
-                                
+
                                 marginTop: Platform.OS === 'ios' ? 30 : 0,
                             }}>{'Personal Information'}</Text>
                         </View>
@@ -460,19 +460,19 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
                         <TouchableOpacity
                             onPress={() => OpenCamera()}
-                            style={{  padding: 15, backgroundColor: '#FFFFFF' }} >
+                            style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
                             <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => getImage()}
-                            style={{  padding: 15, backgroundColor: '#FFFFFF' }} >
+                            style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
                             <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             onPress={() => refRBSheet.current.close()}
-                            style={{padding: 15, backgroundColor:'#4B2A6A'}} >
+                            style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
                             <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
                         </TouchableOpacity>
 
@@ -481,10 +481,10 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
                 <View style={{ flex: 1 }}>
-                    <TouchableOpacity 
-                    onPress={() => refRBSheet.current.open()}
-                    //onPress={getImage}
-                    style={styles.logoContainer}
+                    <TouchableOpacity
+                        onPress={() => refRBSheet.current.open()}
+                        //onPress={getImage}
+                        style={styles.logoContainer}
                     >
 
                         <View >
@@ -513,6 +513,20 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                             // source={Images.crete_camera}
                             />}
 
+                            <View
+                                style={{
+                                    height: 25,
+                                    width: 25,
+                                    borderRadius: 15,
+                                    position: 'absolute',
+                                    right: 20,
+                                    top: 8
+                                }}>
+                                <Image
+                                    source={Images.edit_icon}
+                                    style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
+                                />
+                            </View>
                         </View>
                     </TouchableOpacity>
 

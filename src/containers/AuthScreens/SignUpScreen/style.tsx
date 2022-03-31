@@ -100,11 +100,11 @@ const styles = ScaledSheet.create({
         resizeMode: 'contain',
     },
     agreetext: {
-        fontFamily: 'Lato-Regular', color: 'rgb(51,51,51)', fontSize: hp(2.0)
+        fontFamily: 'Lato-Regular', color: 'rgb(51,51,51)', fontSize: hp(1.8)
     },
     termText: {
         fontFamily: 'Lato-Semibold',
-        fontSize: hp(2.0),
+        fontSize: hp(1.8),
         color: 'rgb(70,50,103)',
         textDecorationLine: 'underline',
         textDecorationColor: 'rgb(70,50,103)',
