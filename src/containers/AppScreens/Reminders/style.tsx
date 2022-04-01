@@ -9,7 +9,7 @@ const styles = ScaledSheet.create({
     width: '100%', backgroundColor: 'white', marginTop: 18, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: hp('8'), paddingLeft: 15, elevation: 1
   },
   reminderarrowcontainer: {
-    backgroundColor: 'rgb(70,50,103)s', borderBottomEndRadius: 15, borderTopEndRadius: 15, height: hp('8'), width: wp('10'), alignItems: 'center', justifyContent: 'center'
+    height: hp('4'), width: wp('8'), alignItems: 'center', justifyContent: 'center',alignSelf:'flex-end'
   },
   schoolremindertext: {
     fontSize: 18,

@@ -27,7 +27,7 @@ interface ResetPasswordScreenProps {
 
 }
 
-const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
+const ChatTeacherScreen = (props: ResetPasswordScreenProps) => {
 
   const isFocused = useIsFocused();
   const [isLoading, setLoading] = useState(false);
@@ -52,8 +52,7 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
 
   useEffect(() => {
 
-   // getSchoolList();
-    getTeacherChatData(props.route.params.id);
+    getSchoolList();
 
 
 
@@ -91,6 +90,9 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
 
             // setSpinnerStart(false);
            //console.log('results ......school list', results[0].school_id);
+          // getTeacherChatData(results[0].school_id);
+           setLectureData(results);
+
 
           //  setLectureData(results);
 
@@ -142,8 +144,7 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
             setLoading(false);
 
             // setSpinnerStart(false);
-           console.log('results ......', results);
-            setLectureData(results);
+           // console.log('results ......', results);
 
           }
           else if (results && results.length == []) {
@@ -169,7 +170,7 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
       <CustomStatusBar />
       <HeaderTitleWithBack
         navigation={props.navigation}
-        headerTitle="Start New Chat"
+        headerTitle="School List"
       />
       <FlatList
         data={lecturedata}
@@ -184,10 +185,10 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
                   <View style={{ flex: 1 }}>
                     <Text
                       style={styles.userNameStyle}>
-                      {item.name_of_teacher}
+                      {item.school_name}
                     </Text>
                   </View>
-                  <TouchableOpacity onPress={() => props.navigation.navigate('SIngleChatWithTeacherWebView',{'user_id':props.route.params.user_id,'firebase_id':item.firebase_id})}>
+                  <TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen',{'user_id':props.route.params.user_id,'id':item.school_id})}>
                     <View style={{ }}>
                       <Image
                         style={{ height: 25, width: 25,marginRight:10}}
@@ -220,4 +221,4 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
 
   );
 }
-export default ChatWithTeachersScreen;
+export default ChatTeacherScreen;

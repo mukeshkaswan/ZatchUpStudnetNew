@@ -65,7 +65,9 @@ import {
   SelectStudentFromLogin,
   Comming,
   KYCEiRequestSingle,
-  KYCEiRequestMultiple
+  KYCEiRequestMultiple,
+  SchoolListScreen,
+  ChatTeacherScreen
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -417,6 +419,16 @@ function AuthStack() {
       <Stack.Screen
         name="KYCEiRequestMultiple"
         component={KYCEiRequestMultiple}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="SchoolListScreen"
+        component={SchoolListScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="ChatTeacherScreen"
+        component={ChatTeacherScreen}
         options={{ header: () => null }}
       />
 

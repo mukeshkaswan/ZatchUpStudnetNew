@@ -420,7 +420,7 @@ const MySchool = (props: HomeScreenProps) => {
 
 
           {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
-            onPress={() => props.navigation.navigate('CoursesListScreen')}>
+            onPress={() => props.navigation.navigate('SchoolListScreen')}>
             <View style={styles.boxcontainer}>
               <Image
                 style={{ height: 100, width: 100, resizeMode: 'contain' }}
@@ -456,7 +456,7 @@ const MySchool = (props: HomeScreenProps) => {
           </TouchableOpacity>
         </View> */}
         {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
-          onPress={() => props.navigation.navigate('ChatWithTeachersScreen', { 'user_id': userid })}>
+          onPress={() => props.navigation.navigate('ChatTeacherScreen', { 'user_id': userid })}>
           <View
             style={{
               paddingHorizontal: 16,

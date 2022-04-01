@@ -76,12 +76,12 @@ const Reminders = (props: ResetPasswordScreenProps) => {
 
 
   useEffect(() => {
+    getStepCountAPi();
 
 
     const dataSetTimeOut = setTimeout(() => {
 
       getRemindersApi();
-      getStepCountAPi();
 
       return () => {
         dataSetTimeOut.clear();
@@ -324,9 +324,49 @@ const Reminders = (props: ResetPasswordScreenProps) => {
         <FlatList
           data={reminder}
           renderItem={({ item }) => (
-            <View style={{ paddingHorizontal: 16 }}>
-              <View style={styles.reminderrowcontainer}>
-                <View
+            <View style={{ marginBottom:10}}>
+              <View style={{}}>
+
+                <View style={{ marginTop: 16, marginHorizontal: 16, flex: 1, backgroundColor: '#F7F7F7', paddingVertical: 8, paddingHorizontal: 8 }}>
+                  <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <Image
+                      style={{ resizeMode: 'stretch', height: 20, width: 30, marginTop: 5 }}
+                      source={Images.logo}
+                    />
+                    <View style={{ flex: 1 }}>
+                      {item.attachment != null && (
+                        <View style={styles.reminderarrowcontainer}>
+                          <TouchableOpacity
+                            style={styles.zatchupstarclassbtn}
+                            onPress={() => {
+                              props.navigation.navigate('ReminderTitleScreen', {
+                                item,
+                              });
+                            }}>
+                            <View style={{ height: 18, width: 20 }}>
+                              <Image
+                                style={{
+                                  height: '100%',
+                                  width: '100%',
+                                 tintColor: '#000',
+                                //  tin
+
+                                }}
+                                source={Images.iattach}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                      {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{item.recieved_date}</Text> : null}
+                      {item.attachment != null ? <Text style={{ marginTop: 5, fontSize: 15, fontWeight: '600' }}>{item.message}</Text> : <Text style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
+                    </View>
+
+                  </View>
+                  <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A', alignSelf: 'flex-end', }}>{'-Sent By: ' + item.sender_name}</Text>
+
+                </View>
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     flex: 1,
@@ -334,32 +374,11 @@ const Reminders = (props: ResetPasswordScreenProps) => {
                     paddingEnd: 12,
                   }}>
                   <Text style={styles.schoolremindertext}>{item.message}</Text>
-                  {/* <Text style={{fontSize:12,alignItems:'flex-end'}}>{item.recieved_date}</Text> */}
+                  <Text style={{fontSize:12,alignItems:'flex-end'}}>{item.recieved_date}</Text>
 
-                  <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A' }}>{'-Send By: ' + item.sender_name}</Text>
-                </View>
-                {item.attachment != null && (
-                  <View style={styles.reminderarrowcontainer}>
-                    <TouchableOpacity
-                      style={styles.zatchupstarclassbtn}
-                      onPress={() => {
-                        props.navigation.navigate('ReminderTitleScreen', {
-                          item,
-                        });
-                      }}>
-                      <View style={{ height: 18, width: 20 }}>
-                        <Image
-                          style={{
-                            height: '100%',
-                            width: '100%',
-                            tintColor: 'white',
-                          }}
-                          source={Images.rightarrow}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                  <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A' }}>{'-Sent By: ' + item.sender_name}</Text>
+                </View> */}
+
               </View>
             </View>
           )}

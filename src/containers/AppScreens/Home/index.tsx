@@ -1275,7 +1275,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 're_verify': true })}
+                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 're_verify': true, 'loginkey': 'loginkey', 'ei_request_count': 0 })}
                     // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                     >
                       <Text style={{ color: 'white', fontSize: 12, marginLeft: 5, marginRight: 5 }}>Resend for Verification</Text>

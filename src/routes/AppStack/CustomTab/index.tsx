@@ -118,7 +118,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <Icon
-                name="repeat"
+                name="book-open"
                 size={24}
                 color={focused ? '#ffffff' : 'gray'}
               />
@@ -153,6 +153,7 @@ const CustomTabBar = () => {
         name="Reminders_Tab"
         component={Reminders}
         options={{
+          
           tabBarIcon: ({focused}) => {
             return (
               <Icon

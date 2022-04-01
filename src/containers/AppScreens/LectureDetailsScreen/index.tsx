@@ -14,20 +14,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
+import Orientation from 'react-native-orientation-locker';
 
-const data = [
-  {
-    id: 1,
-    topics: 'Topics Covered',
-    titleofcourse: 'Lecture2',
 
-  },
-  {
-    id: 2,
-    titleofcourse: 'Lecture2',
-    topics: 'Topics Covered'
-  },
-];
 const {
   width, height
 } = Dimensions.get("screen")
@@ -50,7 +39,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   const [uploaddate, setUploaddate] = useState('');
   const [play, setPlay] = useState('');
   const [standard, setStandard] = useState('');
-
+  const [isFullScreen, setFullscreen] = useState(false);
   const ref = useRef();
 
 
@@ -73,6 +62,17 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   }, []);
 
 
+  const onFullScreen = () => {
+    if (!isFullScreen) {
+      Orientation.lockToLandscape();
+    } else {
+      if (Platform.OS === 'ios') {
+        Orientation.lockToPortrait();
+      }
+      Orientation.lockToPortrait();
+    }
+    setFullscreen(!isFullScreen);
+  };
   const getData = async (results) => {
 
 
@@ -170,26 +170,19 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
       {isLoading && renderIndicator()}
 
       <CustomStatusBar />
-      <HeaderTitleWithBack
+      {isFullScreen != true ? <HeaderTitleWithBack
         navigation={props.navigation}
         headerTitle="Lecture Details"
-      />
+      /> : null}
       <ScrollView>
 
-        <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+        {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
 
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Lecture Title : </Text>
             <Text style={styles.coursetext1}>{lecturetitle}</Text>
           </View>
-          {/* <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Level of Education : </Text>
-            <Text style={styles.coursetext1}>{level}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Field : </Text>
-            <Text style={styles.coursetext1}>{field}</Text>
-          </View> */}
+
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Standard</Text>
             <Text style={styles.coursetext1}>{standard}</Text>
@@ -219,23 +212,21 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Play : </Text>
             <Text style={styles.coursetext1}>AAA003348</Text>
           </View>
-            <Video
-              ref={ref}
+        </View> : null}
 
-              // style={{ height: height / 4, marginTop: 15, paddingHorizontal: 20, alignSelf: 'center', borderRadius: 10 }}
-              //video={{ uri: play }}
-              url={{ uri: play }}
-              resizeMode="contain"
-              showDuration
-              // url={'https://www.youtube.com/watch?v=EVb2icIl4hU'}
 
-             // videoWidth={width - 10}
-              rotateToFullScreen={true}
-              lockRatio={16 / 9}
-            // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-            />
+        <Video
+          ref={ref}
 
-        </View>
+          url={{ uri: play }}
+          resizeMode="contain"
+          showDuration
+
+        //  rotateToFullScreen={true}
+          lockRatio={16 / 9}
+          onFullScreen={onFullScreen}
+        />
+
       </ScrollView>
 
     </View>

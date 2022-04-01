@@ -17,10 +17,9 @@ import CardView from 'react-native-cardview';
 
 interface ResetPasswordScreenProps {
   navigation: any;
-  route: any;
 }
 
-const CoursesListScreen = (props: ResetPasswordScreenProps) => {
+const SchoolListScreen = (props: ResetPasswordScreenProps) => {
   const [number, onChangeNumber] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [schoolid, setSchoolID] = useState('');
@@ -36,8 +35,7 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
 
   useEffect(() => {
 
-    getCourseList(props.route.params.id);
-
+    getSchoolList();
 
 
   }, []);
@@ -93,7 +91,8 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
 
             // setSpinnerStart(false);
             console.log('results Data', results[0].id);
-            getCourseList(results[0].id);
+            setCourseData(results);
+           // getCourseList(results[0].id);
             setSchoolID(results[0].id);
             setLoading(false);
           }
@@ -173,11 +172,11 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
       <CustomStatusBar />
       <HeaderTitleWithBack
         navigation={props.navigation}
-        headerTitle="Courses List"
+        headerTitle="School List"
       />
       <View style={styles.rowinputcontainer}>
 
-        <View style={styles.textinputcontainer}>
+        {/* <View style={styles.textinputcontainer}>
           <TextInput
             style={{ paddingLeft: 10 }}
             onChangeText={onChangeNumber}
@@ -188,19 +187,19 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
           <TouchableOpacity style={styles.applybtn}>
             <Text style={{ color: 'white' }}>Apply</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen', { 'id': schoolid })}>
+        {/* <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen', { 'id': schoolid })}>
           <Text style={{ color: 'white' }}>Play History</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
       </View>
 
       <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
         <Text style={styles.snotext}>S. No</Text>
-        <Text style={styles.lecturetitletext}>Title of Course</Text>
-        <Text style={styles.topictext}>Lecture Count</Text>
-        <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>Action</Text>
+        <Text style={styles.lecturetitletext}>Zatchup ID</Text>
+        <Text style={styles.topictext}>School Name</Text>
+        <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>View Courses</Text>
       </View>
 
       {coursedata.length > 0 ? (<FlatList
@@ -209,9 +208,9 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
 
           <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
             <Text style={styles.snotext}> {index}</Text>
-            <Text style={styles.lecturetitletext}>{item.course_name}</Text>
-            <Text style={styles.topictext}>{item.number_of_lectures}</Text>
-            <TouchableOpacity onPress={() => props.navigation.navigate('CoursePreviewScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+            <Text style={styles.lecturetitletext}>{item.school_code}</Text>
+            <Text style={styles.topictext}>{item.name_of_school}</Text>
+            <TouchableOpacity onPress={() => props.navigation.navigate('CoursesListScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
               <Image
                 style={styles.image}
                 source={Images.eye}
@@ -232,4 +231,4 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
 
   );
 }
-export default CoursesListScreen;
+export default SchoolListScreen;

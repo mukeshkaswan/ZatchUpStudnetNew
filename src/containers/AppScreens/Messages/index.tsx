@@ -57,12 +57,12 @@ const Messages = (props: MessagesScreenProps) => {
 
   useEffect(() => {
 
+    getStepCountAPi();
 
     const dataSetTimeOut = setTimeout(() => {
 
       getAuthUserInfoApi();
 
-      getStepCountAPi();
 
       return () => {
         dataSetTimeOut.clear();
@@ -81,7 +81,7 @@ const Messages = (props: MessagesScreenProps) => {
 
   }, [isFocused]);
 
-  
+
 
   // useFocusEffect(
   //   React.useCallback(() => {

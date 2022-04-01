@@ -104,7 +104,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         username: email,
       };
 
-      setLoading(true);
+     // setLoading(true);
 
       dispatch(
         userActions.otpSuccessSkip({
@@ -117,7 +117,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 // props.navigation.navigate('Home'),
               );
 
-             getData(result),
+                getData(result),
 
                 //setSpinnerStart(false);
                 setLoading(false);
@@ -380,7 +380,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         password: password,
       };
 
-      setLoading(true);
+     setLoading(true);
 
       dispatch(
         userActions.emailLogin({
