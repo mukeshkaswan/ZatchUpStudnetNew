@@ -149,7 +149,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
       // error reading value
     }
 
-    console.log('Token At reminders==>>', token);
+  //  console.log('Token At reminders==>>', token);
     const data = {
       token: token,
     };

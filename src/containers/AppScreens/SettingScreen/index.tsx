@@ -61,6 +61,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isEnabled2, setIsEnabled2] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
   const [isEnabledTwoFactor, setIsEnabledTwoFactor] = useState(false);
+  const [isDeactivateAccount, setIsDeactivateAccount] = useState(false);
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
@@ -173,6 +174,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setIsEnabled2(previousState => !previousState);
   };
 
+  const toggleSwitchDeactivateAccount = () => {
+
+    setIsDeactivateAccount(!isDeactivateAccount);
+
+    handleDeactivateButtonClick();
+
+  };
+
   const toggleSwitchTwoFactor = () => {
     setIsEnabledTwoFactor(!isEnabledTwoFactor);
 
@@ -208,6 +217,24 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           style: 'cancel',
         },
         { text: 'Yes', onPress: onDeleteBTN },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  }
+
+
+  function handleDeactivateButtonClick() {
+    Alert.alert(
+      'ZatchUp',
+      'Are you sure you want to Deactivate your account? You can Reactive your account by login in again.',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: onPressChangeDeactivateAccountStaus },
       ],
       { cancelable: false },
     );
@@ -289,19 +316,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setpronoun(element.pronoun);
       setpronouncustom_gender(element.custom_gender)
 
-
-      // var obj = {
-      //   id: element.first_name,
-      // }
-      // Profile.push(obj);
-
     });
     _storeData();
-
-    // console.log(',.....................>data',Profile.length)
-
-    //  setDataCourseInList(result.data);
-    // setKey(true)
   };
   const _storeData = async () => {
     try {
@@ -316,6 +332,85 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
 
+  const getStatusType = async (result) => {
+
+    for (let i in result.data) {
+      if (result.data[i].status_type === "OTP") {
+        setIsEnabledTwoFactor(result.data[i].is_disabled);
+      }
+      else {
+        setIsEnabledTwoFactor(false);
+      }
+
+    }
+
+
+  }
+
+
+
+
+
+  const onPressChangeDeactivateAccountStaus = async () => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_active: "false"
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getProfileDeleteZatchupAccount({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after get User Delete Account.... >',
+              JSON.stringify(result, undefined, 2),
+            );
+            onDeleteBTN();
+
+            Toast.show(result.message, Toast.SHORT);
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+
+          else if (result.status === false) {
+
+            Toast.show('User is verified as student', Toast.SHORT);
+
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   const onPressChangeTwoFactorStaus = async (key) => {
 
@@ -334,7 +429,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       token: token,
       is_disabled: key,
       status_type: "OTP",
-      user: 1237,
+      user: userid,
     };
 
 
@@ -350,7 +445,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               JSON.stringify(result, undefined, 2),
             );
             //getSettingStatus();
-            getSettingStatus(1237);
+            getSettingStatus(userid);
 
 
             // Toast.show(result.message, Toast.SHORT);
@@ -405,7 +500,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               JSON.stringify(result, undefined, 2),
 
             );
-            setIsEnabledTwoFactor(result.data[0].is_disabled);
+
+            getStatusType(result);
+
+
             // Alert.alert(JSON.stringify( result.data[0].is_disabled));
 
             // setSpinnerStart(false);
@@ -464,7 +562,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
             );
             //  Alert.alert('Huy 1')
-            // setUserid(result.user_id);
+              setUserid(result.user_id);
             // getSettingStatus(result.user_id);
             // setUserid(1237);
             getSettingStatus(result.user_id);
@@ -475,9 +573,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            setLoading(false);
             //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
+            // Toast.show('Request failed with status code 401', Toast.SHORT);
+             setLoading(false);
 
             // Alert.alert(error.message[0])
 
@@ -486,7 +584,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
+             Toast.show('Request failed with status code 401', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -513,9 +611,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       token: token,
     };
     setLoading(true);
-
     axios
       .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
+
+        // .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
+
         headers: {
           Authorization: `Bearer ${token}`,
           'content-type': 'multipart/form-data',
@@ -1894,8 +1994,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             style={styles.cardp}>
             <Text style={styles.title_text}>Privacy Setting</Text>
 
-            <View style={styles.border}></View>
-            <View style={styles.privacyrowcontainer}>
+            {/* <View style={styles.border}></View> */}
+            {/* <View style={styles.privacyrowcontainer}>
               {phone == '' ? (
                 <>
                   <Text style={styles.detail_text}>Email</Text>
@@ -1915,7 +2015,36 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 onValueChange={toggleSwitch1}
                 value={isEnabled}
               />
-            </View>
+            </View> */}
+
+
+            {phone != '' && phone != null ? <View style={styles.border1}></View> : null}
+
+            {phone != '' && phone != null ? <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Mobile Number</Text>
+              <Text style={{ textAlign: 'center' }}>{phone}</Text>
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View> : null}
+
+            {email != '' && email != null ? <View style={styles.border1}></View> : null}
+
+            {email != '' && email != null ? <View style={styles.privacyrowcontainer}>
+              <Text style={styles.detail_text}>Email ID</Text>
+              <Text style={{ textAlign: 'center' }}>{email}</Text>
+              <Switch
+                trackColor={{ false: 'grey', true: 'lightgreen' }}
+                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View> : null}
 
             <View style={styles.border1}></View>
             <View style={styles.privacyrowcontainer}>
@@ -2029,10 +2158,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
               <Switch
                 trackColor={{ false: 'grey', true: 'lightgreen' }}
-                thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                thumbColor={isDeactivateAccount ? 'limegreen' : 'lightgrey'}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch2}
-                value={isEnabled2}
+                onValueChange={toggleSwitchDeactivateAccount}
+                value={isDeactivateAccount}
               />
             </View>
             {/* <View style={styles.border1}></View> */}

@@ -93,7 +93,8 @@ import {
   USERSETTINGSTATUSPOST,
   EIDETAILFORALREADYSTUDENT,
   SENTFORAPPROVALVIEWSTATUS,
-  LOGOUTVIEWSTATUS
+  LOGOUTVIEWSTATUS,
+  PROFILEDELETEZATCHUP
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -3107,6 +3108,38 @@ function* getLogoutViewStatus({ payload: { data, callback } }) {
   }
 }
 
+
+/***************************User GET User Profile Delete Zatchup Account*******************************/
+
+function* getProfileDeleteZatchupAccount({ payload: { data, callback } }) {
+ 
+  const params = {
+    is_active: data.is_active,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/profile/delete_zatchup_account/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('User Profile Delete Zatchup Account result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -3201,6 +3234,8 @@ function* User() {
     yield takeLatest(EIDETAILFORALREADYSTUDENT, getEidetailforalreadystudents),
     yield takeLatest(SENTFORAPPROVALVIEWSTATUS, getSentforapprovalviewstatus),
     yield takeLatest(LOGOUTVIEWSTATUS, getLogoutViewStatus),
+    yield takeLatest(PROFILEDELETEZATCHUP, getProfileDeleteZatchupAccount),
+
 
     
   ]);

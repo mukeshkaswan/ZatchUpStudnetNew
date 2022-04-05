@@ -236,7 +236,7 @@ const Messages = (props: MessagesScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
+             Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -339,9 +339,8 @@ const Messages = (props: MessagesScreenProps) => {
       <View style={{ flex: 1 }}>
 
         <WebView
-          // source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
           source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-
+         // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
           startInLoadingState={true}
           renderLoading={() => (
             <ActivityIndicator

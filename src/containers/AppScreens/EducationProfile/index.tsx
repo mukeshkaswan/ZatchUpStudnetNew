@@ -620,7 +620,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                         //     'after result',
                         //     JSON.stringify(result, undefined, 2),
 
-                            
+
 
                         //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
                         // );
@@ -685,7 +685,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                         //     'after result',
                         //     JSON.stringify(result, undefined, 2),
 
-                            
+
 
                         //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
                         // );
@@ -748,7 +748,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                         //     'after result',
                         //     JSON.stringify(result, undefined, 2),
 
-                            
+
 
                         //     //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
                         // );

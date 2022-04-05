@@ -380,3 +380,6 @@ export const getSentforapprovalviewstatus = createAction(SENTFORAPPROVALVIEWSTAT
 export const LOGOUTVIEWSTATUS = 'LOGOUTVIEWSTATUS';
 export const getLogoutViewStatus = createAction(LOGOUTVIEWSTATUS);
 
+// this is for Get User Profile Delete Zatchup Account
+export const PROFILEDELETEZATCHUP = 'PROFILEDELETEZATCHUP';
+export const getProfileDeleteZatchupAccount = createAction(PROFILEDELETEZATCHUP);

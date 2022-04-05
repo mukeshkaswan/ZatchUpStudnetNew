@@ -640,7 +640,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
+             Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
