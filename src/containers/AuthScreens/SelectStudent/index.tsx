@@ -41,14 +41,30 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
 
 
     useEffect(() => {
-        console.log('props.route.params.ei_request_count', props.route.params.ei_request_count);
+        console.log('props.route', props.route);
 
-        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-        return () => {
-            BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
-        };
+        if(props.route.params.loginkey === 'loginkey' ){
+            BackHandler.addEventListener('hardwareBackPress', handleBackBut);
+            return () => {
+                BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
+            };
+        }
+        else{
+            BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+            return () => {
+                BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+            };
+
+        }
+
+      
     }, [isFocused]);
 
+    
+    function handleBackBut() {
+        props.navigation.goBack();
+        return true;
+      }
 
     return (
         <View style={styles.container}>
@@ -59,9 +75,9 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                 headerTitle="Select Student"
             /> : null}
 
-            <View style={styles.enterTextConatiner}>
+            {/* <View style={styles.enterTextConatiner}>
                 <Text style={styles.enterText}>Are you currently a student?</Text>
-            </View>
+            </View> */}
             <View style={styles.logoContainer}>
 
                 <Image source={Images.img3} style={styles.messagelogo} />
@@ -108,7 +124,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                         fontSize: 16
 
                     }}>
-                        NO
+                        Alumni
                     </Text>
                 </TouchableOpacity>
 
@@ -148,7 +164,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                         marginLeft: 30,
                         fontSize: 16
                     }}>
-                        YES
+                        Student
                     </Text>
                 </TouchableOpacity>
             </View>

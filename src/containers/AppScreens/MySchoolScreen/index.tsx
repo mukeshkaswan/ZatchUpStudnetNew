@@ -77,35 +77,58 @@ const MySchool = (props: HomeScreenProps) => {
   // }, [isFocused]);
 
 
+  useFocusEffect(
 
-  useEffect(() => {
+    
+    React.useCallback(() => {
+      const dataSetTimeOut = setTimeout(() => {
+
+        getAuthUserInfoApi();
+  
+        getStepCountAPi();
+  
+        UserCourseDelete();
+  
+  
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 1000);
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    }, [])
+  );
+  // useEffect(() => {
 
 
-    const dataSetTimeOut = setTimeout(() => {
+  //   const dataSetTimeOut = setTimeout(() => {
 
-      getAuthUserInfoApi();
+  //     getAuthUserInfoApi();
 
-      getStepCountAPi();
+  //     getStepCountAPi();
 
-      UserCourseDelete();
-
-
-      return () => {
-        dataSetTimeOut.clear();
-      }
-    }, 1000);
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-
-      );
-    };
+  //     UserCourseDelete();
 
 
-  }, [isFocused]);
+  //     return () => {
+  //       dataSetTimeOut.clear();
+  //     }
+  //   }, 1000);
+
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+
+  //     );
+  //   };
+
+
+  // }, [isFocused]);
 
   function handleBackButtonClick() {
     Alert.alert(

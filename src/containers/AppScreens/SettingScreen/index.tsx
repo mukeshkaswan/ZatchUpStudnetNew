@@ -29,6 +29,7 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
+  useFocusEffect
 } from '@react-navigation/native';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
@@ -49,6 +50,7 @@ import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import { CheckBox } from 'react-native-elements';
 import axios from 'axios';
+
 interface ResetPasswordScreenProps {
   navigation: any;
 }
@@ -224,6 +226,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   }
 
 
+
+  function handleBackBut() {
+    props.navigation.goBack();
+    return true;
+  }
   function handleDeactivateButtonClick() {
     Alert.alert(
       'ZatchUp',
@@ -252,26 +259,52 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   //     getEducationProfile();
   //   };
   // }, []);
-  useEffect(() => {
+  // useEffect(() => {
 
 
-    const dataSetTimeOut = setTimeout(() => {
-      getEducationProfile();
-      getAuthUserInfoApi();
-      return () => {
-        dataSetTimeOut.clear();
-      }
-    }, 500);
+  //   const dataSetTimeOut = setTimeout(() => {
+  //     getEducationProfile();
+  //     getAuthUserInfoApi();
+  //     return () => {
+  //       dataSetTimeOut.clear();
+  //     }
+  //   }, 500);
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-    };
-  }, [isFocused]);
+
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+  //     );
+  //   };
+  // }, [isFocused]);
+
+
+  useFocusEffect(
+
+
+    React.useCallback(() => {
+
+      const dataSetTimeOut = setTimeout(() => {
+
+        getEducationProfile();
+        getAuthUserInfoApi();
+
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 500);
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackBut);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
+    }, [])
+  );
+
 
 
   //console.log("this.props",this.props);
@@ -315,6 +348,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setCustom(element.gender == 'C' ? true : false);
       setpronoun(element.pronoun);
       setpronouncustom_gender(element.custom_gender)
+
+      console.log('element.kyc_approved',element.kyc_approved)
 
     });
     _storeData();
@@ -391,6 +426,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           else if (result.status === false) {
 
             Toast.show('User is verified as student', Toast.SHORT);
+            setIsDeactivateAccount(false);
 
           }
 

@@ -75,30 +75,56 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   };
 
 
-  useEffect(() => {
-    getStepCountAPi();
+  // useEffect(() => {
+  //   getStepCountAPi();
 
 
-    const dataSetTimeOut = setTimeout(() => {
+  //   const dataSetTimeOut = setTimeout(() => {
 
-      getRemindersApi();
+  //     getRemindersApi();
 
-      return () => {
-        dataSetTimeOut.clear();
-      }
-    }, 1000);
+  //     return () => {
+  //       dataSetTimeOut.clear();
+  //     }
+  //   }, 1000);
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
 
-      );
-    };
+  //     );
+  //   };
 
 
-  }, [isFocused]);
+  // }, [isFocused]);
+
+
+  useFocusEffect(
+
+
+    React.useCallback(() => {
+      getStepCountAPi();
+
+      const dataSetTimeOut = setTimeout(() => {
+
+        getRemindersApi();
+
+
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 1000);
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    }, [])
+  );
+
+
 
 
   const backPressed = () => {

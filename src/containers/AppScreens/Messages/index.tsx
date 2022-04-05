@@ -55,31 +55,54 @@ const Messages = (props: MessagesScreenProps) => {
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const isFocused = useIsFocused();
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    getStepCountAPi();
+  //   getStepCountAPi();
 
-    const dataSetTimeOut = setTimeout(() => {
+  //   const dataSetTimeOut = setTimeout(() => {
 
-      getAuthUserInfoApi();
-
-
-      return () => {
-        dataSetTimeOut.clear();
-      }
-    }, 1000);
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-
-      );
-    };
+  //     getAuthUserInfoApi();
 
 
-  }, [isFocused]);
+  //     return () => {
+  //       dataSetTimeOut.clear();
+  //     }
+  //   }, 1000);
+
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+
+  //     );
+  //   };
+
+
+  // }, [isFocused]);
+
+  useFocusEffect(
+
+
+    React.useCallback(() => {
+      getStepCountAPi();
+
+      const dataSetTimeOut = setTimeout(() => {
+
+        getAuthUserInfoApi();
+
+
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 1000);
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    }, [])
+  );
 
 
 
@@ -236,7 +259,7 @@ const Messages = (props: MessagesScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-             Toast.show('Invalid credentials', Toast.SHORT);
+            Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -339,8 +362,9 @@ const Messages = (props: MessagesScreenProps) => {
       <View style={{ flex: 1 }}>
 
         <WebView
+          // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
           source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-         // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
+
           startInLoadingState={true}
           renderLoading={() => (
             <ActivityIndicator

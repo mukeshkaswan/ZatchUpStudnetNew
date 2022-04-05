@@ -35,6 +35,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   const [kycapprovedkey, setKycapproved] = useState('');
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [is_kyc_approved, setIs_kyc_approved] = useState();
 
   // const [username, setUsername] = useState('');
   const isFocused = useIsFocused();
@@ -42,10 +43,67 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   React.useEffect(() => {
     getDataMenu();
     getAuthUserInfoApi();
+    getStepCountAPi();
 
   }, [isFocused]);
 
 
+
+  /***************************User getStepCountAPi *******************************/
+
+  const getStepCountAPi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getRegStepCount({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            console.warn(
+              'after result step count',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            setIs_kyc_approved(result.is_kyc_approved);
+
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
 
   /***************************User Auth User Info*******************************/
@@ -109,6 +167,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       const user = await AsyncStorage.getItem('username');
       const profil = await AsyncStorage.getItem('profilepic');
       const kyckey = await AsyncStorage.getItem('kyckey');
+
+      console.log('kyckey',kyckey)
 
       if (user !== null) {
         setUsername(user);
@@ -204,7 +264,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   borderRadius: 45,
                 }}
               />
-              {kycapprovedkey == '1' ? (
+              {is_kyc_approved === true ? (
                 <View
                   style={{
                     height: 30,

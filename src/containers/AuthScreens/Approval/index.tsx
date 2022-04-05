@@ -193,10 +193,10 @@ const Approval = (props: ApprovalScreenProps) => {
             <CustomHeader Title={'Approval'} />
             <ModelComponent isvisible={allSelected} modeltype={'loginagain'} navigation={props.navigation} />
 
-            <View style={styles.logoContainer}>
+            {/* <View style={styles.logoContainer}>
 
                 <Image source={Images.profile_img2} style={styles.messagelogo} />
-            </View>
+            </View> */}
 
 
 

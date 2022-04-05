@@ -31,14 +31,15 @@ const styles = ScaledSheet.create({
     },
 
     inputContainer: {
-        padding: '5%',
+        padding: '7%',
         flex: 1,
     },
     enterTextConatiner: {
         justifyContent: 'center',
         alignItems: 'center',
         padding: '3%',
-        marginTop: '5%'
+        marginTop: '50%',
+        alignSelf: 'center',
     },
 
     enterTextConatiner_copy: {

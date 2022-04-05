@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
@@ -37,6 +37,7 @@ import {
   MySchoolScreen,
   Reminders
 } from '../../../containers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import AnimatedTabBar, { TabsConfigsType } from 'curved-bottom-navigation-bar';
 
@@ -44,10 +45,13 @@ import {
 
 const Tab = createBottomTabNavigator();
 
-const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
+const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, onPress }) => {
+
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {
+  
+
     return (
       <View style={{ flex: 1, alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
@@ -60,6 +64,31 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
           </Svg>
           <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
         </View>
+
+        {accessibilityLabel == "Reminders_Tab, tab, 3 of 3" ? <View
+          style={{
+            position: 'absolute',
+            marginTop: Platform.OS == 'ios' ? 2 : 5,
+            right: 23,
+            alignSelf: 'flex-end',
+            borderRadius: 15,
+            backgroundColor: '#00B200',
+            width: Platform.OS == 'ios' ? 20 : 18,
+            height: Platform.OS == 'ios' ? 20 : 18,
+          }}>
+          <Text
+            style={{
+              color: '#FFFFFF',
+              fontSize: 12,
+              textAlign: 'center',
+              fontWeight: 'bold',
+              marginTop: Platform.OS == 'ios' ? 2 : 0,
+            }}>
+            {' '}
+            {'0'}{' '}
+          </Text>
+        </View> : null}
+
         <TouchableOpacity
           activeOpacity={0.8}
           style={{
@@ -94,7 +123,11 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   }
 };
 
-const CustomTabBar = () => {
+const CustomTabBar =  () => {
+ // const value = await AsyncStorage.getItem('token');
+ // console.log('valuevaluevaluevalue',value);
+
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -153,8 +186,8 @@ const CustomTabBar = () => {
         name="Reminders_Tab"
         component={Reminders}
         options={{
-          
-          tabBarIcon: ({focused}) => {
+
+          tabBarIcon: ({ focused }) => {
             return (
               <Icon
                 name="clock"

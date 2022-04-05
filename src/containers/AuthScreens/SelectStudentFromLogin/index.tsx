@@ -61,9 +61,9 @@ const SelectStudentFromLogin = (props: SelectStudentScreenProps) => {
                 navigation={props.navigation}
                 headerTitle="Select Student"
             />
-            <View style={styles.enterTextConatiner}>
+            {/* <View style={styles.enterTextConatiner}>
                 <Text style={styles.enterText}>Are you currently a student?</Text>
-            </View>
+            </View> */}
             <View style={styles.logoContainer}>
 
                 <Image source={Images.img3} style={styles.messagelogo} />
@@ -110,7 +110,7 @@ const SelectStudentFromLogin = (props: SelectStudentScreenProps) => {
                         fontSize: 16
 
                     }}>
-                        NO
+                        Alumni
                     </Text>
                 </TouchableOpacity>
 
@@ -150,7 +150,7 @@ const SelectStudentFromLogin = (props: SelectStudentScreenProps) => {
                         marginLeft: 30,
                         fontSize: 16
                     }}>
-                        YES
+                        Student
                     </Text>
                 </TouchableOpacity>
             </View>

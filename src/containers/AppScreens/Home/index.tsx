@@ -50,38 +50,7 @@ interface HomeScreenProps {
   route: any;
 }
 
-const list = [
-  {
-    id: 1,
-    name: 'test',
-    time: '2022-01-01-present',
-    profileImage: Images.profile_img2,
-    address:
-      'Lorem Ipsum is simply dummy text of the printing .',
-    msg_read: false,
-  },
-  {
-    id: 2,
-    name: 'angular',
-    time: '2022-01=-01',
-    profileImage: Images.profile_img2,
-    address:
-      'India rajasthan jaipur.',
-    msg_read: true,
-  },
-  {
-    id: 3,
-    name: 'react',
-    time: '2022-01-22',
-    profileImage: Images.profile_img2,
-    address:
-      ' afghanistan ghazi.',
-    msg_read: true,
-  },
 
-
-
-];
 
 
 const HomeScreen = (props: HomeScreenProps) => {
@@ -204,14 +173,19 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     //getAuthUserInfoApi();
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    BackHandler.addEventListener('hardwareBackPress', handleBackBut);
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
-        handleBackButtonClick,
+        handleBackBut,
       );
     };
   }, []);
+
+  function handleBackBut() {
+    props.navigation.goBack();
+    return true;
+  }
 
 
   // useFocusEffect(
@@ -723,6 +697,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       setCountry(element.location.country_name);
       setpronoun(element.pronoun);
       setpronouncustom_gender(element.custom_gender)
+
       // var obj = {
       //   id: element.first_name,
       // }

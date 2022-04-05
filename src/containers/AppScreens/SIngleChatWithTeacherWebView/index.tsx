@@ -90,6 +90,7 @@ const SIngleChatWithTeacherWebView = (props: ResetPasswordScreenProps) => {
         <WebView
           source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=2&id=' + props.route.params.firebase_id }}
           //source={{ uri: 'https://zatchup.com/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=2&id=' + props.route.params.firebase_id }}
+          
           startInLoadingState={true}
           renderLoading={() => (
             <ActivityIndicator
