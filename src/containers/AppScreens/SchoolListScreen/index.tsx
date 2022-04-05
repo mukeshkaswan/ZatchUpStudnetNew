@@ -207,7 +207,7 @@ const SchoolListScreen = (props: ResetPasswordScreenProps) => {
         renderItem={({ item, index }) =>
 
           <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
-            <Text style={styles.snotext}> {index}</Text>
+            <Text style={styles.snotext}> {index+1}</Text>
             <Text style={styles.lecturetitletext}>{item.school_code}</Text>
             <Text style={styles.topictext}>{item.name_of_school}</Text>
             <TouchableOpacity onPress={() => props.navigation.navigate('CoursesListScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
