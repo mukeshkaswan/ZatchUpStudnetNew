@@ -149,22 +149,21 @@ const styles = ScaledSheet.create({
     //  backgroundColor: 'white',
     //  padding: 20,
     borderRadius: 5,
-   // marginBottom:20
+    // marginBottom:20
   },
   Cardview_city: {
     backgroundColor: '#FFFFFF',
-    marginLeft: 5,
-    marginRight: 5,
+    height: 40,
     marginTop: 15,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.26,
-    elevation: 8,
+    elevation: 5,
     //  backgroundColor: 'white',
     //  padding: 20,
     borderRadius: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   title_text: {
 
@@ -247,7 +246,7 @@ const styles = ScaledSheet.create({
     marginRight: 13,
     marginTop: 5,
 
-   // right: 5,
+    // right: 5,
     // marginRight: 10,
     //   position: 'absolute',
   },
@@ -267,22 +266,60 @@ const styles = ScaledSheet.create({
     // height: hp('30%'),
     backgroundColor: 'white',
     paddingHorizontal: 22,
+    width:'100%',height:'35%' ,
+   // marginTop:'70%',
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+  },
+  modalContainerCity: {
+    // height: hp('30%'),
+    backgroundColor: 'white',
+    paddingHorizontal: 22,
+    width:'100%',height:'70%' ,
+   // marginTop:'70%',
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    
+    
   },
   textinputContainer: {
     borderWidth: 1,
-    height: hp('5'),
+    height: hp('6'),
     borderColor: 'lightgrey',
-    width: 300,
+    width: 340,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 5,
+    marginTop:10
+    // justifyContent: 'center',
+  },
+  textinputContainerCity: {
+    borderWidth: 1,
+    height: hp('6'),
+    borderColor: 'lightgrey',
+    width: 340,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginTop:10
+
     // justifyContent: 'center',
   },
   submitbtn: {
-    height: hp('5'),
-    width: wp('65'),
+    height: hp('5.5'),
+    width: wp('60'),
     backgroundColor: 'rgb(70,50,103)',
-    marginTop: '8%',
+    marginTop: '15%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginBottom: '10%'
+  },
+  submitbtncity: {
+    height: hp('5.5'),
+    width: wp('60'),
+    backgroundColor: 'rgb(70,50,103)',
+    marginTop: '15%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

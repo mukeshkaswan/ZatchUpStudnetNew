@@ -71,20 +71,6 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     const dispatch = useDispatch();
 
 
-    const [KYC_type_doc, setKYC_type_doc] = useState([
-        {
-            label: 'Aadhaar Card',
-            value: '0',
-        },
-        {
-            label: 'Driving Licence',
-            value: '1',
-        },
-        {
-            label: 'Passport Number',
-            value: '2',
-        },
-    ]);
 
     const renderIndicator = () => {
         return (
@@ -143,11 +129,8 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
     React.useEffect(() => {
 
-        // console.log('this is the recived props--->', props.route.params)
-        //   setCourseKey(props.route.params.course_name)
 
         getCourseListData(props.route.params.school_id, props.route.params.course_id)
-        //   getStepCountAPi()
         getAddmissionNo(props.route.params.course_id, props.route.params.school_id)
         setCourseedit(props.route.params.course_id)
 
@@ -156,7 +139,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
         };
 
-    }, [])
+    }, [isFocused])
 
 
     /***************************User get Addmission No Data *******************************/
@@ -430,7 +413,8 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             //     JSON.stringify(result.status, undefined, 2),
                             //     //submit(result.data)
                             // );
-                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool,'re_verify':props.route.params.re_verify,'change_course_id':courseidparm,'login':false })
+
+                            props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 're_verify': props.route.params.re_verify, 'change_course_id': courseidparm, 'login': false })
 
                             // setSpinnerStart(false);
                             setLoading(false);
@@ -802,12 +786,13 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                                 <CustomDropdown placeholder={'Select Course'}
                                     data={selectedCourse}
                                     value={courseedit}
-                                    
+
                                     SelectedLanguagedata={(selectedValue) => {
                                         // getSchool(selectedValue);
                                         // setSchoolID('')
                                         setRollNo('')
                                         setDate_Copy('')
+
                                         // setStandarClassdKey('');
                                         setClass('');
                                         setCourseKey(selectedValue);
@@ -817,6 +802,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                                         // console.log('school index x',data)
 
                                         if (data.length > 0) {
+                                            // setDate_Copy('')
                                             // console.log('course list data id',data[0].value)
                                             getStandard(selectedValue);
                                             setCourseIDParm(data[0].value);

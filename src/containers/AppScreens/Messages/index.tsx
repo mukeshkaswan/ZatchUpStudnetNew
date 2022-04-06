@@ -97,10 +97,10 @@ const Messages = (props: MessagesScreenProps) => {
         }
       }, 1000);
 
-      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.addEventListener('hardwareBackPress', handleBackBut);
 
       return () =>
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+        BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
     }, [])
   );
 
@@ -121,6 +121,12 @@ const Messages = (props: MessagesScreenProps) => {
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
   };
+
+
+  function handleBackBut() {
+    props.navigation.goBack();
+    return true;
+  }
 
   function handleBackButtonClick() {
     Alert.alert(

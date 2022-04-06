@@ -121,6 +121,9 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+    setCityData([]);
+    onChangecityname('');
+
   };
   const toggleModalNo = async (id, admission_number) => {
 
@@ -614,7 +617,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-             Toast.show('Invalid credentials', Toast.SHORT);
+            Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -899,11 +902,11 @@ const HomeScreen = (props: HomeScreenProps) => {
         data,
 
         callback: ({ results, error }) => {
-          // console.warn(
-          //   'after city result data',
-          //   results
-          //   //  getdataProfile(result),
-          // );
+          console.warn(
+            'after city result data',
+            results
+            //  getdataProfile(result),
+          );
           if (results && results.length > 0) {
 
             // setSpinnerStart(false);
@@ -1194,15 +1197,15 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     return (
       <CardView
-        cardElevation={2}
-        cardMaxElevation={2}
-        cornerRadius={5}
+        cardElevation={10}
+        cardMaxElevation={10}
+        cornerRadius={2}
         style={styles.Cardview_city}>
         <TouchableOpacity
           underlayColor="none"
           onPress={() => Setcitynametext(item)}>
           <View>
-            <Text style={{ color: '#000', fontSize: 16, padding: 5 }}>{item.display}</Text>
+            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.display}</Text>
           </View>
         </TouchableOpacity>
       </CardView>
@@ -2242,9 +2245,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   style={{
                     height: 28,
                     width: 28,
-
                     marginTop: 10,
-                    // marginLeft: 20,
                     marginRight: 15,
                   }}
                   source={Images.add_more}
@@ -2496,23 +2497,38 @@ const HomeScreen = (props: HomeScreenProps) => {
         </View>
 
         {/* add your city modal */}
-        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
+        <Modal animationType="slide"
+          style={{
+            padding: 0, justifyContent: 'flex-end',
+            margin: 0,
+          }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
 
-          <View style={styles.modalContainer}>
+          <View style={styles.modalContainerCity}>
 
-            <TouchableOpacity
-              onPress={toggleModal}
-              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
-              <View style={styles.textinputContainer}>
+
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '3%' }}>
+
+              <Text style={{
+                fontSize: 20,
+                // marginLeft: 15,
+                fontWeight: 'bold',
+                color: '#000',
+              }}>Search</Text>
+
+              <TouchableOpacity
+                onPress={toggleModal}
+                style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
                 <Image
-                  source={Images.search}
-                  style={{ marginLeft: 10, tintColor: 'grey' }}
+                  source={Images.closeicon}
+                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                />
+              </TouchableOpacity>
+
+
+              <View style={styles.textinputContainerCity}>
+                <Image
+                  source={Images.location}
+                  style={{ marginLeft: 10, tintColor: 'grey', height: 22, width: 22, }}
                 />
 
                 <TextInput
@@ -2528,7 +2544,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               {citydata.length > 0 ? <FlatList
                 data={citydata}
-                style={{ height: '25%' }}
+                style={{}}
                 // keyExtractor={item => item.id.toString()}
                 // ItemSeparatorComponent={ItemSepratorcity}
                 //  ItemSeparatorComponent={this.SeparatorComponent}
@@ -2538,7 +2554,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               <TouchableOpacity
                 onPress={() => onPressModalSubmit()}
-                style={styles.submitbtn}>
+                style={styles.submitbtncity}>
                 <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
               </TouchableOpacity>
             </View>
@@ -2549,24 +2565,41 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
         {/* add your admission no modal */}
-        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
+        <Modal animationType="slide"
+          style={{
+            padding: 0, justifyContent: 'flex-end',
+            margin: 0,
+          }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
 
           <View style={styles.modalContainer}>
 
-            <TouchableOpacity
-              onPress={toggleModalNo}
-              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
+
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '5%' }}>
+
+              <Text style={{
+                fontSize: 20,
+                // marginLeft: 15,
+                fontWeight: 'bold',
+                color: '#000',
+              }}>Admission number</Text>
+
+              <TouchableOpacity
+                onPress={toggleModalNo}
+                style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
+
+
               <View style={styles.textinputContainer}>
                 {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
+
+
 
                 <TextInput
                   placeholder=" Enter admission number"
@@ -2591,19 +2624,32 @@ const HomeScreen = (props: HomeScreenProps) => {
         </Modal>
 
         {/* add your roll no modal */}
-        <Modal style={{ margin: 0, padding: 0 }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
+        <Modal animationType="slide"
+          style={{
+            padding: 0, justifyContent: 'flex-end',
+            margin: 0,
+          }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
 
           <View style={styles.modalContainer}>
 
-            <TouchableOpacity
-              onPress={toggleModalRollNo}
-              style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
-              <Image
-                source={Images.closeicon}
-                style={{ height: 18, width: 18, marginRight: 10 }}
-              />
-            </TouchableOpacity>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '10%' }}>
+
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '5%' }}>
+
+              <Text style={{
+                fontSize: 20,
+                // marginLeft: 15,
+                fontWeight: 'bold',
+                color: '#000',
+              }}>Roll number</Text>
+
+              <TouchableOpacity
+                onPress={toggleModalRollNo}
+                style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                <Image
+                  source={Images.closeicon}
+                  style={{ height: 18, width: 18, marginRight: 10 }}
+                />
+              </TouchableOpacity>
               <View style={styles.textinputContainer}>
                 {/* <Image
                   source={Images.search}

@@ -46,12 +46,12 @@ function* HttpClient(payload) {
     // yield put(hideLoader());
     if (Idx(error, _ => _.code)) {
       if (error.code === 'ECONNABORTED') {
-        Toast.show(message, Toast.LONG);
+        //Toast.show(message, Toast.LONG);
       }
     }
     if (Idx(error, _ => _.statusCode)) {
     } else {
-      Toast.show(error.message, Toast.LONG);
+      //Toast.show(error.message, Toast.LONG);
     }
 
     return {

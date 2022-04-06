@@ -305,8 +305,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     }, [])
   );
 
-
-
+ 
   //console.log("this.props",this.props);
 
   const onDeleteBTN = async () => {
@@ -349,7 +348,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setpronoun(element.pronoun);
       setpronouncustom_gender(element.custom_gender)
 
-      console.log('element.kyc_approved',element.kyc_approved)
 
     });
     _storeData();

@@ -117,12 +117,19 @@ const Reminders = (props: ResetPasswordScreenProps) => {
         }
       }, 1000);
 
-      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.addEventListener('hardwareBackPress', handleBackBut);
 
       return () =>
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+        BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
     }, [])
   );
+
+
+  function handleBackBut() {
+    props.navigation.goBack();
+    return true;
+  }
+
 
 
 
@@ -240,6 +247,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
+            
             setLoading(false);
 
           } else {

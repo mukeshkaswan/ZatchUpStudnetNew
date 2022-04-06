@@ -167,23 +167,30 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
        // CourseDeleteBeforeConformation(props.route.params.course_id);
         getEicourseconfirmationlist();
         getStepCountAPi()
+        BackHandler.addEventListener('hardwareBackPress', handleBackBut);
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
+        };
       } else if (props.route.params.login == false) {
         getEicourseconfirmationlist();
         getStepCountAPi()
-
+        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        return () =>
+          BackHandler.removeEventListener(
+            'hardwareBackPress',
+            handleBackButtonClick,
+          );
       }
-      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-      return () =>
-        BackHandler.removeEventListener(
-          'hardwareBackPress',
-          handleBackButtonClick,
-        );
+      
     }, []),
   );
-  // function handleBackButtonClick() {
-  // props.navigation.goBack();
-  // return true;
-  // }
+
+
+
+  function handleBackBut() {
+  props.navigation.goBack();
+  return true;
+  }
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -1507,7 +1514,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                     {item.ei_detail.school_code}
                   </Text>
 
-                  {props.route.params.login != true ? <TouchableOpacity
+                  {stepcount != '7'  ? <TouchableOpacity
                     underlayColor="none"
                     onPress={() => DeleteSchool(item.ei_detail.id)}>
                     <Image
@@ -1622,7 +1629,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   coursekeyothersAlumni:
                                     props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
-                                  're_verify': props.route.params.re_verify
+                                  're_verify': props.route.params.re_verify,
+                                  'login': props.route.params.login,
+
                                 })
                                 : i.standard_detail != null && i.standard_detail.length > 0 && i.is_current_course == true
                                   ? props.navigation.navigate(
@@ -1637,7 +1646,9 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       course_name: i.course_name,
                                       description: i.description,
                                       roll_no: i.roll_no,
-                                      're_verify': props.route.params.re_verify
+                                      're_verify': props.route.params.re_verify,
+                                      'login': props.route.params.login,
+                                      'key':true
                                     },
                                   )
                                   : props.navigation.navigate(
@@ -1654,7 +1665,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       course_id: i.course_id,
                                       school_id: item.ei_detail.id,
                                       confirmation: 'EIconfirmation',
-                                      're_verify': props.route.params.re_verify
+                                      're_verify': props.route.params.re_verify,
+                                      'login': props.route.params.login,
                                     },
                                   )
                             }}>

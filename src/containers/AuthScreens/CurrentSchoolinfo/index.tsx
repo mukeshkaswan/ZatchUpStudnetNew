@@ -39,10 +39,9 @@ interface CurrentSchoolinfoScreenProps {
 interface StatusBarProps {
   //selectedSchool?: string;
 }
-const CurrentSchoolinfo = (
-  props: CurrentSchoolinfoScreenProps,
-  StatusBarProps: StatusBarProps,
-) => {
+
+const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: StatusBarProps) => {
+
   const [selectedState, setSelectedState] = useState([]);
   const [selectedCity, setselectedCity] = useState([]);
   const [selectedSchool, setselectedSchool] = useState([]);
@@ -59,25 +58,12 @@ const CurrentSchoolinfo = (
   const [statedatkey, setStateKey] = useState('');
   const [citydatkey, setCityKey] = useState('');
   const [schooldatkey, setSchoolKey] = useState('');
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
 
-  const [statedata, setState] = useState([
-    {
-      label: 'State',
-      value: '0',
-    },
-    {
-      label: 'Bombay',
-      value: '1',
-    },
-    {
-      label: 'Gujaret',
-      value: '2',
-    },
-  ]);
+
 
   const renderIndicator = () => {
     return (
@@ -96,16 +82,9 @@ const CurrentSchoolinfo = (
   };
 
   useEffect(() => {
-    // setStateKey('');
-    // setSchoolKey('');
-    // setCityKey('');
-    // setSchoolname('');
-    // setaddress('');
-    // setBoard('');
-    // setID('');
+    
 
     getState();
-    // getStepCountAPi();
     getAuthUserInfoApi();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -117,10 +96,18 @@ const CurrentSchoolinfo = (
     };
   }, [isFocused]);
 
+  
+ 
+
   function handleBackButtonClick() {
     props.navigation.goBack();
     return true;
   }
+
+
+
+
+
   const Data = async result => {
     console.log('result.data.address1', result.data.address1)
     var dsfdsf = result.data.state_id;
@@ -755,15 +742,15 @@ const CurrentSchoolinfo = (
         {props.route.params.data === true ? (
           // <CustomHeader Title={'Add Current School'} />
           <HeaderTitleWithBack
-                navigation={props.navigation}
-                headerTitle="Add Current School"
-            />
+            navigation={props.navigation}
+            headerTitle="Add Current School"
+          />
         ) : (
           // <CustomHeader Title={'Add School'} />
           <HeaderTitleWithBack
-                navigation={props.navigation}
-                headerTitle="Add School"
-            />
+            navigation={props.navigation}
+            headerTitle="Add School"
+          />
         )}
 
         <View style={styles.fillTextContainer}>
