@@ -43,6 +43,8 @@ import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RBSheet from "react-native-raw-bottom-sheet";
 import ImagePicker from 'react-native-image-crop-picker';
+import moment from 'moment';
+
 const screenWidth = Dimensions.get('window').width;
 
 interface HomeScreenProps {
@@ -163,6 +165,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
   }, []);
+
 
 
   useEffect(() => {
@@ -1990,6 +1993,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             //  titleColor="#fff"
             colors={["rgb(70,50,103)"]}
           />
+
         }>
 
 
@@ -2119,10 +2123,10 @@ const HomeScreen = (props: HomeScreenProps) => {
         {/* <Text style={styles.textStyle_}>
             {'Unique ZatchUp ID' + ':' + zatchupid}
           </Text> */}
-        {zatchupid != null ? <Text style={styles.textStyle_}>
-          {'Unique ZatchUp ID' + ':' + zatchupid}
-        </Text> : <Text style={styles.textStyle_}>
-          {'Unique ZatchUp ID' + ':' + 'XXXXXXXXX'}
+        {zatchupid != null ? <Text style={styles.textStyle_text}>
+          {'Unique ZatchUp ID ' + ':' + zatchupid}
+        </Text> : <Text style={styles.textStyle_text}>
+          {'Unique ZatchUp ID ' + ':' + 'XXXXXXXXX'}
         </Text>}
 
         {/* <ImageBackground
@@ -2166,7 +2170,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={styles.underview} />
             <View style={styles.view_Row}>
               <Text style={styles.view_Tv_1}>DOB :</Text>
-              <Text style={styles.view_Tv_2}>{dob}</Text>
+              <Text style={styles.view_Tv_2}>{moment(dob).format("DD-MM-YYYY")}</Text>
             </View>
 
             {gender == 'M' ? (

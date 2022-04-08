@@ -45,6 +45,16 @@ const styles = ScaledSheet.create({
     alignSelf: 'center',
     marginBottom: 5,
   },
+  
+  textStyle_text: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#565656',
+   fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 5,
+  },
+  
   balanceContainer: {
     padding: 5,
   },
@@ -270,6 +280,7 @@ const styles = ScaledSheet.create({
    // marginTop:'70%',
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
+    
   },
   modalContainerCity: {
     // height: hp('30%'),

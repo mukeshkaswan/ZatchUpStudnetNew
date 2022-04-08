@@ -9,11 +9,11 @@ const styles = ScaledSheet.create({
     width: '100%', backgroundColor: 'white', marginTop: 18, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: hp('8'), paddingLeft: 15, elevation: 1
   },
   reminderarrowcontainer: {
-    height: hp('4'), width: wp('8'), alignItems: 'center', justifyContent: 'center',alignSelf:'flex-end'
+    height: hp('4'), width: wp('8'), alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-end'
   },
   schoolremindertext: {
     fontSize: 18,
-    
+
   },
   time: {
     fontSize: 12
@@ -103,8 +103,11 @@ const styles = ScaledSheet.create({
     marginRight: 40,
   },
   Cardview: {
-    width: '100%',
-    height: '50%',
+    width: '92%',
+    // height: '40%',
+    flex: 1,
+    marginHorizontal: 16,
+    marginTop: 1
     // marginLeft: 10,
     // marginTop: 10
 

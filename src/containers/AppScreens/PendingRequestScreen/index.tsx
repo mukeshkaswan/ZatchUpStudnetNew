@@ -161,9 +161,9 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
   };
 
 
-   /***************************User get Delete Request list*******************************/
+  /***************************User get Delete Request list*******************************/
 
-   const DeleterequesteKYC = async id => {
+  const DeleterequesteKYC = async id => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -407,10 +407,10 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
         <Text style={styles.pendingtextt}>Pending Requests</Text>
 
         <View
-        
+
           style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-           
-            
+
+
           <Text style={styles.snotext}>Field Name</Text>
           <Text style={styles.lecturetitletext}>Existing</Text>
           <Text style={styles.topictext}>New</Text>
@@ -431,14 +431,14 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
               style={[styles.coursestextcontainer, { backgroundColor: 'white', }]}>
               <Text style={styles.snotext}>{item.field_name}</Text>
               <Text style={styles.lecturetitletext}>{item.old_value}</Text>
-              <Text style={styles.topictext}>{item.new_value}</Text>
+              <Text style={styles.topictext_}>{item.new_value}</Text>
               <TouchableOpacity
                 underlayColor="none"
                 onPress={() => Delete(item.id)}>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Image
                     source={images.delete_icon}
-                    style={{ height: 25, width: 25 }}
+                    style={{ height: 25, width: 25,right:10 }}
                   />
                 </View>
               </TouchableOpacity>
@@ -481,14 +481,14 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
               style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
               <Text style={styles.snotext}>{item.field_name}</Text>
               <Text style={styles.lecturetitletext}>{item.old_value}</Text>
-              <Text style={styles.topictext}>{item.new_value}</Text>
+              <Text style={styles.topictext_}>{item.new_value}</Text>
               <TouchableOpacity
                 underlayColor="none"
                 onPress={() => DeleteKYCRequest(item.id)}>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Image
                     source={images.delete_icon}
-                    style={{ height: 25, width: 25 }}
+                    style={{ height: 25, width: 25 ,right:10}}
                   />
                 </View>
               </TouchableOpacity>

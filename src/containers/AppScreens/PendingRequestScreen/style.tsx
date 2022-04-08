@@ -55,6 +55,11 @@ const styles = ScaledSheet.create({
     marginHorizontal: 2,
     textAlign: 'center',
   },
+  topictext_: {
+    flex: 2,
+    marginHorizontal: 2,
+    textAlign:'left'
+  },
   coursestextcontainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

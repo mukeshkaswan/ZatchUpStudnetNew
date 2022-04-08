@@ -10,8 +10,9 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  RefreshControl
 } from 'react-native';
-import styles from './style.tsx';
+import styles from './style';
 import {
   TextField,
   CustomButton,
@@ -40,19 +41,33 @@ import {
   DrawerActions,
   useFocusEffect
 } from '@react-navigation/native';
-
+import CardView from 'react-native-cardview'
+import moment from 'moment';
+import 'moment-timezone';
 
 interface ResetPasswordScreenProps {
   navigation: any;
 }
 
 const Reminders = (props: ResetPasswordScreenProps) => {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [reminder, setReminder] = useState([]);
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const [textShown, settextShown] = useState(-1);
+  const [refreshing, setRefreshing] = useState(false);
+  const [ID, setId] = useState(0);
+  const [getview, setView] = useState(false);
+  const [getdate, setDate] = useState('');
 
+
+
+
+  const toggleNumberOfLines = index => {
+
+    settextShown(textShown === index ? -1 : index);
+  };
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
   };
@@ -75,30 +90,6 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   };
 
 
-  // useEffect(() => {
-  //   getStepCountAPi();
-
-
-  //   const dataSetTimeOut = setTimeout(() => {
-
-  //     getRemindersApi();
-
-  //     return () => {
-  //       dataSetTimeOut.clear();
-  //     }
-  //   }, 1000);
-
-  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-  //   return () => {
-  //     BackHandler.removeEventListener(
-  //       'hardwareBackPress',
-  //       handleBackButtonClick,
-
-  //     );
-  //   };
-
-
-  // }, [isFocused]);
 
 
   useFocusEffect(
@@ -132,6 +123,19 @@ const Reminders = (props: ResetPasswordScreenProps) => {
 
 
 
+  const gotoNavigate = (id) => {
+    setId(id);
+    setView(true);
+    // console.log('dateToFormat',dateToFormat)
+
+    // if (getview === true) {
+    //   setView(false);
+
+    // } else if (getview === false) {
+    //   setView(true);
+
+    // }
+  }
 
 
   const backPressed = () => {
@@ -156,6 +160,16 @@ const Reminders = (props: ResetPasswordScreenProps) => {
     return true;
   }
 
+  const onRefresh = React.useCallback(() => {
+    getStepCountAPi();
+    getRemindersApi();
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
   const onDeleteBTN = async () => {
     try {
@@ -171,6 +185,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   };
 
   const getRemindersApi = async () => {
+    setId(0);
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -182,10 +197,11 @@ const Reminders = (props: ResetPasswordScreenProps) => {
       // error reading value
     }
 
-  //  console.log('Token At reminders==>>', token);
+    //  console.log('Token At reminders==>>', token);
     const data = {
       token: token,
     };
+    setLoading(true);
 
     dispatch(
       userActions.getReminders({
@@ -247,7 +263,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            
+
             setLoading(false);
 
           } else {
@@ -264,6 +280,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
+      {isLoading && renderIndicator()}
 
       {/* <HeaderTitleWithBack
         navigation={props.navigation}
@@ -355,68 +372,102 @@ const Reminders = (props: ResetPasswordScreenProps) => {
       </View>
 
       {reminder.length > 0 ? (
-        <FlatList
-          data={reminder}
-          renderItem={({ item }) => (
-            <View style={{ marginBottom:10}}>
-              <View style={{}}>
+        <ScrollView style={{ flex: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              // title="Pull to refresh" 
+              // tintColor="#fff" 
+              //  titleColor="#fff"
+              colors={["rgb(70,50,103)"]}
+            />
 
-                <View style={{ marginTop: 16, marginHorizontal: 16, flex: 1, backgroundColor: '#F7F7F7', paddingVertical: 8, paddingHorizontal: 8 }}>
-                  <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <Image
-                      style={{ resizeMode: 'stretch', height: 20, width: 30, marginTop: 5 }}
-                      source={Images.logo}
-                    />
-                    <View style={{ flex: 1 }}>
-                      {item.attachment != null && (
-                        <View style={styles.reminderarrowcontainer}>
-                          <TouchableOpacity
-                            style={styles.zatchupstarclassbtn}
-                            onPress={() => {
-                              props.navigation.navigate('ReminderTitleScreen', {
-                                item,
-                              });
-                            }}>
-                            <View style={{ height: 18, width: 20 }}>
-                              <Image
-                                style={{
-                                  height: '100%',
-                                  width: '100%',
-                                 tintColor: '#000',
-                                //  tin
+          }>
+          <FlatList
+            data={reminder}
+            renderItem={({ item, index }) => (
 
-                                }}
-                                source={Images.iattach}
-                              />
-                            </View>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                      {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{item.recieved_date}</Text> : null}
-                      {item.attachment != null ? <Text style={{ marginTop: 5, fontSize: 15, fontWeight: '600' }}>{item.message}</Text> : <Text style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
+              <View style={{ marginBottom: 10 }}>
+                <View style={{}}>
+
+
+                  <View style={{ marginTop: 16, marginHorizontal: 16, flex: 1, backgroundColor: '#F7F7F7', paddingVertical: 8, paddingHorizontal: 8 }}>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                   
+                      <View style={{ flex: 1 }}>
+                        {item.attachment != null && (
+                          <View style={styles.reminderarrowcontainer}>
+                            <TouchableOpacity
+                              onPress={() => gotoNavigate(item.id)}
+                              style={styles.zatchupstarclassbtn}
+                           
+
+                            >
+                              <View style={{ height: 18, width: 20 }}>
+                                <Image
+                                  style={{
+                                    height: '100%',
+                                    width: '100%',
+                                    tintColor: '#000',
+
+                                  }}
+                                  source={Images.iattach}
+                                />
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                        )}
+                        {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
+                        {item.message.length > 100 ? <View>
+
+                          <Text
+                            numberOfLines={textShown === index ? undefined : 2}
+                            style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>
+                            {item.message}
+                          </Text>
+                          <Text
+                            onPress={() => toggleNumberOfLines(index)}
+                            style={{ color: '#4B2A6A', marginTop: 5, fontSize: 16, fontWeight: '600' }}>
+                            {textShown === index ? '[View Less]' : '[View More]'}
+                          </Text>
+                        </View> : <Text style={{ marginTop: 5, fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
+
+
+                      </View>
+
                     </View>
+                    <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A', alignSelf: 'flex-end', }}>{'-Sent By: ' + item.sender_name}</Text>
 
                   </View>
-                  <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A', alignSelf: 'flex-end', }}>{'-Sent By: ' + item.sender_name}</Text>
-
+                
                 </View>
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    justifyContent: 'space-between',
-                    paddingEnd: 12,
-                  }}>
-                  <Text style={styles.schoolremindertext}>{item.message}</Text>
-                  <Text style={{fontSize:12,alignItems:'flex-end'}}>{item.recieved_date}</Text>
 
-                  <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A' }}>{'-Sent By: ' + item.sender_name}</Text>
-                </View> */}
+                {getview === true ? <CardView
+                  cardElevation={1}
+                  cardMaxElevation={1}
+                  // cornerRadius={1}
+                  style={styles.Cardview}>
+
+                  <View style={{}}>
+
+                    {item.id === ID ? <Image
+                      style={{ resizeMode: 'stretch', height: 200, width: '90%', marginTop: 15, marginHorizontal: 16, margin: 10 }}
+                      source={{ uri: item.attachment }}
+                    /> : null}
+                  </View>
+
+                  {item.id === ID ? <Text style={{ marginHorizontal: 16, marginRight: 16, fontSize: 13, marginTop: 5, marginBottom: 5, }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
+
+
+                </CardView> : null}
+
 
               </View>
-            </View>
-          )}
-        />
+
+            )}
+          />
+        </ScrollView>
       ) : (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 15 }}>Records not available.</Text>
