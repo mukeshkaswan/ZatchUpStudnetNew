@@ -21,10 +21,14 @@ const {
   width, height
 } = Dimensions.get("screen")
 
+const placeholder =
+  'http://staging.zatchup.com/zatchupapi/zatchup/media/starclass_courses/anime_view_pRcFg4X.jpg';
+
 interface ResetPasswordScreenProps {
   navigation: any;
   route: any;
 }
+
 
 const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   const [number, onChangeNumber] = React.useState(null);
@@ -217,14 +221,14 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
 
         <Video
           ref={ref}
-
           url={{ uri: play }}
           resizeMode="contain"
           showDuration
-
-        //  rotateToFullScreen={true}
+          //  rotateToFullScreen={true}
           lockRatio={16 / 9}
           onFullScreen={onFullScreen}
+          placeholder={placeholder}
+
         />
 
       </ScrollView>

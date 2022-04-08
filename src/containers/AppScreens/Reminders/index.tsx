@@ -60,6 +60,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
   const [ID, setId] = useState(0);
   const [getview, setView] = useState(false);
   const [getdate, setDate] = useState('');
+  const [getFlag, setFlag] = useState(false);
 
 
 
@@ -214,6 +215,8 @@ const Reminders = (props: ResetPasswordScreenProps) => {
             // );
 
             setLoading(false);
+            setFlag(true);
+
             if (result.status) {
               setReminder(result.results);
             }
@@ -370,6 +373,7 @@ const Reminders = (props: ResetPasswordScreenProps) => {
           </View>
         </TouchableOpacity>
       </View>
+      {getFlag === true ? <View style={{flex:1}}>
 
       {reminder.length > 0 ? (
         <ScrollView style={{ flex: 1 }}
@@ -473,6 +477,8 @@ const Reminders = (props: ResetPasswordScreenProps) => {
           <Text style={{ fontSize: 15 }}>Records not available.</Text>
         </View>
       )}
+
+      </View>:null}
     </View>
   );
 };

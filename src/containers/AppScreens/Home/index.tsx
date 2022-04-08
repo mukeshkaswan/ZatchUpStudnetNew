@@ -1412,7 +1412,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     {i.admission_number != null && i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
-                        School Admission Number :
+                        Admission Number :
                       </Text>
                       <TouchableOpacity
                         underlayColor="none"
@@ -1424,7 +1424,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     </View> : i.admission_number == null && i.is_onboard == true ? <View style={styles.view_Row}>
                       <Text style={styles.view_Tv_1}>
-                        School Admission Number :
+                        Admission Number :
                       </Text>
                       <TouchableOpacity
                         underlayColor="none"
@@ -2111,42 +2111,18 @@ const HomeScreen = (props: HomeScreenProps) => {
               </View>
             ) : null}
 
-
-
-
-
           </View>
-
 
         </View>
         <Text style={styles.textStyle}>{username}</Text>
-        {/* <Text style={styles.textStyle_}>
-            {'Unique ZatchUp ID' + ':' + zatchupid}
-          </Text> */}
+
         {zatchupid != null ? <Text style={styles.textStyle_text}>
-          {'Unique ZatchUp ID ' + ':' + zatchupid}
+          {'Unique ZatchUp ID ' + ': ' + zatchupid}
         </Text> : <Text style={styles.textStyle_text}>
-          {'Unique ZatchUp ID ' + ':' + 'XXXXXXXXX'}
+          {'Unique ZatchUp ID ' + ': ' + 'XXXXXXXXX'}
         </Text>}
 
-        {/* <ImageBackground
-          source={{ uri: 'http://staging.zatchup.com/zatchup/assets/images/cover-pic-default.png' }}
-          style={styles.containers}>
-          <View style={styles.overlay}>
-            <Image source={{uri :profilepic}}
-              style={styles.avatarStyle} />
-            <Text style={styles.textStyle} >{username}</Text>
-            <Text style={styles.textStyle_} >{zatchupid}</Text>
-          </View>
-        </ImageBackground> */}
 
-        {/* <View style={{ flexDirection: 'column' }}>
-          <Card>
-            <Card.Cover source={{ uri: 'http://staging.zatchup.com/zatchup/assets/images/cover-pic-default.png' }} />
-          </Card>
-
-        
-        </View> */}
 
         <View style={styles.view}>
           <CardView
@@ -2170,7 +2146,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={styles.underview} />
             <View style={styles.view_Row}>
               <Text style={styles.view_Tv_1}>DOB :</Text>
-              <Text style={styles.view_Tv_2}>{moment(dob).format("DD-MM-YYYY")}</Text>
+              {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("DD-MM-YYYY")}</Text> : null}
             </View>
 
             {gender == 'M' ? (
@@ -2592,7 +2568,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
                 <Image
                   source={Images.closeicon}
-                  style={{ height: 18, width: 18, marginRight: 10 }}
+                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
                 />
               </TouchableOpacity>
 
@@ -2651,7 +2627,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
                 <Image
                   source={Images.closeicon}
-                  style={{ height: 18, width: 18, marginRight: 10 }}
+                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
                 />
               </TouchableOpacity>
               <View style={styles.textinputContainer}>

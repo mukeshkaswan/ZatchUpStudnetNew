@@ -1,4 +1,4 @@
-import React, {Component, FC, useEffect, useState} from 'react';
+import React, { Component, FC, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -6,25 +6,26 @@ import {
   BackHandler,
   FlatList,
   Image,
+  RefreshControl,
+  ScrollView
 } from 'react-native';
 import styles from './styles';
-import {Images, Colors} from '../../../components/index';
+import { Images, Colors } from '../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {CustomStatusBar, CustomHeader} from '../../../components';
+import { CustomStatusBar, CustomHeader } from '../../../components';
 import CardView from 'react-native-cardview';
 import {
   NavigationContainer,
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView} from 'react-native-gesture-handler';
 const screenWidth = Dimensions.get('window').width;
 
 interface NotificationsScreenProps {
@@ -34,6 +35,9 @@ const Notifications = (props: NotificationsScreenProps) => {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [setdatafromlist, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [getFlag, setFlag] = useState(false);
+
 
   const isFocused = useIsFocused();
 
@@ -52,6 +56,16 @@ const Notifications = (props: NotificationsScreenProps) => {
   function handleBackButtonClick() {
     props.navigation.goBack(null);
     return true;
+  }
+
+  const onRefresh = React.useCallback(() => {
+    getNotification();
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
   /***************************User GET Notification list*******************************/
@@ -77,23 +91,16 @@ const Notifications = (props: NotificationsScreenProps) => {
       userActions.getNotificationFetch({
         data,
 
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status === true) {
-            // console.warn(
-            //   'after result Notification',
-            //   JSON.stringify(result, undefined, 2),
-
-             
-            //   //   getdataCourse(result)
-            // );
-            setData(result.results),
-            // setSpinnerStart(false);
             setLoading(false);
+            setFlag(true);
+
+            setData(result.results)
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
-            // Toast.show('Invalid credentials', Toast.SHORT);
           } else {
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
@@ -112,7 +119,7 @@ const Notifications = (props: NotificationsScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -122,22 +129,38 @@ const Notifications = (props: NotificationsScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
+      {isLoading && renderIndicator()}
+
       <CustomHeader
         Title={'Notifications'}
         Back={'true'}
         navigation={props.navigation}
       />
-     {setdatafromlist.length > 0 ? ( 
-        <FlatList
-        data={setdatafromlist}
-        renderItem={({item}) => (
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            cornerRadius={1}
-            style={styles.Cardview}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image
+      {getFlag === true ? <View style={{flex:1}}>
+
+        {setdatafromlist.length > 0 ? (
+          <ScrollView style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                // title="Pull to refresh" 
+                // tintColor="#fff" 
+                //  titleColor="#fff"
+                colors={["rgb(70,50,103)"]}
+              />
+
+            }>
+            <FlatList
+              data={setdatafromlist}
+              renderItem={({ item }) => (
+                <CardView
+                  cardElevation={5}
+                  cardMaxElevation={5}
+                  cornerRadius={1}
+                  style={styles.Cardview}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {/* <Image
                 source={Images.profile_img2}
                 style={{
                   height: 50,
@@ -145,23 +168,29 @@ const Notifications = (props: NotificationsScreenProps) => {
                   tintColor: 'grey',
                   borderRadius: 25,
                 }}
-              />
+              /> */}
 
-              <Text style={styles.Title_tv_}>{item.message}</Text>
-            </View>
-            <View style={styles.Title_view}>
-              <Text style={styles.Title_view_child}>{item.recived_time}</Text>
-            </View>
-          </CardView>
-        )}
-        //  ItemSeparatorComponent={renderIndicator}
-      />
-      ) : (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 15}}>No records found.</Text>
-        </View>
-      )}
+                    <Text style={styles.Title_tv_}>{item.message}</Text>
+                  </View>
+                  <View style={styles.Title_view}>
+                    <Text style={styles.Title_view_child}>{item.recived_time}</Text>
+                  </View>
+                </CardView>
+              )}
+            //  ItemSeparatorComponent={renderIndicator}
+            />
+          </ScrollView>
+
+        ) :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 15 }}>No records found.</Text>
+          </View>
+        }
+      </View>:null}
+
+
     </View>
+
   );
 };
 

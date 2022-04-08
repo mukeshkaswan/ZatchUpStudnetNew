@@ -11,7 +11,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import styles from './style.tsx';
+import styles from './style';
 import {
   TextField,
   CustomButton,
@@ -35,39 +35,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
+import moment from 'moment';
 
-const data = [
-  {
-    id: 1,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-  {
-    id: 2,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-
-  {
-    id: 3,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-
-  {
-    id: 4,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-];
 
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -78,6 +47,7 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [lecturedata, setLectureData] = useState([]);
+  const [getFlag, setFlag] = useState(false);
 
 
   function handleBackBut() {
@@ -141,12 +111,13 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
 
         callback: ({ results, error }) => {
           if (results && results.length > 0) {
+            setLoading(false);
 
             // setSpinnerStart(false);
-          //  console.log('results Data Lecture history......', results);
-            setLectureData(results),
+            //  console.log('results Data Lecture history......', results);
+            setFlag(true);
+            setLectureData(results);
 
-              setLoading(false);
           }
           else if (results && results.length == []) {
 
@@ -179,17 +150,9 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
         navigation={props.navigation}
         headerTitle="Play History"
       />
-      {/* <View style={styles.boxcontainer}>
-           <Text style={styles.pendingtext}>Play History</Text>
-           <View style={styles.mainbordercontainer}>
-                <View style={styles.bordercontainer}>
-                     <Text style={{fontSize:16}}>Records Not Available</Text>
-                </View>
-           </View>
 
-       </View> */}
       <View style={{ marginTop: 10 }}>
-        <View
+        {lecturedata.length > 0 ? <View
           style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
           <Text style={styles.snotext}>S. No</Text>
           <Text style={styles.lecturetitletext}>Course Title</Text>
@@ -202,23 +165,23 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
             }}>
             Play Timing
           </Text>
-        </View>
-        {lecturedata.length > 0 ? (   <FlatList
+        </View> : null}
+        {lecturedata.length > 0 ? (<FlatList
           data={lecturedata}
           renderItem={({ item, index }) => (
             <View
               style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
-              <Text style={styles.snotext}> {index}</Text>
+              <Text style={styles.snotext}> {index + 1}</Text>
               <Text style={styles.lecturetitletext}>
                 {item.course_name}
               </Text>
               <Text style={styles.topictext}>{item.lecture_title}</Text>
-              <Text style={styles.topictext}>{item.start_time}</Text>
+              <Text style={styles.topictext}>{moment(item.start_time).format("MMM DD , YYYY, hh:mm A")}</Text>
             </View>
           )}
         />
         ) : (
-          <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:50 }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
             <Text style={{ fontSize: 15 }}>Records Not Available</Text>
           </View>
         )}

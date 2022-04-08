@@ -97,7 +97,7 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                         backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         // borderColor: "#ffffff",
-                        borderColor: studentSelect ? '#E6E5E8' : "red",
+                        borderColor: studentSelect ? '#E6E5E8' : "#4B2A6A",
                         height: 60,
                         width: '50%',
                         borderRadius: 15,
@@ -111,20 +111,20 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                         height: 20,
                         width: 20,
 
-                        tintColor: studentSelect ? '#E0E0E0' : "red",
+                        tintColor: studentSelect ? '#E0E0E0' : "#4B2A6A",
                         marginLeft: '10%',
                         resizeMode: 'stretch',
                     }} />
 
                     {/* <View style={styles.buttonIconSeparatorStyle} /> */}
                     <Text style={{
-                        color: '#F01F27',
+                        color: '#4B2A6A',
                         marginBottom: 4,
-                        marginLeft: 30,
+                        marginLeft: 15,
                         fontSize: 16
 
                     }}>
-                        Alumni
+                    Alumni
                     </Text>
                 </TouchableOpacity>
 
@@ -161,10 +161,10 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
                     <Text style={{
                         color: '#3EA63E',
                         marginBottom: 4,
-                        marginLeft: 30,
+                        marginLeft: 15,
                         fontSize: 16
                     }}>
-                        Student
+                    Student
                     </Text>
                 </TouchableOpacity>
             </View>

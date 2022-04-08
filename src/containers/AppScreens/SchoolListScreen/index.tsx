@@ -24,6 +24,7 @@ const SchoolListScreen = (props: ResetPasswordScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const [schoolid, setSchoolID] = useState('');
   const [coursedata, setCourseData] = useState([]);
+  const [getFlag, setFlag] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -91,8 +92,9 @@ const SchoolListScreen = (props: ResetPasswordScreenProps) => {
 
             // setSpinnerStart(false);
             console.log('results Data', results[0].id);
+            setFlag(true);
             setCourseData(results);
-           // getCourseList(results[0].id);
+            // getCourseList(results[0].id);
             setSchoolID(results[0].id);
             setLoading(false);
           }
@@ -194,37 +196,40 @@ const SchoolListScreen = (props: ResetPasswordScreenProps) => {
         </TouchableOpacity> */}
 
       </View>
+      {getFlag === true ? <View style={{ flex: 1 }}>
 
-      <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-        <Text style={styles.snotext}>S. No</Text>
-        <Text style={styles.lecturetitletext}>Zatchup ID</Text>
-        <Text style={styles.topictext}>School Name</Text>
-        <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>View Courses</Text>
-      </View>
+        {coursedata.length > 0 ? <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+          <Text style={styles.snotext}>S. No</Text>
+          <Text style={styles.lecturetitletext}>Zatchup ID</Text>
+          <Text style={styles.topictext}>School Name</Text>
+          <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>View Courses</Text>
+        </View> : null}
 
-      {coursedata.length > 0 ? (<FlatList
-        data={coursedata}
-        renderItem={({ item, index }) =>
+        {coursedata.length > 0 ? (<FlatList
+          data={coursedata}
+          renderItem={({ item, index }) =>
 
-          <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
-            <Text style={styles.snotext}> {index+1}</Text>
-            <Text style={styles.lecturetitletext}>{item.school_code}</Text>
-            <Text style={styles.topictext}>{item.name_of_school}</Text>
-            <TouchableOpacity onPress={() => props.navigation.navigate('CoursesListScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
-              <Image
-                style={styles.image}
-                source={Images.eye}
-              />
-            </TouchableOpacity>
+            <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
+              <Text style={styles.snotext}> {index + 1}</Text>
+              <Text style={styles.lecturetitletext}>{item.school_code}</Text>
+              <Text style={styles.topictext}>{item.name_of_school}</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('CoursesListScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+                <Image
+                  style={styles.image}
+                  source={Images.eye}
+                />
+              </TouchableOpacity>
+            </View>
+          }
+
+        />
+        ) : (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
           </View>
-        }
+        )}
 
-      />
-      ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
-        </View>
-      )}
+      </View> : null}
     </View>
 
 

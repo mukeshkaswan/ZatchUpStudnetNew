@@ -38,6 +38,9 @@ interface ResetPasswordScreenProps {
 //   progress: "#446984",
 //   loading: "#DBD5C7"
 // };
+
+const placeholder =
+  'http://staging.zatchup.com/zatchupapi/zatchup/media/starclass_courses/anime_view_pRcFg4X.jpg';
 const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
 
   const [number, onChangeNumber] = useState(null);
@@ -72,11 +75,11 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
 
 
   useEffect(() => {
-    
+
     getCoursePreviewData(props.route.params.id);
 
     getCourseLectureData(props.route.params.id);
-    
+
   }, []);
 
 
@@ -98,19 +101,19 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
   }
 
 
- 
+
 
   const onFullScreen = () => {
     if (!isFullScreen) {
-        Orientation.lockToLandscape();
+      Orientation.lockToLandscape();
     } else {
-        if (Platform.OS === 'ios') {
-            Orientation.lockToPortrait();
-        }
+      if (Platform.OS === 'ios') {
         Orientation.lockToPortrait();
+      }
+      Orientation.lockToPortrait();
     }
     setFullscreen(!isFullScreen);
-};
+  };
 
   const getData = async (results) => {
     results.map((element: any) => {
@@ -237,29 +240,31 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
       {isLoading && renderIndicator()}
 
       <CustomStatusBar />
-      {isFullScreen != true ?  <HeaderTitleWithBack
+      {isFullScreen != true ? <HeaderTitleWithBack
         navigation={props.navigation}
         headerTitle="Course Preview"
-      />:null}
+      /> : null}
 
-     <ScrollView >
-       <Video
+      <ScrollView >
+        {coursepreview != null ? <Video
           ref={ref}
-         // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
-           url={{uri:coursepreview}}
-         // video={{ uri: coursepreview }}
-       //   videoWidth={width - 100}
+          // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
+          url={{ uri: coursepreview }}
+          // video={{ uri: coursepreview }}
+          //   videoWidth={width - 100}
           //thumbnail={{ uri: courseimage }}
           thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
           onFullScreen={onFullScreen}
           // theme={theme}
-         // controls={true}
+          // controls={true}
           resizeMode="contain"
           showDuration
-         // rotateToFullScreen={true}
+          // rotateToFullScreen={true}
           lockRatio={16 / 9}
-        />
-     {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+          placeholder={placeholder}
+          onBackPress={() => props.navigation.goBack(null)}
+        /> : null}
+        {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
           <Text style={styles.titletext}>View Course</Text>
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Course Name : </Text>
@@ -269,7 +274,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Course ID : </Text>
             <Text style={styles.coursetext1}>{courseid}</Text>
           </View>
-          
+
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Standard : </Text>
             <Text style={styles.coursetext1}>{standard}</Text>
@@ -286,16 +291,16 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
             <Text style={styles.coursetext1}>{facultydetails}</Text>
           </View>
-        
-         {des != '' && des != null ? <View style={styles.textcontainer}>
+
+          {des != '' && des != null ? <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Description : </Text>
             <Text style={styles.coursetext1}>{des}</Text>
-          </View>:null}
+          </View> : null}
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Date of Creating Course : </Text>
             <Text style={styles.coursetext1}>{creatingcoursedate}</Text>
           </View>
-          <View style={{ marginTop: 15 }}>
+         {lecturedata.length > 0 ? <View style={{ marginTop: 15 }}>
             <Text style={styles.titletext}>Course Lecture</Text>
             <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey', marginTop: 10 }]}>
               <Text style={styles.snotext}>S. No</Text>
@@ -307,7 +312,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
               data={lecturedata}
               renderItem={({ item, index }) =>
                 <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
-                  <Text style={styles.snotext}> {index+1}</Text>
+                  <Text style={styles.snotext}> {index + 1}</Text>
                   <Text style={styles.lecturetitletext}>{item.lecture_title}</Text>
                   <Text style={styles.topictext}>{item.topic_cover}</Text>
                   <TouchableOpacity onPress={() => props.navigation.navigate('LectureDetailsScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
@@ -321,8 +326,8 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
               }
 
             />
-          </View>
-        </View>:null}
+          </View>:null}
+        </View> : null}
       </ScrollView>
 
     </View>

@@ -61,6 +61,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
   const [address1, setAddress1] = useState('');
   const [address2, setAddress2] = useState('');
   const [setdatafromlist, setDataCourseInList] = useState([]);
+  const [getFlag, setFlag] = useState(false);
 
 
 
@@ -238,16 +239,12 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
-            console.warn(
-              'after result --------->',
-              JSON.stringify(result, undefined, 2),
+            setLoading(false);
 
-
-            );
+           
+            setFlag(true);
             getdataProfile(result),
-              getdataCourse(result),
-              // setSpinnerStart(false);
-              setLoading(false);
+            getdataCourse(result);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -405,6 +402,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
         navigation={props.navigation}
         headerTitle="Courses Pending"
       />
+      {getFlag === true ? <View style={{flex:1}}>
 
       {setdatafromlist.length > 0 ? <CardView
         cardElevation={5}
@@ -463,6 +461,9 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
         </View>
 
       </View>}
+
+      </View>:null}
+
 
     </View>
   );
