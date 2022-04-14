@@ -1416,9 +1416,25 @@ const HomeScreen = (props: HomeScreenProps) => {
                       </Text>
                       <TouchableOpacity
                         underlayColor="none"
-                        onPress={() => toggleModalNo(i.school_id, i.admission_number)}
                       >
                         <Text style={styles.view_Tv_k}>{i.admission_number}</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        underlayColor="none"
+
+                        onPress={() => toggleModalNo(i.school_id, i.admission_number)}
+                      >
+
+                        <Image
+                          style={{
+                            height: 15,
+                            width: 15,
+                            marginTop: 4,
+                            marginLeft: 2,
+                          }}
+                          source={Images.edit_icon}
+                        />
                       </TouchableOpacity>
 
 
@@ -1552,16 +1568,16 @@ const HomeScreen = (props: HomeScreenProps) => {
                           />
 
                           <View style={styles.underview} />
-
+                          <Text style={styles.Personal_Tv}>
+                            Standard Details
+                          </Text>
+                          <View style={styles.underview} />
                           {
                             course.standard_detail &&
                             course.standard_detail.map(standard => {
                               return (
                                 <View>
-                                  <Text style={styles.Personal_Tv}>
-                                    Standard Details
-                                  </Text>
-                                  <View style={styles.underview} />
+
 
                                   {standard.is_current_standard == true ? (
                                     <View style={styles.view_Row}>
@@ -1610,11 +1626,29 @@ const HomeScreen = (props: HomeScreenProps) => {
                                               </Text>
                                               <TouchableOpacity
                                                 underlayColor="none"
-                                                onPress={() => toggleModalRollNo(class_i.class_id, course.course_id, class_i.roll_no)}
                                               >
                                                 <Text style={styles.view_Tv_2}>
                                                   {class_i.roll_no}
                                                 </Text>
+
+                                              </TouchableOpacity>
+
+
+                                              <TouchableOpacity
+                                                underlayColor="none"
+
+                                                onPress={() => toggleModalRollNo(class_i.class_id, course.course_id, class_i.roll_no)}
+                                              >
+
+                                                <Image
+                                                  style={{
+                                                    height: 15,
+                                                    width: 15,
+                                                    marginTop: 4,
+                                                    // marginRight: 10,
+                                                  }}
+                                                  source={Images.edit_icon}
+                                                />
                                               </TouchableOpacity>
 
                                             </View>
@@ -2554,49 +2588,64 @@ const HomeScreen = (props: HomeScreenProps) => {
           <View style={styles.modalContainer}>
 
 
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '5%' }}>
+            <View style={{ marginTop: '5%' }}>
 
-              <Text style={{
-                fontSize: 20,
-                // marginLeft: 15,
-                fontWeight: 'bold',
-                color: '#000',
-              }}>Admission number</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-              <TouchableOpacity
-                onPress={toggleModalNo}
-                style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
-                <Image
-                  source={Images.closeicon}
-                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
-                />
-              </TouchableOpacity>
+                <View>
+
+                </View>
 
 
-              <View style={styles.textinputContainer}>
-                {/* <Image
+                <Text style={{
+                  fontSize: 20,
+                  // marginLeft: 15,
+                  fontWeight: 'bold',
+                  color: '#000',
+                }}>Admission Number</Text>
+
+                <TouchableOpacity
+                  onPress={toggleModalNo}
+                  style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                  <Image
+                    source={Images.closeicon}
+                    style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+
+
+
+              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+
+                <View style={styles.textinputContainer}>
+                  {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
 
 
 
-                <TextInput
-                  placeholder=" Enter admission number"
-                  keyboardType='default'
-                  maxLength={20}
-                  onChangeText={val => setAddmissionnumber(val)}
-                  value={addmissionnumber}
-                />
+                  <TextInput
+                    placeholder=" Enter admission number"
+                    keyboardType='default'
+                    maxLength={20}
+                    onChangeText={val => setAddmissionnumber(val)}
+                    value={addmissionnumber}
+                  />
+
+                </View>
+
+
+                <TouchableOpacity
+                  onPress={() => onPressModalSubmitAdmissionNo()}
+                  style={styles.submitbtn}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                </TouchableOpacity>
 
               </View>
 
-
-              <TouchableOpacity
-                onPress={() => onPressModalSubmitAdmissionNo()}
-                style={styles.submitbtn}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-              </TouchableOpacity>
             </View>
 
 
@@ -2613,45 +2662,57 @@ const HomeScreen = (props: HomeScreenProps) => {
           <View style={styles.modalContainer}>
 
 
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '5%' }}>
+            <View style={{ marginTop: '5%' }}>
 
-              <Text style={{
-                fontSize: 20,
-                // marginLeft: 15,
-                fontWeight: 'bold',
-                color: '#000',
-              }}>Roll number</Text>
 
-              <TouchableOpacity
-                onPress={toggleModalRollNo}
-                style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
-                <Image
-                  source={Images.closeicon}
-                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
-                />
-              </TouchableOpacity>
-              <View style={styles.textinputContainer}>
-                {/* <Image
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                <View>
+
+                </View>
+
+                <Text style={{
+                  fontSize: 20,
+                  // marginLeft: 15,
+                  fontWeight: 'bold',
+                  color: '#000',
+                }}>Roll Number</Text>
+
+                <TouchableOpacity
+                  onPress={toggleModalRollNo}
+                  style={{ alignItems: 'flex-end', marginBottom: 10, marginTop: 10, }}>
+                  <Image
+                    source={Images.closeicon}
+                    style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+                <View style={styles.textinputContainer}>
+                  {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
 
-                <TextInput
-                  placeholder=" Enter roll number"
-                  keyboardType='number-pad'
-                  maxLength={20}
-                  onChangeText={val => setRollNo(val)}
-                  value={rollno}
-                />
+                  <TextInput
+                    placeholder=" Enter roll number"
+                    keyboardType='number-pad'
+                    maxLength={20}
+                    onChangeText={val => setRollNo(val)}
+                    value={rollno}
+                  />
 
+                </View>
+
+
+                <TouchableOpacity
+                  onPress={() => onPressModalSubmitRollNo()}
+                  style={styles.submitbtn}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                </TouchableOpacity>
               </View>
 
-
-              <TouchableOpacity
-                onPress={() => onPressModalSubmitRollNo()}
-                style={styles.submitbtn}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-              </TouchableOpacity>
             </View>
 
 
