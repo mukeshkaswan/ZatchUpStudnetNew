@@ -404,16 +404,18 @@ const Reminders = (props: ResetPasswordScreenProps) => {
                           <View style={styles.reminderarrowcontainer}>
                             <TouchableOpacity
                               onPress={() => gotoNavigate(item.id)}
-                              style={styles.zatchupstarclassbtn}
+                             // style={styles.zatchupstarclassbtn}
                            
 
                             >
-                              <View style={{ height: 18, width: 20 }}>
+                              <View style={{ height: 20, width: 22 }}>
                                 <Image
                                   style={{
                                     height: '100%',
                                     width: '100%',
                                     tintColor: '#000',
+                                   // marginLeft:20,
+                                   // marginRight:20
 
                                   }}
                                   source={Images.iattach}
@@ -425,17 +427,21 @@ const Reminders = (props: ResetPasswordScreenProps) => {
                         {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
                         {item.message.length > 100 ? <View>
 
-                          <Text
+                         {item.attachment == null ?  <Text
                             numberOfLines={textShown === index ? undefined : 2}
                             style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>
                             {item.message}
-                          </Text>
+                          </Text>:<Text
+                            numberOfLines={textShown === index ? undefined : 2}
+                            style={{ marginTop: 2, fontSize: 15, fontWeight: '600' }}>
+                            {item.message}
+                          </Text>}
                           <Text
                             onPress={() => toggleNumberOfLines(index)}
                             style={{ color: '#4B2A6A', marginTop: 5, fontSize: 16, fontWeight: '600' }}>
                             {textShown === index ? '[View Less]' : '[View More]'}
                           </Text>
-                        </View> : <Text style={{ marginTop: 5, fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
+                        </View> : <Text style={{  fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
 
 
                       </View>

@@ -13,6 +13,14 @@ flex:1,marginBottom:20},
   flex:1.5,  
    
  },
+ 
+ 
+ 
+ coursetext_:{
+   flex:1.5,
+   marginBottom:30  
+    
+  },
  snotext:{
     flex:0.5,marginHorizontal:2,textAlign:'center'
   }

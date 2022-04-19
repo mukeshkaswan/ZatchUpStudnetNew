@@ -1430,8 +1430,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                           style={{
                             height: 15,
                             width: 15,
-                            marginTop: 4,
-                            marginLeft: 2,
+                            marginTop: 10,
+                            marginLeft: 4,
                           }}
                           source={Images.edit_icon}
                         />
@@ -1606,8 +1606,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                                     </View>
                                   )}
 
-                                  {standard.class_detail != [] &&
-                                    standard.is_current_standard == true ? (
+                                  {/* &&  standard.is_current_standard == true */}
+                                  {standard.class_detail != [] ? (
                                     <View>
                                       {standard.class_detail.map(class_i => {
                                         return (
@@ -1618,6 +1618,15 @@ const HomeScreen = (props: HomeScreenProps) => {
                                               </Text>
                                               <Text style={styles.view_Tv_2}>
                                                 {class_i.class_name}
+                                              </Text>
+                                            </View>
+
+                                            <View style={styles.view_Row}>
+                                              <Text style={styles.view_Tv_1}>
+                                               Class Alias :
+                                              </Text>
+                                              <Text style={styles.view_Tv_2}>
+                                                {class_i.alias_class}
                                               </Text>
                                             </View>
                                             <View style={styles.view_Row}>
@@ -1644,8 +1653,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                                                   style={{
                                                     height: 15,
                                                     width: 15,
-                                                    marginTop: 4,
-                                                    // marginRight: 10,
+                                                    marginTop: 10,
+                                                    marginLeft: 4,
                                                   }}
                                                   source={Images.edit_icon}
                                                 />
@@ -2180,7 +2189,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={styles.underview} />
             <View style={styles.view_Row}>
               <Text style={styles.view_Tv_1}>DOB :</Text>
-              {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("DD-MM-YYYY")}</Text> : null}
+              {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("YYYY-MM-DD")}</Text> : null}
             </View>
 
             {gender == 'M' ? (

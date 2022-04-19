@@ -214,7 +214,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
           </View>
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Play : </Text>
-            <Text style={styles.coursetext1}>AAA003348</Text>
+            <Text style={styles.coursetext_}>AAA003348</Text>
           </View>
         </View> : null}
 

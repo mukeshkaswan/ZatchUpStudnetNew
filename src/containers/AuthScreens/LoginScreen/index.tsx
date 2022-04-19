@@ -38,7 +38,6 @@ interface LoginScreenProps {
 const LoginScreen = (props: LoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [entry, setEntery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [SecureTextEntry, setSecureTextEntry] = useState(true);
@@ -75,9 +74,9 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   // }
 
-  const onNaviagte = async (result,user) => {
+  const onNaviagte = async (result, user) => {
 
-   // console.log('result123', result);
+    // console.log('result123', result);
 
     if (result.two_factor_authentication === 'False') {
 
@@ -98,60 +97,61 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   const onPressOtp = (user) => {
 
-  
-      const data = {
-        firebase_id: user._user.uid,
-        username: email,
-      };
 
-     // setLoading(true);
+    const data = {
+      firebase_id: user._user.uid,
+      username: email,
+    };
 
-      dispatch(
-        userActions.otpSuccessSkip({
-          data,
-          callback: ({ result, error }) => {
-            if (result.status === 'True') {
-              console.warn(
-                'after otp result 1',
-                // JSON.stringify(result, undefined, 2),
-                // props.navigation.navigate('Home'),
-              );
+    // setLoading(true);
 
-                getData(result),
+    dispatch(
+      userActions.otpSuccessSkip({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === 'True') {
+            console.warn(
+              'after otp result 1',
+              // JSON.stringify(result, undefined, 2),
+              // props.navigation.navigate('Home'),
+            );
+             Toast.show('Login Successfully', Toast.SHORT)
 
-                //setSpinnerStart(false);
-                setLoading(false);
-            }
-            if (result.status === 'False') {
-              //console.warn(JSON.stringify(error, undefined, 2));
-              // setLoginSuccess(result);
-              Toast.show(result.error, Toast.SHORT);
+            getData(result),
+
+              //setSpinnerStart(false);
               setLoading(false);
+          }
+          if (result.status === 'False') {
+            //console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            Toast.show(result.error, Toast.SHORT);
+            setLoading(false);
 
-              // signOut();
-            }
+            // signOut();
+          }
 
-            // if (!error) {
-            //   console.warn(JSON.stringify(error, undefined, 2));
-            //   // setLoginSuccess(result);
-            //   //Toast.show('Invalid Otp', Toast.SHORT);
+          // if (!error) {
+          //   console.warn(JSON.stringify(error, undefined, 2));
+          //   // setLoginSuccess(result);
+          //   //Toast.show('Invalid Otp', Toast.SHORT);
 
-            //   setLoading(false);
+          //   setLoading(false);
 
-            //   // signOut();
-            // }
-            else {
-              // setError(true);
-              // signOut();
-              //   Toast.show('Invalid Otp', Toast.SHORT);
+          //   // signOut();
+          // }
+          else {
+            // setError(true);
+            // signOut();
+            //   Toast.show('Invalid Otp', Toast.SHORT);
 
-              setLoading(false);
-              console.warn(JSON.stringify(error, undefined, 2));
-            }
-          },
-        }),
-      );
-    
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+
   };
 
 
@@ -172,7 +172,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
 
   const getData_is_kyc_rejected = async result => {
-   // console.log('step 3')
+    // console.log('step 3')
     if (result.reg_step == 1) {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
@@ -202,7 +202,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
 
-        Toast.show('Login Successfully', Toast.SHORT)
+       // Toast.show('Login Successfully', Toast.SHORT)
         // props.navigation.navigate('MySchoolScreen')
         // props.navigation.navigate('Home')
         props.navigation.navigate('MySchoolScreen')
@@ -223,7 +223,7 @@ const LoginScreen = (props: LoginScreenProps) => {
       props.navigation.navigate('SelectStudent', { 're_verify': false });
     }
   };
-  
+
 
   /***************************User getStepCountAPi *******************************/
 
@@ -287,7 +287,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             console.warn(
               'after result Logout View Status',
               JSON.stringify(result, undefined, 2),
-            //  getData_is_kyc_rejected(result),
+              //  getData_is_kyc_rejected(result),
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
@@ -371,6 +371,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     const passwordError = Validate('password_', password);
 
     if (emailError || passwordError) {
+
       Toast.show(emailError || passwordError, Toast.SHORT);
 
       return false;
@@ -380,7 +381,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         password: password,
       };
 
-     setLoading(true);
+      setLoading(true);
 
       dispatch(
         userActions.emailLogin({
@@ -435,6 +436,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
               setLoading(false);
+
               Toast.show(result.error.message[0], Toast.SHORT);
             } else {
               setLoading(false);
@@ -486,6 +488,8 @@ const LoginScreen = (props: LoginScreenProps) => {
               <CustomButton
                 title={'Sign In'}
                 onPress={onPressLogin}
+              // onPress={() => onPressLogin()}
+
               //onPress={() => props.navigation.navigate('Home')}
               />
             </View>
