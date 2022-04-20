@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import SplashScreen from 'react-native-splash-screen';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const screenWidth = Dimensions.get('window').width;
 
 interface SplashScProps {
@@ -30,19 +30,37 @@ const SplashSc = (props: SplashScProps) => {
 
     React.useEffect(() => {
         SplashScreen.hide();
-        const dataSetTimeOut = setTimeout(() => {
-            props.navigation.replace(
-                'LoginScreen'
-            )
 
-            return () => {
-                dataSetTimeOut.clear();
-            }
-        }, 2000);
+        navigate();
+        
         // console.log('rtyuigfghj', props)
     }, []);
 
+  const navigate = async () => {
 
+
+    const dataSetTimeOut =  setTimeout( async () => {
+
+        const value = await AsyncStorage.getItem('Loginflag');
+
+        if(value == 'true'){
+            props.navigation.replace(
+                'MySchoolScreen'
+            )
+        }else{
+            props.navigation.replace(
+                'LoginScreen'
+            )
+        }
+
+       
+
+        return () => {
+            dataSetTimeOut.clear();
+        }
+    }, 2000);
+
+  }
 
     return (
         <View style={styles.container}>

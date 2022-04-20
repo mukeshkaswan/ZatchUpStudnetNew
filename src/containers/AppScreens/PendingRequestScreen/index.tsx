@@ -337,6 +337,7 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
         callback: ({ results, error }) => {
           if (results && results.length > 0) {
             setLoading(false);
+            setFlag(true);
 
             // setSpinnerStart(false);
             console.log('results ......eKYC', results);
@@ -476,7 +477,25 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
           </View>
         </View>}
 
-      </View> : null}
+      </View> : <View style={{}}>
+
+        <View style={styles.boxcontainer}>
+          <Text style={styles.pendingtext}>Pending Requests</Text>
+          <View style={styles.mainbordercontainer}>
+            <View style={styles.bordercontainer}>
+              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.boxcontainer}>
+          <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
+          <View style={styles.mainbordercontainer}>
+            <View style={styles.bordercontainer}>
+              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+            </View>
+          </View>
+        </View>
+      </View>}
 
     </View>
   );

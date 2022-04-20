@@ -136,7 +136,7 @@ const Notifications = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-      {getFlag === true ? <View style={{flex:1}}>
+      {getFlag === true ? <View style={{ flex: 1 }}>
 
         {setdatafromlist.length > 0 ? (
           <ScrollView style={{ flex: 1 }}
@@ -182,11 +182,26 @@ const Notifications = (props: NotificationsScreenProps) => {
           </ScrollView>
 
         ) :
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 15 }}>No records found.</Text>
-          </View>
+          <ScrollView style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                // title="Pull to refresh" 
+                // tintColor="#fff" 
+                //  titleColor="#fff"
+                colors={["rgb(70,50,103)"]}
+              />
+
+            }>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
+              <Text style={{ fontSize: 15 }}>No records found.</Text>
+            </View>
+
+          </ScrollView>
+
         }
-      </View>:null}
+      </View> : null}
 
 
     </View>

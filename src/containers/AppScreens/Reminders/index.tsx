@@ -373,118 +373,132 @@ const Reminders = (props: ResetPasswordScreenProps) => {
           </View>
         </TouchableOpacity>
       </View>
-      {getFlag === true ? <View style={{flex:1}}>
+      {getFlag === true ? <View style={{ flex: 1 }}>
 
-      {reminder.length > 0 ? (
-        <ScrollView style={{ flex: 1 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              // title="Pull to refresh" 
-              // tintColor="#fff" 
-              //  titleColor="#fff"
-              colors={["rgb(70,50,103)"]}
-            />
+        {reminder.length > 0 ? (
+          <ScrollView style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                // title="Pull to refresh" 
+                // tintColor="#fff" 
+                //  titleColor="#fff"
+                colors={["rgb(70,50,103)"]}
+              />
 
-          }>
-          <FlatList
-            data={reminder}
-            renderItem={({ item, index }) => (
+            }>
+            <FlatList
+              data={reminder}
+              renderItem={({ item, index }) => (
 
-              <View style={{ marginBottom: 10 }}>
-                <View style={{}}>
-
-
-                  <View style={{ marginTop: 16, marginHorizontal: 16, flex: 1, backgroundColor: '#F7F7F7', paddingVertical: 8, paddingHorizontal: 8 }}>
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
-                   
-                      <View style={{ flex: 1 }}>
-                        {item.attachment != null && (
-                          <View style={styles.reminderarrowcontainer}>
-                            <TouchableOpacity
-                              onPress={() => gotoNavigate(item.id)}
-                             // style={styles.zatchupstarclassbtn}
-                           
-
-                            >
-                              <View style={{ height: 20, width: 22 }}>
-                                <Image
-                                  style={{
-                                    height: '100%',
-                                    width: '100%',
-                                    tintColor: '#000',
-                                   // marginLeft:20,
-                                   // marginRight:20
-
-                                  }}
-                                  source={Images.iattach}
-                                />
-                              </View>
-                            </TouchableOpacity>
-                          </View>
-                        )}
-                        {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
-                        {item.message.length > 100 ? <View>
-
-                         {item.attachment == null ?  <Text
-                            numberOfLines={textShown === index ? undefined : 2}
-                            style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>
-                            {item.message}
-                          </Text>:<Text
-                            numberOfLines={textShown === index ? undefined : 2}
-                            style={{ marginTop: 2, fontSize: 15, fontWeight: '600' }}>
-                            {item.message}
-                          </Text>}
-                          <Text
-                            onPress={() => toggleNumberOfLines(index)}
-                            style={{ color: '#4B2A6A', marginTop: 5, fontSize: 16, fontWeight: '600' }}>
-                            {textShown === index ? '[View Less]' : '[View More]'}
-                          </Text>
-                        </View> : <Text style={{  fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
-
-
-                      </View>
-
-                    </View>
-                    <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A', alignSelf: 'flex-end', }}>{'-Sent By: ' + item.sender_name}</Text>
-
-                  </View>
-                
-                </View>
-
-                {getview === true ? <CardView
-                  cardElevation={1}
-                  cardMaxElevation={1}
-                  // cornerRadius={1}
-                  style={styles.Cardview}>
-
+                <View style={{ marginBottom: 10 }}>
                   <View style={{}}>
 
-                    {item.id === ID ? <Image
-                      style={{ resizeMode: 'stretch', height: 200, width: '90%', marginTop: 15, marginHorizontal: 16, margin: 10 }}
-                      source={{ uri: item.attachment }}
-                    /> : null}
+
+                    <View style={{ marginTop: 16, marginHorizontal: 16, flex: 1, backgroundColor: '#F7F7F7', paddingVertical: 8, paddingHorizontal: 8 }}>
+                      <View style={{ flexDirection: 'row', flex: 1 }}>
+
+                        <View style={{ flex: 1 }}>
+                          {item.attachment != null && (
+                            <View style={styles.reminderarrowcontainer}>
+                              <TouchableOpacity
+                                onPress={() => gotoNavigate(item.id)}
+                              // style={styles.zatchupstarclassbtn}
+
+
+                              >
+                                <View style={{ height: 20, width: 22 }}>
+                                  <Image
+                                    style={{
+                                      height: '100%',
+                                      width: '100%',
+                                      tintColor: '#000',
+                                      // marginLeft:20,
+                                      // marginRight:20
+
+                                    }}
+                                    source={Images.iattach}
+                                  />
+                                </View>
+                              </TouchableOpacity>
+                            </View>
+                          )}
+                          {item.attachment == null ? <Text style={{ alignSelf: 'flex-end', marginRight: 16, fontSize: 12 }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
+                          {item.message.length > 100 ? <View>
+
+                            {item.attachment == null ? <Text
+                              numberOfLines={textShown === index ? undefined : 2}
+                              style={{ marginTop: 20, fontSize: 15, fontWeight: '600' }}>
+                              {item.message}
+                            </Text> : <Text
+                              numberOfLines={textShown === index ? undefined : 2}
+                              style={{ marginTop: 2, fontSize: 15, fontWeight: '600' }}>
+                              {item.message}
+                            </Text>}
+                            <Text
+                              onPress={() => toggleNumberOfLines(index)}
+                              style={{ color: '#4B2A6A', marginTop: 5, fontSize: 16, fontWeight: '600' }}>
+                              {textShown === index ? '[View Less]' : '[View More]'}
+                            </Text>
+                          </View> : <Text style={{ fontSize: 15, fontWeight: '600' }}>{item.message}</Text>}
+
+
+                        </View>
+
+                      </View>
+                      <Text style={{ marginTop: 30, fontSize: 12, color: '#4B2A6A', alignSelf: 'flex-end', }}>{'-Sent By: ' + item.sender_name}</Text>
+
+                    </View>
+
                   </View>
 
-                  {item.id === ID ? <Text style={{ marginHorizontal: 16, marginRight: 16, fontSize: 13, marginTop: 5, marginBottom: 5, }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
+                  {getview === true ? <CardView
+                    cardElevation={1}
+                    cardMaxElevation={1}
+                    // cornerRadius={1}
+                    style={styles.Cardview}>
+
+                    <View style={{}}>
+
+                      {item.id === ID ? <Image
+                        style={{ resizeMode: 'stretch', height: 200, width: '90%', marginTop: 15, marginHorizontal: 16, margin: 10 }}
+                        source={{ uri: item.attachment }}
+                      /> : null}
+                    </View>
+
+                    {item.id === ID ? <Text style={{ marginHorizontal: 16, marginRight: 16, fontSize: 13, marginTop: 5, marginBottom: 5, }}>{moment(item.recieved_date).format("MMM DD , YYYY, hh:mm A")}</Text> : null}
 
 
-                </CardView> : null}
+                  </CardView> : null}
 
 
-              </View>
+                </View>
 
-            )}
-          />
-        </ScrollView>
-      ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 15 }}>Records not available.</Text>
-        </View>
-      )}
+              )}
+            />
+          </ScrollView>
+        ) : (
+          <ScrollView style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                // title="Pull to refresh" 
+                // tintColor="#fff" 
+                //  titleColor="#fff"
+                colors={["rgb(70,50,103)"]}
+              />
 
-      </View>:null}
+            }>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
+              <Text style={{ fontSize: 15 }}>Records not available.</Text>
+            </View>
+          </ScrollView>
+
+        )}
+
+      </View> : null}
     </View>
   );
 };

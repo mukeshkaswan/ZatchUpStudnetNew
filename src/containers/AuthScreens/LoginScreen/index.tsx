@@ -161,6 +161,7 @@ const LoginScreen = (props: LoginScreenProps) => {
       await AsyncStorage.setItem('tokenlogin', result.token);
       await AsyncStorage.setItem('token', result.token);
       await AsyncStorage.setItem('username', result.first_name + ' ' + result.last_name);
+
       // await AsyncStorage.setItem('dob', date_copy);
     } catch (e) {
       // saving error
@@ -205,6 +206,7 @@ const LoginScreen = (props: LoginScreenProps) => {
        // Toast.show('Login Successfully', Toast.SHORT)
         // props.navigation.navigate('MySchoolScreen')
         // props.navigation.navigate('Home')
+        await AsyncStorage.setItem('Loginflag', 'true');
         props.navigation.navigate('MySchoolScreen')
         //props.navigation.navigate('Comming')
 

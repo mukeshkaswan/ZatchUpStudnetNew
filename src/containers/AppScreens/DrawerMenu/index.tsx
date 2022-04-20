@@ -206,13 +206,12 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
 
   const LogoutALert = async () => {
     try {
-      //   await AsyncStorage.removeItem('token')
       await AsyncStorage.removeItem('username');
       await AsyncStorage.removeItem('profilepic');
       await AsyncStorage.removeItem('kyckey');
       await AsyncStorage.removeItem('tokenlogin')
+      await AsyncStorage.removeItem('Loginflag')
       Toast.show('Logout Successfully ', Toast.SHORT);
-
       props.navigation.navigate('LoginScreen');
       return true;
     } catch (exception) {

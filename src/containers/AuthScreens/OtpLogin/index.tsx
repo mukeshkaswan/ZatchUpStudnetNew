@@ -99,6 +99,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
+        
+        await AsyncStorage.setItem('Loginflag', 'true');
 
         Toast.show('Login Successfully', Toast.SHORT)
         // props.navigation.navigate('MySchoolScreen')

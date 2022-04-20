@@ -151,6 +151,8 @@ const MySchool = (props: HomeScreenProps) => {
     try {
       await AsyncStorage.removeItem('tokenlogin');
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('Loginflag')
+
     } catch (e) {
       // save error
     }
