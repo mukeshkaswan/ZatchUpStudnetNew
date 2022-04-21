@@ -174,10 +174,9 @@ const SelectStudent = (props: SelectStudentScreenProps) => {
             <View style={styles.inputContainer}>
 
                 <View>
-                    {/* {props.route.params.ei_request_count === 0 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />: props.route.params.ei_request_count === 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestSingle', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:props.route.params.ei_request_count > 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestMultiple', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:null} */}
-                    {/* {props.route.params.ei_request_count === 0 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />: props.route.params.ei_request_count === 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestSingle', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:props.route.params.ei_request_count > 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestMultiple', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:null} */}
+                    {props.route.params.ei_request_count === 0 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />: props.route.params.ei_request_count === 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestSingle', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:props.route.params.ei_request_count > 1 ? <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('KYCEiRequestMultiple', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />:null}
 
-                    <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} />
+                    {/* <CustomButton title={'Next'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: studentSelect, 're_verify': props.route.params.re_verify }) }} /> */}
                 </View>
 
 

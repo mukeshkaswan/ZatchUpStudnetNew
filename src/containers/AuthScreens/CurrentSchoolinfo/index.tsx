@@ -82,10 +82,15 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
   };
 
   useEffect(() => {
-    
+
 
     getState();
     getAuthUserInfoApi();
+
+    if (props.route.params.KYCEiRequestSingle == true) {
+      Changestatus();
+
+    }
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -96,8 +101,8 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
     };
   }, [isFocused]);
 
-  
- 
+
+
 
   function handleBackButtonClick() {
     props.navigation.goBack();
@@ -118,6 +123,75 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
     setaddress(result.data.address1 + ' ' + result.data.address2);
     setBoard(result.data.university);
   };
+
+
+
+  const Changestatus = async () => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: props.route.params.schoolid,
+    };
+
+
+    // setLoading(true);
+
+    dispatch(
+      userActions.getSchooldetailschoolid({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            setLoading(false);
+
+            console.warn(
+              'after get School detail school id by user..',
+              JSON.stringify(result, undefined, 2),
+            );
+
+
+            setStateKey(result.data.state_id.toString());
+            setCityKey(result.data.city_id.toString());
+            setSchoolKey(props.route.params.schoolid);
+            setaddress(result.data.address1 + ' ' + result.data.address2 + ' ' + result.data.pincode);
+            setBoard(result.data.university);
+            setID(result.data.school_code);
+          }
+
+          else if (result.status === false) {
+
+            //Toast.show('User is verified as student', Toast.SHORT);
+
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
 
   /***************************User Auth User Info*******************************/
 

@@ -383,3 +383,13 @@ export const getLogoutViewStatus = createAction(LOGOUTVIEWSTATUS);
 // this is for Get User Profile Delete Zatchup Account
 export const PROFILEDELETEZATCHUP = 'PROFILEDELETEZATCHUP';
 export const getProfileDeleteZatchupAccount = createAction(PROFILEDELETEZATCHUP);
+
+// this is for Get User change-status-accepted-by-user
+export const CHANGESTATUSACCEPTEDBYUSER = 'CHANGESTATUSACCEPTEDBYUSER';
+export const getChangestatusacceptedbyuser = createAction(CHANGESTATUSACCEPTEDBYUSER);
+
+
+
+// this is for User Get school detail schoolid
+export const GETSCHOOLDETAILSCHOOLID = 'GETSCHOOLDETAILSCHOOLID';
+export const getSchooldetailschoolid = createAction(GETSCHOOLDETAILSCHOOLID);

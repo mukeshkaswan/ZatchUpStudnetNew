@@ -94,7 +94,9 @@ import {
   EIDETAILFORALREADYSTUDENT,
   SENTFORAPPROVALVIEWSTATUS,
   LOGOUTVIEWSTATUS,
-  PROFILEDELETEZATCHUP
+  PROFILEDELETEZATCHUP,
+  CHANGESTATUSACCEPTEDBYUSER,
+  GETSCHOOLDETAILSCHOOLID
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -3140,6 +3142,73 @@ function* getProfileDeleteZatchupAccount({ payload: { data, callback } }) {
 }
 
 
+/***************************GET Change status accepted by user*******************************/
+
+function* getChangestatusacceptedbyuser({ payload: { data, callback } }) {
+ 
+  const params = {
+    is_sent_up: data.is_sent_up,
+    school_id: data.school_id,
+    status: data.status,
+
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/change-status-accepted-by-user/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('user change status accepted result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************GET School detail schoolid by user*******************************/
+
+function* getSchooldetailschoolid({ payload: { data, callback } }) {
+ 
+  const params = {
+    school_id: data.school_id,
+
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/get-school-detail-schoolid/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('user get School detail school id result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -3235,8 +3304,10 @@ function* User() {
     yield takeLatest(SENTFORAPPROVALVIEWSTATUS, getSentforapprovalviewstatus),
     yield takeLatest(LOGOUTVIEWSTATUS, getLogoutViewStatus),
     yield takeLatest(PROFILEDELETEZATCHUP, getProfileDeleteZatchupAccount),
+    yield takeLatest(CHANGESTATUSACCEPTEDBYUSER, getChangestatusacceptedbyuser),
+    yield takeLatest(GETSCHOOLDETAILSCHOOLID, getSchooldetailschoolid),
 
-
+    
     
   ]);
   

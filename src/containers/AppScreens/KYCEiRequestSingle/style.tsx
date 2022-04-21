@@ -23,7 +23,7 @@ const styles = ScaledSheet.create({
      },
      enterText_: {
         fontFamily: 'Lato-Regular',
-         fontSize: hp(2.5),
+         fontSize: hp(2.3),
          textAlign: 'center',
          
      },
