@@ -39,16 +39,21 @@ const styles = ScaledSheet.create({
     flex: 2,
     marginHorizontal: 2,
     textAlign: 'center',
+    marginRight:10
+
   },
   snotext_: {
     flex: 2,
     marginHorizontal: 1,
     textAlign: 'center',
+    marginRight:10
   },
   lecturetitletext: {
     flex: 2,
     marginHorizontal: 2,
     textAlign: 'center',
+    marginRight:10
+
   },
   titletext: {
     // fontSize: 18,
@@ -64,8 +69,8 @@ const styles = ScaledSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 5,
-    marginHorizontal: 10,
-    paddingVertical: 10,
+    marginHorizontal: 5,
+    paddingVertical: 4,
     alignItems:'center'
   },
 

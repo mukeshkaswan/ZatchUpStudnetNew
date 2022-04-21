@@ -47,7 +47,16 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
   //   }
 
   useEffect(() => {
-    getEidetail();
+
+
+    if(props.route.params.KYCEiRequestMultiple === true){
+      getEidetailMulti(props.route.params.school_id);
+    }
+    else{
+      getEidetail();
+
+    }
+
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -237,6 +246,74 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
     );
   };
 
+
+  const Changestatusmulti = async () => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      school_id: schoolid,
+      status: "REJECTBYUSER"
+    };
+
+
+   // setLoading(true);
+
+    dispatch(
+      userActions.getChangestatusacceptedbyusermulti({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            setLoading(false);
+
+            console.warn(
+              'after Change status accepted by user..',
+              JSON.stringify(result, undefined, 2),
+            );
+            if(props.route.params.length > 1){
+              props.navigation.navigate('KYCEiRequestMultiple');
+
+            }else{
+              props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify })
+            }
+          //  UserCourseDelete();
+
+          }
+
+          else if (result.status === false) {
+
+            //Toast.show('User is verified as student', Toast.SHORT);
+
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+
+            // setLoginSuccess(result);
+            setLoading(false);
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   /***************************User Auth  User Info *******************************/
 
   const getEidetail = async () => {
@@ -256,6 +333,54 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
     dispatch(
       userActions.getEidetailforalreadystudents({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            console.warn(
+              'after result ',
+              JSON.stringify(result, undefined, 2),
+
+            );
+            setMessage(result.data.message);
+            setSchoolID(result.data.school_id);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+
+
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+   /***************************User Auth  User Info *******************************/
+
+   const getEidetailMulti = async (school_id) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        token = value;
+      }
+    } catch (e) {
+    }
+
+    const data = {
+      token: token,
+      school_id:school_id
+
+    };
+
+    dispatch(
+      userActions.getEidetailforalreadystudentsmulti({
         data,
         callback: ({ result, error }) => {
           if (result) {
@@ -313,9 +438,13 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
           </View>
 
 
-          <View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
+         {props.route.params.KYCEiRequestMultiple === true ? <View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
+            <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => Changestatusmulti()} />
+          </View>:<View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
             <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify }) }} />
-          </View>
+          </View>}
+
+          
         </View>
 
 

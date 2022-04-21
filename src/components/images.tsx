@@ -62,6 +62,7 @@ const images = {
   laptop_icon: require('../assets/images/laptop_icon.png'),
   iattach: require('../assets/images/iattach.png'),
   location: require('../assets/images/location.png'),
+  add: require('../assets/images/add.png'),
 
 
 

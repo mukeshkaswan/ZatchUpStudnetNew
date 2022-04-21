@@ -371,6 +371,12 @@ export const getUserSettingStatusPost = createAction(USERSETTINGSTATUSPOST);
 export const EIDETAILFORALREADYSTUDENT = 'EIDETAILFORALREADYSTUDENT';
 export const getEidetailforalreadystudents = createAction(EIDETAILFORALREADYSTUDENT);
 
+
+// this is for Get User get Ei detail for already students
+export const EIDETAILFORALREADYSTUDENTMULTI = 'EIDETAILFORALREADYSTUDENTMULTI';
+export const getEidetailforalreadystudentsmulti = createAction(EIDETAILFORALREADYSTUDENTMULTI);
+
+
 // this is for Get User sent for approval view status
 export const SENTFORAPPROVALVIEWSTATUS = 'SENTFORAPPROVALVIEWSTATUS';
 export const getSentforapprovalviewstatus = createAction(SENTFORAPPROVALVIEWSTATUS);
@@ -389,6 +395,9 @@ export const CHANGESTATUSACCEPTEDBYUSER = 'CHANGESTATUSACCEPTEDBYUSER';
 export const getChangestatusacceptedbyuser = createAction(CHANGESTATUSACCEPTEDBYUSER);
 
 
+// this is for Get User change-status-accepted-by-user
+export const CHANGESTATUSACCEPTEDBYUSERMULTI = 'CHANGESTATUSACCEPTEDBYUSERMULTI';
+export const getChangestatusacceptedbyusermulti = createAction(CHANGESTATUSACCEPTEDBYUSERMULTI);
 
 // this is for User Get school detail schoolid
 export const GETSCHOOLDETAILSCHOOLID = 'GETSCHOOLDETAILSCHOOLID';

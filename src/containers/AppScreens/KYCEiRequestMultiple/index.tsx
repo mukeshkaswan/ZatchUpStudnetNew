@@ -42,41 +42,10 @@ import {
   DrawerActions,
   useFocusEffect
 } from '@react-navigation/native';
-const data = [
-  {
-    id: 1,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-  {
-    id: 2,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-
-  {
-    id: 3,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-
-  {
-    id: 4,
-    titleofcourse: 'Science',
-    courseid: 'SCHRFAR003132COURSE5004',
-
-    levelofeducation: 'Post Graduate',
-  },
-];
 
 interface PendingRequestScreenProps {
   navigation: any;
+  route:any;
 }
 
 const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
@@ -84,7 +53,7 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
   const isFocused = useIsFocused();
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
+  const [datakey, setData] = useState([]);
   const [dataekyc, setDataeKYC] = useState([]);
 
 
@@ -230,6 +199,67 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
   };
 
 
+  /***************************User GET Logout View Status *******************************/
+
+  const getLogoutView = async (school_id) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getLogoutViewStatus({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+
+            console.warn(
+              'after result Logout View Status',
+              JSON.stringify(result, undefined, 2),
+              //  getData_is_kyc_rejected(result),
+
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            props.navigation.navigate('KYCEiRequestSingle', { data: props.route.params.data, 're_verify': props.route.params.re_verify ,'KYCEiRequestMultiple':true,'school_id':school_id,'length':datakey.length});
+
+            // setSpinnerStart(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
   return (
     <View style={styles.container}>
       {isLoading && renderIndicator()}
@@ -240,10 +270,10 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
         headerTitle="Sign Up Request"
       />
 
-      {data.length > 0 ? <View style={{ marginTop: 10 }}>
+      {datakey.length > 0 ? <View style={{ }}>
 
 
-        <Text style={styles.pendingtextt}>Requests</Text>
+        {/* <Text style={styles.pendingtextt}>Requests</Text> */}
 
         <View
 
@@ -264,20 +294,22 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
 
         </View>
         <FlatList
-          data={data}
+          data={datakey}
           renderItem={({ item, index }) => (
             <View
-              style={[styles.coursestextcontainer, { backgroundColor: 'white', }]}>
-              <Text style={styles.snotext_}>{index}</Text>
+              style={[styles.coursestextcontainer, { backgroundColor: '#F6F2F2', }]}>
+              <Text style={styles.snotext_}>{index+1}</Text>
               <Text style={styles.snotext}>{item.status}</Text>
               <Text style={styles.lecturetitletext}>{item.school_name}</Text>
               <TouchableOpacity
                 underlayColor="none"
+                onPress={() => getLogoutView(item.school_id)}
               >
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Image
-                    source={images.delete_icon}
-                    style={{ height: 25, width: 25 }}
+                    source={images.add}
+                    style={{ height: 23, width: 23 , marginRight:10,marginTop:5
+                    }}
                   />
                 </View>
               </TouchableOpacity>

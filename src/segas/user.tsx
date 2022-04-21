@@ -92,10 +92,12 @@ import {
   USERSETTINGSTATUS,
   USERSETTINGSTATUSPOST,
   EIDETAILFORALREADYSTUDENT,
+  EIDETAILFORALREADYSTUDENTMULTI,
   SENTFORAPPROVALVIEWSTATUS,
   LOGOUTVIEWSTATUS,
   PROFILEDELETEZATCHUP,
   CHANGESTATUSACCEPTEDBYUSER,
+  CHANGESTATUSACCEPTEDBYUSERMULTI,
   GETSCHOOLDETAILSCHOOLID
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
@@ -3053,6 +3055,41 @@ function* getEidetailforalreadystudents({ payload: { data, callback } }) {
   }
 }
 
+/***************************User GET Ei detail for already students Segas*******************************/
+
+function* getEidetailforalreadystudentsmulti({ payload: { data, callback } }) {
+  console.warn('data in saga Ei detail for already students', data);
+
+  const params = {
+    school_id: data.school_id,
+  };
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/get-ei-detail-for-already-students/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Check User Kyc Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************User GET Sent for approval view status Segas*******************************/
 
 function* getSentforapprovalviewstatus({ payload: { data, callback } }) {
@@ -3148,6 +3185,40 @@ function* getChangestatusacceptedbyuser({ payload: { data, callback } }) {
  
   const params = {
     is_sent_up: data.is_sent_up,
+    school_id: data.school_id,
+    status: data.status,
+
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'user/change-status-accepted-by-user/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log('user change status accepted result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
+/***************************GET Change status accepted by user*******************************/
+
+function* getChangestatusacceptedbyusermulti({ payload: { data, callback } }) {
+ 
+  const params = {
     school_id: data.school_id,
     status: data.status,
 
@@ -3301,10 +3372,12 @@ function* User() {
     yield takeLatest(USERSETTINGSTATUS, getUserSettingStatus),
     yield takeLatest(USERSETTINGSTATUSPOST, getUserSettingStatusPost),
     yield takeLatest(EIDETAILFORALREADYSTUDENT, getEidetailforalreadystudents),
+    yield takeLatest(EIDETAILFORALREADYSTUDENTMULTI, getEidetailforalreadystudentsmulti),
     yield takeLatest(SENTFORAPPROVALVIEWSTATUS, getSentforapprovalviewstatus),
     yield takeLatest(LOGOUTVIEWSTATUS, getLogoutViewStatus),
     yield takeLatest(PROFILEDELETEZATCHUP, getProfileDeleteZatchupAccount),
     yield takeLatest(CHANGESTATUSACCEPTEDBYUSER, getChangestatusacceptedbyuser),
+    yield takeLatest(CHANGESTATUSACCEPTEDBYUSERMULTI, getChangestatusacceptedbyusermulti),
     yield takeLatest(GETSCHOOLDETAILSCHOOLID, getSchooldetailschoolid),
 
     

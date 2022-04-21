@@ -37,7 +37,6 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   const dispatch = useDispatch();
   const [is_kyc_approved, setIs_kyc_approved] = useState();
 
-  // const [username, setUsername] = useState('');
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -132,7 +131,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             console.warn(
               'after result Auth User INfo',
               JSON.stringify(result, undefined, 2),
-              setProfilePic(result.profile_pic)
+              setProfilePic(result.profile_pic),
+              setUsername(result.user_first_name + ' ' + result.user_last_name )
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
@@ -171,7 +171,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       console.log('kyckey',kyckey)
 
       if (user !== null) {
-        setUsername(user);
+        //setUsername(user);
       }
       if (profil !== null) {
         //setProfilePic(profil);

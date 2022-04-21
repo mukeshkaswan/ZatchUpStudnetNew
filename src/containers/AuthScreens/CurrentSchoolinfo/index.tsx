@@ -87,10 +87,12 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
     getState();
     getAuthUserInfoApi();
 
-    if (props.route.params.KYCEiRequestSingle == true) {
-      Changestatus();
+    // if (props.route.params.KYCEiRequestSingle == true) {
+    //   Changestatus();
 
-    }
+    // }
+
+     Changestatus();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
