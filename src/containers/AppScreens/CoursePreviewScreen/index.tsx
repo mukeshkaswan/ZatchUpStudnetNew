@@ -25,19 +25,6 @@ interface ResetPasswordScreenProps {
   route: any;
 }
 
-// const theme = {
-//   title: "#FFF",
-//   more: "#446984",
-//   center: "#7B8F99",
-//   fullscreen: "#446984",
-//   volume: "#A5957B",
-//   scrubberThumb: "#234458",
-//   scrubberBar: "#DBD5C7",
-//   seconds: "#DBD5C7",
-//   duration: "#DBD5C7",
-//   progress: "#446984",
-//   loading: "#DBD5C7"
-// };
 
 const placeholder =
   'http://staging.zatchup.com/zatchupapi/zatchup/media/starclass_courses/anime_view_pRcFg4X.jpg';
@@ -61,6 +48,8 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
   const [lecturedata, setLectureData] = useState([]);
   const [isFullScreen, setFullscreen] = useState(false);
   //const [isFullScreen, setVideo] = useRef(false);
+  const [getFlag, setFlag] = useState(false);
+
   const ref = useRef();
 
 
@@ -164,10 +153,13 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
         data,
         callback: ({ results, error }) => {
           if (results && results.length > 0) {
+            setFlag(true);
+
+            setLoading(false);
+
             // setSpinnerStart(false);
             // console.log('results Data Lecture', results);
-            setLectureData(results),
-              setLoading(false);
+            setLectureData(results);
           }
           else if (results && results.length == []) {
 
@@ -212,11 +204,12 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
 
         callback: ({ results, error }) => {
           if (results && results.length > 0) {
+            setFlag(true);
+            setLoading(false);
 
             // setSpinnerStart(false);
             console.log('results Data Preview', results);
             getData(results);
-            setLoading(false);
           }
           else if (results && results.length == []) {
 
@@ -244,91 +237,94 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
         navigation={props.navigation}
         headerTitle="Course Preview"
       /> : null}
+      {getFlag === true ? <View style={{ flex: 1 }}>
 
-      <ScrollView >
-        {coursepreview != null ? <Video
-          ref={ref}
-          // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
-          url={{ uri: coursepreview }}
-          // video={{ uri: coursepreview }}
-          //   videoWidth={width - 100}
-          //thumbnail={{ uri: courseimage }}
-          thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-          onFullScreen={onFullScreen}
-          // theme={theme}
-          // controls={true}
-          resizeMode="contain"
-          showDuration
-          // rotateToFullScreen={true}
-          lockRatio={16 / 9}
-          placeholder={placeholder}
-          onBackPress={() => props.navigation.goBack(null)}
-        /> : null}
-        {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
-          <Text style={styles.titletext}>View Course</Text>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Course Name : </Text>
-            <Text style={styles.coursetext1}>{coursename}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Course ID : </Text>
-            <Text style={styles.coursetext1}>{courseid}</Text>
-          </View>
-
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Standard : </Text>
-            <Text style={styles.coursetext1}>{standard}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Subject : </Text>
-            <Text style={styles.coursetext1}>{subject}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>No of Lectures : </Text>
-            <Text style={styles.coursetext1}>{nooflecture}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
-            <Text style={styles.coursetext1}>{facultydetails}</Text>
-          </View>
-
-          {des != '' && des != null ? <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Description : </Text>
-            <Text style={styles.coursetext1}>{des}</Text>
-          </View> : null}
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Date of Creating Course : </Text>
-            <Text style={styles.coursetext1}>{creatingcoursedate}</Text>
-          </View>
-         {lecturedata.length > 0 ? <View style={{ marginTop: 15 }}>
-            <Text style={styles.titletext}>Course Lecture</Text>
-            <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey', marginTop: 10 }]}>
-              <Text style={styles.snotext}>S. No</Text>
-              <Text style={styles.lecturetitletext}>Lecture Title</Text>
-              <Text style={styles.topictext}>Topics Covered</Text>
-              <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>View Details</Text>
+        <View style={{ flex: 1 }} >
+          {coursepreview != null ? <Video
+            ref={ref}
+            // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
+            url={{ uri: coursepreview }}
+            // video={{ uri: coursepreview }}
+            // videoWidth={width - 100}
+            //thumbnail={{ uri: courseimage }}
+            // thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
+            onFullScreen={onFullScreen}
+            // theme={theme}
+            // controls={true}
+            // resizeMode="contain"
+            resizeMode='cover'
+            showDuration
+            // rotateToFullScreen={true}
+            lockRatio={16 / 9}
+            // placeholder={placeholder}
+            onBackPress={() => props.navigation.goBack(null)}
+          /> : null}
+          {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+            <Text style={styles.titletext}>View Course</Text>
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Course Name : </Text>
+              <Text style={styles.coursetext1}>{coursename}</Text>
             </View>
-            <FlatList
-              data={lecturedata}
-              renderItem={({ item, index }) =>
-                <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
-                  <Text style={styles.snotext}> {index + 1}</Text>
-                  <Text style={styles.lecturetitletext}>{item.lecture_title}</Text>
-                  <Text style={styles.topictext}>{item.topic_cover}</Text>
-                  <TouchableOpacity onPress={() => props.navigation.navigate('LectureDetailsScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Course ID : </Text>
+              <Text style={styles.coursetext1}>{courseid}</Text>
+            </View>
 
-                    <Image
-                      style={styles.eyeimage}
-                      source={Images.eye}
-                    />
-                  </TouchableOpacity>
-                </View>
-              }
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Standard : </Text>
+              <Text style={styles.coursetext1}>{standard}</Text>
+            </View>
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Subject : </Text>
+              <Text style={styles.coursetext1}>{subject}</Text>
+            </View>
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>No of Lectures : </Text>
+              <Text style={styles.coursetext1}>{nooflecture}</Text>
+            </View>
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
+              <Text style={styles.coursetext1}>{facultydetails}</Text>
+            </View>
 
-            />
-          </View>:null}
-        </View> : null}
-      </ScrollView>
+            {des != '' && des != null ? <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Description : </Text>
+              <Text style={styles.coursetext1}>{des}</Text>
+            </View> : null}
+            <View style={styles.textcontainer}>
+              <Text style={styles.coursetext}>Date of Creating Course : </Text>
+              <Text style={styles.coursetext1}>{creatingcoursedate}</Text>
+            </View>
+            {lecturedata.length > 0 ? <View style={{ marginTop: 15, }}>
+              <Text style={styles.titletext}>Course Lecture</Text>
+              <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey', marginTop: 10 }]}>
+                <Text style={styles.snotext}>S. No</Text>
+                <Text style={styles.lecturetitletext}>Lecture Title</Text>
+                <Text style={styles.topictext}>Topics Covered</Text>
+                <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>View Details</Text>
+              </View>
+              <FlatList
+                data={lecturedata}
+                renderItem={({ item, index }) =>
+                  <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
+                    <Text style={styles.snotext}> {index + 1}</Text>
+                    <Text style={styles.lecturetitletext}>{item.lecture_title}</Text>
+                    <Text style={styles.topictext}>{item.topic_cover}</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('LectureDetailsScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+
+                      <Image
+                        style={styles.eyeimage}
+                        source={Images.eye}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                }
+
+              />
+            </View> : null}
+          </View> : null}
+        </View>
+      </View> : null}
 
     </View>
 

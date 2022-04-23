@@ -178,7 +178,6 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
         navigation={props.navigation}
         headerTitle="Lecture Details"
       /> : null}
-      <ScrollView>
 
         {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
 
@@ -219,10 +218,11 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
         </View> : null}
 
 
-        <Video
+       
+      <Video
           ref={ref}
           url={{ uri: play }}
-          resizeMode="contain"
+          resizeMode="cover"
           showDuration
           //  rotateToFullScreen={true}
           lockRatio={16 / 9}
@@ -230,8 +230,6 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
           placeholder={placeholder}
 
         />
-
-      </ScrollView>
 
     </View>
 

@@ -13,6 +13,7 @@ import {
   ImageBackground,
   FlatList,
   Platform,
+  RefreshControl
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -49,6 +50,7 @@ const MySchool = (props: HomeScreenProps) => {
   const [is_approved, setis_approved] = useState();
   const isFocused = useIsFocused();
   const [userid, setUserid] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const backPressed = () => {
     props.navigation.goBack(null);
@@ -79,17 +81,17 @@ const MySchool = (props: HomeScreenProps) => {
 
   useFocusEffect(
 
-    
+
     React.useCallback(() => {
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
-  
+
         getStepCountAPi();
-  
+
         UserCourseDelete();
-  
-  
+
+
         return () => {
           dataSetTimeOut.clear();
         }
@@ -129,6 +131,22 @@ const MySchool = (props: HomeScreenProps) => {
 
 
   // }, [isFocused]);
+
+
+  const onRefresh = React.useCallback(() => {
+    getAuthUserInfoApi();
+
+    getStepCountAPi();
+
+    UserCourseDelete();
+
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -277,7 +295,7 @@ const MySchool = (props: HomeScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-             Toast.show('Invalid credentials', Toast.SHORT);
+            Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -358,8 +376,8 @@ const MySchool = (props: HomeScreenProps) => {
           <Text style={styles.TM_tv}>TM</Text>
         </View>
 
-        {/* <View style={styles.Notification_view}>
-          <TouchableOpacity
+        <View style={styles.Notification_view}>
+          {/* <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
@@ -368,7 +386,14 @@ const MySchool = (props: HomeScreenProps) => {
 
               marginRight: 5, marginTop: 11, height: 30, width: 30
             }} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
+
+          <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+            marginRight: 5, marginTop: 11, height: 30, width: 30
+          }} />
 
           <View
             style={{
@@ -383,7 +408,7 @@ const MySchool = (props: HomeScreenProps) => {
             }}>
             <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text>
           </View>
-        </View> */}
+        </View>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('Notifications');
@@ -415,7 +440,19 @@ const MySchool = (props: HomeScreenProps) => {
       </View>
 
 
-      {roletype == 'STUDENTS' ? <ScrollView style={{ flexGrow: 1 }}>
+      {roletype == 'STUDENTS' ? <ScrollView style={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            // title="Pull to refresh" 
+            // tintColor="#fff" 
+            //  titleColor="#fff"
+            colors={["rgb(70,50,103)"]}
+          />
+
+        }
+      >
         <View style={styles.mainBoxesContainer}>
           {/* <View style={styles.boxcontainer}>
             <Image
@@ -458,6 +495,8 @@ const MySchool = (props: HomeScreenProps) => {
           </TouchableOpacity>
             : null}
 
+
+
         </View>
         {/* <View
           style={{
@@ -480,6 +519,10 @@ const MySchool = (props: HomeScreenProps) => {
             </View>
           </TouchableOpacity>
         </View> */}
+
+
+
+
         {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
           onPress={() => props.navigation.navigate('ChatTeacherScreen', { 'user_id': userid })}>
           <View
@@ -519,9 +562,24 @@ const MySchool = (props: HomeScreenProps) => {
                 </Text>
               </View>
             </View>
+
           </View>
+
         </TouchableOpacity> : null}
-      </ScrollView> : <ScrollView style={{ flexGrow: 1 }}>
+
+
+      </ScrollView> : <ScrollView style={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            // title="Pull to refresh" 
+            // tintColor="#fff" 
+            //  titleColor="#fff"
+            colors={["rgb(70,50,103)"]}
+          />
+
+        }>
         <View style={styles.mainBoxesContainer}>
 
           <TouchableOpacity
@@ -540,6 +598,8 @@ const MySchool = (props: HomeScreenProps) => {
         </View>
 
       </ScrollView>}
+
+
     </View>
   );
 };

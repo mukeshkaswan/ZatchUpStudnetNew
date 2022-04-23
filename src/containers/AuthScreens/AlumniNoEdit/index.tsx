@@ -839,12 +839,37 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                 </Text>
               </View>
 
-              <View style={{}}>
+              {props.route.params.LoginfromEducationProfile == true ? <View style={{}}>
                 <CustomDropdown
                   placeholder={'Select Course'}
                   data={selectedCourse}
                   value={courseedit}
-                  disabled={coursekey == 0 ? true : false}
+                  disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
+                  SelectedLanguagedata={selectedValue => {
+                   
+                    setCourseKey(selectedValue);
+                    setCourseedit(selectedValue);
+
+                    var data = [];
+                    data = selectedCourse.filter(x => x.value == selectedValue);
+
+                    if (data.length > 0) {
+                      setDes(data[0].description);
+                      getStandard(selectedValue);
+                      setCourseIDParm(data[0].value);
+                      setminimumDate(data[0].start_date);
+                    }
+                  }}
+                />
+                {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
+              </View>:<View style={{}}>
+                <CustomDropdown
+                  placeholder={'Select Course'}
+                  data={selectedCourse}
+                  value={courseedit}
+                 // disabled={coursekey == 0 ? true : false}
+                  disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
+
                   SelectedLanguagedata={selectedValue => {
                     // setJoiningStandardKey('');
                     // setSchooID('');
@@ -871,7 +896,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   }}
                 />
                 {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
-              </View>
+              </View>}
               {coursekey == 0 ? (
                 <View>
                   <View

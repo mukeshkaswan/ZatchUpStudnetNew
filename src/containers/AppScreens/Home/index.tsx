@@ -371,7 +371,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               'after result.....2',
               JSON.stringify(result, undefined, 2),
             );
-            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true });
+            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true ,'LoginfromEducationProfile':true});
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
           }
           if (!error) {
@@ -1568,9 +1568,9 @@ const HomeScreen = (props: HomeScreenProps) => {
                           />
 
                           <View style={styles.underview} />
-                          <Text style={styles.Personal_Tv}>
+                         {course.standard_detail ? <Text style={styles.Personal_Tv}>
                             Standard Details
-                          </Text>
+                          </Text>:null}
                           <View style={styles.underview} />
                           {
                             course.standard_detail &&

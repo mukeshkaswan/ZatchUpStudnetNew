@@ -1612,11 +1612,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             }}>
                             Course Details
                           </Text>
+                          {/* i.is_current_course == false && props.route.params.AlumniNo == 'AlumniNo' */}
 
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false && props.route.params.AlumniNo == 'AlumniNo'
+                              i.is_current_course == false 
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1631,6 +1632,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                   course_type: i.course_type,
                                   're_verify': props.route.params.re_verify,
                                   'login': props.route.params.login,
+                                  'LoginfromEducationProfile':props.route.params.LoginfromEducationProfile
 
                                 })
                                 : i.standard_detail != null && i.standard_detail.length > 0 && i.is_current_course == true
@@ -1648,7 +1650,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       roll_no: i.roll_no,
                                       're_verify': props.route.params.re_verify,
                                       'login': props.route.params.login,
-                                      'key':true
+                                      'key':true,
+                                      'LoginfromEducationProfile':props.route.params.LoginfromEducationProfile
                                     },
                                   )
                                   : props.navigation.navigate(

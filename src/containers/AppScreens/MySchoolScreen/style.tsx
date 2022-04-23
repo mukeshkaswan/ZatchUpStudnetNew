@@ -27,7 +27,7 @@ const styles = ScaledSheet.create({
 
     },
     tv_view: {
-        flex: 1, flexDirection: 'row', justifyContent: "center", alignItems: "center"
+        flex: 1, flexDirection: 'row', justifyContent: "center", alignItems: "center",marginRight: 15,
 
     },
 

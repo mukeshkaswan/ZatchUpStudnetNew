@@ -129,7 +129,6 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
     React.useEffect(() => {
 
-
         getCourseListData(props.route.params.school_id, props.route.params.course_id)
         getAddmissionNo(props.route.params.course_id, props.route.params.school_id)
         setCourseedit(props.route.params.course_id)
@@ -782,19 +781,14 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             </TouchableOpacity>
 
 
-                            <View style={{}}>
+                           {props.route.params.LoginfromEducationProfile == true ? <View style={{}}>
                                 <CustomDropdown placeholder={'Select Course'}
                                     data={selectedCourse}
                                     value={courseedit}
+                                    disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
 
                                     SelectedLanguagedata={(selectedValue) => {
-                                        // getSchool(selectedValue);
-                                        // setSchoolID('')
-                                        setRollNo('')
-                                        setDate_Copy('')
 
-                                        // setStandarClassdKey('');
-                                        setClass('');
                                         setCourseKey(selectedValue);
                                         setCourseedit(selectedValue)
                                         var data = [];
@@ -808,6 +802,9 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                                             setCourseIDParm(data[0].value);
                                             setDes(data[0].description);
                                             setminimumDate(data[0].start_date);
+                                            // setRollNo('4444')
+                                            // setDate_Copy('2022-05-05')
+
 
                                         }
 
@@ -820,7 +817,49 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                                     }}
 
                                 />
-                            </View>
+                            </View>:<View style={{}}>
+                                <CustomDropdown placeholder={'Select Course'}
+                                    data={selectedCourse}
+                                    value={courseedit}
+                                    disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
+
+                                    SelectedLanguagedata={(selectedValue) => {
+                                        // getSchool(selectedValue);
+                                        // setSchoolID('')
+                                       setRollNo('')
+                                       setDate_Copy('')
+
+                                        // setStandarClassdKey('');
+                                       setClass('');
+                                        setCourseKey(selectedValue);
+                                        setCourseedit(selectedValue)
+                                        var data = [];
+                                        data = selectedCourse.filter(x => x.value == selectedValue);
+                                        // console.log('school index x',data)
+
+                                        if (data.length > 0) {
+                                            // setDate_Copy('')
+                                            // console.log('course list data id',data[0].value)
+                                            getStandard(selectedValue);
+                                            setCourseIDParm(data[0].value);
+                                            setDes(data[0].description);
+                                            setminimumDate(data[0].start_date);
+                                          //  setRollNo('4444')
+                                            // setDate_Copy('2022-05-05')
+
+
+                                        }
+
+                                        // if (selectedValue !== null) {
+                                        //     setCourseKey(selectedValue);
+
+                                        //     getStandard(selectedValue);
+
+                                        // }
+                                    }}
+
+                                />
+                            </View>}
                             <TouchableOpacity onPress={showDatepicker}>
                                 <View style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}>
                                     <TextField

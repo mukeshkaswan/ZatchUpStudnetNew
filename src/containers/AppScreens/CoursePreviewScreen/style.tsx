@@ -30,7 +30,7 @@ flex:1,marginBottom:20},
     height:18,width:18,resizeMode:'contain',tintColor:'blue'
  },
  coursestextcontainer:{
-    flexDirection:'row',justifyContent:'space-between',paddingHorizontal:5,paddingVertical:10,flex:1,
+    flexDirection:'row',justifyContent:'space-between',paddingHorizontal:5,paddingVertical:10,
     marginHorizontal:10,elevation:2
  }
 })

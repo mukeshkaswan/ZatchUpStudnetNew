@@ -184,13 +184,13 @@ const LoginScreen = (props: LoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false });
+        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
       }
     } else if (result.reg_step == 4) {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false });
+        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
       }
     } else if (result.reg_step == 6) {
       if (result.is_kyc_rejected === true) {
@@ -217,12 +217,12 @@ const LoginScreen = (props: LoginScreenProps) => {
       } else {
         // props.navigation.navigate('Personalinfo');
 
-        props.navigation.navigate('SelectStudent', { 're_verify': false });
+        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
 
       }
     } else {
       // console.log('step_4', '4')
-      props.navigation.navigate('SelectStudent', { 're_verify': false });
+      props.navigation.navigate('SelectStudent', { 're_verify': false ,'ei_request_count':0 });
     }
   };
 
