@@ -187,7 +187,14 @@ const MySchool = (props: HomeScreenProps) => {
   //   }, [isFocused])
   // );
 
+  const _storeData = async (unread_reminder_count:any) => {
+    try {
+      await AsyncStorage.setItem('unread_reminder_count', unread_reminder_count);
 
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const UserCourseDelete = async () => {
     var token = '';
@@ -333,6 +340,7 @@ const MySchool = (props: HomeScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
+          //  _storeData(result.unread_reminder_count);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
             setRole(result.role);

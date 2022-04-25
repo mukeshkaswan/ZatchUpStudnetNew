@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
@@ -9,6 +9,7 @@ import Animated, {
   useDerivedValue,
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   LoginScreen,
   SignUpScreen,
@@ -38,10 +39,14 @@ import {
   Reminders
 } from '../../../containers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as userActions from '../../../actions/user-actions-types';
+import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect
+} from '@react-navigation/native';
 
-// import AnimatedTabBar, { TabsConfigsType } from 'curved-bottom-navigation-bar';
-
-// const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +55,7 @@ const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, 
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {
-  
+
 
     return (
       <View style={{ flex: 1, alignItems: 'center' }}>
@@ -65,7 +70,7 @@ const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, 
           <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
         </View>
 
-        {accessibilityLabel == "Reminders_Tab, tab, 3 of 3" ? <View
+        {/* {accessibilityLabel == "Reminders_Tab, tab, 3 of 3" ? <View
           style={{
             position: 'absolute',
             marginTop: Platform.OS == 'ios' ? 2 : 5,
@@ -87,7 +92,7 @@ const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, 
             {' '}
             {'0'}{' '}
           </Text>
-        </View> : null}
+        </View> : null} */}
 
         <TouchableOpacity
           activeOpacity={0.8}
@@ -124,10 +129,119 @@ const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, 
 };
 
 const CustomTabBar =  () => {
- // const value = await AsyncStorage.getItem('token');
- // console.log('valuevaluevaluevalue',value);
+  // const value = await AsyncStorage.getItem('token');
+  // console.log('valuevaluevaluevalue',value);
+  const dispatch = useDispatch();
+  const [unreadremindercount, set_unread_reminder_count] = useState('');
+  const isFocused = useIsFocused();
+  //const value =  AsyncStorage.getItem('unread_reminder_count');
+  const isInitialMount = useRef(true);
+
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //      isInitialMount.current = false;
+  //   } else {
+  //     getStepCountAPi();
+
+  //       // Your useEffect code here to be run on update
+  //   }
+  // }, [isFocused]);
+
+   useEffect(() => {
+
+   
 
 
+      getStepCountAPi();
+
+
+
+     
+    
+
+  }, [isFocused]);
+  
+  
+  // useFocusEffect(
+
+
+  //   React.useCallback(() => {
+
+
+
+
+
+
+  //     getStepCountAPi();
+
+
+     
+  
+
+
+  //   }, [isFocused])
+  // );
+
+  /***************************User getStepCountAPi *******************************/
+
+  const getStepCountAPi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getRegStepCount({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // setLoading(false);
+            console.warn(
+              'after result step count bottom tab first',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            // setSpinnerStart(false);
+            // set_unread_notification_count(result.unread_notification_count);
+            set_unread_reminder_count(result.unread_reminder_count);
+            // setRole(result.role);
+            // setIs_kyc_approved(result.is_kyc_approved);
+            // setis_approved(result.is_approved);
+            // getAuthUserInfoApi();
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            // setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            //  setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -148,6 +262,7 @@ const CustomTabBar =  () => {
         name="MySchool_Tab"
         component={MySchoolScreen}
         options={{
+          unmountOnBlur:true,
           tabBarIcon: ({ focused }) => {
             return (
               <Icon
@@ -167,6 +282,7 @@ const CustomTabBar =  () => {
         name="Messages_Tab"
         component={Messages}
         options={{
+          unmountOnBlur:true,
           tabBarIcon: ({ focused }) => {
             return (
               <Icon
@@ -186,14 +302,68 @@ const CustomTabBar =  () => {
         name="Reminders_Tab"
         component={Reminders}
         options={{
-
+          unmountOnBlur:true,
           tabBarIcon: ({ focused }) => {
             return (
-              <Icon
-                name="clock"
-                size={24}
-                color={focused ? '#ffffff' : 'gray'}
-              />
+
+              <View>
+
+                <Icon
+                  name="clock"
+                  size={24}
+                  color={focused ? '#ffffff' : 'gray'}
+                />
+
+                {focused == true ? <View
+                  style={{
+                    position: 'absolute',
+                    marginTop: Platform.OS == 'ios' ? 2 : 0,
+                    left: 25,
+                    alignSelf: 'flex-end',
+                    borderRadius: 15,
+                    backgroundColor: '#00B200',
+                    width: Platform.OS == 'ios' ? 20 : 18,
+                    height: Platform.OS == 'ios' ? 20 : 18,
+                    bottom: 15
+
+                  }}>
+                  <Text
+                    style={{
+                      color: '#FFFFFF',
+                      fontSize: 12,
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      marginTop: Platform.OS == 'ios' ? 2 : 0,
+                    }}>
+                    {' '}
+                    {unreadremindercount}{' '}
+                  </Text>
+                </View> : <View
+                  style={{
+                    position: 'absolute',
+                    marginTop: Platform.OS == 'ios' ? 2 : 5,
+                    left: 15,
+                    alignSelf: 'flex-end',
+                    borderRadius: 15,
+                    backgroundColor: '#00B200',
+                    width: Platform.OS == 'ios' ? 20 : 18,
+                    height: Platform.OS == 'ios' ? 20 : 18,
+                    bottom: 15
+                  }}>
+                  <Text
+                    style={{
+                      color: '#FFFFFF',
+                      fontSize: 12,
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      marginTop: Platform.OS == 'ios' ? 2 : 0,
+                    }}>
+                    {' '}
+                    {unreadremindercount}{' '}
+                  </Text>
+                </View>}
+              </View>
+
             );
           },
           tabBarButton: props => {
