@@ -385,7 +385,7 @@ const MySchool = (props: HomeScreenProps) => {
         </View>
 
         <View style={styles.Notification_view}>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
@@ -394,14 +394,14 @@ const MySchool = (props: HomeScreenProps) => {
 
               marginRight: 5, marginTop: 11, height: 30, width: 30
             }} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
 
-          <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+          {/* <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
 
 
             marginRight: 5, marginTop: 11, height: 30, width: 30
-          }} />
+          }} /> */}
 
           <View
             style={{

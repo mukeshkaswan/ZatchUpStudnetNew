@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Text, Platform } from 'react-native';
+import { View, TouchableOpacity, Text, Platform, Alert } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
@@ -128,11 +128,11 @@ const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, 
   }
 };
 
-const CustomTabBar =  () => {
+const CustomTabBar = () => {
   // const value = await AsyncStorage.getItem('token');
   // console.log('valuevaluevaluevalue',value);
   const dispatch = useDispatch();
-  const [unreadremindercount, set_unread_reminder_count] = useState('');
+  const [getcount, set_Count] = useState('0');
   const isFocused = useIsFocused();
   //const value =  AsyncStorage.getItem('unread_reminder_count');
   const isInitialMount = useRef(true);
@@ -147,21 +147,18 @@ const CustomTabBar =  () => {
   //   }
   // }, [isFocused]);
 
-   useEffect(() => {
-
-   
-
-
-      getStepCountAPi();
+  // useEffect(() => {
+  //   // setInterval(async () => {
+  //   //   getStepCountAPi();
+  //   // }, 1000);
 
 
+  //  getStepCountAPi();
 
-     
-    
 
-  }, [isFocused]);
-  
-  
+  // }, []);
+
+
   // useFocusEffect(
 
 
@@ -175,8 +172,8 @@ const CustomTabBar =  () => {
   //     getStepCountAPi();
 
 
-     
-  
+
+
 
 
   //   }, [isFocused])
@@ -185,6 +182,10 @@ const CustomTabBar =  () => {
   /***************************User getStepCountAPi *******************************/
 
   const getStepCountAPi = async () => {
+
+
+
+
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -199,48 +200,53 @@ const CustomTabBar =  () => {
     const data = {
       token: token,
     };
+    setTimeout(
+      function () {
+        dispatch(
+          userActions.getRegStepCount({
+            data,
+            callback: ({ result, error }) => {
+              if (result) {
+                // Alert.alert('Test_@');
 
-    dispatch(
-      userActions.getRegStepCount({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            // setLoading(false);
-            console.warn(
-              'after result step count bottom tab first',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            // set_unread_notification_count(result.unread_notification_count);
-            set_unread_reminder_count(result.unread_reminder_count);
-            // setRole(result.role);
-            // setIs_kyc_approved(result.is_kyc_approved);
-            // setis_approved(result.is_approved);
-            // getAuthUserInfoApi();
+                // setLoading(false);
+                console.warn(
+                  'after result step count bottom tab first',
+                  JSON.stringify(result, undefined, 2),
+                  //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+                );
+                // Alert.alert('prop');
 
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            // setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
+                set_Count(result.unread_reminder_count);
 
-            // Alert.alert(error.message[0])
 
-            // signOut();
-          } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            //  setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
+              }
+              if (!error) {
+                console.warn(JSON.stringify(error, undefined, 2));
+                // setLoginSuccess(result);
+                // setLoading(false);
+                //console.log('dfdfdf--------', error)
+                // Toast.show('Invalid credentials', Toast.SHORT);
+
+                // Alert.alert(error.message[0])
+
+                // signOut();
+              } else {
+                // setError(true);
+                // signOut();
+                // Alert.alert(result.status)
+                // Toast.show('Invalid credentials', Toast.SHORT);
+                //  setLoading(false);
+                console.warn(JSON.stringify(error, undefined, 2));
+              }
+            },
+          }),
+        );
+      }
+        .bind(this),
+      1000
     );
+
   };
   return (
     <Tab.Navigator
@@ -251,8 +257,6 @@ const CustomTabBar =  () => {
           borderTopWidth: 0,
           backgroundColor: 'transparent',
           elevation: 0,
-          // paddingBottom: 20,
-          //  paddingTop: 25,
         },
       }}
       initialRouteName={'MySchool_Tab'}>
@@ -262,7 +266,7 @@ const CustomTabBar =  () => {
         name="MySchool_Tab"
         component={MySchoolScreen}
         options={{
-          unmountOnBlur:true,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => {
             return (
               <Icon
@@ -282,7 +286,7 @@ const CustomTabBar =  () => {
         name="Messages_Tab"
         component={Messages}
         options={{
-          unmountOnBlur:true,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => {
             return (
               <Icon
@@ -298,11 +302,11 @@ const CustomTabBar =  () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Reminders_Tab"
         component={Reminders}
         options={{
-          unmountOnBlur:true,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => {
             return (
 
@@ -336,7 +340,7 @@ const CustomTabBar =  () => {
                       marginTop: Platform.OS == 'ios' ? 2 : 0,
                     }}>
                     {' '}
-                    {unreadremindercount}{' '}
+                    {'0'}{' '}
                   </Text>
                 </View> : <View
                   style={{
@@ -359,7 +363,7 @@ const CustomTabBar =  () => {
                       marginTop: Platform.OS == 'ios' ? 2 : 0,
                     }}>
                     {' '}
-                    {unreadremindercount}{' '}
+                    {getcount}{' '}
                   </Text>
                 </View>}
               </View>
@@ -370,7 +374,7 @@ const CustomTabBar =  () => {
             return <TabBarCustomButton {...props} />;
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

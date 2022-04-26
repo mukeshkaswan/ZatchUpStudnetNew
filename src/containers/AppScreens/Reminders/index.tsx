@@ -285,94 +285,12 @@ const Reminders = (props: ResetPasswordScreenProps) => {
       <CustomStatusBar />
       {isLoading && renderIndicator()}
 
-      {/* <HeaderTitleWithBack
+      <HeaderTitleWithBack
         navigation={props.navigation}
         headerTitle="Reminders"
-      /> */}
+      />
 
-      <View style={styles.child_view}>
-        <TouchableOpacity onPress={onBurgerBarPress}>
-          <Image source={Images.menu_dash} style={styles.image_menu} />
-        </TouchableOpacity>
-
-        <View style={styles.tv_view}>
-          <Text style={styles.ZatchUp_tv}>Reminders</Text>
-          {/* <Text style={styles.TM_tv}>TM</Text> */}
-        </View>
-
-        {/* <View style={styles.Notification_view}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('Reminders');
-            }}>
-            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
-
-
-              marginRight: 5, marginTop: 11, height: 30, width: 30
-            }} />
-          </TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              marginTop: Platform.OS == 'ios' ? 2 : 5,
-              right: 5,
-              alignSelf: 'flex-end',
-              borderRadius: 15,
-              backgroundColor: '#00B200',
-              width: Platform.OS == 'ios' ? 20 : 18,
-              height: Platform.OS == 'ios' ? 20 : 18,
-            }}>
-            <Text
-              style={{
-                color: '#FFFFFF',
-                fontSize: 12,
-                textAlign: 'center',
-                fontWeight: 'bold',
-                marginTop: Platform.OS == 'ios' ? 2 : 0,
-              }}>
-              {' '}
-              {unreadremindercount}{' '}
-            </Text>
-          </View>
-        </View> */}
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate('Notifications');
-          }}
-          style={styles.dot_view}>
-          <View>
-            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
-
-
-              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
-            }} />
-            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
-            <View
-              style={{
-                position: 'absolute',
-                marginTop: Platform.OS == 'ios' ? 2 : 5,
-                right: 5,
-                alignSelf: 'flex-end',
-                borderRadius: 15,
-                backgroundColor: '#00B200',
-                width: Platform.OS == 'ios' ? 20 : 18,
-                height: Platform.OS == 'ios' ? 20 : 18,
-              }}>
-              <Text
-                style={{
-                  color: '#FFFFFF',
-                  fontSize: 12,
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  marginTop: Platform.OS == 'ios' ? 2 : 0,
-                }}>
-                {' '}
-                {unreadnotificationcount}{' '}
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+     
       {getFlag === true ? <View style={{ flex: 1 }}>
 
         {reminder.length > 0 ? (
