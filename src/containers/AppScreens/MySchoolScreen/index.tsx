@@ -13,7 +13,8 @@ import {
   ImageBackground,
   FlatList,
   Platform,
-  RefreshControl
+  RefreshControl,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -187,7 +188,7 @@ const MySchool = (props: HomeScreenProps) => {
   //   }, [isFocused])
   // );
 
-  const _storeData = async (unread_reminder_count:any) => {
+  const _storeData = async (unread_reminder_count: any) => {
     try {
       await AsyncStorage.setItem('unread_reminder_count', unread_reminder_count);
 
@@ -340,7 +341,7 @@ const MySchool = (props: HomeScreenProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
-          //  _storeData(result.unread_reminder_count);
+            //  _storeData(result.unread_reminder_count);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
             setRole(result.role);
@@ -373,63 +374,37 @@ const MySchool = (props: HomeScreenProps) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.child_view}>
-        <TouchableOpacity onPress={onBurgerBarPress}>
-          <Image source={Images.menu_dash} style={styles.image_menu} />
-        </TouchableOpacity>
-
-        <View style={styles.tv_view}>
-          <Text style={styles.ZatchUp_tv}>My School</Text>
-          <Text style={styles.TM_tv}>TM</Text>
-        </View>
-
-        <View style={styles.Notification_view}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('Reminders');
-            }}>
-            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
-
-
-              marginRight: 5, marginTop: 11, height: 30, width: 30
-            }} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <View style={styles.child_view}>
+          <TouchableOpacity onPress={onBurgerBarPress}>
+            <Image source={Images.menu_dash} style={styles.image_menu} />
           </TouchableOpacity>
 
+          <View style={styles.tv_view}>
+            <Text style={styles.ZatchUp_tv}>My School</Text>
+            <Text style={styles.TM_tv}>TM</Text>
+          </View>
 
-          {/* <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+          <View style={styles.Notification_view}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Reminders');
+              }}>
+              <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+                marginRight: 5, marginTop: 11, height: 30, width: 30
+              }} />
+            </TouchableOpacity>
+
+
+            {/* <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
 
 
             marginRight: 5, marginTop: 11, height: 30, width: 30
           }} /> */}
 
-          <View
-            style={{
-              position: 'absolute',
-              marginTop: Platform.OS == 'ios' ? 2 : 5,
-              right: 5,
-              alignSelf: 'flex-end',
-              borderRadius: 15,
-              backgroundColor: '#00B200',
-              width: Platform.OS == 'ios' ? 20 : 18,
-              height: Platform.OS == 'ios' ? 20 : 18,
-            }}>
-            <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text>
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate('Notifications');
-          }}
-          style={styles.dot_view}>
-          <View>
-            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
-
-            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
-
-
-              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
-            }} />
             <View
               style={{
                 position: 'absolute',
@@ -441,28 +416,55 @@ const MySchool = (props: HomeScreenProps) => {
                 width: Platform.OS == 'ios' ? 20 : 18,
                 height: Platform.OS == 'ios' ? 20 : 18,
               }}>
-              <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadnotificationcount} </Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadremindercount} </Text>
             </View>
           </View>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Notifications');
+            }}
+            style={styles.dot_view}>
+            <View>
+              {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
+
+              <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
 
 
-      {roletype == 'STUDENTS' ? <ScrollView style={{ flex: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            // title="Pull to refresh" 
-            // tintColor="#fff" 
-            //  titleColor="#fff"
-            colors={["rgb(70,50,103)"]}
-          />
+                marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
+              }} />
+              <View
+                style={{
+                  position: 'absolute',
+                  marginTop: Platform.OS == 'ios' ? 2 : 5,
+                  right: 5,
+                  alignSelf: 'flex-end',
+                  borderRadius: 15,
+                  backgroundColor: '#00B200',
+                  width: Platform.OS == 'ios' ? 20 : 18,
+                  height: Platform.OS == 'ios' ? 20 : 18,
+                }}>
+                <Text style={{ color: '#FFFFFF', fontSize: 12, textAlign: 'center', fontWeight: 'bold', marginTop: Platform.OS == 'ios' ? 2 : 0 }}> {unreadnotificationcount} </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-        }
-      >
-        <View style={styles.mainBoxesContainer}>
-          {/* <View style={styles.boxcontainer}>
+
+        {roletype == 'STUDENTS' ? <ScrollView style={{ flex: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              // title="Pull to refresh" 
+              // tintColor="#fff" 
+              //  titleColor="#fff"
+              colors={["rgb(70,50,103)"]}
+            />
+
+          }
+        >
+          <View style={styles.mainBoxesContainer}>
+            {/* <View style={styles.boxcontainer}>
             <Image
               style={{resizeMode: 'contain', width: 70, height: 70}}
               source={Images.ecertificate}
@@ -475,38 +477,38 @@ const MySchool = (props: HomeScreenProps) => {
           </View> */}
 
 
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
-            <View style={styles.boxcontainer}>
-              <Image
-                style={{ width: 70, height: 70, resizeMode: 'contain' }}
-                source={Images.profilebookicon}
-              />
-              <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>My Education Profile</Text>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
+              <View style={styles.boxcontainer}>
+                <Image
+                  style={{ width: 70, height: 70, resizeMode: 'contain' }}
+                  source={Images.profilebookicon}
+                />
+                <View style={{ marginTop: 12 }}>
+                  <Text style={styles.text}>My Education Profile</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
 
 
-          {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
-            onPress={() => props.navigation.navigate('SchoolListScreen')}>
-            <View style={styles.boxcontainer}>
-              <Image
-                style={{ height: 100, width: 100, resizeMode: 'contain' }}
-                source={Images.laptop_icon}
-              />
-              <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>My{'\n'}Classroom</Text>
+            {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
+              onPress={() => props.navigation.navigate('SchoolListScreen')}>
+              <View style={styles.boxcontainer}>
+                <Image
+                  style={{ height: 100, width: 100, resizeMode: 'contain' }}
+                  source={Images.laptop_icon}
+                />
+                <View style={{ marginTop: 12 }}>
+                  <Text style={styles.text}>My{'\n'}Classroom</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-            : null}
+            </TouchableOpacity>
+              : null}
 
 
 
-        </View>
-        {/* <View
+          </View>
+          {/* <View
           style={{
             paddingHorizontal: 15,
             flexDirection: 'row',
@@ -531,84 +533,85 @@ const MySchool = (props: HomeScreenProps) => {
 
 
 
-        {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
-          onPress={() => props.navigation.navigate('ChatTeacherScreen', { 'user_id': userid })}>
-          <View
-            style={{
-              paddingHorizontal: 16,
-              marginTop: 8,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          {is_kyc_approved === true && is_approved == true ? <TouchableOpacity
+            onPress={() => props.navigation.navigate('ChatTeacherScreen', { 'user_id': userid })}>
             <View
               style={{
-                width: '100%',
-                backgroundColor: 'white',
-                height: 150,
-                borderRadius: 15,
-                alignSelf: 'center',
+                paddingHorizontal: 16,
+                marginTop: 8,
+                alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: 16,
               }}>
-              <Image
+              <View
                 style={{
-                  width: 70,
-                  height: 70,
+                  width: '100%',
+                  backgroundColor: 'white',
+                  height: 150,
+                  borderRadius: 15,
                   alignSelf: 'center',
-                  resizeMode: 'contain',
-                }}
-                source={Images.chatwithteacher}
-              />
-              <View style={{ marginTop: 12 }}>
-                <Text
+                  justifyContent: 'center',
+                  marginBottom: 16,
+                }}>
+                <Image
                   style={{
-                    textAlign: 'center',
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                  }}>
-                  Chat with Teachers
-                </Text>
+                    width: 70,
+                    height: 70,
+                    alignSelf: 'center',
+                    resizeMode: 'contain',
+                  }}
+                  source={Images.chatwithteacher}
+                />
+                <View style={{ marginTop: 12 }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    Chat with Teachers
+                  </Text>
+                </View>
               </View>
+
             </View>
+
+          </TouchableOpacity> : null}
+
+
+        </ScrollView> : <ScrollView style={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              // title="Pull to refresh" 
+              // tintColor="#fff" 
+              //  titleColor="#fff"
+              colors={["rgb(70,50,103)"]}
+            />
+
+          }>
+          <View style={styles.mainBoxesContainer}>
+
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
+              <View style={styles.boxcontainer}>
+                <Image
+                  style={{ width: 70, height: 70, resizeMode: 'contain' }}
+                  source={Images.profilebookicon}
+                />
+                <View style={{ marginTop: 12 }}>
+                  <Text style={styles.text}>My Education Profile</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
 
           </View>
 
-        </TouchableOpacity> : null}
+        </ScrollView>}
 
 
-      </ScrollView> : <ScrollView style={{ flexGrow: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            // title="Pull to refresh" 
-            // tintColor="#fff" 
-            //  titleColor="#fff"
-            colors={["rgb(70,50,103)"]}
-          />
-
-        }>
-        <View style={styles.mainBoxesContainer}>
-
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home', { 'user_id': userid })}>
-            <View style={styles.boxcontainer}>
-              <Image
-                style={{ width: 70, height: 70, resizeMode: 'contain' }}
-                source={Images.profilebookicon}
-              />
-              <View style={{ marginTop: 12 }}>
-                <Text style={styles.text}>My Education Profile</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
-        </View>
-
-      </ScrollView>}
-
-
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

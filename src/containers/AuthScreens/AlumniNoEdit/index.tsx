@@ -8,6 +8,8 @@ import {
   Dimensions,
   ScrollView,
   BackHandler,
+  Platform,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -128,9 +130,11 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
+      setShow1(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow1(Platform.OS === 'ios'); // to hide back the picker
+      setMode1('date'); // defaulting to date for next open
     }
 
     var MyDateString =
@@ -149,9 +153,11 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate2(currentDate);
+      setShow2(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow2(Platform.OS === 'ios'); // to hide back the picker
+      setMode2('date'); // defaulting to date for next open
     }
 
     var MyDateString =
@@ -776,8 +782,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                   nameofschool: props.route.params.nameofschool,
                   AlumniNo: 'AlumniNo',
                   're_verify': props.route.params.re_verify,
-                  'change_course_id':courseidparm,
-                  'login':false 
+                  'change_course_id': courseidparm,
+                  'login': false
                 }),
 
                 //   props.navigation.navigate('EIconfirmation', { 'school_zatchup_id': props.route.params.school_zatchup_id, 'nameofschool': props.route.params.nameofschool, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board })
@@ -810,285 +816,287 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={'always'}
-      style={{ flex: 1 }}
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <CustomStatusBar />
+    <SafeAreaView style={{ flex: 1 }}>
 
-        {isLoading && renderIndicator()}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <CustomStatusBar />
 
-        <CustomHeader
-          Title={'Add Course Details'}
-          Back={'true'}
-          navigation={props.navigation}
-        />
+          {isLoading && renderIndicator()}
 
-        {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
+          <CustomHeader
+            Title={'Add Course Details'}
+            Back={'true'}
+            navigation={props.navigation}
+          />
 
-        <ScrollView>
-          <View style={styles.inputContainer}>
-            <View>
-              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5 }}>
-                  {props.route.params.nameofschool +
-                    '(' +
-                    props.route.params.school_zatchup_id +
-                    ')'}
-                </Text>
-              </View>
+          {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
 
-              {props.route.params.LoginfromEducationProfile == true ? <View style={{}}>
-                <CustomDropdown
-                  placeholder={'Select Course'}
-                  data={selectedCourse}
-                  value={courseedit}
-                  disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
-                  SelectedLanguagedata={selectedValue => {
-                   
-                    setCourseKey(selectedValue);
-                    setCourseedit(selectedValue);
-
-                    var data = [];
-                    data = selectedCourse.filter(x => x.value == selectedValue);
-
-                    if (data.length > 0) {
-                      setDes(data[0].description);
-                      getStandard(selectedValue);
-                      setCourseIDParm(data[0].value);
-                      setminimumDate(data[0].start_date);
-                    }
-                  }}
-                />
-                {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
-              </View>:<View style={{}}>
-                <CustomDropdown
-                  placeholder={'Select Course'}
-                  data={selectedCourse}
-                  value={courseedit}
-                 // disabled={coursekey == 0 ? true : false}
-                  disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
-
-                  SelectedLanguagedata={selectedValue => {
-                    // setJoiningStandardKey('');
-                    // setSchooID('');
-                    // setJoiningStandardKey2('');
-                    setDate_Course1('');
-                    setDate_Course2('');
-                    //setDate_Course3('');
-                    // setDate_Course4('');
-                    // setCourse('');
-                    // setDess('');
-
-                    setCourseKey(selectedValue);
-                    setCourseedit(selectedValue);
-
-                    var data = [];
-                    data = selectedCourse.filter(x => x.value == selectedValue);
-
-                    if (data.length > 0) {
-                      setDes(data[0].description);
-                      getStandard(selectedValue);
-                      setCourseIDParm(data[0].value);
-                      setminimumDate(data[0].start_date);
-                    }
-                  }}
-                />
-                {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
-              </View>}
-              {coursekey == 0 ? (
-                <View>
-                  <View
-                    style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
-                    <TextField
-                      placeholder={'Enter Course Name'}
-                      onChangeText={val => setCourse(val)}
-                      value={Course}
-                    />
-                  </View>
-
-                  <View style={{ marginTop: '1%' }}>
-                    <CustomDropdown
-                      placeholder={'Select Type'}
-                      data={CourseTypeOther}
-                      value={Course_Selected}
-                      SelectedLanguagedata={(selectedValue: any) => {
-                        setCourseTypeSelected(selectedValue);
-                        // setID('')
-                      }}
-                    />
-                  </View>
-
-                  {show3 && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date3}
-                      mode={mode3}
-                      minimumDate={new Date(min_date)}
-                      maximumDate={new Date()}
-                      is24Hour={true}
-                      format="YYYY-MMM-DD"
-                      display="default"
-                      onChange={onChange3}
-                    />
-                  )}
-
-                  {show4 && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date4}
-                      mode={mode4}
-                      minimumDate={new Date(date3)}
-                      maximumDate={new Date()}
-                      is24Hour={true}
-                      format="YYYY-MMM-DD"
-                      display="default"
-                      onChange={onChange4}
-                    />
-                  )}
-                  <TouchableOpacity onPress={showDatepicker3}>
-                    <View
-                      style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
-                      <TextField
-                        placeholder={'Start Date'}
-                        imageIcon={Images.calendar_icon}
-                        editable={false}
-                        value={startDate3.toString()}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={showDatepicker4}>
-                    <View
-                      style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
-                      <TextField
-                        placeholder={'End Date'}
-                        imageIcon={Images.calendar_icon}
-                        editable={false}
-                        value={endDate4.toString()}
-                      />
-                    </View>
-                  </TouchableOpacity>
-
-                  <View
-                    style={{
-                      marginTop: '3%',
-                      marginBottom: '4%',
-                      marginLeft: 2,
-                      marginRight: 2,
-                    }}>
-                    <TextField
-                      placeholder={'Enter Description'}
-                      multiline={true}
-                      onChangeText={val => setDess(val)}
-                      value={Dess}
-                    />
-                  </View>
+          <ScrollView>
+            <View style={styles.inputContainer}>
+              <View>
+                <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                  <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5 }}>
+                    {props.route.params.nameofschool +
+                      '(' +
+                      props.route.params.school_zatchup_id +
+                      ')'}
+                  </Text>
                 </View>
-              ) : (
-                <View>
-                  <TouchableOpacity onPress={showDatepicker1}>
+
+                {props.route.params.LoginfromEducationProfile == true ? <View style={{}}>
+                  <CustomDropdown
+                    placeholder={'Select Course'}
+                    data={selectedCourse}
+                    value={courseedit}
+                    disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
+                    SelectedLanguagedata={selectedValue => {
+
+                      setCourseKey(selectedValue);
+                      setCourseedit(selectedValue);
+
+                      var data = [];
+                      data = selectedCourse.filter(x => x.value == selectedValue);
+
+                      if (data.length > 0) {
+                        setDes(data[0].description);
+                        getStandard(selectedValue);
+                        setCourseIDParm(data[0].value);
+                        setminimumDate(data[0].start_date);
+                      }
+                    }}
+                  />
+                  {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
+                </View> : <View style={{}}>
+                  <CustomDropdown
+                    placeholder={'Select Course'}
+                    data={selectedCourse}
+                    value={courseedit}
+                    // disabled={coursekey == 0 ? true : false}
+                    disabled={props.route.params.LoginfromEducationProfile == true ? true : false}
+
+                    SelectedLanguagedata={selectedValue => {
+                      // setJoiningStandardKey('');
+                      // setSchooID('');
+                      // setJoiningStandardKey2('');
+                      setDate_Course1('');
+                      setDate_Course2('');
+                      //setDate_Course3('');
+                      // setDate_Course4('');
+                      // setCourse('');
+                      // setDess('');
+
+                      setCourseKey(selectedValue);
+                      setCourseedit(selectedValue);
+
+                      var data = [];
+                      data = selectedCourse.filter(x => x.value == selectedValue);
+
+                      if (data.length > 0) {
+                        setDes(data[0].description);
+                        getStandard(selectedValue);
+                        setCourseIDParm(data[0].value);
+                        setminimumDate(data[0].start_date);
+                      }
+                    }}
+                  />
+                  {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
+                </View>}
+                {coursekey == 0 ? (
+                  <View>
                     <View
                       style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
-                        placeholder={'Start Year'}
-                        imageIcon={Images.calendar_icon}
-                        editable={false}
-                        value={startDate1.toString()}
+                        placeholder={'Enter Course Name'}
+                        onChangeText={val => setCourse(val)}
+                        value={Course}
                       />
                     </View>
-                  </TouchableOpacity>
 
-                  {show1 && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date1}
-                      mode={mode1}
-                      // minDate={new Date()}
-                      minimumDate={new Date(setminimudate)}
-                      maximumDate={new Date()}
-                      is24Hour={true}
-                      format="YYYY-MMM-DD"
-                      display="default"
-                      onChange={onChange1}
-                    />
-                  )}
+                    <View style={{ marginTop: '1%' }}>
+                      <CustomDropdown
+                        placeholder={'Select Type'}
+                        data={CourseTypeOther}
+                        value={Course_Selected}
+                        SelectedLanguagedata={(selectedValue: any) => {
+                          setCourseTypeSelected(selectedValue);
+                          // setID('')
+                        }}
+                      />
+                    </View>
 
-                  {show2 && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date2}
-                      mode={mode2}
-                      //  minDate={new Date()}
-                      minimumDate={new Date(date1)}
-                      maximumDate={new Date()}
-                      is24Hour={true}
-                      format="YYYY-MMM-DD"
-                      display="default"
-                      onChange={onChange2}
-                    />
-                  )}
+                    {show3 && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date3}
+                        mode={mode3}
+                        minimumDate={new Date(min_date)}
+                        maximumDate={new Date()}
+                        is24Hour={true}
+                        format="YYYY-MMM-DD"
+                        display="default"
+                        onChange={onChange3}
+                      />
+                    )}
 
-                  <TouchableOpacity onPress={showDatepicker2}>
+                    {show4 && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date4}
+                        mode={mode4}
+                        minimumDate={new Date(date3)}
+                        maximumDate={new Date()}
+                        is24Hour={true}
+                        format="YYYY-MMM-DD"
+                        display="default"
+                        onChange={onChange4}
+                      />
+                    )}
+                    <TouchableOpacity onPress={showDatepicker3}>
+                      <View
+                        style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
+                        <TextField
+                          placeholder={'Start Date'}
+                          imageIcon={Images.calendar_icon}
+                          editable={false}
+                          value={startDate3.toString()}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={showDatepicker4}>
+                      <View
+                        style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
+                        <TextField
+                          placeholder={'End Date'}
+                          imageIcon={Images.calendar_icon}
+                          editable={false}
+                          value={endDate4.toString()}
+                        />
+                      </View>
+                    </TouchableOpacity>
+
                     <View
-                      style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
+                      style={{
+                        marginTop: '3%',
+                        marginBottom: '4%',
+                        marginLeft: 2,
+                        marginRight: 2,
+                      }}>
                       <TextField
-                        placeholder={'End Year'}
-                        imageIcon={Images.calendar_icon}
-                        editable={false}
-                        value={endDate2.toString()}
+                        placeholder={'Enter Description'}
+                        multiline={true}
+                        onChangeText={val => setDess(val)}
+                        value={Dess}
                       />
                     </View>
-                  </TouchableOpacity>
-
-                  <View style={{ marginTop: '1%' }}>
-                    <CustomDropdown
-                      placeholder={'Select Joining Standard'}
-                      data={selectedJoiningStandard}
-                      value={st_edit}
-                      //  selectedValue={coursekey}
-                      SelectedLanguagedata={selectedValue => {
-                        //  getSchool(selectedValue);
-                        setJoiningStandardKey(selectedValue);
-                        setJoinStandardedit(selectedValue);
-
-                        var data = [];
-                        data = selectedJoiningStandard.filter(
-                          x => x.value == selectedValue,
-                        );
-
-                        if (data.length > 0) {
-                          setStandardIDParm(data[0].value);
-                        }
-                      }}
-                    />
-
-                    {/* <CustomDropdown label1="Joining Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={JoiningStandard} SelectedLanguagedata={(item) => setJoiningStandard(item)} /> */}
                   </View>
+                ) : (
+                  <View>
+                    <TouchableOpacity onPress={showDatepicker1}>
+                      <View
+                        style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
+                        <TextField
+                          placeholder={'Start Year'}
+                          imageIcon={Images.calendar_icon}
+                          editable={false}
+                          value={startDate1.toString()}
+                        />
+                      </View>
+                    </TouchableOpacity>
 
-                  <View style={{ marginTop: '1%' }}>
-                    <CustomDropdown
-                      placeholder={'Select Left Standard'}
-                      data={selectedJoiningStandard}
-                      value={cu_edit}
-                      SelectedLanguagedata={selectedValue => {
-                        setJoiningStandardKey2(selectedValue);
-                        setCurrentStandardedit(selectedValue);
+                    {show1 && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date1}
+                        mode={mode1}
+                        // minDate={new Date()}
+                        minimumDate={new Date(setminimudate)}
+                        maximumDate={new Date()}
+                        is24Hour={true}
+                        format="YYYY-MMM-DD"
+                        display="default"
+                        onChange={onChange1}
+                      />
+                    )}
 
-                        var data = [];
-                        data = selectedJoiningStandard.filter(
-                          x => x.value == selectedValue,
-                        );
+                    {show2 && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date2}
+                        mode={mode2}
+                        //  minDate={new Date()}
+                        minimumDate={new Date(date1)}
+                        maximumDate={new Date()}
+                        is24Hour={true}
+                        format="YYYY-MMM-DD"
+                        display="default"
+                        onChange={onChange2}
+                      />
+                    )}
 
-                        if (data.length > 0) {
-                          setStandardIDParmLeft(data[0].value);
-                        }
-                      }}
-                    />
-                    {/* <CustomDropdown label1="Left Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={LeftStandard} SelectedLanguagedata={(item) => setLeftStandard(item)} /> */}
-                  </View>
+                    <TouchableOpacity onPress={showDatepicker2}>
+                      <View
+                        style={{ marginTop: '4%', marginLeft: 2, marginRight: 2 }}>
+                        <TextField
+                          placeholder={'End Year'}
+                          imageIcon={Images.calendar_icon}
+                          editable={false}
+                          value={endDate2.toString()}
+                        />
+                      </View>
+                    </TouchableOpacity>
 
-                  {/* <View
+                    <View style={{ marginTop: '1%' }}>
+                      <CustomDropdown
+                        placeholder={'Select Joining Standard'}
+                        data={selectedJoiningStandard}
+                        value={st_edit}
+                        //  selectedValue={coursekey}
+                        SelectedLanguagedata={selectedValue => {
+                          //  getSchool(selectedValue);
+                          setJoiningStandardKey(selectedValue);
+                          setJoinStandardedit(selectedValue);
+
+                          var data = [];
+                          data = selectedJoiningStandard.filter(
+                            x => x.value == selectedValue,
+                          );
+
+                          if (data.length > 0) {
+                            setStandardIDParm(data[0].value);
+                          }
+                        }}
+                      />
+
+                      {/* <CustomDropdown label1="Joining Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={JoiningStandard} SelectedLanguagedata={(item) => setJoiningStandard(item)} /> */}
+                    </View>
+
+                    <View style={{ marginTop: '1%' }}>
+                      <CustomDropdown
+                        placeholder={'Select Left Standard'}
+                        data={selectedJoiningStandard}
+                        value={cu_edit}
+                        SelectedLanguagedata={selectedValue => {
+                          setJoiningStandardKey2(selectedValue);
+                          setCurrentStandardedit(selectedValue);
+
+                          var data = [];
+                          data = selectedJoiningStandard.filter(
+                            x => x.value == selectedValue,
+                          );
+
+                          if (data.length > 0) {
+                            setStandardIDParmLeft(data[0].value);
+                          }
+                        }}
+                      />
+                      {/* <CustomDropdown label1="Left Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={LeftStandard} SelectedLanguagedata={(item) => setLeftStandard(item)} /> */}
+                    </View>
+
+                    {/* <View
                     style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                     <TextField
                       placeholder={'Enter School ID'}
@@ -1098,41 +1106,42 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                     />
                   </View> */}
 
-                  <View
-                    style={{
-                      marginTop: '4%',
-                      marginLeft: 2,
-                      marginRight: 2,
-                      marginBottom: '5%',
-                    }}>
-                    <TextField
-                      placeholder={'Add Description of Study...'}
-                      multiline={true}
-                      onChangeText={val => setDes(val)}
-                      editable={false}
-                      value={Des}
-                    />
+                    <View
+                      style={{
+                        marginTop: '4%',
+                        marginLeft: 2,
+                        marginRight: 2,
+                        marginBottom: '5%',
+                      }}>
+                      <TextField
+                        placeholder={'Add Description of Study...'}
+                        multiline={true}
+                        onChangeText={val => setDes(val)}
+                        editable={false}
+                        value={Des}
+                      />
+                    </View>
                   </View>
-                </View>
-              )}
-            </View>
+                )}
+              </View>
 
-            <View>
-              {coursekey == 0 ? (
-                <CustomButton
-                  title={'Save'}
-                  disabled={flag}
-                  onPress={() => CourseAddedOther()}
-                />
-              ) : (
-                <CustomButton title={'Submit'} disabled={flag}
-                  onPress={() => CourseAdded()} />
-              )}
+              <View>
+                {coursekey == 0 ? (
+                  <CustomButton
+                    title={'Save'}
+                    disabled={flag}
+                    onPress={() => CourseAddedOther()}
+                  />
+                ) : (
+                  <CustomButton title={'Submit'} disabled={flag}
+                    onPress={() => CourseAdded()} />
+                )}
+              </View>
             </View>
-          </View>
-        </ScrollView>
-      </View>
-    </KeyboardAwareScrollView>
+          </ScrollView>
+        </View>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

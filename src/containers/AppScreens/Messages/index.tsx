@@ -13,6 +13,7 @@ import {
   Platform,
   BackHandler,
   FlatList,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -276,20 +277,21 @@ const Messages = (props: MessagesScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <CustomStatusBar />
 
-      <View style={styles.child_view}>
-        <TouchableOpacity onPress={onBurgerBarPress}>
-          <Image source={Images.menu_dash} style={styles.image_menu} />
-        </TouchableOpacity>
+        <View style={styles.child_view}>
+          <TouchableOpacity onPress={onBurgerBarPress}>
+            <Image source={Images.menu_dash} style={styles.image_menu} />
+          </TouchableOpacity>
 
-        <View style={styles.tv_view}>
-          <Text style={styles.ZatchUp_tv}>Messages</Text>
-          {/* <Text style={styles.TM_tv}>TM</Text> */}
-        </View>
+          <View style={styles.tv_view}>
+            <Text style={styles.ZatchUp_tv}>Messages</Text>
+            {/* <Text style={styles.TM_tv}>TM</Text> */}
+          </View>
 
-        {/* <View style={styles.Notification_view}>
+          {/* <View style={styles.Notification_view}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Reminders');
@@ -324,76 +326,77 @@ const Messages = (props: MessagesScreenProps) => {
             </Text>
           </View>
         </View> */}
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate('Notifications');
-          }}
-          style={styles.dot_view}>
-          <View>
-            <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Notifications');
+            }}
+            style={styles.dot_view}>
+            <View>
+              <Icon name="bell-outline" size={28} color="#FFFFFF" style={{
 
 
-              marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
-            }} />
-            {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
-            <View
-              style={{
-                position: 'absolute',
-                marginTop: Platform.OS == 'ios' ? 2 : 5,
-                right: 5,
-                alignSelf: 'flex-end',
-                borderRadius: 15,
-                backgroundColor: '#00B200',
-                width: Platform.OS == 'ios' ? 20 : 18,
-                height: Platform.OS == 'ios' ? 20 : 18,
-              }}>
-              <Text
+                marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
+              }} />
+              {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
+              <View
                 style={{
-                  color: '#FFFFFF',
-                  fontSize: 12,
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  marginTop: Platform.OS == 'ios' ? 2 : 0,
+                  position: 'absolute',
+                  marginTop: Platform.OS == 'ios' ? 2 : 5,
+                  right: 5,
+                  alignSelf: 'flex-end',
+                  borderRadius: 15,
+                  backgroundColor: '#00B200',
+                  width: Platform.OS == 'ios' ? 20 : 18,
+                  height: Platform.OS == 'ios' ? 20 : 18,
                 }}>
-                {' '}
-                {unreadnotificationcount}{' '}
-              </Text>
+                <Text
+                  style={{
+                    color: '#FFFFFF',
+                    fontSize: 12,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    marginTop: Platform.OS == 'ios' ? 2 : 0,
+                  }}>
+                  {' '}
+                  {unreadnotificationcount}{' '}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
+
+
+
+        <View style={{ flex: 1 }}>
+
+          <WebView
+            // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
+            source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
+
+            startInLoadingState={true}
+            renderLoading={() => (
+              <ActivityIndicator
+                color='#F8CA00'
+                size='large'
+                style={{ flex: 1 }}
+              />
+            )}
+            ref={webviewRef}
+
+            onNavigationStateChange={navState => {
+
+              console.log('weburl', navState.url);
+
+              //  setCanGoBack(navState.canGoBack)
+              //  setCanGoForward(navState.canGoForward)
+              //  setCurrentUrl(navState.url)
+            }}
+          />
+
+
+        </View>
       </View>
-
-
-
-      <View style={{ flex: 1 }}>
-
-        <WebView
-          // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-          source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-
-          startInLoadingState={true}
-          renderLoading={() => (
-            <ActivityIndicator
-              color='#F8CA00'
-              size='large'
-              style={{ flex: 1 }}
-            />
-          )}
-          ref={webviewRef}
-
-          onNavigationStateChange={navState => {
-
-            console.log('weburl', navState.url);
-
-            //  setCanGoBack(navState.canGoBack)
-            //  setCanGoForward(navState.canGoForward)
-            //  setCurrentUrl(navState.url)
-          }}
-        />
-
-
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

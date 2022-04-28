@@ -43,7 +43,7 @@ export default class Header extends Component<StatusBarProps, StatusBarState> {
                 backgroundColor: 'rgb(70,50,103)',
                 borderBottomLeftRadius: 15,
                 borderBottomRightRadius: 15,
-                
+
             }}>
                 <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center', }}>
 
@@ -73,7 +73,7 @@ export default class Header extends Component<StatusBarProps, StatusBarState> {
                         flex: 1,
                         justifyContent: "center",
                         alignItems: "center",
-                        
+
                     }}>
                         <Text style={{
                             textAlignVertical: "center",

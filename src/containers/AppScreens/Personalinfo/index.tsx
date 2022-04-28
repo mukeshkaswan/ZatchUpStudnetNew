@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Platform, Dimensions, Alert, Button, TouchableOpacity, BackHandler } from 'react-native';
+import { Text, View, StyleSheet, Image, SafeAreaView, KeyboardAvoidingView, Platform, Dimensions, Alert, Button, TouchableOpacity, BackHandler } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown, Validate } from '../../../components';
@@ -388,166 +388,173 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
 
     return (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
-                <CustomStatusBar />
-                {isLoading && renderIndicator()}
+        <SafeAreaView style={{ flex: 1 }}>
 
-                <View style={{
-                    height: Platform.OS === 'ios' ? '10%' : '7%',
-                    backgroundColor: 'rgb(70,50,103)',
-                    borderBottomLeftRadius: 15,
-                    borderBottomRightRadius: 15,
+            <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+                style={{ flex: 1 }}
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.container}>
+                    <CustomStatusBar />
+                    {isLoading && renderIndicator()}
 
-                }}>
-                    <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center', }}>
+                    <View style={{
+                        height: Platform.OS === 'ios' ? '10%' : '7%',
+                        backgroundColor: 'rgb(70,50,103)',
+                        borderBottomLeftRadius: 15,
+                        borderBottomRightRadius: 15,
+
+                    }}>
+                        <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'center', }}>
 
 
-                        <View style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
+                            <View style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
 
-                        }}>
-                            <Text style={{
-                                textAlignVertical: "center",
-                                textAlign: "center",
-                                color: 'white',
-                                fontSize: hp(2.8),
-                                fontFamily: 'Lato-Regular',
+                            }}>
+                                <Text style={{
+                                    textAlignVertical: "center",
+                                    textAlign: "center",
+                                    color: 'white',
+                                    fontSize: hp(2.8),
+                                    fontFamily: 'Lato-Regular',
 
-                                marginTop: Platform.OS === 'ios' ? 30 : 0,
-                            }}>{'Personal Information'}</Text>
+                                    marginTop: Platform.OS === 'ios' ? 10 : 0,
+                                }}>{'Personal Information'}</Text>
+                            </View>
+
+
                         </View>
 
 
+
+
                     </View>
 
+                    {/* <CustomHeader Title={'Personal Information'} Back={'false'} navigation={props.navigation} /> */}
 
-
-
-                </View>
-
-                {/* <CustomHeader Title={'Personal Information'} Back={'false'} navigation={props.navigation} /> */}
-
-                <RBSheet
-                    ref={refRBSheet}
-                    // closeOnDragDown={true}
-                    //closeOnPressMask={false}
-                    height={183}
-                    nabledGestureInteraction={true}
-                    enabledContentTapInteraction={false}
-                    closeOnDragDown={true}
-                    closeOnPressMask={false}
-                    //  openDuration={10}
-                    customStyles={{
-                        wrapper: {
-                            backgroundColor: "transparent"
-                        },
-                        draggableIcon: {
-                            backgroundColor: "#000"
-                        }
-                    }}
-                >
-                    <View style={{
-                        flexDirection: 'column',
-                        alignContent: 'space-around',
-                        //alignItems: 'stretch',
-                        //marginTop: 10
-                    }}>
-
-                        <TouchableOpacity
-                            onPress={() => OpenCamera()}
-                            style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                            <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => getImage()}
-                            style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                            <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => refRBSheet.current.close()}
-                            style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
-                            <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
-                        </TouchableOpacity>
-
-                    </View>
-                </RBSheet>
-
-
-                <View style={{ flex: 1 }}>
-                    <TouchableOpacity
-                        onPress={() => refRBSheet.current.open()}
-                        //onPress={getImage}
-                        style={styles.logoContainer}
+                    <RBSheet
+                        ref={refRBSheet}
+                        // closeOnDragDown={true}
+                        //closeOnPressMask={false}
+                        height={183}
+                        nabledGestureInteraction={true}
+                        enabledContentTapInteraction={false}
+                        closeOnDragDown={true}
+                        closeOnPressMask={false}
+                        //  openDuration={10}
+                        customStyles={{
+                            wrapper: {
+                                backgroundColor: "transparent"
+                            },
+                            draggableIcon: {
+                                backgroundColor: "#000"
+                            }
+                        }}
                     >
+                        <View style={{
+                            flexDirection: 'column',
+                            alignContent: 'space-around',
+                            //alignItems: 'stretch',
+                            //marginTop: 10
+                        }}>
 
-                        <View >
+                            <TouchableOpacity
+                                onPress={() => OpenCamera()}
+                                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
+                            </TouchableOpacity>
 
-                            {frontimage == '' ? <Image style={{
-                                width: 140,
-                                height: 140,
-                                borderRadius: 150 / 2,
-                                overflow: "hidden",
-                                borderWidth: 3,
-                                //borderColor: ""
+                            <TouchableOpacity
+                                onPress={() => getImage()}
+                                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
+                            </TouchableOpacity>
 
-                            }}
-                                //  source={{ uri: frontimage }}
-                                source={Images.crete_camera}
-                            /> : <Image style={{
-                                width: 140,
-                                height: 140,
-                                borderRadius: 150 / 2,
-                                overflow: "hidden",
-                                borderWidth: 3,
-                                //borderColor: ""
+                            <TouchableOpacity
+                                onPress={() => refRBSheet.current.close()}
+                                style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
+                                <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
+                            </TouchableOpacity>
 
-                            }}
-                                source={{ uri: frontimage }}
-                            // source={Images.crete_camera}
-                            />}
+                        </View>
+                    </RBSheet>
 
-                            <View
-                                style={{
-                                    height: 25,
-                                    width: 25,
-                                    borderRadius: 15,
-                                    position: 'absolute',
-                                    right: 20,
-                                    top: 8
-                                }}>
-                                <Image
-                                    source={Images.edit_icon}
-                                    style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
+
+                    <View style={{ flex: 1 }}>
+                        <TouchableOpacity
+                            onPress={() => refRBSheet.current.open()}
+                            //onPress={getImage}
+                            style={styles.logoContainer}
+                        >
+
+                            <View >
+
+                                {frontimage == '' ? <Image style={{
+                                    width: 140,
+                                    height: 140,
+                                    borderRadius: 150 / 2,
+                                    overflow: "hidden",
+                                    borderWidth: 3,
+                                    //borderColor: ""
+
+                                }}
+                                    //  source={{ uri: frontimage }}
+                                    source={Images.crete_camera}
+                                /> : <Image style={{
+                                    width: 140,
+                                    height: 140,
+                                    borderRadius: 150 / 2,
+                                    overflow: "hidden",
+                                    borderWidth: 3,
+                                    //borderColor: ""
+
+                                }}
+                                    source={{ uri: frontimage }}
+                                // source={Images.crete_camera}
+                                />}
+
+                                <View
+                                    style={{
+                                        height: 25,
+                                        width: 25,
+                                        borderRadius: 15,
+                                        position: 'absolute',
+                                        right: 20,
+                                        top: 8
+                                    }}>
+                                    <Image
+                                        source={Images.edit_icon}
+                                        style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
+                                    />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={styles.inputContainer}>
+
+
+                            <View style={styles.inputmarginBottom}>
+
+                                <TextField placeholder={'Enter your Mother Name '} onChangeText={val => setMother(val)} value={Mother}
                                 />
                             </View>
-                        </View>
-                    </TouchableOpacity>
 
-                    <View style={styles.inputContainer}>
+                            <View style={styles.inputmarginBottom}>
+                                <TextField placeholder={'Enter your Father Name'} onChangeText={val => setFather(val)} value={Father}
+                                />
+                            </View>
+                            <View>
+                                <CustomButton title={'Submit'}
+                                    onPress={() => AddProfile()}
+                                // onPress={() => props.navigation.navigate('Approval')}
+                                />
+                            </View>
 
 
-                        <View style={styles.inputmarginBottom}>
 
-                            <TextField placeholder={'Enter your Mother Name '} onChangeText={val => setMother(val)} value={Mother}
-                            />
-                        </View>
 
-                        <View style={styles.inputmarginBottom}>
-                            <TextField placeholder={'Enter your Father Name'} onChangeText={val => setFather(val)} value={Father}
-                            />
-                        </View>
-                        <View>
-                            <CustomButton title={'Submit'}
-                                onPress={() => AddProfile()}
-                            // onPress={() => props.navigation.navigate('Approval')}
-                            />
                         </View>
 
 
@@ -555,13 +562,9 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
 
                     </View>
 
-
-
-
                 </View>
-
-            </View>
-        </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView>
+        </SafeAreaView>
 
     );
 };

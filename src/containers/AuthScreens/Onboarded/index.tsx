@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, Alert, BackHandler } from 'react-native';
+import { Text, View, StyleSheet, Image, SafeAreaView, KeyboardAvoidingView, Dimensions, ScrollView, Alert, BackHandler } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
-import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown ,HeaderTitleWithBack } from '../../../components';
+import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown, HeaderTitleWithBack } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
@@ -154,49 +154,52 @@ const Onboarded = (props: OnboardedScreenProps) => {
     );
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
+      <View style={styles.container}>
 
-      {/* <CustomHeader Title={'Onboarded'} /> */}
+        <CustomStatusBar />
 
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Onboarded"
-      />
+        {/* <CustomHeader Title={'Onboarded'} /> */}
 
-      {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Onboarded"
+        />
 
-      <ScrollView>
+        {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
-        <View style={styles.inputContainer}>
+        <ScrollView>
+
+          <View style={styles.inputContainer}>
 
 
-          <View style={styles.logoContainer}>
+            <View style={styles.logoContainer}>
 
-            <Image source={Images.blue_tick} style={styles.messagelogo} />
+              <Image source={Images.blue_tick} style={styles.messagelogo} />
+            </View>
+
+            <View style={styles.enterTextConatiner}>
+              <Text style={styles.enterText}>Congratulations!</Text>
+            </View>
+
+
+            <View style={styles.enterTextConatiner}>
+              <Text style={styles.enterText_copy}>Your school is Onboarded on ZatchUp.</Text>
+            </View>
+
+
+            <View>
+              {/* <CustomButton title={'Confirm'} onPress={() => props.navigation.navigate('EducationProfile')} /> */}
+              <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) }} />
+
+            </View>
           </View>
 
-          <View style={styles.enterTextConatiner}>
-            <Text style={styles.enterText}>Congratulations!</Text>
-          </View>
 
-
-          <View style={styles.enterTextConatiner}>
-            <Text style={styles.enterText_copy}>Your school is Onboarded on ZatchUp.</Text>
-          </View>
-
-
-          <View>
-            {/* <CustomButton title={'Confirm'} onPress={() => props.navigation.navigate('EducationProfile')} /> */}
-            <CustomButton title={'Confirm'} onPress={() => { props.route.params.data === true ? props.navigation.navigate('EducationProfile', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) : props.navigation.navigate('AlumniNo', { 'school_id': props.route.params.school_id, 'nameofschool': props.route.params.nameofschool, 'school_zatchup_id': props.route.params.school_zatchup_id, 'state': props.route.params.state, 'city': props.route.params.city, 'address': props.route.params.address, 'board': props.route.params.board, 're_verify': props.route.params.re_verify }) }} />
-
-          </View>
-        </View>
-
-
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

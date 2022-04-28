@@ -1,7 +1,5 @@
-
-
 import React, { Component, FC, useState, useEffect } from 'react';
-import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler } from 'react-native';
+import { Text, View, FlatList, SafeAreaView, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler } from 'react-native';
 import styles from './style';
 import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
@@ -89,12 +87,12 @@ const ChatTeacherScreen = (props: ResetPasswordScreenProps) => {
             setLoading(false);
 
             // setSpinnerStart(false);
-           //console.log('results ......school list', results[0].school_id);
-          // getTeacherChatData(results[0].school_id);
-           setLectureData(results);
+            //console.log('results ......school list', results[0].school_id);
+            // getTeacherChatData(results[0].school_id);
+            setLectureData(results);
 
 
-          //  setLectureData(results);
+            //  setLectureData(results);
 
           }
           else if (results && results.length == []) {
@@ -144,7 +142,7 @@ const ChatTeacherScreen = (props: ResetPasswordScreenProps) => {
             setLoading(false);
 
             // setSpinnerStart(false);
-           // console.log('results ......', results);
+            // console.log('results ......', results);
 
           }
           else if (results && results.length == []) {
@@ -165,59 +163,59 @@ const ChatTeacherScreen = (props: ResetPasswordScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="School List"
-      />
-      <FlatList
-        data={lecturedata}
-        renderItem={({ item }) =>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={styles.listCardWrapper}>
-              <View style={styles.userImageWrapper}>
-                <Image style={styles.userImageStyle} source={{uri:item.profile_pic}} />
-              </View>
-              <View style={styles.msgCardRightWrapper}>
-                <View style={styles.msgCardHeaderWrapper}>
-                  <View style={{ flex: 1 }}>
-                    <Text
-                      style={styles.userNameStyle}>
-                      {item.school_name}
-                    </Text>
-                  </View>
-                  <TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen',{'user_id':props.route.params.user_id,'id':item.school_id})}>
-                    <View style={{ }}>
-                      <Image
-                        style={{ height: 25, width: 25,marginRight:10}}
-                        source={Images.rightarrow}
-                      />
+    <SafeAreaView style={{ flex: 1 }}>
+
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="School List"
+        />
+        <FlatList
+          data={lecturedata}
+          renderItem={({ item }) =>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+              <View style={styles.listCardWrapper}>
+                <View style={styles.userImageWrapper}>
+                  <Image style={styles.userImageStyle} source={{ uri: item.profile_pic }} />
+                </View>
+                <View style={styles.msgCardRightWrapper}>
+                  <View style={styles.msgCardHeaderWrapper}>
+                    <View style={{ flex: 1 }}>
+                      <Text
+                        style={styles.userNameStyle}>
+                        {item.school_name}
+                      </Text>
                     </View>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen', { 'user_id': props.route.params.user_id, 'id': item.school_id })}>
+                      <View style={{}}>
+                        <Image
+                          style={{ height: 25, width: 25, marginRight: 10 }}
+                          source={Images.rightarrow}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-            <View
-              style={{
-                height: 2,
-                width: '90%',
-                marginLeft: 100,
-                // marginRight:10,
-                backgroundColor: '#E9E9E9',
-              }}
-            />
-          </ScrollView>
-        }
+              <View
+                style={{
+                  height: 2,
+                  width: '90%',
+                  marginLeft: 100,
+                  // marginRight:10,
+                  backgroundColor: '#E9E9E9',
+                }}
+              />
+            </ScrollView>
+          }
 
-      />
+        />
 
+      </View>
+    </SafeAreaView>
 
-
-
-
-    </View>
 
   );
 }

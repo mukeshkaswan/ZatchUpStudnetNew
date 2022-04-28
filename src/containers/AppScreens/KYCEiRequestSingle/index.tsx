@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, BackHandler, Alert } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, Image, KeyboardAvoidingView, Dimensions, ScrollView, BackHandler, Alert } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader } from '../../../components';
@@ -49,10 +49,10 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
   useEffect(() => {
 
 
-    if(props.route.params.KYCEiRequestMultiple === true){
+    if (props.route.params.KYCEiRequestMultiple === true) {
       getEidetailMulti(props.route.params.school_id);
     }
-    else{
+    else {
       getEidetail();
 
     }
@@ -66,9 +66,9 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
 
 
-   /***************************User GET Logout View Status *******************************/
+  /***************************User GET Logout View Status *******************************/
 
-   const getLogoutView = async () => {
+  const getLogoutView = async () => {
 
 
     var token = '';
@@ -99,7 +99,7 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify, 'schoolid':schoolid});
+            props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify, 'schoolid': schoolid });
 
             // setSpinnerStart(false);
           }
@@ -199,13 +199,13 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
     const data = {
       token: token,
-      is_sent_up:true,
+      is_sent_up: true,
       school_id: schoolid,
       status: "APPROVBYUSER"
     };
 
 
-   // setLoading(true);
+    // setLoading(true);
 
     dispatch(
       userActions.getChangestatusacceptedbyuser({
@@ -267,7 +267,7 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
     };
 
 
-   // setLoading(true);
+    // setLoading(true);
 
     dispatch(
       userActions.getChangestatusacceptedbyusermulti({
@@ -280,13 +280,13 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
               'after Change status accepted by user..',
               JSON.stringify(result, undefined, 2),
             );
-            if(props.route.params.length > 1){
+            if (props.route.params.length > 1) {
               props.navigation.navigate('KYCEiRequestMultiple');
 
-            }else{
+            } else {
               props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify })
             }
-          //  UserCourseDelete();
+            //  UserCourseDelete();
 
           }
 
@@ -360,9 +360,9 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
   };
 
 
-   /***************************User Auth  User Info *******************************/
+  /***************************User Auth  User Info *******************************/
 
-   const getEidetailMulti = async (school_id) => {
+  const getEidetailMulti = async (school_id) => {
 
     var token = '';
     try {
@@ -375,7 +375,7 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
     const data = {
       token: token,
-      school_id:school_id
+      school_id: school_id
 
     };
 
@@ -409,47 +409,51 @@ const KYCEiRequestSingle = (props: eKycSuccesscreenProps) => {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
+      <View style={styles.container}>
 
-      <CustomHeader Title={'Welcome to ZatchUp'} />
+        <CustomStatusBar />
 
-
-      {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
-
-      <ScrollView>
-
-        <View style={styles.inputContainer}>
+        <CustomHeader Title={'Welcome to ZatchUp'} />
 
 
+        {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
-          {/* <View style={styles.enterTextConatiner}>
+        <ScrollView>
+
+          <View style={styles.inputContainer}>
+
+
+
+            {/* <View style={styles.enterTextConatiner}>
                         <Text style={styles.enterText}>Welcome to ZatchUp</Text>
                     </View> */}
 
-          <View style={styles.enterTextConatiner}>
-            <Text style={styles.enterText_}>{message + '.' + ' ' + 'If it is true, please click Add This School to your profile, if is not you, please click Not My School' }</Text>
+            <View style={styles.enterTextConatiner}>
+              <Text style={styles.enterText_}>{message + '.' + ' ' + 'If it is true, please click Add This School to your profile, if is not you, please click Not My School'}</Text>
+            </View>
+
+
+            <View style={{ marginTop: '20%', marginRight: 50, marginLeft: 50, }}>
+              <CustomButton backgroundColor={'green'} title={'Add This School to your profile'} onPress={() => Changestatus()} />
+            </View>
+
+
+            {props.route.params.KYCEiRequestMultiple === true ? <View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
+              <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => Changestatusmulti()} />
+            </View> : <View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
+              <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify }) }} />
+            </View>}
+
+
           </View>
 
 
-          <View style={{ marginTop: '20%', marginRight: 50, marginLeft: 50, }}>
-            <CustomButton backgroundColor={'green'} title={'Add This School to your profile'}  onPress={() => Changestatus()} />
-          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
 
-
-         {props.route.params.KYCEiRequestMultiple === true ? <View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
-            <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => Changestatusmulti()} />
-          </View>:<View style={{ marginTop: 20, marginRight: 80, marginLeft: 80 }}>
-            <CustomButton backgroundColor={'none'} textColor={'red'} title={'Not My School'} onPress={() => { props.navigation.navigate('CurrentSchoolinfo', { data: props.route.params.data, 're_verify': props.route.params.re_verify }) }} />
-          </View>}
-
-          
-        </View>
-
-
-      </ScrollView>
-    </View>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import {
@@ -45,7 +46,7 @@ import {
 
 interface PendingRequestScreenProps {
   navigation: any;
-  route:any;
+  route: any;
 }
 
 const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
@@ -232,7 +233,7 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            props.navigation.navigate('KYCEiRequestSingle', { data: props.route.params.data, 're_verify': props.route.params.re_verify ,'KYCEiRequestMultiple':true,'school_id':school_id,'length':datakey.length});
+            props.navigation.navigate('KYCEiRequestSingle', { data: props.route.params.data, 're_verify': props.route.params.re_verify, 'KYCEiRequestMultiple': true, 'school_id': school_id, 'length': datakey.length });
 
             // setSpinnerStart(false);
           }
@@ -261,74 +262,79 @@ const KYCEiRequestMultiple = (props: PendingRequestScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Sign Up Request"
-      />
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-      {datakey.length > 0 ? <View style={{ }}>
-
-
-        {/* <Text style={styles.pendingtextt}>Requests</Text> */}
-
-        <View
-
-          style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-
-          <Text style={styles.snotext_}>S.No</Text>
-
-          <Text style={styles.snotext}>Zatchup ID</Text>
-          <Text style={styles.lecturetitletext}>School Name</Text>
-          <Text
-            style={{
-              flex: 1,
-              marginHorizontal: 2,
-              textAlign: 'center',
-            }}>
-            Add School
-          </Text>
-
-        </View>
-        <FlatList
-          data={datakey}
-          renderItem={({ item, index }) => (
-            <View
-              style={[styles.coursestextcontainer, { backgroundColor: '#F6F2F2', }]}>
-              <Text style={styles.snotext_}>{index+1}</Text>
-              <Text style={styles.snotext}>{item.status}</Text>
-              <Text style={styles.lecturetitletext}>{item.school_name}</Text>
-              <TouchableOpacity
-                underlayColor="none"
-                onPress={() => getLogoutView(item.school_id)}
-              >
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                  <Image
-                    source={images.add}
-                    style={{ height: 23, width: 23 , marginRight:10,marginTop:5
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-
-            </View>
-          )}
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Sign Up Request"
         />
-      </View> : <View style={styles.boxcontainer}>
-        <Text style={styles.pendingtext}>Requests</Text>
-        <View style={styles.mainbordercontainer}>
-          <View style={styles.bordercontainer}>
-            <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+
+        {datakey.length > 0 ? <View style={{}}>
+
+
+          {/* <Text style={styles.pendingtextt}>Requests</Text> */}
+
+          <View
+
+            style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+
+            <Text style={styles.snotext_}>S.No</Text>
+
+            <Text style={styles.snotext}>Zatchup ID</Text>
+            <Text style={styles.lecturetitletext}>School Name</Text>
+            <Text
+              style={{
+                flex: 1,
+                marginHorizontal: 2,
+                textAlign: 'center',
+              }}>
+              Add School
+            </Text>
+
           </View>
-        </View>
-      </View>}
+          <FlatList
+            data={datakey}
+            renderItem={({ item, index }) => (
+              <View
+                style={[styles.coursestextcontainer, { backgroundColor: '#F6F2F2', }]}>
+                <Text style={styles.snotext_}>{index + 1}</Text>
+                <Text style={styles.snotext}>{item.status}</Text>
+                <Text style={styles.lecturetitletext}>{item.school_name}</Text>
+                <TouchableOpacity
+                  underlayColor="none"
+                  onPress={() => getLogoutView(item.school_id)}
+                >
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Image
+                      source={images.add}
+                      style={{
+                        height: 23, width: 23, marginRight: 10, marginTop: 5
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+
+              </View>
+            )}
+          />
+        </View> : <View style={styles.boxcontainer}>
+          <Text style={styles.pendingtext}>Requests</Text>
+          <View style={styles.mainbordercontainer}>
+            <View style={styles.bordercontainer}>
+              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+            </View>
+          </View>
+        </View>}
 
 
 
-    </View>
+      </View>
+    </SafeAreaView>
+
   );
 };
 export default KYCEiRequestMultiple;

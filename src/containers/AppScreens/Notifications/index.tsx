@@ -7,13 +7,14 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
 import styles from './styles';
 import { Images, Colors } from '../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { CustomStatusBar, CustomHeader } from '../../../components';
+import { CustomStatusBar, CustomHeader, HeaderTitleWithBack } from '../../../components';
 import CardView from 'react-native-cardview';
 import {
   NavigationContainer,
@@ -127,40 +128,45 @@ const Notifications = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar />
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomHeader
+      <View style={styles.container}>
+        <CustomStatusBar />
+        {isLoading && renderIndicator()}
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Notifications"
+        />
+        {/* <CustomHeader
         Title={'Notifications'}
         Back={'true'}
         navigation={props.navigation}
-      />
-      {getFlag === true ? <View style={{ flex: 1 }}>
+      /> */}
+        {getFlag === true ? <View style={{ flex: 1 }}>
 
-        {setdatafromlist.length > 0 ? (
-          <ScrollView style={{ flex: 1 }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                // title="Pull to refresh" 
-                // tintColor="#fff" 
-                //  titleColor="#fff"
-                colors={["rgb(70,50,103)"]}
-              />
+          {setdatafromlist.length > 0 ? (
+            <ScrollView style={{ flex: 1 }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  // title="Pull to refresh" 
+                  // tintColor="#fff" 
+                  //  titleColor="#fff"
+                  colors={["rgb(70,50,103)"]}
+                />
 
-            }>
-            <FlatList
-              data={setdatafromlist}
-              renderItem={({ item }) => (
-                <CardView
-                  cardElevation={5}
-                  cardMaxElevation={5}
-                  cornerRadius={1}
-                  style={styles.Cardview}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {/* <Image
+              }>
+              <FlatList
+                data={setdatafromlist}
+                renderItem={({ item }) => (
+                  <CardView
+                    cardElevation={5}
+                    cardMaxElevation={5}
+                    cornerRadius={1}
+                    style={styles.Cardview}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      {/* <Image
                 source={Images.profile_img2}
                 style={{
                   height: 50,
@@ -170,41 +176,42 @@ const Notifications = (props: NotificationsScreenProps) => {
                 }}
               /> */}
 
-                    <Text style={styles.Title_tv_}>{item.message}</Text>
-                  </View>
-                  <View style={styles.Title_view}>
-                    <Text style={styles.Title_view_child}>{item.recived_time}</Text>
-                  </View>
-                </CardView>
-              )}
-            //  ItemSeparatorComponent={renderIndicator}
-            />
-          </ScrollView>
-
-        ) :
-          <ScrollView style={{ flex: 1 }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                // title="Pull to refresh" 
-                // tintColor="#fff" 
-                //  titleColor="#fff"
-                colors={["rgb(70,50,103)"]}
+                      <Text style={styles.Title_tv_}>{item.message}</Text>
+                    </View>
+                    <View style={styles.Title_view}>
+                      <Text style={styles.Title_view_child}>{item.recived_time}</Text>
+                    </View>
+                  </CardView>
+                )}
+              //  ItemSeparatorComponent={renderIndicator}
               />
+            </ScrollView>
 
-            }>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
-              <Text style={{ fontSize: 15 }}>No records found.</Text>
-            </View>
+          ) :
+            <ScrollView style={{ flex: 1 }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  // title="Pull to refresh" 
+                  // tintColor="#fff" 
+                  //  titleColor="#fff"
+                  colors={["rgb(70,50,103)"]}
+                />
 
-          </ScrollView>
+              }>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
+                <Text style={{ fontSize: 15 }}>No records found.</Text>
+              </View>
 
-        }
-      </View> : null}
+            </ScrollView>
+
+          }
+        </View> : null}
 
 
-    </View>
+      </View>
+    </SafeAreaView>
 
   );
 };

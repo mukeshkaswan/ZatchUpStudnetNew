@@ -120,9 +120,11 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
+      setShow(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow(Platform.OS === 'ios'); // to hide back the picker
+      setMode('date'); // defaulting to date for next open
     }
     //  setDate(currentDate);
     var day = currentDate.getDate();
@@ -389,6 +391,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
             }
 
             if (result.status === false) {
+
               console.warn(JSON.stringify(error, undefined, 2));
 
               if (Email.indexOf('@') != -1) {
@@ -639,6 +642,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 format="YYYY-MMM-DD"
                 display="default"
                 onChange={onChange}
+
               />
             )}
           </View>
@@ -719,7 +723,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
               <Text style={styles.termText}>Terms & Conditions</Text>
             </TouchableOpacity>
             <Text style={styles.agreetext}>
-              
+
               {''} {'and'} {''}
             </Text>
 

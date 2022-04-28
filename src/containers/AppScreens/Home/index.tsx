@@ -15,7 +15,8 @@ import {
   Platform,
   TextInput,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -371,7 +372,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               'after result.....2',
               JSON.stringify(result, undefined, 2),
             );
-            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true ,'LoginfromEducationProfile':true});
+            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true, 'LoginfromEducationProfile': true });
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
           }
           if (!error) {
@@ -1430,7 +1431,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           style={{
                             height: 15,
                             width: 15,
-                            marginTop: 10,
+                            marginTop: Platform.OS === 'ios' ? 8 : 10,
                             marginLeft: 4,
                           }}
                           source={Images.edit_icon}
@@ -1568,9 +1569,9 @@ const HomeScreen = (props: HomeScreenProps) => {
                           />
 
                           <View style={styles.underview} />
-                         {course.standard_detail ? <Text style={styles.Personal_Tv}>
+                          {course.standard_detail ? <Text style={styles.Personal_Tv}>
                             Standard Details
-                          </Text>:null}
+                          </Text> : null}
                           <View style={styles.underview} />
                           {
                             course.standard_detail &&
@@ -1623,7 +1624,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                                             <View style={styles.view_Row}>
                                               <Text style={styles.view_Tv_1}>
-                                               Class Alias :
+                                                Class Alias :
                                               </Text>
                                               <Text style={styles.view_Tv_2}>
                                                 {class_i.alias_class}
@@ -1653,7 +1654,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                                   style={{
                                                     height: 15,
                                                     width: 15,
-                                                    marginTop: 10,
+                                                    marginTop: Platform.OS === 'ios' ? 8 : 10,
                                                     marginLeft: 4,
                                                   }}
                                                   source={Images.edit_icon}
@@ -1910,49 +1911,51 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {/* <CustomStatusBar /> */}
-      {isLoading && renderIndicator()}
-      <View
-        style={{
-          height: Platform.OS === 'ios' ? '10%' : '7%',
-          backgroundColor: 'rgb(70,50,103)',
-          //   borderBottomLeftRadius: 15,
-          //   borderBottomRightRadius: 15,
-        }}>
-        <View
-          style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
-          <TouchableOpacity
-            onPress={backPressed}
-            style={{
-              marginTop: Platform.OS === 'ios' ? 30 : 10,
-              marginLeft: 10,
-            }}>
-            <Icon name="arrow-left" size={25} color="white" />
-          </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1 }}>
 
+      <View style={styles.container}>
+        {/* <CustomStatusBar /> */}
+        {isLoading && renderIndicator()}
+        <View
+          style={{
+            height: Platform.OS === 'ios' ? '8%' : '7%',
+            backgroundColor: 'rgb(70,50,103)',
+            //   borderBottomLeftRadius: 15,
+            //   borderBottomRightRadius: 15,
+          }}>
           <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
+            style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
+            <TouchableOpacity
+              onPress={backPressed}
               style={{
-                textAlignVertical: 'center',
-                textAlign: 'center',
-                color: 'white',
-                fontSize: hp(2.8),
-                marginRight: 20,
-                fontFamily: 'Lato-Regular',
-                marginTop: Platform.OS === 'ios' ? 30 : 5,
+                marginTop: Platform.OS === 'ios' ? 15 : 10,
+                marginLeft: 10,
               }}>
-              {'My Education Profile'}
-            </Text>
+              <Icon name="arrow-left" size={30} color="white" />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  textAlignVertical: 'center',
+                  textAlign: 'center',
+                  color: 'white',
+                  fontSize: hp(2.8),
+                  marginRight: 20,
+                  fontFamily: 'Lato-Regular',
+                  marginTop: Platform.OS === 'ios' ? 15 : 5,
+                }}>
+                {'My Education Profile'}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      {/* <View style={styles.child_view}>
+        {/* <View style={styles.child_view}>
         <TouchableOpacity onPress={onBurgerBarPress}>
           <Image source={Images.menu_dash} style={styles.image_menu} />
         </TouchableOpacity>
@@ -2026,190 +2029,190 @@ const HomeScreen = (props: HomeScreenProps) => {
           </View>
         </TouchableOpacity>
       </View> */}
-      <ScrollView style={{ flex: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            // title="Pull to refresh" 
-            // tintColor="#fff" 
-            //  titleColor="#fff"
-            colors={["rgb(70,50,103)"]}
-          />
+        <ScrollView style={{ flex: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              // title="Pull to refresh" 
+              // tintColor="#fff" 
+              //  titleColor="#fff"
+              colors={["rgb(70,50,103)"]}
+            />
 
-        }>
-
-
-
-        <View >
+          }>
 
 
-          <RBSheet
-            ref={refRBSheet}
-            // closeOnDragDown={true}
-            //closeOnPressMask={false}
-            height={183}
-            nabledGestureInteraction={true}
-            enabledContentTapInteraction={false}
-            closeOnDragDown={true}
-            closeOnPressMask={false}
-            //  openDuration={10}
-            customStyles={{
-              wrapper: {
-                backgroundColor: "transparent"
-              },
-              draggableIcon: {
-                backgroundColor: "#000"
-              }
-            }}
-          >
-            <View style={{
-              flexDirection: 'column',
-              alignContent: 'space-around',
-              //alignItems: 'stretch',
-              //marginTop: 10
-            }}>
+
+          <View >
+
+
+            <RBSheet
+              ref={refRBSheet}
+              // closeOnDragDown={true}
+              //closeOnPressMask={false}
+              height={183}
+              nabledGestureInteraction={true}
+              enabledContentTapInteraction={false}
+              closeOnDragDown={true}
+              closeOnPressMask={false}
+              //  openDuration={10}
+              customStyles={{
+                wrapper: {
+                  backgroundColor: "transparent"
+                },
+                draggableIcon: {
+                  backgroundColor: "#000"
+                }
+              }}
+            >
+              <View style={{
+                flexDirection: 'column',
+                alignContent: 'space-around',
+                //alignItems: 'stretch',
+                //marginTop: 10
+              }}>
+
+                <TouchableOpacity
+                  onPress={() => OpenCamera()}
+                  style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                  <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => getImage()}
+                  style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
+                  <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => refRBSheet.current.close()}
+                  style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
+                  <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
+                </TouchableOpacity>
+
+              </View>
+            </RBSheet>
+            {kyc_approved == '1' ? (<TouchableOpacity onPress={() => props.navigation.navigate('PendingRequestScreen')} >
+              <Image
+                style={{
+                  height: 32,
+                  width: 32,
+                  marginTop: 10,
+                  marginRight: 18,
+                  alignSelf: 'flex-end'
+                }}
+                source={Images.pending}
+              />
+            </TouchableOpacity>
+            ) : null}
+            <View style={styles.avatarStyle}>
 
               <TouchableOpacity
-                onPress={() => OpenCamera()}
-                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
-              </TouchableOpacity>
+                onPress={() => refRBSheet.current.open()}
+              //onPress={getImage}
 
-              <TouchableOpacity
-                onPress={() => getImage()}
-                style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
-              </TouchableOpacity>
+              >
 
-              <TouchableOpacity
-                onPress={() => refRBSheet.current.close()}
-                style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
-                <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
+                <View >
+                  <Image
+                    source={{ uri: profilepic }}
+                    style={{
+                      height: 100,
+                      width: 100,
+                      resizeMode: 'cover',
+                      borderRadius: 50,
+                    }}
+                  />
+
+                </View>
+
+                {profilepic != '' ? <View
+                  style={{
+                    height: 25,
+                    width: 25,
+                    borderRadius: 15,
+                    position: 'absolute',
+                    bottom: 5,
+                  }}>
+                  <Image
+                    source={Images.edit_icon}
+                    style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
+                  />
+                </View> : null}
               </TouchableOpacity>
+              {kyc_approved == '1' ? (
+                <View
+                  style={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: 15,
+                    position: 'absolute',
+                    right: 0,
+                  }}>
+                  <Image
+                    source={Images.blue_tick}
+                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
+                  />
+                </View>
+              ) : null}
 
             </View>
-          </RBSheet>
-          {kyc_approved == '1' ? (<TouchableOpacity onPress={() => props.navigation.navigate('PendingRequestScreen')} >
-            <Image
-              style={{
-                height: 32,
-                width: 32,
-                marginTop: 10,
-                marginRight: 18,
-                alignSelf: 'flex-end'
-              }}
-              source={Images.pending}
-            />
-          </TouchableOpacity>
-          ) : null}
-          <View style={styles.avatarStyle}>
-
-            <TouchableOpacity
-              onPress={() => refRBSheet.current.open()}
-            //onPress={getImage}
-
-            >
-
-              <View >
-                <Image
-                  source={{ uri: profilepic }}
-                  style={{
-                    height: 100,
-                    width: 100,
-                    resizeMode: 'cover',
-                    borderRadius: 50,
-                  }}
-                />
-
-              </View>
-
-              {profilepic != '' ? <View
-                style={{
-                  height: 25,
-                  width: 25,
-                  borderRadius: 15,
-                  position: 'absolute',
-                  bottom: 5,
-                }}>
-                <Image
-                  source={Images.edit_icon}
-                  style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
-                />
-              </View> : null}
-            </TouchableOpacity>
-            {kyc_approved == '1' ? (
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  borderRadius: 15,
-                  position: 'absolute',
-                  right: 0,
-                }}>
-                <Image
-                  source={Images.blue_tick}
-                  style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
-                />
-              </View>
-            ) : null}
 
           </View>
+          <Text style={styles.textStyle}>{username}</Text>
 
-        </View>
-        <Text style={styles.textStyle}>{username}</Text>
-
-        {zatchupid != null ? <Text style={styles.textStyle_text}>
-          {'Unique ZatchUp ID ' + ': ' + zatchupid}
-        </Text> : <Text style={styles.textStyle_text}>
-          {'Unique ZatchUp ID ' + ': ' + 'XXXXXXXXX'}
-        </Text>}
+          {zatchupid != null ? <Text style={styles.textStyle_text}>
+            {'Unique ZatchUp ID ' + ': ' + zatchupid}
+          </Text> : <Text style={styles.textStyle_text}>
+            {'Unique ZatchUp ID ' + ': ' + 'XXXXXXXXX'}
+          </Text>}
 
 
 
-        <View style={styles.view}>
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            cornerRadius={10}
-            style={styles.Cardview}>
-            <View style={styles.view_Rowbg}>
-              <Text style={styles.Personal_Tvheader}>Personal Information</Text>
-            </View>
-
-            <View
-              style={{
-                height: 1,
-                width: '88%',
-                marginLeft: 20,
-                backgroundColor: '#E5E5E5',
-              }}
-            />
-
-            <View style={styles.underview} />
-            <View style={styles.view_Row}>
-              <Text style={styles.view_Tv_1}>DOB :</Text>
-              {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("YYYY-MM-DD")}</Text> : null}
-            </View>
-
-            {gender == 'M' ? (
-              <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>Gender :</Text>
-                <Text style={styles.view_Tv_2}>Male</Text>
+          <View style={styles.view}>
+            <CardView
+              cardElevation={5}
+              cardMaxElevation={5}
+              cornerRadius={10}
+              style={styles.Cardview}>
+              <View style={styles.view_Rowbg}>
+                <Text style={styles.Personal_Tvheader}>Personal Information</Text>
               </View>
-            ) : gender == 'F' ? (
-              <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>Gender :</Text>
-                <Text style={styles.view_Tv_2}>Female</Text>
-              </View>
-            ) : (
-              <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>Gender :</Text>
-                <Text style={styles.view_Tv_2}>Custom</Text>
-              </View>
-            )}
 
-            {/* {email != '' ? 
+              <View
+                style={{
+                  height: 1,
+                  width: '88%',
+                  marginLeft: 20,
+                  backgroundColor: '#E5E5E5',
+                }}
+              />
+
+              <View style={styles.underview} />
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>DOB :</Text>
+                {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("YYYY-MM-DD")}</Text> : null}
+              </View>
+
+              {gender == 'M' ? (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>Gender :</Text>
+                  <Text style={styles.view_Tv_2}>Male</Text>
+                </View>
+              ) : gender == 'F' ? (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>Gender :</Text>
+                  <Text style={styles.view_Tv_2}>Female</Text>
+                </View>
+              ) : (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>Gender :</Text>
+                  <Text style={styles.view_Tv_2}>Custom</Text>
+                </View>
+              )}
+
+              {/* {email != '' ? 
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Email :</Text>
                 <Text style={styles.view_Tv_2}>{email}</Text>
@@ -2222,106 +2225,106 @@ const HomeScreen = (props: HomeScreenProps) => {
             :null} */}
 
 
-            {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.view_Row_}>
-              <Text style={styles.view_Tv_1}>pronoun :</Text>
-              <Text style={styles.view_Tv_2}>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
-            </View> : null}
+              {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.view_Row_}>
+                <Text style={styles.view_Tv_1}>pronoun :</Text>
+                <Text style={styles.view_Tv_2}>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
+              </View> : null}
 
-            {email != '' ? <View style={styles.view_Row_}>
-              <Text style={styles.view_Tv_1}>Email :</Text>
-              <Text style={styles.view_Tv_2}>{email}</Text>
-            </View> : null}
+              {email != '' ? <View style={styles.view_Row_}>
+                <Text style={styles.view_Tv_1}>Email :</Text>
+                <Text style={styles.view_Tv_2}>{email}</Text>
+              </View> : null}
 
-            {phone != '' ? <View style={styles.view_Row_}>
-              <Text style={styles.view_Tv_1}>Phone :</Text>
-              <Text style={styles.view_Tv_2}>{phone}</Text>
-            </View> : null}
-
-
-            <View style={styles.view_Row_}>
-              <Text style={styles.view_Tv_1}>Father's Name :</Text>
-              <Text style={styles.view_Tv_2}>{fathername}</Text>
-            </View>
-
-            <View style={styles.view_Row_Child}>
-              <Text style={styles.view_Tv_1}>Mother's Name :</Text>
-              <Text style={styles.view_Tv_2}>{mothername}</Text>
-            </View>
+              {phone != '' ? <View style={styles.view_Row_}>
+                <Text style={styles.view_Tv_1}>Phone :</Text>
+                <Text style={styles.view_Tv_2}>{phone}</Text>
+              </View> : null}
 
 
-          </CardView>
-
-
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            cornerRadius={10}
-            style={styles.Cardview}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-              <Text style={styles.Personal_Tv}>Your Current City</Text>
-
-              {country == null ? <TouchableOpacity
-                underlayColor="none"
-                onPress={toggleModal}
-              >
-                <Image
-                  style={{
-                    height: 28,
-                    width: 28,
-                    marginTop: 10,
-                    marginRight: 15,
-                  }}
-                  source={Images.add_more}
-                />
-              </TouchableOpacity> : <TouchableOpacity
-                underlayColor="none"
-                onPress={toggleModal}
-              >
-                <Image
-                  style={{
-                    height: 28,
-                    width: 28,
-
-                    marginTop: 10,
-                    // marginLeft: 20,
-                    marginRight: 15,
-                  }}
-                  source={Images.edit_icon}
-                />
-              </TouchableOpacity>}
-
-
-
-            </View>
-
-            <View
-              style={{
-                height: 1,
-                width: '82%',
-                marginLeft: 20,
-                marginTop: 10,
-                backgroundColor: '#E5E5E5',
-              }}
-            />
-
-
-            {country != '' && country != null ? <View>
-              <View style={styles.view_Row}>
-                <Text style={styles.view_Tv_1}>City :</Text>
-                <Text style={styles.view_Tv_2}>{city}</Text>
+              <View style={styles.view_Row_}>
+                <Text style={styles.view_Tv_1}>Father's Name :</Text>
+                <Text style={styles.view_Tv_2}>{fathername}</Text>
               </View>
 
-              <View style={styles.view_Row}>
-                <Text style={styles.view_Tv_1}>State :</Text>
-                <Text style={styles.view_Tv_2}>{state}</Text>
+              <View style={styles.view_Row_Child}>
+                <Text style={styles.view_Tv_1}>Mother's Name :</Text>
+                <Text style={styles.view_Tv_2}>{mothername}</Text>
               </View>
 
-              <View style={styles.view_Row}>
-                <Text style={styles.view_Tv_1}>Country :</Text>
-                <Text style={styles.view_Tv_2}>{country}</Text>
+
+            </CardView>
+
+
+            <CardView
+              cardElevation={5}
+              cardMaxElevation={5}
+              cornerRadius={10}
+              style={styles.Cardview}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                <Text style={styles.Personal_Tv}>Your Current City</Text>
+
+                {country == null ? <TouchableOpacity
+                  underlayColor="none"
+                  onPress={toggleModal}
+                >
+                  <Image
+                    style={{
+                      height: 28,
+                      width: 28,
+                      marginTop: 10,
+                      marginRight: 15,
+                    }}
+                    source={Images.add_more}
+                  />
+                </TouchableOpacity> : <TouchableOpacity
+                  underlayColor="none"
+                  onPress={toggleModal}
+                >
+                  <Image
+                    style={{
+                      height: 28,
+                      width: 28,
+
+                      marginTop: 10,
+                      // marginLeft: 20,
+                      marginRight: 15,
+                    }}
+                    source={Images.edit_icon}
+                  />
+                </TouchableOpacity>}
+
+
+
               </View>
 
-            </View> : null}
+              <View
+                style={{
+                  height: 1,
+                  width: '82%',
+                  marginLeft: 20,
+                  marginTop: 10,
+                  backgroundColor: '#E5E5E5',
+                }}
+              />
+
+
+              {country != '' && country != null ? <View>
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>City :</Text>
+                  <Text style={styles.view_Tv_2}>{city}</Text>
+                </View>
+
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>State :</Text>
+                  <Text style={styles.view_Tv_2}>{state}</Text>
+                </View>
+
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>Country :</Text>
+                  <Text style={styles.view_Tv_2}>{country}</Text>
+                </View>
+
+              </View> : null}
 
 
 
@@ -2329,73 +2332,73 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
 
-            <View
-              style={styles.underview}
-            />
-            {/* <View style={styles.view_Row_}>
+              <View
+                style={styles.underview}
+              />
+              {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>
               <Image
                 style={{ marginLeft: 10, marginTop: 5 }}
                 source={Images.verfied}
               />
             </View> */}
-          </CardView>
+            </CardView>
 
 
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            cornerRadius={10}
-            style={styles.Cardview}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={styles.Personal_Tv}>Work Details</Text>
+            <CardView
+              cardElevation={5}
+              cardMaxElevation={5}
+              cornerRadius={10}
+              style={styles.Cardview}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={styles.Personal_Tv}>Work Details</Text>
 
-              <TouchableOpacity
-                underlayColor="none"
-                onPress={() => props.navigation.navigate('WorkDetailsScreen', { 'data': false })}>
-                <Image
-                  style={{
-                    height: 28,
-                    width: 28,
-                    marginTop: 10,
-                    marginLeft: 20,
-                    marginRight: 15,
-                  }}
-                  source={Images.add_more}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="none"
+                  onPress={() => props.navigation.navigate('WorkDetailsScreen', { 'data': false })}>
+                  <Image
+                    style={{
+                      height: 28,
+                      width: 28,
+                      marginTop: 10,
+                      marginLeft: 20,
+                      marginRight: 15,
+                    }}
+                    source={Images.add_more}
+                  />
+                </TouchableOpacity>
 
-            </View>
+              </View>
 
-            <View
-              style={{
-                height: 1,
-                width: '82%',
-                marginLeft: 20,
-                marginTop: 10,
-                backgroundColor: '#E5E5E5',
-              }}
-            />
+              <View
+                style={{
+                  height: 1,
+                  width: '82%',
+                  marginLeft: 20,
+                  marginTop: 10,
+                  backgroundColor: '#E5E5E5',
+                }}
+              />
 
 
-            <View
-              style={styles.underview}
-            />
+              <View
+                style={styles.underview}
+              />
 
-            <FlatList
-              style={{ marginBottom: 10 }}
-              data={setdatafromworklist}
-              renderItem={({ item }) => (
-                <View>
-                  <View style={{ marginTop: 10, paddingHorizontal: 16, flexDirection: 'row', flex: 1 }}>
-                    <Image source={require('../../../assets/images/college2.jpg')}
-                      style={{ height: 80, width: 120, flex: 1.5, borderRadius: 5, resizeMode: 'contain' }}
-                    />
-                    <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, color: '#000' }}>{item.job_title}</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                          {/* <Image
+              <FlatList
+                style={{ marginBottom: 10 }}
+                data={setdatafromworklist}
+                renderItem={({ item }) => (
+                  <View>
+                    <View style={{ marginTop: 10, paddingHorizontal: 16, flexDirection: 'row', flex: 1 }}>
+                      <Image source={require('../../../assets/images/college2.jpg')}
+                        style={{ height: 80, width: 120, flex: 1.5, borderRadius: 5, resizeMode: 'contain' }}
+                      />
+                      <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <Text style={{ fontSize: 16, color: '#000' }}>{item.job_title}</Text>
+                          <View style={{ flexDirection: 'row' }}>
+                            {/* <Image
                             style={{
                               height: 28,
                               width: 28,
@@ -2406,84 +2409,84 @@ const HomeScreen = (props: HomeScreenProps) => {
                             }}
                             source={Images.edit_icon}
                           /> */}
-                          <TouchableOpacity
-                            underlayColor="none"
-                            onPress={() => DeleteWork(item.id)}>
+                            <TouchableOpacity
+                              underlayColor="none"
+                              onPress={() => DeleteWork(item.id)}>
 
-                            <Image
-                              style={{
-                                height: 28,
-                                width: 28,
+                              <Image
+                                style={{
+                                  height: 28,
+                                  width: 28,
 
-                                marginTop: 5,
-                                // marginLeft: 20,
-                                marginRight: 15,
-                              }}
-                              source={Images.delete_icon}
-                            />
-                          </TouchableOpacity>
+                                  marginTop: 5,
+                                  // marginLeft: 20,
+                                  marginRight: 15,
+                                }}
+                                source={Images.delete_icon}
+                              />
+                            </TouchableOpacity>
 
+                          </View>
                         </View>
-                      </View>
 
-                      <Text style={{ fontSize: 16, }}>{item.company_name}</Text>
-                      {item.is_currently_work == true ? <Text>{item.start_date + ' - ' + 'Present'}</Text> : <Text>{item.start_date + ' - ' + item.end_date}</Text>}
-                      <Text>{item.work_country + '  ' + item.work_state + '  ' + item.work_city}</Text>
+                        <Text style={{ fontSize: 16, }}>{item.company_name}</Text>
+                        {item.is_currently_work == true ? <Text>{item.start_date + ' - ' + 'Present'}</Text> : <Text>{item.start_date + ' - ' + item.end_date}</Text>}
+                        <Text>{item.work_country + '  ' + item.work_state + '  ' + item.work_city}</Text>
+                      </View>
                     </View>
+                    <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15, }}>{item.work_description}</Text>
                   </View>
-                  <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15, }}>{item.work_description}</Text>
-                </View>
-              )}
-            //  ItemSeparatorComponent={renderIndicator}
-            />
-            {/* <View style={styles.view_Row_}>
+                )}
+              //  ItemSeparatorComponent={renderIndicator}
+              />
+              {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>
               <Image
                 style={{ marginLeft: 10, marginTop: 5 }}
                 source={Images.verfied}
               />
             </View> */}
-          </CardView>
+            </CardView>
 
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            cornerRadius={10}
-            style={{
-              backgroundColor: '#FFFFFF',
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 30,
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 2 },
-              shadowRadius: 6,
-              shadowOpacity: 0.26,
-              elevation: 8,
-              //  backgroundColor: 'white',
-              //  padding: 20,
-              borderRadius: 5,
-              marginBottom: 10
-            }}>
+            <CardView
+              cardElevation={5}
+              cardMaxElevation={5}
+              cornerRadius={10}
+              style={{
+                backgroundColor: '#FFFFFF',
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 30,
+                shadowColor: 'black',
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 6,
+                shadowOpacity: 0.26,
+                elevation: 8,
+                //  backgroundColor: 'white',
+                //  padding: 20,
+                borderRadius: 5,
+                marginBottom: 10
+              }}>
 
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={styles.Personal_Tv}>Add School</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={styles.Personal_Tv}>Add School</Text>
 
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey', 'ei_request_count': 0 })}>
-                <Image
-                  style={{
-                    height: 28,
-                    width: 28,
-                    marginTop: 10,
-                    marginLeft: 20,
-                    marginRight: 15,
-                  }}
-                  source={Images.add_more}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey', 'ei_request_count': 0 })}>
+                  <Image
+                    style={{
+                      height: 28,
+                      width: 28,
+                      marginTop: 10,
+                      marginLeft: 20,
+                      marginRight: 15,
+                    }}
+                    source={Images.add_more}
+                  />
+                </TouchableOpacity>
 
-              {/* <TouchableOpacity
+                {/* <TouchableOpacity
                onPress={() => props.navigation.navigate('CurrentSchoolinfo',{'data':false})}>
               <Image
                 style={styles.editicon1}
@@ -2491,244 +2494,246 @@ const HomeScreen = (props: HomeScreenProps) => {
               />
               </TouchableOpacity> */}
 
-            </View>
-
-
-            <View
-              style={{
-                height: 1,
-                width: '82%',
-                marginLeft: 20,
-                marginTop: 10,
-                backgroundColor: '#E5E5E5',
-              }}
-            />
-
-
-            <View
-              style={styles.underview}
-            />
-          </CardView>
-
-          <FlatList
-            data={setdatafromlist}
-            // keyExtractor={item => item.id.toString()}
-            ItemSeparatorComponent={ItemSeprator}
-            //  ItemSeparatorComponent={this.SeparatorComponent}
-            renderItem={({ item, index }) => rednderItemList(item, index)}
-          />
-        </View>
-
-        {/* add your city modal */}
-        <Modal animationType="slide"
-          style={{
-            padding: 0, justifyContent: 'flex-end',
-            margin: 0,
-          }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
-
-          <View style={styles.modalContainerCity}>
-
-
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '3%' }}>
-
-              <Text style={{
-                fontSize: 20,
-                // marginLeft: 15,
-                fontWeight: 'bold',
-                color: '#000',
-              }}>Search</Text>
-
-              <TouchableOpacity
-                onPress={toggleModal}
-                style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
-                <Image
-                  source={Images.closeicon}
-                  style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
-                />
-              </TouchableOpacity>
-
-
-              <View style={styles.textinputContainerCity}>
-                <Image
-                  source={Images.location}
-                  style={{ marginLeft: 10, tintColor: 'grey', height: 22, width: 22, }}
-                />
-
-                <TextInput
-                  style={{ width: '85%' }}
-                  //onChangeText={onChangeNumber}
-                  onChangeText={value => getSearchcitydata(value)}
-                  value={cityname}
-                  placeholder="Search City"
-                  keyboardType="default"
-                />
-
               </View>
 
-              {citydata.length > 0 ? <FlatList
-                data={citydata}
-                style={{}}
-                // keyExtractor={item => item.id.toString()}
-                // ItemSeparatorComponent={ItemSepratorcity}
-                //  ItemSeparatorComponent={this.SeparatorComponent}
-                renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
-              /> : null}
+
+              <View
+                style={{
+                  height: 1,
+                  width: '82%',
+                  marginLeft: 20,
+                  marginTop: 10,
+                  backgroundColor: '#E5E5E5',
+                }}
+              />
 
 
-              <TouchableOpacity
-                onPress={() => onPressModalSubmit()}
-                style={styles.submitbtncity}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-              </TouchableOpacity>
-            </View>
+              <View
+                style={styles.underview}
+              />
+            </CardView>
 
-
+            <FlatList
+              data={setdatafromlist}
+              // keyExtractor={item => item.id.toString()}
+              ItemSeparatorComponent={ItemSeprator}
+              //  ItemSeparatorComponent={this.SeparatorComponent}
+              renderItem={({ item, index }) => rednderItemList(item, index)}
+            />
           </View>
-        </Modal>
+
+          {/* add your city modal */}
+          <Modal animationType="slide"
+            style={{
+              padding: 0, justifyContent: 'flex-end',
+              margin: 0,
+            }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
+
+            <View style={styles.modalContainerCity}>
 
 
-        {/* add your admission no modal */}
-        <Modal animationType="slide"
-          style={{
-            padding: 0, justifyContent: 'flex-end',
-            margin: 0,
-          }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
-
-          <View style={styles.modalContainer}>
-
-
-            <View style={{ marginTop: '5%' }}>
-
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                <View>
-
-                </View>
-
+              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '3%' }}>
 
                 <Text style={{
                   fontSize: 20,
                   // marginLeft: 15,
                   fontWeight: 'bold',
                   color: '#000',
-                }}>Admission Number</Text>
+                }}>Search</Text>
 
                 <TouchableOpacity
-                  onPress={toggleModalNo}
-                  style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                  onPress={toggleModal}
+                  style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
                   <Image
                     source={Images.closeicon}
                     style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
                   />
                 </TouchableOpacity>
+
+
+                <View style={styles.textinputContainerCity}>
+                  <Image
+                    source={Images.location}
+                    style={{ marginLeft: 10, tintColor: 'grey', height: 22, width: 22, }}
+                  />
+
+                  <TextInput
+                    style={{ width: '85%' }}
+                    //onChangeText={onChangeNumber}
+                    onChangeText={value => getSearchcitydata(value)}
+                    value={cityname}
+                    placeholder="Search City"
+                    keyboardType="default"
+                  />
+
+                </View>
+
+                {citydata.length > 0 ? <FlatList
+                  data={citydata}
+                  style={{}}
+                  // keyExtractor={item => item.id.toString()}
+                  // ItemSeparatorComponent={ItemSepratorcity}
+                  //  ItemSeparatorComponent={this.SeparatorComponent}
+                  renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
+                /> : null}
+
+
+                <TouchableOpacity
+                  onPress={() => onPressModalSubmit()}
+                  style={styles.submitbtncity}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                </TouchableOpacity>
               </View>
 
 
+            </View>
+          </Modal>
 
 
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+          {/* add your admission no modal */}
+          <Modal animationType="slide"
+            style={{
+              padding: 0, justifyContent: 'flex-end',
+              margin: 0,
+            }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
 
-                <View style={styles.textinputContainer}>
-                  {/* <Image
+            <View style={styles.modalContainer}>
+
+
+              <View style={{ marginTop: '5%' }}>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                  <View>
+
+                  </View>
+
+
+                  <Text style={{
+                    fontSize: 20,
+                    // marginLeft: 15,
+                    fontWeight: 'bold',
+                    color: '#000',
+                  }}>Admission Number</Text>
+
+                  <TouchableOpacity
+                    onPress={toggleModalNo}
+                    style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                    <Image
+                      source={Images.closeicon}
+                      style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+
+
+
+                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+
+                  <View style={styles.textinputContainer}>
+                    {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
 
 
 
-                  <TextInput
-                    placeholder=" Enter admission number"
-                    keyboardType='default'
-                    maxLength={20}
-                    onChangeText={val => setAddmissionnumber(val)}
-                    value={addmissionnumber}
-                  />
+                    <TextInput
+                      placeholder=" Enter admission number"
+                      keyboardType='default'
+                      maxLength={20}
+                      onChangeText={val => setAddmissionnumber(val)}
+                      value={addmissionnumber}
+                    />
+
+                  </View>
+
+
+                  <TouchableOpacity
+                    onPress={() => onPressModalSubmitAdmissionNo()}
+                    style={styles.submitbtn}>
+                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                  </TouchableOpacity>
 
                 </View>
 
-
-                <TouchableOpacity
-                  onPress={() => onPressModalSubmitAdmissionNo()}
-                  style={styles.submitbtn}>
-                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-                </TouchableOpacity>
-
               </View>
+
 
             </View>
+          </Modal>
+
+          {/* add your roll no modal */}
+          <Modal animationType="slide"
+            style={{
+              padding: 0, justifyContent: 'flex-end',
+              margin: 0,
+            }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
+
+            <View style={styles.modalContainer}>
 
 
-          </View>
-        </Modal>
-
-        {/* add your roll no modal */}
-        <Modal animationType="slide"
-          style={{
-            padding: 0, justifyContent: 'flex-end',
-            margin: 0,
-          }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
-
-          <View style={styles.modalContainer}>
+              <View style={{ marginTop: '5%' }}>
 
 
-            <View style={{ marginTop: '5%' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+                  <View>
 
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  </View>
 
-                <View>
+                  <Text style={{
+                    fontSize: 20,
+                    // marginLeft: 15,
+                    fontWeight: 'bold',
+                    color: '#000',
+                  }}>Roll Number</Text>
 
+                  <TouchableOpacity
+                    onPress={toggleModalRollNo}
+                    style={{ alignItems: 'flex-end', marginBottom: 10, marginTop: 10, }}>
+                    <Image
+                      source={Images.closeicon}
+                      style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                    />
+                  </TouchableOpacity>
                 </View>
 
-                <Text style={{
-                  fontSize: 20,
-                  // marginLeft: 15,
-                  fontWeight: 'bold',
-                  color: '#000',
-                }}>Roll Number</Text>
-
-                <TouchableOpacity
-                  onPress={toggleModalRollNo}
-                  style={{ alignItems: 'flex-end', marginBottom: 10, marginTop: 10, }}>
-                  <Image
-                    source={Images.closeicon}
-                    style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
-                <View style={styles.textinputContainer}>
-                  {/* <Image
+                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+                  <View style={styles.textinputContainer}>
+                    {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
 
-                  <TextInput
-                    placeholder=" Enter roll number"
-                    keyboardType='number-pad'
-                    maxLength={20}
-                    onChangeText={val => setRollNo(val)}
-                    value={rollno}
-                  />
+                    <TextInput
+                      placeholder=" Enter roll number"
+                      keyboardType='number-pad'
+                      maxLength={20}
+                      onChangeText={val => setRollNo(val)}
+                      value={rollno}
+                    />
 
+                  </View>
+
+
+                  <TouchableOpacity
+                    onPress={() => onPressModalSubmitRollNo()}
+                    style={styles.submitbtn}>
+                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                  </TouchableOpacity>
                 </View>
 
-
-                <TouchableOpacity
-                  onPress={() => onPressModalSubmitRollNo()}
-                  style={styles.submitbtn}>
-                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-                </TouchableOpacity>
               </View>
 
+
             </View>
+          </Modal>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
 
-
-          </View>
-        </Modal>
-      </ScrollView>
-    </View>
   );
 };
 

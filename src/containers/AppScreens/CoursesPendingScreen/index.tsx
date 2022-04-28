@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import {
@@ -188,7 +189,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
             //   // props.navigation.navigate('SelectStudent'),
             // );
             Toast.show('Course is Deleted successfully', Toast.SHORT),
-            getData()
+              getData()
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -241,10 +242,10 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
           if (result.status === true) {
             setLoading(false);
 
-           
+
             setFlag(true);
             getdataProfile(result),
-            getdataCourse(result);
+              getdataCourse(result);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -394,78 +395,82 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Courses Pending"
-      />
-      {getFlag === true ? <View style={{flex:1}}>
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-      {setdatafromlist.length > 0 ? <CardView
-        cardElevation={5}
-        cardMaxElevation={5}
-        // cornerRadius={15}
-        style={styles.card}>
-        <View style={styles.rowcontainer}>
-          <Text style={styles.title_text}>School Pending Request Details</Text>
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Courses Pending"
+        />
+        {getFlag === true ? <View style={{ flex: 1 }}>
 
-        </View>
+          {setdatafromlist.length > 0 ? <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            // cornerRadius={15}
+            style={styles.card}>
+            <View style={styles.rowcontainer}>
+              <Text style={styles.title_text}>School Pending Request Details</Text>
 
-        <View style={styles.border}></View>
-        <View style={{ marginTop: 15 }}>
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>School Name :</Text>
-            <Text style={styles.view_Tv_2}>{schoolname}</Text>
-          </View>
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>Zatchup ID :</Text>
-            <Text style={styles.view_Tv_2}>{zatchupid}</Text>
-          </View>
+            </View>
 
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>State :</Text>
-            <Text style={styles.view_Tv_2}>{state}</Text>
-          </View>
+            <View style={styles.border}></View>
+            <View style={{ marginTop: 15 }}>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>School Name :</Text>
+                <Text style={styles.view_Tv_2}>{schoolname}</Text>
+              </View>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>Zatchup ID :</Text>
+                <Text style={styles.view_Tv_2}>{zatchupid}</Text>
+              </View>
 
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>Address :</Text>
-            <Text style={styles.view_Tv_2}>{address1}</Text>
-          </View>
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>School Admission Number :</Text>
-            <Text style={styles.view_Tv_2}>{admissonno}</Text>
-          </View>
-          <View style={styles.view_Row}>
-            <Text style={styles.view_Tv_1}>City :</Text>
-            <Text style={styles.view_Tv_2}>{city}</Text>
-          </View>
-        </View>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>State :</Text>
+                <Text style={styles.view_Tv_2}>{state}</Text>
+              </View>
 
-      </CardView> : null}
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>Address :</Text>
+                <Text style={styles.view_Tv_2}>{address1}</Text>
+              </View>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>School Admission Number :</Text>
+                <Text style={styles.view_Tv_2}>{admissonno}</Text>
+              </View>
+              <View style={styles.view_Row}>
+                <Text style={styles.view_Tv_1}>City :</Text>
+                <Text style={styles.view_Tv_2}>{city}</Text>
+              </View>
+            </View>
 
-      {setdatafromlist.length > 0 ? <FlatList
-        data={setdatafromlist}
-        // keyExtractor={item => item.id.toString()}
-        ItemSeparatorComponent={ItemSeprator}
-        //  ItemSeparatorComponent={this.SeparatorComponent}
-        renderItem={({ item, index }) => rednderItemList(item, index)}
-      /> : <View style={styles.boxcontainer}>
-        <Text style={styles.pendingtext}>Courses Pending for Verification</Text>
-        <View style={styles.mainbordercontainer}>
-          <View style={styles.bordercontainer}>
-            <Text style={{ fontSize: 16 }}>Records Not Available</Text>
-          </View>
-        </View>
+          </CardView> : null}
 
-      </View>}
+          {setdatafromlist.length > 0 ? <FlatList
+            data={setdatafromlist}
+            // keyExtractor={item => item.id.toString()}
+            ItemSeparatorComponent={ItemSeprator}
+            //  ItemSeparatorComponent={this.SeparatorComponent}
+            renderItem={({ item, index }) => rednderItemList(item, index)}
+          /> : <View style={styles.boxcontainer}>
+            <Text style={styles.pendingtext}>Courses Pending for Verification</Text>
+            <View style={styles.mainbordercontainer}>
+              <View style={styles.bordercontainer}>
+                <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+              </View>
+            </View>
 
-      </View>:null}
+          </View>}
+
+        </View> : null}
 
 
-    </View>
+      </View>
+    </SafeAreaView>
+
   );
 };
 export default CoursesPendingScreen;

@@ -1,4 +1,4 @@
-import {ScaledSheet} from 'react-native-size-matters';
+import { ScaledSheet } from 'react-native-size-matters';
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
@@ -37,7 +37,6 @@ const styles = ScaledSheet.create({
 
     // borderWidth: '1@ms',
     borderColor: '#C6C6C6',
-    // marginLeft:'20@ms',
     // marginRight:'20@ms',
     height: 50,
     margin: 5,
@@ -65,6 +64,7 @@ const styles = ScaledSheet.create({
     borderColor: 'lightgray',
     borderWidth: 3,
     justifyContent: 'center',
+
   },
   //custom header
   titlecontainer: {
@@ -80,6 +80,7 @@ const styles = ScaledSheet.create({
     color: 'white',
     fontSize: '18@ms',
     textAlign: 'center',
+
   },
 });
 export default styles;

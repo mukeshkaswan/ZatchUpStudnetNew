@@ -1,4 +1,4 @@
-import React, {Component, FC, useState} from 'react';
+import React, { Component, FC, useState } from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  SafeAreaView
 } from 'react-native';
 import styles from './styles';
 import {
@@ -20,13 +21,13 @@ import {
   CustomHeader,
   BackBtn,
 } from '../../../components';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -151,34 +152,34 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.getResetPassword({
           data,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after change password User result',
                 JSON.stringify(result.status, undefined, 2),
-                
+
                 Toast.show(result.message, Toast.SHORT),
                 setLoading(false),
 
 
-                
+
               );
               auth()
-              .signInWithEmailAndPassword(
-                result.data.firebase_username + '@zatchup.com',
-                oldPassword,
-              )
-              .then(({user}) => {
-               // console.log('User==>>', user, oldPassword);
-                auth().currentUser.updatePassword(newPassword);
-                setoldPassword('');
-                setnewPassword('');
-                setconfirmPassword('');
-              
-              })
-              .catch((error) => {
-                console.log('Error=>', error);
-              });
+                .signInWithEmailAndPassword(
+                  result.data.firebase_username + '@zatchup.com',
+                  oldPassword,
+                )
+                .then(({ user }) => {
+                  // console.log('User==>>', user, oldPassword);
+                  auth().currentUser.updatePassword(newPassword);
+                  setoldPassword('');
+                  setnewPassword('');
+                  setconfirmPassword('');
+
+                })
+                .catch((error) => {
+                  console.log('Error=>', error);
+                });
 
 
             }
@@ -205,7 +206,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -218,118 +219,121 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={'always'}
-      style={{flex: 1}}
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <CustomStatusBar />
+    <SafeAreaView style={{ flex: 1 }}>
 
-        <View
-          style={{
-            height: Platform.OS === 'ios' ? '10%' : '11%',
-            backgroundColor: 'rgb(70,50,103)',
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
-          }}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <CustomStatusBar />
+
           <View
-            style={{flexDirection: 'row', width: '100%', alignSelf: 'center'}}>
-            <TouchableOpacity
-              onPress={backPressed}
-              style={{
-                marginTop: Platform.OS === 'ios' ? 30 : 10,
-                marginLeft: 10,
-              }}>
-              <Icon name="arrow-left" size={25} color="white" />
-            </TouchableOpacity>
-
+            style={{
+              height: Platform.OS === 'ios' ? '15%' : '11%',
+              backgroundColor: 'rgb(70,50,103)',
+              borderBottomLeftRadius: 15,
+              borderBottomRightRadius: 15,
+            }}>
             <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
+              style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
+              <TouchableOpacity
+                onPress={backPressed}
                 style={{
-                  textAlignVertical: 'center',
-                  textAlign: 'center',
-                  color: 'white',
-                  fontSize: hp(2.8),
-                  marginRight: 20,
-                  fontFamily: 'Lato-Regular',
-                  marginTop: Platform.OS === 'ios' ? 30 : 5,
+                  marginTop: Platform.OS === 'ios' ? 10 : 10,
+                  marginLeft: 10,
                 }}>
-                {'Change Password'}
-              </Text>
+                <Icon name="arrow-left" size={30} color="white" />
+              </TouchableOpacity>
+
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlignVertical: 'center',
+                    textAlign: 'center',
+                    color: 'white',
+                    fontSize: hp(2.8),
+                    marginRight: 20,
+                    fontFamily: 'Lato-Regular',
+                    marginTop: Platform.OS === 'ios' ? 10 : 5,
+                  }}>
+                  {'Change Password'}
+                </Text>
+              </View>
             </View>
           </View>
+
+          {/* <CustomHeader Title={'Change Password'} Back={'true'} navigation={props.navigation} /> */}
+
+          {isLoading && renderIndicator()}
+
+          {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
+
+          <ScrollView>
+            <View style={styles.inputContainer}>
+              <View style={{ flex: 1 }}>
+                <View style={{ marginTop: '5%' }}>
+                  <TextField
+                    secureTextEntry={SecureTextEntryold}
+                    onIconPress={() => {
+                      setSecureTextEntryold(!SecureTextEntryold);
+                    }}
+                    imageIcon={
+                      SecureTextEntryold == true
+                        ? Images.eye_64
+                        : Images.invisible_64
+                    }
+                    placeholder="Enter Old Password"
+                    onChangeText={val => setoldPassword(val)}
+                    value={oldPassword}
+                  />
+                </View>
+                <View style={{ marginTop: 20 }}>
+                  <TextField
+                    secureTextEntry={SecureTextEntrynew}
+                    onIconPress={() => {
+                      setSecureTextEntrynew(!SecureTextEntrynew);
+                    }}
+                    imageIcon={
+                      SecureTextEntrynew == true
+                        ? Images.eye_64
+                        : Images.invisible_64
+                    }
+                    placeholder="Enter New Password"
+                    onChangeText={val => setnewPassword(val)}
+                    value={newPassword}
+                  />
+                </View>
+                <View style={{ marginTop: 20 }}>
+                  <TextField
+                    secureTextEntry={SecureTextEntryconfirm}
+                    onIconPress={() => {
+                      setSecureTextEntryconfirm(!SecureTextEntryconfirm);
+                    }}
+                    imageIcon={
+                      SecureTextEntryconfirm == true
+                        ? Images.eye_64
+                        : Images.invisible_64
+                    }
+                    placeholder="Confirm Password"
+                    onChangeText={val => setconfirmPassword(val)}
+                    value={confirmPassword}
+                  />
+                </View>
+              </View>
+              <View style={{ marginTop: 30 }}>
+                <CustomButton title="Submit" onPress={submit} />
+              </View>
+            </View>
+          </ScrollView>
         </View>
-
-        {/* <CustomHeader Title={'Change Password'} Back={'true'} navigation={props.navigation} /> */}
-
-        {isLoading && renderIndicator()}
-
-        {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
-
-        <ScrollView>
-          <View style={styles.inputContainer}>
-            <View style={{flex: 1}}>
-              <View style={{marginTop: '5%'}}>
-                <TextField
-                  secureTextEntry={SecureTextEntryold}
-                  onIconPress={() => {
-                    setSecureTextEntryold(!SecureTextEntryold);
-                  }}
-                  imageIcon={
-                    SecureTextEntryold == true
-                      ? Images.eye_64
-                      : Images.invisible_64
-                  }
-                  placeholder="Enter Old Password"
-                  onChangeText={val => setoldPassword(val)}
-                  value={oldPassword}
-                />
-              </View>
-              <View style={{marginTop: 20}}>
-                <TextField
-                  secureTextEntry={SecureTextEntrynew}
-                  onIconPress={() => {
-                    setSecureTextEntrynew(!SecureTextEntrynew);
-                  }}
-                  imageIcon={
-                    SecureTextEntrynew == true
-                      ? Images.eye_64
-                      : Images.invisible_64
-                  }
-                  placeholder="Enter New Password"
-                  onChangeText={val => setnewPassword(val)}
-                  value={newPassword}
-                />
-              </View>
-              <View style={{marginTop: 20}}>
-                <TextField
-                  secureTextEntry={SecureTextEntryconfirm}
-                  onIconPress={() => {
-                    setSecureTextEntryconfirm(!SecureTextEntryconfirm);
-                  }}
-                  imageIcon={
-                    SecureTextEntryconfirm == true
-                      ? Images.eye_64
-                      : Images.invisible_64
-                  }
-                  placeholder="Confirm Password"
-                  onChangeText={val => setconfirmPassword(val)}
-                  value={confirmPassword}
-                />
-              </View>
-            </View>
-            <View style={{marginTop: 30}}>
-              <CustomButton title="Submit" onPress={submit} />
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 export default ResetPassword;

@@ -1,4 +1,4 @@
-import React, {Component, FC, useState} from 'react';
+import React, { Component, FC, useState } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 // import FloatLabelTextInput from 'react-native-floating-label-text-input';
 import styles from './styles';
 import RNPickerSelect from 'react-native-picker-select';
@@ -22,7 +22,7 @@ const CustomDropdown: FC = ({
 }) => {
   // const [selectedLanguage, setSelectedLanguage] = useState();
   return (
-    <View style={{zIndex: 1000}}>
+    <View style={{ zIndex: 1000 }}>
       <View style={styles.dropdownpicker}>
         <RNPickerSelect
           value={value}
@@ -35,7 +35,7 @@ const CustomDropdown: FC = ({
             label: placeholder,
             value: null,
           }}
-          
+
           disabled={disabled}
           // selectedValue={selectedValue}
           //  onValueChange={(value) => SelectedLanguagedata(value)}
@@ -69,10 +69,12 @@ const CustomDropdown: FC = ({
 
 const pickerStyle = {
   inputIOS: {
-    color: '#D0D0D2',
+    color: '#000',
     // paddingHorizontal: 5,
     // backgroundColor: 'red',
     borderRadius: 5,
+    marginLeft: 10,
+
 
   },
   placeholder: {
@@ -89,7 +91,7 @@ const pickerStyle = {
     color: '#000',
     //  paddingHorizontal: 5,
     // backgroundColor: 'red',
-  
+
     borderRadius: 5,
   },
 };

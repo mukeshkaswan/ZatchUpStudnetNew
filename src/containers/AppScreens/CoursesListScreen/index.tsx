@@ -1,5 +1,5 @@
 import React, { Component, FC, useState, useEffect } from 'react';
-import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput } from 'react-native';
+import { Text, View, FlatList, Image, SafeAreaView, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput } from 'react-native';
 import styles from './style.tsx';
 import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
@@ -168,71 +168,73 @@ const CoursesListScreen = (props: ResetPasswordScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Course List"
-      />
-      <View style={styles.rowinputcontainer}>
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-        <View style={styles.textinputcontainer}>
-          <TextInput
-            style={{ paddingLeft: 10 }}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder="Search..."
-            keyboardType='default'
-          />
-          <TouchableOpacity style={styles.applybtn}>
-            <Text style={{ color: 'white' }}>Apply</Text>
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Course List"
+        />
+        <View style={styles.rowinputcontainer}>
+
+          <View style={styles.textinputcontainer}>
+            <TextInput
+              style={{ paddingLeft: 10 }}
+              onChangeText={onChangeNumber}
+              value={number}
+              placeholder="Search..."
+              keyboardType='default'
+            />
+            <TouchableOpacity style={styles.applybtn}>
+              <Text style={{ color: 'white' }}>Apply</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen', { 'id': props.route.params.id })}>
+            <Text style={{ color: 'white' }}>Play History</Text>
           </TouchableOpacity>
+
         </View>
+        {getFlag === true ? <View style={{ flex: 1 }}>
 
-        <TouchableOpacity style={styles.playbtn} onPress={() => props.navigation.navigate('PlayHistoryScreen', { 'id': props.route.params.id })}>
-          <Text style={{ color: 'white' }}>Play History</Text>
-        </TouchableOpacity>
+          {coursedata.length > 0 ? <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+            <Text style={styles.snotext}>S. No</Text>
+            <Text style={styles.lecturetitletext}>Title of Course</Text>
+            <Text style={styles.topictext}>Lecture Count</Text>
+            <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>Action</Text>
+          </View> : null}
 
-      </View>
-      {getFlag === true ? <View style={{ flex: 1 }}>
+          {coursedata.length > 0 ? (<FlatList
+            data={coursedata}
+            renderItem={({ item, index }) =>
 
-        {coursedata.length > 0 ? <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-          <Text style={styles.snotext}>S. No</Text>
-          <Text style={styles.lecturetitletext}>Title of Course</Text>
-          <Text style={styles.topictext}>Lecture Count</Text>
-          <Text style={{ flex: 1, marginHorizontal: 2, textAlign: 'center' }}>Action</Text>
+              <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
+                <Text style={styles.snotext}> {index + 1}</Text>
+                <Text style={styles.lecturetitletext}>{item.course_name}</Text>
+                <Text style={styles.topictext}>{item.number_of_lectures}</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('CoursePreviewScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
+                  <Image
+                    style={styles.image}
+                    source={Images.eye}
+                  />
+                </TouchableOpacity>
+              </View>
+            }
+
+          />
+          ) : (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
+            </View>
+          )}
         </View> : null}
 
-        {coursedata.length > 0 ? (<FlatList
-          data={coursedata}
-          renderItem={({ item, index }) =>
+      </View>
 
-            <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]} >
-              <Text style={styles.snotext}> {index + 1}</Text>
-              <Text style={styles.lecturetitletext}>{item.course_name}</Text>
-              <Text style={styles.topictext}>{item.number_of_lectures}</Text>
-              <TouchableOpacity onPress={() => props.navigation.navigate('CoursePreviewScreen', { 'id': item.id })} style={{ flex: 1, alignItems: 'center' }}>
-                <Image
-                  style={styles.image}
-                  source={Images.eye}
-                />
-              </TouchableOpacity>
-            </View>
-          }
-
-        />
-        ) : (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
-          </View>
-        )}
-      </View> : null}
-
-    </View>
-
-
+    </SafeAreaView>
 
   );
 }

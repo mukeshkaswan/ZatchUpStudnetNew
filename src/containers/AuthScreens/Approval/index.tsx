@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, Alert, BackHandler } from 'react-native';
+import { Text, View, StyleSheet, Image, SafeAreaView, KeyboardAvoidingView, Dimensions, Alert, BackHandler } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
 import OtpInputs from 'react-native-otp-inputs';
@@ -35,21 +35,21 @@ const Approval = (props: ApprovalScreenProps) => {
 
     const gotoNavigate = async () => {
         Alert.alert(
-          'ZatchUp',
-          'Your Profile is Sent for approval !! Please login again to continue.',
-          [
-            {
-              text: 'No',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            {text: 'Yes', onPress: () => submit()},
-          ],
-          {cancelable: false},
+            'ZatchUp',
+            'Your Profile is Sent for approval !! Please login again to continue.',
+            [
+                {
+                    text: 'No',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                { text: 'Yes', onPress: () => submit() },
+            ],
+            { cancelable: false },
         );
         return true;
-      };
-    const submit  = async () => {
+    };
+    const submit = async () => {
 
         var token = '';
         try {
@@ -188,39 +188,42 @@ const Approval = (props: ApprovalScreenProps) => {
 
 
     return (
-        <View style={styles.container}>
-            <CustomStatusBar />
-            <CustomHeader Title={'Approval'} />
-            <ModelComponent isvisible={allSelected} modeltype={'loginagain'} navigation={props.navigation} />
+        <SafeAreaView style={{ flex: 1 }}>
 
-            {/* <View style={styles.logoContainer}>
+            <View style={styles.container}>
+                <CustomStatusBar />
+                <CustomHeader Title={'Approval'} />
+                <ModelComponent isvisible={allSelected} modeltype={'loginagain'} navigation={props.navigation} />
+
+                {/* <View style={styles.logoContainer}>
 
                 <Image source={Images.profile_img2} style={styles.messagelogo} />
             </View> */}
 
 
 
-            <View style={styles.enterTextConatiner}>
-                <Text style={styles.enterText}>Profile Created Successfully</Text>
-            </View>
-            {/* <View style={styles.enterTextConatiner_copy}>
+                <View style={styles.enterTextConatiner}>
+                    <Text style={styles.enterText}>Profile Created Successfully</Text>
+                </View>
+                {/* <View style={styles.enterTextConatiner_copy}>
                 <Text style={styles.enterText_copy}>Your profile is sent to your educational institutions for approval...</Text>
             </View> */}
 
-            <View style={styles.inputContainer}>
+                <View style={styles.inputContainer}>
 
-                <View>
-                    <CustomButton title={'Continue'}
-                        onPress={() => gotoNavigate()}
-                    //  onPress={() => props.navigation.navigate('LoginScreen')}
+                    <View>
+                        <CustomButton title={'Continue'}
+                            onPress={() => gotoNavigate()}
+                        //  onPress={() => props.navigation.navigate('LoginScreen')}
 
-                    />
+                        />
+                    </View>
+
                 </View>
 
+
             </View>
-
-
-        </View>
+        </SafeAreaView>
     );
 };
 

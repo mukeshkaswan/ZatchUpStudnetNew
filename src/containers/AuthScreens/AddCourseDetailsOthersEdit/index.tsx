@@ -9,10 +9,10 @@ import {
   Dimensions,
   ScrollView,
   BackHandler,
-
+  Platform,
+  SafeAreaView
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-
 import styles from './style';
 import { Images } from '../../../components/index';
 import {
@@ -87,9 +87,12 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
+
+      setShow(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow(Platform.OS === 'ios'); // to hide back the picker
+      setMode('date'); // defaulting to date for next open
     }
 
     var MyDateString =
@@ -108,9 +111,11 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
+      setShow1(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow1(Platform.OS === 'ios'); // to hide back the picker
+      setMode1('date'); // defaulting to date for next open
     }
 
     var MyDateString =
@@ -398,28 +403,30 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={'always'}
-      style={{ flex: 1 }}
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <CustomStatusBar />
-        {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-        {/* <CustomHeader Title={'Update Course Details'} /> */}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <CustomStatusBar />
+          {isLoading && renderIndicator()}
 
-        <HeaderTitleWithBack
-          navigation={props.navigation}
-          headerTitle="Update Course Details"
-        />
+          {/* <CustomHeader Title={'Update Course Details'} /> */}
 
-        <ScrollView>
-          <View style={styles.inputContainer}>
-            <TouchableOpacity
-            // onPress={() => props.navigation.navigate('CurrentSchoolinfo')}
-            >
-              <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                {/* <Image
+          <HeaderTitleWithBack
+            navigation={props.navigation}
+            headerTitle="Update Course Details"
+          />
+
+          <ScrollView>
+            <View style={styles.inputContainer}>
+              <TouchableOpacity
+              // onPress={() => props.navigation.navigate('CurrentSchoolinfo')}
+              >
+                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                  {/* <Image
                   style={{
                     marginLeft: 10,
                     width: 25,
@@ -428,51 +435,51 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   }}
                   source={Images.edit_icon}
                 /> */}
-                <Text style={{ marginTop: 2, fontSize: 14, marginLeft: 10 }}>
-                  {props.route.params.nameofschool}
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <View style={{ marginTop: '1%', marginLeft: 2, marginRight: 2 }}>
-              <TextField
-                placeholder={'Enter Course Name'}
-                onChangeText={val => setCourse(val)}
-                value={Course}
-              />
-            </View>
-
-            <View style={{ marginTop: '2%' }}>
-              <CustomDropdown
-                placeholder={'Select Type'}
-                data={CourseTypeOther}
-                // selectedValue={Course_Selected}
-                value={Course_Selected}
-                SelectedLanguagedata={(selectedValue: any) => {
-                  setCourseTypeSelected(selectedValue);
-                  // setID('')
-                }}
-              />
-              {/* <CustomDropdown label1="Course Type" value1="0" label2="Regular" value2="1" label3="Distance" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(selectedValue) => setselectedSchool(selectedValue)} /> */}
-            </View>
-
-
-
-            <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
-              <View style={{ flexDirection: 'row', marginTop: 20 }}>
-
-                <View style={{ flexDirection: 'row', marginLeft: 10, alignItems: 'center' }}>
-                  <Text style={{ fontSize: 16 }}>Student</Text>
-                  <RadioButton value="Student" />
+                  <Text style={{ marginTop: 2, fontSize: 14, marginLeft: 10 }}>
+                    {props.route.params.nameofschool}
+                  </Text>
                 </View>
-                <View style={{ flexDirection: 'row', marginLeft: 20, alignItems: 'center' }}>
-                  <Text style={{ fontSize: 16 }}>Alumni</Text>
-                  <RadioButton value="Alumni" />
-                </View>
+              </TouchableOpacity>
+
+              <View style={{ marginTop: '1%', marginLeft: 2, marginRight: 2 }}>
+                <TextField
+                  placeholder={'Enter Course Name'}
+                  onChangeText={val => setCourse(val)}
+                  value={Course}
+                />
               </View>
 
-            </RadioButton.Group>
-            {/* <RadioGroup
+              <View style={{ marginTop: '2%' }}>
+                <CustomDropdown
+                  placeholder={'Select Type'}
+                  data={CourseTypeOther}
+                  // selectedValue={Course_Selected}
+                  value={Course_Selected}
+                  SelectedLanguagedata={(selectedValue: any) => {
+                    setCourseTypeSelected(selectedValue);
+                    // setID('')
+                  }}
+                />
+                {/* <CustomDropdown label1="Course Type" value1="0" label2="Regular" value2="1" label3="Distance" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(selectedValue) => setselectedSchool(selectedValue)} /> */}
+              </View>
+
+
+
+              <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+                <View style={{ flexDirection: 'row', marginTop: 20 }}>
+
+                  <View style={{ flexDirection: 'row', marginLeft: 10, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16 }}>Student</Text>
+                    <RadioButton value="Student" />
+                  </View>
+                  <View style={{ flexDirection: 'row', marginLeft: 20, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16 }}>Alumni</Text>
+                    <RadioButton value="Alumni" />
+                  </View>
+                </View>
+
+              </RadioButton.Group>
+              {/* <RadioGroup
     size={24}
     thickness={2}
     color='#0A0A0A'
@@ -491,86 +498,87 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   </RadioGroup> */}
 
-            <View style={{ marginTop: '5%' }}>
-              <TouchableOpacity onPress={showDatepicker}>
-                <View style={{}}>
+              <View style={{ marginTop: '5%' }}>
+                <TouchableOpacity onPress={showDatepicker}>
+                  <View style={{}}>
+                    <TextField
+                      placeholder={'Course Up from'}
+                      imageIcon={Images.calendar_icon}
+                      value={date_copy.toString()}
+                      editable={false}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              {value === 'Alumni' ? <TouchableOpacity onPress={showDatepicker1}>
+                <View style={{ marginTop: '5%' }}>
                   <TextField
-                    placeholder={'Course Up from'}
+                    placeholder={'Course Up to'}
                     imageIcon={Images.calendar_icon}
-                    value={date_copy.toString()}
+                    value={date_copy1.toString()}
                     editable={false}
                   />
                 </View>
-              </TouchableOpacity>
-            </View>
-            {value === 'Alumni' ? <TouchableOpacity onPress={showDatepicker1}>
-              <View style={{ marginTop: '5%' }}>
+              </TouchableOpacity> : <Text style={{ marginTop: 20, fontSize: 16, marginLeft: 10 }}>
+                {'To Current'}
+              </Text>}
+
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  minimum={new Date()}
+                  maximumDate={new Date()}
+                  is24Hour={true}
+                  format="YYYY-MMM-DD"
+                  display="default"
+                  onChange={onChange}
+                />
+              )}
+
+              {show1 && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date1}
+                  mode={mode1}
+                  minimumDate={new Date(date)}
+                  maximumDate={new Date()}
+                  is24Hour={true}
+                  format="YYYY-MMM-DD"
+                  display="default"
+                  onChange={onChange1}
+
+                />
+              )}
+
+              <View
+                style={{
+                  marginTop: '5%',
+                  marginLeft: 2,
+                  marginRight: 2,
+                  marginBottom: '5%',
+                }}>
                 <TextField
-                  placeholder={'Course Up to'}
-                  imageIcon={Images.calendar_icon}
-                  value={date_copy1.toString()}
-                  editable={false}
+                  placeholder={'Add Description of Study...'}
+                  multiline={true}
+                  onChangeText={val => setDes(val)}
+                  value={Des}
                 />
               </View>
-            </TouchableOpacity> : <Text style={{ marginTop: 20, fontSize: 16, marginLeft: 10 }}>
-              {'To Current'}
-            </Text>}
 
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                minimum={new Date()}
-                maximumDate={new Date()}
-                is24Hour={true}
-                format="YYYY-MMM-DD"
-                display="default"
-                onChange={onChange}
-              />
-            )}
-
-            {show1 && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date1}
-                mode={mode1}
-                minimumDate={new Date(date)}
-                maximumDate={new Date()}
-                is24Hour={true}
-                format="YYYY-MMM-DD"
-                display="default"
-                onChange={onChange1}
-
-              />
-            )}
-
-            <View
-              style={{
-                marginTop: '5%',
-                marginLeft: 2,
-                marginRight: 2,
-                marginBottom: '5%',
-              }}>
-              <TextField
-                placeholder={'Add Description of Study...'}
-                multiline={true}
-                onChangeText={val => setDes(val)}
-                value={Des}
-              />
+              <View>
+                <CustomButton
+                  title={'Add'}
+                  onPress={() => CourseAdded()}
+                //  onPress={() => props.navigation.navigate('AddMoreCourseDetailsOthers')}
+                />
+              </View>
             </View>
-
-            <View>
-              <CustomButton
-                title={'Add'}
-                onPress={() => CourseAdded()}
-              //  onPress={() => props.navigation.navigate('AddMoreCourseDetailsOthers')}
-              />
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-    </KeyboardAwareScrollView>
+          </ScrollView>
+        </View>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

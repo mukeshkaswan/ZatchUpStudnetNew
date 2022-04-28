@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component, FC, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, BackHandler } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, BackHandler, SafeAreaView } from 'react-native';
 import styles from './style';
 import { Picker } from '@react-native-picker/picker';
 //import {CustomDropdown,Customtextinput2,Customheader} from '../../../components/textinput';
@@ -92,7 +92,7 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
 
     // }
 
-     Changestatus();
+    Changestatus();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -807,74 +807,76 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
     // { selectedSchool != '2' ? props.navigation.navigate('Onboarded', { data: props.route.params.data }) : props.navigation.navigate('AddCourseDetailsOthers') }
   };
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={'always'}
-      style={{ flex: 1 }}
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.maincontainer}>
-        <CustomStatusBar />
-        {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-        {props.route.params.data === true ? (
-          // <CustomHeader Title={'Add Current School'} />
-          <HeaderTitleWithBack
-            navigation={props.navigation}
-            headerTitle="Add Current School"
-          />
-        ) : (
-          // <CustomHeader Title={'Add School'} />
-          <HeaderTitleWithBack
-            navigation={props.navigation}
-            headerTitle="Add School"
-          />
-        )}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.maincontainer}>
+          <CustomStatusBar />
+          {isLoading && renderIndicator()}
 
-        <View style={styles.fillTextContainer}>
-          <Text style={styles.fillText}>Please Fill in the details below:</Text>
-        </View>
-
-        <View style={{ marginBottom: '5%', marginLeft: 25, marginRight: 25 }}>
-          <TextField
-            placeholder={'Enter ZatchUp ID'}
-            onChangeText={val => setID(val)}
-            value={ID}
-            // onEndEditing={val => getDetailZatchupID(val)}
-            //  onEndEditing={() => getDetailZatchupID}
-            onEndEditing={value => getDetailZatchupID()}
-          />
-        </View>
-
-        <View style={styles.underview} />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View style={styles.picker}>
-            <CustomDropdown
-              placeholder={'Select State'}
-              data={selectedState}
-              //selectedValue={statedatkey}
-              value={statedatkey}
-              // selectedValue={selectedSchool}
-              SelectedLanguagedata={selectedValue => {
-                setSchoolKey('');
-                setCityKey('');
-                // getCity(selectedValue);
-                // console.log('selectedValue state test', selectedValue)
-                //  setSelectedState
-                setStateKey(selectedValue);
-
-                if (selectedValue !== null) {
-                  setStateKey(selectedValue);
-                  getCity(selectedValue);
-                }
-              }}
+          {props.route.params.data === true ? (
+            // <CustomHeader Title={'Add Current School'} />
+            <HeaderTitleWithBack
+              navigation={props.navigation}
+              headerTitle="Add Current School"
             />
+          ) : (
+            // <CustomHeader Title={'Add School'} />
+            <HeaderTitleWithBack
+              navigation={props.navigation}
+              headerTitle="Add School"
+            />
+          )}
 
-            {/* <Picker
+          <View style={styles.fillTextContainer}>
+            <Text style={styles.fillText}>Please Fill in the details below:</Text>
+          </View>
+
+          <View style={{ marginBottom: '5%', marginLeft: 25, marginRight: 25 }}>
+            <TextField
+              placeholder={'Enter ZatchUp ID'}
+              onChangeText={val => setID(val)}
+              value={ID}
+              // onEndEditing={val => getDetailZatchupID(val)}
+              //  onEndEditing={() => getDetailZatchupID}
+              onEndEditing={value => getDetailZatchupID()}
+            />
+          </View>
+
+          <View style={styles.underview} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View style={styles.picker}>
+              <CustomDropdown
+                placeholder={'Select State'}
+                data={selectedState}
+                //selectedValue={statedatkey}
+                value={statedatkey}
+                // selectedValue={selectedSchool}
+                SelectedLanguagedata={selectedValue => {
+                  setSchoolKey('');
+                  setCityKey('');
+                  // getCity(selectedValue);
+                  // console.log('selectedValue state test', selectedValue)
+                  //  setSelectedState
+                  setStateKey(selectedValue);
+
+                  if (selectedValue !== null) {
+                    setStateKey(selectedValue);
+                    getCity(selectedValue);
+                  }
+                }}
+              />
+
+              {/* <Picker
             style={styles.pickerItem}
             selectedValue={selectedState}
             onValueChange={(selectedValue) => setSelectedState(selectedValue)}
@@ -883,24 +885,24 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
             <Picker.Item label="Bombay" value="1" />
             <Picker.Item label="Gujaret" value="2" />
           </Picker> */}
-          </View>
-          <View style={styles.picker}>
-            <CustomDropdown
-              placeholder={'Select City'}
-              data={selectedCity}
-              selectedValue={citydatkey}
-              value={citydatkey}
-              //selectedValue={selectedSchool}
-              SelectedLanguagedata={selectedValue => {
-                //  getSchool(selectedValue);
-                if (selectedValue !== null) {
-                  setCityKey(selectedValue);
-                  getSchool(selectedValue);
-                }
-              }}
-            />
+            </View>
+            <View style={styles.picker}>
+              <CustomDropdown
+                placeholder={'Select City'}
+                data={selectedCity}
+                selectedValue={citydatkey}
+                value={citydatkey}
+                //selectedValue={selectedSchool}
+                SelectedLanguagedata={selectedValue => {
+                  //  getSchool(selectedValue);
+                  if (selectedValue !== null) {
+                    setCityKey(selectedValue);
+                    getSchool(selectedValue);
+                  }
+                }}
+              />
 
-            {/* <Picker
+              {/* <Picker
             style={styles.pickerItem}
             selectedValue={selectedCity}
             onValueChange={(selectedValue) => setselectedCity(selectedValue)}
@@ -909,124 +911,125 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
             <Picker.Item label="Noida" value="1" />
             <Picker.Item label="Ghaziabad" value="2" />
           </Picker> */}
+            </View>
           </View>
-        </View>
 
-        <View style={{ marginLeft: 20, marginRight: 20, marginTop: 5 }}>
-          <CustomDropdown
-            placeholder={'Select School'}
-            data={selectedSchool}
-            selectedValue={schooldatkey}
-            value={schooldatkey}
-            //selectedValue={selectedSchool}
-            SelectedLanguagedata={selectedValue => {
+          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 5 }}>
+            <CustomDropdown
+              placeholder={'Select School'}
+              data={selectedSchool}
+              selectedValue={schooldatkey}
+              value={schooldatkey}
+              //selectedValue={selectedSchool}
+              SelectedLanguagedata={selectedValue => {
 
-              setSchoolKey(selectedValue);
-              console.log('selectedValue-selectedValue', selectedValue)
-              var data = [];
-              data = selectedSchool.filter(x => x.value == selectedValue);
-              // console.log('school index address + {" "}+ address2 x',schooldatkey)
-              if (data.length > 0 && selectedValue != 0) {
-                console.log('school name list data', data)
+                setSchoolKey(selectedValue);
+                console.log('selectedValue-selectedValue', selectedValue)
+                var data = [];
+                data = selectedSchool.filter(x => x.value == selectedValue);
+                // console.log('school index address + {" "}+ address2 x',schooldatkey)
+                if (data.length > 0 && selectedValue != 0) {
+                  console.log('school name list data', data)
 
-                var str1 = data[0].address1;
-                var str2 = data[0].address2;
-                var str3 = data[0].pincode;
+                  var str1 = data[0].address1;
+                  var str2 = data[0].address2;
+                  var str3 = data[0].pincode;
 
-                var str4 = str1 + ' ' + str2 + ' ' + str3;
-                // if (data[0].address1 === undefined && data[0].address2 === undefined && data[0].pincode) {
-                //   setaddress('');
+                  var str4 = str1 + ' ' + str2 + ' ' + str3;
+                  // if (data[0].address1 === undefined && data[0].address2 === undefined && data[0].pincode) {
+                  //   setaddress('');
 
-                // } else {
-                //   setaddress(str4);
+                  // } else {
+                  //   setaddress(str4);
 
+                  // }
+                  //console.log('str4',str4)
+
+                  setaddress(str4);
+                  setBoard(data[0].university);
+                  setaddresssingle(data[0].address1);
+                  setID(data[0].school_code);
+                  setopening_date(data[0].opening_date);
+                  setis_onboarded(data[0].is_onboarded);
+                  setSchoolname(data[0].label);
+
+
+                } else {
+                  setaddress('');
+                  setBoard('');
+                  setID('');
+                  setSchoolname('');
+                }
+                // if (selectedValue !== 0) {
+                //   var data = [];
+                //   data = selectedSchool.filter(x => x.value == selectedValue);
+                //   //console.log('school index x',x.value)
+                //   if (data.length > 0) {
+                //     // console.log('school name list data',data[0].university)
+                //     setBoard(data[0].university);
+                //     setaddress(data[0].address1);
+                //     setID(data[0].school_code);
+
+                //   }
                 // }
-                //console.log('str4',str4)
+                // getAddress(selectedValue);
+              }}
+            />
+          </View>
 
-                setaddress(str4);
-                setBoard(data[0].university);
-                setaddresssingle(data[0].address1);
-                setID(data[0].school_code);
-                setopening_date(data[0].opening_date);
-                setis_onboarded(data[0].is_onboarded);
-                setSchoolname(data[0].label);
+          {schooldatkey != '0' ? (
+            <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
+              <TextField
+                placeholder={'Enter School Address'}
+                onChangeText={val => setaddress(val)}
+                value={address}
+                editable={false}
+              />
+            </View>
+          ) : (
+            <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
+              <TextField
+                placeholder={'Enter School Name'}
+                onChangeText={val => setSchoolname(val)}
+                value={schoolname}
+              />
+            </View>
+          )}
 
+          {schooldatkey != '0' ? (
+            <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
+              <TextField
+                placeholder={'Enter Board/University'}
+                onChangeText={val => setBoard(val)}
+                value={Board}
+                editable={false}
+              />
+            </View>
+          ) : (
+            <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
+              <TextField
+                placeholder={'Enter Board/University'}
+                onChangeText={val => setBoard(val)}
+                value={Board}
+              />
+            </View>
+          )}
 
-              } else {
-                setaddress('');
-                setBoard('');
-                setID('');
-                setSchoolname('');
-              }
-              // if (selectedValue !== 0) {
-              //   var data = [];
-              //   data = selectedSchool.filter(x => x.value == selectedValue);
-              //   //console.log('school index x',x.value)
-              //   if (data.length > 0) {
-              //     // console.log('school name list data',data[0].university)
-              //     setBoard(data[0].university);
-              //     setaddress(data[0].address1);
-              //     setID(data[0].school_code);
+          <View
+            style={{
+              flex: 1,
+              marginTop: 30,
+              marginLeft: 20,
+              marginRight: 20,
+              marginBottom: 30,
+            }}>
+            <CustomButton title={'Submit'} onPress={() => onPressSubmit()} />
 
-              //   }
-              // }
-              // getAddress(selectedValue);
-            }}
-          />
+            {/* {selectedSchool != '2' ? <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('Onboarded')} /> : <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EducationProfile')} />} */}
+          </View>
         </View>
-
-        {schooldatkey != '0' ? (
-          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
-            <TextField
-              placeholder={'Enter School Address'}
-              onChangeText={val => setaddress(val)}
-              value={address}
-              editable={false}
-            />
-          </View>
-        ) : (
-          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
-            <TextField
-              placeholder={'Enter School Name'}
-              onChangeText={val => setSchoolname(val)}
-              value={schoolname}
-            />
-          </View>
-        )}
-
-        {schooldatkey != '0' ? (
-          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
-            <TextField
-              placeholder={'Enter Board/University'}
-              onChangeText={val => setBoard(val)}
-              value={Board}
-              editable={false}
-            />
-          </View>
-        ) : (
-          <View style={{ marginLeft: 20, marginRight: 20, marginTop: 15 }}>
-            <TextField
-              placeholder={'Enter Board/University'}
-              onChangeText={val => setBoard(val)}
-              value={Board}
-            />
-          </View>
-        )}
-
-        <View
-          style={{
-            flex: 1,
-            marginTop: 30,
-            marginLeft: 20,
-            marginRight: 20,
-            marginBottom: 30,
-          }}>
-          <CustomButton title={'Submit'} onPress={() => onPressSubmit()} />
-
-          {/* {selectedSchool != '2' ? <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('Onboarded')} /> : <CustomButton title={'Submit'} onPress={() => props.navigation.navigate('EducationProfile')} />} */}
-        </View>
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 export default CurrentSchoolinfo;

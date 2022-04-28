@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import {
@@ -363,141 +364,144 @@ const PendingRequestScreen = (props: PendingRequestScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Pending Requests"
-      />
-      {getFlag === true ? <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-        {data.length > 0 ? <View style={{ marginTop: 10 }}>
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Pending Requests"
+        />
+        {getFlag === true ? <View style={{ flex: 1 }}>
 
-
-          <Text style={styles.pendingtextt}>Pending Requests</Text>
-
-          <View
-
-            style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+          {data.length > 0 ? <View style={{ marginTop: 10 }}>
 
 
-            <Text style={styles.snotext}>Field Name</Text>
-            <Text style={styles.lecturetitletext}>Existing</Text>
-            <Text style={styles.topictext}>New</Text>
-            <Text
-              style={{
-                flex: 1,
-                marginHorizontal: 2,
-                textAlign: 'center',
-              }}>
-              Delete
-            </Text>
+            <Text style={styles.pendingtextt}>Pending Requests</Text>
 
-          </View>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <View
-                style={[styles.coursestextcontainer, { backgroundColor: 'white', }]}>
-                <Text style={styles.snotext}>{item.field_name}</Text>
-                <Text style={styles.lecturetitletext}>{item.old_value}</Text>
-                <Text style={styles.topictext_}>{item.new_value}</Text>
-                <TouchableOpacity
-                  underlayColor="none"
-                  onPress={() => Delete(item.id)}>
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Image
-                      source={images.delete_icon}
-                      style={{ height: 25, width: 25, right: 10 }}
-                    />
-                  </View>
-                </TouchableOpacity>
+            <View
 
+              style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+
+
+              <Text style={styles.snotext}>Field Name</Text>
+              <Text style={styles.lecturetitletext}>Existing</Text>
+              <Text style={styles.topictext}>New</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  marginHorizontal: 2,
+                  textAlign: 'center',
+                }}>
+                Delete
+              </Text>
+
+            </View>
+            <FlatList
+              data={data}
+              renderItem={({ item }) => (
+                <View
+                  style={[styles.coursestextcontainer, { backgroundColor: 'white', }]}>
+                  <Text style={styles.snotext}>{item.field_name}</Text>
+                  <Text style={styles.lecturetitletext}>{item.old_value}</Text>
+                  <Text style={styles.topictext_}>{item.new_value}</Text>
+                  <TouchableOpacity
+                    underlayColor="none"
+                    onPress={() => Delete(item.id)}>
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                      <Image
+                        source={images.delete_icon}
+                        style={{ height: 25, width: 25, right: 10 }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
+              )}
+            />
+          </View> : <View style={styles.boxcontainer}>
+            <Text style={styles.pendingtext}>Pending Requests</Text>
+            <View style={styles.mainbordercontainer}>
+              <View style={styles.bordercontainer}>
+                <Text style={{ fontSize: 16 }}>Records Not Available</Text>
               </View>
-            )}
-          />
-        </View> : <View style={styles.boxcontainer}>
-          <Text style={styles.pendingtext}>Pending Requests</Text>
-          <View style={styles.mainbordercontainer}>
-            <View style={styles.bordercontainer}>
-              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+            </View>
+          </View>}
+
+
+          {dataekyc.length > 0 ? <View style={{ marginTop: 10 }}>
+
+            <Text style={styles.pendingtextt}>Kyc Pending Requests</Text>
+
+            <View
+              style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+              <Text style={styles.snotext}>Field Name</Text>
+              <Text style={styles.lecturetitletext}>Existing</Text>
+              <Text style={styles.topictext}>New</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  marginHorizontal: 2,
+                  textAlign: 'center',
+                }}>
+                Delete
+              </Text>
+            </View>
+            <FlatList
+              data={dataekyc}
+              renderItem={({ item }) => (
+                <View
+                  style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
+                  <Text style={styles.snotext}>{item.field_name}</Text>
+                  <Text style={styles.lecturetitletext}>{item.old_value}</Text>
+                  <Text style={styles.topictext_}>{item.new_value}</Text>
+                  <TouchableOpacity
+                    underlayColor="none"
+                    onPress={() => DeleteKYCRequest(item.id)}>
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                      <Image
+                        source={images.delete_icon}
+                        style={{ height: 25, width: 25, right: 10 }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
+              )}
+            />
+          </View> : <View style={styles.boxcontainer}>
+            <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
+            <View style={styles.mainbordercontainer}>
+              <View style={styles.bordercontainer}>
+                <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+              </View>
+            </View>
+          </View>}
+
+        </View> : <View style={{}}>
+
+          <View style={styles.boxcontainer}>
+            <Text style={styles.pendingtext}>Pending Requests</Text>
+            <View style={styles.mainbordercontainer}>
+              <View style={styles.bordercontainer}>
+                <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.boxcontainer}>
+            <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
+            <View style={styles.mainbordercontainer}>
+              <View style={styles.bordercontainer}>
+                <Text style={{ fontSize: 16 }}>Records Not Available</Text>
+              </View>
             </View>
           </View>
         </View>}
 
-
-        {dataekyc.length > 0 ? <View style={{ marginTop: 10 }}>
-
-          <Text style={styles.pendingtextt}>Kyc Pending Requests</Text>
-
-          <View
-            style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-            <Text style={styles.snotext}>Field Name</Text>
-            <Text style={styles.lecturetitletext}>Existing</Text>
-            <Text style={styles.topictext}>New</Text>
-            <Text
-              style={{
-                flex: 1,
-                marginHorizontal: 2,
-                textAlign: 'center',
-              }}>
-              Delete
-            </Text>
-          </View>
-          <FlatList
-            data={dataekyc}
-            renderItem={({ item }) => (
-              <View
-                style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
-                <Text style={styles.snotext}>{item.field_name}</Text>
-                <Text style={styles.lecturetitletext}>{item.old_value}</Text>
-                <Text style={styles.topictext_}>{item.new_value}</Text>
-                <TouchableOpacity
-                  underlayColor="none"
-                  onPress={() => DeleteKYCRequest(item.id)}>
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Image
-                      source={images.delete_icon}
-                      style={{ height: 25, width: 25, right: 10 }}
-                    />
-                  </View>
-                </TouchableOpacity>
-
-              </View>
-            )}
-          />
-        </View> : <View style={styles.boxcontainer}>
-          <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
-          <View style={styles.mainbordercontainer}>
-            <View style={styles.bordercontainer}>
-              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
-            </View>
-          </View>
-        </View>}
-
-      </View> : <View style={{}}>
-
-        <View style={styles.boxcontainer}>
-          <Text style={styles.pendingtext}>Pending Requests</Text>
-          <View style={styles.mainbordercontainer}>
-            <View style={styles.bordercontainer}>
-              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.boxcontainer}>
-          <Text style={styles.pendingtext}>Kyc Pending Requests</Text>
-          <View style={styles.mainbordercontainer}>
-            <View style={styles.bordercontainer}>
-              <Text style={{ fontSize: 16 }}>Records Not Available</Text>
-            </View>
-          </View>
-        </View>
-      </View>}
-
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 export default PendingRequestScreen;

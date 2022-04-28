@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   BackHandler,
+  SafeAreaView
 } from 'react-native';
 import styles from './style';
 import {
@@ -142,52 +143,55 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Play History"
-      />
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-      <View style={{ marginTop: 10 }}>
-        {lecturedata.length > 0 ? <View
-          style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
-          <Text style={styles.snotext}>S. No</Text>
-          <Text style={styles.lecturetitletext}>Course Title</Text>
-          <Text style={styles.topictext}>Lecture Title </Text>
-          <Text
-            style={{
-              flex: 1.2,
-              marginHorizontal: 2,
-              textAlign: 'center',
-            }}>
-            Play Timing
-          </Text>
-        </View> : null}
-        {lecturedata.length > 0 ? (<FlatList
-          data={lecturedata}
-          renderItem={({ item, index }) => (
-            <View
-              style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
-              <Text style={styles.snotext}> {index + 1}</Text>
-              <Text style={styles.lecturetitletext}>
-                {item.course_name}
-              </Text>
-              <Text style={styles.topictext}>{item.lecture_title}</Text>
-              <Text style={styles.topictext}>{moment(item.start_time).format("MMM DD , YYYY, hh:mm A")}</Text>
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Play History"
+        />
+
+        <View style={{ marginTop: 10 }}>
+          {lecturedata.length > 0 ? <View
+            style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey' }]}>
+            <Text style={styles.snotext}>S. No</Text>
+            <Text style={styles.lecturetitletext}>Course Title</Text>
+            <Text style={styles.topictext}>Lecture Title </Text>
+            <Text
+              style={{
+                flex: 1.2,
+                marginHorizontal: 2,
+                textAlign: 'center',
+              }}>
+              Play Timing
+            </Text>
+          </View> : null}
+          {lecturedata.length > 0 ? (<FlatList
+            data={lecturedata}
+            renderItem={({ item, index }) => (
+              <View
+                style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
+                <Text style={styles.snotext}> {index + 1}</Text>
+                <Text style={styles.lecturetitletext}>
+                  {item.course_name}
+                </Text>
+                <Text style={styles.topictext}>{item.lecture_title}</Text>
+                <Text style={styles.topictext}>{moment(item.start_time).format("MMM DD , YYYY, hh:mm A")}</Text>
+              </View>
+            )}
+          />
+          ) : (
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
+              <Text style={{ fontSize: 15 }}>Records Not Available</Text>
             </View>
           )}
-        />
-        ) : (
-          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
-            <Text style={{ fontSize: 15 }}>Records Not Available</Text>
-          </View>
-        )}
-      </View>
+        </View>
 
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 export default PlayHistoryScreen;

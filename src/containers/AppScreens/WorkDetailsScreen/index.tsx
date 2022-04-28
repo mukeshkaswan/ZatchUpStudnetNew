@@ -11,6 +11,7 @@ import {
   Alert,
   BackHandler,
   Text,
+  SafeAreaView
 } from 'react-native';
 import { Images } from '../../../components/index';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -131,7 +132,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
 
     setDate_Course2('');
-    
+
     setDate2(new Date());
 
     const currentDate = selectedDate;
@@ -737,271 +738,274 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
 
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Add Profession"
-      />
-      <ScrollView>
-        <View style={{ paddingHorizontal: 16 }}>
-          <View style={{}}>
-            {/* <Text style={styles.fillText_Add}>Employment Type</Text> */}
-            <CustomDropdown
-              placeholder={'Employment Status'}
-              data={KYC_type_doc}
-              value={KYC_type_doc_Selected}
-              SelectedLanguagedata={(selectedValue: any) => {
-                setKYCSelected(selectedValue);
-                gototChangeEmplyType(selectedValue)
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-              }}
-            />
-          </View>
-          <View style={{}}>
-            {/* <Text style={styles.fillText_Add}>Employment Profile</Text> */}
-            <CustomDropdown
-              placeholder={'Select Your Job Title'}
-              data={workdropdown}
-              // selectedValue={workdropdown}
-              value={workdatkey}
-              SelectedLanguagedata={selectedValue => {
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Add Profession"
+        />
+        <ScrollView>
+          <View style={{ paddingHorizontal: 16 }}>
+            <View style={{}}>
+              {/* <Text style={styles.fillText_Add}>Employment Type</Text> */}
+              <CustomDropdown
+                placeholder={'Employment Status'}
+                data={KYC_type_doc}
+                value={KYC_type_doc_Selected}
+                SelectedLanguagedata={(selectedValue: any) => {
+                  setKYCSelected(selectedValue);
+                  gototChangeEmplyType(selectedValue)
 
-                setWorkKey(selectedValue);
-
-                if (selectedValue !== null) {
-                  setWorkKey(selectedValue);
-                  gototfieldType(selectedValue);
-                }
-              }}
-            />
-          </View>
-          {other == 'other' && (
-            <View style={{ marginTop: 8, marginHorizontal: 4 }}>
-              <TextField
-                placeholder={'Enter Work Profile'}
-                onChangeText={val => setWorkProfile(val)}
-                value={workprofile}
+                }}
               />
             </View>
-          )}
-          {flag != 'emp_status' && (
-            <View>
-              <Text style={styles.headingtext}>
-                {flag == 'emp' ? 'Work' : 'Work Place'}
-              </Text>
-              <View style={{ marginTop: 8, marginHorizontal: 4 }}>
-                {/* <Text style={styles.fillText_Add}>Company</Text> */}
+            <View style={{}}>
+              {/* <Text style={styles.fillText_Add}>Employment Profile</Text> */}
+              <CustomDropdown
+                placeholder={'Select Your Job Title'}
+                data={workdropdown}
+                // selectedValue={workdropdown}
+                value={workdatkey}
+                SelectedLanguagedata={selectedValue => {
 
+                  setWorkKey(selectedValue);
+
+                  if (selectedValue !== null) {
+                    setWorkKey(selectedValue);
+                    gototfieldType(selectedValue);
+                  }
+                }}
+              />
+            </View>
+            {other == 'other' && (
+              <View style={{ marginTop: 8, marginHorizontal: 4 }}>
                 <TextField
-                  placeholder={'Enter Company Name'}
-                  onChangeText={val => setCompanyname(val)}
-                  //  keyboardType={'email-address'}
-                  value={companyname}
+                  placeholder={'Enter Work Profile'}
+                  onChangeText={val => setWorkProfile(val)}
+                  value={workprofile}
                 />
               </View>
-              <View style={{ marginTop: 8, marginHorizontal: 4 }}>
-                {/* <Text style={styles.fillText_Add}>Job Title</Text> */}
-                <View style={{ marginTop: 5 }}>
+            )}
+            {flag != 'emp_status' && (
+              <View>
+                <Text style={styles.headingtext}>
+                  {flag == 'emp' ? 'Work' : 'Work Place'}
+                </Text>
+                <View style={{ marginTop: 8, marginHorizontal: 4 }}>
+                  {/* <Text style={styles.fillText_Add}>Company</Text> */}
+
                   <TextField
-                    placeholder={'What is your job title?'}
-                    onChangeText={val => setJobTitle(val)}
+                    placeholder={'Enter Company Name'}
+                    onChangeText={val => setCompanyname(val)}
                     //  keyboardType={'email-address'}
-                    value={jobtitle}
+                    value={companyname}
                   />
                 </View>
-              </View>
-              <View style={{ marginTop: 5 }}>
-                {/* <Text style={styles.fillText_Add}>Location</Text> */}
+                <View style={{ marginTop: 8, marginHorizontal: 4 }}>
+                  {/* <Text style={styles.fillText_Add}>Job Title</Text> */}
+                  <View style={{ marginTop: 5 }}>
+                    <TextField
+                      placeholder={'What is your job title?'}
+                      onChangeText={val => setJobTitle(val)}
+                      //  keyboardType={'email-address'}
+                      value={jobtitle}
+                    />
+                  </View>
+                </View>
+                <View style={{ marginTop: 5 }}>
+                  {/* <Text style={styles.fillText_Add}>Location</Text> */}
 
-                <CustomDropdown
-                  placeholder={'Select Country'}
-                  data={countrydropdown}
-                  value={countrydatkey}
-                  // selectedValue={selectedSchool}
-                  SelectedLanguagedata={selectedValue => {
-                    // getCity(selectedValue);
-                    // console.log('selectedValue state test', selectedValue)
-                    //  setSelectedState
-                    setCountryKey(selectedValue);
-
-                    if (selectedValue !== null) {
-                      setCountryKey(selectedValue);
-                      getState(selectedValue);
-                    }
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <View style={styles.picker}>
                   <CustomDropdown
-                    placeholder={'Select State'}
-                    data={selectedState}
-                    //selectedValue={statedatkey}
-                    value={statedatkey}
+                    placeholder={'Select Country'}
+                    data={countrydropdown}
+                    value={countrydatkey}
                     // selectedValue={selectedSchool}
                     SelectedLanguagedata={selectedValue => {
                       // getCity(selectedValue);
                       // console.log('selectedValue state test', selectedValue)
                       //  setSelectedState
-                      setStateKey(selectedValue);
+                      setCountryKey(selectedValue);
 
                       if (selectedValue !== null) {
-                        setStateKey(selectedValue);
-                        getCity(selectedValue);
+                        setCountryKey(selectedValue);
+                        getState(selectedValue);
                       }
                     }}
                   />
                 </View>
-                <View style={styles.picker}>
-                  <CustomDropdown
-                    placeholder={'Select City'}
-                    data={selectedCity}
-                    //   selectedValue={citydatkey}
-                    value={citydatkey}
-                    //selectedValue={selectedSchool}
-                    SelectedLanguagedata={selectedValue => {
-                      //  getSchool(selectedValue);
-
-                      if (selectedValue !== null) {
-                        setCityKey(selectedValue);
-                        // getSchool(selectedValue);
-                      }
-                    }}
-                  />
-                </View>
-              </View>
-              <Text style={styles.headingtext}>
-                {flag == 'emp' ? 'Description' : 'Work Bio'}
-              </Text>
-              <View style={{ marginTop: 5, marginBottom: 10 }}>
-                <TextField
-                  placeholder={
-                    flag == 'emp'
-                      ? 'Write Description Here...'
-                      : 'Write Work Bio Here...'
-                  }
-                  multiline={true}
-                  onChangeText={val => setDess(val)}
-                  value={des}
-
-                />
-              </View>
-              <Text style={styles.headingtext}>Time Period</Text>
-              <View style={{ marginTop: 10 }}>
-                <CheckBox
-                  title={
-                    <Text style={styles.agreetext}>
-                      I am currently working in this role
-                    </Text>
-                  }
-                  checkedIcon={
-                    <Image
-                      source={Images.checkbox_select}
-                      style={styles.checkbox}
-                    />
-                  }
-                  uncheckedIcon={
-                    <Image
-                      source={Images.checkbox_unselect}
-                      style={styles.checkbox}
-                    />
-                  }
-                  checked={allSelected}
-                  containerStyle={{
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: 'transparent',
-                  }}
-                  onPress={checkedterm}
-                // onPress={() => setCount(count + 1)}
-                />
-              </View>
-              <TouchableOpacity onPress={showDatepicker1}>
                 <View
                   style={{
-                    marginTop: '3%',
-                    marginLeft: 2,
-                    marginRight: 2,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
+                  <View style={styles.picker}>
+                    <CustomDropdown
+                      placeholder={'Select State'}
+                      data={selectedState}
+                      //selectedValue={statedatkey}
+                      value={statedatkey}
+                      // selectedValue={selectedSchool}
+                      SelectedLanguagedata={selectedValue => {
+                        // getCity(selectedValue);
+                        // console.log('selectedValue state test', selectedValue)
+                        //  setSelectedState
+                        setStateKey(selectedValue);
+
+                        if (selectedValue !== null) {
+                          setStateKey(selectedValue);
+                          getCity(selectedValue);
+                        }
+                      }}
+                    />
+                  </View>
+                  <View style={styles.picker}>
+                    <CustomDropdown
+                      placeholder={'Select City'}
+                      data={selectedCity}
+                      //   selectedValue={citydatkey}
+                      value={citydatkey}
+                      //selectedValue={selectedSchool}
+                      SelectedLanguagedata={selectedValue => {
+                        //  getSchool(selectedValue);
+
+                        if (selectedValue !== null) {
+                          setCityKey(selectedValue);
+                          // getSchool(selectedValue);
+                        }
+                      }}
+                    />
+                  </View>
+                </View>
+                <Text style={styles.headingtext}>
+                  {flag == 'emp' ? 'Description' : 'Work Bio'}
+                </Text>
+                <View style={{ marginTop: 5, marginBottom: 10 }}>
                   <TextField
-                    placeholder={'Start Date'}
-                    imageIcon={Images.calendar_icon}
-                    editable={false}
-                    value={startDate1.toString()}
+                    placeholder={
+                      flag == 'emp'
+                        ? 'Write Description Here...'
+                        : 'Write Work Bio Here...'
+                    }
+                    multiline={true}
+                    onChangeText={val => setDess(val)}
+                    value={des}
+
                   />
                 </View>
-              </TouchableOpacity>
-
-              {show1 && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date1}
-                  mode={mode1}
-                  minDate={new Date()}
-                  //minimumDate={new Date()}
-                  maximumDate={new Date()}
-                  is24Hour={true}
-                  format="YYYY-MMM-DD"
-                  display="default"
-                  onChange={onChange1}
-                />
-              )}
-              {allSelected == true ? (
-                <View></View>
-              ) : (
-                <View>
-                  <TouchableOpacity onPress={showDatepicker2}>
-                    <View
-                      style={{
-                        marginTop: '3%',
-                        marginLeft: 2,
-                        marginRight: 2,
-                      }}>
-                      <TextField
-                        placeholder={'End Date'}
-                        imageIcon={Images.calendar_icon}
-                        editable={false}
-                        value={startDate2.toString()}
+                <Text style={styles.headingtext}>Time Period</Text>
+                <View style={{ marginTop: 10 }}>
+                  <CheckBox
+                    title={
+                      <Text style={styles.agreetext}>
+                        I am currently working in this role
+                      </Text>
+                    }
+                    checkedIcon={
+                      <Image
+                        source={Images.checkbox_select}
+                        style={styles.checkbox}
                       />
-                    </View>
-                  </TouchableOpacity>
-
-                  {show2 && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date2}
-                      mode={mode2}
-                      //   minDate={new Date()}
-                      minimumDate={new Date(date1)}
-                      maximumDate={new Date()}
-                      is24Hour={true}
-                      format="YYYY-MMM-DD"
-                      display="default"
-                      onChange={onChange2}
-                    />
-                  )}
+                    }
+                    uncheckedIcon={
+                      <Image
+                        source={Images.checkbox_unselect}
+                        style={styles.checkbox}
+                      />
+                    }
+                    checked={allSelected}
+                    containerStyle={{
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: 'transparent',
+                      borderColor: 'transparent',
+                    }}
+                    onPress={checkedterm}
+                  // onPress={() => setCount(count + 1)}
+                  />
                 </View>
-              )}
+                <TouchableOpacity onPress={showDatepicker1}>
+                  <View
+                    style={{
+                      marginTop: '3%',
+                      marginLeft: 2,
+                      marginRight: 2,
+                    }}>
+                    <TextField
+                      placeholder={'Start Date'}
+                      imageIcon={Images.calendar_icon}
+                      editable={false}
+                      value={startDate1.toString()}
+                    />
+                  </View>
+                </TouchableOpacity>
+
+                {show1 && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date1}
+                    mode={mode1}
+                    minDate={new Date()}
+                    //minimumDate={new Date()}
+                    maximumDate={new Date()}
+                    is24Hour={true}
+                    format="YYYY-MMM-DD"
+                    display="default"
+                    onChange={onChange1}
+                  />
+                )}
+                {allSelected == true ? (
+                  <View></View>
+                ) : (
+                  <View>
+                    <TouchableOpacity onPress={showDatepicker2}>
+                      <View
+                        style={{
+                          marginTop: '3%',
+                          marginLeft: 2,
+                          marginRight: 2,
+                        }}>
+                        <TextField
+                          placeholder={'End Date'}
+                          imageIcon={Images.calendar_icon}
+                          editable={false}
+                          value={startDate2.toString()}
+                        />
+                      </View>
+                    </TouchableOpacity>
+
+                    {show2 && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date2}
+                        mode={mode2}
+                        //   minDate={new Date()}
+                        minimumDate={new Date(date1)}
+                        maximumDate={new Date()}
+                        is24Hour={true}
+                        format="YYYY-MMM-DD"
+                        display="default"
+                        onChange={onChange2}
+                      />
+                    )}
+                  </View>
+                )}
+              </View>
+            )}
+            <View style={{ marginTop: 10, marginBottom: 10 }}>
+              <CustomButton
+                title={'Submit'}
+                onPress={() => onPressSubmit()}
+              //onPress={() => props.navigation.navigate('Home')}
+              />
             </View>
-          )}
-          <View style={{ marginTop: 10, marginBottom: 10 }}>
-            <CustomButton
-              title={'Submit'}
-              onPress={() => onPressSubmit()}
-            //onPress={() => props.navigation.navigate('Home')}
-            />
           </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 export default WorkDetailsScreen;

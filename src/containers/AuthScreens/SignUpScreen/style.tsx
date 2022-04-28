@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ScaledSheet } from 'react-native-size-matters';
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, Platform } from 'react-native';
 import { Images } from '../../../components/index';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import OtpInputs from 'react-native-otp-inputs';
@@ -16,10 +16,14 @@ const styles = ScaledSheet.create({
     },
     backbtnCss: {
         width: '12%',
+        marginTop: Platform.OS === 'ios' ? '8%' : 0,
+
 
     },
     signupTextq: {
         width: '75%',
+        marginTop: Platform.OS === 'ios' ? '12%' : 0,
+
         // justifyContent: 'center', alignContent: 'center', alignItems: 'center',
 
 

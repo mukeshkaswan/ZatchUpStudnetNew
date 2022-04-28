@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Dimensions, ScrollView, BackHandler } from 'react-native';
+import { Text, View, StyleSheet, Image, KeyboardAvoidingView, SafeAreaView, Dimensions, ScrollView, BackHandler, Platform } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
 import { TextField, CustomButton, CustomStatusBar, BackBtn, ModelComponent, CustomHeader, CustomDropdown, Validate } from '../../../components';
@@ -14,6 +14,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+//import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface EducationProfileScreenProps { navigation: any, route: any }
 
@@ -99,8 +100,12 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
         if (event.type == "set") {   //ok button
             setDate(currentDate)
-        } else {    //cancel Button
-            return null
+            setShow(Platform.OS !== 'ios'); // to show time
+        }
+
+        else {
+            setShow(Platform.OS === 'ios'); // to hide back the picker
+            setMode('date'); // defaulting to date for next open
         }
         // setDate(currentDate);
         var day = currentDate.getDate();
@@ -779,239 +784,242 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
         );
     }
     return (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1 }}>
 
-                <CustomStatusBar />
+            <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}
+                style={{ flex: 1 }}
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.container}>
 
-                {isLoading && renderIndicator()}
+                    <CustomStatusBar />
+
+                    {isLoading && renderIndicator()}
 
 
-                <CustomHeader Title={'Add Course Details'} />
+                    <CustomHeader Title={'Add Course Details'} />
 
-                {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
+                    {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
-                <ScrollView>
+                    <ScrollView>
 
-                    <View style={styles.inputContainer}>
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        marginBottom: 1,
-                                        alignItems: 'center',
-                                        paddingHorizontal: 8,
-                                    }}>
-                                    <Text
+                        <View style={styles.inputContainer}>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => props.navigation.navigate('CurrentSchoolinfo')}>
+                                    <View
                                         style={{
-                                            marginTop: 2,
-                                            fontSize: 15,
-                                            marginLeft: 5,
-                                            flex: 1,
-                                            flexWrap: 'wrap',
+                                            flexDirection: 'row',
+                                            marginBottom: 1,
+                                            alignItems: 'center',
+                                            paddingHorizontal: 8,
                                         }}>
-                                        {props.route.params.nameofschool +
-                                            '(' +
-                                            props.route.params.school_zatchup_id +
-                                            ')'}
-                                    </Text>
-                                    <Image
-                                        style={{
-                                            width: 25,
-                                            height: 25,
-                                            resizeMode: 'contain',
+                                        <Text
+                                            style={{
+                                                marginTop: 2,
+                                                fontSize: 15,
+                                                marginLeft: 5,
+                                                flex: 1,
+                                                flexWrap: 'wrap',
+                                            }}>
+                                            {props.route.params.nameofschool +
+                                                '(' +
+                                                props.route.params.school_zatchup_id +
+                                                ')'}
+                                        </Text>
+                                        <Image
+                                            style={{
+                                                width: 25,
+                                                height: 25,
+                                                resizeMode: 'contain',
+                                            }}
+                                            source={Images.edit_icon}
+                                        />
+                                    </View>
+
+                                </TouchableOpacity>
+
+                                <View style={{}}>
+                                    <CustomDropdown placeholder={'Select Course'}
+                                        data={selectedCourse}
+                                        value={coursekey}
+                                        //  selectedValue={coursekey}
+                                        SelectedLanguagedata={(selectedValue) => {
+                                            setDate_Copy('')
+                                            setSchoolID('')
+                                            setRollNo('')
+                                            setStandarClassdKey('')
+                                            // getSchool(selectedValue);
+                                            setCourseKey(selectedValue);
+                                            var data = [];
+                                            data = selectedCourse.filter(x => x.value == selectedValue);
+                                            // console.log('school index x',data)
+
+                                            if (data.length > 0) {
+                                                // console.log('course list data id',data[0].value)
+                                                getStandard(selectedValue);
+                                                setCourseIDParm(data[0].value);
+                                                setDes(data[0].description);
+                                                setminimumDate(data[0].start_date);
+                                                // console.log('date sdfsdfsd',data[0].start_date)
+
+                                            }
+
+                                            // if (selectedValue !== null) {
+                                            //     setCourseKey(selectedValue);
+
+                                            //     getStandard(selectedValue);
+
+                                            // }
                                         }}
-                                        source={Images.edit_icon}
+
+                                    />
+                                </View>
+                                <TouchableOpacity
+                                    style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}
+                                    onPress={showDatepicker}>
+                                    <View >
+                                        <TextField
+                                            // pointerEvents="none"
+                                            placeholder={'Course Joining Date'}
+                                            imageIcon={Images.calendar_icon}
+                                            editable={false}
+                                            underlineColorAndroid="transparent"
+                                            value={date_copy.toString()}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+                                {show && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode={mode}
+                                        // minDate={new Date()}
+                                        minimumDate={new Date(setminimudate)}
+                                        maximumDate={new Date()}
+                                        is24Hour={true}
+                                        format="YYYY-MMM-DD"
+                                        display="default"
+                                        onChange={onChange}
+                                    />
+                                )}
+
+
+                                <View style={{ marginTop: '1%', }}>
+                                    <CustomDropdown placeholder={'Select Joining Standard'}
+                                        data={selectedJoiningStandard}
+                                        value={joiningstandardkey1}
+                                        //  selectedValue={coursekey}
+
+                                        SelectedLanguagedata={(selectedValue) => {
+                                            //  getSchool(selectedValue);
+                                            setJoiningStandardKey1(selectedValue);
+
+                                            var data = [];
+                                            data = selectedJoiningStandard.filter(x => x.value == selectedValue);
+                                            // console.log('school index x',data)
+
+                                            if (data.length > 0) {
+                                                setStandardIDParmLeft(data[0].value);
+
+                                            }
+                                            // if (selectedValue !== null) {
+                                            //     setJoiningStandardKey(selectedValue);
+                                            //     getStandardClassData(selectedValue);
+                                            // }
+                                        }}
                                     />
                                 </View>
 
-                            </TouchableOpacity>
 
-                            <View style={{}}>
-                                <CustomDropdown placeholder={'Select Course'}
-                                    data={selectedCourse}
-                                    value={coursekey}
-                                    //  selectedValue={coursekey}
-                                    SelectedLanguagedata={(selectedValue) => {
-                                        setDate_Copy('')
-                                        setSchoolID('')
-                                        setRollNo('')
-                                        setStandarClassdKey('')
-                                        // getSchool(selectedValue);
-                                        setCourseKey(selectedValue);
-                                        var data = [];
-                                        data = selectedCourse.filter(x => x.value == selectedValue);
-                                        // console.log('school index x',data)
 
-                                        if (data.length > 0) {
-                                            // console.log('course list data id',data[0].value)
-                                            getStandard(selectedValue);
-                                            setCourseIDParm(data[0].value);
-                                            setDes(data[0].description);
-                                            setminimumDate(data[0].start_date);
-                                            // console.log('date sdfsdfsd',data[0].start_date)
+                                <View style={{ marginTop: '1%', }}>
+                                    <CustomDropdown placeholder={'Select Current Standard'}
+                                        data={selectedJoiningStandard}
+                                        value={joiningstandardkey}
 
-                                        }
+                                        //  selectedValue={coursekey}
+                                        SelectedLanguagedata={(selectedValue) => {
+                                            //  getSchool(selectedValue);
+                                            setJoiningStandardKey(selectedValue);
 
-                                        // if (selectedValue !== null) {
-                                        //     setCourseKey(selectedValue);
+                                            var data = [];
+                                            data = selectedJoiningStandard.filter(x => x.value == selectedValue);
+                                            // console.log('school index x',data)
 
-                                        //     getStandard(selectedValue);
+                                            if (data.length > 0) {
+                                                console.log('setStandardIDParm', data[0].value)
+                                                getStandardClassData(selectedValue);
+                                                setStandardIDParm(data[0].value);
 
-                                        // }
-                                    }}
-
-                                />
-                            </View>
-                            <TouchableOpacity
-                                style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}
-                                onPress={showDatepicker}>
-                                <View >
-                                    <TextField
-                                        // pointerEvents="none"
-                                        placeholder={'Course Joining Date'}
-                                        imageIcon={Images.calendar_icon}
-                                        editable={false}
-                                        underlineColorAndroid="transparent"
-                                        value={date_copy.toString()}
+                                            }
+                                            // if (selectedValue !== null) {
+                                            //     setJoiningStandardKey(selectedValue);
+                                            //     getStandardClassData(selectedValue);
+                                            // }
+                                        }}
                                     />
                                 </View>
-                            </TouchableOpacity>
 
-                            {show && (
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    mode={mode}
-                                    // minDate={new Date()}
-                                    minimumDate={new Date(setminimudate)}
-                                    maximumDate={new Date()}
-                                    is24Hour={true}
-                                    format="YYYY-MMM-DD"
-                                    display="default"
-                                    onChange={onChange}
-                                />
-                            )}
+                                <View style={{ marginTop: '1%', }}>
+                                    <CustomDropdown placeholder={'Select Class'}
+                                        data={selectedsetStandardClass}
+                                        value={standardclasskey}
+                                        SelectedLanguagedata={(selectedValue) => {
+                                            //  getSchool(selectedValue);
+                                            setStandarClassdKey(selectedValue);
+
+                                            var data = [];
+                                            data = selectedsetStandardClass.filter(x => x.value == selectedValue);
+                                            // console.log('school index x',data)
+
+                                            if (data.length > 0) {
+                                                // console.log('setClassIDParm', data[0].value)
+                                                setClassIDParm(data[0].value);
+
+                                            }
+                                            // if (selectedValue !== null) {
+                                            //     setStandarClassdKey(selectedValue);
+                                            //     // getStandardClass(selectedValue);
+                                            // }
+                                        }}
+
+                                    />
+                                </View>
 
 
-                            <View style={{ marginTop: '1%', }}>
-                                <CustomDropdown placeholder={'Select Joining Standard'}
-                                    data={selectedJoiningStandard}
-                                    value={joiningstandardkey1}
-                                    //  selectedValue={coursekey}
+                                <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
 
-                                    SelectedLanguagedata={(selectedValue) => {
-                                        //  getSchool(selectedValue);
-                                        setJoiningStandardKey1(selectedValue);
+                                    <TextField placeholder={'Enter School ID'} onChangeText={val => setSchoolID(val)} value={SchoolID}
+                                    />
+                                </View>
 
-                                        var data = [];
-                                        data = selectedJoiningStandard.filter(x => x.value == selectedValue);
-                                        // console.log('school index x',data)
+                                <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
 
-                                        if (data.length > 0) {
-                                            setStandardIDParmLeft(data[0].value);
+                                    <TextField placeholder={'Enter Roll Number'} keyboardType="numeric" onChangeText={val => setRollNo(val)} value={RollNo}
+                                    />
+                                </View>
 
-                                        }
-                                        // if (selectedValue !== null) {
-                                        //     setJoiningStandardKey(selectedValue);
-                                        //     getStandardClassData(selectedValue);
-                                        // }
-                                    }}
-                                />
+                                <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, marginBottom: '3%' }}>
+
+                                    <TextField placeholder={'Enter Course Description'} multiline={true} onChangeText={val => setDes(val)} editable={false} value={Des}
+                                    />
+                                </View>
+
                             </View>
 
 
+                            <View>
+                                <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
 
-                            <View style={{ marginTop: '1%', }}>
-                                <CustomDropdown placeholder={'Select Current Standard'}
-                                    data={selectedJoiningStandard}
-                                    value={joiningstandardkey}
-
-                                    //  selectedValue={coursekey}
-                                    SelectedLanguagedata={(selectedValue) => {
-                                        //  getSchool(selectedValue);
-                                        setJoiningStandardKey(selectedValue);
-
-                                        var data = [];
-                                        data = selectedJoiningStandard.filter(x => x.value == selectedValue);
-                                        // console.log('school index x',data)
-
-                                        if (data.length > 0) {
-                                            console.log('setStandardIDParm', data[0].value)
-                                            getStandardClassData(selectedValue);
-                                            setStandardIDParm(data[0].value);
-
-                                        }
-                                        // if (selectedValue !== null) {
-                                        //     setJoiningStandardKey(selectedValue);
-                                        //     getStandardClassData(selectedValue);
-                                        // }
-                                    }}
-                                />
                             </View>
-
-                            <View style={{ marginTop: '1%', }}>
-                                <CustomDropdown placeholder={'Select Class'}
-                                    data={selectedsetStandardClass}
-                                    value={standardclasskey}
-                                    SelectedLanguagedata={(selectedValue) => {
-                                        //  getSchool(selectedValue);
-                                        setStandarClassdKey(selectedValue);
-
-                                        var data = [];
-                                        data = selectedsetStandardClass.filter(x => x.value == selectedValue);
-                                        // console.log('school index x',data)
-
-                                        if (data.length > 0) {
-                                            // console.log('setClassIDParm', data[0].value)
-                                            setClassIDParm(data[0].value);
-
-                                        }
-                                        // if (selectedValue !== null) {
-                                        //     setStandarClassdKey(selectedValue);
-                                        //     // getStandardClass(selectedValue);
-                                        // }
-                                    }}
-
-                                />
-                            </View>
-
-
-                            <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
-
-                                <TextField placeholder={'Enter School ID'} onChangeText={val => setSchoolID(val)} value={SchoolID}
-                                />
-                            </View>
-
-                            <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, }}>
-
-                                <TextField placeholder={'Enter Roll Number'} keyboardType="numeric" onChangeText={val => setRollNo(val)} value={RollNo}
-                                />
-                            </View>
-
-                            <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2, marginBottom: '3%' }}>
-
-                                <TextField placeholder={'Enter Course Description'} multiline={true} onChangeText={val => setDes(val)} editable={false} value={Des}
-                                />
-                            </View>
-
                         </View>
 
 
-                        <View>
-                            <CustomButton title={'Submit'} onPress={() => CourseAdded()} />
-
-                        </View>
-                    </View>
-
-
-                </ScrollView>
-            </View>
-        </KeyboardAwareScrollView>
+                    </ScrollView>
+                </View>
+            </KeyboardAwareScrollView>
+        </SafeAreaView>
     );
 };
 
