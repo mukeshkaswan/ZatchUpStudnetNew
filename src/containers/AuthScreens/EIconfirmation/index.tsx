@@ -1744,7 +1744,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
  </View>
  )} */}
 
-                        {i.is_current_course == false ? (
+                        {i.is_current_course ? 
                           <View
                             style={{
                               flexDirection: 'row',
@@ -1752,19 +1752,20 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                               // marginBottom: 2,
                             }}>
                             <Text style={styles.view_Tv_1}>Ending Year :</Text>
-                            <Text style={styles.view_Tv_2}>{i.end_year}</Text>
+                            <Text style={styles.view_Tv_2}>{'To Current'}</Text>
                           </View>
-                        ) : (
-                          <View
+                         :
+                         i.is_current_course === false ? <View
                             style={{
                               flexDirection: 'row',
                               marginTop: 5,
                               //marginBottom: 2,
                             }}>
                             <Text style={styles.view_Tv_1}>Ending Year :</Text>
-                            <Text style={styles.view_Tv_2}>{'To Current'}</Text>
-                          </View>
-                        )}
+                            <Text style={styles.view_Tv_2}>{i.end_year}</Text>
+
+                          </View>:null
+                        }
 
                         <View style={styles.view_Row_}>
                           <Text style={styles.view_Tv_1_copy}>Duration :</Text>

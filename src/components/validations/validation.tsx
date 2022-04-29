@@ -262,7 +262,7 @@ const validation = {
       message: 'Please Add City',
     },
   },
-  
+
 
   joiningstandardkey: {
     presence: {
@@ -301,7 +301,7 @@ const validation = {
     format: {
       //pattern: /^[0-9]{12}$/
       pattern: /^[0-9\b]+$/,
-      
+
       message: "Please enter valid school id"
     },
   },
@@ -310,13 +310,20 @@ const validation = {
     presence: {
       message: 'Admission number is required',
     },
+    // format: {
+    //   //pattern: /^[0-9]{12}$/
+    //   pattern: /^[0-9\b]+$/,
+
+    //   message: "Admission number is required"
+    // },
     format: {
-      //pattern: /^[0-9]{12}$/
-      pattern: /^[0-9\b]+$/,
-      
-      message: "Admission number is required"
+      pattern: /^(?!\s*$|\s).[a-z A-Z 0-9]{0,19}$/,
+      message:
+        'Please enter valid Admission number and it should not be more than 20 characters.',
     },
   },
+
+
 
 
   rollno_: {
@@ -326,7 +333,7 @@ const validation = {
     format: {
       //pattern: /^[0-9]{12}$/
       pattern: /^[0-9\b]+$/,
-      
+
       message: "Roll number is required"
     },
   },
@@ -338,7 +345,7 @@ const validation = {
     format: {
       //pattern: /^[0-9]{12}$/
       pattern: /^[0-9\b]+$/,
-      
+
       message: "Please enter valid roll no"
     },
   },
@@ -526,7 +533,7 @@ const validation = {
     presence: {
       message: 'Govt issued id card is required.',
     },
-    
+
     // format: {
     //   pattern: /[a-z A-Z]{16}$/,
     //   message: "Driving licence number must be of 16 characters"
@@ -695,7 +702,7 @@ const validation = {
     },
   },
 
- 
+
 
 
 };
