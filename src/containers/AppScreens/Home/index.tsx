@@ -1242,7 +1242,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}>
+                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id ,'school_id':i.school_id,'id':i.firebase_id})}>
                       <Text style={{ color: 'white', fontSize: 11 }}>Get Verified</Text>
                     </TouchableOpacity> : null}
 
@@ -2515,9 +2515,8 @@ const HomeScreen = (props: HomeScreenProps) => {
 
             <FlatList
               data={setdatafromlist}
-              // keyExtractor={item => item.id.toString()}
+              //keyExtractor={item => item.id.toString()}
               ItemSeparatorComponent={ItemSeprator}
-              //  ItemSeparatorComponent={this.SeparatorComponent}
               renderItem={({ item, index }) => rednderItemList(item, index)}
             />
           </View>

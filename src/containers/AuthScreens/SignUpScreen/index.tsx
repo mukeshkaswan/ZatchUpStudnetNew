@@ -809,7 +809,7 @@ function CustomWebView({ back }) {
 
             style={{}}
             source={{
-              uri: 'https://www.zatchup.com/preprod/#/user/terms-conditions/user/view?pageName=tc',
+              uri: 'https://www.zatchup.com/#/user/terms-conditions/user/view?pageName=tc',
             }}
 
           // onError={() => {
@@ -876,7 +876,7 @@ function CustomWebViewPrivacy({ back }) {
 
             style={{}}
             source={{
-              uri: 'https://www.zatchup.com/preprod/#/user/terms-conditions/user/view?pageName=privacy-policy',
+              uri: 'https://www.zatchup.com/#/user/terms-conditions/user/view?pageName=privacy-policy',
             }}
 
           // onError={() => {

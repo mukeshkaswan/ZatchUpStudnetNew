@@ -649,7 +649,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     axios
       .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
 
-        // .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
+      //.get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
           Authorization: `Bearer ${token}`,

@@ -155,8 +155,8 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
 
         <WebView
 
-          source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
-
+          //source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
+          source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1&id='+ props.route.params.id + '&school_id='+  props.route.params.school_id }}  
           startInLoadingState={true}
           renderLoading={() => (
             <ActivityIndicator
