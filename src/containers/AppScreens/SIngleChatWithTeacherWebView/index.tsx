@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import { WebView } from 'react-native-webview';
+import { ChatURL } from '../../../utilities/axiosInstance';
 import {
   NavigationContainer,
   useIsFocused,
@@ -86,7 +87,7 @@ const SIngleChatWithTeacherWebView = (props: ResetPasswordScreenProps) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-            source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=2&id=' + props.route.params.firebase_id }}
+            source={{ uri: ChatURL+ 'user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=2&id=' + props.route.params.firebase_id }}
             //source={{ uri: 'https://zatchup.com/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=2&id=' + props.route.params.firebase_id }}
 
             startInLoadingState={true}

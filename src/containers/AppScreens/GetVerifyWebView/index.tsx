@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import { WebView } from 'react-native-webview';
+import { ChatURL } from '../../../utilities/axiosInstance';
 import {
   NavigationContainer,
   useIsFocused,
@@ -155,8 +156,8 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-            //source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
-            source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id }}
+          nativeConfig={{props: {webContentsDebuggingEnabled: true}}} 
+            source={{ uri: ChatURL+'user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id }}
             startInLoadingState={true}
             renderLoading={() => (
               <ActivityIndicator

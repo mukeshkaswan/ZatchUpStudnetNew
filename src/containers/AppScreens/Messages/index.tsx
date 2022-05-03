@@ -17,6 +17,8 @@ import {
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
+import { ChatURL } from '../../../utilities/axiosInstance';
+
 import {
   TextField,
   CustomButton,
@@ -94,7 +96,7 @@ const Messages = (props: MessagesScreenProps,) => {
     setURIcheck(Math.floor(Math.random() * 100) + 1);
     console.log(setURIcheck);
     setURI(
-      'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app',
+      ChatURL+'user/messages-app?user_profile_id=' + userid + '&type=app',
     );
     // if (
     //   moduleAccess.length > 0 &&
@@ -289,7 +291,7 @@ const Messages = (props: MessagesScreenProps,) => {
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
             setUserid(result.user_id)
-            setURI('https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + result.user_id + '&type=app')
+            setURI(ChatURL+'user/messages-app?user_profile_id=' + result.user_id + '&type=app')
             // setSpinnerStart(false);
           }
           if (!error) {
