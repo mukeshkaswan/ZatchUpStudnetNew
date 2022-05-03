@@ -45,6 +45,7 @@ const SIngleChatWithTeacherWebView = (props: ResetPasswordScreenProps) => {
 
 
   useEffect(() => {
+    webviewRef && webviewRef.current.reload();
 
 
   }, [isFocused]);
@@ -67,11 +68,6 @@ const SIngleChatWithTeacherWebView = (props: ResetPasswordScreenProps) => {
     props.navigation.goBack(null);
     return true;
   }
-
-
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

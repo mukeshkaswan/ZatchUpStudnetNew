@@ -86,6 +86,7 @@ const Messages = (props: MessagesScreenProps) => {
 
 
     React.useCallback(() => {
+
       getStepCountAPi();
 
       const dataSetTimeOut = setTimeout(() => {
@@ -105,6 +106,8 @@ const Messages = (props: MessagesScreenProps) => {
     }, [])
   );
 
+
+  
 
 
   // useFocusEffect(
@@ -370,9 +373,8 @@ const Messages = (props: MessagesScreenProps) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-            // source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
+            //source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
             source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-
             startInLoadingState={true}
             renderLoading={() => (
               <ActivityIndicator
