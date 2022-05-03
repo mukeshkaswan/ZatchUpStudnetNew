@@ -155,10 +155,8 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-
-            source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
-
-<<<<<<< HEAD
+            //source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
+            source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id }}
             startInLoadingState={true}
             renderLoading={() => (
               <ActivityIndicator
@@ -169,27 +167,6 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
             )}
             ref={webviewRef}
 
-            onNavigationStateChange={navState => {
-=======
-          //source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
-          source={{ uri: 'https://zatchup.com/preprod/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1&id='+ props.route.params.id + '&school_id='+  props.route.params.school_id }}  
-          startInLoadingState={true}
-          renderLoading={() => (
-            <ActivityIndicator
-              color='#F8CA00'
-              size='large'
-              style={{ flex: 1 }}
-            />
-          )}
-          ref={webviewRef}
->>>>>>> ee721e7d5f53d4763af28a8105d99d8669b6c67e
-
-              console.log('weburl', navState.url);
-
-              //  setCanGoBack(navState.canGoBack)
-              //  setCanGoForward(navState.canGoForward)
-              //  setCurrentUrl(navState.url)
-            }}
           />
 
 
