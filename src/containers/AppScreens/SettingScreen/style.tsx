@@ -68,7 +68,7 @@ const styles = ScaledSheet.create({
     paddingBottom: 18,
     paddingTop: 8,
     paddingHorizontal: 8,
-    marginBottom:10
+    marginBottom: 10
   },
   privacyrowcontainer: {
     flexDirection: 'row',
@@ -98,7 +98,8 @@ const styles = ScaledSheet.create({
     borderColor: 'lightgrey',
     width: 300,
     borderRadius: 10,
-    marginTop: 5
+    marginTop: 5,
+
   },
   logoContainer: {
     alignItems: 'center',

@@ -140,10 +140,13 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
+      setShow1(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow1(Platform.OS === 'ios'); // to hide back the picker
+      setMode1('date'); // defaulting to date for next open
     }
+
 
     var MyDateString =
       currentDate.getFullYear() +
@@ -162,9 +165,11 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     if (event.type == 'set') {
       //ok button
       setDate2(currentDate);
+      setShow2(Platform.OS !== 'ios'); // to show time
+
     } else {
-      //cancel Button
-      return null;
+      setShow2(Platform.OS === 'ios'); // to hide back the picker
+      setMode2('date'); // defaulting to date for next open
     }
 
     var MyDateString =

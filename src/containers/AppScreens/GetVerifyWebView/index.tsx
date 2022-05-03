@@ -1,5 +1,5 @@
 import React, { Component, FC, useState, useEffect, useRef } from 'react';
-import { Text, View, FlatList, Image, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput, ActivityIndicator } from 'react-native';
+import { Text, View, FlatList, Image, SafeAreaView, TouchableOpacity, Platform, ImageBackground, ScrollView, Alert, BackHandler, TextInput, ActivityIndicator } from 'react-native';
 import styles from './style';
 import { TextField, CustomButton, CustomStatusBar, Validate, CustomHeader, BackBtn, HeaderTitleWithBack } from '../../../components';
 import { Images } from '../../../components/index';
@@ -47,7 +47,7 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
   useEffect(() => {
 
     //console.log('props',props.route.params)
-   // getAuthUserInfoApi();
+    // getAuthUserInfoApi();
 
     // const dataSetTimeOut = setTimeout(() => {
 
@@ -107,7 +107,7 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
             // console.warn(
             //   'after result Auth User INfo',
             //   JSON.stringify(result, undefined, 2),
-              
+
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
             setUserid(result.user_id)
@@ -140,47 +140,48 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
 
 
   return (
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
 
-      <CustomStatusBar />
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Chat"
-      />
-
-
-
-      <View style={{ flex: 1 }}>
-
-        <WebView
-
-          source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
-
-          startInLoadingState={true}
-          renderLoading={() => (
-            <ActivityIndicator
-              color='#F8CA00'
-              size='large'
-              style={{ flex: 1 }}
-            />
-          )}
-          ref={webviewRef}
-
-          onNavigationStateChange={navState => {
-
-            console.log('weburl', navState.url);
-
-            //  setCanGoBack(navState.canGoBack)
-            //  setCanGoForward(navState.canGoForward)
-            //  setCurrentUrl(navState.url)
-          }}
+        <CustomStatusBar />
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Chat"
         />
 
 
-      </View>
-    </View>
 
+        <View style={{ flex: 1 }}>
+
+          <WebView
+
+            source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify=1' }}
+
+            startInLoadingState={true}
+            renderLoading={() => (
+              <ActivityIndicator
+                color='#F8CA00'
+                size='large'
+                style={{ flex: 1 }}
+              />
+            )}
+            ref={webviewRef}
+
+            onNavigationStateChange={navState => {
+
+              console.log('weburl', navState.url);
+
+              //  setCanGoBack(navState.canGoBack)
+              //  setCanGoForward(navState.canGoForward)
+              //  setCurrentUrl(navState.url)
+            }}
+          />
+
+
+        </View>
+      </View>
+    </SafeAreaView>
 
 
   );

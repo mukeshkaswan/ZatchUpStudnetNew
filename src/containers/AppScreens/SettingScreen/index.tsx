@@ -1852,7 +1852,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         width: 20,
 
                         //marginTop: 5,
-                        marginLeft: 5,
+                        marginLeft: 10,
+                        // marginBottom: Platform.OS === 'ios' ? 5 : 0,
                         // marginRight: 15,
                       }}
                       source={Images.edit_icon}
@@ -1872,7 +1873,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         width: 20,
 
                         //marginTop: 5,
-                        marginLeft: 5,
+                        marginLeft: 10,
                         // marginRight: 15,
                       }}
                       source={Images.edit_icon}
@@ -2422,7 +2423,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 <Text style={styles.labeltext}>Mobile Number</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10 }}
+                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 0, }}
                     onChangeText={onChangeNumber}
                     value={number}
                     placeholder="Enter Mobile Number"
@@ -2476,7 +2477,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 <Text style={styles.labeltext}>Email</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10 }}
+                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 0, }}
                     onChangeText={onChangeEmail}
                     value={changeemail}
                     placeholder="Add Email"

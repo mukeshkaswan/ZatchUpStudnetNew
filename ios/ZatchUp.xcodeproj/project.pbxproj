@@ -8,36 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ZatchUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZatchUpTests.m */; };
+		092D1B062C4442F2AB0B6C52 /* RobotoRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD405999F540483C80424B60 /* RobotoRegular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B7973EE52EF9BC3F4792CE7 /* libPods-ZatchUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D626B3DB36BB64D4BB732CDA /* libPods-ZatchUp.a */; };
-		5F07371D2653B95D00FE98AA /* ios.zip in Resources */ = {isa = PBXBuildFile; fileRef = 5F0736F42653B95D00FE98AA /* ios.zip */; };
-		72D59A79B32ED5FED3FB0416 /* libPods-ZatchUp-ZatchUpTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B86B5186B061E171D2FBCAD /* libPods-ZatchUp-ZatchUpTests.a */; };
-		A21EB03728195FE400EFDC20 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03328195FE300EFDC20 /* Lato-Medium.ttf */; };
-		A21EB03828195FE400EFDC20 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03428195FE300EFDC20 /* Lato-Bold.ttf */; };
-		A21EB03928195FE400EFDC20 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03528195FE400EFDC20 /* Lato-Regular.ttf */; };
-		A21EB03A28195FE400EFDC20 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03628195FE400EFDC20 /* Lato-Semibold.ttf */; };
-		A21EB03C2819600D00EFDC20 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03B2819600C00EFDC20 /* Roboto-Regular.ttf */; };
-		A21EB03F2819603500EFDC20 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03D2819603200EFDC20 /* Roboto-Bold.ttf */; };
-		A21EB0402819603500EFDC20 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB03E2819603500EFDC20 /* Roboto-Medium.ttf */; };
-		A21EB0512819623700EFDC20 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0412819623300EFDC20 /* AntDesign.ttf */; };
-		A21EB0522819623700EFDC20 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0422819623400EFDC20 /* Lato-BoldItalic.ttf */; };
-		A21EB0532819623700EFDC20 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0432819623400EFDC20 /* MaterialIcons.ttf */; };
-		A21EB0542819623700EFDC20 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0442819623400EFDC20 /* Feather.ttf */; };
-		A21EB0552819623700EFDC20 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0452819623500EFDC20 /* FontAwesome5_Regular.ttf */; };
-		A21EB0562819623700EFDC20 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0462819623500EFDC20 /* Foundation.ttf */; };
-		A21EB0572819623700EFDC20 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0472819623500EFDC20 /* MaterialCommunityIcons.ttf */; };
-		A21EB0582819623700EFDC20 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0482819623500EFDC20 /* EvilIcons.ttf */; };
-		A21EB0592819623700EFDC20 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0492819623500EFDC20 /* FontAwesome.ttf */; };
-		A21EB05A2819623700EFDC20 /* RobotoRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04A2819623500EFDC20 /* RobotoRegular.ttf */; };
-		A21EB05B2819623700EFDC20 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04B2819623600EFDC20 /* FontAwesome5_Brands.ttf */; };
-		A21EB05C2819623700EFDC20 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04C2819623600EFDC20 /* Entypo.ttf */; };
-		A21EB05D2819623700EFDC20 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04D2819623600EFDC20 /* Octicons.ttf */; };
-		A21EB05E2819623700EFDC20 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04E2819623600EFDC20 /* Ionicons.ttf */; };
-		A21EB05F2819623700EFDC20 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB04F2819623600EFDC20 /* Fontisto.ttf */; };
-		A21EB0602819623700EFDC20 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A21EB0502819623600EFDC20 /* FontAwesome5_Solid.ttf */; };
+		1E81CBA1BC061BEA201B8B0E /* libPods-ZatchUp-ZatchUpTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B4EB8DC2AFB92704413ABE /* libPods-ZatchUp-ZatchUpTests.a */; };
+		30B6BDF60D424AA69C0D767E /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE32D1C8D2EA4DE494CB7209 /* Roboto-Bold.ttf */; };
+		611066248A484383A5837E92 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 506F247C73D444BFBD008BF9 /* Roboto-Regular.ttf */; };
+		7428387DFA324448BADA0A2D /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3593126AE73464784E8F90D /* Roboto-Medium.ttf */; };
+		77984880851448AC8F618377 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E98626DED56D440198DBD83B /* Lato-BoldItalic.ttf */; };
+		78A6B53B5EA04BFA98FFBCA2 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB79401279594619AD8233AC /* Lato-Bold.ttf */; };
+		7E5533221C414DF998697784 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D1AF923F5524489BCBD0D95 /* Lato-Regular.ttf */; };
+		7FA38EA2DAE1477F8DE965E4 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C446E0EB182D46ECA074BE60 /* Lato-Semibold.ttf */; };
 		A21EB062281A6E5300EFDC20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A21EB061281A6E5300EFDC20 /* GoogleService-Info.plist */; };
+		C4FA17519A714184AFEB99B1 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4146E20B65934FC58D5A0CAF /* Lato-Medium.ttf */; };
+		E748E37AEF607C13C996DABE /* libPods-ZatchUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22586F349F9CACD2EB68D62B /* libPods-ZatchUp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,18 +39,30 @@
 		00E356EE1AD99517003FC87E /* ZatchUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZatchUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ZatchUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZatchUpTests.m; sourceTree = "<group>"; };
+		016B0CB5955B4C08A8BCD18F /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		039F7F2CFF434584B4196AA2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ZatchUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZatchUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ZatchUp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ZatchUp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ZatchUp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ZatchUp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZatchUp/main.m; sourceTree = "<group>"; };
-		180029A5D1FCE10F89D302A1 /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp-ZatchUpTests.debug.xcconfig"; path = "Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5F0736F42653B95D00FE98AA /* ios.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = ios.zip; sourceTree = "<group>"; };
+		1A71D1F3D8944A45A0BCD279 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		22586F349F9CACD2EB68D62B /* libPods-ZatchUp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZatchUp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2453D0EB4B8646D8986DE1B5 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		2D1AF923F5524489BCBD0D95 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		4146E20B65934FC58D5A0CAF /* Lato-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Medium.ttf"; path = "../src/assets/fonts/Lato-Medium.ttf"; sourceTree = "<group>"; };
+		42B4EB8DC2AFB92704413ABE /* libPods-ZatchUp-ZatchUpTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZatchUp-ZatchUpTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		506F247C73D444BFBD008BF9 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../src/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		5F2ED757265373850032A7FB /* ZatchUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ZatchUp.entitlements; path = ZatchUp/ZatchUp.entitlements; sourceTree = "<group>"; };
-		7F2475D5040029D10277A3DE /* Pods-ZatchUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp.release.xcconfig"; path = "Target Support Files/Pods-ZatchUp/Pods-ZatchUp.release.xcconfig"; sourceTree = "<group>"; };
+		637CC792A2E04D6BB18BF6CE /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		64695991507A4617B1A1B01C /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		69D1518FC64112E39248510A /* Pods-ZatchUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp.debug.xcconfig"; path = "Target Support Files/Pods-ZatchUp/Pods-ZatchUp.debug.xcconfig"; sourceTree = "<group>"; };
+		738CF232536E4297BE6C1D4D /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		792BB29B253A52740B5F39D8 /* Pods-ZatchUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp.release.xcconfig"; path = "Target Support Files/Pods-ZatchUp/Pods-ZatchUp.release.xcconfig"; sourceTree = "<group>"; };
+		7E1B4894F0BA80DA6C61A62F /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp-ZatchUpTests.debug.xcconfig"; path = "Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ZatchUp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8B86B5186B061E171D2FBCAD /* libPods-ZatchUp-ZatchUpTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZatchUp-ZatchUpTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F64DD88ABAE431F960E1498 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		A21EB03328195FE300EFDC20 /* Lato-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Medium.ttf"; sourceTree = "<group>"; };
 		A21EB03428195FE300EFDC20 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
 		A21EB03528195FE400EFDC20 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
@@ -90,10 +87,22 @@
 		A21EB04F2819623600EFDC20 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		A21EB0502819623600EFDC20 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
 		A21EB061281A6E5300EFDC20 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A22A4AACD95C5B66B413AC8A /* Pods-ZatchUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp.debug.xcconfig"; path = "Target Support Files/Pods-ZatchUp/Pods-ZatchUp.debug.xcconfig"; sourceTree = "<group>"; };
-		D626B3DB36BB64D4BB732CDA /* libPods-ZatchUp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZatchUp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB914F7794D0BABE299A3402 /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp-ZatchUpTests.release.xcconfig"; path = "Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests.release.xcconfig"; sourceTree = "<group>"; };
+		AEF3C5E570BE4DB3955347FB /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		AF82E0F483E332EBB14A9D4E /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZatchUp-ZatchUpTests.release.xcconfig"; path = "Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests.release.xcconfig"; sourceTree = "<group>"; };
+		B3593126AE73464784E8F90D /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		BB79401279594619AD8233AC /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		BE32D1C8D2EA4DE494CB7209 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		C057C0C17870426AAE4BA8C2 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		C446E0EB182D46ECA074BE60 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Semibold.ttf"; path = "../src/assets/fonts/Lato-Semibold.ttf"; sourceTree = "<group>"; };
+		C7ACEBDE638947F18A248076 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		D044E416BD65494A878047C1 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		DD405999F540483C80424B60 /* RobotoRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = RobotoRegular.ttf; path = ../src/assets/fonts/RobotoRegular.ttf; sourceTree = "<group>"; };
+		E06842F482F44FD48CF6E59A /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		E4A40CA901A34EF0916D5AC0 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		E7027904477F47A58F100DCE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		E98626DED56D440198DBD83B /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../src/assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F1CAC4F8A10D4B8196AB561C /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72D59A79B32ED5FED3FB0416 /* libPods-ZatchUp-ZatchUpTests.a in Frameworks */,
+				1E81CBA1BC061BEA201B8B0E /* libPods-ZatchUp-ZatchUpTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B7973EE52EF9BC3F4792CE7 /* libPods-ZatchUp.a in Frameworks */,
+				E748E37AEF607C13C996DABE /* libPods-ZatchUp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,8 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				D626B3DB36BB64D4BB732CDA /* libPods-ZatchUp.a */,
-				8B86B5186B061E171D2FBCAD /* libPods-ZatchUp-ZatchUpTests.a */,
+				22586F349F9CACD2EB68D62B /* libPods-ZatchUp.a */,
+				42B4EB8DC2AFB92704413ABE /* libPods-ZatchUp-ZatchUpTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -184,7 +193,31 @@
 		47CD2901C1F24C2081EA34E7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5F0736F42653B95D00FE98AA /* ios.zip */,
+				BB79401279594619AD8233AC /* Lato-Bold.ttf */,
+				E98626DED56D440198DBD83B /* Lato-BoldItalic.ttf */,
+				4146E20B65934FC58D5A0CAF /* Lato-Medium.ttf */,
+				2D1AF923F5524489BCBD0D95 /* Lato-Regular.ttf */,
+				C446E0EB182D46ECA074BE60 /* Lato-Semibold.ttf */,
+				BE32D1C8D2EA4DE494CB7209 /* Roboto-Bold.ttf */,
+				B3593126AE73464784E8F90D /* Roboto-Medium.ttf */,
+				506F247C73D444BFBD008BF9 /* Roboto-Regular.ttf */,
+				DD405999F540483C80424B60 /* RobotoRegular.ttf */,
+				AEF3C5E570BE4DB3955347FB /* AntDesign.ttf */,
+				E4A40CA901A34EF0916D5AC0 /* Entypo.ttf */,
+				2453D0EB4B8646D8986DE1B5 /* EvilIcons.ttf */,
+				F1CAC4F8A10D4B8196AB561C /* Feather.ttf */,
+				D044E416BD65494A878047C1 /* FontAwesome.ttf */,
+				E7027904477F47A58F100DCE /* FontAwesome5_Brands.ttf */,
+				738CF232536E4297BE6C1D4D /* FontAwesome5_Regular.ttf */,
+				039F7F2CFF434584B4196AA2 /* FontAwesome5_Solid.ttf */,
+				C7ACEBDE638947F18A248076 /* Fontisto.ttf */,
+				C057C0C17870426AAE4BA8C2 /* Foundation.ttf */,
+				016B0CB5955B4C08A8BCD18F /* Ionicons.ttf */,
+				8F64DD88ABAE431F960E1498 /* MaterialCommunityIcons.ttf */,
+				637CC792A2E04D6BB18BF6CE /* MaterialIcons.ttf */,
+				64695991507A4617B1A1B01C /* Octicons.ttf */,
+				1A71D1F3D8944A45A0BCD279 /* SimpleLineIcons.ttf */,
+				E06842F482F44FD48CF6E59A /* Zocial.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -224,10 +257,10 @@
 		B1AA7405AE0653B628E3CF33 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A22A4AACD95C5B66B413AC8A /* Pods-ZatchUp.debug.xcconfig */,
-				7F2475D5040029D10277A3DE /* Pods-ZatchUp.release.xcconfig */,
-				180029A5D1FCE10F89D302A1 /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */,
-				EB914F7794D0BABE299A3402 /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */,
+				69D1518FC64112E39248510A /* Pods-ZatchUp.debug.xcconfig */,
+				792BB29B253A52740B5F39D8 /* Pods-ZatchUp.release.xcconfig */,
+				7E1B4894F0BA80DA6C61A62F /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */,
+				AF82E0F483E332EBB14A9D4E /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -239,11 +272,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ZatchUpTests" */;
 			buildPhases = (
-				C8702F462AE613E7ED8F9DD8 /* [CP] Check Pods Manifest.lock */,
+				5B05D30AB9E932CE059B108D /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				40FC1FCE44F1D6CC35BF4B6A /* [CP] Copy Pods Resources */,
+				6D6DE45AFF9688B7503983FB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -259,14 +292,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ZatchUp" */;
 			buildPhases = (
-				9FFFEE09B68212D8F9418169 /* [CP] Check Pods Manifest.lock */,
+				673F2E9CA674ED45B57A9620 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				0598BCBB3F2F6B020651CEF3 /* [CP] Copy Pods Resources */,
-				1BCB8567EEFB13112EFA0C29 /* [CP-User] [RNFB] Core Configuration */,
+				CB64BE04C2FE42FB2371EC94 /* [CP] Copy Pods Resources */,
+				E67D23AACF6840170735F839 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -325,32 +358,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A21EB05D2819623700EFDC20 /* Octicons.ttf in Resources */,
-				A21EB0552819623700EFDC20 /* FontAwesome5_Regular.ttf in Resources */,
-				A21EB05C2819623700EFDC20 /* Entypo.ttf in Resources */,
-				5F07371D2653B95D00FE98AA /* ios.zip in Resources */,
-				A21EB03C2819600D00EFDC20 /* Roboto-Regular.ttf in Resources */,
-				A21EB03728195FE400EFDC20 /* Lato-Medium.ttf in Resources */,
-				A21EB05F2819623700EFDC20 /* Fontisto.ttf in Resources */,
-				A21EB03928195FE400EFDC20 /* Lato-Regular.ttf in Resources */,
-				A21EB0592819623700EFDC20 /* FontAwesome.ttf in Resources */,
-				A21EB0522819623700EFDC20 /* Lato-BoldItalic.ttf in Resources */,
-				A21EB0602819623700EFDC20 /* FontAwesome5_Solid.ttf in Resources */,
-				A21EB0572819623700EFDC20 /* MaterialCommunityIcons.ttf in Resources */,
-				A21EB0562819623700EFDC20 /* Foundation.ttf in Resources */,
 				A21EB062281A6E5300EFDC20 /* GoogleService-Info.plist in Resources */,
-				A21EB05B2819623700EFDC20 /* FontAwesome5_Brands.ttf in Resources */,
-				A21EB0512819623700EFDC20 /* AntDesign.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				A21EB03828195FE400EFDC20 /* Lato-Bold.ttf in Resources */,
-				A21EB0582819623700EFDC20 /* EvilIcons.ttf in Resources */,
-				A21EB0532819623700EFDC20 /* MaterialIcons.ttf in Resources */,
-				A21EB0542819623700EFDC20 /* Feather.ttf in Resources */,
-				A21EB05E2819623700EFDC20 /* Ionicons.ttf in Resources */,
-				A21EB03F2819603500EFDC20 /* Roboto-Bold.ttf in Resources */,
-				A21EB03A28195FE400EFDC20 /* Lato-Semibold.ttf in Resources */,
-				A21EB05A2819623700EFDC20 /* RobotoRegular.ttf in Resources */,
-				A21EB0402819603500EFDC20 /* Roboto-Medium.ttf in Resources */,
+				78A6B53B5EA04BFA98FFBCA2 /* Lato-Bold.ttf in Resources */,
+				77984880851448AC8F618377 /* Lato-BoldItalic.ttf in Resources */,
+				C4FA17519A714184AFEB99B1 /* Lato-Medium.ttf in Resources */,
+				7E5533221C414DF998697784 /* Lato-Regular.ttf in Resources */,
+				7FA38EA2DAE1477F8DE965E4 /* Lato-Semibold.ttf in Resources */,
+				30B6BDF60D424AA69C0D767E /* Roboto-Bold.ttf in Resources */,
+				7428387DFA324448BADA0A2D /* Roboto-Medium.ttf in Resources */,
+				611066248A484383A5837E92 /* Roboto-Regular.ttf in Resources */,
+				092D1B062C4442F2AB0B6C52 /* RobotoRegular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +377,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -367,58 +385,33 @@
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\n\nexport NODE_BINARY=/opt/homebrew/bin/node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0598BCBB3F2F6B020651CEF3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1BCB8567EEFB13112EFA0C29 /* [CP-User] [RNFB] Core Configuration */ = {
+		5B05D30AB9E932CE059B108D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP-User] [RNFB] Core Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
-		};
-		40FC1FCE44F1D6CC35BF4B6A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZatchUp-ZatchUpTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9FFFEE09B68212D8F9418169 /* [CP] Check Pods Manifest.lock */ = {
+		673F2E9CA674ED45B57A9620 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,27 +433,52 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C8702F462AE613E7ED8F9DD8 /* [CP] Check Pods Manifest.lock */ = {
+		6D6DE45AFF9688B7503983FB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ZatchUp-ZatchUpTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZatchUp-ZatchUpTests/Pods-ZatchUp-ZatchUpTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		CB64BE04C2FE42FB2371EC94 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZatchUp/Pods-ZatchUp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E67D23AACF6840170735F839 /* [CP-User] [RNFB] Core Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Core Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -514,7 +532,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 180029A5D1FCE10F89D302A1 /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */;
+			baseConfigurationReference = 7E1B4894F0BA80DA6C61A62F /* Pods-ZatchUp-ZatchUpTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -541,7 +559,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB914F7794D0BABE299A3402 /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */;
+			baseConfigurationReference = AF82E0F483E332EBB14A9D4E /* Pods-ZatchUp-ZatchUpTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -565,12 +583,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A22A4AACD95C5B66B413AC8A /* Pods-ZatchUp.debug.xcconfig */;
+			baseConfigurationReference = 69D1518FC64112E39248510A /* Pods-ZatchUp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ZatchUp/ZatchUp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U3DB5W3QT2;
@@ -587,7 +605,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatchup;
 				PRODUCT_NAME = ZatchUp;
-				PROVISIONING_PROFILE_SPECIFIER = "Zatchup User App";
+				PROVISIONING_PROFILE_SPECIFIER = "zatchup user developement";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -598,12 +616,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F2475D5040029D10277A3DE /* Pods-ZatchUp.release.xcconfig */;
+			baseConfigurationReference = 792BB29B253A52740B5F39D8 /* Pods-ZatchUp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ZatchUp/ZatchUp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U3DB5W3QT2;
@@ -619,7 +637,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatchup;
 				PRODUCT_NAME = ZatchUp;
-				PROVISIONING_PROFILE_SPECIFIER = "Zatchup User App";
+				PROVISIONING_PROFILE_SPECIFIER = "zatchup user developement";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

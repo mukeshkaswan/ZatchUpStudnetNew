@@ -2645,6 +2645,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                       maxLength={20}
                       onChangeText={val => setAddmissionnumber(val)}
                       value={addmissionnumber}
+                      style={{ marginLeft: Platform.OS === 'ios' ? 5 : 0, }}
+
                     />
 
                   </View>
@@ -2713,6 +2715,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                       maxLength={20}
                       onChangeText={val => setRollNo(val)}
                       value={rollno}
+                      style={{ marginLeft: Platform.OS === 'ios' ? 5 : 0, }}
+
                     />
 
                   </View>
