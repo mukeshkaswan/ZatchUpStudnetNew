@@ -42,45 +42,28 @@ import {
   useFocusEffect
 } from '@react-navigation/native';
 
+const { width, height } = Dimensions.get('window');
 
 interface MessagesScreenProps {
   navigation: any;
 }
-const Messages = (props: MessagesScreenProps) => {
+const Messages = (props: MessagesScreenProps,) => {
   const [data, studentdata] = useState([]);
-  const webviewRef = useRef(null)
+  //const webviewRef = useRef(null)
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [userid, setUserid] = useState(false);
   const [unreadnotificationcount, set_unread_notification_count] = useState('');
   const [unreadremindercount, set_unread_reminder_count] = useState('');
   const isFocused = useIsFocused();
+  const [canGoBack, setCanGoBack] = useState(false);
+  const [canGoForward, setCanGoForward] = useState(false);
+  const ref = useRef(null);
+  const [key, setURIcheck] = useState(1);
 
-  // useEffect(() => {
-
-  //   getStepCountAPi();
-
-  //   const dataSetTimeOut = setTimeout(() => {
-
-  //     getAuthUserInfoApi();
+  const [uri, setURI] = useState('');
 
 
-  //     return () => {
-  //       dataSetTimeOut.clear();
-  //     }
-  //   }, 1000);
-
-  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-  //   return () => {
-  //     BackHandler.removeEventListener(
-  //       'hardwareBackPress',
-  //       handleBackButtonClick,
-
-  //     );
-  //   };
-
-
-  // }, [isFocused]);
 
   useFocusEffect(
 
@@ -99,24 +82,77 @@ const Messages = (props: MessagesScreenProps) => {
         }
       }, 1000);
 
-      BackHandler.addEventListener('hardwareBackPress', handleBackBut);
+      BackHandler.addEventListener('hardwareBackPress', navigateToGoBack);
 
       return () =>
-        BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
+        BackHandler.removeEventListener('hardwareBackPress', navigateToGoBack);
     }, [])
   );
 
 
-  
+  useEffect(() => {
+    setURIcheck(Math.floor(Math.random() * 100) + 1);
+    console.log(setURIcheck);
+    setURI(
+      'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app',
+    );
+    // if (
+    //   moduleAccess.length > 0 &&
+    //   moduleAccess.some((item) => item.module_name.trim() == 'Messages')
+    // ) {
+    //   ref && ref.current.reload();
+    // }
+    ref && ref.current.reload();
+
+    let unsubscribe = props.navigation.addListener('focus', () => {
+      // const handler = BackHandler.addEventListener(
+      //   'hardwareBackPress',
+      //   navigateToGoBack,
+      // );
+    });
+    /// return () => handler.remove();
+  }, [props.navigation]);
 
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getAuthUserInfoApi();
 
-  //     getStepCountAPi();
-  //   }, [isFocused])
-  // );
+  const navigateToGoBack = () => {
+    console.log('ref.current==>>', ref.current);
+
+    if (ref.current) {
+      ref.current.goBack();
+      return true; // PREVENT DEFAULT BEHAVIOUR (EXITING THE APP)
+    }
+    return false;
+
+  }
+
+  const navigateToGoBack_ = () => {
+    console.log('canGoBack==>>', canGoBack);
+    if (canGoBack) {
+      ref.current.goBack();
+    } else {
+      props.navigation.goBack(null);
+    }
+    //return true;
+  };
+
+
+
+  const setTheNavigation = (navState) => {
+    console.log('navState==>>>', navState);
+    setCanGoBack(navState.canGoBack);
+    setCanGoForward(navState.canGoForward);
+    if (!navState.canGoBack && navState.canGoForward) {
+      var newUrl = navState.url.split('/');
+      var newUrl1 = newUrl[newUrl.length - 1].indexOf('personal-messages');
+      if (newUrl1 > -1) {
+        console.log('url by radhey', newUrl1);
+        setURI(null);
+        props.navigation.goBack(null);
+      }
+    }
+    // setURI(navState.url);
+  };
   const backPressed = () => {
     props.navigation.goBack(null);
     return true;
@@ -253,6 +289,7 @@ const Messages = (props: MessagesScreenProps) => {
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
             setUserid(result.user_id)
+            setURI('https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + result.user_id + '&type=app')
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -284,51 +321,39 @@ const Messages = (props: MessagesScreenProps) => {
       <View style={styles.container}>
         <CustomStatusBar />
 
-        <View style={styles.child_view}>
+        <View style={{
+          backgroundColor: '#4B2A6A',
+          height: 60,
+          borderBottomLeftRadius: 15,
+          borderBottomRightRadius: 15,
+          justifyContent: 'center',
+          paddingVertical: 15,
+          alignItems: 'center',
+          paddingHorizontal: 55,
+        }}>
+          <TouchableOpacity onPress={navigateToGoBack_} activeOpacity={0.8} style={{ position: 'absolute', height: 50, width: 55, justifyContent: 'center', alignItems: 'center', alignSelf: 'baseline' }}>
+            <Icon name="arrow-left" size={28} color="white" />
+          </TouchableOpacity>
+          <Text allowFontScaling={false} numberOfLines={1} style={{
+            color: '#FFFFFF',
+            marginRight: 2,
+            fontSize: hp(2.8),
+            fontWeight: '400',
+            // bottom: 5,
+            textAlign: 'center',
+          }}>{'Messages'}</Text>
+        </View>
+
+        {/* <View style={styles.child_view}>
           <TouchableOpacity onPress={onBurgerBarPress}>
             <Image source={Images.menu_dash} style={styles.image_menu} />
           </TouchableOpacity>
 
           <View style={styles.tv_view}>
             <Text style={styles.ZatchUp_tv}>Messages</Text>
-            {/* <Text style={styles.TM_tv}>TM</Text> */}
           </View>
 
-          {/* <View style={styles.Notification_view}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('Reminders');
-            }}>
-            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
 
-
-              marginRight: 5, marginTop: 11, height: 30, width: 30
-            }} />
-          </TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              marginTop: Platform.OS == 'ios' ? 2 : 5,
-              right: 5,
-              alignSelf: 'flex-end',
-              borderRadius: 15,
-              backgroundColor: '#00B200',
-              width: Platform.OS == 'ios' ? 20 : 18,
-              height: Platform.OS == 'ios' ? 20 : 18,
-            }}>
-            <Text
-              style={{
-                color: '#FFFFFF',
-                fontSize: 12,
-                textAlign: 'center',
-                fontWeight: 'bold',
-                marginTop: Platform.OS == 'ios' ? 2 : 0,
-              }}>
-              {' '}
-              {unreadremindercount}{' '}
-            </Text>
-          </View>
-        </View> */}
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('Notifications');
@@ -340,7 +365,6 @@ const Messages = (props: MessagesScreenProps) => {
 
                 marginRight: 0, marginTop: 15, height: 26, width: 26, right: 10,
               }} />
-              {/* <Image source={Images.inbox_icon} style={styles.dot_image} /> */}
               <View
                 style={{
                   position: 'absolute',
@@ -366,35 +390,36 @@ const Messages = (props: MessagesScreenProps) => {
               </View>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
 
 
         <View style={{ flex: 1 }}>
 
           <WebView
-            //source={{ uri: 'https://zatchup.com/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-            source={{ uri: 'https://zatchup.com/preprod/#/user/messages-app?user_profile_id=' + userid + '&type=app' }}
-            startInLoadingState={true}
+            cacheEnabled={false}
             renderLoading={() => (
               <ActivityIndicator
-                color='#F8CA00'
-                size='large'
-                style={{ flex: 1 }}
+                style={{
+                  width,
+                  height: height - 60,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                size="large"
+                color="#4B2A6A"
               />
             )}
-            ref={webviewRef}
-
-            onNavigationStateChange={navState => {
-
-              console.log('weburl', navState.url);
-
-              //  setCanGoBack(navState.canGoBack)
-              //  setCanGoForward(navState.canGoForward)
-              //  setCurrentUrl(navState.url)
+            style={{ flex: 1 }}
+            ref={ref}
+            source={{
+              uri: uri,
             }}
-          />
+            key={key}
+            startInLoadingState={true}
 
+            onNavigationStateChange={(navState) => setTheNavigation(navState)}
+          />
 
         </View>
       </View>

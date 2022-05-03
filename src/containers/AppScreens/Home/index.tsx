@@ -1283,17 +1283,17 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       </TouchableOpacity> : null}
 
-                      {/* {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
+                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
-                        onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}>
-
-                        
+                       // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
+                       onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id ,'school_id':i.school_id,'id':i.firebase_id})}>
+       
                         <Icon name="chat" size={32} color="#00B031" style={{
 
                           marginTop: 12,
                           marginRight: 15,
                         }} />
-                      </TouchableOpacity> : null} */}
+                      </TouchableOpacity> : null}
 
                       {i.approved != '1' && i.approved != 2 ? (<TouchableOpacity
                         underlayColor="none"
@@ -2034,8 +2034,8 @@ const HomeScreen = (props: HomeScreenProps) => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              // title="Pull to refresh" 
-              // tintColor="#fff" 
+              // title="Pull to refresh"
+              // tintColor="#fff"
               //  titleColor="#fff"
               colors={["rgb(70,50,103)"]}
             />
@@ -2212,12 +2212,12 @@ const HomeScreen = (props: HomeScreenProps) => {
                 </View>
               )}
 
-              {/* {email != '' ? 
+              {/* {email != '' ?
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Email :</Text>
                 <Text style={styles.view_Tv_2}>{email}</Text>
               </View>
-             : phone != '' ? 
+             : phone != '' ?
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Phone :</Text>
                 <Text style={styles.view_Tv_2}>{phone}</Text>
@@ -2644,8 +2644,6 @@ const HomeScreen = (props: HomeScreenProps) => {
                       maxLength={20}
                       onChangeText={val => setAddmissionnumber(val)}
                       value={addmissionnumber}
-                      style={{ marginLeft: Platform.OS === 'ios' ? 5 : 0, }}
-
                     />
 
                   </View>
@@ -2714,8 +2712,6 @@ const HomeScreen = (props: HomeScreenProps) => {
                       maxLength={20}
                       onChangeText={val => setRollNo(val)}
                       value={rollno}
-                      style={{ marginLeft: Platform.OS === 'ios' ? 5 : 0, }}
-
                     />
 
                   </View>
