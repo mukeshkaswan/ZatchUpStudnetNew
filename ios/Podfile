@@ -31,6 +31,8 @@ target 'ZatchUp' do
 
   # pod 'RNSslPinning', :path => '../node_modules/react-native-ssl-pinning'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing
