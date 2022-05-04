@@ -129,25 +129,25 @@ const Messages = (props: MessagesScreenProps,) => {
   }
 
   const navigateToGoBack_ = () => {
-    console.log('canGoBack==>>', canGoBack);
     if (canGoBack) {
       ref.current.goBack();
+      return true;
     } else {
       props.navigation.goBack(null);
+      return true;
     }
-    //return true;
   };
 
 
 
   const setTheNavigation = (navState) => {
-    console.log('navState==>>>', navState);
     setCanGoBack(navState.canGoBack);
     setCanGoForward(navState.canGoForward);
     if (!navState.canGoBack && navState.canGoForward) {
       var newUrl = navState.url.split('/');
-      var newUrl1 = newUrl[newUrl.length - 1].indexOf('personal-messages');
+      var newUrl1 = newUrl[newUrl.length - 1].indexOf('messages');
       if (newUrl1 > -1) {
+        // Alert.alert("Hello...");
         console.log('url by radhey', newUrl1);
         setURI(null);
         props.navigation.goBack(null);
@@ -349,7 +349,7 @@ const Messages = (props: MessagesScreenProps,) => {
         {/* <View style={styles.child_view}>
           <TouchableOpacity onPress={onBurgerBarPress}>
             <Image source={Images.menu_dash} style={styles.image_menu} />
-          </TouchableOpacity>
+          </TouchableOpacity>  
 
           <View style={styles.tv_view}>
             <Text style={styles.ZatchUp_tv}>Messages</Text>
@@ -399,7 +399,7 @@ const Messages = (props: MessagesScreenProps,) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-            nativeConfig={{ props: { webContentsDebuggingEnabled: true } }}
+            // nativeConfig={{ props: { webContentsDebuggingEnabled: true } }}
             cacheEnabled={false}
             renderLoading={() => (
               <ActivityIndicator
@@ -420,7 +420,6 @@ const Messages = (props: MessagesScreenProps,) => {
             }}
             key={key}
             startInLoadingState={true}
-
             onNavigationStateChange={(navState) => setTheNavigation(navState)}
           />
 
