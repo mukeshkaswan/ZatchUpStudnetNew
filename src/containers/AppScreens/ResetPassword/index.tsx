@@ -230,7 +230,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
 
           <View
             style={{
-              height: Platform.OS === 'ios' ? '15%' : '11%',
+              height: Platform.OS === 'ios' ? '15%' : '15%',
               backgroundColor: 'rgb(70,50,103)',
               borderBottomLeftRadius: 15,
               borderBottomRightRadius: 15,

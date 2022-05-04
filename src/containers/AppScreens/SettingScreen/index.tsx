@@ -1935,12 +1935,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 </View> : null}
 
 
-                {phone != '' ? <View style={styles.text_container}>
+                {phone != '' && phone != null  ? <View style={styles.text_container}>
 
 
 
 
-                  {phone != '' ? <View style={{ flexDirection: 'row' }}>
+                  {phone != '' && phone != null ? <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.detail_text}>
                       Phone Number :
                     </Text>
@@ -2070,7 +2070,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View> : null}
 
-              {email != '' && email != null ? <View style={styles.border1}></View> : null}
+              {/* {email != '' && email != null ? <View style={styles.border1}></View> : null}
 
               {email != '' && email != null ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Email ID</Text>
@@ -2082,8 +2082,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View> : null}
-
+              </View> : null} */}
+{/* 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Date of Birth</Text>
@@ -2095,7 +2095,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View>
+              </View> */}
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 {Gender == 'M' ? (
@@ -2124,10 +2124,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View>
 
-              <View style={styles.border1}></View>
+              {/* <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
-                {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
@@ -2140,7 +2139,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Current City</Text>
-                {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
@@ -2148,13 +2146,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View>
+              </View> */}
 
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Two-Factor Authentication</Text>
-                {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
@@ -2163,11 +2160,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   value={isEnabledTwoFactor}
                 />
               </View>
-
+{/* 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
-                {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
@@ -2180,7 +2176,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Social Media</Text>
-                {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
@@ -2188,7 +2183,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View>
+              </View> */}
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
