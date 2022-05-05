@@ -1081,7 +1081,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
               setLoading(false);
-              Toast.show('You are not Approved By School', Toast.SHORT);
+              Toast.show(result.error.message[0], Toast.SHORT);
             } else {
               setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
@@ -1157,7 +1157,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
               setLoading(false);
-              Toast.show('You are not Approved By School', Toast.SHORT);
+              Toast.show(result.error.message[0], Toast.SHORT);
             } else {
               setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
@@ -1242,7 +1242,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id ,'school_id':i.school_id,'id':i.firebase_id})}>
+                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id })}>
                       <Text style={{ color: 'white', fontSize: 11 }}>Get Verified</Text>
                     </TouchableOpacity> : null}
 
@@ -1285,9 +1285,9 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
-                       // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
-                       onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id ,'school_id':i.school_id,'id':i.firebase_id})}>
-       
+                        // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
+                        onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id })}>
+
                         <Icon name="chat" size={32} color="#00B031" style={{
 
                           marginTop: 12,
@@ -1470,7 +1470,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     }}
                   />
 
-                  <View style={styles.underview} />
+                  <View style={styles.underview_} />
 
                   {i.course_detail &&
                     i.course_detail.map(course => {
@@ -1522,7 +1522,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                               />
                             </TouchableOpacity> */}
                           </View>
-                          <View style={styles.underview} />
+                          <View style={styles.underview_} />
                           <View style={styles.view_Row}>
                             <Text style={styles.view_Tv_1}>Name of Course :</Text>
                             <Text style={styles.view_Tv_2}>
@@ -1568,11 +1568,11 @@ const HomeScreen = (props: HomeScreenProps) => {
                             }}
                           />
 
-                          <View style={styles.underview} />
+                          <View style={styles.underview_} />
                           {course.standard_detail ? <Text style={styles.Personal_Tv}>
                             Standard Details
                           </Text> : null}
-                          <View style={styles.underview} />
+                          <View style={styles.underview_} />
                           {
                             course.standard_detail &&
                             course.standard_detail.map(standard => {
@@ -1591,7 +1591,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                           '(' +
                                           standard.standard_start_year +
                                           '-' +
-                                          'To Current'}
+                                          'To Current' + ')'}  
                                       </Text>
                                     </View>
                                   ) : (
@@ -2235,7 +2235,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 <Text style={styles.view_Tv_2}>{email}</Text>
               </View> : null}
 
-              {phone != '' ? <View style={styles.view_Row_}>
+              {phone != '' && phone != null ? <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Phone :</Text>
                 <Text style={styles.view_Tv_2}>{phone}</Text>
               </View> : null}
@@ -2534,11 +2534,11 @@ const HomeScreen = (props: HomeScreenProps) => {
               <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '3%' }}>
 
                 <Text style={{
-                  fontSize: 20,
+                  fontSize: 18,
                   // marginLeft: 15,
                   fontWeight: 'bold',
                   color: '#000',
-                }}>Search</Text>
+                }}>Search City</Text>
 
                 <TouchableOpacity
                   onPress={toggleModal}
@@ -2609,7 +2609,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
 
                   <Text style={{
-                    fontSize: 20,
+                    fontSize: 18,
                     // marginLeft: 15,
                     fontWeight: 'bold',
                     color: '#000',
@@ -2683,7 +2683,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   </View>
 
                   <Text style={{
-                    fontSize: 20,
+                    fontSize: 18,
                     // marginLeft: 15,
                     fontWeight: 'bold',
                     color: '#000',

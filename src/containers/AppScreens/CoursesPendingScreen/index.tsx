@@ -413,7 +413,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
             // cornerRadius={15}
             style={styles.card}>
             <View style={styles.rowcontainer}>
-              <Text style={styles.title_text}>School Pending Request Details</Text>
+              <Text style={styles.title_text}>Requests for change in course details</Text>
 
             </View>
 

@@ -92,6 +92,12 @@ const styles = ScaledSheet.create({
     marginTop: 20,
     marginBottom: 5,
   },
+  labeltextemail: {
+    alignSelf: 'flex-start',
+    paddingLeft: 20,
+    marginTop: 10,
+    marginBottom: 5,
+  },
   textinputcontainer: {
     borderWidth: 1,
     height: hp('5'),

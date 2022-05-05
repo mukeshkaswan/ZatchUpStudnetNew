@@ -63,7 +63,13 @@ const images = {
   iattach: require('../assets/images/iattach.png'),
   location: require('../assets/images/location.png'),
   add: require('../assets/images/add.png'),
+  profiles: require('../assets/images/profiles.png'),
+  settings: require('../assets/images/settings.png'),
+  Passwords: require('../assets/images/Passwords.png'),
+  logouts: require('../assets/images/logouts.png'),
+  contactus: require('../assets/images/contactus.png'),
 
+  
 
 
 };

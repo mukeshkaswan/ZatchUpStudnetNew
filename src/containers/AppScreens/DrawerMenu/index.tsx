@@ -341,8 +341,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 marginLeft: 15,
               }}>
               <Image
-                source={Images.ss}
-                style={{tintColor: '#000000', width: 25, height: 25}}
+                source={Images.Passwords}
+                style={{tintColor: '#000000', width: 21, height: 21}}
               />
               <Text
                 style={{
@@ -371,8 +371,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   marginRight: 10,
                 }}>
                 <Image
-                  source={Images.ss}
-                  style={{tintColor: '#000000', width: 25, height: 25}}
+                  source={Images.settings}
+                  style={{tintColor: '#000000', width: 22, height: 22}}
                 />
                 <Text
                   style={{
@@ -402,8 +402,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   marginLeft: 15,
                 }}>
                 <Image
-                  source={Images.ss}
-                  style={{tintColor: '#000000', width: 25, height: 25}}
+                  source={Images.contactus}
+                  style={{tintColor: '#000000', width: 22, height: 22}}
                 />
                 <Text
                   style={{
@@ -502,8 +502,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   marginLeft: 15,
                 }}>
                 <Image
-                  source={Images.logoutsidemenu}
-                  style={{tintColor: 'red', width: 25, height: 25}}
+                  source={Images.logouts}
+                  style={{tintColor: '#000', width: 22, height: 22}}
                 />
                 <Text
                   style={{

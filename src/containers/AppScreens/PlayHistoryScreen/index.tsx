@@ -182,6 +182,8 @@ const PlayHistoryScreen = (props: ResetPasswordScreenProps) => {
                 <Text style={styles.topictext}>{moment(item.start_time).format("MMM DD , YYYY, hh:mm A")}</Text>
               </View>
             )}
+            
+
           />
           ) : (
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>

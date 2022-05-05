@@ -50,11 +50,12 @@ const styles = ScaledSheet.create({
   },
 
   title_text: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 'bold',
     marginLeft: 10,
     color: 'rgb(70,50,103)',
   },
+  
   // image: {width: 20, height: 20, marginStart: 8},
 
   rowcontainer: {

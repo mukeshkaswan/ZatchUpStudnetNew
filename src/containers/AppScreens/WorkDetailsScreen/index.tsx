@@ -140,6 +140,37 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
+     // setShow1(Platform.OS !== 'ios'); // to show time
+
+    } else {
+      return false;
+      //setShow1(Platform.OS === 'ios'); // to hide back the picker
+      //setMode1('date'); // defaulting to date for next open
+    }
+
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course1(MyDateString);
+  };
+
+
+  const onChange1iOS = (event, selectedDate) => {
+
+
+    setDate_Course2('');
+
+    setDate2(new Date());
+
+    const currentDate = selectedDate;
+    setShow1(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate1(currentDate);
       setShow1(Platform.OS !== 'ios'); // to show time
 
     } else {
@@ -158,8 +189,31 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   };
 
 
-
   const onChange2 = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow2(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate2(currentDate);
+      //setShow2(Platform.OS !== 'ios'); // to show time
+
+    } else {
+      return false;
+      //setShow2(Platform.OS === 'ios'); // to hide back the picker
+      //setMode2('date'); // defaulting to date for next open
+    }
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course2(MyDateString);
+  };
+
+
+  const onChange2iOS = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow2(Platform.OS === 'ios');
     if (event.type == 'set') {
@@ -770,7 +824,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
             <View style={{}}>
               {/* <Text style={styles.fillText_Add}>Employment Profile</Text> */}
               <CustomDropdown
-                placeholder={'Select Your Job Title'}
+                placeholder={'Select your Profession'}
                 data={workdropdown}
                 // selectedValue={workdropdown}
                 value={workdatkey}
@@ -959,7 +1013,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
                     is24Hour={true}
                     format="YYYY-MMM-DD"
                     display="default"
-                    onChange={onChange1}
+                    onChange={Platform.OS === 'ios' ? onChange1iOS : onChange1}
+
                   />
                 )}
                 {allSelected == true ? (
@@ -993,7 +1048,8 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
                         is24Hour={true}
                         format="YYYY-MMM-DD"
                         display="default"
-                        onChange={onChange2}
+                        onChange={Platform.OS === 'ios' ? onChange2iOS : onChange2}
+
                       />
                     )}
                   </View>

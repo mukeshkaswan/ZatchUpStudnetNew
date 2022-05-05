@@ -125,7 +125,26 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
 
   const onChange1 = (event, selectedDate) => {
     const currentDate = selectedDate;
+    setShow1(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate1(currentDate);
 
+    } else {
+      return null;
+    }
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course1(MyDateString);
+  };
+
+  const onChange1iOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
     setShow1(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
@@ -146,10 +165,31 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     setDate_Course1(MyDateString);
   };
 
+
   const onChange2 = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow2(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate2(currentDate);
 
+    } else {
+      return null;
+    }
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course2(MyDateString);
+  };
+
+
+  const onChange2iOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow2(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
       setDate2(currentDate);
@@ -179,7 +219,29 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       //cancel Button
       return null;
     }
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course3(MyDateString);
+  };
 
+  const onChange3iOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow3(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate3(currentDate);
+      setShow3(Platform.OS !== 'ios'); // to show time
+
+    } else {
+      setShow3(Platform.OS === 'ios'); // to hide back the picker
+      setMode3('date'); // defaulting to date for next open
+    }
+
+   
     var MyDateString =
       currentDate.getFullYear() +
       '-' +
@@ -198,6 +260,29 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     } else {
       //cancel Button
       return null;
+    }
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Course4(MyDateString);
+  };
+
+
+  const onChange4iOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow4(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate4(currentDate);
+      setShow4(Platform.OS !== 'ios'); // to show time
+
+    } else {
+      setShow4(Platform.OS === 'ios'); // to hide back the picker
+      setMode4('date'); // defaulting to date for next open
     }
 
     var MyDateString =
@@ -938,7 +1023,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         is24Hour={true}
                         format="YYYY-MMM-DD"
                         display="default"
-                        onChange={onChange3}
+                        onChange={Platform.OS === 'ios' ? onChange3iOS : onChange3}
+
                       />
                     )}
 
@@ -952,7 +1038,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         is24Hour={true}
                         format="YYYY-MMM-DD"
                         display="default"
-                        onChange={onChange4}
+                        onChange={Platform.OS === 'ios' ? onChange4iOS : onChange4}
+
                       />
                     )}
                     <TouchableOpacity onPress={showDatepicker3}>
@@ -1018,7 +1105,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         is24Hour={true}
                         format="YYYY-MMM-DD"
                         display="default"
-                        onChange={onChange1}
+                        onChange={Platform.OS === 'ios' ? onChange1iOS : onChange1}
+
                       />
                     )}
 
@@ -1033,7 +1121,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         is24Hour={true}
                         format="YYYY-MMM-DD"
                         display="default"
-                        onChange={onChange2}
+                        onChange={Platform.OS === 'ios' ? onChange2iOS : onChange2}
+
                       />
                     )}
 

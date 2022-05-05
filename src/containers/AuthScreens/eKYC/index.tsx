@@ -483,7 +483,7 @@ const eKyc = (props: eKycScreenProps) => {
       var IDError = Validate('PassportNumber', ID);
     }
 
-    const NameError = Validate('kycidname', Name);
+    const NameError = Validate('kycidname_', Name);
     const DOBError = Validate('dob', date_copy);
     const FrontImageError = Validate('FrontImage', frontimagename);
     // if (KYC_type_doc_Selected == 0) {
@@ -842,9 +842,8 @@ const eKyc = (props: eKycScreenProps) => {
         <CustomStatusBar />
         {isLoading && renderIndicator()}
 
-        <CustomHeader Title={'eKYC'} />
+       {props.route.params.Editusername == true || props.route.params.Editdob == true  ?  <CustomHeader Title={'KYC Verification'} />: <CustomHeader Title={'eKYC'} />}
 
-        {/*   <View style={styles.backbtnCss}><BackBtn navigation={this.props.navigation} /></View> */}
 
         <ScrollView>
           <View style={styles.inputContainer}>

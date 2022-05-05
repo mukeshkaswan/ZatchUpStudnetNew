@@ -15,6 +15,7 @@ import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
 import Orientation from 'react-native-orientation-locker';
+import moment from 'moment';
 
 
 const {
@@ -43,6 +44,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   const [uploaddate, setUploaddate] = useState('');
   const [play, setPlay] = useState('');
   const [standard, setStandard] = useState('');
+  const [zatchupid, setZatchupID] = useState('');
   const [isFullScreen, setFullscreen] = useState(false);
   const ref = useRef();
 
@@ -60,6 +62,7 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
     // console.log('props.route.params.data',props.route.params)
 
     getCoursePreviewData(props.route.params.id);
+    getAuthUserInfoApi();
 
 
 
@@ -96,6 +99,62 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
 
   };
 
+
+   /***************************User Auth User Info*******************************/
+
+   const getAuthUserInfoApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getAuthUserInfo({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
+
+            );
+            setZatchupID(result.zatchupId);
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Request failed with status code 401', Toast.SHORT);
+            setLoading(false);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            Toast.show('Request failed with status code 401', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   /***************************User GET Course Preview*******************************/
 
@@ -209,11 +268,11 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
           </View>
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Uploaded date : </Text>
-            <Text style={styles.coursetext1}>{uploaddate}</Text>
+            {uploaddate != '' ? <Text style={styles.coursetext1}>{ moment(uploaddate).format("MMM DD, YYYY")}</Text>:null}
           </View>
           <View style={styles.textcontainer}>
             <Text style={styles.coursetext}>Play : </Text>
-            <Text style={styles.coursetext_}>AAA003348</Text>
+            <Text style={styles.coursetext_}>{zatchupid}</Text>
           </View>
         </View> : null}
 

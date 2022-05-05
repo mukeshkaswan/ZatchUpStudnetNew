@@ -831,13 +831,15 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
             />
           )}
 
-          <View style={styles.fillTextContainer}>
+          {props.route.params.loginkey == 'loginkey' ? <View style={styles.fillTextContainer}>
+            <Text style={styles.fillText}>Please Add your School:</Text>
+          </View>:<View style={styles.fillTextContainer}>
             <Text style={styles.fillText}>Please Fill in the details below:</Text>
-          </View>
+          </View>}
 
           <View style={{ marginBottom: '5%', marginLeft: 25, marginRight: 25 }}>
             <TextField
-              placeholder={'Enter ZatchUp ID'}
+              placeholder={'Enter your ZatchUp ID'}
               onChangeText={val => setID(val)}
               value={ID}
               // onEndEditing={val => getDetailZatchupID(val)}

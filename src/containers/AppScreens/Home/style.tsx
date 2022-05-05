@@ -276,7 +276,7 @@ const styles = ScaledSheet.create({
     // height: hp('30%'),
     backgroundColor: 'white',
     paddingHorizontal: 22,
-    width:'100%',height:'35%' ,
+    width:'100%',height:'42%' ,
    // marginTop:'70%',
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
@@ -313,8 +313,6 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     marginTop:10
-
-    // justifyContent: 'center',
   },
   submitbtn: {
     height: hp('5.5'),
@@ -406,6 +404,14 @@ const styles = ScaledSheet.create({
     marginLeft: 20,
     // marginRight:10,
     backgroundColor: '#FCFCFC',
+  },
+  underview_: {
+    height: 3,
+    width: '90%',
+    marginTop: 10,
+    marginLeft: 20,
+    // marginRight:10,
+  //  backgroundColor: '#FCFCFC',
   },
   view_2: {
     marginLeft: 10,

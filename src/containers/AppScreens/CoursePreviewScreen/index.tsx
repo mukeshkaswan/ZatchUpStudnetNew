@@ -15,6 +15,7 @@ import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
 import Orientation from 'react-native-orientation-locker';
+import moment from 'moment';
 
 const {
   width, height
@@ -295,7 +296,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
               </View> : null}
               <View style={styles.textcontainer}>
                 <Text style={styles.coursetext}>Date of Creating Course : </Text>
-                <Text style={styles.coursetext1}>{creatingcoursedate}</Text>
+                <Text style={styles.coursetext1}>{ moment(creatingcoursedate).format("MMM DD, YYYY")}</Text>
               </View>
               {lecturedata.length > 0 ? <View style={{ marginTop: 15, }}>
                 <Text style={styles.titletext}>Course Lecture</Text>

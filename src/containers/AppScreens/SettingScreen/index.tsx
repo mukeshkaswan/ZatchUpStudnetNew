@@ -347,8 +347,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setFemale(element.gender == 'F' ? true : false);
       setCustom(element.gender == 'C' ? true : false);
       setpronoun(element.pronoun);
-      setpronouncustom_gender(element.custom_gender)
-
+      setpronouncustom_gender(element.pronoun)
+      setCourseTypeSelected(element.custom_gender)
 
     });
     _storeData();
@@ -711,6 +711,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const onPressSubmit = async () => {
 
+    console.log('Custom',Custom);
+
     const newError = Validate('newmothername', newmothername);
 
     const newfatherError = Validate('newfathername', newfathername);
@@ -750,9 +752,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       }
       //   Alert.alert(Gender);
       var key =
-        KYC_type_doc_Selected == 0
+      Course_Selected == 0
           ? 'He'
-          : KYC_type_doc_Selected == 1
+          : Course_Selected == 1
             ? 'She'
             : 'They';
       const data = {
@@ -764,7 +766,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           GenderForModal == 'M' || GenderForModal == 'F' ? GenderForModal : 'C',
         profile_pic: profilepic,
         custom_gender:
-          GenderForModal == 'M' || GenderForModal == 'F' ? '' : CustomGender,
+          GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
       };
 
       // console.log('data====>>>', data);
@@ -1901,23 +1903,27 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
                 {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.text_container}>
                   <Text style={styles.detail_text}>pronoun : </Text>
-                  <Text>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
+                  <Text>{pronouncustom}</Text>
                 </View> : null}
 
 
 
                 {email != '' ? <View style={styles.text_container}>
 
-                  {email != '' ? <View style={{ flexDirection: 'row' }}>
-
+                  {email != '' ? <View >
+                  <TouchableOpacity
+                    onPress={toggleModal3}
+                    style={{ flexDirection: 'row' }}
+                  >
                     <Text style={styles.detail_text}>Email : </Text>
                     <Text>{email}</Text>
+                    </TouchableOpacity>
                   </View> : null}
 
 
 
 
-                  {phone == '' ? <TouchableOpacity
+                  {phone == '' || phone == null ? <TouchableOpacity
                     onPress={toggleModal2}
                   >
                     <Image
@@ -1940,11 +1946,16 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
 
 
-                  {phone != '' && phone != null ? <View style={{ flexDirection: 'row' }}>
+                  {phone != '' && phone != null ? <View >
+                  <TouchableOpacity
+                    onPress={toggleModal2}
+                    style={{ flexDirection: 'row' }}
+                  >
                     <Text style={styles.detail_text}>
                       Phone Number :
                     </Text>
                     <Text>{phone}</Text>
+                    </TouchableOpacity>
 
                   </View> : null}
 
@@ -2359,6 +2370,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
                         SelectedLanguagedata={(selectedValue: any) => {
                           setCourseTypeSelected(selectedValue);
+
                         }}
                       />
                     </View>
@@ -2398,7 +2410,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               onBackdropPress={toggleModal2}>
               <View
                 style={{
-                  height: hp('22'),
+                  height: hp('25'),
                   backgroundColor: Colors.$backgroundColor,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -2415,10 +2427,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   />
                 </TouchableOpacity>
 
-                <Text style={styles.labeltext}>Mobile Number</Text>
+                <Text style={styles.labeltextemail}>Mobile Number</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 0, }}
+                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 10, }}
                     onChangeText={onChangeNumber}
                     value={number}
                     placeholder="Enter Mobile Number"
@@ -2433,7 +2445,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     height: hp('4.5'),
                     width: wp('40'),
                     backgroundColor: 'rgb(70,50,103)',
-                    marginTop: 15,
+                    marginTop: 20,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 10,
@@ -2452,7 +2464,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               onBackdropPress={toggleModal3}>
               <View
                 style={{
-                  height: hp('22'),
+                  height: hp('25'),
                   backgroundColor: Colors.$backgroundColor,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -2469,10 +2481,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   />
                 </TouchableOpacity>
 
-                <Text style={styles.labeltext}>Email</Text>
+                <Text style={styles.labeltextemail}>Email</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 0, }}
+                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 10, }}
                     onChangeText={onChangeEmail}
                     value={changeemail}
                     placeholder="Add Email"
@@ -2487,7 +2499,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     height: hp('4.5'),
                     width: wp('40'),
                     backgroundColor: 'rgb(70,50,103)',
-                    marginTop: 15,
+                    marginTop: 20,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 10,

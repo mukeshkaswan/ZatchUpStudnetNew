@@ -115,8 +115,49 @@ const SignUpScreen = (props: SignUpScreenProps) => {
 
   }, []);
   const onChange = (event, selectedDate) => {
+
+
     const currentDate = selectedDate || date;
+
     setShow(Platform.OS === 'ios');
+
+    if (event.type == 'set') {
+      //ok button
+      setDate(currentDate);
+    //  setShow(Platform.OS !== 'ios'); // to show time
+
+    } else {
+      return false;
+    //   setShow(Platform.OS === 'ios'); // to hide back the picker
+    //  setMode('date'); // defaulting to date for next open
+    }
+    //  setDate(currentDate);
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+    //  console.log('A date has been picked: ' + day + '-' + month + '-' + year);
+    //setDate_Copy(year + '-' + month + '-'  + day);
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    //  console.log('A date has been picked: ' + day + '-' + month + '-' + year);
+    setDate_Copy(MyDateString);
+
+    // YYYY-MM-DD
+  };
+
+
+  const onChangeiOS = (event, selectedDate) => {
+
+
+    const currentDate = selectedDate || date;
+
+    setShow(Platform.OS === 'ios');
+
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
@@ -144,7 +185,6 @@ const SignUpScreen = (props: SignUpScreenProps) => {
 
     // YYYY-MM-DD
   };
-
   const showMode = currentMode => {
     setShow(true);
     setMode(currentMode);
@@ -641,7 +681,7 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 is24Hour={true}
                 format="YYYY-MMM-DD"
                 display="default"
-                onChange={onChange}
+                onChange={Platform.OS === 'ios' ? onChangeiOS : onChange}
 
               />
             )}

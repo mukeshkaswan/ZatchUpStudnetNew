@@ -180,6 +180,13 @@ const validation = {
     },
   },
 
+  kycidname_: {
+    presence: {
+      message: 'Kyc name is required',
+    },
+  },
+
+
   FrontImage: {
     presence: {
       message: 'Please select your front image',

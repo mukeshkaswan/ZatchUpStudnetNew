@@ -7,20 +7,17 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 //import com.toyberman.RNSslPinningPackage;
-//import com.toyberman.RNSslPinningPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import org.wonday.orientation.OrientationPackage;
-//import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
+import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
-//import com.reactnativecommunity.clipboard.ClipboardPackage;
+import com.reactnativecommunity.clipboard.ClipboardPackage;
 import com.brentvatne.react.ReactVideoPackage;
-//import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
-//import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
@@ -59,17 +56,15 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
            // new RNSslPinningPackage(),
             new KCKeepAwakePackage(),
             new OrientationPackage(),
-           // new ReactNativeFirebaseFirestorePackage(),
+            new ReactNativeFirebaseFirestorePackage(),
             new RNCWebViewPackage(),
-           // new ClipboardPackage(),
+            new ClipboardPackage(),
             new ReactVideoPackage(),
-          //  new AsyncStoragePackage(),
             new SplashScreenReactPackage(),
             new SvgPackage(),
             new ReanimatedPackage(),
             new PickerPackage(),
-           // new RNDateTimePickerPackage(),
-           // new AsyncStoragePackage(),
+            new RNDateTimePickerPackage(),
             new RNCardViewPackage(),
             new RNGestureHandlerPackage(),
             new RNScreensPackage(),
