@@ -1242,7 +1242,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       //  borderRadius: 20,
                       // marginLeft: 20,
                     }}
-                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id })}>
+                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id, 'getVerify': 1 })}>
                       <Text style={{ color: 'white', fontSize: 11 }}>Get Verified</Text>
                     </TouchableOpacity> : null}
 
@@ -1286,7 +1286,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                       {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
                         underlayColor="none"
                         // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
-                        onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id })}>
+                        onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id, 'getVerify': 0 })}>
 
                         <Icon name="chat" size={32} color="#00B031" style={{
 
@@ -1591,7 +1591,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                           '(' +
                                           standard.standard_start_year +
                                           '-' +
-                                          'To Current' + ')'}  
+                                          'To Current' + ')'}
                                       </Text>
                                     </View>
                                   ) : (

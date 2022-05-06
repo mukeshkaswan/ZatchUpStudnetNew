@@ -456,7 +456,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
             //  ItemSeparatorComponent={this.SeparatorComponent}
             renderItem={({ item, index }) => rednderItemList(item, index)}
           /> : <View style={styles.boxcontainer}>
-            <Text style={styles.pendingtext}>Courses Pending for Verification</Text>
+            <Text style={styles.pendingtext}>Requests for change in course details</Text>
             <View style={styles.mainbordercontainer}>
               <View style={styles.bordercontainer}>
                 <Text style={{ fontSize: 16 }}>Records Not Available</Text>

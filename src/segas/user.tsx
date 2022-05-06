@@ -1691,7 +1691,8 @@ function* getSchoollistforstarclass({ payload: { data, callback } }) {
     },
     method: 'GET',
     //  url: `user/city-list/?search=${data.key}`,
-    url: `user/school-list-for-student-startclass/`,
+   // url: `user/school-list-for-student-startclass/?page=`+data.page+'&page_size=2'
+    url: `user/school-list-for-student-startclass/`
 
 
   };

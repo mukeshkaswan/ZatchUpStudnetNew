@@ -227,7 +227,7 @@ const SchoolListScreen = (props: ResetPasswordScreenProps) => {
           />
           ) : (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 15 }}>No ZatchUp Classroom Course in your gallery, Please contact your School for adding Courses</Text>
+              <Text style={{ fontSize: 15 }}>No records found.</Text>
             </View>
           )}
 

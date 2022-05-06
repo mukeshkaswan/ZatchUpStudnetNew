@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
+const [flag, setFlag] = useState(false);
+
 const screenWidth = Dimensions.get('window').width;
 
 interface ForgotPasswordScreenProps { navigation: any }
@@ -18,6 +20,8 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    setFlag(false);
+
     // console.log('rtyuigfghj', props)
   }, []);
 
@@ -52,18 +56,25 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
     }
 
     const onPressForgot = async () => {
+      setFlag(true);
 
       var key = password.indexOf("@") != -1 ? 'email' : 'mobile'
       const emailError = Validate(key, password);
       // const passwordError = Validate("password", password);
 
 
-      if (
-        emailError
-      ) {
-        Toast.show(emailError, Toast.SHORT);
-
+    
+      if (emailError) {
+        setFlag(false);
+  
+        //this._scrollView.scrollTo(0);
+        Toast.show(
+          emailError,
+          Toast.SHORT,
+        );
+  
         return false;
+  
       }
 
       else {
@@ -90,9 +101,10 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
               if (result.status === false) {
                 console.warn(JSON.stringify(error, undefined, 2));
                 setLoading(false);
+                setFlag(false);
                 Toast.show(result.error.message[0], Toast.SHORT);
               } else {
-
+                setFlag(false);
                 setLoading(false);
                 console.warn(JSON.stringify(error, undefined, 2));
               }
@@ -126,6 +138,8 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
           <View>
             <CustomButton title={'Submit'}
               onPress={onPressForgot}
+              disabled={flag}
+
             // onPress={() => props.navigation.navigate('OtpForgot')}  
             />
           </View>

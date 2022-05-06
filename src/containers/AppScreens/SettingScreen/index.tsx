@@ -349,6 +349,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setpronoun(element.pronoun);
       setpronouncustom_gender(element.pronoun)
       setCourseTypeSelected(element.custom_gender)
+      console.log('element.gender', element.gender)
 
     });
     _storeData();
@@ -649,7 +650,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     axios
       .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
 
-      //.get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
+        //.get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
           Authorization: `Bearer ${token}`,
@@ -711,7 +712,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const onPressSubmit = async () => {
 
-    console.log('Custom',Custom);
+    // console.log('Custom',Custom);
 
     const newError = Validate('newmothername', newmothername);
 
@@ -752,7 +753,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       }
       //   Alert.alert(Gender);
       var key =
-      Course_Selected == 0
+        Course_Selected == 0
           ? 'He'
           : Course_Selected == 1
             ? 'She'
@@ -1894,12 +1895,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     <Text style={styles.detail_text}>Gender : </Text>
                     <Text>Female</Text>
                   </View>
-                ) : (
+                ) : Gender == 'C' ? (
                   <View style={styles.text_container}>
                     <Text style={styles.detail_text}>Gender : </Text>
                     <Text>Custom</Text>
                   </View>
-                )}
+                ) : null}
 
                 {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.text_container}>
                   <Text style={styles.detail_text}>pronoun : </Text>
@@ -1911,12 +1912,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 {email != '' ? <View style={styles.text_container}>
 
                   {email != '' ? <View >
-                  <TouchableOpacity
-                    onPress={toggleModal3}
-                    style={{ flexDirection: 'row' }}
-                  >
-                    <Text style={styles.detail_text}>Email : </Text>
-                    <Text>{email}</Text>
+                    <TouchableOpacity
+                      onPress={toggleModal3}
+                      style={{ flexDirection: 'row' }}
+                    >
+                      <Text style={styles.detail_text}>Email : </Text>
+                      <Text>{email}</Text>
                     </TouchableOpacity>
                   </View> : null}
 
@@ -1941,20 +1942,20 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 </View> : null}
 
 
-                {phone != '' && phone != null  ? <View style={styles.text_container}>
+                {phone != '' && phone != null ? <View style={styles.text_container}>
 
 
 
 
                   {phone != '' && phone != null ? <View >
-                  <TouchableOpacity
-                    onPress={toggleModal2}
-                    style={{ flexDirection: 'row' }}
-                  >
-                    <Text style={styles.detail_text}>
-                      Phone Number :
-                    </Text>
-                    <Text>{phone}</Text>
+                    <TouchableOpacity
+                      onPress={toggleModal2}
+                      style={{ flexDirection: 'row' }}
+                    >
+                      <Text style={styles.detail_text}>
+                        Phone Number :
+                      </Text>
+                      <Text>{phone}</Text>
                     </TouchableOpacity>
 
                   </View> : null}
@@ -2094,7 +2095,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   value={isEnabled2}
                 />
               </View> : null} */}
-{/* 
+              {/* 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Date of Birth</Text>
@@ -2107,7 +2108,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   value={isEnabled2}
                 />
               </View> */}
-              <View style={styles.border1}></View>
+              {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
                 {Gender == 'M' ? (
                   <>
@@ -2119,20 +2120,20 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     <Text style={styles.detail_text}>Gender</Text>
                     <Text style={{ textAlign: 'center' }}>Female</Text>
                   </>
-                ) : (
+                ) : Gender == 'C' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
                     <Text style={{ textAlign: 'center' }}>Custom</Text>
                   </>
-                )}
+                ) : null}
 
-                <Switch
+                {Gender != '' ? <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch3}
                   value={isEnabled3}
-                />
+                /> : null}
               </View>
 
               {/* <View style={styles.border1}></View>
@@ -2160,7 +2161,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               </View> */}
 
 
-              <View style={styles.border1}></View>
+              {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Two-Factor Authentication</Text>
                 <Switch
@@ -2171,7 +2172,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   value={isEnabledTwoFactor}
                 />
               </View>
-{/* 
+              {/* 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>

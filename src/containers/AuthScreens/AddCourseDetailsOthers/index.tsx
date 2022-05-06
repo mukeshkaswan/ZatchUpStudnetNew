@@ -81,6 +81,26 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
+
+    } else {
+      return null;
+    }
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Copy(MyDateString);
+  };
+
+
+  const onChangeiOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios');
+    if (event.type == 'set') {
+      //ok button
+      setDate(currentDate);
       setShow(Platform.OS !== 'ios'); // to show time
 
     } else {
@@ -103,6 +123,29 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
+
+    } else {
+      return null;
+    }
+
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Copy1(MyDateString);
+  };
+
+
+
+  const onChange1iOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow1(Platform.OS === 'ios');
+
+    if (event.type == 'set') {
+      //ok button
+      setDate1(currentDate);
       setShow1(Platform.OS !== 'ios'); // to show time
 
     } else {
@@ -118,6 +161,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
       ('0' + currentDate.getDate()).slice(-2);
     setDate_Copy1(MyDateString);
   };
+
+
 
   const showMode1 = currentMode => {
     setShow1(true);
@@ -443,7 +488,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   is24Hour={true}
                   format="YYYY-MMM-DD"
                   display="default"
-                  onChange={onChange}
+                  onChange={Platform.OS === 'ios' ? onChangeiOS : onChange}
+
                 />
               )}
 
@@ -457,7 +503,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   is24Hour={true}
                   format="YYYY-MMM-DD"
                   display="default"
-                  onChange={onChange1}
+                  onChange={Platform.OS === 'ios' ? onChange1iOS : onChange1}
+
 
                 />
               )}

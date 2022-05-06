@@ -43,11 +43,13 @@ const LoginScreen = (props: LoginScreenProps) => {
   const [SecureTextEntry, setSecureTextEntry] = useState(true);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const [flag, setFlag] = useState(false);
 
   React.useEffect(() => {
     // console.log('rtyuigfghj', props)
     setEmail('');
     setPassword('');
+    setFlag(false);
     //Clear();
   }, [isFocused]);
 
@@ -115,7 +117,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               // JSON.stringify(result, undefined, 2),
               // props.navigation.navigate('Home'),
             );
-             Toast.show('Login Successfully', Toast.SHORT)
+            Toast.show('Login Successfully', Toast.SHORT)
 
             getData(result),
 
@@ -147,6 +149,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
+
           }
         },
       }),
@@ -184,13 +187,13 @@ const LoginScreen = (props: LoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
       }
     } else if (result.reg_step == 4) {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
       }
     } else if (result.reg_step == 6) {
       if (result.is_kyc_rejected === true) {
@@ -203,7 +206,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
 
-       // Toast.show('Login Successfully', Toast.SHORT)
+        // Toast.show('Login Successfully', Toast.SHORT)
         // props.navigation.navigate('MySchoolScreen')
         // props.navigation.navigate('Home')
         await AsyncStorage.setItem('Loginflag', 'true');
@@ -217,12 +220,12 @@ const LoginScreen = (props: LoginScreenProps) => {
       } else {
         // props.navigation.navigate('Personalinfo');
 
-        props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
 
       }
     } else {
       // console.log('step_4', '4')
-      props.navigation.navigate('SelectStudent', { 're_verify': false ,'ei_request_count':0 });
+      props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
     }
   };
 
@@ -367,13 +370,14 @@ const LoginScreen = (props: LoginScreenProps) => {
 
 
   const onPressLogin = async () => {
+    setFlag(true);
 
     var key = email.indexOf('@') != -1 ? 'email' : 'mobile';
     const emailError = Validate(key, email);
     const passwordError = Validate('password_', password);
 
     if (emailError || passwordError) {
-
+      setFlag(false);
       Toast.show(emailError || passwordError, Toast.SHORT);
 
       return false;
@@ -418,6 +422,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
                 .catch((error) => {
                   setLoading(false);
+                  setFlag(false);
 
                   if (error.code === 'auth/email-already-in-use') {
                   }
@@ -426,9 +431,14 @@ const LoginScreen = (props: LoginScreenProps) => {
                   }
 
                   console.error(error);
+                  //   Toast.show(error, Toast.SHORT);
+
                 });
+
               //return;
               setLoading(false);
+              setFlag(false);
+
 
               // props.navigation.navigate('OtpLogin', {
               //   firebase_id: result.firebase_username,
@@ -438,9 +448,11 @@ const LoginScreen = (props: LoginScreenProps) => {
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
               setLoading(false);
-
+              setFlag(false);
               Toast.show(result.error.message[0], Toast.SHORT);
             } else {
+              setFlag(false);
+
               setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
@@ -490,6 +502,8 @@ const LoginScreen = (props: LoginScreenProps) => {
               <CustomButton
                 title={'Sign In'}
                 onPress={onPressLogin}
+                disabled={flag}
+
               // onPress={() => onPressLogin()}
 
               //onPress={() => props.navigation.navigate('Home')}

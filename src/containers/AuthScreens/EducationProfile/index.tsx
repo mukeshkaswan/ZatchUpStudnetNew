@@ -120,6 +120,35 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
+
+    } else {
+      return null;
+    }
+    // setDate(currentDate);
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+    //  console.log('A date has been picked: ' + day + '-' + month + '-' + year);
+    //  setDate_Copy(year + '-' + month + '-' + day);
+    var MyDateString =
+      currentDate.getFullYear() +
+      '-' +
+      ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + currentDate.getDate()).slice(-2);
+    setDate_Copy(MyDateString);
+
+    // YYYY-MM-DD
+  };
+
+
+  const onChangeiOS = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios');
+
+    if (event.type == 'set') {
+      //ok button
+      setDate(currentDate);
       setShow(Platform.OS !== 'ios'); // to show time
 
     } else {
@@ -140,7 +169,6 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
       ('0' + currentDate.getDate()).slice(-2);
     setDate_Copy(MyDateString);
 
-    // YYYY-MM-DD
   };
 
   const showMode = currentMode => {
@@ -849,7 +877,8 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
                     is24Hour={true}
                     format="YYYY-MMM-DD"
                     display="default"
-                    onChange={onChange}
+                    onChange={Platform.OS === 'ios' ? onChangeiOS : onChange}
+
                   />
                 )}
 
