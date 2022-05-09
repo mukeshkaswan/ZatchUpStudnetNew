@@ -665,9 +665,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     };
     setLoading(true);
     axios
-      .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
+     // .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
 
-        //.get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
+        .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
           Authorization: `Bearer ${token}`,
@@ -2407,8 +2407,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 )}
                 <TouchableOpacity
                   style={{
-                    height: hp('4.5'),
-                    width: wp('40'),
+                    height: hp('5.5'),
+                    width: wp('60'),
                     backgroundColor: 'rgb(70,50,103)',
                     marginTop: 15,
                     alignItems: 'center',

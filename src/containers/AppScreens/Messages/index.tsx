@@ -94,7 +94,7 @@ const Messages = (props: MessagesScreenProps,) => {
 
   useEffect(() => {
     setURIcheck(Math.floor(Math.random() * 100) + 1);
-    console.log(setURIcheck);
+    console.log('ChatURL',ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app');
     setURI(
       ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app',
     );
@@ -129,6 +129,7 @@ const Messages = (props: MessagesScreenProps,) => {
   }
 
   const navigateToGoBack_ = () => {
+    console.log('canGoBack',canGoBack)
     if (canGoBack) {
       ref.current.goBack();
       return true;
@@ -146,11 +147,12 @@ const Messages = (props: MessagesScreenProps,) => {
     setCanGoForward(navState.canGoForward);
     if (!navState.canGoBack && navState.canGoForward) {
       var newUrl = navState.url.split('/');
-      console.log('url by', newUrl);
 
       var newUrl1 = newUrl[newUrl.length - 1].indexOf('messages');
+     // console.log('url by d', newUrl1);
+
       if (newUrl1 > -1) {
-        // Alert.alert("Hello...");
+      //   Alert.alert("Hello...");
         // console.log('url by radhey', newUrl1);
         setURI(null);
         props.navigation.goBack(null);
@@ -402,7 +404,7 @@ const Messages = (props: MessagesScreenProps,) => {
         <View style={{ flex: 1 }}>
 
           <WebView
-            // nativeConfig={{ props: { webContentsDebuggingEnabled: true } }}
+            nativeConfig={{ props: { webContentsDebuggingEnabled: true } }}
             cacheEnabled={false}
             renderLoading={() => (
               <ActivityIndicator

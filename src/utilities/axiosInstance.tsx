@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Idx from 'idx';
 //const BaseURL = `http://172.105.61.231:3000/api/`; //Staging
-const BaseURL = `https://preapis.zatchup.com:3030/api/`;//Preprod
-//const BaseURL = `https://apis.zatchup.com:3000/api/`;//Prod
-export const ChatURL = `https://zatchup.com/preprod/#/`;//Prod
+//const BaseURL = `https://preapis.zatchup.com:3030/api/`;//Preprod
+const BaseURL = `https://apis.zatchup.com:3000/api/`;//Prod
+//export const ChatURL = `https://zatchup.com/preprod/#/`;//Preprod Chat URL
+export const ChatURL = `https://zatchup.com/#/`;//Prod Chat URL
+
 
 const getAxiosInstance = () => {
   const instance = axios.create({
