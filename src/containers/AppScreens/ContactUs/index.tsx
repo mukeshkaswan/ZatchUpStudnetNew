@@ -38,11 +38,11 @@ const ContactUs = (props: ContacUsScreenProps) => {
 
         <View style={styles.contactContainer}>
           <Icon name="phone" size={80} color={Colors.$BtnBackgroundColor} />
-          <Text style={styles.text}>+ 91 9876543210</Text>
+          <Text style={styles.text}>+91 8054441372</Text>
         </View>
         <View style={[styles.contactContainer, { marginTop: '8%' }]}>
           <Icon name="envelope" size={80} color={Colors.$BtnBackgroundColor} />
-          <Text style={styles.text}>admin@zatchup.com</Text>
+          <Text style={styles.text}>support@zatchup.com</Text>
         </View>
       </View>
     </SafeAreaView>

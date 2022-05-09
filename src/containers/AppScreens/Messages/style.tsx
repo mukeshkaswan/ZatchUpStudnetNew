@@ -9,8 +9,7 @@ export default ScaledSheet.create({
   container: {
     flex: 1,
     //backgroundColor: '$backgroundColor',
-
-    paddingBottom: 40
+   // paddingBottom: 40
   },
   child_view: {
     flexDirection: 'row',

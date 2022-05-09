@@ -141,7 +141,7 @@ const Messages = (props: MessagesScreenProps,) => {
 
 
   const setTheNavigation = (navState) => {
-  //  console.log('url by.....>', navState);
+    //  console.log('url by.....>', navState);
     setCanGoBack(navState.canGoBack);
     setCanGoForward(navState.canGoForward);
     if (!navState.canGoBack && navState.canGoForward) {
@@ -151,7 +151,7 @@ const Messages = (props: MessagesScreenProps,) => {
       var newUrl1 = newUrl[newUrl.length - 1].indexOf('messages');
       if (newUrl1 > -1) {
         // Alert.alert("Hello...");
-       // console.log('url by radhey', newUrl1);
+        // console.log('url by radhey', newUrl1);
         setURI(null);
         props.navigation.goBack(null);
       }
@@ -408,7 +408,7 @@ const Messages = (props: MessagesScreenProps,) => {
               <ActivityIndicator
                 style={{
                   width,
-                  height: height - 60,
+                  height,
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
@@ -416,7 +416,7 @@ const Messages = (props: MessagesScreenProps,) => {
                 color="#4B2A6A"
               />
             )}
-            style={{ flex: 1}}
+            style={{ flex: 1 }}
             ref={ref}
             source={{
               uri: uri,

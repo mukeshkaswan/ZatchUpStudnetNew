@@ -176,31 +176,33 @@ const ChatTeacherScreen = (props: ResetPasswordScreenProps) => {
           data={lecturedata}
           renderItem={({ item }) =>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-              <View style={styles.listCardWrapper}>
-                <View style={styles.userImageWrapper}>
-                
-                {item.profile_pic != null ?  <Image style={styles.userImageStyle} source={{ uri:item.profile_pic }} />:<Image style={styles.userImageStyle} source={Images.profile_default} />}
-              
-                </View>
-                <View style={styles.msgCardRightWrapper}>
-                  <View style={styles.msgCardHeaderWrapper}>
-                    <View style={{ flex: 1 }}>
-                      <Text
-                        style={styles.userNameStyle}>
-                        {item.school_name}
-                      </Text>
-                    </View>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen', { 'user_id': props.route.params.user_id, 'id': item.school_id })}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('ChatWithTeachersScreen', { 'user_id': props.route.params.user_id, 'id': item.school_id })}>
+
+                <View style={styles.listCardWrapper}>
+                  <View style={styles.userImageWrapper}>
+
+                    {item.profile_pic != null ? <Image style={styles.userImageStyle} source={{ uri: item.profile_pic }} /> : <Image style={styles.userImageStyle} source={Images.profile_default} />}
+
+                  </View>
+                  <View style={styles.msgCardRightWrapper}>
+                    <View style={styles.msgCardHeaderWrapper}>
+                      <View style={{ flex: 1 }}>
+                        <Text
+                          style={styles.userNameStyle}>
+                          {item.school_name}
+                        </Text>
+                      </View>
                       <View style={{}}>
                         <Image
                           style={{ height: 25, width: 25, marginRight: 10 }}
                           source={Images.rightarrow}
                         />
                       </View>
-                    </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
+
               <View
                 style={{
                   height: 2,
