@@ -133,6 +133,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setCustom(false);
     setcustomgenderView(false);
     setGenderForModal('M');
+    setCourseTypeSelected('');
+    setCustomGender('');
   };
 
   const checkedFemale = () => {
@@ -141,6 +143,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setMale(false);
     setcustomgenderView(false);
     setGenderForModal('F');
+    setCourseTypeSelected('');
+    setCustomGender('');
+
+
   };
 
   const checkedCustom = () => {
@@ -307,7 +313,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   );
 
 
-  //console.log("this.props",this.props);
 
   const onDeleteBTN = async () => {
     try {
@@ -347,9 +352,21 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setFemale(element.gender == 'F' ? true : false);
       setCustom(element.gender == 'C' ? true : false);
       setpronoun(element.pronoun);
-      setpronouncustom_gender(element.pronoun)
-      setCourseTypeSelected(element.custom_gender)
-      console.log('element.gender', element.gender)
+      setpronouncustom_gender(element.custom_gender)
+      setCustomGender(element.custom_gender);
+      setcustomgenderView(element.gender == 'C' ? true : false);
+
+      var key =
+        element.pronoun == 'He'
+          ? '0'
+          : element.pronoun == 'She'
+            ? '1'
+            : element.pronoun == 'They'
+              ? '2'
+              : '';
+
+      setCourseTypeSelected(key);
+
 
     });
     _storeData();
@@ -766,8 +783,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         gender:
           GenderForModal == 'M' || GenderForModal == 'F' ? GenderForModal : 'C',
         profile_pic: profilepic,
-        custom_gender:
-          GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
+        // custom_gender:
+        //   GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
+        custom_gender: CustomGender
       };
 
       // console.log('data====>>>', data);
@@ -1902,9 +1920,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   </View>
                 ) : null}
 
-                {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.text_container}>
+                {pronouncustom != '' && pronouncustom != null ? <View style={styles.text_container}>
                   <Text style={styles.detail_text}>pronoun : </Text>
-                  <Text>{pronouncustom}</Text>
+                  <Text>{pronouncustom + ' '}</Text>
+                  {pronouncustomcustom_gender != '' && pronouncustomcustom_gender != null ? <Text>{'(' + pronouncustomcustom_gender + ')'}</Text> : null}
                 </View> : null}
 
 
@@ -2241,7 +2260,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   Personal Information
                 </Text>
                 <Text style={styles.labeltext}>Mother's Name</Text>
-                <View style={styles.textinputcontainer}>
+                <View style={styles.textinputcontainers}>
                   {/* <TextInput
                         style={{paddingLeft: 10}}
                         onChangeText={onChangeNumber}
@@ -2257,7 +2276,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   />
                 </View>
                 <Text style={styles.labeltext}>Father's Name</Text>
-                <View style={styles.textinputcontainer}>
+                <View style={styles.textinputcontainers}>
                   <TextField
                     placeholder={'Enter Your Father Name'}
                     //imageIcon={Images.calendar_icon}
@@ -2360,7 +2379,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   <View style={{}}>
                     <View
                       style={{
-                        marginBottom: '2%', width: 250
+                        marginBottom: '2%', width: 300
                       }}>
                       {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
 
@@ -2376,7 +2395,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       />
                     </View>
 
-                    <View style={{ marginBottom: '3%', width: 250 }}>
+                    <View style={{ marginBottom: '3%', marginLeft:5, width: 295}}>
                       <TextField
                         placeholder={'Gender (optional)'}
                         imageIcon={''}

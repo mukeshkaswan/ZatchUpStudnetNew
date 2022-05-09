@@ -178,8 +178,9 @@ const ChatWithTeachersScreen = (props: ResetPasswordScreenProps) => {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
               <View style={styles.listCardWrapper}>
                 <View style={styles.userImageWrapper}>
-                  <Image style={styles.userImageStyle} source={{ uri: item.profile_pic }} />
+                  {item.profile_pic != null ? <Image style={styles.userImageStyle} source={{ uri: item.profile_pic }} />:<Image style={styles.userImageStyle} source={Images.profile_default} />}
                 </View>
+                
                 <View style={styles.msgCardRightWrapper}>
                   <View style={styles.msgCardHeaderWrapper}>
                     <View style={{ flex: 1 }}>

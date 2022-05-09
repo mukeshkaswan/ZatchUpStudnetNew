@@ -398,7 +398,7 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                     {isLoading && renderIndicator()}
 
                     <View style={{
-                        height: Platform.OS === 'ios' ? '10%' : '7%',
+                        height: Platform.OS === 'ios' ? '10%' : '10%',
                         backgroundColor: 'rgb(70,50,103)',
                         borderBottomLeftRadius: 15,
                         borderBottomRightRadius: 15,

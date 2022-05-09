@@ -47,7 +47,6 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
 
   useEffect(() => {
 
-    console.log('props',ChatURL+'user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify='+props.route.params.getVerify+'&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id)
     // getAuthUserInfoApi();
 
     // const dataSetTimeOut = setTimeout(() => {

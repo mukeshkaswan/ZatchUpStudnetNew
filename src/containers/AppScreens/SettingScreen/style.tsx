@@ -107,6 +107,14 @@ const styles = ScaledSheet.create({
     marginTop: 5,
 
   },
+  textinputcontainers: {
+    height: hp('5'),
+    borderColor: 'lightgrey',
+    width: 300,
+    borderRadius: 10,
+    marginTop: 5,
+
+  },
   logoContainer: {
     alignItems: 'center',
     alignSelf: 'center',
