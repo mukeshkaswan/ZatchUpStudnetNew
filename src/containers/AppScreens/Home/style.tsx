@@ -163,7 +163,7 @@ const styles = ScaledSheet.create({
   },
   Cardview_city: {
     backgroundColor: '#FFFFFF',
-    height: 40,
+    height: 50,
     marginTop: 15,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -174,6 +174,7 @@ const styles = ScaledSheet.create({
     //  padding: 20,
     borderRadius: 5,
     marginBottom: 5,
+    paddingHorizontal:10
   },
   title_text: {
 
@@ -285,7 +286,7 @@ const styles = ScaledSheet.create({
   modalContainerCity: {
     // height: hp('30%'),
     backgroundColor: 'white',
-    paddingHorizontal: 22,
+    //paddingHorizontal: 22,
     width:'100%',height:'70%' ,
    // marginTop:'70%',
     borderTopLeftRadius:20,
@@ -332,7 +333,8 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginBottom: '10%'
+    marginBottom: '10%',
+    alignSelf:'center'
   },
   view_Rowbg: {
     flexDirection: 'row',

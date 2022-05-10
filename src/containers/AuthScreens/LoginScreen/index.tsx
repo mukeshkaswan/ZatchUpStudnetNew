@@ -409,7 +409,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 )
                 .then(({ user }) => {
 
-                  console.log('FirebaseUSerLogin===>>>', user);
+                 // console.log('FirebaseUSerLogin===>>>', user);
                   onNaviagte(result, user);
 
                   // props.navigation.navigate('OtpLogin', {

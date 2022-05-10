@@ -665,9 +665,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     };
     setLoading(true);
     axios
-     // .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
-
-        .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
+       .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
+      //.get('http://172.105.61.231:3000/api/user/student-education-profile/', {
+        // .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
           Authorization: `Bearer ${token}`,
@@ -2395,7 +2395,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       />
                     </View>
 
-                    <View style={{ marginBottom: '3%', marginLeft:5, width: 295}}>
+                    <View style={{ marginBottom: '3%', marginLeft: 5, width: 295 }}>
                       <TextField
                         placeholder={'Gender (optional)'}
                         imageIcon={''}

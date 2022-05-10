@@ -797,6 +797,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
+
             console.log(
               'after result naveen ',
               JSON.stringify(result) ,
@@ -805,6 +806,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
 
             if (result.data.length > 0) {
+
               var newAr:any = [];
               var newApiArr:any = [];
               for (let i in result.data) {
@@ -925,13 +927,16 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
               getdataCourseKey(newObj);
+              setLoading(false);
+
             } else {
+              setLoading(false);
+
               getdataCourseKey(result);
             }
             // getdataCourseKey(result);
 
             // setSpinnerStart(false);
-            setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));

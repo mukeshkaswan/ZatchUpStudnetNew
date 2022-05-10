@@ -2545,7 +2545,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                    style={{ height: 13, width: 13,marginRight:30, tintColor: '#000' }}
                   />
                 </TouchableOpacity>
 
@@ -2567,22 +2567,24 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                 </View>
 
-                {citydata.length > 0 ? <FlatList
-                  data={citydata}
-                  style={{}}
-                  // keyExtractor={item => item.id.toString()}
-                  // ItemSeparatorComponent={ItemSepratorcity}
-                  //  ItemSeparatorComponent={this.SeparatorComponent}
-                  renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
-                /> : null}
-
-
-                <TouchableOpacity
-                  onPress={() => onPressModalSubmit()}
-                  style={styles.submitbtncity}>
-                  <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
-                </TouchableOpacity>
               </View>
+
+
+              {citydata.length > 0 ? <FlatList
+                data={citydata}
+                style={{paddingHorizontal:25}}
+                // keyExtractor={item => item.id.toString()}
+                // ItemSeparatorComponent={ItemSepratorcity}
+                //  ItemSeparatorComponent={this.SeparatorComponent}
+                renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
+              /> : null}
+
+
+              <TouchableOpacity
+                onPress={() => onPressModalSubmit()}
+                style={styles.submitbtncity}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+              </TouchableOpacity>
 
 
             </View>
