@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
+  BackHandler
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -26,6 +27,7 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
+  useFocusEffect
 } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -53,6 +55,34 @@ const LoginScreen = (props: LoginScreenProps) => {
     //Clear();
   }, [isFocused]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+      return () =>
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+    }, []),
+  );
+
+  const handleBackButtonClick = () => {
+    Alert.alert(
+      'ZatchUp',
+      'Do you want to exit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: BackHandler.exitApp },
+      ],
+      { cancelable: false },
+    );
+    return true;
+  };
   const renderIndicator = () => {
     return (
       <View style={{}}>
