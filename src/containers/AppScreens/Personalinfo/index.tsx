@@ -387,6 +387,59 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
     }
 
 
+
+    /***************************User Add Profile Skip *******************************/
+
+
+    const AddProfileSkip = async () => {
+
+        var token = '';
+        try {
+            const value = await AsyncStorage.getItem('token');
+            if (value !== null) {
+                // value previously stored
+                token = value;
+            }
+        } catch (e) {
+            // error reading value
+        }
+
+
+        const data = {
+            token: token,
+            mother_name: "",
+            father_name: "",
+            profile_pic: ""
+
+        }
+       // setLoading(true);
+
+        dispatch(
+            userActions.getAddProfilePicInfoSkip({
+                data,
+                callback: ({ result, error }) => {
+                    if (result) {
+                        // console.warn(
+                        //     'after result add profile skip',
+                        //     JSON.stringify(result, undefined, 2),
+
+                        // );
+                        props.navigation.navigate('Approval')
+                        setLoading(false);
+                    }
+                    if (!error) {
+                        console.warn(JSON.stringify(error, undefined, 2));
+                        setLoading(false);
+                    } else {
+                        setLoading(false);
+                        console.warn(JSON.stringify(error, undefined, 2));
+                    }
+                },
+            }),
+        );
+    }
+
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
 
@@ -552,7 +605,14 @@ const Personalinfo = (props: PersonalinfoScreenProps) => {
                                 />
                             </View>
 
-
+                            <View style={styles.OtpResendContainer}>
+                                <Text
+                                    style={styles.resendText}
+                                    onPress={AddProfileSkip}
+                                >
+                                    Skip
+                                </Text>
+                            </View>
 
 
                         </View>

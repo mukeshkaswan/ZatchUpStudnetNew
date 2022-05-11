@@ -423,7 +423,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         userActions.emailLogin({
           data,
           callback: ({ result, error }) => {
-            if (result.status === 'True') {
+            if (result.status) {
 
               // console.warn(
               //   'after login result',
@@ -439,7 +439,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 )
                 .then(({ user }) => {
 
-                 // console.log('FirebaseUSerLogin===>>>', user);
+                  // console.log('FirebaseUSerLogin===>>>', user);
                   onNaviagte(result, user);
 
                   // props.navigation.navigate('OtpLogin', {
@@ -450,21 +450,33 @@ const LoginScreen = (props: LoginScreenProps) => {
 
                 })
 
-                .catch((error) => {
+                // .catch((error) => {
+                //   setLoading(false);
+                //   setFlag(false);
+
+                //   if (error.code === 'auth/email-already-in-use') {
+                //   }
+
+                //   if (error.code === 'auth/invalid-email') {
+                //   }
+
+                //   console.error(error);
+                //   //   Toast.show(error, Toast.SHORT);
+
+                // });
+
+                .catch(function (error) {
+                  // Handle Errors here.
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  console.log('User did not sign up correctly');
+                  console.log(errorCode);
+                  console.log(errorMessage);
+                  console.error(error);
                   setLoading(false);
                   setFlag(false);
 
-                  if (error.code === 'auth/email-already-in-use') {
-                  }
-
-                  if (error.code === 'auth/invalid-email') {
-                  }
-
-                  console.error(error);
-                  //   Toast.show(error, Toast.SHORT);
-
                 });
-
               //return;
               setLoading(false);
               setFlag(false);

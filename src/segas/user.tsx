@@ -24,6 +24,7 @@ import {
   AUTHUSERINFO,
   GETREMINDERS,
   ADDPROFILEPICINFO,
+  ADDPROFILEPICINFOSKIP,
   EDITCOURSELIST,
   EDITSTANDARD,
   ADDCOURSEBYUSER,
@@ -882,7 +883,7 @@ function* getReminders({ payload: { data, callback } }) {
   }
 }
 
-/***************************User Delete Course Data Auth Segas*******************************/
+/***************************UserAdd Profile Pic Info Data Auth Segas*******************************/
 
 function* getAddProfilePicInfo({ payload: { data, callback } }) {
   console.warn('data in saga Add Profile Pic Info', data);
@@ -918,6 +919,51 @@ function* getAddProfilePicInfo({ payload: { data, callback } }) {
   }
 }
 
+
+
+/***************************User Add Profile Pic Info Skip Data Auth Segas*******************************/
+
+function* getAddProfilePicInfoSkip({ payload: { data, callback } }) {
+  console.warn('data in saga Add Profile Pic Skip Info', data);
+  // const formdata = new FormData();
+  // formdata.append('mother_name',":");
+  // formdata.append('father_name', ":");
+  // formdata.append('profile_pic', ":");
+
+
+  const datakey = {
+    mother_name: "",
+    father_name: "",
+    profile_pic: "",
+
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      //'Authorization': `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODI5LCJ1c2VybmFtZSI6InNkZmRzZmRmZ2RmZ2RmZEBnbWFpbC5jb20iLCJleHAiOjE2NDgwODc2NjksImVtYWlsIjoic2RmZHNmZGZnZGZnZGZkQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNjIyMTY3NjY5fQ.7WvxKra_SiUrogr5QUaehANDegDPJYfPN-f86sqMgjE'}`,
+      'Content-Type': 'application/json',
+    },
+    data: datakey,
+    method: 'POST',
+    url: 'user/add-profile-pic-info/',
+  };
+  const { result, error } = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Add Profile Pic Info Result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
 
 
 /***************************User Delete Course Data Auth Segas*******************************/
@@ -3305,6 +3351,7 @@ function* User() {
     yield takeLatest(AUTHUSERINFO, getAuthUserInfo),
     yield takeLatest(GETREMINDERS, getReminders),
     yield takeLatest(ADDPROFILEPICINFO, getAddProfilePicInfo),
+    yield takeLatest(ADDPROFILEPICINFOSKIP, getAddProfilePicInfoSkip),
     yield takeLatest(EDITCOURSELIST, getEditCourseList),
     yield takeLatest(EDITSTANDARD, getStandardEdit),
     yield takeLatest(ADDCOURSEBYUSER, getAddCourseByUser),

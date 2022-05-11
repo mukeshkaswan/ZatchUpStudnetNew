@@ -2114,7 +2114,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               >
 
-                <View >
+                {profilepic != '' && profilepic != null ? <View >
                   <Image
                     source={{ uri: profilepic }}
                     style={{
@@ -2125,7 +2125,18 @@ const HomeScreen = (props: HomeScreenProps) => {
                     }}
                   />
 
-                </View>
+                </View> : <View >
+                  <Image
+                    source={Images.profile_default}
+                    style={{
+                      height: 100,
+                      width: 100,
+                      resizeMode: 'cover',
+                      borderRadius: 50,
+                    }}
+                  />
+
+                </View>}
 
                 {profilepic != '' ? <View
                   style={{
@@ -2545,7 +2556,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 13, width: 13,marginRight:30, tintColor: '#000' }}
+                    style={{ height: 13, width: 13, marginRight: 30, tintColor: '#000' }}
                   />
                 </TouchableOpacity>
 
@@ -2572,7 +2583,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
               {citydata.length > 0 ? <FlatList
                 data={citydata}
-                style={{paddingHorizontal:25}}
+                style={{ paddingHorizontal: 25 }}
                 // keyExtractor={item => item.id.toString()}
                 // ItemSeparatorComponent={ItemSepratorcity}
                 //  ItemSeparatorComponent={this.SeparatorComponent}

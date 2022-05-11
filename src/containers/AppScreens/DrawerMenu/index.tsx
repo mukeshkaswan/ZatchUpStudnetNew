@@ -254,7 +254,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             </TouchableOpacity>
 
             <View style={[styles.avatarStyle, {borderRadius: 45}]}>
-              <Image
+            {profilepic != '' && profilepic != null ?  <Image
                 source={{uri: profilepic}}
                 style={{
                   height: 100,
@@ -262,7 +262,15 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   resizeMode: 'cover',
                   borderRadius: 45,
                 }}
-              />
+              />:<Image
+              source={Images.profile_default}
+              style={{
+                height: 100,
+                width: 100,
+                resizeMode: 'cover',
+                borderRadius: 45,
+              }}
+            />}
               {is_kyc_approved === true ? (
                 <View
                   style={{

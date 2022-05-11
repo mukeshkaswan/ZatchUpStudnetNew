@@ -16,6 +16,16 @@ const styles = ScaledSheet.create({
         marginRight:50,
         marginLeft:50
     },
+    OtpResendContainer:{
+        alignItems:'center',marginTop:'10%',marginBottom:10
+    },
+    resendText:{
+        fontFamily:'Lato-Regular',fontSize:hp(2.8),color:'rgb(70,50,103)', textDecorationLine: 'underline',textDecorationColor:'rgb(70,50,103)'
+    },
+
+    Skip:{
+        alignItems:'center',marginTop:'5%'
+    },
     logo: {
         width: Dimensions.get('window').width * 0.4,
         height: Dimensions.get('window').width * 0.4,

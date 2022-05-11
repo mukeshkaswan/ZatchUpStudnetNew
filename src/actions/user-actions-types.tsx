@@ -89,6 +89,9 @@ export const getReminders = createAction(GETREMINDERS);
 export const ADDPROFILEPICINFO = 'ADDPROFILEPICINFO';
 export const getAddProfilePicInfo = createAction(ADDPROFILEPICINFO);
 
+// this is for Get Add Profile Pic Info Skip success
+export const ADDPROFILEPICINFOSKIP = 'ADDPROFILEPICINFOSKIP';
+export const getAddProfilePicInfoSkip = createAction(ADDPROFILEPICINFOSKIP);
 
 // this is for Get Add Profile Pic Info success
 export const ADDPROFILEPICINFOEDU = 'ADDPROFILEPICINFOEDU';

@@ -128,38 +128,64 @@ const Messages = (props: MessagesScreenProps,) => {
 
   }
 
+  // const navigateToGoBack_ = () => {
+  //  // console.log('canGoBack',canGoBack)
+  //   if (canGoBack) {
+  //     ref.current.goBack();
+  //     return true;
+  //   } else {
+  //     props.navigation.goBack(null);
+  //     return true;
+  //   }
+  // };
   const navigateToGoBack_ = () => {
-    console.log('canGoBack',canGoBack)
+    console.log('canGoBack==>>', canGoBack);
     if (canGoBack) {
       ref.current.goBack();
-      return true;
     } else {
       props.navigation.goBack(null);
-      return true;
     }
+    //return true;
   };
 
 
 
+  // const setTheNavigation = (navState) => {
+  //   //  console.log('url by.....>', navState);
+  //   setCanGoBack(navState.canGoBack);
+  //   setCanGoForward(navState.canGoForward);
+  //   if (!navState.canGoBack && navState.canGoForward) {
+  //     var newUrl = navState.url.split('/');
+
+  //     var newUrl1 = newUrl[newUrl.length - 1].indexOf('messages');
+  //    // console.log('url by d', newUrl1);
+
+  //     if (newUrl1 > -1) {
+  //     //   Alert.alert("Hello...");
+  //       // console.log('url by radhey', newUrl1);
+  //       setURI(null);
+  //       props.navigation.goBack(null);
+  //     }
+  //   }
+  //   // setURI(navState.url);
+  // };
+
   const setTheNavigation = (navState) => {
-    //  console.log('url by.....>', navState);
+    console.log('navState==>>>', navState.url);
     setCanGoBack(navState.canGoBack);
     setCanGoForward(navState.canGoForward);
     if (!navState.canGoBack && navState.canGoForward) {
       var newUrl = navState.url.split('/');
-
       var newUrl1 = newUrl[newUrl.length - 1].indexOf('messages');
-     // console.log('url by d', newUrl1);
-
       if (newUrl1 > -1) {
-      //   Alert.alert("Hello...");
-        // console.log('url by radhey', newUrl1);
+        console.log('url by radhey', newUrl1);
         setURI(null);
         props.navigation.goBack(null);
       }
     }
     // setURI(navState.url);
   };
+
   const backPressed = () => {
     props.navigation.goBack(null);
     return true;
