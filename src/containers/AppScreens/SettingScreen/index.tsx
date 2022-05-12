@@ -51,6 +51,7 @@ import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import { CheckBox } from 'react-native-elements';
 import axios from 'axios';
+import { BaseURL } from '../../../utilities/axiosInstance';
 
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -665,8 +666,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     };
     setLoading(true);
     axios
-       .get('https://preapis.zatchup.com:3030/api/user/student-education-profile/', {
-      //.get('http://172.105.61.231:3000/api/user/student-education-profile/', {
+      .get(BaseURL + 'user/student-education-profile/', {
+        //.get('http://172.105.61.231:3000/api/user/student-education-profile/', {
         // .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
@@ -955,6 +956,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         userActions.requestChangeUserDetailEmail({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
             if (result.status) {
               // setModalVisible(false);
               // getEducationProfile();
@@ -963,9 +965,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 JSON.stringify(result.status, undefined, 2),
 
               );
-              setLoading(false);
-              toggleModal3();
-              otptoggleModalEmail();
+              setModalVisible3(false);
+
+              setTimeout(() => {
+                setotpVisiblemodalemail(true);
+              }, 500);
+
+
               //return;
               // props.navigation.navigate('OtpLogin', {
               //   firebase_id: result.firebase_username,
@@ -974,10 +980,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
-              setLoading(false);
               Toast.show(result.error.non_field_errors[0], Toast.SHORT);
             } else {
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -1024,6 +1028,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         userActions.requestChangeUserDetailVerifyOtp({
           data,
           callback: ({ result, error }) => {
+            setLoading(false)
+
             if (result.status === true) {
               console.warn(
                 'after otp result --->',
@@ -1034,15 +1040,16 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               //  getData(result),
 
               //setSpinnerStart(false);
-              setLoading(false),
 
-                LogoutALert();
+              LogoutALert();
             }
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              setLoading(false);
-              Toast.show(result.error.message[0], Toast.SHORT);
+              setTimeout(() => {
+                Toast.show(result.error.message[0], Toast.SHORT);
+
+              }, 500);
 
               // signOut();
             }
@@ -1061,7 +1068,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               // signOut();
               //   Toast.show('Invalid Otp', Toast.SHORT);
 
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -1108,6 +1114,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         userActions.requestChangeUserDetailVerifyOtpEmail({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             if (result.status === true) {
               console.warn(
                 'after otp result --->',
@@ -1118,15 +1126,16 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               //  getData(result),
 
               //setSpinnerStart(false);
-              setLoading(false),
 
-                LogoutALert();
+              LogoutALert();
             }
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              setLoading(false);
-              Toast.show(result.error.message[0], Toast.SHORT);
+              setTimeout(() => {
+                Toast.show(result.error.message[0], Toast.SHORT);
+
+              }, 500);
 
               // signOut();
             }
@@ -1145,7 +1154,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               // signOut();
               //   Toast.show('Invalid Otp', Toast.SHORT);
 
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -1183,26 +1191,28 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.getResendotpEiRequest({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result.status === true) {
             console.warn(
               'after otp Re Send result',
               JSON.stringify(result, undefined, 2),
             );
-            Toast.show(result.message, Toast.SHORT);
+            setTimeout(() => {
+              Toast.show(result.message, Toast.SHORT);
+
+            }, 500);
             // setSpinnerStart(false);
-            setLoading(false);
           }
 
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            setLoading(false);
 
             // signOut();
           } else {
             // setError(true);
             // signOut();
-            setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
         },
@@ -1239,26 +1249,29 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.getResendotpEiRequestEmail({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result.status === true) {
+
             console.warn(
               'after otp Re Send result',
               JSON.stringify(result, undefined, 2),
             );
-            Toast.show(result.message, Toast.SHORT);
+            setTimeout(() => {
+              Toast.show(result.message, Toast.SHORT);
+
+            }, 500);
             // setSpinnerStart(false);
-            setLoading(false);
           }
 
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            setLoading(false);
 
             // signOut();
           } else {
             // setError(true);
             // signOut();
-            setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
         },

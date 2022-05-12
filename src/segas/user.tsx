@@ -116,7 +116,7 @@ function* emailLogin({ payload: { data, callback } }) {
   // const params = {
   //   username: data.username,
   //   password: data.password,
-   
+
   // };
 
   const payload = {
@@ -267,7 +267,7 @@ function* otpSuccess({ payload: { data, callback } }) {
   formdata.append('firebase_id', data.firebase_id);
   formdata.append('phone_otp', data.phone_otp);
   formdata.append('username', data.username);
-  formdata.append('is_skip',  "false");
+  formdata.append('is_skip', "false");
   formdata.append('is_mobile', true);
 
 
@@ -969,7 +969,7 @@ function* getAddProfilePicInfoSkip({ payload: { data, callback } }) {
 /***************************User Delete Course Data Auth Segas*******************************/
 
 function* getAddProfilePicInfoEdu({ payload: { data, callback } }) {
-  
+
   console.warn('data in saga Add Profile Pic Info', data);
 
   const datakey = {
@@ -1554,13 +1554,13 @@ function* getadduserstepseven({ payload: { data, callback } }) {
 /***************************User Course Confirmation Step Auth Segas*******************************/
 
 function* getusercourseconfirmation({ payload: { data, callback } }) {
- // const formdata = new FormData();
-//  formdata.append('school_id', data.school_id);
+  // const formdata = new FormData();
+  //  formdata.append('school_id', data.school_id);
 
-const datakey = {
-  id: data.id,
-  school_id: data.school_id,
-};
+  const datakey = {
+    id: data.id,
+    school_id: data.school_id,
+  };
 
   const payload = {
     headers: {
@@ -1592,39 +1592,39 @@ const datakey = {
 
 function* getusercourseconfirmationreverify({ payload: { data, callback } }) {
   // const formdata = new FormData();
- //  formdata.append('school_id', data.school_id);
- 
- const datakey = {
-   id: data.id,
-   school_id: data.school_id,
-   re_verify:true
- };
- 
-   const payload = {
-     headers: {
-       Authorization: `Bearer ${data.token}`,
-       // "Content-Type": "application/json"
-     },
-     method: 'POST',
-     data: datakey,
-     //  url: `user/getcitybystateid/${data.id}/`,
-     url: `user/user-course-conformation/`,
-   };
-   const { result, error } = yield call(httpClient, payload);
-   callback({ result, error });
-   if (!error) {
-     if (result) {
-       // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
-       callback({ result, error });
-       // const userToken = result.token;
-       // const data = result.data;
-       // yield put(loginSuccess({userToken, data}));
-     } else {
-       Toast.show(result.message);
-     }
-   }
- }
- 
+  //  formdata.append('school_id', data.school_id);
+
+  const datakey = {
+    id: data.id,
+    school_id: data.school_id,
+    re_verify: true
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'POST',
+    data: datakey,
+    //  url: `user/getcitybystateid/${data.id}/`,
+    url: `user/user-course-conformation/`,
+  };
+  const { result, error } = yield call(httpClient, payload);
+  callback({ result, error });
+  if (!error) {
+    if (result) {
+      // console.log('get User Course Confirmation Step result', JSON.stringify(result, undefined, 2));
+      callback({ result, error });
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 
 
 /***************************User GET Search City Auth Segas*******************************/
@@ -1737,7 +1737,7 @@ function* getSchoollistforstarclass({ payload: { data, callback } }) {
     },
     method: 'GET',
     //  url: `user/city-list/?search=${data.key}`,
-   // url: `user/school-list-for-student-startclass/?page=`+data.page+'&page_size=2'
+    // url: `user/school-list-for-student-startclass/?page=`+data.page+'&page_size=2'
     url: `user/school-list-for-student-startclass/`
 
 
@@ -2516,7 +2516,7 @@ function* getUserCourseConfirm({ payload: { data, callback } }) {
   const datakey = {
     school_id: data.school_id,
     existing_course: data.existing_course,
-    change_course_id:data.change_course_id
+    change_course_id: data.change_course_id
     // before_exist: data.course_id,
     // course_id: data.course_id,
 
@@ -2795,7 +2795,7 @@ function* otpSuccessSkip({ payload: { data, callback } }) {
 /***************************Request Change User Detail NO*******************************/
 
 function* requestChangeUserDetail({ payload: { data, callback } }) {
- 
+
   console.warn('data in saga', data);
 
   const params = {
@@ -2832,7 +2832,7 @@ function* requestChangeUserDetail({ payload: { data, callback } }) {
 /***************************Request Change User Detail EMAIL*******************************/
 
 function* requestChangeUserDetailEmail({ payload: { data, callback } }) {
- 
+
   console.warn('data in saga', data);
 
   const params = {
@@ -2870,7 +2870,7 @@ function* requestChangeUserDetailEmail({ payload: { data, callback } }) {
 /***************************Request Change User Detail Verify Otp*******************************/
 
 function* requestChangeUserDetailVerifyOtp({ payload: { data, callback } }) {
- 
+
   console.warn('data in saga', data);
 
   const params = {
@@ -2906,7 +2906,7 @@ function* requestChangeUserDetailVerifyOtp({ payload: { data, callback } }) {
 /***************************Request Change User Detail Verify Otp email*******************************/
 
 function* requestChangeUserDetailVerifyOtpEmail({ payload: { data, callback } }) {
- 
+
   console.warn('data in saga', data);
 
   const params = {
@@ -2942,7 +2942,7 @@ function* requestChangeUserDetailVerifyOtpEmail({ payload: { data, callback } })
 /***************************User Re-send Otp data success otp-ei-request-for-detail*******************************/
 
 function* getResendotpEiRequest({ payload: { data, callback } }) {
- 
+
   const params = {
     class_id: data.class_id,
     key: data.key,
@@ -2977,7 +2977,7 @@ function* getResendotpEiRequest({ payload: { data, callback } }) {
 /***************************User Re-send Otp data success otp-ei-request-for-detail email*******************************/
 
 function* getResendotpEiRequestEmail({ payload: { data, callback } }) {
- 
+
   const params = {
     class_id: data.class_id,
     key: data.key,
@@ -3040,7 +3040,7 @@ function* getUserSettingStatus({ payload: { data, callback } }) {
 /***************************User GET User Setting Status Post*******************************/
 
 function* getUserSettingStatusPost({ payload: { data, callback } }) {
- 
+
   const params = {
     is_disabled: data.is_disabled,
     status_type: data.status_type,
@@ -3154,7 +3154,7 @@ function* getSentforapprovalviewstatus({ payload: { data, callback } }) {
 
   if (!error) {
     if (result) {
-       console.log('get sent_for_approval_view_status', JSON.stringify(result, undefined, 2));
+      console.log('get sent_for_approval_view_status', JSON.stringify(result, undefined, 2));
       callback(result, error);
       // const userToken = result.token;
       // const data = result.data;
@@ -3198,7 +3198,7 @@ function* getLogoutViewStatus({ payload: { data, callback } }) {
 /***************************User GET User Profile Delete Zatchup Account*******************************/
 
 function* getProfileDeleteZatchupAccount({ payload: { data, callback } }) {
- 
+
   const params = {
     is_active: data.is_active,
   };
@@ -3229,7 +3229,7 @@ function* getProfileDeleteZatchupAccount({ payload: { data, callback } }) {
 /***************************GET Change status accepted by user*******************************/
 
 function* getChangestatusacceptedbyuser({ payload: { data, callback } }) {
- 
+
   const params = {
     is_sent_up: data.is_sent_up,
     school_id: data.school_id,
@@ -3264,7 +3264,7 @@ function* getChangestatusacceptedbyuser({ payload: { data, callback } }) {
 /***************************GET Change status accepted by user*******************************/
 
 function* getChangestatusacceptedbyusermulti({ payload: { data, callback } }) {
- 
+
   const params = {
     school_id: data.school_id,
     status: data.status,
@@ -3298,7 +3298,7 @@ function* getChangestatusacceptedbyusermulti({ payload: { data, callback } }) {
 /***************************GET School detail schoolid by user*******************************/
 
 function* getSchooldetailschoolid({ payload: { data, callback } }) {
- 
+
   const params = {
     school_id: data.school_id,
 
@@ -3428,10 +3428,10 @@ function* User() {
     yield takeLatest(CHANGESTATUSACCEPTEDBYUSERMULTI, getChangestatusacceptedbyusermulti),
     yield takeLatest(GETSCHOOLDETAILSCHOOLID, getSchooldetailschoolid),
 
-    
-    
+
+
   ]);
-  
+
 }
 
 export default User;

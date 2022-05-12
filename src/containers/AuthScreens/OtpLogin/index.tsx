@@ -16,6 +16,7 @@ import {
   CustomStatusBar,
   BackBtn,
   Validate,
+  ProgressIndicator
 } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
@@ -81,13 +82,13 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false ,'ei_request_count':0});
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
       }
     } else if (result.reg_step == 4) {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count':0});
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
       }
     } else if (result.reg_step == 6) {
       if (result.is_kyc_rejected === true) {
@@ -99,7 +100,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       if (result.is_kyc_rejected === true) {
         props.navigation.navigate('eKYC', { 'is_kyc_rejected': result.is_kyc_rejected, 'reg_step': result.reg_step, 'signup': '', 'Editdobsignup': true });
       } else {
-        
+
         await AsyncStorage.setItem('Loginflag', 'true');
 
         Toast.show('Login Successfully', Toast.SHORT)
@@ -117,12 +118,12 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       } else {
         // props.navigation.navigate('Personalinfo');
 
-        props.navigation.navigate('SelectStudent', { 're_verify': false ,'ei_request_count':0});
+        props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
 
       }
     } else {
       // console.log('step_4', '4')
-      props.navigation.navigate('SelectStudent', { 're_verify': false,'ei_request_count':0 });
+      props.navigation.navigate('SelectStudent', { 're_verify': false, 'ei_request_count': 0 });
     }
   };
 
@@ -245,26 +246,28 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
       userActions.getResendotp({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result.status === true) {
             console.warn(
               'after otp Re Send result',
               JSON.stringify(result, undefined, 2),
             );
-            Toast.show(result.message, Toast.SHORT);
+            setTimeout(() => {
+
+              Toast.show(result.message, Toast.SHORT);
+            }, 500);
             // setSpinnerStart(false);
-            setLoading(false);
           }
 
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            setLoading(false);
 
             // signOut();
           } else {
             // setError(true);
             // signOut();
-            setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
         },
@@ -295,6 +298,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
         userActions.otpSuccess({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             if (result.status === 'True') {
               console.warn(
                 'after otp result',
@@ -302,16 +307,17 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
                 // props.navigation.navigate('Home'),
               );
 
-              getData(result),
+              getData(result)
 
-                //setSpinnerStart(false);
-                setLoading(false);
+              //setSpinnerStart(false);
             }
             if (result.status === 'False') {
               //console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              Toast.show(result.error, Toast.SHORT);
-              setLoading(false);
+              setTimeout(() => {
+
+                Toast.show(result.error, Toast.SHORT);
+              }, 500);
 
               // signOut();
             }
@@ -401,7 +407,9 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      {isLoading && renderIndicator()}
+      {/* {isLoading && renderIndicator()} */}
+      {isLoading && <ProgressIndicator isLoading={isLoading} />}
+
 
       <View style={styles.backbtnCss}>
         <BackBtn navigation={props.navigation} />

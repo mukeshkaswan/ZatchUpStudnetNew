@@ -18,6 +18,7 @@ import {
   CustomButton,
   CustomStatusBar,
   Validate,
+  ProgressIndicator
 } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
@@ -147,7 +148,9 @@ const LoginScreen = (props: LoginScreenProps) => {
               // JSON.stringify(result, undefined, 2),
               // props.navigation.navigate('Home'),
             );
-            Toast.show('Login Successfully', Toast.SHORT)
+            setTimeout(() => {
+              Toast.show('Login Successfully', Toast.SHORT);
+            }, 500);
 
             getData(result),
 
@@ -423,6 +426,8 @@ const LoginScreen = (props: LoginScreenProps) => {
         userActions.emailLogin({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             if (result.status) {
 
               // console.warn(
@@ -478,7 +483,6 @@ const LoginScreen = (props: LoginScreenProps) => {
 
                 });
               //return;
-              setLoading(false);
               setFlag(false);
 
 
@@ -489,13 +493,14 @@ const LoginScreen = (props: LoginScreenProps) => {
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
-              setLoading(false);
               setFlag(false);
-              Toast.show(result.error.message[0], Toast.SHORT);
+              // Toast.show(result.error.message[0], Toast.SHORT);
+              setTimeout(() => {
+                Toast.show(result.error.message[0], Toast.SHORT);
+              }, 500);
             } else {
               setFlag(false);
 
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -507,7 +512,8 @@ const LoginScreen = (props: LoginScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      {isLoading && renderIndicator()}
+      {/* {isLoading && renderIndicator()} */}
+      {isLoading && <ProgressIndicator isLoading={isLoading} />}
 
       <View style={{ flex: 1 }}>
         <View style={styles.logoContainer}>

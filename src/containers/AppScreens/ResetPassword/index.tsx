@@ -20,6 +20,7 @@ import {
   Validate,
   CustomHeader,
   BackBtn,
+  ProgressIndicator
 } from '../../../components';
 import { Images } from '../../../components/index';
 import Toast from 'react-native-simple-toast';
@@ -153,17 +154,18 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
         userActions.getResetPassword({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
             if (result.status === true) {
               console.warn(
                 'after change password User result',
                 JSON.stringify(result.status, undefined, 2),
 
-                Toast.show(result.message, Toast.SHORT),
-                setLoading(false),
-
-
-
               );
+              // Toast.show(result.message, Toast.SHORT),
+              setTimeout(() => {
+                Toast.show(result.message, Toast.SHORT);
+              }, 500);
+
               auth()
                 .signInWithEmailAndPassword(
                   result.data.firebase_username + '@zatchup.com',
@@ -184,11 +186,13 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
 
             }
             if (result.status === false) {
-              console.warn(JSON.stringify(error, undefined, 2));
-              setLoading(false);
-              Toast.show(result.error.message[0], Toast.SHORT);
+              setTimeout(() => {
+                Toast.show(result.error.message[0], Toast.SHORT);
+              }, 500);
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // Toast.show(result.error.message[0], Toast.SHORT);
+              return false;
             } else {
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -201,7 +205,7 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
     return (
       <View style={{}}>
         <ProgressLoader
-          visible={true}
+          visible={isLoading}
           isModal={true}
           isHUD={true}
           //hudColor={"#ffffff00"}
@@ -270,7 +274,6 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
 
           {/* <CustomHeader Title={'Change Password'} Back={'true'} navigation={props.navigation} /> */}
 
-          {isLoading && renderIndicator()}
 
           {/* <View style={styles.backbtnCss}><BackBtn navigation={props.navigation} /></View> */}
 
@@ -330,9 +333,11 @@ const ResetPassword = (props: ResetPasswordScreenProps) => {
                 <CustomButton title="Submit" onPress={submit} />
               </View>
             </View>
+
           </ScrollView>
         </View>
       </KeyboardAwareScrollView>
+      {isLoading && <ProgressIndicator isLoading={isLoading} />}
     </SafeAreaView>
   );
 };

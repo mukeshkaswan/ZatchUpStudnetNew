@@ -15,7 +15,8 @@ import {
   CustomButton,
   CustomStatusBar,
   BackBtn,
-  Validate
+  Validate,
+  ProgressIndicator
 } from '../../../components';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -107,6 +108,8 @@ const Otp = (props: OtpScreenProps) => {
       userActions.getResendotp({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result.status === true) {
             // console.warn(
             //   'after otp Re Send result',
@@ -115,22 +118,21 @@ const Otp = (props: OtpScreenProps) => {
             //   // props.navigation.navigate('eKYC')
             //   // props.navigation.navigate('eKYC'),
             // );
-            Toast.show(result.message, Toast.SHORT)
+            setTimeout(() => {
+              Toast.show(result.message, Toast.SHORT)
+            }, 500);
 
             // setSpinnerStart(false);
-            setLoading(false);
           }
 
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            setLoading(false);
 
             // signOut();
           } else {
             // setError(true);
             // signOut();
-            setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
         },
@@ -165,7 +167,10 @@ const Otp = (props: OtpScreenProps) => {
         userActions.registerOtpSuccess({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             if (result.status === true) {
+
               console.warn(
                 'after otp register result',
                 JSON.stringify(result, undefined, 2),
@@ -176,20 +181,19 @@ const Otp = (props: OtpScreenProps) => {
               // setSpinnerStart(false);
               _storeData(result);
 
-              setLoading(false);
             }
 
             if (result.status === false) {
               //console.warn(JSON.stringify(error, undefined, 2));
               // setLoginSuccess(result);
-              Toast.show('OTP is Not Valid', Toast.SHORT)
-              setLoading(false);
+              setTimeout(() => {
+                Toast.show(result.error, Toast.SHORT);
+              }, 500);
               // signOut();
             } else {
 
               // setError(true);
               // signOut();
-              setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }
           },
@@ -212,6 +216,8 @@ const Otp = (props: OtpScreenProps) => {
       userActions.otpSuccessSkip({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result.status === 'True') {
             console.warn(
               'after otp register result',
@@ -223,14 +229,17 @@ const Otp = (props: OtpScreenProps) => {
             // setSpinnerStart(false);
             _storeData(result);
 
-            setLoading(false);
           }
 
-          if (result.status === 'False') {
+          if (result.status == false) {
             //console.warn(JSON.stringify(error, undefined, 2));
             // setLoginSuccess(result);
-            Toast.show('OTP is Not Valid', Toast.SHORT)
-            setLoading(false);
+            setTimeout(() => {
+              Toast.show('OTP is Not Valid', Toast.SHORT)
+            }, 5000);
+            return false;
+
+            // setLoading(false);
             // signOut();
           } else {
 
@@ -247,7 +256,9 @@ const Otp = (props: OtpScreenProps) => {
   return (
     <View style={styles.container}>
       <CustomStatusBar />
-      {isLoading && renderIndicator()}
+      {/* {isLoading && renderIndicator()} */}
+      {isLoading && <ProgressIndicator isLoading={isLoading} />}
+
       <View style={styles.backbtnCss}>
         <BackBtn navigation={props.navigation} />
       </View>
@@ -261,7 +272,7 @@ const Otp = (props: OtpScreenProps) => {
       <View style={styles.enterTextConatiner}>
         {key == 'Email' ? <Text style={styles.enterText}>
           {'Enter the OTP received on your email id.'}
-        </Text>:<Text style={styles.enterText}>
+        </Text> : <Text style={styles.enterText}>
           {'Enter the OTP received on your phone number.'}
         </Text>}
       </View>

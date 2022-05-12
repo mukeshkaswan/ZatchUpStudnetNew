@@ -24,6 +24,7 @@ import {
   BackBtn,
   CustomDropdown,
   Validate,
+  ProgressIndicator
 } from '../../../components';
 import Modal from 'react-native-modal';
 const screenWidth = Dimensions.get('window').width;
@@ -124,12 +125,12 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     if (event.type == 'set') {
       //ok button
       setDate(currentDate);
-    //  setShow(Platform.OS !== 'ios'); // to show time
+      //  setShow(Platform.OS !== 'ios'); // to show time
 
     } else {
       return false;
-    //   setShow(Platform.OS === 'ios'); // to hide back the picker
-    //  setMode('date'); // defaulting to date for next open
+      //   setShow(Platform.OS === 'ios'); // to hide back the picker
+      //  setMode('date'); // defaulting to date for next open
     }
     //  setDate(currentDate);
     var day = currentDate.getDate();
@@ -364,6 +365,8 @@ const SignUpScreen = (props: SignUpScreenProps) => {
         userActions.registerUser({
           data,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             console.log('result', result)
             if (result.status === true) {
               auth()
@@ -415,7 +418,6 @@ const SignUpScreen = (props: SignUpScreenProps) => {
                 })
                 .catch((error) => {
 
-                  setLoading(false);
 
                   if (error.code === 'auth/email-already-in-use') {
 
@@ -435,25 +437,26 @@ const SignUpScreen = (props: SignUpScreenProps) => {
               console.warn(JSON.stringify(error, undefined, 2));
 
               if (Email.indexOf('@') != -1) {
-                Toast.show(result.error.email[0], Toast.SHORT);
+                setTimeout(() => {
+                  Toast.show(result.error.email[0], Toast.SHORT);
+                }, 500);
 
               } else {
-                Toast.show(result.error.phone[0], Toast.SHORT);
-
+                setTimeout(() => {
+                  Toast.show(result.error.phone[0], Toast.SHORT);
+                }, 500);
               }
               // setLoginSuccess(result);
               //  Toast.show('User with this email address already exists.', Toast.SHORT);
 
               //  console.log('error Result',result.error.email[0])
 
-              setLoading(false);
 
               // signOut();
             } else {
               // setError(true);
               // signOut();
               // console.log('error',result)
-              setLoading(false);
 
               console.warn(JSON.stringify(error, undefined, 2));
             }
@@ -494,7 +497,9 @@ const SignUpScreen = (props: SignUpScreenProps) => {
     <View style={styles.container}>
       <CustomStatusBar />
       {/* <ModelComponent isvisible={this.state.visible} modeltype={'RequestAuth_1'} onPress={this.closemodel}/> */}
-      {isLoading && renderIndicator()}
+      {/* {isLoading && renderIndicator()} */}
+      {isLoading && <ProgressIndicator isLoading={isLoading} />}
+
 
       <View style={styles.signupConatiner}>
         <View style={styles.backbtnCss}>

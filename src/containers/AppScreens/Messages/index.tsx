@@ -77,7 +77,10 @@ const Messages = (props: MessagesScreenProps,) => {
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
+        setTimeout(() => {
 
+          ref.current.reload();
+        }, 200);
 
         return () => {
           dataSetTimeOut.clear();
@@ -94,7 +97,7 @@ const Messages = (props: MessagesScreenProps,) => {
 
   useEffect(() => {
     setURIcheck(Math.floor(Math.random() * 100) + 1);
-    console.log('ChatURL',ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app');
+    console.log('ChatURL', ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app');
     setURI(
       ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app',
     );
@@ -104,7 +107,6 @@ const Messages = (props: MessagesScreenProps,) => {
     // ) {
     //   ref && ref.current.reload();
     // }
-    ref && ref.current.reload();
 
     let unsubscribe = props.navigation.addListener('focus', () => {
       // const handler = BackHandler.addEventListener(

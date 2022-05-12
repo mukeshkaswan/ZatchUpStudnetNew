@@ -131,16 +131,13 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   const onChange1 = (event, selectedDate) => {
 
 
-    setDate_Course2('');
+    const currentDate = selectedDate || date;
 
-    setDate2(new Date());
-
-    const currentDate = selectedDate;
     setShow1(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
       setDate1(currentDate);
-     // setShow1(Platform.OS !== 'ios'); // to show time
+      // setShow1(Platform.OS !== 'ios'); // to show time
 
     } else {
       return false;
@@ -159,14 +156,13 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
   };
 
 
+
+
   const onChange1iOS = (event, selectedDate) => {
 
 
-    setDate_Course2('');
+    const currentDate = selectedDate || date;
 
-    setDate2(new Date());
-
-    const currentDate = selectedDate;
     setShow1(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
@@ -190,7 +186,9 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
 
   const onChange2 = (event, selectedDate) => {
-    const currentDate = selectedDate;
+
+    const currentDate = selectedDate || date;
+
     setShow2(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
@@ -214,7 +212,7 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
 
 
   const onChange2iOS = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || date;
     setShow2(Platform.OS === 'ios');
     if (event.type == 'set') {
       //ok button
@@ -234,7 +232,6 @@ const WorkDetailsScreen = (props: WorkDetailsProps) => {
       ('0' + currentDate.getDate()).slice(-2);
     setDate_Course2(MyDateString);
   };
-
 
 
   const showMode1 = currentMode => {

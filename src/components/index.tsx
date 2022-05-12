@@ -13,6 +13,7 @@ import HeaderTitleWithBack from './HeaderTitleWithBack';
 import TextFieldCopy from './TextFieldCopy';
 import CustomDropdownCopy from './CustomDropdownCopy/CustomDropdowns';
 import Customcard from './ Customcard';
+import ProgressIndicator from './ProgressIndicator';
 
 export {
   Images,
@@ -30,4 +31,5 @@ export {
   TextFieldCopy,
   CustomDropdownCopy,
   Customcard,
+  ProgressIndicator
 };
