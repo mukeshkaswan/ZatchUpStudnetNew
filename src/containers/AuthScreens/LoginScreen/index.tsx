@@ -576,16 +576,16 @@ const LoginScreen = (props: LoginScreenProps) => {
 
         </View>
 
-        <View style={styles.bottomText}>
+        {/* <View style={styles.bottomText}>
           <Text style={styles.dontAccountText}>
             Don’t have an account?
             <Text
               style={styles.signupText}
               onPress={() => props.navigation.navigate('SignUpScreen')}>
-              {/* CurrentSchoolinfo EducationProfile */} Sign Up
+               Sign Up
             </Text>
           </Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );
