@@ -18,7 +18,7 @@ import { persistStore } from 'redux-persist';
 import sagas from './src/segas';
 import reducer from './src/reducers';
 import { createStore, applyMiddleware } from 'redux';
-
+import 'react-native-gesture-handler'
 LogBox.ignoreAllLogs();
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(sagaMiddleware));

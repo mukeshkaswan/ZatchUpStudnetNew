@@ -106,7 +106,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
         Toast.show('Login Successfully', Toast.SHORT)
         // props.navigation.navigate('MySchoolScreen')
         // props.navigation.navigate('Home')
-        props.navigation.navigate('MySchoolScreen')
+        props.navigation.navigate('CoomingSoon')
         //props.navigation.navigate('Comming')
 
 

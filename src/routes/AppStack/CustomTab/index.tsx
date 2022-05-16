@@ -130,103 +130,14 @@ const TabBarCustomButton = ({
 };
 
 const CustomTabBar = () => {
-  // const value = await AsyncStorage.getItem('token');
-  // console.log('valuevaluevaluevalue',value);
+
   const dispatch = useDispatch();
   const [getcount, set_Count] = useState('0');
   const isFocused = useIsFocused();
-  //const value =  AsyncStorage.getItem('unread_reminder_count');
   const isInitialMount = useRef(true);
 
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //      isInitialMount.current = false;
-  //   } else {
-  //     getStepCountAPi();
 
-  //       // Your useEffect code here to be run on update
-  //   }
-  // }, [isFocused]);
-
-  // useEffect(() => {
-  //   // setInterval(async () => {
-  //   //   getStepCountAPi();
-  //   // }, 1000);
-
-  //  getStepCountAPi();
-
-  // }, []);
-
-  // useFocusEffect(
-
-  //   React.useCallback(() => {
-
-  //     getStepCountAPi();
-
-  //   }, [isFocused])
-  // );
-
-  /***************************User getStepCountAPi *******************************/
-
-  const getStepCountAPi = async () => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('tokenlogin');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-
-    const data = {
-      token: token,
-    };
-    setTimeout(
-      function () {
-        dispatch(
-          userActions.getRegStepCount({
-            data,
-            callback: ({result, error}) => {
-              if (result) {
-                // Alert.alert('Test_@');
-
-                // setLoading(false);
-                console.warn(
-                  'after result step count bottom tab first',
-                  JSON.stringify(result, undefined, 2),
-                  //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-                );
-                // Alert.alert('prop');
-
-                set_Count(result.unread_reminder_count);
-              }
-              if (!error) {
-                console.warn(JSON.stringify(error, undefined, 2));
-                // setLoginSuccess(result);
-                // setLoading(false);
-                //console.log('dfdfdf--------', error)
-                // Toast.show('Invalid credentials', Toast.SHORT);
-
-                // Alert.alert(error.message[0])
-
-                // signOut();
-              } else {
-                // setError(true);
-                // signOut();
-                // Alert.alert(result.status)
-                // Toast.show('Invalid credentials', Toast.SHORT);
-                //  setLoading(false);
-                console.warn(JSON.stringify(error, undefined, 2));
-              }
-            },
-          }),
-        );
-      }.bind(this),
-      1000,
-    );
-  };
+  
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -247,7 +158,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({focused}) => {
             return (
               <Icon
-                name="book-open"
+                name="home"
                 size={24}
                 color={focused ? '#ffffff' : 'gray'}
               />

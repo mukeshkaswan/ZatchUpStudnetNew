@@ -819,7 +819,7 @@ const eKyc = (props: eKycScreenProps) => {
       }
 
       else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 7) {
-        props.navigation.navigate('MySchoolScreen', {
+        props.navigation.navigate('CoomingSoon', {
           username: 'jfdsfsdlfjs',
         });
       }

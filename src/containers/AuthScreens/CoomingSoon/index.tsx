@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -14,25 +14,32 @@ import {
   RefreshControl,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
 interface CoomingSoonScreenProps {
   navigation: any;
 }
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
 import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect
+} from '@react-navigation/native';
+import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useIsFocused, DrawerActions} from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+//import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
 const data1 = [
@@ -75,7 +82,7 @@ const data1 = [
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 const data = [
   {
@@ -138,51 +145,100 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [checkboxValue, setCheckboxValue] = React.useState([
-    {report_option: 'Suspicious or Fake', checked: false},
+    { report_option: 'Suspicious or Fake', checked: false },
 
-    {report_option: 'Harassment or hateful speech', checked: false},
-    {report_option: 'Violence or physical harm', checked: false},
-    {report_option: 'Adult Content', checked: false},
+    { report_option: 'Harassment or hateful speech', checked: false },
+    { report_option: 'Violence or physical harm', checked: false },
+    { report_option: 'Adult Content', checked: false },
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
     },
   ]);
-  useEffect(() => {
-    //getEducationProfile();
-    setPage(1);
-    onChangecityname('');
-    setCityData([]);
+  // useEffect(() => {
+  //   //getEducationProfile();
+  //   setPage(1);
+  //   onChangecityname('');
+  //   setCityData([]);
 
-    getStepCountAPi();
-    getAuthUserInfoApi();
-    getPostDataApi(1);
-    getReportData();
-    // getAuthUserInfoApi();
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true); // or some other action
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false); // or some other action
-      },
-    );
+  //   getStepCountAPi();
+  //   getAuthUserInfoApi();
+  //   getPostDataApi(1);
+  //   getReportData();
+  //   // getAuthUserInfoApi();
+  //   const keyboardDidShowListener = Keyboard.addListener(
+  //     'keyboardDidShow',
+  //     () => {
+  //       setKeyboardVisible(true); // or some other action
+  //     },
+  //   );
+  //   const keyboardDidHideListener = Keyboard.addListener(
+  //     'keyboardDidHide',
+  //     () => {
+  //       setKeyboardVisible(false); // or some other action
+  //     },
+  //   );
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+  //     );
+  //     keyboardDidHideListener.remove();
+  //     keyboardDidShowListener.remove();
+  //   };
+  // }, []);
+
+
+  useFocusEffect(
+
+
+    React.useCallback(() => {
+
+      const dataSetTimeOut = setTimeout(() => {
+
+        setPage(1);
+        onChangecityname('');
+        setCityData([]);
+        getStepCountAPi();
+
+        getAuthUserInfoApi();
+        getPostDataApi(1);
+        getReportData();
+
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 500);
+
+      const keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        () => {
+          setKeyboardVisible(true); // or some other action
+        },
       );
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+      const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        () => {
+          setKeyboardVisible(false); // or some other action
+        },
+      );
 
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      return () => {
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+      };
+
+
+
+    }, [])
+  );
   const pressComment = () => {
     showComment(true);
   };
@@ -215,9 +271,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes'},
+        { text: 'Yes' },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -232,29 +288,28 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
+
 
   const onDeleteBTN = async () => {
     try {
       await AsyncStorage.removeItem('tokenlogin');
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('Loginflag')
+
     } catch (e) {
       // save error
     }
     Toast.show('Logout Successfully ', Toast.SHORT);
 
     props.navigation.navigate('LoginScreen');
-    //  BackHandler.exitApp()
   };
-  // function handleBackButtonClick() {
-  //   props.navigation.goBack();
-  //   return true;
-  // }
+ 
 
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
@@ -291,7 +346,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result Auth User INfo',
@@ -349,7 +404,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report data',
@@ -359,7 +414,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({...result.data[i], checked: false});
+                newData.push({ ...result.data[i], checked: false });
               }
 
               console.log('newData==>>', newData);
@@ -413,7 +468,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report data',
@@ -474,7 +529,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result unfollow user',
@@ -526,7 +581,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getPostOfUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoadingg(false);
             setLoading(false);
@@ -632,7 +687,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       userActions.getSearchSchoolStudentSearchList({
         data,
 
-        callback: ({results, error}) => {
+        callback: ({ results, error }) => {
           console.warn(
             'after Search School Student result data',
             results,
@@ -694,7 +749,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -760,12 +815,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
               onPress={() =>
                 props.navigation.navigate('SchoolProfile', {
-                  item: {school_id: item.school_id, user_id: item.id},
+                  item: { school_id: item.school_id, user_id: item.id },
                 })
               }>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image
-                  source={{uri: item.profile_pic}}
+                  source={{ uri: item.profile_pic }}
                   // source={require('../../../assets/images/pic.jpeg')}
                   style={{
                     // marginLeft: 10,
@@ -774,15 +829,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{marginLeft: 10, justifyContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     {item.display}
                   </Text>
-                  <Text style={{textAlign: 'center'}}>{item.zatchupId}</Text>
+                  <Text style={{ textAlign: 'center' }}>{item.zatchupId}</Text>
                 </View>
               </View>
             </TouchableOpacity>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Text style={{}}>{item.city}</Text>
               <Image
                 //source={{ uri: item.profile_pic }}
@@ -815,10 +870,10 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               // }
               onPress={() =>
                 props.navigation.navigate('UserProfileScreen', {
-                  item: {user_id: item.id},
+                  item: { user_id: item.id },
                 })
               }>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image
                   source={Images.profile_default}
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -829,8 +884,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{marginLeft: 10, justifyContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     {item.display}
                   </Text>
                   <Text>You</Text>
@@ -862,7 +917,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   },
                 })
               }>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image
                   source={Images.profile_default}
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -873,8 +928,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{marginLeft: 10, justifyContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
+                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     {item.display}
                   </Text>
                   <Text>School Mate</Text>
@@ -891,7 +946,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const isCarousel = useRef(null);
   const isCarouselText = useRef(null);
 
-  function CrouselImages({item, index, length}) {
+  function CrouselImages({ item, index, length }) {
     return (
       <View
         style={{
@@ -916,7 +971,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           />
         ) : (
           // <Text>kamal</Text>
-          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
+          <View style={{ width: screenWidth - 64, height: screenWidth - 64 }}>
             <Video
               key={item + 'sap'}
               ref={ref}
@@ -930,10 +985,10 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
               }}
               // video={{ uri: coursepreview }}
-              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-              //resizeMode="contain"
-              //showDuration
-              //lockRatio={16 / 9}
+              thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
+            //resizeMode="contain"
+            //showDuration
+            //lockRatio={16 / 9}
             />
           </View>
         )}
@@ -959,7 +1014,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     );
   }
 
-  function CrouselText({item, index, length}) {
+  function CrouselText({ item, index, length }) {
     return (
       <View
         style={{
@@ -1076,7 +1131,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result like or unlike',
@@ -1124,7 +1179,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment on post',
@@ -1169,7 +1224,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment like or unlike',
@@ -1280,7 +1335,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           <TouchableOpacity onPress={onBurgerBarPress}>
             <Image
               source={Images.menu_dash}
-              style={{marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF'}}
+              style={{ marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF' }}
             />
           </TouchableOpacity>
         )}
@@ -1304,13 +1359,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               }}>
               <Image
                 source={Images.search}
-                style={{marginLeft: 10, tintColor: '#000'}}
+                style={{ marginLeft: 10, tintColor: '#000' }}
               />
               <TextInput
                 //onChangeText={onChangeNumber}
                 onChangeText={value => getSearchcitydata(value)}
                 value={cityname}
-                style={{color: '#000'}}
+                style={{ color: '#000' }}
                 placeholderTextColor="#000"
                 placeholder="Search City"
                 keyboardType="default"
@@ -1343,7 +1398,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
-            <Image source={Images.search} style={styles.inbox_iconreminder} />
+            <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+              marginRight: 5, marginTop: 11, height: 30, width: 30
+            }} />
           </TouchableOpacity>
           <View
             style={{
@@ -1416,7 +1475,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             // keyExtractor={item => item.id.toString()}
             // ItemSeparatorComponent={ItemSepratorcity}
             //  ItemSeparatorComponent={this.SeparatorComponent}
-            renderItem={({item, index}) => rednderItemListcitydata(item, index)}
+            renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
           />
         ) : null}
       </View>
@@ -1439,12 +1498,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     marginHorizontal: 16,
                     marginTop: 8,
                   }}>
-                  <Text style={{fontWeight: '700'}}>Notification</Text>
+                  <Text style={{ fontWeight: '700' }}>Notification</Text>
                   <TouchableOpacity
                     onPress={() =>
                       props.navigation.navigate('UserNotificationScreen')
                     }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                    <Text style={{ fontWeight: '700', fontSize: 12 }}>View</Text>
                   </TouchableOpacity>
                 </View>
                 <View
@@ -1454,12 +1513,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     marginHorizontal: 16,
                     marginTop: 8,
                   }}>
-                  <Text style={{fontWeight: '700'}}>Suggestion for you</Text>
+                  <Text style={{ fontWeight: '700' }}>Suggestion for you</Text>
                   <TouchableOpacity
                     onPress={() =>
                       props.navigation.navigate('SuggestionScreen')
                     }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                    <Text style={{ fontWeight: '700', fontSize: 12 }}>View</Text>
                   </TouchableOpacity>
                 </View>
                 <View
@@ -1469,12 +1528,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     marginHorizontal: 16,
                     marginTop: 8,
                   }}>
-                  <Text style={{fontWeight: '700'}}>Follow Request</Text>
+                  <Text style={{ fontWeight: '700' }}>Follow Request</Text>
                   <TouchableOpacity
                     onPress={() =>
                       props.navigation.navigate('FollowRequestScreen')
                     }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
+                    <Text style={{ fontWeight: '700', fontSize: 12 }}>View</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -1482,7 +1541,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <View></View>
             )
           }
-          style={{flex: 1, width: '100%'}}
+          style={{ flex: 1, width: '100%' }}
           data={posts}
           refreshControl={
             <RefreshControl
@@ -1500,7 +1559,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{fontSize: 18}}>
+                <Text style={{ fontSize: 18 }}>
                   No Notifications are available
                 </Text>
               </View>
@@ -1543,7 +1602,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <View></View>
             )
           }
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             let len = item.post_gallery != null ? item.post_gallery.length : 0;
             let items = item;
             let ind = index;
@@ -1934,13 +1993,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           )}
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen', {item: customItem});
+              props.navigation.navigate('PostDetailScreen', { item: customItem });
             }}>
-            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+            <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
           </TouchableOpacity>
           <View style={styles.mborder}></View>
           <TouchableOpacity onPress={toggleModal}>
-            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
+            <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -1949,7 +2008,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         onBackdropPress={toggleModal2}
         backdropOpacity={0.4}>
         <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+          <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
             <TouchableOpacity>
               <Text
                 style={{
@@ -1963,13 +2022,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity onPress={toggleModal2}>
               <Image
                 source={Images.closeicon}
-                style={{height: 15, width: 15, marginRight: 10}}
+                style={{ height: 15, width: 15, marginRight: 10 }}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.mborder}></View>
-          <View style={{paddingHorizontal: 16}}>
-            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
+          <View style={{ paddingHorizontal: 16 }}>
+            <Text style={{ fontSize: hp(2.4) }}>Why are you reporting this?</Text>
             {checkboxValue.map((checkbox, i) => (
               <View key={i} style={styles.rowContent}>
                 <Text style={styles.reporttext}>{checkbox.report_option}</Text>
@@ -2006,11 +2065,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           </View>
           <View style={styles.mborder}></View>
           <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
             <TouchableOpacity
               style={styles.postbtn}
               onPress={() => gotoReport()}>
-              <Text style={{color: 'white'}}>Submit</Text>
+              <Text style={{ color: 'white' }}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>

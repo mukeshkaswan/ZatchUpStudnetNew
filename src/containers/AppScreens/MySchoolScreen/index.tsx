@@ -84,11 +84,12 @@ const MySchool = (props: HomeScreenProps) => {
 
 
     React.useCallback(() => {
+      getStepCountAPi();
+
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
 
-        getStepCountAPi();
 
         UserCourseDelete();
 
@@ -150,6 +151,11 @@ const MySchool = (props: HomeScreenProps) => {
   }
 
   function handleBackButtonClick() {
+    props.navigation.goBack();
+    return true;
+  }
+
+  function handleBackButtonClickk() {
     Alert.alert(
       'Exit App',
       'Do you want to exit?',

@@ -243,7 +243,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         // props.navigation.navigate('MySchoolScreen')
         // props.navigation.navigate('Home')
         await AsyncStorage.setItem('Loginflag', 'true');
-        props.navigation.navigate('MySchoolScreen')
+        props.navigation.navigate('CoomingSoon')
         //props.navigation.navigate('Comming')
 
       }
