@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Text, Platform, Alert } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, {useMemo, useState, useRef, useEffect} from 'react';
+import {View, TouchableOpacity, Text, Platform, Alert} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
   interpolate,
@@ -8,8 +8,8 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
-import Svg, { Path } from 'react-native-svg';
-import { useDispatch, useSelector } from 'react-redux';
+import Svg, {Path} from 'react-native-svg';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   LoginScreen,
   SignUpScreen,
@@ -36,7 +36,7 @@ import {
   Messages,
   CoomingSoon,
   MySchoolScreen,
-  Reminders
+  Reminders,
 } from '../../../containers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as userActions from '../../../actions/user-actions-types';
@@ -44,30 +44,31 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
-  useFocusEffect
+  useFocusEffect,
 } from '@react-navigation/native';
-
 
 const Tab = createBottomTabNavigator();
 
-const TabBarCustomButton = ({ accessibilityLabel, accessibilityState, children, onPress }) => {
-
+const TabBarCustomButton = ({
+  accessibilityLabel,
+  accessibilityState,
+  children,
+  onPress,
+}) => {
   var isSelected = accessibilityState.selected;
 
   if (isSelected) {
-
-
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
-          <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
+      <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{flexDirection: 'row', position: 'absolute', top: 0}}>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}></View>
           <Svg width={75} height={61} viewBox="0 0 75 61">
             <Path
               d="M75.2 0v61H0V0c4.1 0 7.4 3.1 7.9 7.1C10 21.7 22.5 33 37.7 33c15.2 0 27.7-11.3 29.7-25.9.5-4 3.9-7.1 7.9-7.1h-.1z"
               fill={'#ffffff'}
             />
           </Svg>
-          <View style={{ flex: 1, backgroundColor: '#ffffff' }}></View>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}></View>
         </View>
 
         {/* {accessibilityLabel == "Reminders_Tab, tab, 3 of 3" ? <View
@@ -152,29 +153,15 @@ const CustomTabBar = () => {
   //   //   getStepCountAPi();
   //   // }, 1000);
 
-
   //  getStepCountAPi();
-
 
   // }, []);
 
-
   // useFocusEffect(
-
 
   //   React.useCallback(() => {
 
-
-
-
-
-
   //     getStepCountAPi();
-
-
-
-
-
 
   //   }, [isFocused])
   // );
@@ -182,10 +169,6 @@ const CustomTabBar = () => {
   /***************************User getStepCountAPi *******************************/
 
   const getStepCountAPi = async () => {
-
-
-
-
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -205,7 +188,7 @@ const CustomTabBar = () => {
         dispatch(
           userActions.getRegStepCount({
             data,
-            callback: ({ result, error }) => {
+            callback: ({result, error}) => {
               if (result) {
                 // Alert.alert('Test_@');
 
@@ -218,8 +201,6 @@ const CustomTabBar = () => {
                 // Alert.alert('prop');
 
                 set_Count(result.unread_reminder_count);
-
-
               }
               if (!error) {
                 console.warn(JSON.stringify(error, undefined, 2));
@@ -242,11 +223,9 @@ const CustomTabBar = () => {
             },
           }),
         );
-      }
-        .bind(this),
-      1000
+      }.bind(this),
+      1000,
     );
-
   };
   return (
     <Tab.Navigator
@@ -259,15 +238,33 @@ const CustomTabBar = () => {
           elevation: 0,
         },
       }}
-      initialRouteName={'MySchool_Tab'}>
-
+      initialRouteName={'CoomingSoon_Tab'}>
+      <Tab.Screen
+        name="CoomingSoon_Tab"
+        component={CoomingSoon}
+        options={{
+          unmountOnBlur: true,
+          tabBarIcon: ({focused}) => {
+            return (
+              <Icon
+                name="book-open"
+                size={24}
+                color={focused ? '#ffffff' : 'gray'}
+              />
+            );
+          },
+          tabBarButton: props => {
+            return <TabBarCustomButton {...props} />;
+          },
+        }}
+      />
 
       <Tab.Screen
         name="MySchool_Tab"
         component={MySchoolScreen}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({ focused }) => {
+          tabBarIcon: ({focused}) => {
             return (
               <Icon
                 name="book-open"
@@ -287,7 +284,7 @@ const CustomTabBar = () => {
         component={Messages}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({ focused }) => {
+          tabBarIcon: ({focused}) => {
             return (
               <Icon
                 name="message-square"
