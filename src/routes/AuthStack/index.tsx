@@ -216,7 +216,9 @@ function AuthStack() {
       <Stack.Screen
         name="MySchoolScreen"
         component={MySchoolScreen}
-        options={{headerShown: false}}
+       // options={{headerShown: false}}
+        options={{header: () => null}}
+
       />
 
       <Stack.Screen

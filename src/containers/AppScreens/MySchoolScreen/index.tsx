@@ -382,6 +382,8 @@ const MySchool = (props: HomeScreenProps) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
+      <CustomStatusBar />
+
         <View style={styles.child_view}>
           <TouchableOpacity onPress={onBurgerBarPress}>
             <Image source={Images.menu_dash} style={styles.image_menu} />

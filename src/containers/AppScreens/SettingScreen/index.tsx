@@ -65,6 +65,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isEnabled2, setIsEnabled2] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
   const [isEnabledTwoFactor, setIsEnabledTwoFactor] = useState(false);
+  const [isEnabledEmail, setIsEnabledEmail] = useState(false);
+  const [isEnabledDob, setIsEnabledDob] = useState(false);
+  const [isEnabledGender, setIsEnabledGender] = useState(false);
+  const [isEnabledProfession, setIsEnabledProfession] = useState(false);
+  const [isEnabledCity, setIsEnabledCity] = useState(false);
+  const [isEnabledPrivate, setIsEnabledPrivate] = useState(false);
+
   const [isDeactivateAccount, setIsDeactivateAccount] = useState(false);
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -194,9 +201,44 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const toggleSwitchTwoFactor = () => {
     setIsEnabledTwoFactor(!isEnabledTwoFactor);
-
     onPressChangeTwoFactorStaus(!isEnabledTwoFactor);
   };
+
+  const toggleSwitchEmail = () => {
+    setIsEnabledEmail(!isEnabledEmail);
+    onPressChangeEmailStaus(!isEnabledEmail);
+  };
+
+  const toggleSwitchDob = () => {
+    setIsEnabledDob(!isEnabledDob);
+    onPressChangeDobStaus(!isEnabledDob);
+  };
+
+  const toggleSwitchGender = () => {
+    setIsEnabledGender(!isEnabledGender);
+    onPressChangeGenderStaus(!isEnabledGender);
+  };
+
+
+  const toggleSwitchProfession = () => {
+    setIsEnabledProfession(!isEnabledProfession);
+    onPressChangeProfessionStaus(!isEnabledProfession);
+  };
+
+  const toggleSwitchCity = () => {
+    setIsEnabledCity(!isEnabledCity);
+    onPressChangeCityStaus(!isEnabledCity);
+  };
+
+
+  const toggleSwitchPrivate = () => {
+    setIsEnabledPrivate(!isEnabledPrivate);
+     onPressChangePrivateStaus(!isEnabledPrivate);
+  };
+
+
+
+
   const toggleSwitch3 = () => {
     setIsEnabled3(previousState => !previousState);
   };
@@ -300,6 +342,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
         getEducationProfile();
         getAuthUserInfoApi();
+        getPrivacySettingApi();
+
 
         return () => {
           dataSetTimeOut.clear();
@@ -391,11 +435,32 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       if (result.data[i].status_type === "OTP") {
         setIsEnabledTwoFactor(result.data[i].is_disabled);
       }
-      else {
-        setIsEnabledTwoFactor(false);
+      if (result.data[i].status_type === "EMAIL_ID") {
+        setIsEnabledEmail(result.data[i].is_disabled);
       }
 
+      if (result.data[i].status_type === "DOB") {
+        setIsEnabledDob(result.data[i].is_disabled);
+      }
+
+      if (result.data[i].status_type === "GENDER") {
+        setIsEnabledGender(result.data[i].is_disabled);
+      }
+
+      if (result.data[i].status_type === "PROFESSION") {
+        setIsEnabledProfession(result.data[i].is_disabled);
+      }
+
+      if (result.data[i].status_type === "CITY") {
+        setIsEnabledCity(result.data[i].is_disabled);
+      }
+
+
+
     }
+
+
+
 
 
   }
@@ -403,6 +468,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
 
 
+  /***************************User Auth Deactivate Account*******************************/
 
   const onPressChangeDeactivateAccountStaus = async () => {
 
@@ -466,6 +532,321 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
+
+
+/***************************User Auth Private Profile Disable*******************************/
+
+const onPressChangePrivateStaus = async (key) => {
+
+  var token = '';
+  try {
+    const value = await AsyncStorage.getItem('tokenlogin');
+    if (value !== null) {
+      // value previously stored
+      token = value;
+    }
+  } catch (e) {
+    // error reading value
+  }
+
+  const data = {
+    token: token,
+    privacy_status: key,
+  };
+
+
+  setLoading(true);
+
+  dispatch(
+    userActions.getSocialPrivacySetting({
+      data,
+      callback: ({ result, error }) => {
+        setLoading(false);
+
+        if (result.status === true) {
+          console.warn(
+            'after get User Social',
+            JSON.stringify(result, undefined, 2),
+          );
+          getPrivacySettingApi();
+
+        }
+
+        if (!error) {
+          console.warn(JSON.stringify(error, undefined, 2));
+          setLoading(false);
+        } else {
+          setLoading(false);
+          console.warn(JSON.stringify(error, undefined, 2));
+        }
+      },
+    }),
+  );
+};
+
+
+
+
+
+  /***************************User Auth City Disable*******************************/
+
+  const onPressChangeCityStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "CITY",
+      user: userid,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          setLoading(false);
+
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            getSettingStatus(userid);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User Auth Profession Disable*******************************/
+
+  const onPressChangeProfessionStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "PROFESSION",
+      user: userid,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          setLoading(false);
+
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            getSettingStatus(userid);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User Auth Gender Disable*******************************/
+
+  const onPressChangeGenderStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "GENDER",
+      user: userid,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          setLoading(false);
+
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            getSettingStatus(userid);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  /***************************User Auth Dob Disable*******************************/
+
+  const onPressChangeDobStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "DOB",
+      user: userid,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            getSettingStatus(userid);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User Auth Email Disable*******************************/
+
+  const onPressChangeEmailStaus = async (key) => {
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: "EMAIL_ID",
+      user: userid,
+    };
+
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+            console.warn(
+              'after get User Setting Status Post >',
+              JSON.stringify(result, undefined, 2),
+            );
+            getSettingStatus(userid);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  /***************************User Auth Two Factor Status*******************************/
+
   const onPressChangeTwoFactorStaus = async (key) => {
 
     var token = '';
@@ -498,24 +879,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               'after get User Setting Status Post >',
               JSON.stringify(result, undefined, 2),
             );
-            //getSettingStatus();
             getSettingStatus(userid);
-
-
-            // Toast.show(result.message, Toast.SHORT);
-            // setSpinnerStart(false);
             setLoading(false);
           }
 
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
             setLoading(false);
-
-            // signOut();
           } else {
-            // setError(true);
-            // signOut();
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -524,7 +895,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
-  /***************************User Auth User  SettingS tatus Info*******************************/
+
+  /***************************User Auth User  Setting Status Info*******************************/
 
   const getSettingStatus = async (user_id) => {
 
@@ -554,30 +926,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               JSON.stringify(result, undefined, 2),
 
             );
-
             getStatusType(result);
-
-
-            // Alert.alert(JSON.stringify( result.data[0].is_disabled));
-
-            // setSpinnerStart(false);
             setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
             setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
 
-            // Alert.alert(error.message[0])
-
-            // signOut();
           } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -585,6 +941,53 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       }),
     );
 
+  };
+
+   /***************************User Privacy Setting Api Info*******************************/
+
+   const getPrivacySettingApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+
+    };
+
+    dispatch(
+      userActions.getPrivacySetting({
+        data,
+        callback: ({ result, error }) => {
+          setLoading(false);
+
+          if (result) {
+            console.warn(
+              'after result abc',
+              JSON.stringify(result, undefined, 2),
+
+            );
+              setIsEnabledPrivate(result.data[0].profile_is_private);
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            Toast.show('Request failed with status code 401', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   /***************************User Auth User Info*******************************/
@@ -609,35 +1012,22 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.getAuthUserInfo({
         data,
         callback: ({ result, error }) => {
+          setLoading(false);
+
           if (result) {
             console.warn(
               'after result Auth User INfo',
               JSON.stringify(result, undefined, 2),
 
             );
-            //  Alert.alert('Huy 1')
             setUserid(result.user_id);
-            // getSettingStatus(result.user_id);
-            // setUserid(1237);
             getSettingStatus(result.user_id);
 
-            // setSpinnerStart(false);
-            setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Request failed with status code 401', Toast.SHORT);
             setLoading(false);
-
-            // Alert.alert(error.message[0])
-
-            // signOut();
           } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
             Toast.show('Request failed with status code 401', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
@@ -667,8 +1057,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setLoading(true);
     axios
       .get(BaseURL + 'user/student-education-profile/', {
-        //.get('http://172.105.61.231:3000/api/user/student-education-profile/', {
-        // .get('https://apis.zatchup.com:3000/api/user/student-education-profile/', {
 
         headers: {
           Authorization: `Bearer ${token}`,
@@ -677,10 +1065,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       })
       .then(({ data }) => {
         console.log('Data==>>', data);
-        //   Alert.alert('hey...');
         if (data.status) {
           setLoading(false);
-          // Alert.alert('getEducationProfile');
 
           console.warn(
             'after setting call api',
@@ -689,7 +1075,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           getdataProfile(data);
           getdataCourse(data);
 
-          // setSpinnerStart(false);
         }
       })
       .catch(error => {
@@ -702,18 +1087,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         callback: ({ result, error }) => {
           console.log('hey.......kamal1');
           if (result.status) {
-            // console.warn(
-            //   'after setting call api',
-            //   JSON.stringify(result, undefined, 2),
 
-            //   getdataProfile(result),
-            //   getdataCourse(result),
-            // );
-            getdataProfile(result),
+              getdataProfile(result),
               getdataCourse(result),
 
               setLoading(false);
-            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -730,7 +1108,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const onPressSubmit = async () => {
 
-    // console.log('Custom',Custom);
 
     const newError = Validate('newmothername', newmothername);
 
@@ -2114,32 +2491,35 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View> : null}
 
-              {/* {email != '' && email != null ? <View style={styles.border1}></View> : null}
+              {email != '' && email != null ? <View style={styles.border1}></View> : null}
 
               {email != '' && email != null ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Email ID</Text>
                 <Text style={{ textAlign: 'center' }}>{email}</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                  thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
+                  onValueChange={toggleSwitchEmail}
+                  value={isEnabledEmail}
                 />
-              </View> : null} */}
-              {/* 
-              <View style={styles.border1}></View>
-              <View style={styles.privacyrowcontainer}>
+              </View> : null}
+
+              {dob != '' && dob != null ? <View style={styles.border1}></View> : null}
+
+              {dob != '' && dob != null ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Date of Birth</Text>
                 <Text style={{ textAlign: 'center' }}>{dob}</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                  thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
+                  onValueChange={toggleSwitchDob}
+                  value={isEnabledDob}
                 />
-              </View> */}
+              </View> : null}
+
+
               {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
                 {Gender == 'M' ? (
@@ -2159,38 +2539,41 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   </>
                 ) : null}
 
-                {Gender != '' ? <Switch
+                {Gender != '' && Gender != null ? <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled3 ? 'limegreen' : 'lightgrey'}
+                  thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch3}
-                  value={isEnabled3}
+                  onValueChange={toggleSwitchGender}
+                  value={isEnabledGender}
                 /> : null}
-              </View>
-
-              {/* <View style={styles.border1}></View>
-              <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Profession</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
-                />
               </View>
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Current City</Text>
+                <Text style={styles.detail_text}>Profession</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                  thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
+                  onValueChange={toggleSwitchProfession}
+                  value={isEnabledProfession}
                 />
-              </View> */}
+              </View>
+
+              {city != '' && city != null ? <View style={styles.border1}></View> : null}
+
+              {city != '' && city != null ? <View style={styles.privacyrowcontainer}>
+                <Text style={styles.detail_text}>Current City</Text>
+                <Text style={{ textAlign: 'center' }}>{city}</Text>
+
+                <Switch
+                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitchCity}
+                  value={isEnabledCity}
+                />
+              </View> : null}
 
 
               {Gender != '' ? <View style={styles.border1}></View> : null}
@@ -2204,20 +2587,20 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   value={isEnabledTwoFactor}
                 />
               </View>
-              {/* 
+
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                  thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
+                  onValueChange={toggleSwitchPrivate}
+                  value={isEnabledPrivate}
                 />
               </View>
 
-              <View style={styles.border1}></View>
+              {/* <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Social Media</Text>
                 <Switch

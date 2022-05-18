@@ -18,7 +18,6 @@ import {
 import styles from './style';
 import { Images } from '../../../components/index';
 import { ChatURL } from '../../../utilities/axiosInstance';
-
 import {
   TextField,
   CustomButton,
@@ -77,10 +76,14 @@ const Messages = (props: MessagesScreenProps,) => {
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
-        setTimeout(() => {
 
-          ref.current.reload();
-        }, 200);
+        if (Platform.OS === 'ios') {
+          setTimeout(() => {
+
+            ref.current.reload();
+          }, 200);
+        }
+
 
         return () => {
           dataSetTimeOut.clear();

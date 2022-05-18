@@ -576,7 +576,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
         </View>
 
-        {/* <View style={styles.bottomText}>
+        <View style={styles.bottomText}>
           <Text style={styles.dontAccountText}>
             Don’t have an account?
             <Text
@@ -585,7 +585,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                Sign Up
             </Text>
           </Text>
-        </View> */}
+        </View>
       </View>
     </View>
   );

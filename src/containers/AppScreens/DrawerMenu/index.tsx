@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -12,9 +12,9 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
-import {TextField, CustomButton, CustomStatusBar} from '../../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import { Images } from '../../../components/index';
+import { TextField, CustomButton, CustomStatusBar } from '../../../components';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,6 +22,7 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
+  useFocusEffect
 } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -39,14 +40,33 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
 
   const isFocused = useIsFocused();
 
-  React.useEffect(() => {
-    getDataMenu();
-    getAuthUserInfoApi();
-    getStepCountAPi();
-
-  }, [isFocused]);
+  // React.useEffect(() => {
 
 
+  // }, [isFocused]);
+
+
+
+  useFocusEffect(
+
+
+    React.useCallback(() => {
+
+      const dataSetTimeOut = setTimeout(() => {
+
+        getDataMenu();
+        getAuthUserInfoApi();
+        getStepCountAPi();
+
+        return () => {
+          dataSetTimeOut.clear();
+        }
+      }, 500);
+
+
+
+    }, [])
+  );
 
   /***************************User getStepCountAPi *******************************/
 
@@ -132,7 +152,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
               'after result Auth User INfo',
               JSON.stringify(result, undefined, 2),
               setProfilePic(result.profile_pic),
-              setUsername(result.user_first_name + ' ' + result.user_last_name )
+              setUsername(result.user_first_name + ' ' + result.user_last_name)
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
@@ -152,7 +172,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             // setError(true);
             // signOut();
             // Alert.alert(result.status)
-             Toast.show('Invalid credentials', Toast.SHORT);
+            Toast.show('Invalid credentials', Toast.SHORT);
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
           }
@@ -168,7 +188,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       const profil = await AsyncStorage.getItem('profilepic');
       const kyckey = await AsyncStorage.getItem('kyckey');
 
-      console.log('kyckey',kyckey)
+      console.log('kyckey', kyckey)
 
       if (user !== null) {
         //setUsername(user);
@@ -197,9 +217,9 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => LogoutALert()},
+        { text: 'Yes', onPress: () => LogoutALert() },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -219,7 +239,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
     }
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -244,33 +264,33 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
               onPress={() => {
                 props.navigation.dispatch(DrawerActions.closeDrawer());
               }}
-              style={{alignSelf: 'flex-end', marginRight: 10}}>
+              style={{ alignSelf: 'flex-end', marginRight: 10 }}>
               <View>
                 <Image
                   source={Images.home}
-                  style={{tintColor: '#FFFFFF', width: 35, height: 35}}
+                  style={{ tintColor: '#FFFFFF', width: 35, height: 35 }}
                 />
               </View>
             </TouchableOpacity>
 
-            <View style={[styles.avatarStyle, {borderRadius: 45}]}>
-            {profilepic != '' && profilepic != null ?  <Image
-                source={{uri: profilepic}}
+            <View style={[styles.avatarStyle, { borderRadius: 45 }]}>
+              {profilepic != '' && profilepic != null ? <Image
+                source={{ uri: profilepic }}
                 style={{
                   height: 100,
                   width: 100,
                   resizeMode: 'cover',
                   borderRadius: 45,
                 }}
-              />:<Image
-              source={Images.profile_default}
-              style={{
-                height: 100,
-                width: 100,
-                resizeMode: 'cover',
-                borderRadius: 45,
-              }}
-            />}
+              /> : <Image
+                source={Images.profile_default}
+                style={{
+                  height: 100,
+                  width: 100,
+                  resizeMode: 'cover',
+                  borderRadius: 45,
+                }}
+              />}
               {is_kyc_approved === true ? (
                 <View
                   style={{
@@ -282,14 +302,14 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                   }}>
                   <Image
                     source={Images.blue_tick}
-                    style={{height: '100%', width: '100%', resizeMode: 'cover'}}
+                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
                   />
                 </View>
               ) : null}
             </View>
             {/* <Image source={{ uri: profilepic }} style={{ width: 100, height: 100, borderRadius: 150 / 2, marginTop: 5, alignItems: 'center' }} /> */}
 
-            <View style={{flexDirection: 'column'}}>
+            <View style={{ flexDirection: 'column' }}>
               <Text
                 style={{
                   fontSize: 20,
@@ -336,21 +356,21 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             }}
             style={{
               flexDirection: 'row',
-               marginTop: 140,
-             
+              marginTop: 140,
+
             }}
-            >
+          >
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 margin: 5,
-               
+
                 marginLeft: 15,
               }}>
               <Image
                 source={Images.Passwords}
-                style={{tintColor: '#000000', width: 21, height: 21}}
+                style={{ tintColor: '#000000', width: 21, height: 21 }}
               />
               <Text
                 style={{
@@ -364,7 +384,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
             </View>
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'column'}}>
+          <View style={{ flexDirection: 'column' }}>
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('SettingScreen');
@@ -380,7 +400,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 }}>
                 <Image
                   source={Images.settings}
-                  style={{tintColor: '#000000', width: 22, height: 22}}
+                  style={{ tintColor: '#000000', width: 22, height: 22 }}
                 />
                 <Text
                   style={{
@@ -411,7 +431,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 }}>
                 <Image
                   source={Images.contactus}
-                  style={{tintColor: '#000000', width: 22, height: 22}}
+                  style={{ tintColor: '#000000', width: 22, height: 22 }}
                 />
                 <Text
                   style={{
@@ -511,7 +531,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 }}>
                 <Image
                   source={Images.logouts}
-                  style={{tintColor: '#000', width: 22, height: 22}}
+                  style={{ tintColor: '#000', width: 22, height: 22 }}
                 />
                 <Text
                   style={{

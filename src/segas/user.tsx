@@ -129,6 +129,8 @@ import {
   GETUSERALLPOST,
   DELETECOMMENT,
   CHANGEPROFILEIMAGE,
+  GETPRIVACYSETTING,
+  SOCIALPRIVACYSETTING
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import Toast from 'react-native-simple-toast';
@@ -4160,6 +4162,68 @@ function* uploadPostImageVideos({payload: {data, callback}}) {
   }
 }
 
+
+/***************************User GET Privacy Setting Auth Segas*******************************/
+
+function* getPrivacySetting({payload: {data, callback}}) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: 'socialmedia/get_privacy_setting/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log('get States result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User Social media Setting Status Post*******************************/
+
+function* getSocialPrivacySetting({payload: {data, callback}}) {
+  const params = {
+    privacy_status: data.privacy_status,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/socialmedia_privacy_setting/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'user social setting status post result',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -4335,6 +4399,11 @@ function* User() {
     yield takeLatest(GETUSERALLPOST, getUserAllPost),
     yield takeLatest(DELETECOMMENT, deleteComment),
     yield takeLatest(CHANGEPROFILEIMAGE, changeProfileImage),
+    yield takeLatest(GETPRIVACYSETTING, getPrivacySetting),
+    yield takeLatest(SOCIALPRIVACYSETTING, getSocialPrivacySetting),
+
+
+    
   ]);
 }
 

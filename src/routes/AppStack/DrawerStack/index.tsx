@@ -41,11 +41,6 @@ const DrawerNav = () => {
       drawerContent={props => <DrawerMenu {...props} />}
       initialRouteName="CoomingSoon">
       <Drawer.Screen name="CoomingSoon" component={CustomTabBar} />
-      {/* <Drawer.Screen name="Home_Tab" component={CustomTab} /> */}
-      {/* <Drawer.Screen name="Notifications" component={eKYC} />
-      <Drawer.Screen name="Reminders" component={eKycSuccess} />
-      <Drawer.Screen name='MessagesMain' component={Approval} /> */}
-      {/* <Drawer.Screen name='Notifications' component={Notifications} /> */}
     </Drawer.Navigator>
   );
 };

@@ -552,3 +552,11 @@ export const getFollowing = createAction(GETFOLLOWING);
 // this is the user notification for user
 export const GETUSERNOTIFICATION = 'GETUSERNOTIFICATION';
 export const getUserNotification = createAction(GETUSERNOTIFICATION);
+
+// this is the user Privacy Setting 
+export const GETPRIVACYSETTING = 'GETPRIVACYSETTING';
+export const getPrivacySetting = createAction(GETPRIVACYSETTING);
+
+// this is the user Social Privacy Setting
+export const SOCIALPRIVACYSETTING = 'SOCIALPRIVACYSETTING';
+export const getSocialPrivacySetting = createAction(SOCIALPRIVACYSETTING);

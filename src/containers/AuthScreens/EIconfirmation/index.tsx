@@ -645,7 +645,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
             }
             else {
-              props.navigation.navigate('MySchoolScreen');
+              props.navigation.navigate('CoomingSoon');
             }
             // setSpinnerStart(false);
             setLoading(false);
@@ -1313,7 +1313,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         schoolidkey: schoolidkey,
       });
     } else {
-      props.navigation.navigate('MySchoolScreen');
+      props.navigation.navigate('CoomingSoon');
     }
 
 

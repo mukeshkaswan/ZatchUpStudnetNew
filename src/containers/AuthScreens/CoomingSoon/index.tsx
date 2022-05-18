@@ -32,16 +32,22 @@ import {
   useFocusEffect
 } from '@react-navigation/native';
 import {
+  TextField,
+  CustomButton,
+  CustomStatusBar,
+  Validate,
+} from '../../../components';
+import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
+
 const data1 = [
   {
     id: 1,
@@ -577,14 +583,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     };
 
     console.log('page==>>', data);
-    setLoading(true);
+    //setLoading(true);
     dispatch(
       userActions.getPostOfUser({
         data,
         callback: ({ result, error }) => {
           if (result) {
             setLoadingg(false);
-            setLoading(false);
 
             console.warn(
               'after result Auth User INfo',
@@ -681,7 +686,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       token: token,
       search: value,
     };
-    setLoading(true);
+   // setLoading(true);
 
     dispatch(
       userActions.getSearchSchoolStudentSearchList({
@@ -1322,7 +1327,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
   return (
     <View style={styles.container}>
-      {/* <CustomStatusBar /> */}
+      <CustomStatusBar />
 
       {/* <CustomHeader Title={'School Information'} /> */}
 
@@ -1348,9 +1353,10 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               style={{
                 borderWidth: 1,
                 //  height: hp('5'),
-                marginVertical: hp('1'),
+                marginVertical: hp('1.2'),
                 borderColor: 'lightgrey',
                 width: 215,
+                height:40,
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginLeft: 20,
@@ -1359,7 +1365,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               }}>
               <Image
                 source={Images.search}
-                style={{ marginLeft: 10, tintColor: '#000' }}
+                style={{ marginLeft: 5, tintColor: '#000' }}
               />
               <TextInput
                 //onChangeText={onChangeNumber}
@@ -1367,7 +1373,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 value={cityname}
                 style={{ color: '#000' }}
                 placeholderTextColor="#000"
-                placeholder="Search City"
+                placeholder="Search..."
                 keyboardType="default"
               />
             </View>
