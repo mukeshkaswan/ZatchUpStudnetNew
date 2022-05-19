@@ -215,11 +215,16 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             : image.uri.replace('file://', ''),
       });
       console.log(token);
+      console.log(JSON.stringify(formData));
 
       await axios({
         url: 'https://apis.zatchup.com:2000/api/uploadFile',
         method: 'POST',
-        data: formData,
+        data: JSON.stringify(formData),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'multipart/form-data',
+        },
       })
         .then(response => {
           console.log(
