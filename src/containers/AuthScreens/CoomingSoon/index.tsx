@@ -785,7 +785,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       <CardView
         cardElevation={2}
         cardMaxElevation={2}
-        cornerRadius={5}
+        //cornerRadius={5}
         style={styles.Cardview_city}>
         {item.user_type == 'SCHOOL' ? (
           <View
@@ -794,7 +794,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               paddingVertical: 10,
               backgroundColor: 'white',
               alignItems: 'center',
-              flex: 1,
+
               width: '100%',
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -832,7 +832,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               </View>
             </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={{}}>{item.city}</Text>
+              <Text style={{marginTop: 5}}>{item.city}</Text>
               <Image
                 //source={{ uri: item.profile_pic }}
                 source={Images.school}
@@ -853,7 +853,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               backgroundColor: 'white',
               alignItems: 'center',
               flex: 1,
-              width: '90%',
+              width: '100%',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
@@ -895,9 +895,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               backgroundColor: 'white',
               alignItems: 'center',
               flex: 1,
-              width: '90%',
+              width: '100%',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              borderWidth: 0.5,
+              borderColor: 'lightgrey',
             }}>
             <TouchableOpacity
               underlayColor="none"
@@ -1467,18 +1469,23 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         style={{
           position: 'absolute',
           top: isKeyboardVisible == true ? '12%' : '8%',
-          left: 0,
-          right: 0,
-          bottom: 0,
+
+          // flex: 1,
           // justifyContent: 'center',
           //alignItems: 'center',
           zIndex: 1,
+          //  height: 230,
         }}>
         {citydata.length > 0 ? (
           <FlatList
             data={citydata}
             showsVerticalScrollIndicator={false}
-            style={{}}
+            // ListFooterComponent={() => (
+            //   <Text style={{textAlign: 'center'}}>See All Results</Text>
+            // )}
+            style={{
+              height: 290,
+            }}
             // keyExtractor={item => item.id.toString()}
             // ItemSeparatorComponent={ItemSepratorcity}
             //  ItemSeparatorComponent={this.SeparatorComponent}

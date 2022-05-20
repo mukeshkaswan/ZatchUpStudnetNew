@@ -66,20 +66,21 @@ const styles = ScaledSheet.create({
     top: 1,
   },
   Cardview_city: {
-    backgroundColor: '#FFFFFF',
     //  marginLeft: 5,
     marginRight: 15,
     marginLeft: '10%',
     width: '80%',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
-    shadowRadius: 6,
+    //shadowRadius: 6,
     shadowOpacity: 0.26,
-    elevation: 8,
+
     //  backgroundColor: 'white',
     //  padding: 20,
-    borderRadius: 5,
+    // borderRadius: 5,
     //marginBottom: 5
+
+    borderColor: 'lightgrey',
   },
   dot_view: {
     position: 'absolute',
