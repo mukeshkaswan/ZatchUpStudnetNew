@@ -51,17 +51,20 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
 
 
     React.useCallback(() => {
+      getDataMenu();
+      getAuthUserInfoApi();
+      getStepCountAPi();
 
-      const dataSetTimeOut = setTimeout(() => {
+      // const dataSetTimeOut = setTimeout(() => {
 
-        getDataMenu();
-        getAuthUserInfoApi();
-        getStepCountAPi();
+      //   getDataMenu();
+      //   getAuthUserInfoApi();
+      //   getStepCountAPi();
 
-        return () => {
-          dataSetTimeOut.clear();
-        }
-      }, 500);
+      //   return () => {
+      //     dataSetTimeOut.clear();
+      //   }
+      // }, 500);
 
 
 
