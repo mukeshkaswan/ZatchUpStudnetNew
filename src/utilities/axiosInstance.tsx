@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Idx from 'idx';
 const BaseURLFORPOSTAPI = `https://apis.zatchup.com:2000/api/`;
-const BaseURL = `http://172.105.61.231:3000/api/`; //Staging
-//const BaseURL = `https://preapis.zatchup.com:3030/api/`;//Preprod
+//const BaseURL = `http://172.105.61.231:3000/api/`; //Staging
+const BaseURL = `https://preapis.zatchup.com:3030/api/`; //Preprod
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getAxiosInstance = () => {

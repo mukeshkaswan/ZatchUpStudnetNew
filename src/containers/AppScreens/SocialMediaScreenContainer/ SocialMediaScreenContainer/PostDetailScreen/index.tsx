@@ -1028,27 +1028,45 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     return (
       <View
         style={{
-          //borderWidth: 0.5,
-          // padding: 20,
-          marginHorizontal: 8,
-          //borderRadius: 20,
+          marginHorizontal: 16,
           alignItems: 'center',
-          // backgroundColor: 'red',
-          //  borderColor: 'grey',
         }}>
-        <Image
-          source={{uri: item.post_image}}
-          resizeMode="contain"
-          style={{
-            width: screenWidth - 64,
-            height: 200,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{uri: item.post_image}}
+            resizeMode="contain"
+            style={{
+              width: screenWidth - 64,
+              height: screenWidth - 64,
+              backgroundColor: '#d2d2d2',
+            }}
+          />
+        ) : (
+          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
+            <Video
+              key={item + 'sap'}
+              //ref={ref}
+              videoWidth={screenWidth - 64}
+              videoHeight={screenWidth - 64}
+              style={{
+                backgroundColor: '#d2d2d2',
+                alignSelf: 'center',
+              }}
+              video={{
+                uri: item.post_image,
+              }}
+              // video={{ uri: coursepreview }}
+              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+              //resizeMode="contain"
+              //showDuration
+              //lockRatio={16 / 9}
+            />
+          </View>
+        )}
         {length > 1 && (
           <Text
             style={{
-              marginVertical: 10,
+              margin: 10,
               fontSize: 12,
               position: 'absolute',
               color: '#fff',
@@ -1365,10 +1383,6 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             // cornerRadius={20}
             style={styles.card}>
             <View style={{marginTop: 16}}>
-              {/* <Image
-              source={require('../../../../../assets/images/college4.jpg')}
-              style={styles.image}
-            /> */}
               {postDetails != '' && postDetails.post_gallery != null ? (
                 <>
                   <Carousel
@@ -1382,8 +1396,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         length={postDetails.post_gallery.length}
                       />
                     )}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
+                    sliderWidth={screenWidth - 32}
+                    itemWidth={screenWidth - 32}
+                    layoutCardOffset={'0'}
+                    autoplay={false}
                     onSnapToItem={(index: React.SetStateAction<number>) =>
                       setIndex(index)
                     }

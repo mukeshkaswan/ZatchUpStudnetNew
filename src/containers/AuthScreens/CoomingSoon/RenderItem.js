@@ -306,7 +306,7 @@ function RenderItem({
                       </TouchableOpacity>
                     </View>
                   </View>
-                  {item.comment.length > 50 && (
+                  {item.comment != null && item.comment.length > 50 && (
                     <TouchableOpacity onPress={() => gotoShowMore(ind, index)}>
                       <Text>
                         {item.showMore ? '[Show Less]' : '[Show More]'}
@@ -374,6 +374,8 @@ function CrouselImages({item, index, length, ref}) {
       style={{
         marginHorizontal: 8,
         alignItems: 'center',
+        width: screenWidth - 64,
+        height: screenWidth - 64,
         // backgroundColor: 'red',
       }}>
       {item.post_extension != 'mp4' ? (
@@ -404,7 +406,7 @@ function CrouselImages({item, index, length, ref}) {
               alignSelf: 'center',
             }}
             video={{
-              uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
+              uri: item.post_image,
             }}
             // video={{ uri: coursepreview }}
             thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
