@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {HeaderTitleWithBack} from '../../../../../components';
+import {HeaderTitleWithBack, Images} from '../../../../../components';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -194,7 +194,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
           source={
             item.profile_image != null
               ? {uri: item.profile_image}
-              : require('../../../../../assets/images/pic.jpeg')
+              : Images.profile_default
           }
           style={styles.profileImg}
         />

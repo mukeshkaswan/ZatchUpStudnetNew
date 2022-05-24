@@ -462,12 +462,11 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   source={
                     item.follow_request_user_profile_pic != null
                       ? {uri: item.follow_request_user_profile_pic}
-                      : Images.profile_img2
+                      : Images.profile_default
                   }
                   style={{
                     height: 50,
                     width: 50,
-                    tintColor: 'grey',
                     borderRadius: 25,
                   }}
                 />

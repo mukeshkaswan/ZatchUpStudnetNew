@@ -11,7 +11,7 @@ import {
   SectionList,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {HeaderTitleWithBack} from '../../../../../components';
+import {HeaderTitleWithBack, Images} from '../../../../../components';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -199,7 +199,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         source={
           item.following_user_profile_image != null
             ? {uri: item.following_user_profile_image}
-            : require('../../../../../assets/images/pic.jpeg')
+            : Images.profile_default
         }
         style={styles.profileImg}
       />
