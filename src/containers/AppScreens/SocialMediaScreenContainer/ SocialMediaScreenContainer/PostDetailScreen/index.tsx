@@ -1448,7 +1448,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   source={
                     postDetails.profile_pic != null
                       ? {uri: postDetails.profile_pic}
-                      : Images.profile_img2
+                      : Images.profile_default
                   }
                   style={styles.profileImage}
                 />
@@ -1498,7 +1498,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     source={
                       postDetails.profile_pic != null
                         ? {uri: postDetails.profile_pic}
-                        : Images.profile_img2
+                        : Images.profile_default
                     }
                     style={styles.profileImage}
                   />
@@ -1552,13 +1552,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 source={
                                   item.comment_user_profile_pic != null
                                     ? {uri: item.comment_user_profile_pic}
-                                    : Images.profile_img2
+                                    : Images.profile_default
                                 }
                                 style={{
                                   height: 40,
                                   width: 40,
                                   borderRadius: 50,
-                                  tintColor: 'grey',
+                                  //tintColor: 'grey',
                                 }}
                               />
                             </TouchableOpacity>
@@ -1775,13 +1775,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                               ? {
                                                   uri: item.comment_user_profile_pic,
                                                 }
-                                              : Images.profile_img2
+                                              : Images.profile_default
                                           }
                                           style={{
                                             height: 40,
                                             width: 40,
                                             borderRadius: 50,
-                                            tintColor: 'grey',
+                                            //tintColor: 'grey',
                                           }}
                                         />
                                       </TouchableOpacity>

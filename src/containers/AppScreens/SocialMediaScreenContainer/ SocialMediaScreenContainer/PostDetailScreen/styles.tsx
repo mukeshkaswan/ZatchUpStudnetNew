@@ -39,7 +39,7 @@ const styles = ScaledSheet.create({
   profileImage: {
     height: 50,
     width: 50,
-    tintColor: 'grey',
+    // tintColor: 'grey',
     borderRadius: 25,
   },
   liketext: {

@@ -354,12 +354,12 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
                 source={
                   userProfilePic != ''
                     ? {uri: userProfilePic}
-                    : Images.profile_img2
+                    : Images.profile_default
                 }
                 style={{
                   height: 50,
                   width: 50,
-                  tintColor: 'grey',
+                  // tintColor: 'grey',
                   borderRadius: 25,
                 }}
               />

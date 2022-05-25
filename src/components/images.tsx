@@ -55,6 +55,7 @@ const images = {
   add_more: require('../assets/images/add_more.png'),
   school: require('../assets/images/school.png'),
   profile_default: require('../assets/images/profile_default.png'),
+  cover_pic_default: require('../assets/images/cover_pic_default.png'),
 };
 
 export default images;

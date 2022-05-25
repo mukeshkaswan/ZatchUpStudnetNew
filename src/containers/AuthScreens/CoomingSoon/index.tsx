@@ -425,6 +425,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             }
             // setSpinnerStart(false);
             setLoading(false);
+            setCheckboxValue([
+              {report_option: 'Suspicious or Fake', checked: false},
+
+              {report_option: 'Harassment or hateful speech', checked: false},
+              {report_option: 'Violence or physical harm', checked: false},
+              {report_option: 'Adult Content', checked: false},
+              {
+                report_option:
+                  'Intellectual property infringement or defamation',
+                checked: false,
+              },
+            ]);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1201,6 +1213,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       Toast.show('Please select reason', Toast.SHORT);
       return;
     }
+    if (checkboxValue.every(item => item.checked == false)) {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
+
     setModalVisible2(!isModalVisible2);
 
     gotoReportPost();

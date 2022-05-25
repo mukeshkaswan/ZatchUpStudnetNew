@@ -169,7 +169,7 @@ function RenderItem({
         {posts != [] &&
         item.post_like != null &&
         item.post_like.length == 1 &&
-        item.post_like[0].post_like_username == username &&
+        item.post_like[0].post_like_user_id == userid &&
         item.post_like_count > 0 ? (
           <TouchableOpacity
             onPress={() => {
@@ -225,6 +225,7 @@ function RenderItem({
                 ? props.navigation.navigate('SchoolProfile', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
+                      school_id: item.post_like[0].school_id,
                     },
                   })
                 : item.post_like[0].post_like_user_id != userid
@@ -242,7 +243,9 @@ function RenderItem({
             <Text>
               Liked by{' '}
               <Text style={styles.boldText}>
-                {item.post_like[0].post_like_username + ' '}
+                {item.post_like[0].post_like_user_id == userid
+                  ? 'you '
+                  : item.post_like[0].post_like_username + ' '}
               </Text>
               and{' '}
               <Text style={styles.boldText}>
@@ -272,7 +275,10 @@ function RenderItem({
                         onPress={() => {
                           item.user_role == 'EIREPRESENTATIVE'
                             ? props.navigation.navigate('SchoolProfile', {
-                                item: {user_id: item.user},
+                                item: {
+                                  user_id: item.user,
+                                  school_id: item.school_id,
+                                },
                               })
                             : item.user_id != userid
                             ? props.navigation.navigate('UsersProfile', {

@@ -880,7 +880,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               source={
                 schoolDetail.cover_pic != null
                   ? {uri: schoolDetail.cover_pic}
-                  : require('../../../../../assets/images/college2.jpg')
+                  : Images.cover_pic_default
               }
               resizeMode="stretch"
               style={{width: '100%', height: 100}}>
@@ -952,7 +952,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     source={
                       schoolDetail.profile_pic != null
                         ? {uri: schoolDetail.profile_pic}
-                        : require('../../../../../assets/images/pic.jpeg')
+                        : Images.profile_default
                     }
                     style={{
                       // marginLeft: 10,
@@ -973,17 +973,16 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                                     }}
                                 /> */}
                   {schoolDetail.user_school_active && (
-                    <Icon
-                      name="check-circle"
-                      size={18}
-                      color="#4E387E"
+                    <Image
                       style={{
-                        margin: 12,
                         position: 'absolute',
                         right: 0,
                         bottom: 0,
-                        marginRight: 1,
+                        marginLeft: 16,
+                        width: 25,
+                        height: 25,
                       }}
+                      source={Images.blue_tick}
                     />
                   )}
                 </View>
@@ -1176,25 +1175,27 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     />
                   );
                 } else {
-                  <Carousel
-                    // layout={'tinder'}
-                    ref={isCarouselText}
-                    data={parts}
-                    renderItem={({item, index}) => (
-                      <CrouselText
-                        data={data}
-                        item={item}
-                        index={index}
-                        length={lenCap}
-                        goToNavigate={GoToNavigate}
-                        items={items}
-                      />
-                    )}
-                    sliderWidth={screenWidth + 16}
-                    itemWidth={screenWidth + 16}
-                    layoutCardOffset={'0'}
-                    onSnapToItem={index => setIndex(index)}
-                  />;
+                  return (
+                    <Carousel
+                      // layout={'tinder'}
+                      ref={isCarouselText}
+                      data={parts}
+                      renderItem={({item, index}) => (
+                        <CrouselText
+                          data={data}
+                          item={item}
+                          index={index}
+                          length={lenCap}
+                          goToNavigate={GoToNavigate}
+                          items={items}
+                        />
+                      )}
+                      sliderWidth={screenWidth + 16}
+                      itemWidth={screenWidth + 16}
+                      layoutCardOffset={'0'}
+                      onSnapToItem={index => setIndex(index)}
+                    />
+                  );
                 }
               }}
               //  keyExtractor={item => item.id}

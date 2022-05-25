@@ -933,7 +933,7 @@ const UsersProfile = (props: UserProfileProps) => {
     gotoFollow();
   };
   const threedot = () => {
-    setthreeDot(true);
+    setthreeDot(!threeDot);
     // setTimeout(() => {
     //   setthreeDot(false);
     // }, 3000);
@@ -1008,7 +1008,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 sociaMedialPic.hasOwnProperty('cover_pic') &&
                 sociaMedialPic.cover_pic != null
                   ? {uri: sociaMedialPic.cover_pic}
-                  : require('../../../../../assets/images/college2.jpg')
+                  : Images.cover_pic_default
               }
               resizeMode="stretch"
               style={{width: '100%', height: 130}}>
@@ -1065,7 +1065,7 @@ const UsersProfile = (props: UserProfileProps) => {
                       sociaMedialPic.hasOwnProperty('profile_pic') &&
                       sociaMedialPic.profile_pic != null
                         ? {uri: sociaMedialPic.profile_pic}
-                        : require('../../../../../assets/images/pic.jpeg')
+                        : Images.profile_default
                     }
                     style={{
                       marginLeft: 10,
@@ -1074,6 +1074,19 @@ const UsersProfile = (props: UserProfileProps) => {
                       borderRadius: 50,
                     }}
                   />
+                  {userProfile != '' && userProfile.kyc_approved && (
+                    <Image
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        bottom: 0,
+                        marginLeft: 16,
+                        width: 20,
+                        height: 20,
+                      }}
+                      source={Images.blue_tick}
+                    />
+                  )}
                   {/* <Icon
                     name={'camera'}
                     size={15}
@@ -1094,18 +1107,18 @@ const UsersProfile = (props: UserProfileProps) => {
                       marginLeft: 14,
                       marginTop: 30,
                     }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        props.navigation.navigate('PostDetailScreen');
-                      }}>
+                    <View style={{marginTop: 16}}>
                       <Text style={styles.nametext}>{userProfile.name}</Text>
-                    </TouchableOpacity>
-                    <Icon
+                      <Text style={styles.nametext}>
+                        {'(' + userProfile.zatchup_id + ')'}
+                      </Text>
+                    </View>
+                    {/* <Icon
                       name="check-circle"
                       size={18}
                       color="#4E387E"
                       style={{margin: 5}}
-                    />
+                    /> */}
                   </View>
                 </View>
               </View>
@@ -1280,13 +1293,13 @@ const UsersProfile = (props: UserProfileProps) => {
                 </Text>
               </View>
 
-              {userProfile.email != '' && (
+              {userProfile.email != '' && userProfile.email != null && (
                 <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>Email:</Text>
                   <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                 </View>
               )}
-              {userProfile.phone != '' && (
+              {userProfile.phone != '' && userProfile.phone != null && (
                 <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>Phone :</Text>
                   <Text style={styles.view_Tv_2}>{userProfile.phone}</Text>
@@ -1295,8 +1308,8 @@ const UsersProfile = (props: UserProfileProps) => {
             </View>
           </Card>
           {userProfile != '' &&
-            userProfile.follow_request_status == 2 &&
-            userProfile.social_account_status && (
+            (userProfile.follow_request_status == 2 ||
+              userProfile.social_account_status) && (
               <Card style={styles.cardContent}>
                 <View style={styles.cardtitlecontent}>
                   <Text style={styles.cardtitletext}>Posts</Text>
@@ -1329,8 +1342,8 @@ const UsersProfile = (props: UserProfileProps) => {
               </Card>
             )}
           {userProfile != '' &&
-          userProfile.follow_request_status == 2 &&
-          userProfile.social_account_status &&
+          (userProfile.follow_request_status == 2 ||
+            userProfile.social_account_status) &&
           !(data === 'Image') ? (
             <FlatList
               data={userProfile.social_post}
@@ -1395,8 +1408,8 @@ const UsersProfile = (props: UserProfileProps) => {
               //  ItemSeparatorComponent={renderIndicator}
             />
           ) : userProfile != '' &&
-            userProfile.follow_request_status == 2 &&
-            userProfile.social_account_status ? (
+            (userProfile.follow_request_status == 2 ||
+              userProfile.social_account_status) ? (
             <FlatList
               data={userProfile.social_post}
               renderItem={({item, index}) => {
