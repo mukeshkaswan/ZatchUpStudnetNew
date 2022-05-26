@@ -255,11 +255,11 @@ function RenderItem({
           </TouchableOpacity>
         )}
 
-        {item.full_name != null && item.post_gallery != null && (
+        {/* {item.full_name != null && item.post_gallery != null && (
           <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
             {item.full_name}
           </Text>
-        )}
+        )} */}
         {item.caption != null && item.post_gallery != null && (
           <Text>{item.caption}</Text>
         )}
