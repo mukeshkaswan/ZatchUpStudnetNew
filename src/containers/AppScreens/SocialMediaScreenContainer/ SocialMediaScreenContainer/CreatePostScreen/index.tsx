@@ -1,4 +1,4 @@
-import React, {Component, FC, useEffect, useState} from 'react';
+import React, { Component, FC, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -13,12 +13,11 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './styles';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Images, Colors} from '../../../../../components/index';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Images, Colors } from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
-import {fetch} from 'react-native-ssl-pinning';
 import {
   TextField,
   CustomButton,
@@ -28,7 +27,7 @@ import {
   BackBtn,
   HeaderTitleWithBack,
 } from '../../../../../components';
-import {CheckBox} from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import {
   NavigationContainer,
@@ -36,11 +35,11 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import CardView from 'react-native-cardview';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 // import https from 'https';
@@ -50,8 +49,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ScrollView} from 'react-native-gesture-handler';
-const Data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}];
+import { ScrollView } from 'react-native-gesture-handler';
+const Data = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }];
 
 interface NotificationsScreenProps {
   navigation: any;
@@ -100,7 +99,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result Auth User INfo++++++',
@@ -162,7 +161,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.createPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status) {
             setLoading(false);
             console.log('post created');
@@ -200,7 +199,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     }
 
     try {
-      let image = await ImagePicker.openPicker({cropping: true});
+      let image = await ImagePicker.openPicker({ cropping: true });
       image.type = image.mime;
       image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
       image.uri = image.path;
@@ -217,20 +216,11 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
       });
       console.log(token);
 
-      await fetch('https://apis.zatchup.com:2000/api/uploadFile', {
+      axios.post('https://apis.zatchup.com:2000/api/uploadFile', {
         method: 'POST',
-        //disableAllSecurity: true,
-        timeoutInterval: 10000, // milliseconds
-        body: {
-          formData: formData,
-        },
-        sslPinning: {
-          certs: ['zatchup_all'],
-        },
+        formData: formData,
         headers: {
-          Accept: 'application/json; charset=utf-8',
-          'Access-Control-Allow-Origin': '*',
-          e_platform: 'mobile',
+          Authorization: `Bearer ${token}`,
         },
       })
         .then(response => {
@@ -276,11 +266,11 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     setpicdata(newObj);
   };
 
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
       <View style={{}}>
         <Image
-          source={{uri: item}}
+          source={{ uri: item }}
           style={{
             width: screenWidth / 3 - 21,
             height: screenWidth / 3 - 21,
@@ -306,7 +296,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           }}>
           <Image
             source={Images.delete_icon}
-            style={{width: 20, height: 20, resizeMode: 'contain'}}
+            style={{ width: 20, height: 20, resizeMode: 'contain' }}
           />
         </TouchableOpacity>
       </View>
@@ -322,7 +312,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -349,11 +339,11 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
                 source={
                   userProfilePic != ''
-                    ? {uri: userProfilePic}
+                    ? { uri: userProfilePic }
                     : Images.profile_default
                 }
                 style={{
@@ -378,12 +368,12 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               maxLength={700}
             />
           </View>
-          <Text style={{alignSelf: 'flex-end'}}>{Caption.length}/700</Text>
+          <Text style={{ alignSelf: 'flex-end' }}>{Caption.length}/700</Text>
         </CardView>
 
         {picdata.length > 0 && (
           <FlatList
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             data={picdata}
             numColumns={3}
             renderItem={_renderItem}
@@ -404,7 +394,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+            <Icon name="camera" size={25} color="white" style={{ margin: 5 }} />
             <Text style={styles.addphotoText}>Add Photo</Text>
           </TouchableOpacity>
         )}
@@ -422,14 +412,14 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+            <Icon name="camera" size={25} color="white" style={{ margin: 5 }} />
             <Text style={styles.addphotoText}>Add Photo</Text>
           </TouchableOpacity>
         )}
 
         {(picdata.length > 0 || Caption != '') && (
           <View>
-            <View style={{paddingHorizontal: 16, marginVertical: 10}}>
+            <View style={{ paddingHorizontal: 16, marginVertical: 10 }}>
               <CustomButton title={'Post'} onPress={onPressAddpost} />
             </View>
           </View>

@@ -215,7 +215,6 @@ dependencies {
 
     implementation project(':react-native-splash-screen')
 
-    compile project(':react-native-ssl-pinning')
   //  implementation project(':@react-native-community_picker')
 
 
