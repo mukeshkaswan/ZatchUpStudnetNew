@@ -172,14 +172,19 @@ function RenderItem({
       <View style={styles.likecommentContainer}>
         <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
           <Icon
-            name="thumbs-up"
+            name={item.like ? 'star' : 'star-o'}
             size={15}
-            color={item.like ? 'red' : 'grey'}
+            color={'#000'}
             style={{marginLeft: 5}}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
-          <Icon name="comment" color="grey" size={15} style={{marginLeft: 5}} />
+          <Icon
+            name="comment-o"
+            color={'#000'}
+            size={15}
+            style={{marginLeft: 5}}
+          />
         </TouchableOpacity>
       </View>
 
@@ -193,20 +198,20 @@ function RenderItem({
         {schoolDetail != '' &&
         item.post_like != null &&
         item.post_like.length == 1 &&
-        item.post_like[0].post_like_username == 'username' &&
+        item.post_like[0].post_like_user_id == userid &&
         item.post_like_count > 0 ? (
           <TouchableOpacity
             onPress={() => {
-              item.user_role == 'EIREPRESENTATIVE'
+              item.post_like[0].user_role == 'EIREPRESENTATIVE'
                 ? props.navigation.navigate('SchoolProfile', {
-                    item: item.school_id,
+                    item: item.post_like[0].school_id,
                   })
-                : item.post_like_user_id != userid
+                : item.post_like[0].post_like_user_id != userid
                 ? props.navigation.navigate('UsersProfile', {
-                    item: {user_id: item.post_like_user_id},
+                    item: {user_id: item.post_like[0].post_like_user_id},
                   })
                 : props.navigation.navigate('UserProfileScreen', {
-                    item: {user_id: item.post_like_user_id},
+                    item: {user_id: item.post_like[0].post_like_user_id},
                   });
             }}>
             <Text>
@@ -217,16 +222,16 @@ function RenderItem({
         ) : (
           <TouchableOpacity
             onPress={() => {
-              item.user_role == 'EIREPRESENTATIVE'
+              item.post_like[0].user_role == 'EIREPRESENTATIVE'
                 ? props.navigation.navigate('SchoolProfile', {
-                    item: item.school_id,
+                    item: item.post_like[0].school_id,
                   })
                 : item.post_like_user_id != userid
                 ? props.navigation.navigate('UsersProfile', {
-                    item: {user_id: item.post_like_user_id},
+                    item: {user_id: item.post_like[0].post_like_user_id},
                   })
                 : props.navigation.navigate('UserProfileScreen', {
-                    item: {user_id: item.post_like_user_id},
+                    item: {user_id: item.post_like[0].post_like_user_id},
                   });
             }}>
             {item.post_like != null &&
@@ -247,22 +252,24 @@ function RenderItem({
           item.post_like.length >= 2 && (
             <TouchableOpacity
               onPress={() => {
-                item.user_role == 'EIREPRESENTATIVE'
+                item.post_like[0].user_role == 'EIREPRESENTATIVE'
                   ? props.navigation.navigate('SchoolProfile', {
-                      item: item.school_id,
+                      item: item.post_like[0].school_id,
                     })
-                  : item.post_like_user_id != userid
+                  : item.post_like[0].post_like_user_id != userid
                   ? props.navigation.navigate('UsersProfile', {
-                      item: {user_id: item.post_like_user_id},
+                      item: {user_id: item.post_like[0].post_like_user_id},
                     })
                   : props.navigation.navigate('UserProfileScreen', {
-                      item: {user_id: item.post_like_user_id},
+                      item: {user_id: item.post_like[0].post_like_user_id},
                     });
               }}>
               <Text>
                 Liked by
                 <Text style={styles.boldText}>
-                  {' ' + item.post_like[0].post_like_username + ' '}
+                  {' ' + item.post_like[0].post_like_user_id == userid
+                    ? ' you '
+                    : ' ' + item.post_like[0].post_like_username + ' '}
                 </Text>
                 and{' '}
                 <Text style={styles.boldText}>
@@ -318,9 +325,9 @@ function RenderItem({
                       }}>
                       <TouchableOpacity onPress={() => gotoCommentLike(item)}>
                         <Icon
-                          name="thumbs-up"
+                          name={item.likes_status ? 'star' : 'star-o'}
                           size={15}
-                          color={item.likes_status ? 'red' : 'grey'}
+                          color={'#000'}
                           style={{marginLeft: 5}}
                         />
                       </TouchableOpacity>

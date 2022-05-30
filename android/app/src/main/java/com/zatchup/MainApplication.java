@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.toyberman.RNSslPinningPackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
@@ -51,7 +50,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
-            new RNSslPinningPackage(),
             new ReactNativeFirebaseFirestorePackage(),
             new RNCWebViewPackage(),
             new ClipboardPackage(),

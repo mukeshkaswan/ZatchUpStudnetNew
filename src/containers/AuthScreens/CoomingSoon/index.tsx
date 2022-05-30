@@ -201,11 +201,10 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   useFocusEffect(
     React.useCallback(() => {
       const dataSetTimeOut = setTimeout(() => {
-
         setPage(1);
         onChangecityname('');
         setCityData([]);
-    
+
         getStepCountAPi();
         getAuthUserInfoApi();
         getPostDataApi(1);
@@ -353,13 +352,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             // console.warn(
             //   'after result Auth User INfo',
             //   JSON.stringify(result, undefined, 2),
-             
+
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
             setUserid(result.user_id),
-            setuserName(result.full_name),
-            // setSpinnerStart(false);
-            setLoading(false);
+              setuserName(result.full_name),
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -632,12 +631,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               });
             }
 
-           // console.log('NewArray==>>', newArrr);
+            // console.log('NewArray==>>', newArrr);
 
             // setSpinnerStart(false);
             let array = p == 1 ? newArrr : posts.concat(newArrr);
 
-           // console.log('arrray', array);
+            // console.log('arrray', array);
             setPosts(array);
             setHasMore(newArrr.length == 9 ? true : false);
           }
@@ -739,7 +738,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         newObj[i].commentToggle = false;
       }
     }
-   // console.log('newObj', newObj);
+    // console.log('newObj', newObj);
     setPosts(newObj);
   };
 
@@ -823,8 +822,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('SearchSchoolDetail', {
-                  school_id: item.school_id,
+                props.navigation.navigate('SchoolProfile', {
+                  item: {school_id: item.school_id, user_id: item.id},
                 })
               }>
               <View style={{flexDirection: 'row'}}>
@@ -875,7 +874,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('ProfileScreen', {user_id: item.id})
+                props.navigation.navigate('UserProfileScreen', {
+                  item: {user_id: item.id},
+                })
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -912,7 +913,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('ProfileScreen', {user_id: item.id})
+                props.navigation.navigate('UsersProfile', {
+                  item: {user_id: item.id},
+                })
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -1281,7 +1284,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoShowMore = (ind, index) => {
-  //  console.log(ind, index);
+    //  console.log(ind, index);
 
     let newArr = Object.assign([], posts);
 
@@ -1305,7 +1308,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoChangeComment = (text, index) => {
-   // console.log(text, index);
+    // console.log(text, index);
 
     let newArr = Object.assign([], posts);
 

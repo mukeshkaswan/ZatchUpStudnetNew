@@ -18,7 +18,6 @@ import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
-import {fetch} from 'react-native-ssl-pinning';
 import {
   TextField,
   CustomButton,
@@ -217,22 +216,14 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
       });
       console.log(token);
 
-      await fetch('https://apis.zatchup.com:2000/api/uploadFile', {
-        method: 'POST',
-        //disableAllSecurity: true,
-        timeoutInterval: 10000, // milliseconds
-        body: {
+      axios
+        .post('https://apis.zatchup.com:2000/api/uploadFile', {
+          method: 'POST',
           formData: formData,
-        },
-        sslPinning: {
-          certs: ['zatchup_all'],
-        },
-        headers: {
-          Accept: 'application/json; charset=utf-8',
-          'Access-Control-Allow-Origin': '*',
-          e_platform: 'mobile',
-        },
-      })
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then(response => {
           console.log(
             `response received ${JSON.stringify(response.bodyString)}`,
