@@ -22,15 +22,12 @@ const config = {
 
 let Navigator = () => {
   return (
-    // <Drawer.Navigator  >
-    //   <Drawer.Screen name="AuthStack" component={AuthStack} />
-    // </Drawer.Navigator>
+  
     <Stack.Navigator screenOptions={{
       headerShown: false, gestureDirection: 'horizontal',
       ...TransitionPresets.SlideFromRightIOS
     }} animation="fade" headerMode='screen'  >
       <Stack.Screen name="AuthStack" component={AuthStack} />
-      {/* <Stack.Screen name="AppStack" component={AppStack} /> */}
     </Stack.Navigator>
   );
 };

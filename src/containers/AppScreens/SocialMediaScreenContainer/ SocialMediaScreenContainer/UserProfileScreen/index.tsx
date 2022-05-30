@@ -26,6 +26,7 @@ import {
   HeaderTitleWithBack,
   Colors,
   Customcard,
+  Images,
 } from '../../../../../components';
 import {
   NavigationContainer,
@@ -734,7 +735,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   ? {uri: sociaMedialPic.cover_pic}
                   : backgroundimagePath != ''
                   ? {uri: backgroundimagePath}
-                  : require('../../../../../assets/images/college2.jpg')
+                  : Images.cover_pic_default
               }
               resizeMode="stretch"
               style={{width: '100%', height: 100}}>
@@ -772,7 +773,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         ? {uri: sociaMedialPic.profile_pic}
                         : profileimagepath != ''
                         ? {uri: profileimagepath}
-                        : require('../../../../../assets/images/pic.jpeg')
+                        : Images.profile_default
                     }
                     style={{
                       marginLeft: 10,
@@ -781,6 +782,19 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       borderRadius: 50,
                     }}
                   />
+                  {userProfile != '' && userProfile.kyc_approved && (
+                    <Image
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        bottom: 0,
+                        marginLeft: 16,
+                        width: 20,
+                        height: 20,
+                      }}
+                      source={Images.blue_tick}
+                    />
+                  )}
                   <TouchableOpacity
                     style={{
                       // backgroundColor: 'red',
@@ -812,19 +826,18 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       marginLeft: 14,
                       marginTop: 30,
                     }}>
-                    <TouchableOpacity
-                    // onPress={() => {
-                    //   props.navigation.navigate('PostDetailScreen');
-                    // }}
-                    >
+                    <View style={{marginTop: 16}}>
                       <Text style={styles.nametext}>{userProfile.name}</Text>
-                    </TouchableOpacity>
-                    <Icon
+                      <Text style={styles.nametext}>
+                        {'(' + userProfile.zatchup_id + ')'}
+                      </Text>
+                    </View>
+                    {/* <Icon
                       name="check-circle"
                       size={18}
                       color="#4E387E"
                       style={{margin: 5}}
-                    />
+                    /> */}
                   </View>
                 </View>
               </View>
@@ -968,13 +981,13 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 </Text>
               </View>
 
-              {userProfile.email != '' && (
+              {userProfile.email != '' && userProfile.email != null && (
                 <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>Email:</Text>
                   <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                 </View>
               )}
-              {userProfile.phone != '' && (
+              {userProfile.phone != '' && userProfile.phone != null && (
                 <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>Phone :</Text>
                   <Text style={styles.view_Tv_2}>{userProfile.phone}</Text>

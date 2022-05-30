@@ -1547,7 +1547,7 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/hooks/-/hooks-2.8.0.tgz#c36e1c9c7ca5cc58b489b7d5ce1b6441f9f09c16"
   integrity sha512-xL9Mfd3Sft74hGWdGDOcq3jbvZT93gGzvcg3rnvemOPaNec8cmC2SQk3OI8LomyGcF8MedZQzQPFyfRoRi8npA==
 
-"@react-native-community/masked-view@^0.1.10":
+"@react-native-community/masked-view@^0.1.11":
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
@@ -7325,6 +7325,11 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+q@^1.4.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
 qrcode-terminal@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/qrcode-terminal/-/qrcode-terminal-0.12.0.tgz#bb5b699ef7f9f0505092a3748be4464fe71b5819"
@@ -7620,6 +7625,13 @@ react-native-splash-screen@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
   integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
+
+react-native-ssl-pinning@^1.5.5:
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/react-native-ssl-pinning/-/react-native-ssl-pinning-1.5.5.tgz#d1815be40ccd89109c25c38c79ee19a61e5eec7e"
+  integrity sha512-wxgFdx3JSng74k8nGLZC6RU5EeKsHb76wJv9GV8oJ7815xtZ4WEhbihvjnAXDhuQxs20S6Unt2xLgkjHLW/bQA==
+  dependencies:
+    q "^1.4.1"
 
 react-native-svg@^12.1.1:
   version "12.1.1"

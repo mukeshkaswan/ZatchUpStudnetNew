@@ -79,7 +79,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -137,8 +137,8 @@ android {
         applicationId "com.zatchup"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.1"
+        versionCode 1
+        versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
@@ -214,8 +214,9 @@ dependencies {
     implementation project(':react-native-linear-gradient')
 
     implementation project(':react-native-splash-screen')
+
+    compile project(':react-native-ssl-pinning')
   //  implementation project(':@react-native-community_picker')
-    compile project(':react-native-keep-awake')
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
@@ -248,4 +249,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

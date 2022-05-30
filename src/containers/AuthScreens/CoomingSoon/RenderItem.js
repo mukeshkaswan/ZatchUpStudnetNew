@@ -169,7 +169,7 @@ function RenderItem({
         {posts != [] &&
         item.post_like != null &&
         item.post_like.length == 1 &&
-        item.post_like[0].post_like_username == username &&
+        item.post_like[0].post_like_user_id == userid &&
         item.post_like_count > 0 ? (
           <TouchableOpacity
             onPress={() => {
@@ -225,6 +225,7 @@ function RenderItem({
                 ? props.navigation.navigate('SchoolProfile', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
+                      school_id: item.post_like[0].school_id,
                     },
                   })
                 : item.post_like[0].post_like_user_id != userid
@@ -242,7 +243,9 @@ function RenderItem({
             <Text>
               Liked by{' '}
               <Text style={styles.boldText}>
-                {item.post_like[0].post_like_username + ' '}
+                {item.post_like[0].post_like_user_id == userid
+                  ? 'you '
+                  : item.post_like[0].post_like_username + ' '}
               </Text>
               and{' '}
               <Text style={styles.boldText}>
@@ -252,11 +255,11 @@ function RenderItem({
           </TouchableOpacity>
         )}
 
-        {item.full_name != null && item.post_gallery != null && (
+        {/* {item.full_name != null && item.post_gallery != null && (
           <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
             {item.full_name}
           </Text>
-        )}
+        )} */}
         {item.caption != null && item.post_gallery != null && (
           <Text>{item.caption}</Text>
         )}
@@ -272,7 +275,10 @@ function RenderItem({
                         onPress={() => {
                           item.user_role == 'EIREPRESENTATIVE'
                             ? props.navigation.navigate('SchoolProfile', {
-                                item: {user_id: item.user},
+                                item: {
+                                  user_id: item.user,
+                                  school_id: item.school_id,
+                                },
                               })
                             : item.user_id != userid
                             ? props.navigation.navigate('UsersProfile', {
@@ -306,7 +312,7 @@ function RenderItem({
                       </TouchableOpacity>
                     </View>
                   </View>
-                  {item.comment.length > 50 && (
+                  {item.comment != null && item.comment.length > 50 && (
                     <TouchableOpacity onPress={() => gotoShowMore(ind, index)}>
                       <Text>
                         {item.showMore ? '[Show Less]' : '[Show More]'}
@@ -374,6 +380,8 @@ function CrouselImages({item, index, length, ref}) {
       style={{
         marginHorizontal: 8,
         alignItems: 'center',
+        width: screenWidth - 64,
+        height: screenWidth - 64,
         // backgroundColor: 'red',
       }}>
       {item.post_extension != 'mp4' ? (
@@ -404,7 +412,7 @@ function CrouselImages({item, index, length, ref}) {
               alignSelf: 'center',
             }}
             video={{
-              uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
+              uri: item.post_image,
             }}
             // video={{ uri: coursepreview }}
             thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}

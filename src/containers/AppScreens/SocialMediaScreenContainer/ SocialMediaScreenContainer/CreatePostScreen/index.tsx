@@ -18,6 +18,7 @@ import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
+import {fetch} from 'react-native-ssl-pinning';
 import {
   TextField,
   CustomButton,
@@ -215,15 +216,21 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             : image.uri.replace('file://', ''),
       });
       console.log(token);
-      console.log(JSON.stringify(formData));
 
-      await axios({
-        url: 'https://apis.zatchup.com:2000/api/uploadFile',
+      await fetch('https://apis.zatchup.com:2000/api/uploadFile', {
         method: 'POST',
-        data: JSON.stringify(formData),
+        //disableAllSecurity: true,
+        timeoutInterval: 10000, // milliseconds
+        body: {
+          formData: formData,
+        },
+        sslPinning: {
+          certs: ['zatchup_all'],
+        },
         headers: {
-          Authorization: `Bearer ${token}`,
-          'content-type': 'multipart/form-data',
+          Accept: 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          e_platform: 'mobile',
         },
       })
         .then(response => {
@@ -347,12 +354,12 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
                 source={
                   userProfilePic != ''
                     ? {uri: userProfilePic}
-                    : Images.profile_img2
+                    : Images.profile_default
                 }
                 style={{
                   height: 50,
                   width: 50,
-                  tintColor: 'grey',
+                  // tintColor: 'grey',
                   borderRadius: 25,
                 }}
               />

@@ -133,7 +133,10 @@ import {
   SOCIALPRIVACYSETTING
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
+import HttpClientPost from './http-client-post';
+
 import Toast from 'react-native-simple-toast';
+
 // http://172.105.61.231:3000/api/user/user-verify/
 /***************************User Login Auth Segas*******************************/
 

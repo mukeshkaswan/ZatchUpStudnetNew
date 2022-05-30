@@ -116,9 +116,7 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
 
 
   const Data = async result => {
-    console.log('result.data.address1', result.data.address1)
     var dsfdsf = result.data.state_id;
-
     setStateKey(result.data.state_id.toString());
     setCityKey(result.data.city_id.toString());
     setSchoolKey(result.data.school_id);
@@ -226,12 +224,6 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
                 'after result Zatch Up ID',
                 JSON.stringify(result, undefined, 2),
                 Data(result),
-                // console.log('result.data.state_id',result.data.state_id),
-                // setStateKey(result.data.state_id),
-                //  setCityKey(result.data.city_id),
-                //  setSchoolKey(result.data.city_id),
-
-                //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
               );
               // setSpinnerStart(false);
               setLoading(false);
@@ -842,8 +834,6 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
               placeholder={'Enter your ZatchUp ID'}
               onChangeText={val => setID(val)}
               value={ID}
-              // onEndEditing={val => getDetailZatchupID(val)}
-              //  onEndEditing={() => getDetailZatchupID}
               onEndEditing={value => getDetailZatchupID()}
             />
           </View>

@@ -5,18 +5,18 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.corbt.keepawake.KCKeepAwakePackage;
-import org.wonday.orientation.OrientationPackage;
+import com.toyberman.RNSslPinningPackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
@@ -51,19 +51,18 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           protected List<ReactPackage> getPackages() {
               return Arrays.<ReactPackage>asList(
                       new MainReactPackage(),
-            new AsyncStoragePackage(),
-           // new RNSslPinningPackage(),
-            new KCKeepAwakePackage(),
-            new OrientationPackage(),
+            new RNSslPinningPackage(),
             new ReactNativeFirebaseFirestorePackage(),
             new RNCWebViewPackage(),
             new ClipboardPackage(),
             new ReactVideoPackage(),
+          //  new AsyncStoragePackage(),
             new SplashScreenReactPackage(),
             new SvgPackage(),
             new ReanimatedPackage(),
             new PickerPackage(),
             new RNDateTimePickerPackage(),
+            new AsyncStoragePackage(),
             new RNCardViewPackage(),
             new RNGestureHandlerPackage(),
             new RNScreensPackage(),
@@ -72,8 +71,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new ReactNativeFirebaseAppPackage(),
              new ReactNativeFirebaseAuthPackage(),
                       new LinearGradientPackage()
-
-                      //new SplashScreenReactPackage()  //here
               );
           }
 
@@ -88,7 +85,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     return mReactNativeHost;
   }
 
-  @Override
+
   public void onCreate() {
     super.onCreate();
      //

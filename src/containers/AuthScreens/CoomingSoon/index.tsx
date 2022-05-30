@@ -13,12 +13,28 @@ import {
   Keyboard,
   RefreshControl,
 } from 'react-native';
+import {
+  TextField,
+  CustomButton,
+  CustomStatusBar,
+  BackBtn,
+  ModelComponent,
+  CustomHeader,
+  CustomDropdown,
+  Validate,
+} from '../../../components';
 import styles from './style';
 import {Images} from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
 interface CoomingSoonScreenProps {
   navigation: any;
 }
+import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,28 +42,14 @@ import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
 import Video from 'react-native-video-player';
 import {
-  NavigationContainer,
-  useIsFocused,
-  DrawerActions,
-  useFocusEffect,
-} from '@react-navigation/native';
-import {
-  TextField,
-  CustomButton,
-  CustomStatusBar,
-  Validate,
-} from '../../../components';
-import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
-//import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
-
 const data1 = [
   {
     id: 1,
@@ -199,19 +201,19 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   useFocusEffect(
     React.useCallback(() => {
       const dataSetTimeOut = setTimeout(() => {
+
         setPage(1);
         onChangecityname('');
         setCityData([]);
+    
         getStepCountAPi();
-
         getAuthUserInfoApi();
         getPostDataApi(1);
         getReportData();
-
         return () => {
           dataSetTimeOut.clear();
         };
-      }, 500);
+      }, 200);
 
       const keyboardDidShowListener = Keyboard.addListener(
         'keyboardDidShow',
@@ -237,6 +239,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       };
     }, []),
   );
+
   const pressComment = () => {
     showComment(true);
   };
@@ -297,14 +300,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     try {
       await AsyncStorage.removeItem('tokenlogin');
       await AsyncStorage.removeItem('token');
-      await AsyncStorage.removeItem('Loginflag');
     } catch (e) {
       // save error
     }
     Toast.show('Logout Successfully ', Toast.SHORT);
 
     props.navigation.navigate('LoginScreen');
+    //  BackHandler.exitApp()
   };
+  // function handleBackButtonClick() {
+  //   props.navigation.goBack();
+  //   return true;
+  // }
 
   const onBurgerBarPress = () => {
     props.navigation.dispatch(DrawerActions.toggleDrawer());
@@ -343,13 +350,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              setUserid(result.user_id),
-              setuserName(result.full_name),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+             
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            setUserid(result.user_id),
+            setuserName(result.full_name),
             // setSpinnerStart(false);
             setLoading(false);
           }
@@ -401,11 +409,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result report data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
@@ -465,16 +473,28 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result report data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
             }
             // setSpinnerStart(false);
             setLoading(false);
+            setCheckboxValue([
+              {report_option: 'Suspicious or Fake', checked: false},
+
+              {report_option: 'Harassment or hateful speech', checked: false},
+              {report_option: 'Violence or physical harm', checked: false},
+              {report_option: 'Adult Content', checked: false},
+              {
+                report_option:
+                  'Intellectual property infringement or defamation',
+                checked: false,
+              },
+            ]);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -526,11 +546,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result unfollow user',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result unfollow user',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
@@ -571,20 +591,21 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       page: p,
     };
 
-    console.log('page==>>', data);
-    //setLoading(true);
+    //console.log('page==>>', data);
+    setLoading(true);
     dispatch(
       userActions.getPostOfUser({
         data,
         callback: ({result, error}) => {
           if (result) {
             setLoadingg(false);
+            setLoading(false);
 
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // let newArr = [];
             // for (let i in result.data) {
             //   newArr.push({...result.data[i], commentToggle: false});
@@ -611,12 +632,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               });
             }
 
-            console.log('NewArray==>>', newArrr);
+           // console.log('NewArray==>>', newArrr);
 
             // setSpinnerStart(false);
             let array = p == 1 ? newArrr : posts.concat(newArrr);
 
-            console.log('arrray', array);
+           // console.log('arrray', array);
             setPosts(array);
             setHasMore(newArrr.length == 9 ? true : false);
           }
@@ -675,18 +696,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       token: token,
       search: value,
     };
-    // setLoading(true);
+    setLoading(true);
 
     dispatch(
       userActions.getSearchSchoolStudentSearchList({
         data,
 
         callback: ({results, error}) => {
-          console.warn(
-            'after Search School Student result data',
-            results,
-            //  getdataProfile(result),
-          );
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
           if (results && results.length > 0) {
             // setSpinnerStart(false);
             setCityData(results), setLoading(false);
@@ -718,7 +739,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         newObj[i].commentToggle = false;
       }
     }
-    console.log('newObj', newObj);
+   // console.log('newObj', newObj);
     setPosts(newObj);
   };
 
@@ -745,11 +766,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result step count',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
@@ -794,22 +815,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               paddingVertical: 10,
               backgroundColor: 'white',
               alignItems: 'center',
-
+              flex: 1,
               width: '100%',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity
               underlayColor="none"
-              // onPress={() =>
-              //   props.navigation.navigate('SearchSchoolDetail', {
-              //     school_id: item.school_id,
-              //   })
-              // }
-
               onPress={() =>
-                props.navigation.navigate('SchoolProfile', {
-                  item: {school_id: item.school_id, user_id: item.id},
+                props.navigation.navigate('SearchSchoolDetail', {
+                  school_id: item.school_id,
                 })
               }>
               <View style={{flexDirection: 'row'}}>
@@ -832,7 +847,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               </View>
             </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={{marginTop: 5}}>{item.city}</Text>
+              <Text style={{}}>{item.city}</Text>
               <Image
                 //source={{ uri: item.profile_pic }}
                 source={Images.school}
@@ -853,19 +868,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               backgroundColor: 'white',
               alignItems: 'center',
               flex: 1,
-              width: '100%',
+              width: '90%',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity
               underlayColor="none"
-              // onPress={() =>
-              //   props.navigation.navigate('ProfileScreen', {user_id: item.id})
-              // }
               onPress={() =>
-                props.navigation.navigate('UserProfileScreen', {
-                  item: {user_id: item.id},
-                })
+                props.navigation.navigate('ProfileScreen', {user_id: item.id})
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -895,23 +905,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               backgroundColor: 'white',
               alignItems: 'center',
               flex: 1,
-              width: '100%',
+              width: '90%',
               flexDirection: 'row',
               justifyContent: 'space-between',
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
             }}>
             <TouchableOpacity
               underlayColor="none"
-              // onPress={() =>
-              //   props.navigation.navigate('ProfileScreen', {user_id: item.id})
-              // }
               onPress={() =>
-                props.navigation.navigate('UsersProfile', {
-                  item: {
-                    user_id: item.id,
-                  },
-                })
+                props.navigation.navigate('ProfileScreen', {user_id: item.id})
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -1129,11 +1130,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
           }
@@ -1177,11 +1178,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result comment on post',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment on post',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
             setComment('');
@@ -1215,18 +1216,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       comment_id: item.id,
       like: !item.likes_status,
     };
-    console.log(data);
+    //console.log(data);
 
     dispatch(
       userActions.commentlikeUnlike({
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result comment like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
           }
@@ -1264,18 +1265,23 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoReport = () => {
-    console.log(customItem, reportId);
+    //console.log(customItem, reportId);
     if (reportId == '') {
       Toast.show('Please select reason', Toast.SHORT);
       return;
     }
+    if (checkboxValue.every(item => item.checked == false)) {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
+
     setModalVisible2(!isModalVisible2);
 
     gotoReportPost();
   };
 
   const gotoShowMore = (ind, index) => {
-    console.log(ind, index);
+  //  console.log(ind, index);
 
     let newArr = Object.assign([], posts);
 
@@ -1293,13 +1299,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       }
     }
 
-    console.log('After Change==>>', newArr);
+    //console.log('After Change==>>', newArr);
 
     setPosts(newArr);
   };
 
   const gotoChangeComment = (text, index) => {
-    console.log(text, index);
+   // console.log(text, index);
 
     let newArr = Object.assign([], posts);
 
@@ -1311,13 +1317,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       }
     }
 
-    console.log('After Change==>>', newArr);
+    //console.log('After Change==>>', newArr);
 
     setPosts(newArr);
   };
 
   return (
     <View style={styles.container}>
+      {/* <CustomStatusBar /> */}
       <CustomStatusBar />
 
       {/* <CustomHeader Title={'School Information'} /> */}
@@ -1344,10 +1351,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               style={{
                 borderWidth: 1,
                 //  height: hp('5'),
-                marginVertical: hp('1.2'),
+                marginVertical: hp('1'),
                 borderColor: 'lightgrey',
                 width: 215,
-                height: 40,
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginLeft: 20,
@@ -1356,7 +1362,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               }}>
               <Image
                 source={Images.search}
-                style={{marginLeft: 5, tintColor: '#000'}}
+                style={{marginLeft: 10, tintColor: '#000'}}
               />
               <TextInput
                 //onChangeText={onChangeNumber}
@@ -1364,7 +1370,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 value={cityname}
                 style={{color: '#000'}}
                 placeholderTextColor="#000"
-                placeholder="Search..."
+                placeholder="Search City"
                 keyboardType="default"
               />
             </View>
@@ -1395,17 +1401,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             onPress={() => {
               props.navigation.navigate('Reminders');
             }}>
-            <Icon
-              name="clock-outline"
-              size={28}
-              color="#FFFFFF"
-              style={{
-                marginRight: 5,
-                marginTop: 11,
-                height: 30,
-                width: 30,
-              }}
-            />
+            <Image source={Images.search} style={styles.inbox_iconreminder} />
           </TouchableOpacity>
           <View
             style={{

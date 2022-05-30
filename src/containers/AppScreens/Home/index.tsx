@@ -2584,9 +2584,6 @@ const HomeScreen = (props: HomeScreenProps) => {
               {citydata.length > 0 ? <FlatList
                 data={citydata}
                 style={{ paddingHorizontal: 25 }}
-                // keyExtractor={item => item.id.toString()}
-                // ItemSeparatorComponent={ItemSepratorcity}
-                //  ItemSeparatorComponent={this.SeparatorComponent}
                 renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
               /> : null}
 

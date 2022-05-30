@@ -1,4 +1,4 @@
-import React, {Component, FC, useEffect, useState} from 'react';
+import React, { Component, FC, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -11,10 +11,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
-import {Images, Colors} from '../../../../../components/index';
+import { Images, Colors } from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {CustomStatusBar, CustomHeader} from '../../../../../components';
+import { CustomStatusBar, CustomHeader } from '../../../../../components';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import {
@@ -22,17 +22,18 @@ import {
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+const { height, width } = Dimensions.get('window');
+
 const data = [
   {
     id: 1,
@@ -122,7 +123,7 @@ interface NotificationsScreenProps {
 }
 const FollowingScreen = (props: NotificationsScreenProps) => {
   const {
-    item: {user_id},
+    item: { user_id },
   } = props.route.params;
   console.log('schoolDetail=====>>', props.route);
   const isFocused = useIsFocused();
@@ -180,7 +181,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result Auth User INfo',
@@ -235,7 +236,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getFollowing({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result following list',
@@ -273,9 +274,9 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -311,15 +312,15 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
         item.social_account_status == 1
           ? 0
           : item.social_account_status == 0
-          ? 2
-          : 0,
+            ? 2
+            : 0,
       following_user_id: item.following_user_id,
     };
 
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result follow user',
@@ -373,7 +374,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -388,10 +389,10 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-      {following.length > 0 && (
+      {following.length > 0 ? (
         <FlatList
           data={following}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <CardView
               cardElevation={5}
               cardMaxElevation={5}
@@ -405,26 +406,42 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                 <Image
                   source={
                     item.following_request_user_profile_pic != null
-                      ? {uri: item.following_request_user_profile_pic}
-                      : Images.profile_img2
+                      ? { uri: item.following_request_user_profile_pic }
+                      : Images.profile_default
                   }
                   style={{
                     height: 50,
                     width: 50,
-                    tintColor: 'grey',
                     borderRadius: 25,
                   }}
                 />
-                <View style={{marginLeft: 10}}>
-                  <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
-                    {item.following_username}
-                  </Text>
+                <View style={{ marginLeft: 10 }}>
+                  <TouchableOpacity onPress={() => {
+                    item.following_user_role == 'EIREPRESENTATIVE'
+                      ? props.navigation.navigate('SchoolProfile', {
+                        item: {
+                          user_id: item.following_user_id,
+                          school_id: item.following_school_id,
+                        },
+                      })
+                      : item.following_user_id != userid
+                        ? props.navigation.navigate('UsersProfile', {
+                          item: { user_id: item.following_user_id },
+                        })
+                        : props.navigation.navigate('UserProfileScreen', {
+                          item: { user_id: item.following_user_id },
+                        });
+                  }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: hp(2) }}>
+                      {item.following_username}
+                    </Text>
+                  </TouchableOpacity>
                   {userid == item.following_user_id ? (
-                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                    <Text style={{ color: 'grey', fontWeight: 'bold' }}>
                       Self
                     </Text>
                   ) : item.is_school_mates == true ? (
-                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                    <Text style={{ color: 'grey', fontWeight: 'bold' }}>
                       Schoolmates
                     </Text>
                   ) : (
@@ -452,12 +469,12 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                 ) : item.social_account_status == 1 ? (
                   <TouchableOpacity
                     disabled={item.student_verified ? true : false}
-                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
+                    style={[styles.removebtn, { backgroundColor: '#dc3545' }]}
                     onPress={toggleModalItem(item)}>
                     <Text
                       style={{
                         color: 'white',
-                        fontSize: hp(1.8),
+                        fontSize: hp(1.6),
                         fontWeight: 'bold',
                       }}>
                       Requested
@@ -466,7 +483,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                 ) : (
                   <TouchableOpacity
                     disabled={item.student_verified ? true : false}
-                    style={[styles.removebtn, {backgroundColor: '#28a745'}]}
+                    style={[styles.removebtn, { backgroundColor: '#28a745' }]}
                     onPress={toggleModalItem(item)}>
                     <Text
                       style={{
@@ -481,9 +498,20 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
               </View>
             </CardView>
           )}
-          //  ItemSeparatorComponent={renderIndicator}
+        //  ItemSeparatorComponent={renderIndicator}
         />
-      )}
+      ):<View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height - 72,
+        width,
+      }}>
+      <Text style={{fontWeight: '700'}}>
+       Records Not Available
+      </Text>
+    </View>}
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}
@@ -501,24 +529,21 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
           <Image
             source={
               userData.following_request_user_profile_pic != null
-                ? {uri: userData.following_request_user_profile_pic}
-                : Images.profile_img2
+                ? { uri: userData.following_request_user_profile_pic }
+                : Images.profile_default
             }
             style={{
               height: 50,
               width: 50,
-              tintColor: 'grey',
               borderRadius: 25,
             }}
           />
-          <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
-            <Text
-              style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-              Remove Follower?
-            </Text>
-            <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-              Zatchup won't tell @{userData.following_username} that they have
-              been removed from the Followers.
+          <View style={{ paddingHorizontal: 16, alignItems: 'center' }}>
+            <Text style={{ textAlign: 'center', fontSize: hp(1.8) }}>
+              If you change your mind, you'll have to request to follow  <Text
+                style={{ fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25 }}>
+                {userData.following_username}
+              </Text> again
             </Text>
           </View>
           <View
@@ -534,7 +559,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
             onPress={gotoRemove}
           /> */}
           <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
+            <Text style={{ color: 'rgb(70,50,103)', marginTop: 10 }}>
               Unfollow
             </Text>
           </TouchableOpacity>
@@ -551,7 +576,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
             onPress={toggleModal}
           /> */}
           <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
+            <Text style={{ color: 'red', marginTop: 10 }}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>

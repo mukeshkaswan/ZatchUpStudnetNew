@@ -60,5 +60,14 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     borderRadius: 6,
   },
+  removebtnremove: {
+    backgroundColor: 'rgb(70,50,103)',
+    height: hp(4),
+    width: wp(18),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+    bottom:35
+  },
 });
 export default styles;

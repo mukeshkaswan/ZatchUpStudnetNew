@@ -75,13 +75,9 @@ const styles = ScaledSheet.create({
     //shadowRadius: 6,
     shadowOpacity: 0.26,
 
-    //  backgroundColor: 'white',
-    //  padding: 20,
-    // borderRadius: 5,
-    //marginBottom: 5
-
     borderColor: 'lightgrey',
   },
+  
   dot_view: {
     position: 'absolute',
     right: 10,

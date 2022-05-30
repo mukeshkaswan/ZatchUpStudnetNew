@@ -68,8 +68,7 @@ const images = {
   Passwords: require('../assets/images/Passwords.png'),
   logouts: require('../assets/images/logouts.png'),
   contactus: require('../assets/images/contactus.png'),
-
-  
+  cover_pic_default: require('../assets/images/cover_pic_default.png'),
 
 
 };

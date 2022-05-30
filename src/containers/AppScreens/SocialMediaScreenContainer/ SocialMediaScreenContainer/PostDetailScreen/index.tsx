@@ -104,11 +104,11 @@ export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const PostDetailScreen = (props: NotificationsScreenProps) => {
-  console.log('props', props.route);
+ // console.log('props', props.route);
   const {
     item: {id, user_id},
   } = props.route.params;
-  console.log('+++++++', id);
+ // console.log('+++++++', id);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [flagId, setFlagId] = useState(id);
@@ -537,16 +537,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo++++++',
-              JSON.stringify(result, undefined, 2),
-              //  setuserName(result.full_name),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            console.log('USER_ID' + result.user_id),
-              setUserid(result.user_id),
+            setLoading(false);
+
+            // console.warn(
+            //   'after result Auth User INfo++++++',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  setuserName(result.full_name),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+           // console.log('USER_ID' + result.user_id),
+              setUserid(result.user_id)
               // setSpinnerStart(false);
-              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -776,14 +777,15 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
       token: token,
       id: id,
     };
-    setLoading(true);
+    //setLoading(true);
     dispatch(
       userActions.getPostDetails({
         data,
         callback: ({result, error}) => {
           if (result) {
-            getAuthUserInfoApi();
             setLoading(false);
+
+            getAuthUserInfoApi();
             console.warn(
               'after result post details',
               JSON.stringify(result, undefined, 2),
@@ -1028,27 +1030,45 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     return (
       <View
         style={{
-          //borderWidth: 0.5,
-          // padding: 20,
-          marginHorizontal: 8,
-          //borderRadius: 20,
+          marginHorizontal: 16,
           alignItems: 'center',
-          // backgroundColor: 'red',
-          //  borderColor: 'grey',
         }}>
-        <Image
-          source={{uri: item.post_image}}
-          resizeMode="contain"
-          style={{
-            width: screenWidth - 64,
-            height: 200,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{uri: item.post_image}}
+            resizeMode="contain"
+            style={{
+              width: screenWidth - 64,
+              height: screenWidth - 64,
+              backgroundColor: '#d2d2d2',
+            }}
+          />
+        ) : (
+          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
+            <Video
+              key={item + 'sap'}
+              //ref={ref}
+              videoWidth={screenWidth - 64}
+              videoHeight={screenWidth - 64}
+              style={{
+                backgroundColor: '#d2d2d2',
+                alignSelf: 'center',
+              }}
+              video={{
+                uri: item.post_image,
+              }}
+              // video={{ uri: coursepreview }}
+              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+              //resizeMode="contain"
+              //showDuration
+              //lockRatio={16 / 9}
+            />
+          </View>
+        )}
         {length > 1 && (
           <Text
             style={{
-              marginVertical: 10,
+              margin: 10,
               fontSize: 12,
               position: 'absolute',
               color: '#fff',
@@ -1170,7 +1190,8 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         padding: 8,
         alignItems: 'center',
       }}
-      onPress={() => gotoNavigate(item)}>
+      onPress={() => gotoNavigate(item)}
+      >
       {item.post_gallery[0].post_extension != 'mp4' ? (
         <Image
           source={
@@ -1181,19 +1202,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
       ) : (
-        <Video
-          key={item + 'sap'}
-          // ref={refe => (this.ref = refe)}
-          style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
-          video={{
-            uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
-          }}
-          // video={{ uri: coursepreview }}
-          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          resizeMode="contain"
-          //showDuration
-          //lockRatio={16 / 9}
-        />
+        null
       )}
     </TouchableOpacity>
   );
@@ -1365,10 +1374,6 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             // cornerRadius={20}
             style={styles.card}>
             <View style={{marginTop: 16}}>
-              {/* <Image
-              source={require('../../../../../assets/images/college4.jpg')}
-              style={styles.image}
-            /> */}
               {postDetails != '' && postDetails.post_gallery != null ? (
                 <>
                   <Carousel
@@ -1382,8 +1387,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         length={postDetails.post_gallery.length}
                       />
                     )}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
+                    sliderWidth={screenWidth - 32}
+                    itemWidth={screenWidth - 32}
+                    layoutCardOffset={'0'}
+                    autoplay={false}
                     onSnapToItem={(index: React.SetStateAction<number>) =>
                       setIndex(index)
                     }
@@ -1432,7 +1439,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   source={
                     postDetails.profile_pic != null
                       ? {uri: postDetails.profile_pic}
-                      : Images.profile_img2
+                      : Images.profile_default
                   }
                   style={styles.profileImage}
                 />
@@ -1482,7 +1489,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     source={
                       postDetails.profile_pic != null
                         ? {uri: postDetails.profile_pic}
-                        : Images.profile_img2
+                        : Images.profile_default
                     }
                     style={styles.profileImage}
                   />
@@ -1536,13 +1543,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 source={
                                   item.comment_user_profile_pic != null
                                     ? {uri: item.comment_user_profile_pic}
-                                    : Images.profile_img2
+                                    : Images.profile_default
                                 }
                                 style={{
                                   height: 40,
                                   width: 40,
                                   borderRadius: 50,
-                                  tintColor: 'grey',
+                                  //tintColor: 'grey',
                                 }}
                               />
                             </TouchableOpacity>
@@ -1759,13 +1766,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                               ? {
                                                   uri: item.comment_user_profile_pic,
                                                 }
-                                              : Images.profile_img2
+                                              : Images.profile_default
                                           }
                                           style={{
                                             height: 40,
                                             width: 40,
                                             borderRadius: 50,
-                                            tintColor: 'grey',
+                                            //tintColor: 'grey',
                                           }}
                                         />
                                       </TouchableOpacity>

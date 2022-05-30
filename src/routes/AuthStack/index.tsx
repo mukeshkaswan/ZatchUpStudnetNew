@@ -216,7 +216,6 @@ function AuthStack() {
       <Stack.Screen
         name="MySchoolScreen"
         component={MySchoolScreen}
-       // options={{headerShown: false}}
         options={{header: () => null}}
 
       />
@@ -494,11 +493,7 @@ function AuthStack() {
         options={{header: () => null}}
       />
 
-      {/* <Stack.Screen
-        name="messagechat"
-        component={TeacherMessageChat}
-        options={{ header: () => null }}
-      /> */}
+
     </Stack.Navigator>
   );
 }
