@@ -36,7 +36,6 @@ import java.lang.reflect.InvocationTargetException;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 import java.util.Arrays;
 import java.util.List;
-import com.toyberman.RNSslPinningPackage;
 import androidx.multidex.MultiDexApplication; // <-- ADD THIS IMPORT
 public class MainApplication extends MultiDexApplication implements ReactApplication {
     
@@ -69,9 +68,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new SafeAreaContextPackage(),
             new ReactNativeFirebaseAppPackage(),
              new ReactNativeFirebaseAuthPackage(),
-                      new LinearGradientPackage(),
-                      new RNSslPinningPackage()
-                      //new SplashScreenReactPackage()  //here
+                      new LinearGradientPackage()
               );
           }
 
