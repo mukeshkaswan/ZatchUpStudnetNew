@@ -13,12 +13,28 @@ import {
   Keyboard,
   RefreshControl,
 } from 'react-native';
+import {
+  TextField,
+  CustomButton,
+  CustomStatusBar,
+  BackBtn,
+  ModelComponent,
+  CustomHeader,
+  CustomDropdown,
+  Validate,
+} from '../../../components';
 import styles from './style';
 import {Images} from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
 interface CoomingSoonScreenProps {
   navigation: any;
 }
+import {
+  NavigationContainer,
+  useIsFocused,
+  DrawerActions,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,7 +45,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useIsFocused, DrawerActions} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -148,40 +163,81 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       checked: false,
     },
   ]);
-  useEffect(() => {
-    //getEducationProfile();
-    setPage(1);
-    onChangecityname('');
-    setCityData([]);
+  // useEffect(() => {
+  //   //getEducationProfile();
+  //   setPage(1);
+  //   onChangecityname('');
+  //   setCityData([]);
 
-    getStepCountAPi();
-    getAuthUserInfoApi();
-    getPostDataApi(1);
-    getReportData();
-    // getAuthUserInfoApi();
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true); // or some other action
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false); // or some other action
-      },
-    );
+  //   getStepCountAPi();
+  //   getAuthUserInfoApi();
+  //   getPostDataApi(1);
+  //   getReportData();
+  //   // getAuthUserInfoApi();
+  //   const keyboardDidShowListener = Keyboard.addListener(
+  //     'keyboardDidShow',
+  //     () => {
+  //       setKeyboardVisible(true); // or some other action
+  //     },
+  //   );
+  //   const keyboardDidHideListener = Keyboard.addListener(
+  //     'keyboardDidHide',
+  //     () => {
+  //       setKeyboardVisible(false); // or some other action
+  //     },
+  //   );
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //   return () => {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackButtonClick,
+  //     );
+  //     keyboardDidHideListener.remove();
+  //     keyboardDidShowListener.remove();
+  //   };
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const dataSetTimeOut = setTimeout(() => {
+        setPage(1);
+        onChangecityname('');
+        setCityData([]);
+
+        getStepCountAPi();
+        getAuthUserInfoApi();
+        getPostDataApi(1);
+        getReportData();
+        return () => {
+          dataSetTimeOut.clear();
+        };
+      }, 200);
+
+      const keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        () => {
+          setKeyboardVisible(true); // or some other action
+        },
       );
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+      const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        () => {
+          setKeyboardVisible(false); // or some other action
+        },
+      );
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      return () => {
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+      };
+    }, []),
+  );
 
   const pressComment = () => {
     showComment(true);
@@ -293,15 +349,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              setUserid(result.user_id),
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            setUserid(result.user_id),
               setuserName(result.full_name),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -351,11 +408,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result report data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
@@ -415,11 +472,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result report data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
             }
@@ -488,11 +545,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result unfollow user',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result unfollow user',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
@@ -533,7 +590,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       page: p,
     };
 
-    console.log('page==>>', data);
+    //console.log('page==>>', data);
     setLoading(true);
     dispatch(
       userActions.getPostOfUser({
@@ -543,11 +600,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             setLoadingg(false);
             setLoading(false);
 
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // let newArr = [];
             // for (let i in result.data) {
             //   newArr.push({...result.data[i], commentToggle: false});
@@ -574,12 +631,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               });
             }
 
-            console.log('NewArray==>>', newArrr);
+            // console.log('NewArray==>>', newArrr);
 
             // setSpinnerStart(false);
             let array = p == 1 ? newArrr : posts.concat(newArrr);
 
-            console.log('arrray', array);
+            // console.log('arrray', array);
             setPosts(array);
             setHasMore(newArrr.length == 9 ? true : false);
           }
@@ -645,11 +702,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
 
         callback: ({results, error}) => {
-          console.warn(
-            'after Search School Student result data',
-            results,
-            //  getdataProfile(result),
-          );
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
           if (results && results.length > 0) {
             // setSpinnerStart(false);
             setCityData(results), setLoading(false);
@@ -681,7 +738,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         newObj[i].commentToggle = false;
       }
     }
-    console.log('newObj', newObj);
+    // console.log('newObj', newObj);
     setPosts(newObj);
   };
 
@@ -708,11 +765,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result step count',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result step count',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             // setSpinnerStart(false);
             set_unread_notification_count(result.unread_notification_count);
             set_unread_reminder_count(result.unread_reminder_count);
@@ -748,7 +805,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       <CardView
         cardElevation={2}
         cardMaxElevation={2}
-        cornerRadius={5}
+        //cornerRadius={5}
         style={styles.Cardview_city}>
         {item.user_type == 'SCHOOL' ? (
           <View
@@ -759,15 +816,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               alignItems: 'center',
               flex: 1,
               width: '100%',
-
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('SearchSchoolDetail', {
-                  school_id: item.school_id,
+                props.navigation.navigate('SchoolProfile', {
+                  item: {school_id: item.school_id, user_id: item.id},
                 })
               }>
               <View style={{flexDirection: 'row'}}>
@@ -818,7 +874,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('ProfileScreen', {user_id: item.id})
+                props.navigation.navigate('UserProfileScreen', {
+                  item: {user_id: item.id},
+                })
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -855,7 +913,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               underlayColor="none"
               onPress={() =>
-                props.navigation.navigate('ProfileScreen', {user_id: item.id})
+                props.navigation.navigate('UsersProfile', {
+                  item: {user_id: item.id},
+                })
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
@@ -1073,11 +1133,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
           }
@@ -1121,11 +1181,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result comment on post',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment on post',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
             setComment('');
@@ -1159,18 +1219,18 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       comment_id: item.id,
       like: !item.likes_status,
     };
-    console.log(data);
+    //console.log(data);
 
     dispatch(
       userActions.commentlikeUnlike({
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result comment like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getPostDataApi(1);
           }
@@ -1208,7 +1268,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoReport = () => {
-    console.log(customItem, reportId);
+    //console.log(customItem, reportId);
     if (reportId == '') {
       Toast.show('Please select reason', Toast.SHORT);
       return;
@@ -1224,7 +1284,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoShowMore = (ind, index) => {
-    console.log(ind, index);
+    //  console.log(ind, index);
 
     let newArr = Object.assign([], posts);
 
@@ -1242,13 +1302,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       }
     }
 
-    console.log('After Change==>>', newArr);
+    //console.log('After Change==>>', newArr);
 
     setPosts(newArr);
   };
 
   const gotoChangeComment = (text, index) => {
-    console.log(text, index);
+    // console.log(text, index);
 
     let newArr = Object.assign([], posts);
 
@@ -1260,7 +1320,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       }
     }
 
-    console.log('After Change==>>', newArr);
+    //console.log('After Change==>>', newArr);
 
     setPosts(newArr);
   };
@@ -1268,6 +1328,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   return (
     <View style={styles.container}>
       {/* <CustomStatusBar /> */}
+      <CustomStatusBar />
 
       {/* <CustomHeader Title={'School Information'} /> */}
 
@@ -1406,13 +1467,24 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       <View
         style={{
           position: 'absolute',
-          top: isKeyboardVisible == true ? '14%' : '8%',
-          bottom: 0,
+          top: isKeyboardVisible == true ? '12%' : '8%',
+
+          // flex: 1,
+          // justifyContent: 'center',
+          //alignItems: 'center',
+          zIndex: 1,
+          //  height: 230,
         }}>
         {citydata.length > 0 ? (
           <FlatList
             data={citydata}
-            // style={{ position:'absolute' }}
+            showsVerticalScrollIndicator={false}
+            // ListFooterComponent={() => (
+            //   <Text style={{textAlign: 'center'}}>See All Results</Text>
+            // )}
+            style={{
+              height: 290,
+            }}
             // keyExtractor={item => item.id.toString()}
             // ItemSeparatorComponent={ItemSepratorcity}
             //  ItemSeparatorComponent={this.SeparatorComponent}

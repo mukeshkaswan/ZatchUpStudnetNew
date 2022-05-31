@@ -28,11 +28,12 @@ import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+const { height, width } = Dimensions.get('window');
+
 const data = [
   {
     id: 1,
@@ -444,7 +445,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-      {followers.length > 0 && (
+      {followers.length > 0 ? (
         <FlatList
           data={followers}
           renderItem={({ item }) => (
@@ -530,7 +531,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                       <Text
                         style={{
                           color: 'white',
-                          fontSize: hp(1.8),
+                          fontSize: hp(1.6),
                           fontWeight: 'bold',
                         }}>
                         Requested
@@ -555,7 +556,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
               ) : (
                 <View style={styles.Title_view}>
                   <TouchableOpacity
-                    style={styles.removebtn}
+                    style={styles.removebtnremove}
                     onPress={toggleModalItem({ ...item, flag: 'remove' })}>
                     <Text
                       style={{
@@ -571,7 +572,18 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
             </CardView>
           )}
         />
-      )}
+      ) : <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: height - 72,
+          width,
+        }}>
+        <Text style={{ fontWeight: '700' }}>
+          Records Not Available
+        </Text>
+      </View>}
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}

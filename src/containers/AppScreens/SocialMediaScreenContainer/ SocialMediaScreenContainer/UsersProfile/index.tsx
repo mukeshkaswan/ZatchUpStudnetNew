@@ -1,4 +1,4 @@
-import React, { Component, FC, useState, useEffect, useRef } from 'react';
+import React, {Component, FC, useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -33,22 +33,22 @@ import {
 import * as userActions from '../../../../../actions/user-actions-types';
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
+import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
 import images from '../../../../../components/images';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import { useDispatch } from 'react-redux';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import {useDispatch} from 'react-redux';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
 import Popover from 'react-native-popover-view';
-import { Images } from '../../../../../components/index';
+import {Images} from '../../../../../components/index';
 import Modal from 'react-native-modal';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import RenderItem from './RenderItem';
 //import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -60,7 +60,7 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 const UsersProfile = (props: UserProfileProps) => {
   console.log('=====UserOther', props.route);
   const {
-    item: { user_id },
+    item: {user_id},
   } = props.route.params;
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -81,17 +81,17 @@ const UsersProfile = (props: UserProfileProps) => {
   const [customItem, setCustomItem] = useState('');
   const [isreportprofilemodal, setreportprofilemodal] = useState(false);
   const [checkboxValue, setCheckboxValue] = React.useState([
-    { report_option: 'Was not my Batchmate', checked: false },
+    {report_option: 'Was not my Batchmate', checked: false},
 
-    { report_option: 'Was not my Classmate', checked: false },
-    { report_option: 'Fake Profile', checked: false },
+    {report_option: 'Was not my Classmate', checked: false},
+    {report_option: 'Fake Profile', checked: false},
   ]);
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
-    { report_option: 'Suspicious or Fake', checked: false },
+    {report_option: 'Suspicious or Fake', checked: false},
 
-    { report_option: 'Harassment or hateful speech', checked: false },
-    { report_option: 'Violence or physical harm', checked: false },
-    { report_option: 'Adult Content', checked: false },
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -170,9 +170,9 @@ const UsersProfile = (props: UserProfileProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes' },
+        {text: 'Yes'},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
@@ -200,7 +200,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report data',
@@ -257,7 +257,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result Auth User INfo',
@@ -356,9 +356,9 @@ const UsersProfile = (props: UserProfileProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -397,7 +397,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getUserProfile({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result user profile details',
@@ -440,7 +440,7 @@ const UsersProfile = (props: UserProfileProps) => {
 
               console.log('NewArray==>>12', newArrr);
 
-              let newObject = { ...result.data[0], social_post: newArrr };
+              let newObject = {...result.data[0], social_post: newArrr};
 
               console.log('+++++12', newObject);
 
@@ -484,7 +484,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getReportDataUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report data userr',
@@ -494,7 +494,7 @@ const UsersProfile = (props: UserProfileProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({ ...result.data[i], checked: false });
+                newData.push({...result.data[i], checked: false});
               }
 
               console.log('newDataUser==>>', newData);
@@ -548,7 +548,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report data post',
@@ -558,7 +558,7 @@ const UsersProfile = (props: UserProfileProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({ ...result.data[i], checked: false });
+                newData.push({...result.data[i], checked: false});
               }
 
               console.log('newDataa==>>', newData);
@@ -610,7 +610,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getUserCoverMediaPic({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result user cover pic details',
@@ -664,7 +664,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result comment on post',
@@ -708,7 +708,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result like or unlike',
@@ -752,7 +752,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result comment like or unlike',
@@ -826,15 +826,15 @@ const UsersProfile = (props: UserProfileProps) => {
         userProfile.follow_request_status == 1
           ? 0
           : userProfile.follow_request_status == 0
-            ? 1
-            : 0,
+          ? 1
+          : 0,
       following_user_id: user_id,
     };
 
     dispatch(
       userActions.followUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result follow user',
@@ -887,7 +887,7 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.reportProfile({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report profile',
@@ -963,7 +963,7 @@ const UsersProfile = (props: UserProfileProps) => {
 
     // console.log('After Change==>>', newArr);
 
-    let newObject = { ...userProfile, social_post: newArr };
+    let newObject = {...userProfile, social_post: newArr};
 
     console.log('+++++', newObject);
 
@@ -975,16 +975,16 @@ const UsersProfile = (props: UserProfileProps) => {
     let itemm = JSON.stringify(itemData);
     console.log(JSON.parse(itemm));
     const {
-      item: { user_id },
+      item: {user_id},
     } = JSON.parse(itemm);
     console.log(user_id);
-    await props.navigation.navigate(route, { item: { user_id } });
+    await props.navigation.navigate(route, {item: {user_id}});
     // return true;
   };
 
   const GoToNavigate = items => {
     console.log('item', items);
-    props.navigation.navigate('PostDetailScreen', { item: items });
+    props.navigation.navigate('PostDetailScreen', {item: items});
   };
 
   return (
@@ -1006,12 +1006,12 @@ const UsersProfile = (props: UserProfileProps) => {
             <ImageBackground
               source={
                 sociaMedialPic.hasOwnProperty('cover_pic') &&
-                  sociaMedialPic.cover_pic != null
-                  ? { uri: sociaMedialPic.cover_pic }
+                sociaMedialPic.cover_pic != null
+                  ? {uri: sociaMedialPic.cover_pic}
                   : Images.cover_pic_default
               }
               resizeMode="stretch"
-              style={{ width: '100%', height: 130 }}>
+              style={{width: '100%', height: 130}}>
               <View
                 style={{
                   backgroundColor: 'black',
@@ -1046,10 +1046,10 @@ const UsersProfile = (props: UserProfileProps) => {
                     borderColor: 'lightgrey',
                   }}>
                   <TouchableOpacity onPress={reportprofilemodal}>
-                    <Text style={{ fontSize: hp(2) }}>Report Profile</Text>
+                    <Text style={{fontSize: hp(2)}}>Report Profile</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => blockprofile()}>
-                    <Text style={{ fontSize: hp(2), marginTop: 10 }}>
+                    <Text style={{fontSize: hp(2), marginTop: 10}}>
                       Block Profile
                     </Text>
                   </TouchableOpacity>
@@ -1058,13 +1058,13 @@ const UsersProfile = (props: UserProfileProps) => {
             </ImageBackground>
 
             <View style={styles.rowContainer}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View>
                   <Image
                     source={
                       sociaMedialPic.hasOwnProperty('profile_pic') &&
-                        sociaMedialPic.profile_pic != null
-                        ? { uri: sociaMedialPic.profile_pic }
+                      sociaMedialPic.profile_pic != null
+                        ? {uri: sociaMedialPic.profile_pic}
                         : Images.profile_default
                     }
                     style={{
@@ -1107,7 +1107,7 @@ const UsersProfile = (props: UserProfileProps) => {
                       marginLeft: 14,
                       marginTop: 30,
                     }}>
-                    <View style={{ marginTop: 16 }}>
+                    <View style={{marginTop: 16}}>
                       <Text style={styles.nametext}>{userProfile.name}</Text>
                       <Text style={styles.nametext}>
                         {'(' + userProfile.zatchup_id + ')'}
@@ -1124,17 +1124,17 @@ const UsersProfile = (props: UserProfileProps) => {
               </View>
             </View>
             <View style={styles.likecontainer}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
                   disabled={
                     userProfile.follow_request_status == 2 &&
-                      userProfile.social_account_status
+                    userProfile.social_account_status
                       ? false
                       : true
                   }
                   onPress={() => {
                     props.navigation.navigate('FollowersScreen', {
-                      item: { ...userProfile, user_id, flag: 'user' },
+                      item: {...userProfile, user_id, flag: 'user'},
                     });
                   }}>
                   <Text style={styles.boldText}>
@@ -1146,16 +1146,16 @@ const UsersProfile = (props: UserProfileProps) => {
                 <TouchableOpacity
                   disabled={
                     userProfile.follow_request_status == 2 &&
-                      userProfile.social_account_status
+                    userProfile.social_account_status
                       ? false
                       : true
                   }
                   onPress={() => {
                     props.navigation.navigate('FollowingScreen', {
-                      item: { ...userProfile, user_id },
+                      item: {...userProfile, user_id},
                     });
                   }}
-                  style={{ marginLeft: 10 }}>
+                  style={{marginLeft: 10}}>
                   <Text style={styles.boldText}>
                     {userProfile.social_user_followings}
                   </Text>
@@ -1176,12 +1176,12 @@ const UsersProfile = (props: UserProfileProps) => {
                   </TouchableOpacity>
                 ) : userProfile.follow_request_status == 1 ? (
                   <TouchableOpacity
-                    style={[styles.removebtn, { backgroundColor: '#dc3545' }]}
+                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
                     onPress={toggleModal}>
                     <Text
                       style={{
                         color: 'white',
-                        fontSize: hp(1.8),
+                        fontSize: hp(1.6),
                         fontWeight: 'bold',
                       }}>
                       Requested
@@ -1191,7 +1191,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   <TouchableOpacity
                     style={[
                       styles.removebtn,
-                      { backgroundColor: '#28a745', width: 110 },
+                      {backgroundColor: '#28a745', width: 110},
                     ]}
                     onPress={toggleModal}>
                     <Text
@@ -1229,11 +1229,11 @@ const UsersProfile = (props: UserProfileProps) => {
                     <>
                       <View style={styles.borderstyle}></View>
                       <View style={styles.textcontainer}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{flexDirection: 'row'}}>
                           <Text
                             style={[
                               styles.Personal_Tv,
-                              { fontWeight: '700', color: '#5790c2' },
+                              {fontWeight: '700', color: '#5790c2'},
                             ]}>
                             {item.name_of_school}
                           </Text>
@@ -1242,7 +1242,7 @@ const UsersProfile = (props: UserProfileProps) => {
                               name="check-circle"
                               size={17}
                               color="#4E387E"
-                              style={{ marginLeft: 5, marginTop: 2 }}
+                              style={{marginLeft: 5, marginTop: 2}}
                             />
                           )}
                         </View>
@@ -1250,7 +1250,7 @@ const UsersProfile = (props: UserProfileProps) => {
                           return (
                             <View style={styles.view_Row}>
                               <Text
-                                style={[styles.view_Tv_1, { fontWeight: '700' }]}>
+                                style={[styles.view_Tv_1, {fontWeight: '700'}]}>
                                 {item.course_name}
                               </Text>
                               <Text style={styles.view_Tv_2}>
@@ -1288,8 +1288,8 @@ const UsersProfile = (props: UserProfileProps) => {
                   {userProfile.gender == 'M'
                     ? 'Male'
                     : userProfile.gender == 'F'
-                      ? 'Female'
-                      : 'Custom'}
+                    ? 'Female'
+                    : 'Custom'}
                 </Text>
               </View>
 
@@ -1307,47 +1307,45 @@ const UsersProfile = (props: UserProfileProps) => {
               )}
             </View>
           </Card>
-          {userProfile != '' &&
-            (userProfile.follow_request_status == 2 ||
-              userProfile.social_account_status) && (
-              <Card style={styles.cardContent}>
-                <View style={styles.cardtitlecontent}>
-                  <Text style={styles.cardtitletext}>Posts</Text>
-                </View>
-                <View style={styles.borderstyle}></View>
-                <View style={styles.tabrowContainer}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => active_data('thData')}>
-                      <Icon
-                        name="th"
-                        size={30}
-                        color={data === 'thData' ? '#4B2A6A' : 'grey'}
-                      />
-                    </TouchableOpacity>
+          {userProfile != '' && (
+            <Card style={styles.cardContent}>
+              <View style={styles.cardtitlecontent}>
+                <Text style={styles.cardtitletext}>Posts</Text>
+              </View>
+              <View style={styles.borderstyle}></View>
+              <View style={styles.tabrowContainer}>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('thData')}>
+                    <Icon
+                      name="th"
+                      size={30}
+                      color={data === 'thData' ? '#4B2A6A' : 'grey'}
+                    />
+                  </TouchableOpacity>
 
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => active_data('Image')}>
-                      <Icon
-                        name="image"
-                        size={30}
-                        color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                        style={{ marginLeft: 80 }}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('Image')}>
+                    <Icon
+                      name="image"
+                      size={30}
+                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                      style={{marginLeft: 80}}
+                    />
+                  </TouchableOpacity>
                 </View>
-              </Card>
-            )}
+              </View>
+            </Card>
+          )}
           {userProfile != '' &&
-            (userProfile.follow_request_status == 2 ||
-              userProfile.social_account_status) &&
-            !(data === 'Image') ? (
+          (userProfile.follow_request_status == 2 ||
+            !userProfile.social_account_status) &&
+          !(data === 'Image') ? (
             <FlatList
               data={userProfile.social_post}
-              renderItem={({ item }) => {
+              renderItem={({item}) => {
                 let items = item;
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
@@ -1364,7 +1362,7 @@ const UsersProfile = (props: UserProfileProps) => {
                         // layout={'tinder'}
                         ref={isCarousel}
                         data={item.post_gallery}
-                        renderItem={({ item, index }) => (
+                        renderItem={({item, index}) => (
                           <CrouselImages
                             item={item}
                             index={index}
@@ -1387,7 +1385,7 @@ const UsersProfile = (props: UserProfileProps) => {
                       // layout={'tinder'}
                       ref={isCarouselText}
                       data={parts}
-                      renderItem={({ item, index }) => (
+                      renderItem={({item, index}) => (
                         <CrouselText
                           item={item}
                           index={index}
@@ -1405,14 +1403,14 @@ const UsersProfile = (props: UserProfileProps) => {
                   );
                 }
               }}
-            //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
             />
           ) : userProfile != '' &&
             (userProfile.follow_request_status == 2 ||
-              userProfile.social_account_status) ? (
+              !userProfile.social_account_status) ? (
             <FlatList
               data={userProfile.social_post}
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 let ind = index;
                 let items = item;
                 let len =
@@ -1820,7 +1818,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   // </CardView>
                 );
               }}
-            //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
             />
           ) : (
             <View
@@ -1832,11 +1830,27 @@ const UsersProfile = (props: UserProfileProps) => {
                 marginTop: 16,
                 paddingVertical: 32,
               }}>
-              <Text style={{ fontWeight: '700', fontSize: 18 }}>
+              <Text style={{fontWeight: '700', fontSize: 18}}>
                 This Account Is Private
               </Text>
             </View>
           )}
+
+          {userProfile != '' &&
+            userProfile.social_post.length == 0 &&
+            (userProfile.follow_request_status == 2 ||
+              !userProfile.social_account_status) && (
+              <View
+                style={{
+                  margin: 16,
+                  borderColor: '#000',
+                  borderWidth: 1,
+                  padding: 16,
+                  alignItems: 'center',
+                }}>
+                <Text>No Post Uploaded</Text>
+              </View>
+            )}
         </ScrollView>
       )}
 
@@ -1863,9 +1877,9 @@ const UsersProfile = (props: UserProfileProps) => {
               borderRadius: 25,
             }}
           /> */}
-          <View style={{ paddingHorizontal: 16, alignItems: 'center' }}>
+          <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
             <Text
-              style={{ fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25 }}>
+              style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
               Are you sure you want to unfollow
             </Text>
             {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
@@ -1886,7 +1900,7 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress={gotoRemove}
           /> */}
           <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{ color: 'rgb(70,50,103)', marginTop: 10 }}>Remove</Text>
+            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
           </TouchableOpacity>
           <View
             style={{
@@ -1901,7 +1915,7 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress={toggleModal}
           /> */}
           <TouchableOpacity onPress={toggleModal}>
-            <Text style={{ color: 'red', marginTop: 10 }}>Cancel</Text>
+            <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -1912,7 +1926,7 @@ const UsersProfile = (props: UserProfileProps) => {
         onBackdropPress={reportprofilemodal}
         backdropOpacity={0.4}>
         <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
             <TouchableOpacity>
               <Text
                 style={{
@@ -1926,12 +1940,12 @@ const UsersProfile = (props: UserProfileProps) => {
             <TouchableOpacity onPress={reportprofilemodal}>
               <Image
                 source={Images.closeicon}
-                style={{ height: 15, width: 15, marginRight: 10 }}
+                style={{height: 15, width: 15, marginRight: 10}}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.mborder}></View>
-          <View style={{ paddingHorizontal: 16 }}>
+          <View style={{paddingHorizontal: 16}}>
             {checkboxValue.map((checkbox, i) => (
               <View key={i} style={styles.rowContent}>
                 <Text style={styles.reporttext}>{checkbox.report_option}</Text>
@@ -1968,11 +1982,11 @@ const UsersProfile = (props: UserProfileProps) => {
           </View>
           <View style={styles.mborder}></View>
           <View
-            style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
             <TouchableOpacity
               style={styles.postbtn}
               onPress={gotoReportProfile}>
-              <Text style={{ color: 'white' }}>Submit</Text>
+              <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -2006,13 +2020,13 @@ const UsersProfile = (props: UserProfileProps) => {
           {/* )} */}
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen', { item: customItem });
+              props.navigation.navigate('PostDetailScreen', {item: customItem});
             }}>
-            <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
+            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
           </TouchableOpacity>
           <View style={styles.mborder}></View>
           <TouchableOpacity onPress={toggleModal3}>
-            <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>Cancel</Text>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -2022,7 +2036,7 @@ const UsersProfile = (props: UserProfileProps) => {
         onBackdropPress={reportmodal}
         backdropOpacity={0.4}>
         <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
             <TouchableOpacity>
               <Text
                 style={{
@@ -2036,13 +2050,13 @@ const UsersProfile = (props: UserProfileProps) => {
             <TouchableOpacity onPress={reportmodal}>
               <Image
                 source={Images.closeicon}
-                style={{ height: 15, width: 15, marginRight: 10 }}
+                style={{height: 15, width: 15, marginRight: 10}}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.mborder}></View>
-          <View style={{ paddingHorizontal: 16 }}>
-            <Text style={{ fontSize: hp(2.4) }}>Why are you reporting this?</Text>
+          <View style={{paddingHorizontal: 16}}>
+            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
             {reportcheckboxValue.map((checkbox, i) => (
               <View key={i} style={styles.rowContent}>
                 <Text style={styles.reporttext}>{checkbox.report_option}</Text>
@@ -2080,11 +2094,11 @@ const UsersProfile = (props: UserProfileProps) => {
           </View>
           <View style={styles.mborder}></View>
           <View
-            style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
             <TouchableOpacity
               style={styles.postbtn}
               onPress={() => gotoReport()}>
-              <Text style={{ color: 'white' }}>Submit</Text>
+              <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -2093,7 +2107,7 @@ const UsersProfile = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({ items, goToNavigate, item, index, length, data }) {
+function CrouselImages({items, goToNavigate, item, index, length, data}) {
   let _menu = null;
 
   const gotoNavigate = () => {
@@ -2110,7 +2124,7 @@ function CrouselImages({ items, goToNavigate, item, index, length, data }) {
       }}
       onPress={gotoNavigate}>
       <Image
-        source={{ uri: item.post_image }}
+        source={{uri: item.post_image}}
         resizeMode="contain"
         style={{
           width: !(data === 'Image') ? screenWidth : screenWidth - 32,
@@ -2139,7 +2153,7 @@ function CrouselImages({ items, goToNavigate, item, index, length, data }) {
   );
 }
 
-function CrouselText({ items, goToNavigate, item, index, length, data }) {
+function CrouselText({items, goToNavigate, item, index, length, data}) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };

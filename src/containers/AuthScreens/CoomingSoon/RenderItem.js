@@ -193,16 +193,23 @@ function RenderItem({
         ) : (
           <TouchableOpacity
             onPress={() => {
-              item.user_role == 'EIREPRESENTATIVE'
+              item.post_like[0].user_role == 'EIREPRESENTATIVE'
                 ? props.navigation.navigate('SchoolProfile', {
-                    item: items,
+                    item: {
+                      user_id: item.post_like[0].post_like_user_id,
+                      school_id: item.post_like[0].school_id,
+                    },
                   })
                 : item.user_id != userid
                 ? props.navigation.navigate('UsersProfile', {
-                    item: items,
+                    item: {
+                      user_id: item.post_like[0].post_like_user_id,
+                    },
                   })
                 : props.navigation.navigate('UserProfileScreen', {
-                    item: items,
+                    item: {
+                      user_id: item.post_like[0].post_like_user_id,
+                    },
                   });
             }}>
             {item.post_like != null &&

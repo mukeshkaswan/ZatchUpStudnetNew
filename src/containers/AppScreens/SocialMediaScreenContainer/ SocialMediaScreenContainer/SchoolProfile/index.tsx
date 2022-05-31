@@ -1567,6 +1567,19 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               //  ItemSeparatorComponent={renderIndicator}
             />
           )}
+
+          {schoolDetail != '' && schoolDetail.social_post.length == 0 && (
+            <View
+              style={{
+                margin: 16,
+                borderColor: '#000',
+                borderWidth: 1,
+                padding: 16,
+                alignItems: 'center',
+              }}>
+              <Text>No Post Uploaded</Text>
+            </View>
+          )}
         </ScrollView>
       )}
       {/* modal for report profile */}

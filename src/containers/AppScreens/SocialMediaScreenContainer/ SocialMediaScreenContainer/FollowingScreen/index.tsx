@@ -28,11 +28,12 @@ import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+const { height, width } = Dimensions.get('window');
+
 const data = [
   {
     id: 1,
@@ -388,7 +389,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
         Back={'true'}
         navigation={props.navigation}
       />
-      {following.length > 0 && (
+      {following.length > 0 ? (
         <FlatList
           data={following}
           renderItem={({ item }) => (
@@ -473,7 +474,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                     <Text
                       style={{
                         color: 'white',
-                        fontSize: hp(1.8),
+                        fontSize: hp(1.6),
                         fontWeight: 'bold',
                       }}>
                       Requested
@@ -499,7 +500,18 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
           )}
         //  ItemSeparatorComponent={renderIndicator}
         />
-      )}
+      ):<View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height - 72,
+        width,
+      }}>
+      <Text style={{fontWeight: '700'}}>
+       Records Not Available
+      </Text>
+    </View>}
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}

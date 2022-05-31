@@ -1464,6 +1464,22 @@ const UserProfileScreen = (props: UserProfileProps) => {
               </Text>
             </View>
           )}
+
+          {userProfile != '' &&
+            userProfile.social_post.length == 0 &&
+            (userProfile.follow_request_status == 2 ||
+              !userProfile.social_account_status) && (
+              <View
+                style={{
+                  margin: 16,
+                  borderColor: '#000',
+                  borderWidth: 1,
+                  padding: 16,
+                  alignItems: 'center',
+                }}>
+                <Text>No Post Uploaded</Text>
+              </View>
+            )}
         </ScrollView>
       )}
       <BottomSheet

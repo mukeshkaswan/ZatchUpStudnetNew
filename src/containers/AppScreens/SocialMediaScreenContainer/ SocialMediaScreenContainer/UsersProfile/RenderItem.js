@@ -326,7 +326,9 @@ function RenderItem({
               <Text>
                 Liked by{' '}
                 <Text style={styles.boldText}>
-                  {item.post_like[0].post_like_username}
+                  {' ' + item.post_like[0].post_like_user_id == user_id
+                    ? ' you '
+                    : ' ' + item.post_like[0].post_like_username + ' '}
                 </Text>{' '}
                 and{' '}
                 <Text style={styles.boldText}>
