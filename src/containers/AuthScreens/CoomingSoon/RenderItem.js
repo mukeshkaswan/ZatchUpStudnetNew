@@ -90,7 +90,7 @@ function RenderItem({
               source={
                 item.profile_pic != null
                   ? {uri: item.profile_pic}
-                  : require('../../../assets/images/pic.jpeg')
+                  : Images.profile_default
               }
               style={styles.profilepic}
             />

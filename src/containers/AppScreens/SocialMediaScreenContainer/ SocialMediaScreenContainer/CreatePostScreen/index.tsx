@@ -203,32 +203,32 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
       image.type = image.mime;
       image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
       image.uri = image.path;
-      let formData = new FormData();
+      var formData = new FormData();
       formData.append('folder_name', 'lecture_upload');
       formData.append('myFile', {
         name: image.name,
-        fileName: image.name,
         type: image.type,
         uri:
           Platform.OS === 'android'
             ? image.uri
             : image.uri.replace('file://', ''),
       });
-      console.log(token);
+      console.log(JSON.stringify(formData));
 
-      axios
-        .post('https://apis.zatchup.com:2000/api/uploadFile', {
-          method: 'POST',
-          formData: formData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(response => {
-          console.log(
-            `response received ${JSON.stringify(response.bodyString)}`,
-          );
-          let data = JSON.parse(response.bodyString);
+      axios({
+        url: 'https://apis.zatchup.com:2000/api/uploadFile',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(({data}) => {
+          console.log('res===>>>>>>>' + JSON.stringify(data));
+          // return;
+          // let data = JSON.stringify(response.data);
+          // console.log('data=>>>>', JSON.stringify(response.data));
           if (data.status) {
             console.log(data.message);
             let p = data.location;
@@ -248,10 +248,10 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           }
         })
         .catch(err => {
-          console.log(`error: ${err}`);
+          console.log(`error: ${JSON.stringify(err)}`);
         });
     } catch (err) {
-      console.log(err);
+      console.log('ERROR==>>>>>>>>', err);
     }
   };
 

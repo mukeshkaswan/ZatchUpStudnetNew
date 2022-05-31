@@ -104,11 +104,11 @@ export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const PostDetailScreen = (props: NotificationsScreenProps) => {
- // console.log('props', props.route);
+  // console.log('props', props.route);
   const {
     item: {id, user_id},
   } = props.route.params;
- // console.log('+++++++', id);
+  // console.log('+++++++', id);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [flagId, setFlagId] = useState(id);
@@ -188,7 +188,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               JSON.stringify(result, undefined, 2),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
-            props.navigation.navigate('CoomingSoon');
+            props.navigation.goBack(null);
             //  setLoading(false);
             // getUserProfile(user_id);
             if (result.status) {
@@ -545,9 +545,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             //   //  setuserName(result.full_name),
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
-           // console.log('USER_ID' + result.user_id),
-              setUserid(result.user_id)
-              // setSpinnerStart(false);
+            // console.log('USER_ID' + result.user_id),
+            setUserid(result.user_id);
+            // setSpinnerStart(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -784,74 +784,75 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         callback: ({result, error}) => {
           if (result) {
             setLoading(false);
+            if (result.data.length > 0) {
+              getAuthUserInfoApi();
+              console.warn(
+                'after result post details',
+                JSON.stringify(result, undefined, 2),
+                //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+              );
 
-            getAuthUserInfoApi();
-            console.warn(
-              'after result post details',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+              let newArr = [];
+              for (let i in result.data[0].comment_post) {
+                newArr.push({
+                  ...result.data[0].comment_post[i],
+                  commentReplyValue: '',
+                  isComment: false,
+                });
+              }
+              let newObject = {...result.data[0], comment_post: newArr};
+              console.log('======', newObject);
 
-            let newArr = [];
-            for (let i in result.data[0].comment_post) {
-              newArr.push({
-                ...result.data[0].comment_post[i],
-                commentReplyValue: '',
-                isComment: false,
-              });
-            }
-            let newObject = {...result.data[0], comment_post: newArr};
-            console.log('======', newObject);
-
-            let newArrrr = [];
-            for (let i in result.data[0].comment_post) {
-              if (result.data[0].comment_post[i].reply_comment != null) {
-                var newArrr = [];
-                for (let j in result.data[0].comment_post[i].reply_comment) {
-                  newArrr.push({
-                    ...result.data[0].comment_post[i].reply_comment[j],
-                    commentReplyValue: '',
-                    isComment: false,
-                    parent: 1,
-                    showMore: false,
-                  });
+              let newArrrr = [];
+              for (let i in result.data[0].comment_post) {
+                if (result.data[0].comment_post[i].reply_comment != null) {
+                  var newArrr = [];
+                  for (let j in result.data[0].comment_post[i].reply_comment) {
+                    newArrr.push({
+                      ...result.data[0].comment_post[i].reply_comment[j],
+                      commentReplyValue: '',
+                      isComment: false,
+                      parent: 1,
+                      showMore: false,
+                    });
+                  }
                 }
+                let params = {
+                  ...result.data[0].comment_post[i],
+                  reply_comment: newArrr,
+                  commentReplyValue: '',
+                  isComment: false,
+                  parent: 0,
+                  showMore: false,
+                };
+                if (
+                  result.data[0].comment_post[i].reply_comment != null &&
+                  result.data[0].comment_post[i].reply_comment.length > 0
+                ) {
+                  params.showReply = false;
+                }
+                newArrrr.push(params);
+                newArrr = [];
               }
-              let params = {
-                ...result.data[0].comment_post[i],
-                reply_comment: newArrr,
-                commentReplyValue: '',
-                isComment: false,
-                parent: 0,
-                showMore: false,
-              };
-              if (
-                result.data[0].comment_post[i].reply_comment != null &&
-                result.data[0].comment_post[i].reply_comment.length > 0
-              ) {
-                params.showReply = false;
+
+              console.log('=======++++', newArrrr);
+
+              let newObjectInnner = {...result.data[0], comment_post: newArrrr};
+              console.log('======', newObjectInnner);
+
+              setPostDetails(newObjectInnner);
+              // setSpinnerStart(false);
+
+              if (result.data[0].post_gallery == null) {
+                let s = result.data[0].caption;
+                var parts = s.match(/[\s\S]{1,140}/g) || [];
+                console.log(parts);
+                setCaptionPart(parts);
+                setCaptionLength(parts.length);
+                //var lenCap = parts.length;
               }
-              newArrrr.push(params);
-              newArrr = [];
+              setLoading(false);
             }
-
-            console.log('=======++++', newArrrr);
-
-            let newObjectInnner = {...result.data[0], comment_post: newArrrr};
-            console.log('======', newObjectInnner);
-
-            setPostDetails(newObjectInnner);
-            // setSpinnerStart(false);
-
-            if (result.data[0].post_gallery == null) {
-              let s = result.data[0].caption;
-              var parts = s.match(/[\s\S]{1,140}/g) || [];
-              console.log(parts);
-              setCaptionPart(parts);
-              setCaptionLength(parts.length);
-              //var lenCap = parts.length;
-            }
-            setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1190,8 +1191,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         padding: 8,
         alignItems: 'center',
       }}
-      onPress={() => gotoNavigate(item)}
-      >
+      disabled={postDetails != '' && postDetails.id == item.id ? true : false}
+      onPress={() =>
+        postDetails != '' && postDetails.id == item.id ? {} : gotoNavigate(item)
+      }>
       {item.post_gallery[0].post_extension != 'mp4' ? (
         <Image
           source={
@@ -1201,9 +1204,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           }
           style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
-      ) : (
-        null
-      )}
+      ) : null}
     </TouchableOpacity>
   );
 
