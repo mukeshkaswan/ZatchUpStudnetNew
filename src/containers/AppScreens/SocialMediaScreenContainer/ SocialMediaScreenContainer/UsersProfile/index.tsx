@@ -822,12 +822,15 @@ const UsersProfile = (props: UserProfileProps) => {
 
     const data = {
       token: token,
-      follow_status:
-        userProfile.follow_request_status == 1
-          ? 0
-          : userProfile.follow_request_status == 0
-          ? 1
-          : 0,
+      follow_status: !userProfile.social_account_status
+        ? 2
+        : userProfile.social_account_status
+        ? 1
+        : userProfile.follow_request_status == 1
+        ? 0
+        : userProfile.follow_request_status == 0
+        ? 1
+        : 0,
       following_user_id: user_id,
     };
 
@@ -926,6 +929,7 @@ const UsersProfile = (props: UserProfileProps) => {
   const toggleModal = () => {
     //console.log('hey');
     setModalVisible(!isModalVisible);
+    gotoFollow();
   };
 
   const gotoRemove = () => {
