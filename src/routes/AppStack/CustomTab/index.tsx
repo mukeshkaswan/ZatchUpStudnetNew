@@ -130,14 +130,11 @@ const TabBarCustomButton = ({
 };
 
 const CustomTabBar = () => {
-
   const dispatch = useDispatch();
   const [getcount, set_Count] = useState('0');
   const isFocused = useIsFocused();
   const isInitialMount = useRef(true);
 
-
-  
   return (
     <Tab.Navigator
       tabBarOptions={{

@@ -131,6 +131,9 @@ export const getSchoolZatchUpId = createAction(SCHOOLZATCHUPID);
 export const STUDENTEDUCATIONPROFILE = 'STUDENTEDUCATIONPROFILE';
 export const getStudentEducationProfile = createAction(STUDENTEDUCATIONPROFILE);
 
+export const GETBLOCKLIST = 'GETBLOCKLIST';
+export const getBlockList = createAction(GETBLOCKLIST);
+
 // this is for get Notification Fetch List /
 export const NOTIFICATIONFETCHLIST = 'NOTIFICATIONFETCHLIST';
 export const getNotificationFetch = createAction(NOTIFICATIONFETCHLIST);
@@ -359,6 +362,15 @@ export const otpSuccessSkip = createAction(OTP_SUCCESS_SKIP);
 export const REQUESTCHANGEUSERDETAIL = 'REQUESTCHANGEUSERDETAIL';
 export const requestChangeUserDetail = createAction(REQUESTCHANGEUSERDETAIL);
 
+export const CHANGESOCIALMEDIASTATUS = 'CHANGESOCIALMEDIASTATUS';
+export const changeSocialMediaStatus = createAction(CHANGESOCIALMEDIASTATUS);
+
+export const CHANGEPRIVATESTATUS = 'CHANGEPRIVATESTATUS';
+export const changePrivateStatus = createAction(CHANGEPRIVATESTATUS);
+
+export const BLOACKUSER = 'BLOACKUSER';
+export const blockUser = createAction(BLOACKUSER);
+
 // this is for request Change User Detail by EI EMAIL
 export const REQUESTCHANGEUSERDETAILEMAIL = 'REQUESTCHANGEUSERDETAILEMAIL';
 export const requestChangeUserDetailEmail = createAction(
@@ -553,7 +565,7 @@ export const getFollowing = createAction(GETFOLLOWING);
 export const GETUSERNOTIFICATION = 'GETUSERNOTIFICATION';
 export const getUserNotification = createAction(GETUSERNOTIFICATION);
 
-// this is the user Privacy Setting 
+// this is the user Privacy Setting
 export const GETPRIVACYSETTING = 'GETPRIVACYSETTING';
 export const getPrivacySetting = createAction(GETPRIVACYSETTING);
 

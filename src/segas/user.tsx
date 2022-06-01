@@ -130,7 +130,11 @@ import {
   DELETECOMMENT,
   CHANGEPROFILEIMAGE,
   GETPRIVACYSETTING,
-  SOCIALPRIVACYSETTING
+  SOCIALPRIVACYSETTING,
+  CHANGESOCIALMEDIASTATUS,
+  BLOACKUSER,
+  GETBLOCKLIST,
+  CHANGEPRIVATESTATUS,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -1332,6 +1336,33 @@ function* getStudentEducationProfile({payload: {data, callback}}) {
     },
     method: 'GET',
     url: 'user/student-education-profile/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Student Education Profile list  result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+function* getBlockList({payload: {data, callback}}) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: 'socialmedia/profile/blocked_user_list/',
   };
   const {result, error} = yield call(httpClient, payload);
   //callback({result, error});
@@ -2801,6 +2832,94 @@ function* requestChangeUserDetailEmail({payload: {data, callback}}) {
   }
 }
 
+function* changeSocialMediaStatus({payload: {data, callback}}) {
+  console.warn('data in saga', data);
+
+  const params = {
+    social_status: data.social_status,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/socialmedia_enable_disable_self/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+function* changePrivateStatus({payload: {data, callback}}) {
+  console.warn('data in saga', data);
+
+  const params = {
+    privacy_status: data.privacy_status,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/socialmedia_privacy_setting/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+function* blockUser({payload: {data, callback}}) {
+  console.warn('data in saga', data);
+
+  const params = {
+    block_user_status: data.block_user_status,
+    blocked_user_id: data.blocked_user_id,
+  };
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: params,
+    method: 'POST',
+    url: 'socialmedia/profile/block_user/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      //  console.log('login result', JSON.stringify(result, undefined, 2));
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************************Request Change User Detail Verify Otp*******************************/
 
 function* requestChangeUserDetailVerifyOtp({payload: {data, callback}}) {
@@ -4165,7 +4284,6 @@ function* uploadPostImageVideos({payload: {data, callback}}) {
   }
 }
 
-
 /***************************User GET Privacy Setting Auth Segas*******************************/
 
 function* getPrivacySetting({payload: {data, callback}}) {
@@ -4191,7 +4309,6 @@ function* getPrivacySetting({payload: {data, callback}}) {
     }
   }
 }
-
 
 /***************************User Social media Setting Status Post*******************************/
 
@@ -4224,8 +4341,6 @@ function* getSocialPrivacySetting({payload: {data, callback}}) {
     }
   }
 }
-
-
 
 function* User() {
   yield all([
@@ -4405,8 +4520,10 @@ function* User() {
     yield takeLatest(GETPRIVACYSETTING, getPrivacySetting),
     yield takeLatest(SOCIALPRIVACYSETTING, getSocialPrivacySetting),
 
-
-    
+    yield takeLatest(CHANGESOCIALMEDIASTATUS, changeSocialMediaStatus),
+    yield takeLatest(CHANGEPRIVATESTATUS, changePrivateStatus),
+    yield takeLatest(BLOACKUSER, blockUser),
+    yield takeLatest(GETBLOCKLIST, getBlockList),
   ]);
 }
 

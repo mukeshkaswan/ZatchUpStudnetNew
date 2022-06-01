@@ -1,4 +1,4 @@
-import React, { Component, FC, useState, useEffect } from 'react';
+import React, {Component, FC, useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -12,7 +12,7 @@ import {
   BackHandler,
   Switch,
   TextInput,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import styles from './style.tsx';
 import {
@@ -30,15 +30,15 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
-  useFocusEffect
+  useFocusEffect,
 } from '@react-navigation/native';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 import Toast from 'react-native-simple-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import OtpInputs from 'react-native-otp-inputs';
 
 import {
@@ -49,9 +49,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
-import { CheckBox } from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import axios from 'axios';
-import { BaseURL } from '../../../utilities/axiosInstance';
+import {BaseURL} from '../../../utilities/axiosInstance';
 
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -85,7 +85,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const [userid, setUserid] = useState('');
 
-
   const [Gender, setGender] = useState('');
   const [GenderForModal, setGenderForModal] = useState('');
   const [count, setCount] = useState(0);
@@ -117,7 +116,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isotpVisiblemodalemail, setotpVisiblemodalemail] = useState(false);
   const [pronouncustom, setpronoun] = useState('');
   const [pronouncustomcustom_gender, setpronouncustom_gender] = useState('');
-
 
   const dispatch = useDispatch();
   const [KYC_type_doc, setKYC_type_doc] = useState([
@@ -153,8 +151,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     setGenderForModal('F');
     setCourseTypeSelected('');
     setCustomGender('');
-
-
   };
 
   const checkedCustom = () => {
@@ -189,14 +185,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
   const toggleSwitch2 = () => {
     setIsEnabled2(previousState => !previousState);
+    changeSocialMediaStatus();
   };
 
   const toggleSwitchDeactivateAccount = () => {
-
     setIsDeactivateAccount(!isDeactivateAccount);
 
     handleDeactivateButtonClick();
-
+    changePrivateStatus();
   };
 
   const toggleSwitchTwoFactor = () => {
@@ -219,7 +215,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     onPressChangeGenderStaus(!isEnabledGender);
   };
 
-
   const toggleSwitchProfession = () => {
     setIsEnabledProfession(!isEnabledProfession);
     onPressChangeProfessionStaus(!isEnabledProfession);
@@ -230,14 +225,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     onPressChangeCityStaus(!isEnabledCity);
   };
 
-
   const toggleSwitchPrivate = () => {
     setIsEnabledPrivate(!isEnabledPrivate);
-     onPressChangePrivateStaus(!isEnabledPrivate);
+    onPressChangePrivateStaus(!isEnabledPrivate);
   };
-
-
-
 
   const toggleSwitch3 = () => {
     setIsEnabled3(previousState => !previousState);
@@ -251,7 +242,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
           color={'white'}
         />
       </View>
@@ -268,14 +259,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
-
-
 
   function handleBackBut() {
     props.navigation.goBack();
@@ -291,9 +280,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onPressChangeDeactivateAccountStaus },
+        {text: 'Yes', onPress: onPressChangeDeactivateAccountStaus},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -311,7 +300,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   // }, []);
   // useEffect(() => {
 
-
   //   const dataSetTimeOut = setTimeout(() => {
   //     getEducationProfile();
   //     getAuthUserInfoApi();
@@ -319,8 +307,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   //       dataSetTimeOut.clear();
   //     }
   //   }, 500);
-
-
 
   //   BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
@@ -332,32 +318,24 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   //   };
   // }, [isFocused]);
 
-
   useFocusEffect(
-
-
     React.useCallback(() => {
-
       const dataSetTimeOut = setTimeout(() => {
-
         getEducationProfile();
         getAuthUserInfoApi();
         getPrivacySettingApi();
 
-
         return () => {
           dataSetTimeOut.clear();
-        }
+        };
       }, 500);
 
       BackHandler.addEventListener('hardwareBackPress', handleBackBut);
 
       return () =>
         BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
-    }, [])
+    }, []),
   );
-
-
 
   const onDeleteBTN = async () => {
     try {
@@ -397,7 +375,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setFemale(element.gender == 'F' ? true : false);
       setCustom(element.gender == 'C' ? true : false);
       setpronoun(element.pronoun);
-      setpronouncustom_gender(element.custom_gender)
+      setpronouncustom_gender(element.custom_gender);
       setCustomGender(element.custom_gender);
       setcustomgenderView(element.gender == 'C' ? true : false);
 
@@ -405,14 +383,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         element.pronoun == 'He'
           ? '0'
           : element.pronoun == 'She'
-            ? '1'
-            : element.pronoun == 'They'
-              ? '2'
-              : '';
+          ? '1'
+          : element.pronoun == 'They'
+          ? '2'
+          : '';
 
       setCourseTypeSelected(key);
-
-
     });
     _storeData();
   };
@@ -422,56 +398,41 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       await AsyncStorage.setItem('profilepic', profilepic);
       await AsyncStorage.setItem('kyckey', kyc_approved.toString());
       await AsyncStorage.setItem('dob', dob);
-
     } catch (e) {
       // saving error
     }
   };
 
-
-  const getStatusType = async (result) => {
-
+  const getStatusType = async result => {
     for (let i in result.data) {
-      if (result.data[i].status_type === "OTP") {
+      if (result.data[i].status_type === 'OTP') {
         setIsEnabledTwoFactor(result.data[i].is_disabled);
       }
-      if (result.data[i].status_type === "EMAIL_ID") {
+      if (result.data[i].status_type === 'EMAIL_ID') {
         setIsEnabledEmail(result.data[i].is_disabled);
       }
 
-      if (result.data[i].status_type === "DOB") {
+      if (result.data[i].status_type === 'DOB') {
         setIsEnabledDob(result.data[i].is_disabled);
       }
 
-      if (result.data[i].status_type === "GENDER") {
+      if (result.data[i].status_type === 'GENDER') {
         setIsEnabledGender(result.data[i].is_disabled);
       }
 
-      if (result.data[i].status_type === "PROFESSION") {
+      if (result.data[i].status_type === 'PROFESSION') {
         setIsEnabledProfession(result.data[i].is_disabled);
       }
 
-      if (result.data[i].status_type === "CITY") {
+      if (result.data[i].status_type === 'CITY') {
         setIsEnabledCity(result.data[i].is_disabled);
       }
-
-
-
     }
-
-
-
-
-
-  }
-
-
-
+  };
 
   /***************************User Auth Deactivate Account*******************************/
 
   const onPressChangeDeactivateAccountStaus = async () => {
-
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -485,16 +446,15 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
     const data = {
       token: token,
-      is_active: "false"
+      is_active: 'false',
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getProfileDeleteZatchupAccount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
             console.warn(
               'after get User Delete Account.... >',
@@ -505,13 +465,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             Toast.show(result.message, Toast.SHORT);
             // setSpinnerStart(false);
             setLoading(false);
-          }
-
-          else if (result.status === false) {
-
+          } else if (result.status === false) {
             Toast.show('User is verified as student', Toast.SHORT);
             setIsDeactivateAccount(false);
-
           }
 
           if (!error) {
@@ -532,66 +488,132 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
+  /***************************User Auth Private Profile Disable*******************************/
 
-
-/***************************User Auth Private Profile Disable*******************************/
-
-const onPressChangePrivateStaus = async (key) => {
-
-  var token = '';
-  try {
-    const value = await AsyncStorage.getItem('tokenlogin');
-    if (value !== null) {
-      // value previously stored
-      token = value;
+  const onPressChangePrivateStaus = async key => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
     }
-  } catch (e) {
-    // error reading value
-  }
 
-  const data = {
-    token: token,
-    privacy_status: key,
+    const data = {
+      token: token,
+      privacy_status: key,
+    };
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getSocialPrivacySetting({
+        data,
+        callback: ({result, error}) => {
+          setLoading(false);
+
+          if (result.status === true) {
+            console.warn(
+              'after get User Social',
+              JSON.stringify(result, undefined, 2),
+            );
+            getPrivacySettingApi();
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
+  const changeSocialMediaStatus = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    //   Alert.alert(Gender);
 
-  setLoading(true);
+    const data = {
+      token: token,
+      social_status: !isEnabled2,
+    };
 
-  dispatch(
-    userActions.getSocialPrivacySetting({
-      data,
-      callback: ({ result, error }) => {
-        setLoading(false);
+    setLoading(true);
 
-        if (result.status === true) {
-          console.warn(
-            'after get User Social',
-            JSON.stringify(result, undefined, 2),
-          );
-          getPrivacySettingApi();
-
-        }
-
-        if (!error) {
-          console.warn(JSON.stringify(error, undefined, 2));
+    dispatch(
+      userActions.changeSocialMediaStatus({
+        data,
+        callback: ({result, error}) => {
           setLoading(false);
-        } else {
+          if (result.status) {
+          }
+          if (result.status === false) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            Toast.show(result.error.non_field_errors[0], Toast.SHORT);
+          } else {
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const changePrivateStatus = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    //   Alert.alert(Gender);
+
+    const data = {
+      token: token,
+      privacy_status: !isDeactivateAccount,
+    };
+
+    setLoading(true);
+
+    dispatch(
+      userActions.changePrivateStatus({
+        data,
+        callback: ({result, error}) => {
           setLoading(false);
-          console.warn(JSON.stringify(error, undefined, 2));
-        }
-      },
-    }),
-  );
-};
-
-
-
-
+          if (result.status) {
+          }
+          if (result.status === false) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            Toast.show(result.error.non_field_errors[0], Toast.SHORT);
+          } else {
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
 
   /***************************User Auth City Disable*******************************/
 
-  const onPressChangeCityStaus = async (key) => {
-
+  const onPressChangeCityStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -606,17 +628,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "CITY",
+      status_type: 'CITY',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
@@ -638,13 +659,10 @@ const onPressChangePrivateStaus = async (key) => {
       }),
     );
   };
-
-
 
   /***************************User Auth Profession Disable*******************************/
 
-  const onPressChangeProfessionStaus = async (key) => {
-
+  const onPressChangeProfessionStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -659,17 +677,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "PROFESSION",
+      status_type: 'PROFESSION',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
@@ -692,11 +709,9 @@ const onPressChangePrivateStaus = async (key) => {
     );
   };
 
-
   /***************************User Auth Gender Disable*******************************/
 
-  const onPressChangeGenderStaus = async (key) => {
-
+  const onPressChangeGenderStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -711,17 +726,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "GENDER",
+      status_type: 'GENDER',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
@@ -746,8 +760,7 @@ const onPressChangePrivateStaus = async (key) => {
 
   /***************************User Auth Dob Disable*******************************/
 
-  const onPressChangeDobStaus = async (key) => {
-
+  const onPressChangeDobStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -762,17 +775,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "DOB",
+      status_type: 'DOB',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
             console.warn(
               'after get User Setting Status Post >',
@@ -794,11 +806,9 @@ const onPressChangePrivateStaus = async (key) => {
     );
   };
 
-
   /***************************User Auth Email Disable*******************************/
 
-  const onPressChangeEmailStaus = async (key) => {
-
+  const onPressChangeEmailStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -813,17 +823,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "EMAIL_ID",
+      status_type: 'EMAIL_ID',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
             console.warn(
               'after get User Setting Status Post >',
@@ -847,8 +856,7 @@ const onPressChangePrivateStaus = async (key) => {
 
   /***************************User Auth Two Factor Status*******************************/
 
-  const onPressChangeTwoFactorStaus = async (key) => {
-
+  const onPressChangeTwoFactorStaus = async key => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -863,17 +871,16 @@ const onPressChangePrivateStaus = async (key) => {
     const data = {
       token: token,
       is_disabled: key,
-      status_type: "OTP",
+      status_type: 'OTP',
       user: userid,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
             console.warn(
               'after get User Setting Status Post >',
@@ -895,11 +902,9 @@ const onPressChangePrivateStaus = async (key) => {
     );
   };
 
-
   /***************************User Auth User  Setting Status Info*******************************/
 
-  const getSettingStatus = async (user_id) => {
-
+  const getSettingStatus = async user_id => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -913,18 +918,17 @@ const onPressChangePrivateStaus = async (key) => {
 
     const data = {
       token: token,
-      id: user_id
+      id: user_id,
     };
 
     dispatch(
       userActions.getUserSettingStatus({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result get User Setting Status >',
               JSON.stringify(result, undefined, 2),
-
             );
             getStatusType(result);
             setLoading(false);
@@ -932,7 +936,6 @@ const onPressChangePrivateStaus = async (key) => {
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
-
           } else {
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
@@ -940,12 +943,11 @@ const onPressChangePrivateStaus = async (key) => {
         },
       }),
     );
-
   };
 
-   /***************************User Privacy Setting Api Info*******************************/
+  /***************************User Privacy Setting Api Info*******************************/
 
-   const getPrivacySettingApi = async () => {
+  const getPrivacySettingApi = async () => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -959,23 +961,21 @@ const onPressChangePrivateStaus = async (key) => {
 
     const data = {
       token: token,
-
     };
 
     dispatch(
       userActions.getPrivacySetting({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
             console.warn(
               'after result abc',
               JSON.stringify(result, undefined, 2),
-
             );
-              setIsEnabledPrivate(result.data[0].profile_is_private);
-
+            setIsEnabledPrivate(result.data[0].profile_is_private);
+            setIsEnabled2(result.data[0].socialmedia_user_status);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1011,18 +1011,16 @@ const onPressChangePrivateStaus = async (key) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
             console.warn(
               'after result Auth User INfo',
               JSON.stringify(result, undefined, 2),
-
             );
             setUserid(result.user_id);
             getSettingStatus(result.user_id);
-
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1057,13 +1055,12 @@ const onPressChangePrivateStaus = async (key) => {
     setLoading(true);
     axios
       .get(BaseURL + 'user/student-education-profile/', {
-
         headers: {
           Authorization: `Bearer ${token}`,
           'content-type': 'multipart/form-data',
         },
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         console.log('Data==>>', data);
         if (data.status) {
           setLoading(false);
@@ -1074,7 +1071,6 @@ const onPressChangePrivateStaus = async (key) => {
           );
           getdataProfile(data);
           getdataCourse(data);
-
         }
       })
       .catch(error => {
@@ -1084,14 +1080,10 @@ const onPressChangePrivateStaus = async (key) => {
     dispatch(
       userActions.getStudentEducationProfile({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           console.log('hey.......kamal1');
           if (result.status) {
-
-              getdataProfile(result),
-              getdataCourse(result),
-
-              setLoading(false);
+            getdataProfile(result), getdataCourse(result), setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1107,30 +1099,20 @@ const onPressChangePrivateStaus = async (key) => {
   };
 
   const onPressSubmit = async () => {
-
-
     const newError = Validate('newmothername', newmothername);
 
     const newfatherError = Validate('newfathername', newfathername);
 
     const genderError = Validate('gender', male || Female || Custom);
 
-
-
     if (Custom) {
       var courseError = Validate('pronoun_', Course_Selected);
-
     }
 
-    if (
-      newError || newfatherError || genderError || courseError
-
-    ) {
+    if (newError || newfatherError || genderError || courseError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        newError || newfatherError ||
-        genderError ||
-        courseError,
+        newError || newfatherError || genderError || courseError,
         Toast.LONG,
       );
 
@@ -1148,11 +1130,7 @@ const onPressChangePrivateStaus = async (key) => {
       }
       //   Alert.alert(Gender);
       var key =
-        Course_Selected == 0
-          ? 'He'
-          : Course_Selected == 1
-            ? 'She'
-            : 'They';
+        Course_Selected == 0 ? 'He' : Course_Selected == 1 ? 'She' : 'They';
       const data = {
         token: token,
         father_name: newfathername,
@@ -1163,7 +1141,7 @@ const onPressChangePrivateStaus = async (key) => {
         profile_pic: profilepic,
         // custom_gender:
         //   GenderForModal == 'M' || GenderForModal == 'F' ? '' : key,
-        custom_gender: CustomGender
+        custom_gender: CustomGender,
       };
 
       // console.log('data====>>>', data);
@@ -1174,7 +1152,7 @@ const onPressChangePrivateStaus = async (key) => {
       dispatch(
         userActions.updatePersonalinfo({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status) {
               setModalVisible(false);
               getEducationProfile();
@@ -1204,26 +1182,14 @@ const onPressChangePrivateStaus = async (key) => {
     }
   };
 
-
   const onPressSubmitNumber = async () => {
-
     const newError = Validate('numbers', number);
 
-
-    if (
-      newError
-
-    ) {
-      Toast.show(
-        newError,
-        Toast.LONG,
-      );
+    if (newError) {
+      Toast.show(newError, Toast.LONG);
 
       return false;
-    }
-
-    else {
-
+    } else {
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -1238,29 +1204,24 @@ const onPressChangePrivateStaus = async (key) => {
 
       const data = {
         token: token,
-        class_id: "",
-        key: "phone",
+        class_id: '',
+        key: 'phone',
         old_value: 0,
-        value: number
-
+        value: number,
       };
-
-
-
 
       setLoading(true);
 
       dispatch(
         userActions.requestChangeUserDetail({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status) {
               // setModalVisible(false);
               // getEducationProfile();
               console.warn(
                 'after request Change User Detail result',
                 JSON.stringify(result.status, undefined, 2),
-
               );
               setLoading(false);
               toggleModal2();
@@ -1285,27 +1246,14 @@ const onPressChangePrivateStaus = async (key) => {
     }
   };
 
-
-
   const onPressSubmitEmail = async () => {
-
     const newError = Validate('email_', changeemail);
 
-
-    if (
-      newError
-
-    ) {
-      Toast.show(
-        newError,
-        Toast.LONG,
-      );
+    if (newError) {
+      Toast.show(newError, Toast.LONG);
 
       return false;
-    }
-
-    else {
-
+    } else {
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -1320,11 +1268,10 @@ const onPressChangePrivateStaus = async (key) => {
 
       const data = {
         token: token,
-        class_id: "",
-        key: "email",
+        class_id: '',
+        key: 'email',
         old_value: 0,
-        value: changeemail
-
+        value: changeemail,
       };
 
       setLoading(true);
@@ -1332,7 +1279,7 @@ const onPressChangePrivateStaus = async (key) => {
       dispatch(
         userActions.requestChangeUserDetailEmail({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             setLoading(false);
             if (result.status) {
               // setModalVisible(false);
@@ -1340,14 +1287,12 @@ const onPressChangePrivateStaus = async (key) => {
               console.warn(
                 'after request Change User Detail result',
                 JSON.stringify(result.status, undefined, 2),
-
               );
               setModalVisible3(false);
 
               setTimeout(() => {
                 setotpVisiblemodalemail(true);
               }, 500);
-
 
               //return;
               // props.navigation.navigate('OtpLogin', {
@@ -1367,9 +1312,7 @@ const onPressChangePrivateStaus = async (key) => {
     }
   };
 
-
   const onPressOtp = async () => {
-
     const otpError = Validate('otp', otp);
 
     if (otpError) {
@@ -1377,10 +1320,7 @@ const onPressChangePrivateStaus = async (key) => {
       Toast.show(otpError, Toast.SHORT);
 
       return false;
-    }
-
-    else {
-
+    } else {
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -1394,7 +1334,7 @@ const onPressChangePrivateStaus = async (key) => {
 
       const data = {
         token: token,
-        key: "phone",
+        key: 'phone',
         value: number,
         verify_otp_no: otp,
       };
@@ -1404,93 +1344,7 @@ const onPressChangePrivateStaus = async (key) => {
       dispatch(
         userActions.requestChangeUserDetailVerifyOtp({
           data,
-          callback: ({ result, error }) => {
-            setLoading(false)
-
-            if (result.status === true) {
-              console.warn(
-                'after otp result --->',
-                // JSON.stringify(result, undefined, 2),
-                // props.navigation.navigate('Home'),
-              );
-
-              //  getData(result),
-
-              //setSpinnerStart(false);
-
-              LogoutALert();
-            }
-            if (result.status === false) {
-              //console.warn(JSON.stringify(error, undefined, 2));
-              // setLoginSuccess(result);
-              setTimeout(() => {
-                Toast.show(result.error.message[0], Toast.SHORT);
-
-              }, 500);
-
-              // signOut();
-            }
-
-            // if (!error) {
-            //   console.warn(JSON.stringify(error, undefined, 2));
-            //   // setLoginSuccess(result);
-            //   //Toast.show('Invalid Otp', Toast.SHORT);
-
-            //   setLoading(false);
-
-            //   // signOut();
-            // }
-            else {
-              // setError(true);
-              // signOut();
-              //   Toast.show('Invalid Otp', Toast.SHORT);
-
-              console.warn(JSON.stringify(error, undefined, 2));
-            }
-          },
-        }),
-      );
-    }
-  };
-
-
-  const onPressOtpEmail = async () => {
-
-    const otpError = Validate('otp', otpemail);
-
-    if (otpError) {
-      //this._scrollView.scrollTo(0);
-      Toast.show(otpError, Toast.SHORT);
-
-      return false;
-    }
-
-    else {
-
-      var token = '';
-      try {
-        const value = await AsyncStorage.getItem('tokenlogin');
-        if (value !== null) {
-          // value previously stored
-          token = value;
-        }
-      } catch (e) {
-        // error reading value
-      }
-
-      const data = {
-        token: token,
-        key: "email",
-        value: changeemail,
-        verify_otp_no: otpemail,
-      };
-
-      setLoading(true);
-
-      dispatch(
-        userActions.requestChangeUserDetailVerifyOtpEmail({
-          data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             setLoading(false);
 
             if (result.status === true) {
@@ -1511,7 +1365,6 @@ const onPressChangePrivateStaus = async (key) => {
               // setLoginSuccess(result);
               setTimeout(() => {
                 Toast.show(result.error.message[0], Toast.SHORT);
-
               }, 500);
 
               // signOut();
@@ -1539,9 +1392,87 @@ const onPressChangePrivateStaus = async (key) => {
     }
   };
 
+  const onPressOtpEmail = async () => {
+    const otpError = Validate('otp', otpemail);
+
+    if (otpError) {
+      //this._scrollView.scrollTo(0);
+      Toast.show(otpError, Toast.SHORT);
+
+      return false;
+    } else {
+      var token = '';
+      try {
+        const value = await AsyncStorage.getItem('tokenlogin');
+        if (value !== null) {
+          // value previously stored
+          token = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
+
+      const data = {
+        token: token,
+        key: 'email',
+        value: changeemail,
+        verify_otp_no: otpemail,
+      };
+
+      setLoading(true);
+
+      dispatch(
+        userActions.requestChangeUserDetailVerifyOtpEmail({
+          data,
+          callback: ({result, error}) => {
+            setLoading(false);
+
+            if (result.status === true) {
+              console.warn(
+                'after otp result --->',
+                // JSON.stringify(result, undefined, 2),
+                // props.navigation.navigate('Home'),
+              );
+
+              //  getData(result),
+
+              //setSpinnerStart(false);
+
+              LogoutALert();
+            }
+            if (result.status === false) {
+              //console.warn(JSON.stringify(error, undefined, 2));
+              // setLoginSuccess(result);
+              setTimeout(() => {
+                Toast.show(result.error.message[0], Toast.SHORT);
+              }, 500);
+
+              // signOut();
+            }
+
+            // if (!error) {
+            //   console.warn(JSON.stringify(error, undefined, 2));
+            //   // setLoginSuccess(result);
+            //   //Toast.show('Invalid Otp', Toast.SHORT);
+
+            //   setLoading(false);
+
+            //   // signOut();
+            // }
+            else {
+              // setError(true);
+              // signOut();
+              //   Toast.show('Invalid Otp', Toast.SHORT);
+
+              console.warn(JSON.stringify(error, undefined, 2));
+            }
+          },
+        }),
+      );
+    }
+  };
 
   const onPressResendOtp = async () => {
-
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -1555,19 +1486,18 @@ const onPressChangePrivateStaus = async (key) => {
 
     const data = {
       token: token,
-      class_id: "",
-      key: "phone",
+      class_id: '',
+      key: 'phone',
       old_value: 0,
-      value: number
+      value: number,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getResendotpEiRequest({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
@@ -1577,7 +1507,6 @@ const onPressChangePrivateStaus = async (key) => {
             );
             setTimeout(() => {
               Toast.show(result.message, Toast.SHORT);
-
             }, 500);
             // setSpinnerStart(false);
           }
@@ -1597,9 +1526,7 @@ const onPressChangePrivateStaus = async (key) => {
     );
   };
 
-
   const onPressResendOtpEmail = async () => {
-
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -1613,30 +1540,27 @@ const onPressChangePrivateStaus = async (key) => {
 
     const data = {
       token: token,
-      class_id: "",
-      key: "email",
+      class_id: '',
+      key: 'email',
       old_value: 0,
-      value: changeemail
+      value: changeemail,
     };
-
 
     setLoading(true);
 
     dispatch(
       userActions.getResendotpEiRequestEmail({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             console.warn(
               'after otp Re Send result',
               JSON.stringify(result, undefined, 2),
             );
             setTimeout(() => {
               Toast.show(result.message, Toast.SHORT);
-
             }, 500);
             // setSpinnerStart(false);
           }
@@ -1655,7 +1579,6 @@ const onPressChangePrivateStaus = async (key) => {
       }),
     );
   };
-
 
   const LogoutALert = async () => {
     try {
@@ -1663,7 +1586,7 @@ const onPressChangePrivateStaus = async (key) => {
       await AsyncStorage.removeItem('username');
       await AsyncStorage.removeItem('profilepic');
       await AsyncStorage.removeItem('kyckey');
-      await AsyncStorage.removeItem('tokenlogin')
+      await AsyncStorage.removeItem('tokenlogin');
       Toast.show('Logout Successfully ', Toast.SHORT);
 
       props.navigation.navigate('LoginScreen');
@@ -1672,7 +1595,6 @@ const onPressChangePrivateStaus = async (key) => {
       return false;
     }
   };
-
 
   // const rednderItemList = (item, index) => {
   //   return (
@@ -1770,9 +1692,6 @@ const onPressChangePrivateStaus = async (key) => {
   //                       <Text>{email}</Text>
   //                     </View> : null}
 
-
-
-
   //                     {phone == '' ? <TouchableOpacity
   //                     // onPress={toggleModal2}
   //                     >
@@ -1790,11 +1709,7 @@ const onPressChangePrivateStaus = async (key) => {
 
   //                   </View> : null}
 
-
   //                   {phone != '' ? <View style={styles.text_container}>
-
-
-
 
   //                     {phone != '' ? <View style={{ flexDirection: 'row' }}>
   //                       <Text style={styles.detail_text}>
@@ -1803,7 +1718,6 @@ const onPressChangePrivateStaus = async (key) => {
   //                       <Text>{phone}</Text>
 
   //                     </View> : null}
-
 
   //                     {email == '' ? <TouchableOpacity
   //                     // onPress={toggleModal2}
@@ -2134,7 +2048,7 @@ const onPressChangePrivateStaus = async (key) => {
   //                       justifyContent: 'center',
   //                       borderRadius: 10,
   //                     }}>
-  //                     <Text style={{ color: 'white' }} 
+  //                     <Text style={{ color: 'white' }}
   //                     onPress={onPressSubmit}>
   //                       Submit
   //                     </Text>
@@ -2207,8 +2121,7 @@ const onPressChangePrivateStaus = async (key) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <CustomStatusBar />
         <HeaderTitleWithBack
@@ -2226,7 +2139,6 @@ const onPressChangePrivateStaus = async (key) => {
       /> */}
 
         <ScrollView>
-
           <View>
             <CardView
               cardElevation={5}
@@ -2243,54 +2155,59 @@ const onPressChangePrivateStaus = async (key) => {
               }}>
               <View style={styles.addcitycontainer}>
                 <Text style={styles.title_text}>Personal Setting</Text>
-                {kyc_approved != '0' ? <TouchableOpacity onPress={toggleModal}>
-                  <Image source={Images.edit_icon} style={styles.addicon} />
-                </TouchableOpacity> : null}
-                {/* Modal */}
+                {kyc_approved != '0' ? (
+                  <TouchableOpacity onPress={toggleModal}>
+                    <Image source={Images.edit_icon} style={styles.addicon} />
+                  </TouchableOpacity>
+                ) : null}
               </View>
 
               <View style={styles.border}></View>
-              <View style={{ marginTop: 10 }}>
+              <View style={{marginTop: 10}}>
                 <View style={styles.text_container}>
                   <Text style={styles.detail_text}>Name : </Text>
                   <Text>{username}</Text>
-                  {kyc_approved != '0' ? <TouchableOpacity
-                    onPress={() => props.navigation.navigate('eKYC', { 'Editusername': true })}>
+                  {kyc_approved != '0' ? (
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('eKYC', {Editusername: true})
+                      }>
+                      <Image
+                        style={{
+                          height: 20,
+                          width: 20,
 
-                    <Image
-                      style={{
-                        height: 20,
-                        width: 20,
-
-                        //marginTop: 5,
-                        marginLeft: 10,
-                        // marginBottom: Platform.OS === 'ios' ? 5 : 0,
-                        // marginRight: 15,
-                      }}
-                      source={Images.edit_icon}
-                    />
-                  </TouchableOpacity> : null}
-
+                          //marginTop: 5,
+                          marginLeft: 10,
+                          // marginBottom: Platform.OS === 'ios' ? 5 : 0,
+                          // marginRight: 15,
+                        }}
+                        source={Images.edit_icon}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
                 </View>
                 <View style={styles.text_container}>
                   <Text style={styles.detail_text}>DOB : </Text>
                   <Text>{dob}</Text>
-                  {kyc_approved != '0' ? <TouchableOpacity
-                    onPress={() => props.navigation.navigate('eKYC', { 'Editdob': true })}>
+                  {kyc_approved != '0' ? (
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('eKYC', {Editdob: true})
+                      }>
+                      <Image
+                        style={{
+                          height: 20,
+                          width: 20,
 
-                    <Image
-                      style={{
-                        height: 20,
-                        width: 20,
-
-                        //marginTop: 5,
-                        marginLeft: 10,
-                        // marginRight: 15,
-                      }}
-                      source={Images.edit_icon}
-                    />
-                  </TouchableOpacity> : null}
-
+                          //marginTop: 5,
+                          marginLeft: 10,
+                          // marginRight: 15,
+                        }}
+                        source={Images.edit_icon}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
                 </View>
 
                 {Gender == 'M' ? (
@@ -2310,82 +2227,76 @@ const onPressChangePrivateStaus = async (key) => {
                   </View>
                 ) : null}
 
-                {pronouncustom != '' && pronouncustom != null ? <View style={styles.text_container}>
-                  <Text style={styles.detail_text}>pronoun : </Text>
-                  <Text>{pronouncustom + ' '}</Text>
-                  {pronouncustomcustom_gender != '' && pronouncustomcustom_gender != null ? <Text>{'(' + pronouncustomcustom_gender + ')'}</Text> : null}
-                </View> : null}
+                {pronouncustom != '' && pronouncustom != null ? (
+                  <View style={styles.text_container}>
+                    <Text style={styles.detail_text}>pronoun : </Text>
+                    <Text>{pronouncustom + ' '}</Text>
+                    {pronouncustomcustom_gender != '' &&
+                    pronouncustomcustom_gender != null ? (
+                      <Text>{'(' + pronouncustomcustom_gender + ')'}</Text>
+                    ) : null}
+                  </View>
+                ) : null}
 
+                {email != '' ? (
+                  <View style={styles.text_container}>
+                    {email != '' ? (
+                      <View>
+                        <TouchableOpacity
+                          onPress={toggleModal3}
+                          style={{flexDirection: 'row'}}>
+                          <Text style={styles.detail_text}>Email : </Text>
+                          <Text>{email}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
 
+                    {phone == '' || phone == null ? (
+                      <TouchableOpacity onPress={toggleModal2}>
+                        <Image
+                          source={Images.phone_icon}
+                          style={{
+                            resizeMode: 'stretch',
+                            tintColor: 'green',
+                            marginLeft: 8,
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                ) : null}
 
-                {email != '' ? <View style={styles.text_container}>
+                {phone != '' && phone != null ? (
+                  <View style={styles.text_container}>
+                    {phone != '' && phone != null ? (
+                      <View>
+                        <TouchableOpacity
+                          onPress={toggleModal2}
+                          style={{flexDirection: 'row'}}>
+                          <Text style={styles.detail_text}>Phone Number :</Text>
+                          <Text>{phone}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
 
-                  {email != '' ? <View >
-                    <TouchableOpacity
-                      onPress={toggleModal3}
-                      style={{ flexDirection: 'row' }}
-                    >
-                      <Text style={styles.detail_text}>Email : </Text>
-                      <Text>{email}</Text>
-                    </TouchableOpacity>
-                  </View> : null}
-
-
-
-
-                  {phone == '' || phone == null ? <TouchableOpacity
-                    onPress={toggleModal2}
-                  >
-                    <Image
-                      source={Images.phone_icon}
-                      style={{
-                        resizeMode: 'stretch',
-                        tintColor: 'green',
-                        marginLeft: 8,
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                  </TouchableOpacity> : null}
-
-                </View> : null}
-
-
-                {phone != '' && phone != null ? <View style={styles.text_container}>
-
-
-
-
-                  {phone != '' && phone != null ? <View >
-                    <TouchableOpacity
-                      onPress={toggleModal2}
-                      style={{ flexDirection: 'row' }}
-                    >
-                      <Text style={styles.detail_text}>
-                        Phone Number :
-                      </Text>
-                      <Text>{phone}</Text>
-                    </TouchableOpacity>
-
-                  </View> : null}
-
-
-                  {email == '' ? <TouchableOpacity
-                    onPress={toggleModal3}
-                  >
-                    <Image
-                      source={Images.inbox}
-                      style={{
-                        resizeMode: 'stretch',
-                        tintColor: 'green',
-                        marginLeft: 8,
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                  </TouchableOpacity> : null}
-
-                </View> : null}
+                    {email == '' ? (
+                      <TouchableOpacity onPress={toggleModal3}>
+                        <Image
+                          source={Images.inbox}
+                          style={{
+                            resizeMode: 'stretch',
+                            tintColor: 'green',
+                            marginLeft: 8,
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                ) : null}
                 {/* <View style={styles.text_container}>
                       {phone == '' ? (
                         <>
@@ -2451,7 +2362,27 @@ const onPressChangePrivateStaus = async (key) => {
               cardMaxElevation={5}
               //cornerRadius={20}
               style={styles.cardp}>
-              <Text style={styles.title_text}>Privacy Setting</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.title_text}>Privacy Setting</Text>
+                {isEnabled2 && (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#4B2A6A',
+                      padding: 8,
+                      borderRadius: 4,
+                    }}
+                    onPress={() =>
+                      props.navigation.navigate('BlockListScreen')
+                    }>
+                    <Text style={{color: '#fff'}}>Block List</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
 
               {/* <View style={styles.border}></View> */}
               {/* <View style={styles.privacyrowcontainer}>
@@ -2476,83 +2407,95 @@ const onPressChangePrivateStaus = async (key) => {
               />
             </View> */}
 
+              {phone != '' && phone != null ? (
+                <View style={styles.border1}></View>
+              ) : null}
 
-              {phone != '' && phone != null ? <View style={styles.border1}></View> : null}
+              {phone != '' && phone != null ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Mobile Number</Text>
+                  <Text style={{textAlign: 'center'}}>{phone}</Text>
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch2}
+                    value={isEnabled2}
+                  />
+                </View>
+              ) : null}
 
-              {phone != '' && phone != null ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Mobile Number</Text>
-                <Text style={{ textAlign: 'center' }}>{phone}</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
-                />
-              </View> : null}
+              {email != '' && email != null ? (
+                <View style={styles.border1}></View>
+              ) : null}
 
-              {email != '' && email != null ? <View style={styles.border1}></View> : null}
+              {email != '' && email != null ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Email ID</Text>
+                  <Text style={{textAlign: 'center'}}>{email}</Text>
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitchEmail}
+                    value={isEnabledEmail}
+                  />
+                </View>
+              ) : null}
 
-              {email != '' && email != null ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Email ID</Text>
-                <Text style={{ textAlign: 'center' }}>{email}</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitchEmail}
-                  value={isEnabledEmail}
-                />
-              </View> : null}
+              {dob != '' && dob != null ? (
+                <View style={styles.border1}></View>
+              ) : null}
 
-              {dob != '' && dob != null ? <View style={styles.border1}></View> : null}
-
-              {dob != '' && dob != null ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Date of Birth</Text>
-                <Text style={{ textAlign: 'center' }}>{dob}</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitchDob}
-                  value={isEnabledDob}
-                />
-              </View> : null}
-
+              {dob != '' && dob != null ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Date of Birth</Text>
+                  <Text style={{textAlign: 'center'}}>{dob}</Text>
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitchDob}
+                    value={isEnabledDob}
+                  />
+                </View>
+              ) : null}
 
               {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
                 {Gender == 'M' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Male</Text>
+                    <Text style={{textAlign: 'center'}}>Male</Text>
                   </>
                 ) : Gender == 'F' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Female</Text>
+                    <Text style={{textAlign: 'center'}}>Female</Text>
                   </>
                 ) : Gender == 'C' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Custom</Text>
+                    <Text style={{textAlign: 'center'}}>Custom</Text>
                   </>
                 ) : null}
 
-                {Gender != '' && Gender != null ? <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitchGender}
-                  value={isEnabledGender}
-                /> : null}
+                {Gender != '' && Gender != null ? (
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitchGender}
+                    value={isEnabledGender}
+                  />
+                ) : null}
               </View>
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchProfession}
@@ -2560,27 +2503,32 @@ const onPressChangePrivateStaus = async (key) => {
                 />
               </View>
 
-              {city != '' && city != null ? <View style={styles.border1}></View> : null}
+              {city != '' && city != null ? (
+                <View style={styles.border1}></View>
+              ) : null}
 
-              {city != '' && city != null ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Current City</Text>
-                <Text style={{ textAlign: 'center' }}>{city}</Text>
+              {city != '' && city != null ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Current City</Text>
+                  <Text style={{textAlign: 'center'}}>{city}</Text>
 
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitchCity}
-                  value={isEnabledCity}
-                />
-              </View> : null}
-
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitchCity}
+                    value={isEnabledCity}
+                  />
+                </View>
+              ) : null}
 
               {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Enable Two-Factor Authentication</Text>
+                <Text style={styles.detail_text}>
+                  Enable Two-Factor Authentication
+                </Text>
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchTwoFactor}
@@ -2592,7 +2540,7 @@ const onPressChangePrivateStaus = async (key) => {
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchPrivate}
@@ -2600,24 +2548,24 @@ const onPressChangePrivateStaus = async (key) => {
                 />
               </View>
 
-              {/* <View style={styles.border1}></View>
+              <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Social Media</Text>
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View> */}
+              </View>
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Deactivate Account</Text>
                 {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isDeactivateAccount ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchDeactivateAccount}
@@ -2641,10 +2589,10 @@ const onPressChangePrivateStaus = async (key) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <Text
@@ -2692,7 +2640,7 @@ const onPressChangePrivateStaus = async (key) => {
                       marginRight: 25,
                     },
                   ]}>
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Male"
                       checkedIcon="dot-circle-o"
@@ -2717,11 +2665,11 @@ const onPressChangePrivateStaus = async (key) => {
                         fontFamily: 'Lato-Regular',
                       }}
                       onPress={checkedMale}
-                    // fontFamily={'Lato-Regular'}
+                      // fontFamily={'Lato-Regular'}
                     />
                   </View>
 
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Female"
                       checkedIcon="dot-circle-o"
@@ -2742,11 +2690,11 @@ const onPressChangePrivateStaus = async (key) => {
                       uncheckedColor={'#fff'}
                       checkedColor={'rgb(70,50,103)'}
                       onPress={checkedFemale}
-                    // fontFamily={'Lato-Regular'}
+                      // fontFamily={'Lato-Regular'}
                     />
                   </View>
 
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Custom"
                       checkedIcon="dot-circle-o"
@@ -2766,7 +2714,7 @@ const onPressChangePrivateStaus = async (key) => {
                       }}
                       uncheckedColor={'lightgrey'}
                       checkedColor={'rgb(70,50,103)'}
-                      textStyle={{ color: '#33333380' }}
+                      textStyle={{color: '#33333380'}}
                       onPress={checkedCustom}
                     />
                   </View>
@@ -2775,7 +2723,8 @@ const onPressChangePrivateStaus = async (key) => {
                   <View style={{}}>
                     <View
                       style={{
-                        marginBottom: '2%', width: 300
+                        marginBottom: '2%',
+                        width: 300,
                       }}>
                       {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
 
@@ -2783,15 +2732,14 @@ const onPressChangePrivateStaus = async (key) => {
                         placeholder={'Select your pronoun'}
                         data={KYC_type_doc}
                         value={Course_Selected}
-
                         SelectedLanguagedata={(selectedValue: any) => {
                           setCourseTypeSelected(selectedValue);
-
                         }}
                       />
                     </View>
 
-                    <View style={{ marginBottom: '3%', marginLeft: 5, width: 295 }}>
+                    <View
+                      style={{marginBottom: '3%', marginLeft: 5, width: 295}}>
                       <TextField
                         placeholder={'Gender (optional)'}
                         imageIcon={''}
@@ -2811,19 +2759,13 @@ const onPressChangePrivateStaus = async (key) => {
                     justifyContent: 'center',
                     borderRadius: 10,
                   }}
-                  onPress={() => onPressSubmit()}
-                >
-                  <Text style={{ color: 'white' }}
-                  >
-                    Submit
-                  </Text>
+                  onPress={() => onPressSubmit()}>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
             {/*  add number modal */}
-            <Modal
-              isVisible={isModalVisible2}
-              onBackdropPress={toggleModal2}>
+            <Modal isVisible={isModalVisible2} onBackdropPress={toggleModal2}>
               <View
                 style={{
                   height: hp('25'),
@@ -2836,21 +2778,24 @@ const onPressChangePrivateStaus = async (key) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal2}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
 
                 <Text style={styles.labeltextemail}>Mobile Number</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 10, }}
+                    style={{
+                      paddingLeft: 10,
+                      padding: Platform.OS === 'ios' ? 10 : 10,
+                    }}
                     onChangeText={onChangeNumber}
                     value={number}
                     placeholder="Enter Mobile Number"
-                    keyboardType='number-pad'
+                    keyboardType="number-pad"
                     maxLength={10}
                   />
                 </View>
@@ -2866,18 +2811,13 @@ const onPressChangePrivateStaus = async (key) => {
                     justifyContent: 'center',
                     borderRadius: 10,
                   }}>
-                  <Text style={{ color: 'white' }}>Submit</Text>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
 
-
-
-
             {/*  add email modal */}
-            <Modal
-              isVisible={isModalVisible3}
-              onBackdropPress={toggleModal3}>
+            <Modal isVisible={isModalVisible3} onBackdropPress={toggleModal3}>
               <View
                 style={{
                   height: hp('25'),
@@ -2890,22 +2830,25 @@ const onPressChangePrivateStaus = async (key) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal3}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
 
                 <Text style={styles.labeltextemail}>Email</Text>
                 <View style={styles.textinputcontainer}>
                   <TextInput
-                    style={{ paddingLeft: 10, padding: Platform.OS === 'ios' ? 10 : 10, }}
+                    style={{
+                      paddingLeft: 10,
+                      padding: Platform.OS === 'ios' ? 10 : 10,
+                    }}
                     onChangeText={onChangeEmail}
                     value={changeemail}
                     placeholder="Add Email"
-                    keyboardType='email-address'
-                  //maxLength={10}
+                    keyboardType="email-address"
+                    //maxLength={10}
                   />
                 </View>
 
@@ -2920,7 +2863,7 @@ const onPressChangePrivateStaus = async (key) => {
                     justifyContent: 'center',
                     borderRadius: 10,
                   }}>
-                  <Text style={{ color: 'white' }}>Submit</Text>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
@@ -2928,120 +2871,110 @@ const onPressChangePrivateStaus = async (key) => {
             {/* modal for otp NO  */}
             <Modal
               isVisible={isotpVisiblemodal}
-            // onBackdropPress={toggleModal2}
+              // onBackdropPress={toggleModal2}
             >
-              <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <View style={{backgroundColor: '#F1F1F1', paddingVertical: 10}}>
                 <CustomStatusBar />
                 {isLoading && renderIndicator()}
                 <TouchableOpacity
                   onPress={otptoggleModal}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <View style={styles.logoContainer}>
-                  <Image source={Images.message_icon} style={styles.messagelogo} />
+                  <Image
+                    source={Images.message_icon}
+                    style={styles.messagelogo}
+                  />
                 </View>
                 <View style={styles.enterTextConatiner}>
                   <Text style={styles.enterText}>
                     {'Enter OTP Send On Your' + ' ' + number}
                   </Text>
                 </View>
-                <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <View style={{paddingHorizontal: '9%', marginVertical: '15%'}}>
                   <OtpInputs
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtp(val)}
                     numberOfInputs={4}
-                    focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
-
-
+                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
                   />
                 </View>
 
-                <View style={{ width: 250, alignSelf: 'center' }}>
+                <View style={{width: 250, alignSelf: 'center'}}>
                   <CustomButton
                     title={'Submit'}
                     onPress={onPressOtp}
-                  //onPress={() => onPressSubmitNumber()}
-                  // onPress={() => props.navigation.navigate('eKYC')}
+                    //onPress={() => onPressSubmitNumber()}
+                    // onPress={() => props.navigation.navigate('eKYC')}
                   />
                 </View>
                 <View style={styles.OtpResendContainer}>
-                  <Text
-                    style={styles.resendText}
-                    onPress={onPressResendOtp}
-                  >
+                  <Text style={styles.resendText} onPress={onPressResendOtp}>
                     Resend Code
                   </Text>
-
                 </View>
               </View>
-
             </Modal>
-
-
 
             {/* modal for otp EMAIL  */}
             <Modal
               isVisible={isotpVisiblemodalemail}
-            // onBackdropPress={toggleModal2}
+              // onBackdropPress={toggleModal2}
             >
-              <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <View style={{backgroundColor: '#F1F1F1', paddingVertical: 10}}>
                 <CustomStatusBar />
                 {isLoading && renderIndicator()}
                 <TouchableOpacity
                   onPress={otptoggleModalEmail}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <View style={styles.logoContainer}>
-                  <Image source={Images.message_icon} style={styles.messagelogo} />
+                  <Image
+                    source={Images.message_icon}
+                    style={styles.messagelogo}
+                  />
                 </View>
                 <View style={styles.enterTextConatiner}>
                   <Text style={styles.enterText}>
                     {'Enter OTP Send On Your' + ' ' + changeemail}
                   </Text>
                 </View>
-                <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <View style={{paddingHorizontal: '9%', marginVertical: '15%'}}>
                   <OtpInputs
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtpEmail(val)}
                     numberOfInputs={4}
-                    focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
-
-
+                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
                   />
                 </View>
 
-                <View style={{ width: 250, alignSelf: 'center' }}>
+                <View style={{width: 250, alignSelf: 'center'}}>
                   <CustomButton
                     title={'Submit'}
                     onPress={onPressOtpEmail}
-                  //onPress={() => onPressSubmitNumber()}
-                  // onPress={() => props.navigation.navigate('eKYC')}
+                    //onPress={() => onPressSubmitNumber()}
+                    // onPress={() => props.navigation.navigate('eKYC')}
                   />
                 </View>
                 <View style={styles.OtpResendContainer}>
                   <Text
                     style={styles.resendText}
-                    onPress={onPressResendOtpEmail}
-                  >
+                    onPress={onPressResendOtpEmail}>
                     Resend Code
                   </Text>
-
                 </View>
               </View>
-
             </Modal>
-
-
           </View>
         </ScrollView>
       </View>
@@ -3049,7 +2982,3 @@ const onPressChangePrivateStaus = async (key) => {
   );
 };
 export default SettingScreen;
-
-
-
-

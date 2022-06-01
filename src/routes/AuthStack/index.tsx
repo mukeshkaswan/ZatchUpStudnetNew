@@ -83,6 +83,7 @@ import AlumniGalleryScreen from '../../containers/AppScreens/SocialMediaScreenCo
 import UserProfileScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/UserProfileScreen';
 import FollowersScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/FollowersScreen';
 import FollowingScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/FollowingScreen';
+import BlockListScreen from '../../containers/AppScreens/SocialMediaScreenContainer/ SocialMediaScreenContainer/BlockListScreen';
 
 function AuthStack() {
   return (
@@ -217,7 +218,6 @@ function AuthStack() {
         name="MySchoolScreen"
         component={MySchoolScreen}
         options={{header: () => null}}
-
       />
 
       <Stack.Screen
@@ -492,8 +492,11 @@ function AuthStack() {
         component={FollowingScreen}
         options={{header: () => null}}
       />
-
-
+      <Stack.Screen
+        name="BlockListScreen"
+        component={BlockListScreen}
+        options={{header: () => null}}
+      />
     </Stack.Navigator>
   );
 }
