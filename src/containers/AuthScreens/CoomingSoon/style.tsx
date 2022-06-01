@@ -26,8 +26,8 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.$backgroundColor,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   child_view: {
     flexDirection: 'row',
@@ -77,7 +77,7 @@ const styles = ScaledSheet.create({
 
     borderColor: 'lightgrey',
   },
-  
+
   dot_view: {
     position: 'absolute',
     right: 10,

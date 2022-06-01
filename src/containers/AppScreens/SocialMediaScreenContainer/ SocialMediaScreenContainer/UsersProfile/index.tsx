@@ -50,6 +50,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import RenderItem from './RenderItem';
+import user from '../../../../../reducers/users';
 //import Icon from 'react-native-vector-icons/Ionicons'
 
 const screenWidth = Dimensions.get('window').width;
@@ -161,20 +162,96 @@ const UsersProfile = (props: UserProfileProps) => {
   };
   const blockprofile = async () => {
     setthreeDot(false);
-    Alert.alert(
-      'ZatchUp',
-      ' Are you sure you want to Block Profile?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes'},
-      ],
-      {cancelable: false},
-    );
+    if (userProfile != '' && !userProfile.block_user_active) {
+      Alert.alert(
+        'ZatchUp',
+        ' Are you sure you want to Block Profile?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Yes', onPress: () => gotoBlockProfile()},
+        ],
+        {cancelable: false},
+      );
+    } else {
+      Alert.alert(
+        'ZatchUp',
+        ' Are you sure you want to Unblock Profile?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Yes', onPress: () => gotoBlockProfile()},
+        ],
+        {cancelable: false},
+      );
+    }
     return true;
+  };
+
+  const gotoBlockProfile = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      blocked_user_id: user_id,
+      block_user_status: !userProfile.block_user_active,
+    };
+
+    console.log('ReportPost==>>', data);
+
+    dispatch(
+      userActions.blockUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result block data',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+              getUserProfile(user_id);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   const gotoReportPost = async () => {
@@ -1059,7 +1136,9 @@ const UsersProfile = (props: UserProfileProps) => {
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => blockprofile()}>
                     <Text style={{fontSize: hp(2), marginTop: 10}}>
-                      Block Profile
+                      {userProfile != '' && userProfile.block_user_active
+                        ? 'Unblock Profile'
+                        : 'Block Profile'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -1139,6 +1218,8 @@ const UsersProfile = (props: UserProfileProps) => {
                     userProfile.follow_request_status == 2 &&
                     userProfile.social_account_status
                       ? true
+                      : userProfile.block_user_active
+                      ? true
                       : false
                   }
                   onPress={() => {
@@ -1157,6 +1238,8 @@ const UsersProfile = (props: UserProfileProps) => {
                     userProfile.follow_request_status == 2 &&
                     userProfile.social_account_status
                       ? true
+                      : userProfile.block_user_active
+                      ? true
                       : false
                   }
                   onPress={() => {
@@ -1172,7 +1255,13 @@ const UsersProfile = (props: UserProfileProps) => {
                 </TouchableOpacity>
                 {userProfile.follow_request_status == 0 ? (
                   <TouchableOpacity
-                    style={styles.removebtn}
+                    disabled={userProfile.block_user_active ? true : false}
+                    style={[
+                      styles.removebtn,
+                      {
+                        opacity: userProfile.block_user_active ? 0.5 : 1,
+                      },
+                    ]}
                     onPress={() => gotoFollow()}>
                     <Text
                       style={{
@@ -1848,7 +1937,8 @@ const UsersProfile = (props: UserProfileProps) => {
           {userProfile != '' &&
             userProfile.social_post.length == 0 &&
             (userProfile.follow_request_status == 2 ||
-              !userProfile.social_account_status) && (
+              !userProfile.social_account_status) &&
+            !userProfile.block_user_active && (
               <View
                 style={{
                   margin: 16,
@@ -1860,6 +1950,19 @@ const UsersProfile = (props: UserProfileProps) => {
                 <Text>No Post Uploaded</Text>
               </View>
             )}
+
+          {userProfile != '' && userProfile.block_user_active && (
+            <View
+              style={{
+                margin: 16,
+                borderColor: '#000',
+                borderWidth: 1,
+                padding: 16,
+                alignItems: 'center',
+              }}>
+              <Text>User Blocked</Text>
+            </View>
+          )}
         </ScrollView>
       )}
 

@@ -152,6 +152,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
+  const [socialMedia, setIsEnabled2] = useState(false);
   const [checkboxValue, setCheckboxValue] = React.useState([
     {report_option: 'Suspicious or Fake', checked: false},
 
@@ -201,6 +202,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   useFocusEffect(
     React.useCallback(() => {
       const dataSetTimeOut = setTimeout(() => {
+        getPrivacySettingApi();
         setPage(1);
         onChangecityname('');
         setCityData([]);
@@ -324,6 +326,48 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     } else if (value.length < 3) {
       setCityData([]);
     }
+  };
+
+  const getPrivacySettingApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+    };
+
+    dispatch(
+      userActions.getPrivacySetting({
+        data,
+        callback: ({result, error}) => {
+          setLoading(false);
+
+          if (result) {
+            console.warn(
+              'after result abc',
+              JSON.stringify(result, undefined, 2),
+            );
+            setIsEnabled2(result.data[0].socialmedia_user_status);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            Toast.show('Request failed with status code 401', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   /***************************User Auth User Info*******************************/
@@ -950,173 +994,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     );
   };
 
-  const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
   const isCarouselText = useRef(null);
-
-  function CrouselImages({item, index, length}) {
-    return (
-      <View
-        style={{
-          marginHorizontal: 8,
-          alignItems: 'center',
-          // backgroundColor: 'red',
-        }}>
-        {item.post_extension != 'mp4' ? (
-          <Image
-            source={{
-              uri:
-                item.post_image != null
-                  ? item.post_image
-                  : 'https://i.picsum.photos/id/866/1600/900.jpg',
-            }}
-            resizeMode="contain"
-            style={{
-              width: screenWidth - 64,
-              height: screenWidth - 64,
-              backgroundColor: '#d2d2d2',
-            }}
-          />
-        ) : (
-          // <Text>kamal</Text>
-          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
-            <Video
-              key={item + 'sap'}
-              ref={ref}
-              videoWidth={screenWidth - 64}
-              videoHeight={screenWidth - 64}
-              style={{
-                backgroundColor: '#d2d2d2',
-                alignSelf: 'center',
-              }}
-              video={{
-                uri: 'https://zatchup-prod-media.ap-south-1.linodeobjects.com/lecture_upload/1641899836442abc.mp4',
-              }}
-              // video={{ uri: coursepreview }}
-              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-              //resizeMode="contain"
-              //showDuration
-              //lockRatio={16 / 9}
-            />
-          </View>
-        )}
-        {length > 1 && (
-          <Text
-            style={{
-              margin: 10,
-              marginEnd: 20,
-              fontSize: 12,
-              position: 'absolute',
-              color: '#fff',
-              right: 0,
-              backgroundColor: '#4B2A6A',
-              opacity: 0.7,
-              borderRadius: 12,
-              padding: 2,
-              paddingHorizontal: 6,
-            }}>
-            {index + 1}/{length}
-          </Text>
-        )}
-      </View>
-    );
-  }
-
-  function CrouselText({item, index, length}) {
-    return (
-      <View
-        style={{
-          //borderWidth: 0.5,
-          // padding: 20,
-          // marginHorizontal:10 ,
-          //borderRadius: 20,
-          alignItems: 'center',
-          marginTop: 16,
-          // backgroundColor: 'lightgrey',
-          //  borderColor: 'grey',
-          width: '100%',
-          borderWidth: 1,
-          //height:screenWidth-55,
-          borderColor: 'lightgrey',
-        }}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: screenWidth - 180,
-            height: screenWidth - 32,
-            //backgroundColor: 'red',
-          }}>
-          <View
-            style={{
-              backgroundColor: '#4B2A6A',
-              // backgroundColor: 'pink',
-              height: 1,
-              width: '95%',
-              //marginEnd: 32,
-              alignSelf: 'center',
-            }}></View>
-          <Text
-            style={{
-              color: '#4B2A6A',
-              fontSize: 40,
-              textAlign: 'left',
-              alignSelf: 'flex-start',
-              marginStart: 16,
-            }}>
-            “
-          </Text>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: '700',
-              color: '#4B2A6A',
-              // marginHorizontal: 32,
-              // marginEnd: 64,
-            }}>
-            {item}
-          </Text>
-          <Text
-            style={{
-              color: '#4B2A6A',
-              fontSize: 40,
-              textAlign: 'right',
-              alignSelf: 'flex-end',
-              marginEnd: 20,
-            }}>
-            ”
-          </Text>
-          <View
-            style={{
-              backgroundColor: '#4B2A6A',
-              height: 1,
-              width: '95%',
-              // marginEnd: 32,
-              alignSelf: 'center',
-            }}></View>
-        </View>
-        {length > 1 && (
-          <Text
-            style={{
-              marginVertical: 10,
-              fontSize: 12,
-              position: 'absolute',
-              color: '#fff',
-              right: 0,
-              backgroundColor: '#4B2A6A',
-              opacity: 0.7,
-              borderRadius: 12,
-              padding: 2,
-              paddingHorizontal: 8,
-              marginRight: 5,
-            }}>
-            {index + 1}/{length}
-          </Text>
-        )}
-      </View>
-    );
-  }
 
   const gotoLikeUnLike = async item => {
     var token = '';
@@ -1341,7 +1220,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       {/* <CustomHeader Title={'School Information'} /> */}
 
       <View style={styles.child_view}>
-        {is_kyc_approved == true && is_approved == true ? (
+        {is_kyc_approved == true && socialMedia && is_approved == true ? (
           <TouchableOpacity onPress={onBurgerBarPress}>
             <Image source={Images.menu_dash} style={styles.image_menu} />
           </TouchableOpacity>
@@ -1354,10 +1233,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           </TouchableOpacity>
         )}
 
-        {is_kyc_approved == true && is_approved == true ? (
+        {is_kyc_approved == true && socialMedia && is_approved == true ? (
           <View style={styles.tv_view}>
-            {/* <Text style={styles.ZatchUp_tv}>Home</Text> */}
-            {/* <Text style={styles.TM_tv}>TM</Text> */}
             <View
               style={{
                 borderWidth: 1,
@@ -1376,7 +1253,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 style={{marginLeft: 10, tintColor: '#000'}}
               />
               <TextInput
-                //onChangeText={onChangeNumber}
                 onChangeText={value => getSearchcitydata(value)}
                 value={cityname}
                 style={{color: '#000'}}
@@ -1500,489 +1376,180 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           />
         ) : null}
       </View>
-
-      <View
-        style={{
-          flex: 1,
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <FlatList
-          ListHeaderComponent={() =>
-            posts.length > 0 ? (
-              <View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginHorizontal: 16,
-                    marginTop: 8,
-                  }}>
-                  <Text style={{fontWeight: '700'}}>Notification</Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      props.navigation.navigate('UserNotificationScreen')
-                    }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                  </TouchableOpacity>
+      {socialMedia ? (
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <FlatList
+            ListHeaderComponent={() =>
+              posts.length > 0 ? (
+                <View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginHorizontal: 16,
+                      marginTop: 8,
+                    }}>
+                    <Text style={{fontWeight: '700'}}>Notification</Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('UserNotificationScreen')
+                      }>
+                      <Text style={{fontWeight: '700', fontSize: 12}}>
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginHorizontal: 16,
+                      marginTop: 8,
+                    }}>
+                    <Text style={{fontWeight: '700'}}>Suggestion for you</Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('SuggestionScreen')
+                      }>
+                      <Text style={{fontWeight: '700', fontSize: 12}}>
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginHorizontal: 16,
+                      marginTop: 8,
+                    }}>
+                    <Text style={{fontWeight: '700'}}>Follow Request</Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        props.navigation.navigate('FollowRequestScreen')
+                      }>
+                      <Text style={{fontWeight: '700', fontSize: 12}}>
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginHorizontal: 16,
-                    marginTop: 8,
-                  }}>
-                  <Text style={{fontWeight: '700'}}>Suggestion for you</Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      props.navigation.navigate('SuggestionScreen')
-                    }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginHorizontal: 16,
-                    marginTop: 8,
-                  }}>
-                  <Text style={{fontWeight: '700'}}>Follow Request</Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      props.navigation.navigate('FollowRequestScreen')
-                    }>
-                    <Text style={{fontWeight: '700', fontSize: 12}}>View</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ) : (
-              <View></View>
-            )
-          }
-          style={{flex: 1, width: '100%'}}
-          data={posts}
-          refreshControl={
-            <RefreshControl
-              colors={['#4B2A6A']}
-              refreshing={refreshing}
-              onRefresh={_handleRefresh}
-            />
-          }
-          ListEmptyComponent={() =>
-            loading ? (
-              <View
-                style={{
-                  height: height - 56,
-                  width,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{fontSize: 18}}>
-                  No Notifications are available
-                </Text>
-              </View>
-            ) : (
-              <View></View>
-            )
-          }
-          ListFooterComponent={() =>
-            hasMore && posts != null && posts.length > 0 && !loading ? (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#fff',
-                  alignItems: 'center',
-                  paddingBottom: 8,
-                }}
-                onPress={() => onEndReached()}>
-                <Text
-                  style={{
-                    fontWeight: '700',
-                    textDecorationLine: 'underline',
-                  }}>
-                  Load More
-                </Text>
-              </TouchableOpacity>
-            ) : loading || isLoading ? (
-              <ProgressLoader
-                visible={true}
-                isModal={true}
-                isHUD={true}
-                //hudColor={"#ffffff00"}
-                hudColor={'#4B2A6A'}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flex: 1,
-                }}
-                color={'white'}
-              />
-            ) : (
-              <View></View>
-            )
-          }
-          renderItem={({item, index}) => {
-            let len = item.post_gallery != null ? item.post_gallery.length : 0;
-            let items = item;
-            let ind = index;
-            if (item.post_gallery == null) {
-              let s = item.caption;
-              var parts = s.match(/[\s\S]{1,140}/g) || [];
-              console.log(parts);
-              var lenCap = parts.length;
+              ) : (
+                <View></View>
+              )
             }
-            return (
-              <RenderItem
-                toggleModalCustom={toggleModalCustom}
-                gotoChangeComment={gotoChangeComment}
-                gotoShowMore={gotoShowMore}
-                gotoCommentLike={gotoCommentLike}
-                gotoComment={gotoComment}
-                gotoChangeToggle={gotoChangeToggle}
-                gotoLikeUnLike={gotoLikeUnLike}
-                username={username}
-                isCarousel={isCarousel}
-                isCarouselText={isCarouselText}
-                userid={userid}
-                posts={posts}
-                parts={parts}
-                lenCap={lenCap}
-                len={len}
-                items={items}
-                ind={ind}
-                item={item}
-                index={index}
-                props={props}
+            style={{flex: 1, width: '100%'}}
+            data={posts}
+            refreshControl={
+              <RefreshControl
+                colors={['#4B2A6A']}
+                refreshing={refreshing}
+                onRefresh={_handleRefresh}
               />
-              // <CardView
-              //   cardElevation={5}
-              //   cardMaxElevation={5}
-              //   // cornerRadius={15}
-              //   style={{
-              //     // padding: 16,
-              //     backgroundColor: 'white',
-              //     marginHorizontal: 15,
-              //     marginTop: 10,
-              //     paddingBottom: 14,
-              //     paddingTop: 10,
-              //     marginBottom: 5,
-              //   }}>
-              //   <View style={styles.rowContainer}>
-              //     <TouchableOpacity
-              //       onPress={() => {
-              //         item.user_role == 'EIREPRESENTATIVE'
-              //           ? props.navigation.navigate('SchoolProfile', {
-              //               item: items,
-              //             })
-              //           : item.user_id != userid
-              //           ? props.navigation.navigate('UsersProfile', {
-              //               item: items,
-              //             })
-              //           : props.navigation.navigate('UserProfileScreen', {
-              //               item: items,
-              //             });
-              //       }}>
-              //       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              //         <Image
-              //           source={
-              //             item.profile_pic != null
-              //               ? {uri: item.profile_pic}
-              //               : require('../../../assets/images/pic.jpeg')
-              //           }
-              //           style={styles.profilepic}
-              //         />
-              //         <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
-              //           {item.full_name}
-              //         </Text>
-              //       </View>
-              //     </TouchableOpacity>
-              //     <TouchableOpacity onPress={() => toggleModalCustom(item)}>
-              //       <Image
-              //         source={require('../../../assets/images/dot.png')}
-              //         style={{height: 18, width: 18}}
-              //       />
-              //     </TouchableOpacity>
-              //   </View>
-              //   <View style={{paddingHorizontal: 16, marginTop: 10}}>
-              //     <Image source={item.src} style={{width: '100%'}} />
-              //   </View>
-              //   {posts != [] && item.post_gallery != null ? (
-              //     <>
-              //       <Carousel
-              //         // layout={'tinder'}
-              //         ref={isCarousel}
-              //         data={item.post_gallery}
-              //         renderItem={({item, index}) => (
-              //           <CrouselImages item={item} index={index} length={len} />
-              //         )}
-              //         sliderWidth={screenWidth - 32}
-              //         itemWidth={screenWidth - 32}
-              //         layoutCardOffset={'0'}
-              //         onSnapToItem={index => setIndex(index)}
-              //       />
-              //     </>
-              //   ) : parts != null && parts.length > 0 ? (
-              //     <Carousel
-              //       // layout={'tinder'}
-              //       ref={isCarouselText}
-              //       data={parts}
-              //       renderItem={({item, index}) => (
-              //         <CrouselText item={item} index={index} length={lenCap} />
-              //       )}
-              //       sliderWidth={screenWidth - 32}
-              //       itemWidth={screenWidth - 64}
-              //       layoutCardOffset={'0'}
-              //       onSnapToItem={index => setIndex(index)}
-              //     />
-              //   ) : (
-              //     <View></View>
-              //   )}
-              //   <View style={styles.likecommentContainer}>
-              //     <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
-              //       <Icon
-              //         name="thumbs-up"
-              //         size={15}
-              //         color={item.like ? 'red' : 'grey'}
-              //         style={{marginLeft: 5}}
-              //       />
-              //     </TouchableOpacity>
-              //     <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
-              //       <Icon
-              //         name="comment"
-              //         color="grey"
-              //         size={15}
-              //         style={{marginLeft: 5}}
-              //       />
-              //     </TouchableOpacity>
-              //   </View>
-
-              //   {/* reply comment Section */}
-              //   <View
-              //     style={{
-              //       marginLeft: 6,
-              //       paddingHorizontal: 16,
-              //       paddingVertical: 10,
-              //     }}>
-              //     {posts != [] &&
-              //     item.post_like != null &&
-              //     item.post_like.length == 1 &&
-              //     item.post_like[0].post_like_username == username &&
-              //     item.post_like_count > 0 ? (
-              //       <TouchableOpacity
-              //         onPress={() => {
-              //           item.user_role == 'EIREPRESENTATIVE'
-              //             ? props.navigation.navigate('SchoolProfile', {
-              //                 item: items,
-              //               })
-              //             : item.user_id != userid
-              //             ? props.navigation.navigate('UsersProfile', {
-              //                 item: items,
-              //               })
-              //             : props.navigation.navigate('UserProfileScreen', {
-              //                 item: items,
-              //               });
-              //         }}>
-              //         <Text>
-              //           Liked by
-              //           <Text style={styles.boldText}> You</Text>
-              //         </Text>
-              //       </TouchableOpacity>
-              //     ) : (
-              //       <TouchableOpacity
-              //         onPress={() => {
-              //           item.user_role == 'EIREPRESENTATIVE'
-              //             ? props.navigation.navigate('SchoolProfile', {
-              //                 item: items,
-              //               })
-              //             : item.user_id != userid
-              //             ? props.navigation.navigate('UsersProfile', {
-              //                 item: items,
-              //               })
-              //             : props.navigation.navigate('UserProfileScreen', {
-              //                 item: items,
-              //               });
-              //         }}>
-              //         {item.post_like != null &&
-              //           item.post_like.length == 1 &&
-              //           item.post_like_count > 0 && (
-              //             <Text>
-              //               Liked by
-              //               <Text style={styles.boldText}>
-              //                 {' '}
-              //                 {item.post_like[0].post_like_username}
-              //               </Text>
-              //             </Text>
-              //           )}
-              //       </TouchableOpacity>
-              //     )}
-              //     {posts != [] &&
-              //       item.post_like != null &&
-              //       item.post_like.length >= 2 && (
-              //         <TouchableOpacity
-              //           onPress={() => {
-              //             item.post_like[0].user_role == 'EIREPRESENTATIVE'
-              //               ? props.navigation.navigate('SchoolProfile', {
-              //                   item: {
-              //                     user_id: item.post_like[0].post_like_user_id,
-              //                   },
-              //                 })
-              //               : item.post_like[0].post_like_user_id != userid
-              //               ? props.navigation.navigate('UsersProfile', {
-              //                   item: {
-              //                     user_id: item.post_like[0].post_like_user_id,
-              //                   },
-              //                 })
-              //               : props.navigation.navigate('UserProfileScreen', {
-              //                   item: {
-              //                     user_id: item.post_like[0].post_like_user_id,
-              //                   },
-              //                 });
-              //           }}>
-              //           <Text>
-              //             Liked by{' '}
-              //             <Text style={styles.boldText}>
-              //               {item.post_like[0].post_like_username + ' '}
-              //             </Text>
-              //             and{' '}
-              //             <Text style={styles.boldText}>
-              //               {item.post_like.length - 1 + ' Others'}
-              //             </Text>
-              //           </Text>
-              //         </TouchableOpacity>
-              //       )}
-
-              //     {item.full_name != null && item.post_gallery != null && (
-              //       <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
-              //         {item.full_name}
-              //       </Text>
-              //     )}
-              //     {item.caption != null && item.post_gallery != null && (
-              //       <Text>{item.caption}</Text>
-              //     )}
-              //     {posts != [] &&
-              //       item.comment_post != null &&
-              //       item.comment_post.map((item, index) => {
-              //         if (index <= 2) {
-              //           return (
-              //             <View key={item + 'sap' + index}>
-              //               <View style={styles.messageContainer}>
-              //                 <View style={{flexDirection: 'row', flex: 1}}>
-              //                   <TouchableOpacity
-              //                     onPress={() => {
-              //                       item.user_role == 'EIREPRESENTATIVE'
-              //                         ? props.navigation.navigate(
-              //                             'SchoolProfile',
-              //                             {
-              //                               item: {user_id: item.user},
-              //                             },
-              //                           )
-              //                         : item.user_id != userid
-              //                         ? props.navigation.navigate(
-              //                             'UsersProfile',
-              //                             {
-              //                               item: {user_id: item.user},
-              //                             },
-              //                           )
-              //                         : props.navigation.navigate(
-              //                             'UserProfileScreen',
-              //                             {
-              //                               item: {user_id: item.user},
-              //                             },
-              //                           );
-              //                     }}>
-              //                     <Text style={{fontWeight: 'bold', flex: 1}}>
-              //                       {item.comment_username}
-              //                     </Text>
-              //                   </TouchableOpacity>
-              //                   <Text
-              //                     style={{marginLeft: 5, flex: 2}}
-              //                     numberOfLines={item.showMore ? 0 : 1}>
-              //                     {item.comment}
-              //                   </Text>
-              //                 </View>
-              //                 <View
-              //                   style={{
-              //                     flexDirection: 'row',
-              //                   }}>
-              //                   <TouchableOpacity
-              //                     onPress={() => gotoCommentLike(item)}>
-              //                     <Icon
-              //                       name="thumbs-up"
-              //                       size={15}
-              //                       color={item.likes_status ? 'red' : 'grey'}
-              //                       style={{marginLeft: 5}}
-              //                     />
-              //                   </TouchableOpacity>
-              //                 </View>
-              //               </View>
-              //               {item.comment.length > 50 && (
-              //                 <TouchableOpacity
-              //                   onPress={() => gotoShowMore(ind, index)}>
-              //                   <Text>
-              //                     {item.showMore
-              //                       ? '[Show Less]'
-              //                       : '[Show More]'}
-              //                   </Text>
-              //                 </TouchableOpacity>
-              //               )}
-              //             </View>
-              //           );
-              //         }
-              //       })}
-              //     {/*end of reply comment Section */}
-              //     {item.total_comment >= 3 && (
-              //       <TouchableOpacity
-              //         onPress={() => {
-              //           props.navigation.navigate('PostDetailScreen', {item});
-              //         }}>
-              //         <Text style={{fontSize: 12, marginTop: 10}}>
-              //           VIEW ALL {item.total_comment} COMMENTS
-              //         </Text>
-              //       </TouchableOpacity>
-              //     )}
-              //     <Text
-              //       style={{
-              //         fontSize: 12,
-              //         marginTop: 10,
-              //       }}>
-              //       {item.post_created_on.toUpperCase()}
-              //     </Text>
-              //   </View>
-              //   {item.commentToggle == true ? (
-              //     <View>
-              //       <View style={styles.border}></View>
-              //       <View style={styles.rowContainer}>
-              //         <TextInput
-              //           style={{width: screenWidth - 120}}
-              //           placeholder="Add a comment"
-              //           value={commentValue}
-              //           onChangeText={setComment}
-              //           multiline={true}
-              //         />
-              //         <View
-              //           style={{
-              //             alignSelf: 'flex-end',
-              //             marginBottom: 5,
-              //             marginLeft: 5,
-              //           }}>
-              //           <TouchableOpacity
-              //             style={styles.postbtn}
-              //             onPress={() => gotoComment(item)}>
-              //             <Text style={{color: 'white'}}>Post</Text>
-              //           </TouchableOpacity>
-              //         </View>
-              //       </View>
-              //     </View>
-              //   ) : (
-              //     <View></View>
-              //   )}
-              // </CardView>
-            );
-          }}
-        />
-      </View>
+            }
+            ListEmptyComponent={() =>
+              loading ? (
+                <View
+                  style={{
+                    height: height - 56,
+                    width,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 18}}>
+                    No Notifications are available
+                  </Text>
+                </View>
+              ) : (
+                <View></View>
+              )
+            }
+            ListFooterComponent={() =>
+              hasMore && posts != null && posts.length > 0 && !loading ? (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#fff',
+                    alignItems: 'center',
+                    paddingBottom: 8,
+                  }}
+                  onPress={() => onEndReached()}>
+                  <Text
+                    style={{
+                      fontWeight: '700',
+                      textDecorationLine: 'underline',
+                    }}>
+                    Load More
+                  </Text>
+                </TouchableOpacity>
+              ) : loading || isLoading ? (
+                <ProgressLoader
+                  visible={true}
+                  isModal={true}
+                  isHUD={true}
+                  //hudColor={"#ffffff00"}
+                  hudColor={'#4B2A6A'}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                  }}
+                  color={'white'}
+                />
+              ) : (
+                <View></View>
+              )
+            }
+            renderItem={({item, index}) => {
+              let len =
+                item.post_gallery != null ? item.post_gallery.length : 0;
+              let items = item;
+              let ind = index;
+              if (item.post_gallery == null) {
+                let s = item.caption;
+                var parts = s.match(/[\s\S]{1,140}/g) || [];
+                console.log(parts);
+                var lenCap = parts.length;
+              }
+              return (
+                <RenderItem
+                  toggleModalCustom={toggleModalCustom}
+                  gotoChangeComment={gotoChangeComment}
+                  gotoShowMore={gotoShowMore}
+                  gotoCommentLike={gotoCommentLike}
+                  gotoComment={gotoComment}
+                  gotoChangeToggle={gotoChangeToggle}
+                  gotoLikeUnLike={gotoLikeUnLike}
+                  username={username}
+                  isCarousel={isCarousel}
+                  isCarouselText={isCarouselText}
+                  userid={userid}
+                  posts={posts}
+                  parts={parts}
+                  lenCap={lenCap}
+                  len={len}
+                  items={items}
+                  ind={ind}
+                  item={item}
+                  index={index}
+                  props={props}
+                />
+              );
+            }}
+          />
+        </View>
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 22, textAlign: 'center'}}>
+            Please enable social media from setting page
+          </Text>
+        </View>
+      )}
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}
@@ -2014,7 +1581,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           )}
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen', {item: customItem});
+              props.navigation.navigate('PostDetailScreen', {
+                item: customItem,
+              });
             }}>
             <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
           </TouchableOpacity>
@@ -2053,10 +1622,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             {checkboxValue.map((checkbox, i) => (
               <View key={i} style={styles.rowContent}>
                 <Text style={styles.reporttext}>{checkbox.report_option}</Text>
-                {/* <CustomCheckbox
-                onPress={(value) => checkboxHandler(value, i)}
-                 checked={checkbox.checked}
-              /> */}
                 <TouchableOpacity onPress={() => checkboxHandler(checkbox, i)}>
                   <View
                     style={{
@@ -2086,7 +1651,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           </View>
           <View style={styles.mborder}></View>
           <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            style={{
+              alignItems: 'flex-end',
+              marginTop: 10,
+              marginRight: 10,
+            }}>
             <TouchableOpacity
               style={styles.postbtn}
               onPress={() => gotoReport()}>
