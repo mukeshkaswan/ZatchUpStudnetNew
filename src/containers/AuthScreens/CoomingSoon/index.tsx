@@ -880,7 +880,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={Images.profile_default}
+                  source={
+                    item.profile_pic != null
+                      ? {uri: item.profile_pic}
+                      : Images.profile_default
+                  }
                   // source={require('../../../assets/images/pic.jpeg')}
                   style={{
                     // marginLeft: 10,
@@ -919,7 +923,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               }>
               <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={Images.profile_default}
+                  source={
+                    item.profile_pic != null
+                      ? {uri: item.profile_pic}
+                      : Images.profile_default
+                  }
                   // source={require('../../../assets/images/pic.jpeg')}
                   style={{
                     // marginLeft: 10,
@@ -1373,7 +1381,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 value={cityname}
                 style={{color: '#000'}}
                 placeholderTextColor="#000"
-                placeholder="Search City"
+                placeholder="Search..."
                 keyboardType="default"
               />
             </View>

@@ -820,16 +820,24 @@ const UsersProfile = (props: UserProfileProps) => {
       // error reading value
     }
 
-    const data = {
+    let data = {
       token: token,
-      follow_status:
+      following_user_id: user_id,
+    };
+    if (userProfile.follow_request_status == 0) {
+      data.follow_status = !userProfile.social_account_status
+        ? 2
+        : userProfile.social_account_status
+        ? 1
+        : 0;
+    } else {
+      data.follow_status =
         userProfile.follow_request_status == 1
           ? 0
           : userProfile.follow_request_status == 0
           ? 1
-          : 0,
-      following_user_id: user_id,
-    };
+          : 0;
+    }
 
     dispatch(
       userActions.followUser({
@@ -926,6 +934,7 @@ const UsersProfile = (props: UserProfileProps) => {
   const toggleModal = () => {
     //console.log('hey');
     setModalVisible(!isModalVisible);
+    // gotoFollow();
   };
 
   const gotoRemove = () => {
@@ -1129,8 +1138,8 @@ const UsersProfile = (props: UserProfileProps) => {
                   disabled={
                     userProfile.follow_request_status == 2 &&
                     userProfile.social_account_status
-                      ? false
-                      : true
+                      ? true
+                      : false
                   }
                   onPress={() => {
                     props.navigation.navigate('FollowersScreen', {
@@ -1147,8 +1156,8 @@ const UsersProfile = (props: UserProfileProps) => {
                   disabled={
                     userProfile.follow_request_status == 2 &&
                     userProfile.social_account_status
-                      ? false
-                      : true
+                      ? true
+                      : false
                   }
                   onPress={() => {
                     props.navigation.navigate('FollowingScreen', {
@@ -1880,7 +1889,9 @@ const UsersProfile = (props: UserProfileProps) => {
           <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
             <Text
               style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-              Are you sure you want to unfollow
+              {!(userProfile.follow_request_status == 1)
+                ? 'Are you sure you want to unfollow'
+                : 'Are you sure you want to cancel the Request?'}
             </Text>
             {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
               Zatchup won't tell @{userData.following_username} that they have
@@ -1900,7 +1911,7 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress={gotoRemove}
           /> */}
           <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Remove</Text>
+            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Yes</Text>
           </TouchableOpacity>
           <View
             style={{
@@ -1915,7 +1926,7 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress={toggleModal}
           /> */}
           <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
+            <Text style={{color: 'red', marginTop: 10}}>No</Text>
           </TouchableOpacity>
         </View>
       </Modal>

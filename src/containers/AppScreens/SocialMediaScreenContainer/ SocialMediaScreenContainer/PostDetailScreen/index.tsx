@@ -1,4 +1,4 @@
-import React, { Component, FC, useEffect, useState, useRef } from 'react';
+import React, {Component, FC, useEffect, useState, useRef} from 'react';
 import {
   Text,
   View,
@@ -13,7 +13,7 @@ import {
   Keyboard,
 } from 'react-native';
 import styles from './styles';
-import { Images, Colors } from '../../../../../components/index';
+import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -26,7 +26,7 @@ import {
   BackBtn,
   HeaderTitleWithBack,
 } from '../../../../../components';
-import { CheckBox } from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import {
   NavigationContainer,
@@ -34,13 +34,13 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import CardView from 'react-native-cardview';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Video from 'react-native-video-player';
 const screenWidth = Dimensions.get('window').width;
 import {
@@ -106,7 +106,7 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 const PostDetailScreen = (props: NotificationsScreenProps) => {
   // console.log('props', props.route);
   const {
-    item: { id, user_id },
+    item: {id, user_id},
   } = props.route.params;
   // console.log('+++++++', id);
   const isFocused = useIsFocused();
@@ -181,7 +181,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.deletePost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after delete the post',
@@ -213,10 +213,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   };
 
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
-    { report_option: 'Suspicious or Fake', checked: false },
-    { report_option: 'Harassment or hateful speech', checked: false },
-    { report_option: 'Violence or physical harm', checked: false },
-    { report_option: 'Adult Content', checked: false },
+    {report_option: 'Suspicious or Fake', checked: false},
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -224,7 +224,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   ]);
 
   const reportcheckboxHandler = (
-    value: { report_option?: string; checked?: boolean; id?: any },
+    value: {report_option?: string; checked?: boolean; id?: any},
     index: number,
   ) => {
     console.log('value', value);
@@ -256,7 +256,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
           color={'white'}
         />
       </View>
@@ -430,7 +430,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.replyComment({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result reply the comment',
@@ -496,9 +496,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -535,7 +535,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
 
@@ -546,7 +546,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             // );
             // console.log('USER_ID' + result.user_id),
-            setUserid(result.user_id)
+            setUserid(result.user_id);
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -596,7 +596,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.deleteComment({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'delete the comment of user',
@@ -654,7 +654,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getUserAllPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'get all the post of user',
@@ -718,7 +718,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report data post',
@@ -728,7 +728,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({ ...result.data[i], checked: false });
+                newData.push({...result.data[i], checked: false});
               }
 
               console.log('newDataa==>>', newData);
@@ -781,7 +781,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getPostDetails({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
             if (result.data.length > 0) {
@@ -800,7 +800,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   isComment: false,
                 });
               }
-              let newObject = { ...result.data[0], comment_post: newArr };
+              let newObject = {...result.data[0], comment_post: newArr};
               console.log('======', newObject);
 
               let newArrrr = [];
@@ -837,7 +837,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
               console.log('=======++++', newArrrr);
 
-              let newObjectInnner = { ...result.data[0], comment_post: newArrrr };
+              let newObjectInnner = {...result.data[0], comment_post: newArrrr};
               console.log('======', newObjectInnner);
 
               setPostDetails(newObjectInnner);
@@ -909,7 +909,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result comment like or unlike',
@@ -952,7 +952,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result like or unlike',
@@ -1000,7 +1000,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result comment on post',
@@ -1027,7 +1027,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const isCarousel = useRef(null);
   const isCarouselText = useRef(null);
 
-  function CrouselImages({ item, index, length }) {
+  function CrouselImages({item, index, length}) {
     return (
       <View
         style={{
@@ -1036,7 +1036,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         }}>
         {item.post_extension != 'mp4' ? (
           <Image
-            source={{ uri: item.post_image }}
+            source={{uri: item.post_image}}
             resizeMode="contain"
             style={{
               width: screenWidth - 64,
@@ -1045,7 +1045,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             }}
           />
         ) : (
-          <View style={{ width: screenWidth - 64, height: screenWidth - 64 }}>
+          <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
             <Video
               key={item + 'sap'}
               //ref={ref}
@@ -1059,10 +1059,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 uri: item.post_image,
               }}
               // video={{ uri: coursepreview }}
-              thumbnail={{ uri: 'https://i.picsum.photos/id/866/1600/900.jpg' }}
-            //resizeMode="contain"
-            //showDuration
-            //lockRatio={16 / 9}
+              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+              //resizeMode="contain"
+              //showDuration
+              //lockRatio={16 / 9}
             />
           </View>
         )}
@@ -1087,7 +1087,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     );
   }
 
-  function CrouselText({ item, index, length }) {
+  function CrouselText({item, index, length}) {
     return (
       <View
         style={{
@@ -1179,10 +1179,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
   const gotoNavigate = item => {
     setPId(item.id);
-    props.navigation.push('PostDetailScreen', { item });
+    props.navigation.push('PostDetailScreen', {item});
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       style={{
         borderRadius: 10,
@@ -1192,20 +1192,19 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         alignItems: 'center',
       }}
       disabled={postDetails != '' && postDetails.id == item.id ? true : false}
-      onPress={() => postDetails != '' && postDetails.id == item.id ? {} : gotoNavigate(item)}
-    >
+      onPress={() =>
+        postDetails != '' && postDetails.id == item.id ? {} : gotoNavigate(item)
+      }>
       {item.post_gallery[0].post_extension != 'mp4' ? (
         <Image
           source={
             item.post_gallery[0].post_image != null
-              ? { uri: item.post_gallery[0].post_image }
+              ? {uri: item.post_gallery[0].post_image}
               : require('../../../../../assets/images/college2.jpg')
           }
-          style={{ height: screenWidth / 2 - 40, width: screenWidth / 2 - 40 }}
+          style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
-      ) : (
-        null
-      )}
+      ) : null}
     </TouchableOpacity>
   );
 
@@ -1323,7 +1322,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result report data',
@@ -1375,14 +1374,14 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             cardMaxElevation={5}
             // cornerRadius={20}
             style={styles.card}>
-            <View style={{ marginTop: 16 }}>
+            <View style={{marginTop: 16}}>
               {postDetails != '' && postDetails.post_gallery != null ? (
                 <>
                   <Carousel
                     // layout={'tinder'}
                     ref={isCarousel}
                     data={postDetails.post_gallery}
-                    renderItem={({ item, index }) => (
+                    renderItem={({item, index}) => (
                       <CrouselImages
                         item={item}
                         index={index}
@@ -1403,7 +1402,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   // layout={'tinder'}
                   ref={isCarouselText}
                   data={captionPart}
-                  renderItem={({ item, index }) => (
+                  renderItem={({item, index}) => (
                     <CrouselText
                       item={item}
                       index={index}
@@ -1420,27 +1419,27 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             </View>
             <View style={styles.rowContainer}>
               <TouchableOpacity
-                style={{ flexDirection: 'row', alignItems: 'center' }}
+                style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => {
                   postDetails.user_role == 'EIREPRESENTATIVE'
                     ? props.navigation.navigate('SchoolProfile', {
-                      item: {
-                        user_id: postDetails.user_id,
-                        school_id: postDetails.school_id,
-                      },
-                    })
-                    : postDetails.user_id != userid
-                      ? props.navigation.navigate('UsersProfile', {
-                        item: { user_id: postDetails.user_id },
+                        item: {
+                          user_id: postDetails.user_id,
+                          school_id: postDetails.school_id,
+                        },
                       })
-                      : props.navigation.navigate('UserProfileScreen', {
-                        item: { user_id: postDetails.user_id },
+                    : postDetails.user_id != userid
+                    ? props.navigation.navigate('UsersProfile', {
+                        item: {user_id: postDetails.user_id},
+                      })
+                    : props.navigation.navigate('UserProfileScreen', {
+                        item: {user_id: postDetails.user_id},
                       });
                 }}>
                 <Image
                   source={
                     postDetails.profile_pic != null
-                      ? { uri: postDetails.profile_pic }
+                      ? {uri: postDetails.profile_pic}
                       : Images.profile_default
                   }
                   style={styles.profileImage}
@@ -1470,27 +1469,27 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             {postDetails.post_gallery != null && postDetails.length > 0 && (
               <View style={styles.rowContainer}>
                 <TouchableOpacity
-                  style={{ flexDirection: 'row', alignItems: 'center' }}
+                  style={{flexDirection: 'row', alignItems: 'center'}}
                   onPress={() => {
                     postDetails.user_role == 'EIREPRESENTATIVE'
                       ? props.navigation.navigate('SchoolProfile', {
-                        item: {
-                          user_id: postDetails.user_id,
-                          school_id: postDetails.school_id,
-                        },
-                      })
-                      : postDetails.user_id != userid
-                        ? props.navigation.navigate('UsersProfile', {
-                          item: { user_id: postDetails.user_id },
+                          item: {
+                            user_id: postDetails.user_id,
+                            school_id: postDetails.school_id,
+                          },
                         })
-                        : props.navigation.navigate('UserProfileScreen', {
-                          item: { user_id: postDetails.user_id },
+                      : postDetails.user_id != userid
+                      ? props.navigation.navigate('UsersProfile', {
+                          item: {user_id: postDetails.user_id},
+                        })
+                      : props.navigation.navigate('UserProfileScreen', {
+                          item: {user_id: postDetails.user_id},
                         });
                   }}>
                   <Image
                     source={
                       postDetails.profile_pic != null
-                        ? { uri: postDetails.profile_pic }
+                        ? {uri: postDetails.profile_pic}
                         : Images.profile_default
                     }
                     style={styles.profileImage}
@@ -1498,7 +1497,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   <View>
                     <Text style={styles.nametext}>{postDetails.full_name}</Text>
                     <Text style={styles.nametext}>{postDetails.caption}</Text>
-                    <Text style={[styles.nametext, { fontWeight: '300' }]}>
+                    <Text style={[styles.nametext, {fontWeight: '300'}]}>
                       {postDetails.post_created_on}
                     </Text>
                   </View>
@@ -1508,13 +1507,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
             <FlatList
               data={postDetails.comment_post}
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 let ind = index;
                 if (item.comment != '' && item.comment != null) {
                   return (
                     <View>
                       <View style={styles.rowContainer}>
-                        <View style={{ flex: 1 }}>
+                        <View style={{flex: 1}}>
                           <View
                             style={{
                               flexDirection: 'row',
@@ -1525,26 +1524,26 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                               onPress={() => {
                                 item.user_role == 'EIREPRESENTATIVE'
                                   ? props.navigation.navigate('SchoolProfile', {
-                                    item: {
-                                      user_id: item.user,
-                                      school_id: item.school_id,
-                                    },
-                                  })
-                                  : item.user != userid
-                                    ? props.navigation.navigate('UsersProfile', {
-                                      item: { user_id: item.user },
+                                      item: {
+                                        user_id: item.user,
+                                        school_id: item.school_id,
+                                      },
                                     })
-                                    : props.navigation.navigate(
+                                  : item.user != userid
+                                  ? props.navigation.navigate('UsersProfile', {
+                                      item: {user_id: item.user},
+                                    })
+                                  : props.navigation.navigate(
                                       'UserProfileScreen',
                                       {
-                                        item: { user_id: item.user },
+                                        item: {user_id: item.user},
                                       },
                                     );
                               }}>
                               <Image
                                 source={
                                   item.comment_user_profile_pic != null
-                                    ? { uri: item.comment_user_profile_pic }
+                                    ? {uri: item.comment_user_profile_pic}
                                     : Images.profile_default
                                 }
                                 style={{
@@ -1555,30 +1554,30 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 }}
                               />
                             </TouchableOpacity>
-                            <View style={{ marginLeft: 10, flex: 2 }}>
+                            <View style={{marginLeft: 10, flex: 2}}>
                               <TouchableOpacity
                                 onPress={() => {
                                   item.user_role == 'EIREPRESENTATIVE'
                                     ? props.navigation.navigate(
-                                      'SchoolProfile',
-                                      {
-                                        item: {
-                                          user_id: item.user,
-                                          school_id: item.school_id,
-                                        },
-                                      },
-                                    )
-                                    : item.user != userid
-                                      ? props.navigation.navigate(
-                                        'UsersProfile',
+                                        'SchoolProfile',
                                         {
-                                          item: { user_id: item.user },
+                                          item: {
+                                            user_id: item.user,
+                                            school_id: item.school_id,
+                                          },
                                         },
                                       )
-                                      : props.navigation.navigate(
+                                    : item.user != userid
+                                    ? props.navigation.navigate(
+                                        'UsersProfile',
+                                        {
+                                          item: {user_id: item.user},
+                                        },
+                                      )
+                                    : props.navigation.navigate(
                                         'UserProfileScreen',
                                         {
-                                          item: { user_id: item.user },
+                                          item: {user_id: item.user},
                                         },
                                       );
                                 }}>
@@ -1587,7 +1586,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 </Text>
                               </TouchableOpacity>
                               <Text
-                                style={{ marginLeft: 10 }}
+                                style={{marginLeft: 10}}
                                 numberOfLines={item.showMore ? 0 : 1}>
                                 {item.comment}
                               </Text>
@@ -1595,7 +1594,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                           </View>
                           {item.comment.length > 40 && (
                             <TouchableOpacity
-                              style={{ marginStart: 60 }}
+                              style={{marginStart: 60}}
                               onPress={() => gotoShowMore(index)}>
                               <Text>
                                 {item.showMore ? '[Show Less]' : '[Show More]'}
@@ -1609,7 +1608,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                             name={item.likes_status ? 'star' : 'star-o'}
                             size={15}
                             color={'#000'}
-                            style={{ marginLeft: 5 }}
+                            style={{marginLeft: 5}}
                           />
                         </TouchableOpacity>
                       </View>
@@ -1619,34 +1618,34 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                           marginLeft: 78,
                           alignItems: 'center',
                         }}>
-                        <Text style={{ fontSize: 12 }}>
+                        <Text style={{fontSize: 12}}>
                           {item.comment_created_on}
                         </Text>
                         {item.likes > 0 && (
-                          <Text style={[styles.liketext, { fontSize: 12 }]}>
+                          <Text style={[styles.liketext, {fontSize: 12}]}>
                             {item.likes + ' Like'}
                           </Text>
                         )}
                         <Text
-                          style={[styles.liketext, { fontSize: 12 }]}
+                          style={[styles.liketext, {fontSize: 12}]}
                           onPress={() => pressReply(item, index)}>
                           Reply
                         </Text>
                         {userid == postDetails.user_id ? (
                           <TouchableOpacity
                             onPress={() =>
-                              gotoSetShowReplyModal({ ...item, type: 'comment' })
+                              gotoSetShowReplyModal({...item, type: 'comment'})
                             }>
-                            <Text style={[styles.liketext, { fontSize: 12 }]}>
+                            <Text style={[styles.liketext, {fontSize: 12}]}>
                               ...
                             </Text>
                           </TouchableOpacity>
                         ) : userid == item.user ? (
                           <TouchableOpacity
                             onPress={() =>
-                              gotoSetShowReplyModal({ ...item, type: 'comment' })
+                              gotoSetShowReplyModal({...item, type: 'comment'})
                             }>
-                            <Text style={[styles.liketext, { fontSize: 12 }]}>
+                            <Text style={[styles.liketext, {fontSize: 12}]}>
                               ...
                             </Text>
                           </TouchableOpacity>
@@ -1680,7 +1679,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                 onPress={() =>
                                   gotoReplyComment(item, index, 'notReply')
                                 }>
-                                <Text style={{ color: 'white' }}>Reply</Text>
+                                <Text style={{color: 'white'}}>Reply</Text>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -1706,14 +1705,14 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                             }}></View>
                           <TouchableOpacity
                             onPress={() => gotoShowReply(index)}>
-                            <Text style={{ fontWeight: '700' }}>
+                            <Text style={{fontWeight: '700'}}>
                               {item.showReply
                                 ? 'Hide reply(' +
-                                item.reply_comment.length +
-                                ')'
+                                  item.reply_comment.length +
+                                  ')'
                                 : 'View reply(' +
-                                item.reply_comment.length +
-                                ')'}
+                                  item.reply_comment.length +
+                                  ')'}
                             </Text>
                           </TouchableOpacity>
                         </View>
@@ -1723,12 +1722,12 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         item.showReply &&
                         item.reply_comment.length > 0 && (
                           <FlatList
-                            style={{ marginStart: 16 }}
+                            style={{marginStart: 16}}
                             data={item.reply_comment}
-                            renderItem={({ item, index }) => (
+                            renderItem={({item, index}) => (
                               <View>
                                 <View style={styles.rowContainer}>
-                                  <View style={{ flex: 1 }}>
+                                  <View style={{flex: 1}}>
                                     <View
                                       style={{
                                         flexDirection: 'row',
@@ -1739,35 +1738,35 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                         onPress={() => {
                                           item.user_role == 'EIREPRESENTATIVE'
                                             ? props.navigation.navigate(
-                                              'SchoolProfile',
-                                              {
-                                                item: {
-                                                  user_id: item.user,
-                                                  school_id: item.school_id,
-                                                },
-                                              },
-                                            )
-                                            : item.user != userid
-                                              ? props.navigation.navigate(
-                                                'UsersProfile',
+                                                'SchoolProfile',
                                                 {
-                                                  item: { user_id: item.user },
+                                                  item: {
+                                                    user_id: item.user,
+                                                    school_id: item.school_id,
+                                                  },
                                                 },
                                               )
-                                              : props.navigation.navigate(
+                                            : item.user != userid
+                                            ? props.navigation.navigate(
+                                                'UsersProfile',
+                                                {
+                                                  item: {user_id: item.user},
+                                                },
+                                              )
+                                            : props.navigation.navigate(
                                                 'UserProfileScreen',
                                                 {
-                                                  item: { user_id: item.user },
+                                                  item: {user_id: item.user},
                                                 },
                                               );
                                         }}>
                                         <Image
                                           source={
                                             item.comment_user_profile_pic !=
-                                              null
+                                            null
                                               ? {
-                                                uri: item.comment_user_profile_pic,
-                                              }
+                                                  uri: item.comment_user_profile_pic,
+                                                }
                                               : Images.profile_default
                                           }
                                           style={{
@@ -1778,30 +1777,30 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                           }}
                                         />
                                       </TouchableOpacity>
-                                      <View style={{ marginLeft: 10, flex: 2 }}>
+                                      <View style={{marginLeft: 10, flex: 2}}>
                                         <TouchableOpacity
                                           onPress={() => {
                                             item.user_role == 'EIREPRESENTATIVE'
                                               ? props.navigation.navigate(
-                                                'SchoolProfile',
-                                                {
-                                                  item: {
-                                                    user_id: item.user,
-                                                    school_id: item.school_id,
-                                                  },
-                                                },
-                                              )
-                                              : item.user_id != userid
-                                                ? props.navigation.navigate(
-                                                  'UsersProfile',
+                                                  'SchoolProfile',
                                                   {
-                                                    item: { user_id: item.user },
+                                                    item: {
+                                                      user_id: item.user,
+                                                      school_id: item.school_id,
+                                                    },
                                                   },
                                                 )
-                                                : props.navigation.navigate(
+                                              : item.user_id != userid
+                                              ? props.navigation.navigate(
+                                                  'UsersProfile',
+                                                  {
+                                                    item: {user_id: item.user},
+                                                  },
+                                                )
+                                              : props.navigation.navigate(
                                                   'UserProfileScreen',
                                                   {
-                                                    item: { user_id: item.user },
+                                                    item: {user_id: item.user},
                                                   },
                                                 );
                                           }}>
@@ -1810,7 +1809,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                           </Text>
                                         </TouchableOpacity>
                                         <Text
-                                          style={{ marginLeft: 10 }}
+                                          style={{marginLeft: 10}}
                                           numberOfLines={item.showMore ? 0 : 1}>
                                           {item.reply_comment}
                                         </Text>
@@ -1818,7 +1817,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                     </View>
                                     {item.reply_comment.length > 32 && (
                                       <TouchableOpacity
-                                        style={{ marginStart: 60 }}
+                                        style={{marginStart: 60}}
                                         onPress={() =>
                                           gotoShowMoreReplyComment(ind, index)
                                         }>
@@ -1841,7 +1840,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                       }
                                       size={15}
                                       color={'#000'}
-                                      style={{ marginLeft: 5 }}
+                                      style={{marginLeft: 5}}
                                     />
                                   </TouchableOpacity>
                                 </View>
@@ -1850,17 +1849,17 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                     flexDirection: 'row',
                                     marginLeft: 78,
                                   }}>
-                                  <Text style={{ fontSize: 12 }}>
+                                  <Text style={{fontSize: 12}}>
                                     {item.reply_comment_time}
                                   </Text>
                                   {item.reply_comment_like_count > 0 && (
                                     <Text
-                                      style={[styles.liketext, { fontSize: 12 }]}>
+                                      style={[styles.liketext, {fontSize: 12}]}>
                                       {item.reply_comment_like_count + ' Like'}
                                     </Text>
                                   )}
                                   <Text
-                                    style={[styles.liketext, { fontSize: 12 }]}
+                                    style={[styles.liketext, {fontSize: 12}]}
                                     onPress={() => pressReply(item, index)}>
                                     Reply
                                   </Text>
@@ -1875,7 +1874,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                       <Text
                                         style={[
                                           styles.liketext,
-                                          { fontSize: 12 },
+                                          {fontSize: 12},
                                         ]}>
                                         ...
                                       </Text>
@@ -1891,7 +1890,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                       <Text
                                         style={[
                                           styles.liketext,
-                                          { fontSize: 12 },
+                                          {fontSize: 12},
                                         ]}>
                                         ...
                                       </Text>
@@ -1901,13 +1900,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                   )}
                                 </View>
                                 {item.hasOwnProperty('isComment') &&
-                                  item.isComment ? (
+                                item.isComment ? (
                                   <View>
                                     <View style={styles.border}></View>
                                     <View
                                       style={[
                                         styles.rowContainer,
-                                        { marginRight: 16 },
+                                        {marginRight: 16},
                                       ]}>
                                       <TextInput
                                         multiline={true}
@@ -1935,7 +1934,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                               'reply',
                                             )
                                           }>
-                                          <Text style={{ color: 'white' }}>
+                                          <Text style={{color: 'white'}}>
                                             Reply
                                           </Text>
                                         </TouchableOpacity>
@@ -1967,7 +1966,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   name={postDetails.like ? 'star' : 'star-o'}
                   size={15}
                   color={'#000'}
-                  style={{ marginLeft: 5 }}
+                  style={{marginLeft: 5}}
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={gotoSetToggle}>
@@ -1975,7 +1974,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   name="comment-o"
                   color="#000"
                   size={15}
-                  style={{ marginLeft: 5 }}
+                  style={{marginLeft: 5}}
                 />
               </TouchableOpacity>
             </View>
@@ -1992,20 +1991,20 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     onPress={() => {
                       postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
                         ? props.navigation.navigate('SchoolProfile', {
-                          item: {
-                            user_id:
-                              postDetails.post_like[0].post_like_user_id,
-                            school_id: postDetails.post_like[0].school_id,
-                          },
-                        })
+                            item: {
+                              user_id:
+                                postDetails.post_like[0].post_like_user_id,
+                              school_id: postDetails.post_like[0].school_id,
+                            },
+                          })
                         : postDetails.post_like[0].post_like_user_id != userid
-                          ? props.navigation.navigate('UsersProfile', {
+                        ? props.navigation.navigate('UsersProfile', {
                             item: {
                               user_id:
                                 postDetails.post_like[0].post_like_user_id,
                             },
                           })
-                          : props.navigation.navigate('UserProfileScreen', {
+                        : props.navigation.navigate('UserProfileScreen', {
                             item: {
                               user_id:
                                 postDetails.post_like[0].post_like_user_id,
@@ -2025,26 +2024,26 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               {postDetails.post_like != null &&
                 postDetails.post_like.length > 1 &&
                 postDetails.post_like_count > 0 && (
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text>Liked by </Text>
                     <TouchableOpacity
                       onPress={() => {
                         postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
                           ? props.navigation.navigate('SchoolProfile', {
-                            item: {
-                              user_id:
-                                postDetails.post_like[0].post_like_user_id,
-                              school_id: postDetails.post_like[0].school_id,
-                            },
-                          })
+                              item: {
+                                user_id:
+                                  postDetails.post_like[0].post_like_user_id,
+                                school_id: postDetails.post_like[0].school_id,
+                              },
+                            })
                           : postDetails.post_like[0].post_like_user_id != userid
-                            ? props.navigation.navigate('UsersProfile', {
+                          ? props.navigation.navigate('UsersProfile', {
                               item: {
                                 user_id:
                                   postDetails.post_like[0].post_like_user_id,
                               },
                             })
-                            : props.navigation.navigate('UserProfileScreen', {
+                          : props.navigation.navigate('UserProfileScreen', {
                               item: {
                                 user_id:
                                   postDetails.post_like[0].post_like_user_id,
@@ -2062,7 +2061,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     </Text>
                   </View>
                 )}
-              <Text style={{ fontSize: 12, marginTop: 10 }}>
+              <Text style={{fontSize: 12, marginTop: 10}}>
                 {postDetails.post_created_on.toUpperCase()}
               </Text>
             </View>
@@ -2071,7 +2070,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 <View style={styles.border}></View>
                 <View style={styles.rowContainer}>
                   <TextInput
-                    style={{ width: screenWidth - 120 }}
+                    style={{width: screenWidth - 120}}
                     multiline={true}
                     placeholder="Add a comment"
                     value={comment}
@@ -2086,7 +2085,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     <TouchableOpacity
                       style={styles.postbtn}
                       onPress={gotoComment}>
-                      <Text style={{ color: 'white' }}>Post</Text>
+                      <Text style={{color: 'white'}}>Post</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -2094,24 +2093,24 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             )}
           </CardView>
           {allPost.length > 0 && (
-            <View style={{ paddingHorizontal: 16 }}>
+            <View style={{paddingHorizontal: 16}}>
               <TouchableOpacity
                 onPress={() => {
                   postDetails.user_role == 'EIREPRESENTATIVE'
                     ? props.navigation.navigate('SchoolProfile', {
-                      item: postDetails,
-                    })
-                    : postDetails.user_id != userid
-                      ? props.navigation.navigate('UsersProfile', {
                         item: postDetails,
                       })
-                      : props.navigation.navigate('UserProfileScreen', {
+                    : postDetails.user_id != userid
+                    ? props.navigation.navigate('UsersProfile', {
+                        item: postDetails,
+                      })
+                    : props.navigation.navigate('UserProfileScreen', {
                         item: postDetails,
                       });
                 }}>
                 <Text>
                   More Post from{' '}
-                  <Text style={{ fontWeight: 'bold' }}>
+                  <Text style={{fontWeight: 'bold'}}>
                     {postDetails.full_name}
                   </Text>
                 </Text>
@@ -2122,7 +2121,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 numColumns={2}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
-              //style={{alignSelf: 'center'}}
+                //style={{alignSelf: 'center'}}
               />
             </View>
           )}
@@ -2164,7 +2163,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
           <View style={styles.mborder}></View>
           <TouchableOpacity onPress={toggleModal3}>
-            <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>Cancel</Text>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -2174,7 +2173,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         onBackdropPress={reportmodal}
         backdropOpacity={0.4}>
         <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
+          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
             <TouchableOpacity>
               <Text
                 style={{
@@ -2188,13 +2187,13 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             <TouchableOpacity onPress={reportmodal}>
               <Image
                 source={Images.closeicon}
-                style={{ height: 15, width: 15, marginRight: 10 }}
+                style={{height: 15, width: 15, marginRight: 10}}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.mborder}></View>
-          <View style={{ paddingHorizontal: 16 }}>
-            <Text style={{ fontSize: hp(2.4) }}>Why are you reporting this?</Text>
+          <View style={{paddingHorizontal: 16}}>
+            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
             {reportcheckboxValue.map((checkbox, i) => (
               <View key={i} style={styles.rowContent}>
                 <Text style={styles.reporttext}>{checkbox.report_option}</Text>
@@ -2232,11 +2231,11 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           </View>
           <View style={styles.mborder}></View>
           <View
-            style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
             <TouchableOpacity
               style={styles.postbtn}
               onPress={() => gotoReport()}>
-              <Text style={{ color: 'white' }}>Submit</Text>
+              <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -2260,7 +2259,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           </TouchableOpacity>
           <View style={styles.mborder}></View>
           <TouchableOpacity onPress={setshowReplyModal}>
-            <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>Cancel</Text>
+            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </Modal>

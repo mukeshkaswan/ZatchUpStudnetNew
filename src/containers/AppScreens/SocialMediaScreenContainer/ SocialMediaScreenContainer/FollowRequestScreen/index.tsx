@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {HeaderTitleWithBack} from '../../../../../components';
+import {HeaderTitleWithBack, Images} from '../../../../../components';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -193,7 +193,7 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
           source={
             item.follow_request_user_profile_pic != null
               ? {uri: item.follow_request_user_profile_pic}
-              : require('../../../../../assets/images/pic.jpeg')
+              : Images.profile_default
           }
           style={styles.profileImg}
         />

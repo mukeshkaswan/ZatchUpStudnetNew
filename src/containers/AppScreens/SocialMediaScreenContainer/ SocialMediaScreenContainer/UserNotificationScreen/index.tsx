@@ -180,7 +180,13 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     <TouchableOpacity
       style={styles.item}
       disabled={
-        item.profile_block || item.notification_type == 'delete' ? true : false
+        item.notification_type == 'request'
+          ? false
+          : item.profile_block ||
+            item.notification_type == 'delete' ||
+            item.user_post_id == null
+          ? true
+          : false
       }
       onPress={() => {
         item.notification_type == 'request'
