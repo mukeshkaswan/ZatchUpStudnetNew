@@ -135,6 +135,7 @@ import {
   BLOACKUSER,
   GETBLOCKLIST,
   CHANGEPRIVATESTATUS,
+  GOTOCALLPOSTLIKEAPI,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -1363,6 +1364,33 @@ function* getBlockList({payload: {data, callback}}) {
     },
     method: 'GET',
     url: 'socialmedia/profile/blocked_user_list/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  //callback({result, error});
+  if (!error) {
+    if (result) {
+      // console.log(
+      //   'Student Education Profile list  result',
+      //   JSON.stringify(result, undefined, 2),
+      // );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+function* gotoCallPostLikeApi({payload: {data, callback}}) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: 'socialmedia/post/like-count-list/?post_id=' + data.post_id,
   };
   const {result, error} = yield call(httpClient, payload);
   //callback({result, error});
@@ -4524,6 +4552,7 @@ function* User() {
     yield takeLatest(CHANGEPRIVATESTATUS, changePrivateStatus),
     yield takeLatest(BLOACKUSER, blockUser),
     yield takeLatest(GETBLOCKLIST, getBlockList),
+    yield takeLatest(GOTOCALLPOSTLIKEAPI, gotoCallPostLikeApi),
   ]);
 }
 

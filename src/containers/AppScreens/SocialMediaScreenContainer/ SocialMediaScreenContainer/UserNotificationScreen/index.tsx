@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
-
+import ProgressLoader from 'rn-progress-loader';
 import {useIsFocused} from '@react-navigation/native';
 interface NotificationsScreenProps {
   navigation: any;
@@ -121,12 +121,13 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
     };
-
+    setLoading(true);
     dispatch(
       userActions.getUserNotification({
         data,
         callback: ({result, error}) => {
           if (result) {
+            setLoading(false);
             console.warn(
               'after result notification details',
               JSON.stringify(result, undefined, 2),
@@ -228,28 +229,59 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         headerRightcontent={''}
       />
 
-      <SectionList
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: height - 72,
-              width,
-            }}>
-            <Text style={{fontWeight: '700'}}>
-              No Notification is available
-            </Text>
-          </View>
-        )}
-        sections={notifications}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({item}) => <Item item={item} />}
-        renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.header}>{title}</Text>
-        )}
-      />
+      {isLoading && (
+        <ProgressLoader
+          visible={true}
+          isModal={true}
+          isHUD={true}
+          //hudColor={"#ffffff00"}
+          hudColor={'#4B2A6A'}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+          }}
+          color={'white'}
+        />
+      )}
+
+      {!isLoading && notifications.length > 0 ? (
+        <SectionList
+          // ListEmptyComponent={() => (
+          //   <View
+          //     style={{
+          //       flex: 1,
+          //       justifyContent: 'center',
+          //       alignItems: 'center',
+          //       height: height - 72,
+          //       width,
+          //     }}>
+          //     <Text style={{fontWeight: '700'}}>
+          //       No Notification is available
+          //     </Text>
+          //   </View>
+          // )}
+          sections={notifications}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({item}) => <Item item={item} />}
+          renderSectionHeader={({section: {title}}) => (
+            <Text style={styles.header}>{title}</Text>
+          )}
+        />
+      ) : !isLoading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: height - 72,
+            width,
+          }}>
+          <Text style={{fontWeight: '700'}}>No Notification is available</Text>
+        </View>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };

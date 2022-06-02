@@ -134,6 +134,9 @@ export const getStudentEducationProfile = createAction(STUDENTEDUCATIONPROFILE);
 export const GETBLOCKLIST = 'GETBLOCKLIST';
 export const getBlockList = createAction(GETBLOCKLIST);
 
+export const GOTOCALLPOSTLIKEAPI = 'GOTOCALLPOSTLIKEAPI';
+export const gotoCallPostLikeApi = createAction(GOTOCALLPOSTLIKEAPI);
+
 // this is for get Notification Fetch List /
 export const NOTIFICATIONFETCHLIST = 'NOTIFICATIONFETCHLIST';
 export const getNotificationFetch = createAction(NOTIFICATIONFETCHLIST);

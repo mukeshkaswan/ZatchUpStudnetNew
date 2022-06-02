@@ -16,8 +16,10 @@ const styles = ScaledSheet.create({
     backgroundColor: '#FFFFFF',
     marginVertical: 5,
     paddingHorizontal: 10,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   CardviewChild: {
     backgroundColor: '#FFFFFF',
@@ -67,7 +69,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 6,
-    bottom:35
+    bottom: 35,
   },
 });
 export default styles;

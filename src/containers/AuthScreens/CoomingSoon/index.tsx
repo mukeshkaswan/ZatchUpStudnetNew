@@ -1352,7 +1352,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         style={{
           position: 'absolute',
           top: isKeyboardVisible == true ? '12%' : '8%',
-
+          marginLeft: '15%',
           // flex: 1,
           // justifyContent: 'center',
           //alignItems: 'center',
@@ -1543,12 +1543,28 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             }}
           />
         </View>
-      ) : (
+      ) : isLoading && !socialMedia ? (
+        <ProgressLoader
+          visible={true}
+          isModal={true}
+          isHUD={true}
+          //hudColor={"#ffffff00"}
+          hudColor={'#4B2A6A'}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+          }}
+          color={'white'}
+        />
+      ) : posts.length > 0 ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontSize: 22, textAlign: 'center'}}>
             Please enable social media from setting page
           </Text>
         </View>
+      ) : (
+        <View />
       )}
       <Modal
         isVisible={isModalVisible}

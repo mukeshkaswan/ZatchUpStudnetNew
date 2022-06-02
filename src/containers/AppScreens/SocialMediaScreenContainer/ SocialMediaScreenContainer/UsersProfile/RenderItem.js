@@ -233,7 +233,7 @@ function RenderItem({
         {userProfile != '' &&
         item.post_like != null &&
         item.post_like.length == 1 &&
-        item.post_like[0].post_like_username == username &&
+        item.post_like[0].post_like_user_id == user_id &&
         item.post_like_count > 0 ? (
           <TouchableOpacity
             onPress={() => {
@@ -291,8 +291,9 @@ function RenderItem({
                 <Text>
                   Liked by
                   <Text style={styles.boldText}>
-                    {' '}
-                    {item.post_like[0].post_like_username}
+                    {item.post_like[0].post_like_user_id != userid
+                      ? ' you'
+                      : ' ' + item.post_like[0].post_like_username}
                   </Text>
                 </Text>
               )}
@@ -309,8 +310,6 @@ function RenderItem({
                         user_id: item.post_like[0].post_like_user_id,
                       },
                     })
-                  : item.post_like[0].post_like_user_id == user_id
-                  ? {}
                   : item.post_like[0].post_like_user_id == userid
                   ? props.navigation.navigate('UserProfileScreen', {
                       item: {
@@ -338,11 +337,11 @@ function RenderItem({
             </TouchableOpacity>
           )}
 
-        {item.full_name != null && (
+        {/* {item.full_name != null && (
           <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
             {item.full_name}
           </Text>
-        )}
+        )} */}
         {item.caption != null && item.post_gallery != null && (
           <Text>{item.caption}</Text>
         )}

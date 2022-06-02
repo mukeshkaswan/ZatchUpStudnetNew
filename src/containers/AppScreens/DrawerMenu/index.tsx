@@ -342,7 +342,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
                 marginLeft: 15,
               }}>
               <Image
-                source={Images.Passwords}
+                source={Images.profiles}
                 style={{tintColor: '#000000', width: 21, height: 21}}
               />
               <Text
