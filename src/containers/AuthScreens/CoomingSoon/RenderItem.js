@@ -197,6 +197,7 @@ function RenderItem({
           flexDirection: 'row',
           alignItems: 'center',
         }}
+        disabled={false}
         onPress={() => {
           item.user_role == 'EIREPRESENTATIVE'
             ? props.navigation.navigate('SchoolProfile', {
