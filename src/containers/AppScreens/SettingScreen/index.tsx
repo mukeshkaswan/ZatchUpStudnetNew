@@ -561,6 +561,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         callback: ({result, error}) => {
           setLoading(false);
           if (result.status) {
+           // getSettingStatus(userid);
+
           }
           if (result.status === false) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -2503,14 +2505,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View>
 
-              {city != '' && city != null ? (
-                <View style={styles.border1}></View>
-              ) : null}
 
-              {city != '' && city != null ? (
+                <View style={styles.border1}></View>
+            
+             
                 <View style={styles.privacyrowcontainer}>
                   <Text style={styles.detail_text}>Current City</Text>
-                  <Text style={{textAlign: 'center'}}>{city}</Text>
 
                   <Switch
                     trackColor={{false: 'grey', true: 'lightgreen'}}
@@ -2520,7 +2520,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     value={isEnabledCity}
                   />
                 </View>
-              ) : null}
+           
 
               {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
@@ -2536,8 +2536,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View>
 
-              <View style={styles.border1}></View>
-              <View style={styles.privacyrowcontainer}>
+             {isEnabled2 ?  <View style={styles.border1}></View>:null}
+
+             {isEnabled2 ?  <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
                 <Switch
                   trackColor={{false: 'grey', true: 'lightgreen'}}
@@ -2546,7 +2547,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitchPrivate}
                   value={isEnabledPrivate}
                 />
-              </View>
+              </View>:null}
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>

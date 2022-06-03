@@ -88,22 +88,28 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
     };
   }, [isFocused]);
 
+  // function handleBackButtonClick() {
+  //   Alert.alert(
+  //     'Exit App',
+  //     'Do you want to exit?',
+  //     [
+  //       {
+  //         text: 'No',
+  //         onPress: () => console.log('Cancel Pressed'),
+  //         style: 'cancel',
+  //       },
+  //       {text: 'Yes'},
+  //     ],
+  //     {cancelable: false},
+  //   );
+  //   return true;
+  // }
+
   function handleBackButtonClick() {
-    Alert.alert(
-      'Exit App',
-      'Do you want to exit?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes'},
-      ],
-      {cancelable: false},
-    );
+    props.navigation.goBack();
     return true;
   }
+
 
   const getBlockListApi = async () => {
     var token = '';

@@ -143,19 +143,20 @@ const LoginScreen = (props: LoginScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result.status === 'True') {
+            setLoading(false);
+
             console.warn(
               'after otp result 1',
               // JSON.stringify(result, undefined, 2),
               // props.navigation.navigate('Home'),
             );
-            setTimeout(() => {
-              Toast.show('Login Successfully', Toast.SHORT);
-            }, 500);
+            // setTimeout(() => {
+            //   Toast.show('Login Successfully', Toast.SHORT);
+            // }, 500);
 
-            getData(result),
+            getData(result)
 
-              //setSpinnerStart(false);
-              setLoading(false);
+            //setSpinnerStart(false);
           }
           if (result.status === 'False') {
             //console.warn(JSON.stringify(error, undefined, 2));
@@ -275,15 +276,17 @@ const LoginScreen = (props: LoginScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
+            setLoading(false);
+
             console.warn(
               'after result step count 2',
               JSON.stringify(result, undefined, 2),
-              getData_is_kyc_rejected(result),
 
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             // setSpinnerStart(false);
-            setLoading(false);
+            getData_is_kyc_rejected(result)
+
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -582,7 +585,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             <Text
               style={styles.signupText}
               onPress={() => props.navigation.navigate('SignUpScreen')}>
-               Sign Up
+              Sign Up
             </Text>
           </Text>
         </View>
