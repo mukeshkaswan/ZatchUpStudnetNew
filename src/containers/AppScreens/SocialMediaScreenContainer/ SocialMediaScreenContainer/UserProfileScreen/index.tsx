@@ -48,6 +48,7 @@ import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import RenderItem from './RenderItem';
 import ImagePicker from 'react-native-image-crop-picker';
+import Video from 'react-native-video-player';
 
 const data = [
   {
@@ -1553,18 +1554,43 @@ function CrouselImages({items, item, index, length, data, goToNavigate}) {
         alignItems: 'center',
         marginTop: 16,
         backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 64 : 56,
+        marginStart: !(data === 'Image') ? 16 : 56,
+        width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        height: !(data === 'Image') ? screenWidth : screenWidth - 32,
       }}
       onPress={gotoNavigate}>
-      <Image
-        source={{uri: item.post_image}}
-        resizeMode="contain"
-        style={{
-          width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          backgroundColor: '#d2d2d2',
-        }}
-      />
+      {item.post_extension != 'mp4' ? (
+        <Image
+          source={{uri: item.post_image}}
+          resizeMode="contain"
+          style={{
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            backgroundColor: '#d2d2d2',
+          }}
+        />
+      ) : (
+        <Video
+          key={item + 'sap'}
+          //ref={ref}
+          videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          style={{
+            backgroundColor: '#d2d2d2',
+            alignSelf: 'center',
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+          }}
+          video={{
+            uri: item.post_image,
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
       {length > 1 && (
         <Text
           style={{

@@ -3705,7 +3705,9 @@ function* getSchoolProfile({payload: {data, callback}}) {
     //data: JSON.stringify(data.course_id),
     method: 'GET',
     url:
-      'user/profile-detail-of-school/?count_type=true&school_id=' +
+      'user/profile-detail-of-school/?alumni_gallery=' +
+      data.alumni_gallery +
+      '&count_type=true&school_id=' +
       data.school_id,
   };
   const {result, error} = yield call(httpClient, payload);

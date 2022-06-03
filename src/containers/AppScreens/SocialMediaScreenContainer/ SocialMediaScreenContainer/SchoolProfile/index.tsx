@@ -49,7 +49,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import RenderItem from './RenderItem';
-
+import Video from 'react-native-video-player';
 const screenWidth = Dimensions.get('window').width - 32;
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
@@ -78,6 +78,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   const [tempSchoolId, setSchoolId] = useState('');
   const [username, setuserName] = useState('');
   const [userid, setUserid] = useState('');
+  const [alumni, setAlumni] = useState(false);
   const threedot = () => {
     setthreeDot(true);
   };
@@ -453,7 +454,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     if (tempSchoolId == '') {
       console.log('hey School');
       getAuthUserInfoApi();
-      getSchoolProfile(school_id);
+      getSchoolProfile(school_id, false);
       getReportData();
       getReportPostData();
     }
@@ -566,7 +567,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     //  BackHandler.exitApp()
   };
 
-  const getSchoolProfile = async school_id => {
+  const getSchoolProfile = async (school_id, status) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -581,6 +582,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     const data = {
       token: token,
       school_id: school_id,
+      alumni_gallery: status,
     };
     //setLoading(true);
     dispatch(
@@ -687,7 +689,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getSchoolProfile(school_id);
+            getSchoolProfile(school_id, false);
             setComment('');
           }
           if (!error) {
@@ -732,7 +734,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getSchoolProfile(school_id);
+            getSchoolProfile(school_id, false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -809,7 +811,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
             setLoading(false);
-            getSchoolProfile(school_id);
+            getSchoolProfile(school_id, false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -857,6 +859,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   const GoToNavigate = items => {
     console.log('item', items);
     props.navigation.navigate('PostDetailScreen', {item: items});
+  };
+
+  const gotoCallAlumni = () => {
+    getSchoolProfile(school_id, !alumni);
+    setAlumni(prev => !prev);
   };
 
   return (
@@ -1101,11 +1108,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               <Text style={styles.cardtitletext}>Posts</Text>
               <TouchableOpacity
                 style={styles.postbtn}
-                onPress={() => {
-                  props.navigation.navigate('AlumniGalleryScreen', {
-                    item: schoolDetail,
-                  });
-                }}>
+                // onPress={() => {
+                //   props.navigation.navigate('AlumniGalleryScreen', {
+                //     item: schoolDetail,
+                //   });
+                // }}
+                onPress={() => gotoCallAlumni()}>
                 <Text style={{color: 'white', fontWeight: 'bold'}}>
                   Alumni Gallery
                 </Text>
@@ -1803,19 +1811,44 @@ function CrouselImages({items, goToNavigate, item, index, length, data}) {
         // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        backgroundColor: 'red',
+        // backgroundColor: 'red',
+        width: !(data === 'Image') ? screenWidth : screenWidth,
+        height: !(data === 'Image') ? screenWidth : screenWidth,
         marginStart: !(data === 'Image') ? 16 : 56,
       }}
       onPress={gotoNavigate}>
-      <Image
-        source={{uri: item.post_image}}
-        resizeMode="contain"
-        style={{
-          width: !(data === 'Image') ? screenWidth : screenWidth,
-          height: !(data === 'Image') ? screenWidth : screenWidth,
-          backgroundColor: '#d2d2d2',
-        }}
-      />
+      {item.post_extension != 'mp4' ? (
+        <Image
+          source={{uri: item.post_image}}
+          resizeMode="contain"
+          style={{
+            width: !(data === 'Image') ? screenWidth : screenWidth,
+            height: !(data === 'Image') ? screenWidth : screenWidth,
+            backgroundColor: '#d2d2d2',
+          }}
+        />
+      ) : (
+        <Video
+          key={item + 'sap'}
+          //ref={ref}
+          videoWidth={!(data === 'Image') ? screenWidth : screenWidth}
+          videoHeight={!(data === 'Image') ? screenWidth : screenWidth}
+          style={{
+            backgroundColor: '#d2d2d2',
+            alignSelf: 'center',
+            width: !(data === 'Image') ? screenWidth : screenWidth,
+            height: !(data === 'Image') ? screenWidth : screenWidth,
+          }}
+          video={{
+            uri: item.post_image,
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
       {length > 1 && (
         <Text
           style={{

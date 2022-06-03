@@ -834,7 +834,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                if (i < 9 && result.data[i].post_gallery != null) {
+                if (result.data[i].post_gallery != null) {
                   newData.push(result.data[i]);
                 }
               }
@@ -1374,7 +1374,28 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           }
           style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
-      ) : null}
+      ) : (
+        <Video
+          key={item + 'sap'}
+          //ref={ref}
+          videoWidth={screenWidth / 2 - 40}
+          videoHeight={screenWidth / 2 - 40}
+          style={{
+            backgroundColor: '#d2d2d2',
+            alignSelf: 'center',
+            height: screenWidth / 2 - 40,
+            width: screenWidth / 2 - 40,
+          }}
+          video={{
+            uri: item.post_gallery[0].post_image,
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
     </TouchableOpacity>
   );
 

@@ -51,6 +51,8 @@ import {
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import RenderItem from './RenderItem';
 import user from '../../../../../reducers/users';
+import Video from 'react-native-video-player';
+
 //import Icon from 'react-native-vector-icons/Ionicons'
 
 const screenWidth = Dimensions.get('window').width;
@@ -1215,7 +1217,8 @@ const UsersProfile = (props: UserProfileProps) => {
               <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
                   disabled={
-                    userProfile.follow_request_status == 2 &&
+                    (userProfile.follow_request_status == 2 ||
+                      userProfile.follow_request_status == 1) &&
                     userProfile.social_account_status
                       ? true
                       : userProfile.block_user_active
@@ -1235,7 +1238,8 @@ const UsersProfile = (props: UserProfileProps) => {
 
                 <TouchableOpacity
                   disabled={
-                    userProfile.follow_request_status == 2 &&
+                    (userProfile.follow_request_status == 2 ||
+                      userProfile.follow_request_status == 1) &&
                     userProfile.social_account_status
                       ? true
                       : userProfile.block_user_active
@@ -1870,18 +1874,43 @@ function CrouselImages({items, goToNavigate, item, index, length, data}) {
         alignItems: 'center',
         marginTop: 16,
         backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 64 : 56,
+        marginStart: !(data === 'Image') ? 16 : 56,
+        width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        height: !(data === 'Image') ? screenWidth : screenWidth - 32,
       }}
       onPress={gotoNavigate}>
-      <Image
-        source={{uri: item.post_image}}
-        resizeMode="contain"
-        style={{
-          width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          backgroundColor: '#d2d2d2',
-        }}
-      />
+      {item.post_extension != 'mp4' ? (
+        <Image
+          source={{uri: item.post_image}}
+          resizeMode="contain"
+          style={{
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            backgroundColor: '#d2d2d2',
+          }}
+        />
+      ) : (
+        <Video
+          key={item + 'sap'}
+          //ref={ref}
+          videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          style={{
+            backgroundColor: '#d2d2d2',
+            alignSelf: 'center',
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+          }}
+          video={{
+            uri: item.post_image,
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
       {length > 1 && (
         <Text
           style={{

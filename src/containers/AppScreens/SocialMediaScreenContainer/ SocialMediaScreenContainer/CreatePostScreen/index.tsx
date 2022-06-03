@@ -42,6 +42,7 @@ import ProgressLoader from 'rn-progress-loader';
 import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Video from 'react-native-video-player';
 // import https from 'https';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -199,7 +200,12 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     }
 
     try {
-      let image = await ImagePicker.openPicker({cropping: true});
+      let image = await ImagePicker.openPicker({
+        mediaType: 'any',
+        width: 400,
+        height: 400,
+        // cropping: true,
+      });
       image.type = image.mime;
       image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
       image.uri = image.path;
@@ -214,7 +220,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             : image.uri.replace('file://', ''),
       });
       console.log(JSON.stringify(formData));
-
+      setLoading(true);
       axios({
         url: 'https://apis.zatchup.com:2000/api/uploadFile',
         method: 'POST',
@@ -225,13 +231,16 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         },
       })
         .then(({data}) => {
+          setLoading(false);
           console.log('res===>>>>>>>' + JSON.stringify(data));
           // return;
           // let data = JSON.stringify(response.data);
           // console.log('data=>>>>', JSON.stringify(response.data));
           if (data.status) {
             console.log(data.message);
-            let p = data.location;
+            let p = {};
+            p.uri = data.location;
+            p.type = image.mime;
             pic.push(p);
 
             setpicdata(pic);
@@ -268,20 +277,51 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
   };
 
   const _renderItem = ({item, index}) => {
+    console.log('Item==>>>>', item);
     return (
       <View style={{}}>
-        <Image
-          source={{uri: item}}
-          style={{
-            width: screenWidth / 3 - 21,
-            height: screenWidth / 3 - 21,
-            //backgroundColor: 'green',
-            resizeMode: 'contain',
-            borderRadius: 8,
-            marginTop: 16,
-            marginStart: 16,
-          }}
-        />
+        {item.type == 'video/mp4' ? (
+          <Video
+            key={item + 'sap'}
+            // ref={ref}
+            videoWidth={screenWidth / 3 - 21}
+            videoHeight={screenWidth / 3 - 21}
+            style={{
+              backgroundColor: '#d2d2d2',
+              alignSelf: 'center',
+              borderRadius: 8,
+              marginTop: 16,
+              marginStart: 16,
+              width: screenWidth / 3 - 21,
+              height: screenWidth / 3 - 21,
+            }}
+            video={{
+              uri: item.uri,
+            }}
+            // video={{ uri: coursepreview }}
+            thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+            resizeMode="contain"
+            disableSeek={true}
+            autoplay
+            playControl={{
+              width: screenWidth / 3 - 21,
+              height: screenWidth / 3 - 21,
+            }}
+          />
+        ) : (
+          <Image
+            source={{uri: item.uri}}
+            style={{
+              width: screenWidth / 3 - 21,
+              height: screenWidth / 3 - 21,
+              //backgroundColor: 'green',
+              resizeMode: 'contain',
+              borderRadius: 8,
+              marginTop: 16,
+              marginStart: 16,
+            }}
+          />
+        )}
         <TouchableOpacity
           onPress={() => gototRemove(index)}
           style={{
@@ -425,6 +465,8 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             </View>
           </View>
         )}
+
+        {isLoading && renderIndicator()}
       </KeyboardAwareScrollView>
     </View>
   );

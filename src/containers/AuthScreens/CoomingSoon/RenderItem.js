@@ -642,6 +642,7 @@ function CrouselImages({item, index, length, ref}) {
         width: screenWidth - 64,
         height: screenWidth - 64,
         // backgroundColor: 'red',
+        marginStart: 16,
       }}>
       {item.post_extension != 'mp4' ? (
         <Image

@@ -541,14 +541,24 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
             }}
           />
           <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
-            <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-              If you change your mind, you'll have to request to follow{' '}
-              <Text
-                style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-                {userData.following_username}
-              </Text>{' '}
-              again
-            </Text>
+            {userData.social_account_status == 2 ? (
+              <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                Are you sure? You want to unfollow this user
+              </Text>
+            ) : (
+              <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                If you change your mind, you'll have to request to follow{' '}
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: hp(2.2),
+                    marginTop: 25,
+                  }}>
+                  {userData.following_username}
+                </Text>{' '}
+                again
+              </Text>
+            )}
           </View>
           <View
             style={{

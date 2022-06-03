@@ -48,6 +48,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Video from 'react-native-video-player';
 
 const screenWidth = Dimensions.get('window').width - 32;
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
@@ -482,9 +483,11 @@ function RenderItem({
                 </TouchableOpacity>
                 <Text>and </Text>
                 <TouchableOpacity onPress={toggleModal}>
-                  <Text style={styles.boldText}>
-                    {item.post_like.length - 1 + ' Others'}
-                  </Text>
+                  {item.post_like != null && (
+                    <Text style={styles.boldText}>
+                      {item.post_like.length - 1 + ' Others'}
+                    </Text>
+                  )}
                 </TouchableOpacity>
               </View>
 
@@ -522,18 +525,18 @@ function RenderItem({
             </View>
           )}
 
-        {item.full_name != null && item.post_gallery != null && (
+        {/* {item.full_name != null && item.post_gallery != null && (
           <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
             {item.full_name}
           </Text>
-        )}
+        )} */}
         {item.caption != null && item.post_gallery != null && (
           <Text>{item.caption}</Text>
         )}
         {schoolDetail != '' &&
           item.comment_post != null &&
           item.comment_post.map((item, index) => {
-            if (index <= 2 && item.comment != '') {
+            if (index <= 2 && item.comment != null && item.comment != '') {
               return (
                 <View key={item + 'sap' + index}>
                   <View style={styles.messageContainer}>
@@ -646,23 +649,45 @@ function CrouselImages({items, gotoNav, item, index, length, data}) {
   return (
     <TouchableOpacity
       style={{
-        // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
-        marginStart: 3,
-        // marginStart: !(data === 'Image') ? 16 : 56,
+        marginStart: 16,
+        width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        height: !(data === 'Image') ? screenWidth : screenWidth - 32,
       }}
       onPress={gotoNavigate}>
-      <Image
-        source={{uri: item.post_image}}
-        resizeMode="contain"
-        style={{
-          width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          backgroundColor: '#d2d2d2',
-        }}
-      />
+      {item.post_extension != 'mp4' ? (
+        <Image
+          source={{uri: item.post_image}}
+          resizeMode="contain"
+          style={{
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            backgroundColor: '#d2d2d2',
+          }}
+        />
+      ) : (
+        <Video
+          key={item + 'sap'}
+          //ref={ref}
+          videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+          style={{
+            backgroundColor: '#d2d2d2',
+            alignSelf: 'center',
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+          }}
+          video={{
+            uri: item.post_image,
+          }}
+          // video={{ uri: coursepreview }}
+          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //resizeMode="contain"
+          //showDuration
+          //lockRatio={16 / 9}
+        />
+      )}
       {length > 1 && (
         <Text
           style={{

@@ -69,7 +69,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 6,
-    bottom: 35,
+    //  bottom: 35,
   },
 });
 export default styles;
