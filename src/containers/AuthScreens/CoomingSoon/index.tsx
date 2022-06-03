@@ -299,16 +299,31 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
   const onDeleteBTN = async () => {
     try {
+      await AsyncStorage.removeItem('username');
+      await AsyncStorage.removeItem('profilepic');
+      await AsyncStorage.removeItem('kyckey');
       await AsyncStorage.removeItem('tokenlogin');
-      await AsyncStorage.removeItem('token');
-    } catch (e) {
-      // save error
+      await AsyncStorage.removeItem('Loginflag');
+      Toast.show('Logout Successfully ', Toast.SHORT);
+      props.navigation.navigate('LoginScreen');
+      return true;
+    } catch (exception) {
+      return false;
     }
-    Toast.show('Logout Successfully ', Toast.SHORT);
-
-    props.navigation.navigate('LoginScreen');
-    //  BackHandler.exitApp()
   };
+
+  // const onDeleteBTN = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('tokenlogin');
+  //     await AsyncStorage.removeItem('token');
+  //   } catch (e) {
+  //     // save error
+  //   }
+  //   Toast.show('Logout Successfully ', Toast.SHORT);
+
+  //   props.navigation.navigate('LoginScreen');
+  //   //  BackHandler.exitApp()
+  // };
   // function handleBackButtonClick() {
   //   props.navigation.goBack();
   //   return true;

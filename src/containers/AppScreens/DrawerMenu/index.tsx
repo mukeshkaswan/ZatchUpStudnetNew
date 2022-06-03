@@ -31,7 +31,7 @@ interface DrawerMenuScreenScreenProps {
   navigation: any;
 }
 const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
-  const [username, setUsername] = useState('vk');
+  const [username, setUsername] = useState('');
   const [profilepic, setProfilePic] = useState('');
   const [kycapprovedkey, setKycapproved] = useState('');
   const [isLoading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
         return () => {
           dataSetTimeOut.clear();
         }
-      }, 1000);
+      }, 5000);
     }, []),
   );
 
