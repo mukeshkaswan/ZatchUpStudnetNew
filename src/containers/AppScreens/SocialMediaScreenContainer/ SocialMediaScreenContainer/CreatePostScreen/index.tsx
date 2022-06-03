@@ -149,11 +149,15 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
       // error reading value
     }
     console.log('tken------------------', token);
-    console.log(picdata);
+    let newArr = [];
+    for (let i = 0; i < picdata.length; i++) {
+      newArr.push(picdata[i].uri);
+    }
+    console.log('picdata==>>', newArr);
     //return;
     const data = {
       caption: Caption,
-      post_gallery: picdata,
+      post_gallery: newArr,
       token: token,
     };
 
