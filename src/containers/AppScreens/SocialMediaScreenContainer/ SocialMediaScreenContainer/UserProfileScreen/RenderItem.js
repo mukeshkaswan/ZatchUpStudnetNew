@@ -71,10 +71,10 @@ function RenderItem({
   props,
   goToNav,
 }) {
-  const dispatch = useDispatch();
   const [indexx, setIndex] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const toggleModalClose = () => {
     setModalVisible(!isModalVisible);
   };

@@ -132,6 +132,176 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const [replyShowModal, setReplyShowModal] = useState(false);
   const [replyItem, setReplyItem] = useState('');
   const [key, setKey] = useState('');
+  const [isModalVisibleLike, setModalVisibleLike] = useState(false);
+  const toggleModalClose = () => {
+    setModalVisibleLike(!isModalVisibleLike);
+  };
+  const [DATA, setDataLike] = useState([
+    {
+      id: '1',
+      title: 'First Item',
+    },
+    {
+      id: '2',
+      title: 'Second Item',
+    },
+    {
+      id: '3',
+      title: 'Third Item',
+    },
+    {
+      id: '4',
+      title: 'Third Item',
+    },
+    {
+      id: '5',
+      title: 'Third Item',
+    },
+    {
+      id: '7',
+      title: 'Third Item',
+    },
+    {
+      id: '8',
+      title: 'Third Item',
+    },
+    {
+      id: '9',
+      title: 'Third Item',
+    },
+    {
+      id: '10',
+      title: 'Third Item',
+    },
+    {
+      id: '11',
+      title: 'Third Item',
+    },
+    {
+      id: '12',
+      title: 'Third Item',
+    },
+    {
+      id: '13',
+      title: 'Third Item',
+    },
+    {
+      id: '14',
+      title: 'Third Item',
+    },
+    {
+      id: '15',
+      title: 'Third Item',
+    },
+    {
+      id: '16',
+      title: 'Third Item',
+    },
+    {
+      id: '17',
+      title: 'Third Item',
+    },
+    {
+      id: '18',
+      title: 'Third Item',
+    },
+    {
+      id: '19',
+      title: 'Third Item',
+    },
+    {
+      id: '20',
+      title: 'Third Item',
+    },
+  ]);
+
+  const toggleModal = () => {
+    //Alert.alert('hello');
+    gotoCallPostLikeApi();
+  };
+
+  const gotoCallPostLikeApi = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      post_id: postDetails.id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.gotoCallPostLikeApi({
+        data,
+        callback: ({result, error}) => {
+          console.log('hey.......kamal1', result);
+          setLoading(false);
+          if (result.status) {
+            setDataLike(result.data);
+            setModalVisibleLike(!isModalVisibleLike);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+  const renderItemLike = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={{
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+        disabled={false}
+        onPress={() => {
+          item.user_role == 'EIREPRESENTATIVE'
+            ? props.navigation.navigate('SchoolProfile', {
+                item: {
+                  user_id: item.post_like_user_id,
+                  school_id: item.school_id,
+                },
+              })
+            : item.post_like_user_id != userid
+            ? props.navigation.navigate('UsersProfile', {
+                item: {user_id: item.post_like_user_id},
+              })
+            : props.navigation.navigate('UserProfileScreen', {
+                item: {user_id: item.post_like_user_id},
+              });
+        }}>
+        <Image
+          source={
+            item.profile_pic != null
+              ? {uri: item.profile_pic}
+              : Images.profile_default
+          }
+          style={{height: 40, width: 40, borderRadius: 20}}
+        />
+        <Text style={{marginLeft: 10, fontWeight: '700'}}>
+          {item.post_like_username}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   const toggleModal3 = (item: any) => {
     //setCustomItem(item);
     setModalVisible3(!isModalVisible3);
@@ -2024,41 +2194,124 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               {postDetails.post_like != null &&
                 postDetails.post_like.length > 1 &&
                 postDetails.post_like_count > 0 && (
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text>Liked by </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
-                          ? props.navigation.navigate('SchoolProfile', {
-                              item: {
-                                user_id:
-                                  postDetails.post_like[0].post_like_user_id,
-                                school_id: postDetails.post_like[0].school_id,
-                              },
-                            })
-                          : postDetails.post_like[0].post_like_user_id != userid
-                          ? props.navigation.navigate('UsersProfile', {
-                              item: {
-                                user_id:
-                                  postDetails.post_like[0].post_like_user_id,
-                              },
-                            })
-                          : props.navigation.navigate('UserProfileScreen', {
-                              item: {
-                                user_id:
-                                  postDetails.post_like[0].post_like_user_id,
-                              },
-                            });
-                      }}>
-                      <Text style={styles.boldtext}>
-                        {postDetails.post_like[0].post_like_user_id == userid
-                          ? 'you'
-                          : postDetails.post_like[0].post_like_username}
-                      </Text>
-                    </TouchableOpacity>
-                    <Text style={styles.boldtext}>
-                      {' and ' + (postDetails.post_like.length - 1) + ' Others'}
-                    </Text>
+                  // <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  //   <Text>Liked by </Text>
+                  //   <TouchableOpacity
+                  //     onPress={() => {
+                  //       postDetails.post_like[0].user_role == 'EIREPRESENTATIVE'
+                  //         ? props.navigation.navigate('SchoolProfile', {
+                  //             item: {
+                  //               user_id:
+                  //                 postDetails.post_like[0].post_like_user_id,
+                  //               school_id: postDetails.post_like[0].school_id,
+                  //             },
+                  //           })
+                  //         : postDetails.post_like[0].post_like_user_id != userid
+                  //         ? props.navigation.navigate('UsersProfile', {
+                  //             item: {
+                  //               user_id:
+                  //                 postDetails.post_like[0].post_like_user_id,
+                  //             },
+                  //           })
+                  //         : props.navigation.navigate('UserProfileScreen', {
+                  //             item: {
+                  //               user_id:
+                  //                 postDetails.post_like[0].post_like_user_id,
+                  //             },
+                  //           });
+                  //     }}>
+                  //     <Text style={styles.boldtext}>
+                  //       {postDetails.post_like[0].post_like_user_id == userid
+                  //         ? 'you'
+                  //         : postDetails.post_like[0].post_like_username}
+                  //     </Text>
+                  //   </TouchableOpacity>
+                  //   <Text style={styles.boldtext}>
+                  //     {' and ' + (postDetails.post_like.length - 1) + ' Others'}
+                  //   </Text>
+                  // </View>
+                  <View>
+                    <View style={{flexDirection: 'row'}}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          postDetails.post_like[0].user_role ==
+                          'EIREPRESENTATIVE'
+                            ? props.navigation.navigate('SchoolProfile', {
+                                item: {
+                                  user_id:
+                                    postDetails.post_like[0].post_like_user_id,
+                                  school_id: postDetails.post_like[0].school_id,
+                                },
+                              })
+                            : postDetails.post_like[0].post_like_user_id !=
+                              userid
+                            ? props.navigation.navigate('UsersProfile', {
+                                item: {
+                                  user_id:
+                                    postDetails.post_like[0].post_like_user_id,
+                                },
+                              })
+                            : props.navigation.navigate('UserProfileScreen', {
+                                item: {
+                                  user_id:
+                                    postDetails.post_like[0].post_like_user_id,
+                                },
+                              });
+                        }}>
+                        <Text>
+                          Liked by{' '}
+                          <Text style={styles.boldtext}>
+                            {postDetails.post_like[0].post_like_user_id ==
+                            userid
+                              ? 'you '
+                              : postDetails.post_like[0].post_like_username +
+                                ' '}
+                          </Text>
+                        </Text>
+                      </TouchableOpacity>
+                      <Text>and </Text>
+                      <TouchableOpacity onPress={toggleModal}>
+                        <Text style={styles.boldText}>
+                          {postDetails.post_like.length - 1 + ' Others'}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+
+                    <Modal
+                      isVisible={isModalVisibleLike}
+                      onBackdropPress={toggleModalClose}>
+                      <View
+                        style={{
+                          backgroundColor: 'white',
+                          maxHeight: 350,
+                        }}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            margin: 16,
+                          }}>
+                          <Text style={{fontSize: 18, fontWeight: '700'}}>
+                            Likes
+                          </Text>
+                          <TouchableOpacity
+                            onPress={toggleModalClose}
+                            style={{}}>
+                            <Image
+                              source={Images.closeicon}
+                              style={{height: 18, width: 18}}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <FlatList
+                          data={DATA}
+                          style={{marginBottom: 16}}
+                          renderItem={renderItemLike}
+                          keyExtractor={item => item.id}
+                        />
+                      </View>
+                    </Modal>
                   </View>
                 )}
               <Text style={{fontSize: 12, marginTop: 10}}>
