@@ -109,6 +109,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     item: {id, user_id},
   } = props.route.params;
   // console.log('+++++++', id);
+  const ref = useRef();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [flagId, setFlagId] = useState(id);
@@ -1197,7 +1198,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   const isCarousel = useRef(null);
   const isCarouselText = useRef(null);
 
-  function CrouselImages({item, index, length}) {
+  function CrouselImages({item, index, length, ref}) {
     return (
       <View
         style={{
@@ -1216,7 +1217,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           />
         ) : (
           <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
-            <Video
+            {/* <Video
               key={item + 'sap'}
               //ref={ref}
               videoWidth={screenWidth - 64}
@@ -1233,6 +1234,23 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               //resizeMode="contain"
               //showDuration
               //lockRatio={16 / 9}
+            /> */}
+            <Video
+              ref={ref}
+              style={{}}
+              url={item.post_image}
+              placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+              // rotateToFullScreen={false}
+              hideFullScreenControl={true}
+              inlineOnly={true}
+              lockRatio={16 / 12}
+              resizeMode="contain"
+              autoplay
+              //  theme={theme}
+              // onBackPress={() => this.props.navigation.goBack(null)}
+              //  placeholderStyle={{width: width - 32, height: height / 4}}
+              //on
+              //FullScreen={this.onFullScreen}
             />
           </View>
         )}
@@ -1375,26 +1393,50 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
       ) : (
-        <Video
-          key={item + 'sap'}
-          //ref={ref}
-          videoWidth={screenWidth / 2 - 40}
-          videoHeight={screenWidth / 2 - 40}
+        // <Video
+        //   key={item + 'sap'}
+        //   //ref={ref}
+        //   videoWidth={screenWidth / 2 - 40}
+        //   videoHeight={screenWidth / 2 - 40}
+        //   style={{
+        //     backgroundColor: '#d2d2d2',
+        //     alignSelf: 'center',
+        //     height: screenWidth / 2 - 40,
+        //     width: screenWidth / 2 - 40,
+        //   }}
+        //   video={{
+        //     uri: item.post_gallery[0].post_image,
+        //   }}
+        //   // video={{ uri: coursepreview }}
+        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+        //   //resizeMode="contain"
+        //   //showDuration
+        //   //lockRatio={16 / 9}
+        // />
+        <View
           style={{
-            backgroundColor: '#d2d2d2',
-            alignSelf: 'center',
-            height: screenWidth / 2 - 40,
             width: screenWidth / 2 - 40,
-          }}
-          video={{
-            uri: item.post_gallery[0].post_image,
-          }}
-          // video={{ uri: coursepreview }}
-          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          //resizeMode="contain"
-          //showDuration
-          //lockRatio={16 / 9}
-        />
+            height: screenWidth / 2 - 40,
+            backgroundColor: 'red',
+          }}>
+          <Video
+            // ref={ref}
+            style={{width: screenWidth / 2 - 40, height: screenWidth / 2 - 40}}
+            url={item.post_gallery[0].post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 12}
+            resizeMode="contain"
+            autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //on
+            //FullScreen={this.onFullScreen}
+          />
+        </View>
       )}
     </TouchableOpacity>
   );
@@ -1577,6 +1619,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         item={item}
                         index={index}
                         length={postDetails.post_gallery.length}
+                        ref={ref}
                       />
                     )}
                     sliderWidth={screenWidth - 32}

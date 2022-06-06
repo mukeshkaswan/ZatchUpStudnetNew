@@ -95,6 +95,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const {
     item: {user_id},
   } = props.route.params;
+  const ref = useRef();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [data, active_data] = useState('thData');
@@ -1072,6 +1073,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                             data={data}
                             goToNavigate={GoToNavigate}
                             items={items}
+                            ref={ref}
                           />
                         )}
                         sliderWidth={screenWidth - 16}
@@ -1145,6 +1147,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     data={data}
                     props={props}
                     goToNav={GoToNavigate}
+                    ref={ref}
                   />
                 );
               }}
@@ -1240,7 +1243,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({items, item, index, length, data, goToNavigate}) {
+function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
   //console.log('item', item);
 
   const gotoNavigate = () => {
@@ -1253,7 +1256,7 @@ function CrouselImages({items, item, index, length, data, goToNavigate}) {
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        backgroundColor: 'red',
+        // backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 16 : 56,
         width: !(data === 'Image') ? screenWidth : screenWidth - 32,
         height: !(data === 'Image') ? screenWidth : screenWidth - 32,
@@ -1270,26 +1273,49 @@ function CrouselImages({items, item, index, length, data, goToNavigate}) {
           }}
         />
       ) : (
-        <Video
-          key={item + 'sap'}
-          //ref={ref}
-          videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
-          videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        // <Video
+        //   key={item + 'sap'}
+        //   //ref={ref}
+        //   videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        //   videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        //   style={{
+        //     backgroundColor: '#d2d2d2',
+        //     alignSelf: 'center',
+        //     width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        //     height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        //   }}
+        //   video={{
+        //     uri: item.post_image,
+        //   }}
+        //   // video={{ uri: coursepreview }}
+        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+        //   //resizeMode="contain"
+        //   //showDuration
+        //   //lockRatio={16 / 9}
+        // />
+        <View
           style={{
-            backgroundColor: '#d2d2d2',
-            alignSelf: 'center',
             width: !(data === 'Image') ? screenWidth : screenWidth - 32,
             height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          }}
-          video={{
-            uri: item.post_image,
-          }}
-          // video={{ uri: coursepreview }}
-          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          //resizeMode="contain"
-          //showDuration
-          //lockRatio={16 / 9}
-        />
+          }}>
+          <Video
+            ref={ref}
+            style={{}}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 12}
+            resizeMode="contain"
+            autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //on
+            //FullScreen={this.onFullScreen}
+          />
+        </View>
       )}
       {length > 1 && (
         <Text

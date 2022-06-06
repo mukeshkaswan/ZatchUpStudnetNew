@@ -59,6 +59,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     item: {school_id, user_id},
   } = props.route.params;
   console.log('school_id=====>>user_id', school_id);
+  const ref = useRef();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -1174,6 +1175,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                           data={data}
                           goToNavigate={GoToNavigate}
                           items={items}
+                          ref={ref}
                         />
                       )}
                       sliderWidth={screenWidth + 16}
@@ -1245,331 +1247,8 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     parts={parts}
                     lenCap={lenCap}
                     goToNav={GoToNavigate}
+                    ref={ref}
                   />
-                  // <CardView
-                  //   cardElevation={5}
-                  //   cardMaxElevation={5}
-                  //   // cornerRadius={15}
-                  //   style={{
-                  //     // padding: 16,
-                  //     backgroundColor: 'white',
-                  //     marginHorizontal: 15,
-                  //     marginTop: 10,
-                  //     paddingBottom: 14,
-                  //     paddingTop: 10,
-                  //     marginBottom: 5,
-                  //   }}>
-                  //   <View style={styles.rowContainer1}>
-                  //     <TouchableOpacity
-                  //     // onPress={() => {
-                  //     //   props.navigation.navigate('UsersProfile', {item});
-                  //     // }}
-                  //     >
-                  //       <View
-                  //         style={{flexDirection: 'row', alignItems: 'center'}}>
-                  //         <Image
-                  //           source={
-                  //             item.profile_pic != null
-                  //               ? {uri: item.profile_pic}
-                  //               : require('../../../../../assets/images/pic.jpeg')
-                  //           }
-                  //           style={styles.profilepic1}
-                  //         />
-                  //         <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
-                  //           {item.full_name}
-                  //         </Text>
-                  //       </View>
-                  //     </TouchableOpacity>
-                  //     <TouchableOpacity onPress={() => toggleModal3(item)}>
-                  //       <Image
-                  //         source={require('../../../../../assets/images/dot.png')}
-                  //         style={{height: 18, width: 18}}
-                  //       />
-                  //     </TouchableOpacity>
-                  //   </View>
-                  //   {/* <View style={{paddingHorizontal: 16, marginTop: 10}}>
-                  //     <Image source={item.src} style={{width: '100%'}} />
-                  //   </View> */}
-                  //   {schoolDetail != '' && item.post_gallery != null ? (
-                  //     <>
-                  //       <Carousel
-                  //         // layout={'tinder'}
-                  //         ref={isCarousel}
-                  //         data={item.post_gallery}
-                  //         renderItem={({item, index}) => (
-                  //           <CrouselImages
-                  //             item={item}
-                  //             index={index}
-                  //             length={len}
-                  //             data={data}
-                  //           />
-                  //         )}
-                  //         sliderWidth={SLIDER_WIDTH}
-                  //         itemWidth={ITEM_WIDTH}
-                  //         onSnapToItem={index => setIndex(index)}
-                  //       />
-                  //     </>
-                  //   ) : (
-                  //     <Carousel
-                  //       // layout={'tinder'}
-                  //       ref={isCarouselText}
-                  //       data={parts}
-                  //       renderItem={({item, index}) => (
-                  //         <CrouselText
-                  //           item={item}
-                  //           index={index}
-                  //           length={lenCap}
-                  //           data={data}
-                  //         />
-                  //       )}
-                  //       sliderWidth={SLIDER_WIDTH}
-                  //       itemWidth={ITEM_WIDTH}
-                  //       onSnapToItem={index => setIndex(index)}
-                  //     />
-                  //   )}
-                  //   <View style={styles.likecommentContainer}>
-                  //     <TouchableOpacity onPress={() => gotoLikeUnLike(item)}>
-                  //       <Icon
-                  //         name="thumbs-up"
-                  //         size={15}
-                  //         color={item.like ? 'red' : 'grey'}
-                  //         style={{marginLeft: 5}}
-                  //       />
-                  //     </TouchableOpacity>
-                  //     <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
-                  //       <Icon
-                  //         name="comment"
-                  //         color="grey"
-                  //         size={15}
-                  //         style={{marginLeft: 5}}
-                  //       />
-                  //     </TouchableOpacity>
-                  //   </View>
-
-                  //   {/* reply comment Section */}
-                  //   <View
-                  //     style={{
-                  //       marginLeft: 6,
-                  //       paddingHorizontal: 16,
-                  //       paddingVertical: 10,
-                  //     }}>
-                  //     {schoolDetail != '' &&
-                  //     item.post_like != null &&
-                  //     item.post_like.length == 1 &&
-                  //     item.post_like[0].post_like_username == 'username' &&
-                  //     item.post_like_count > 0 ? (
-                  //       <TouchableOpacity
-                  //         onPress={() => {
-                  //           item.user_role == 'EIREPRESENTATIVE'
-                  //             ? props.navigation.navigate('SchoolProfile', {
-                  //                 item: items,
-                  //               })
-                  //             : item.user_id != 'userid'
-                  //             ? props.navigation.navigate('UsersProfile', {
-                  //                 item: items,
-                  //               })
-                  //             : props.navigation.navigate('UserProfileScreen', {
-                  //                 item: items,
-                  //               });
-                  //         }}>
-                  //         <Text>
-                  //           Liked by
-                  //           <Text style={styles.boldText}> You</Text>
-                  //         </Text>
-                  //       </TouchableOpacity>
-                  //     ) : (
-                  //       <TouchableOpacity
-                  //         onPress={() => {
-                  //           item.user_role == 'EIREPRESENTATIVE'
-                  //             ? props.navigation.navigate('SchoolProfile', {
-                  //                 item: items,
-                  //               })
-                  //             : item.user_id != 'userid'
-                  //             ? props.navigation.navigate('UsersProfile', {
-                  //                 item: items,
-                  //               })
-                  //             : props.navigation.navigate('UserProfileScreen', {
-                  //                 item: items,
-                  //               });
-                  //         }}>
-                  //         {item.post_like != null &&
-                  //           item.post_like.length == 1 &&
-                  //           item.post_like_count > 0 && (
-                  //             <Text>
-                  //               Liked by
-                  //               <Text style={styles.boldText}>
-                  //                 {' '}
-                  //                 {item.post_like[0].post_like_username}
-                  //               </Text>
-                  //             </Text>
-                  //           )}
-                  //       </TouchableOpacity>
-                  //     )}
-                  //     {schoolDetail != '' &&
-                  //       item.post_like != null &&
-                  //       item.post_like.length >= 2 && (
-                  //         <TouchableOpacity
-                  //           onPress={() => {
-                  //             item.user_role == 'EIREPRESENTATIVE'
-                  //               ? props.navigation.navigate('SchoolProfile', {
-                  //                   item: items,
-                  //                 })
-                  //               : item.user_id != 'userid'
-                  //               ? props.navigation.navigate('UsersProfile', {
-                  //                   item: items,
-                  //                 })
-                  //               : props.navigation.navigate(
-                  //                   'UserProfileScreen',
-                  //                   {
-                  //                     item: items,
-                  //                   },
-                  //                 );
-                  //           }}>
-                  //           <Text>
-                  //             Liked by
-                  //             <Text style={styles.boldText}>
-                  //               {' ' +
-                  //                 item.post_like[0].post_like_username +
-                  //                 ' '}
-                  //             </Text>
-                  //             and{' '}
-                  //             <Text style={styles.boldText}>
-                  //               {item.post_like.length - 1 + ' Others'}
-                  //             </Text>
-                  //           </Text>
-                  //         </TouchableOpacity>
-                  //       )}
-
-                  //     {item.full_name != null && item.post_gallery != null && (
-                  //       <Text
-                  //         style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
-                  //         {item.full_name}
-                  //       </Text>
-                  //     )}
-                  //     {item.caption != null && item.post_gallery != null && (
-                  //       <Text>{item.caption}</Text>
-                  //     )}
-                  //     {schoolDetail != '' &&
-                  //       item.comment_post != null &&
-                  //       item.comment_post.map((item, index) => {
-                  //         if (index <= 2 && item.comment != '') {
-                  //           return (
-                  //             <View key={item + 'sap' + index}>
-                  //               <View style={styles.messageContainer}>
-                  //                 <View style={{flexDirection: 'row', flex: 1}}>
-                  //                   <TouchableOpacity
-                  //                     onPress={() => {
-                  //                       item.user_role == 'EIREPRESENTATIVE'
-                  //                         ? props.navigation.navigate(
-                  //                             'SchoolProfile',
-                  //                             {
-                  //                               item: items,
-                  //                             },
-                  //                           )
-                  //                         : item.user_id != 'userid'
-                  //                         ? props.navigation.navigate(
-                  //                             'UsersProfile',
-                  //                             {
-                  //                               item: items,
-                  //                             },
-                  //                           )
-                  //                         : props.navigation.navigate(
-                  //                             'UserProfileScreen',
-                  //                             {
-                  //                               item: items,
-                  //                             },
-                  //                           );
-                  //                     }}>
-                  //                     <Text
-                  //                       style={{fontWeight: 'bold', flex: 1}}>
-                  //                       {item.comment_username}
-                  //                     </Text>
-                  //                   </TouchableOpacity>
-                  //                   <Text
-                  //                     style={{marginLeft: 5, flex: 2}}
-                  //                     numberOfLines={item.showMore ? 0 : 1}>
-                  //                     {item.comment}
-                  //                   </Text>
-                  //                 </View>
-                  //                 <View
-                  //                   style={{
-                  //                     flexDirection: 'row',
-                  //                   }}>
-                  //                   <TouchableOpacity
-                  //                     onPress={() => gotoCommentLike(item)}>
-                  //                     <Icon
-                  //                       name="thumbs-up"
-                  //                       size={15}
-                  //                       color={
-                  //                         item.likes_status ? 'red' : 'grey'
-                  //                       }
-                  //                       style={{marginLeft: 5}}
-                  //                     />
-                  //                   </TouchableOpacity>
-                  //                 </View>
-                  //               </View>
-                  //               {item.comment.length > 50 && (
-                  //                 <TouchableOpacity
-                  //                   onPress={() => gotoShowMore(ind, index)}>
-                  //                   <Text>
-                  //                     {item.showMore
-                  //                       ? '[Show Less]'
-                  //                       : '[Show More]'}
-                  //                   </Text>
-                  //                 </TouchableOpacity>
-                  //               )}
-                  //             </View>
-                  //           );
-                  //         }
-                  //       })}
-                  //     {/*end of reply comment Section */}
-                  //     {item.total_comment >= 3 && (
-                  //       <TouchableOpacity
-                  //         onPress={() => {
-                  //           props.navigation.navigate('PostDetailScreen', {
-                  //             item,
-                  //           });
-                  //         }}>
-                  //         <Text style={{fontSize: 12, marginTop: 10}}>
-                  //           VIEW ALL {item.total_comment} COMMENTS
-                  //         </Text>
-                  //       </TouchableOpacity>
-                  //     )}
-                  //     <Text style={{fontSize: 12, marginTop: 10}}>
-                  //       {item.post_created_on.toUpperCase()}
-                  //     </Text>
-                  //   </View>
-                  //   {item.commentToggle == true ? (
-                  //     <View>
-                  //       <View style={styles.border}></View>
-                  //       <View style={styles.rowContainer2}>
-                  //         <TextInput
-                  //           style={{
-                  //             width: screenWidth - 120,
-                  //           }}
-                  //           placeholder="Add a comment"
-                  //           value={commentValue}
-                  //           onChangeText={setComment}
-                  //           multiline={true}
-                  //         />
-                  //         <View
-                  //           style={{
-                  //             alignSelf: 'flex-end',
-                  //             marginBottom: 5,
-                  //             marginLeft: 5,
-                  //           }}>
-                  //           <TouchableOpacity
-                  //             style={styles.postbtn}
-                  //             onPress={() => gotoComment(item)}>
-                  //             <Text style={{color: 'white'}}>Post</Text>
-                  //           </TouchableOpacity>
-                  //         </View>
-                  //       </View>
-                  //     </View>
-                  //   ) : (
-                  //     <View></View>
-                  //   )}
-                  // </CardView>
                 );
               }}
               //  ItemSeparatorComponent={renderIndicator}
@@ -1800,7 +1479,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   );
 };
 
-function CrouselImages({items, goToNavigate, item, index, length, data}) {
+function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };
@@ -1828,26 +1507,49 @@ function CrouselImages({items, goToNavigate, item, index, length, data}) {
           }}
         />
       ) : (
-        <Video
-          key={item + 'sap'}
-          //ref={ref}
-          videoWidth={!(data === 'Image') ? screenWidth : screenWidth}
-          videoHeight={!(data === 'Image') ? screenWidth : screenWidth}
+        // <Video
+        //   key={item + 'sap'}
+        //   //ref={ref}
+        //   videoWidth={!(data === 'Image') ? screenWidth : screenWidth}
+        //   videoHeight={!(data === 'Image') ? screenWidth : screenWidth}
+        //   style={{
+        //     backgroundColor: '#d2d2d2',
+        //     alignSelf: 'center',
+        //     width: !(data === 'Image') ? screenWidth : screenWidth,
+        //     height: !(data === 'Image') ? screenWidth : screenWidth,
+        //   }}
+        //   video={{
+        //     uri: item.post_image,
+        //   }}
+        //   // video={{ uri: coursepreview }}
+        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+        //   //resizeMode="contain"
+        //   //showDuration
+        //   //lockRatio={16 / 9}
+        // />
+        <View
           style={{
-            backgroundColor: '#d2d2d2',
-            alignSelf: 'center',
-            width: !(data === 'Image') ? screenWidth : screenWidth,
-            height: !(data === 'Image') ? screenWidth : screenWidth,
-          }}
-          video={{
-            uri: item.post_image,
-          }}
-          // video={{ uri: coursepreview }}
-          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          //resizeMode="contain"
-          //showDuration
-          //lockRatio={16 / 9}
-        />
+            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+          }}>
+          <Video
+            ref={ref}
+            style={{}}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 12}
+            resizeMode="contain"
+            autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //on
+            //FullScreen={this.onFullScreen}
+          />
+        </View>
       )}
       {length > 1 && (
         <Text

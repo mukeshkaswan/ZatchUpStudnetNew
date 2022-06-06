@@ -75,6 +75,7 @@ function RenderItem({
   isCarousel,
   data,
   goToNav,
+  ref,
 }) {
   const [indexx, setIndex] = useState(0);
   const dispatch = useDispatch();
@@ -312,6 +313,7 @@ function RenderItem({
                 data={data}
                 items={items}
                 gotoNav={gotoNav}
+                ref={ref}
               />
             )}
             sliderWidth={screenWidth}
@@ -641,7 +643,7 @@ function RenderItem({
   );
 }
 
-function CrouselImages({items, gotoNav, item, index, length, data}) {
+function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
   const gotoNavigate = () => {
     gotoNav && gotoNav(items);
   };
@@ -667,26 +669,49 @@ function CrouselImages({items, gotoNav, item, index, length, data}) {
           }}
         />
       ) : (
-        <Video
-          key={item + 'sap'}
-          //ref={ref}
-          videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
-          videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        // <Video
+        //   key={item + 'sap'}
+        //   //ref={ref}
+        //   videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        //   videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
+        //   style={{
+        //     backgroundColor: '#d2d2d2',
+        //     alignSelf: 'center',
+        //     width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        //     height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        //   }}
+        //   video={{
+        //     uri: item.post_image,
+        //   }}
+        //   // video={{ uri: coursepreview }}
+        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+        //   //resizeMode="contain"
+        //   //showDuration
+        //   //lockRatio={16 / 9}
+        // />
+        <View
           style={{
-            backgroundColor: '#d2d2d2',
-            alignSelf: 'center',
             width: !(data === 'Image') ? screenWidth : screenWidth - 32,
             height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          }}
-          video={{
-            uri: item.post_image,
-          }}
-          // video={{ uri: coursepreview }}
-          thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          //resizeMode="contain"
-          //showDuration
-          //lockRatio={16 / 9}
-        />
+          }}>
+          <Video
+            ref={ref}
+            style={{}}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 12}
+            resizeMode="contain"
+            autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //on
+            //FullScreen={this.onFullScreen}
+          />
+        </View>
       )}
       {length > 1 && (
         <Text
