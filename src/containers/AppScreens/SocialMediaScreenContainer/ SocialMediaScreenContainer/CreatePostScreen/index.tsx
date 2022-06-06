@@ -1,4 +1,4 @@
-import React, {Component, FC, useEffect, useState} from 'react';
+import React, {Component, FC, useEffect, useState, useRef} from 'react';
 import {
   Text,
   View,
@@ -18,6 +18,7 @@ import {Images, Colors} from '../../../../../components/index';
 //import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import {
   TextField,
   CustomButton,
@@ -62,12 +63,14 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
 
   const [Caption, addCaption] = useState('');
   const isFocused = useIsFocused();
+  const refRBSheet = useRef();
 
   const [frontimage, setImageFront] = useState();
   const [picdata, setpicdata] = useState([]);
   const [userid, setUserid] = useState('');
   const [username, setUsername] = useState('');
   const [userProfilePic, setUserProfilePic] = useState('');
+  const [frontimages, setImageURI] = useState('');
 
   const [pic] = useState([]);
 
@@ -135,6 +138,161 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         },
       }),
     );
+  };
+
+  const OpenImages = async () => {
+    if (picdata.length == 5) {
+      Toast.show("You can't upload more than 5 images/videos");
+      return;
+    }
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    let image = await ImagePicker.openPicker({
+      mediaType: 'photo',
+      width: 400,
+      height: 400,
+      cropping: true,
+    });
+    image.type = image.mime;
+    image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
+    image.uri = image.path;
+    var formData = new FormData();
+    formData.append('folder_name', 'lecture_upload');
+    formData.append('myFile', {
+      name: image.name,
+      type: image.type,
+      uri:
+        Platform.OS === 'android'
+          ? image.uri
+          : image.uri.replace('file://', ''),
+    });
+    console.log(JSON.stringify(formData));
+    setLoading(true);
+    axios({
+      url: 'https://apis.zatchup.com:2000/api/uploadFile',
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(({data}) => {
+        setLoading(false);
+        console.log('res===>>>>>>>' + JSON.stringify(data));
+        // return;
+        // let data = JSON.stringify(response.data);
+        // console.log('data=>>>>', JSON.stringify(response.data));
+        if (data.status) {
+          console.log(data.message);
+          let p = {};
+          p.uri = data.location;
+          p.type = image.mime;
+          pic.push(p);
+
+          setpicdata(pic);
+
+          setImageFront({
+            name: image.name,
+            fileName: image.name,
+            type: image.type,
+            uri:
+              Platform.OS === 'android'
+                ? image.uri
+                : image.uri.replace('file://', ''),
+          });
+        }
+      })
+      .catch(err => {
+        console.log(`error: ${JSON.stringify(err)}`);
+      });
+
+    refRBSheet.current.close();
+  };
+
+  const openVideos = async () => {
+    if (picdata.length == 5) {
+      Toast.show("You can't upload more than 5 images/videos");
+      return;
+    }
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+    let image = await ImagePicker.openPicker({
+      mediaType: 'video',
+    });
+    image.type = image.mime;
+    image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
+    image.uri = image.path;
+    var formData = new FormData();
+    formData.append('folder_name', 'lecture_upload');
+    formData.append('myFile', {
+      name: image.name,
+      type: image.type,
+      uri:
+        Platform.OS === 'android'
+          ? image.uri
+          : image.uri.replace('file://', ''),
+    });
+    console.log(JSON.stringify(formData));
+    setLoading(true);
+    axios({
+      url: 'https://apis.zatchup.com:2000/api/uploadFile',
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(({data}) => {
+        setLoading(false);
+        console.log('res===>>>>>>>' + JSON.stringify(data));
+        // return;
+        // let data = JSON.stringify(response.data);
+        // console.log('data=>>>>', JSON.stringify(response.data));
+        if (data.status) {
+          console.log(data.message);
+          let p = {};
+          p.uri = data.location;
+          p.type = image.mime;
+          pic.push(p);
+
+          setpicdata(pic);
+
+          setImageFront({
+            name: image.name,
+            fileName: image.name,
+            type: image.type,
+            uri:
+              Platform.OS === 'android'
+                ? image.uri
+                : image.uri.replace('file://', ''),
+          });
+        }
+      })
+      .catch(err => {
+        console.log(`error: ${JSON.stringify(err)}`);
+      });
+
+    refRBSheet.current.close();
   };
 
   const onPressAddpost = async () => {
@@ -283,7 +441,14 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
   const _renderItem = ({item, index}) => {
     console.log('Item==>>>>', item);
     return (
-      <View style={{}}>
+      <View
+        style={{
+          width: screenWidth / 3 - 21,
+          height: screenWidth / 3 - 21,
+          marginTop: 10,
+          marginLeft: 16,
+          marginBottom: 16,
+        }}>
         {item.type == 'video/mp4' ? (
           <Video
             key={item + 'sap'}
@@ -295,7 +460,9 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               alignSelf: 'center',
               borderRadius: 8,
               marginTop: 16,
-              marginStart: 16,
+
+              //  marginStart: 16,
+
               width: screenWidth / 3 - 21,
               height: screenWidth / 3 - 21,
             }}
@@ -322,7 +489,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               resizeMode: 'contain',
               borderRadius: 8,
               marginTop: 16,
-              marginStart: 16,
+              //marginStart: 16,
             }}
           />
         )}
@@ -419,6 +586,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         {picdata.length > 0 && (
           <FlatList
             style={{flex: 1}}
+            //contentContainerStyle={{alignItems: 'center'}}
             data={picdata}
             numColumns={3}
             renderItem={_renderItem}
@@ -428,7 +596,8 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
 
         {picdata.length == 0 && (
           <TouchableOpacity
-            onPress={() => getImageFrontGallery()}
+            //onPress={() => getImageFrontGallery()}
+            onPress={() => refRBSheet.current.open()}
             style={{
               backgroundColor: '#4B2A6A',
               height: screenWidth / 3 - 21,
@@ -446,7 +615,9 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
 
         {picdata.length > 0 && (
           <TouchableOpacity
-            onPress={() => getImageFrontGallery()}
+            //onPress={() => getImageFrontGallery()}
+            //onPress={getImage}
+            onPress={() => refRBSheet.current.open()}
             style={{
               backgroundColor: '#4B2A6A',
               height: screenWidth / 3 - 21,
@@ -471,6 +642,56 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         )}
 
         {isLoading && renderIndicator()}
+
+        <RBSheet
+          ref={refRBSheet}
+          // closeOnDragDown={true}
+          //closeOnPressMask={false}
+          height={190}
+          nabledGestureInteraction={true}
+          enabledContentTapInteraction={false}
+          closeOnDragDown={true}
+          closeOnPressMask={false}
+          //  openDuration={10}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignContent: 'space-around',
+              //alignItems: 'stretch',
+              //marginTop: 10
+            }}>
+            {/* <TouchableOpacity
+              onPress={() => OpenCamera()}
+              style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+              <Text style={{color: '#000', fontSize: 17}}>{'Open Camera'}</Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() => OpenImages()}
+              style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+              <Text style={{color: '#000', fontSize: 17}}>{'Open Images'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => openVideos()}
+              style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+              <Text style={{color: '#000', fontSize: 17}}>{'Open Videos'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => refRBSheet.current.close()}
+              style={{padding: 15, backgroundColor: '#4B2A6A'}}>
+              <Text style={{color: '#FFFFFF', fontSize: 17}}>{'Cancel'}</Text>
+            </TouchableOpacity>
+          </View>
+        </RBSheet>
       </KeyboardAwareScrollView>
     </View>
   );

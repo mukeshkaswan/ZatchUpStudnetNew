@@ -52,6 +52,7 @@ function RenderItem({
   item,
   index,
   props,
+  ref,
 }) {
   const [indexx, setIndex] = useState(0);
   const [commentValue, setComment] = useState('');
@@ -289,7 +290,7 @@ function RenderItem({
             ref={isCarousel}
             data={item.post_gallery}
             renderItem={({item, index}) => (
-              <CrouselImages item={item} index={index} length={len} />
+              <CrouselImages item={item} index={index} length={len} ref={ref} />
             )}
             sliderWidth={screenWidth - 32}
             itemWidth={screenWidth - 32}
@@ -662,7 +663,7 @@ function CrouselImages({item, index, length, ref}) {
       ) : (
         // <Text>kamal</Text>
         <View style={{width: screenWidth - 64, height: screenWidth - 64}}>
-          <Video
+          {/* <Video
             key={item + 'sap'}
             ref={ref}
             videoWidth={screenWidth - 64}
@@ -676,9 +677,28 @@ function CrouselImages({item, index, length, ref}) {
             }}
             // video={{ uri: coursepreview }}
             thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-            //resizeMode="contain"
-            //showDuration
-            //lockRatio={16 / 9}
+            // customStyles={{
+            //   seekBar: {
+            //     opacity: 0,
+            //   },
+            // }}
+            disableSeek={false}
+          /> */}
+          <Video
+            ref={ref}
+            style={{}}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 12}
+            resizeMode="contain"
+            autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //onFullScreen={this.onFullScreen}
           />
         </View>
       )}

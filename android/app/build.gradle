@@ -214,6 +214,8 @@ dependencies {
     implementation project(':react-native-linear-gradient')
 
     implementation project(':react-native-splash-screen')
+
+    compile project(':react-native-keep-awake')
   //  implementation project(':@react-native-community_picker')
 
 

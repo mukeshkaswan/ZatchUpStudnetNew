@@ -35,6 +35,8 @@ target 'ZatchUp' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'react-native-keep-awake', :path => '../node_modules/react-native-keep-awake'
+
   target 'ZatchUpTests' do
     inherit! :complete
     # Pods for testing

@@ -1553,6 +1553,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   item={item}
                   index={index}
                   props={props}
+                  ref={ref}
                 />
               );
             }}
