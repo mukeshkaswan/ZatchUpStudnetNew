@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
 import styles from './styles';
@@ -532,6 +533,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <CustomStatusBar />
       <CustomHeader
@@ -694,6 +696,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
         </RBSheet>
       </KeyboardAwareScrollView>
     </View>
+    </SafeAreaView>
   );
 };
 

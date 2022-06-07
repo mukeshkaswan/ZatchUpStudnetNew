@@ -9,6 +9,7 @@ import {
   Alert,
   Dimensions,
   SectionList,
+  SafeAreaView
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -222,6 +223,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
   );
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <HeaderTitleWithBack
         navigation={props.navigation}
@@ -283,6 +285,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
         <View />
       )}
     </View>
+    </SafeAreaView>
   );
 };
 

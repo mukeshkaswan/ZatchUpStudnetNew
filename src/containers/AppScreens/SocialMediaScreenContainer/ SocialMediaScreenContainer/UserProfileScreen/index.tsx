@@ -707,6 +707,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <HeaderTitleWithBack
         navigation={props.navigation}
@@ -1240,6 +1241,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
         </View>
       </Modal>
     </View>
+    </SafeAreaView>
   );
 };
 

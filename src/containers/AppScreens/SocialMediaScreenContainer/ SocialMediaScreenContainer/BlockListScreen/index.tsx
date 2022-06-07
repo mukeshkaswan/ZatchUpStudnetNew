@@ -9,6 +9,7 @@ import {
   Alert,
   TextInput,
   Keyboard,
+  SafeAreaView
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -244,6 +245,7 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <CustomStatusBar />
       <CustomHeader
@@ -302,6 +304,7 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
         )}
       />
     </View>
+    </SafeAreaView>
   );
 };
 

@@ -8,6 +8,7 @@ import {
   BackHandler,
   Alert,
   Dimensions,
+  SafeAreaView
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -232,6 +233,7 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <HeaderTitleWithBack
         navigation={props.navigation}
@@ -258,6 +260,7 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
         keyExtractor={(item, index) => item.name + 'Sap' + index}
       />
     </View>
+    </SafeAreaView>
   );
 };
 

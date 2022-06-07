@@ -9,6 +9,7 @@ import {
   Alert,
   Keyboard,
   TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -382,6 +383,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <CustomStatusBar />
       <CustomHeader
@@ -595,6 +597,7 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
         </View>
       </Modal>
     </View>
+    </SafeAreaView>
   );
 };
 

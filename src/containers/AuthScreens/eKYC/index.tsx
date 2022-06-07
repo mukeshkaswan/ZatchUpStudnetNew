@@ -9,7 +9,7 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
-  BackHandler,
+  BackHandler,  
   Alert,
 } from 'react-native';
 import styles from './style';

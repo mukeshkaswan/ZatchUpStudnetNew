@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Alert,
   Keyboard,
+  SafeAreaView
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -1592,6 +1593,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       {isLoading && renderIndicator()}
       <CustomStatusBar />
@@ -2581,6 +2583,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         </View>
       </Modal>
     </View>
+    </SafeAreaView>
   );
 };
 

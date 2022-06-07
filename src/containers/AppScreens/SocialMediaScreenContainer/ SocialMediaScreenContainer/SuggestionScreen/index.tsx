@@ -8,6 +8,7 @@ import {
   BackHandler,
   Alert,
   Dimensions,
+  SafeAreaView
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -223,6 +224,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <HeaderTitleWithBack
         navigation={props.navigation}
@@ -251,6 +253,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
         />
       )}
     </View>
+    </SafeAreaView>
   );
 };
 

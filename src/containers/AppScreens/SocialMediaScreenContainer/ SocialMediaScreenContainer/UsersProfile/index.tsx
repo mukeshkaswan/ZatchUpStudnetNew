@@ -11,7 +11,7 @@ import {
   Keyboard,
   Alert,
   Dimensions,
-  TextInput,
+  SafeAreaView,
 } from 'react-native';
 import {
   TextField,
@@ -35,7 +35,6 @@ import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
 import images from '../../../../../components/images';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
@@ -1077,6 +1076,7 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <HeaderTitleWithBack
         navigation={props.navigation}
@@ -1860,6 +1860,7 @@ const UsersProfile = (props: UserProfileProps) => {
         </View>
       </Modal>
     </View>
+    </SafeAreaView>
   );
 };
 

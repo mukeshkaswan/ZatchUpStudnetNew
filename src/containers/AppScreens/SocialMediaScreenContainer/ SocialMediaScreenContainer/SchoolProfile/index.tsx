@@ -868,6 +868,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       {isLoading && renderIndicator()}
       <HeaderTitleWithBack
@@ -1476,6 +1477,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
         </View>
       </Modal>
     </View>
+    </SafeAreaView>
   );
 };
 
