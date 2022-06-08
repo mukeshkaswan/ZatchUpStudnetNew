@@ -68,6 +68,7 @@ import {
   KYCEiRequestMultiple,
   SchoolListScreen,
   ChatTeacherScreen,
+  SeeAllResults
 } from '../../containers';
 const Stack = createStackNavigator();
 import Splash from '..//../containers/AuthScreens/Splash';
@@ -96,406 +97,413 @@ function AuthStack() {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPassword}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
-      <Stack.Screen name="Otp" component={Otp} options={{header: () => null}} />
+      <Stack.Screen name="Otp" component={Otp} options={{ header: () => null }} />
 
       <Stack.Screen
         name="eKYC"
         component={eKYC}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="SearchSchoolDetail"
         component={SearchSchoolDetail}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="eKycSuccess"
         component={eKycSuccess}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="EIInformation"
         component={EIInformation}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="EiInfoSave"
         component={EiInfoSave}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="Approval"
         component={Approval}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="SelectStudent"
         component={SelectStudent}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="CurrentSchoolinfo"
         component={CurrentSchoolinfo}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="Onboarded"
         component={Onboarded}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="EducationProfile"
         component={EducationProfile}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="EIconfirmation"
         component={EIconfirmation}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="AddCourseDetailsOthers"
         component={AddCourseDetailsOthers}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="AddMoreCourseDetailsOthers"
         component={AddMoreCourseDetailsOthers}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="OtpForgot"
         component={OtpForgot}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="Personalinfo"
         component={Personalinfo}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="OtpLogin"
         component={OtpLogin}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="AlumniNo"
         component={AlumniNo}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="MySchoolScreen"
         component={MySchoolScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="CoomingSoon"
         component={DrawerNav}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="Splash"
         component={Splash}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="EducationProfileEdit"
         component={EducationProfileEdit}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="AlumniNoEdit"
         component={AlumniNoEdit}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="Messages"
         component={Messages}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="ResetPassword"
         component={ResetPassword}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="ContactUs"
         component={ContactUs}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="Notifications"
         component={Notifications}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
+
+      <Stack.Screen
+        name="SeeAllResults"
+        component={SeeAllResults}
+        options={{ header: () => null }}
+      />
+
       <Stack.Screen
         name="TeacherMessageChat"
         component={TeacherMessageChat}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="Reminders"
         component={Reminders}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ZatchupStarClassScreen"
         component={ZatchupStarClassScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="StarClassRequestScreen"
         component={StarClassRequestScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="EducationProfileScreen"
         component={EducationProfileScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="PendingRequestScreen"
         component={PendingRequestScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ChatWithTeachersScreen"
         component={ChatWithTeachersScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SettingScreen"
         component={SettingScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="PrivacyPolicy"
         component={PrivacyPolicy}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ReminderTitleScreen"
         component={ReminderTitleScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="AboutusScreen"
         component={AboutusScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="CoursesPendingScreen"
         component={CoursesPendingScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="CoursesListScreen"
         component={CoursesListScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="CoursePreviewScreen"
         component={CoursePreviewScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="PlayHistoryScreen"
         component={PlayHistoryScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="LectureDetailsScreen"
         component={LectureDetailsScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="WorkDetailsScreen"
         component={WorkDetailsScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="AddSchoolScreen"
         component={AddSchoolScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="StudentEducationScreen"
         component={SchoolDetailScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SchoolConfirmationScreen"
         component={SchoolConfirmationScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="EditCourseScreen"
         component={EditCourseScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="AddCourseDetailsOthersEdit"
         component={AddCourseDetailsOthersEdit}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="GetVerifyWebView"
         component={GetVerifyWebView}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="SingleChatWebView"
         component={SingleChatWebView}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SIngleChatWithTeacherWebView"
         component={SIngleChatWithTeacherWebView}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SelectStudentFromLogin"
         component={SelectStudentFromLogin}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="Comming"
         component={Comming}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="KYCEiRequestSingle"
         component={KYCEiRequestSingle}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
 
       <Stack.Screen
         name="KYCEiRequestMultiple"
         component={KYCEiRequestMultiple}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SchoolListScreen"
         component={SchoolListScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="ChatTeacherScreen"
         component={ChatTeacherScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="PostDetailScreen"
         component={PostDetailScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="UsersProfile"
         component={UsersProfile}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SchoolProfile"
         component={SchoolProfile}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="SuggestionScreen"
         component={SuggestionScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="FollowRequestScreen"
         component={FollowRequestScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="UserNotificationScreen"
         component={UserNotificationScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="CreatePostScreen"
         component={CreatePostScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="AlumniGalleryScreen"
         component={AlumniGalleryScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="UserProfileScreen"
         component={UserProfileScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="FollowersScreen"
         component={FollowersScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="FollowingScreen"
         component={FollowingScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="BlockListScreen"
         component={BlockListScreen}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
     </Stack.Navigator>
   );

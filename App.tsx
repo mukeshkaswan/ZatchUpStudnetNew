@@ -26,7 +26,12 @@ const persistor = persistStore(store);
 sagaMiddleware.run(sagas);
 interface AppProps { }
 
+
 const App = (props: AppProps) => {
+  useEffect(() => {
+    LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+}, [])
+
   return (
     <NavigationContainer>
       <StatusBar

@@ -864,7 +864,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       <CardView
         cardElevation={2}
         cardMaxElevation={2}
-        //cornerRadius={5}
+        cornerRadius={10}
         style={styles.Cardview_city}>
         {item.user_type == 'SCHOOL' ? (
           <View
@@ -1254,7 +1254,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <View
                 style={{
                   borderWidth: 1,
-                  //  height: hp('5'),
+                  height: hp('6'),
                   marginVertical: hp('1'),
                   borderColor: 'lightgrey',
                   width: 215,
@@ -1263,7 +1263,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   marginLeft: 20,
                   borderRadius: 5,
                   backgroundColor: '#FFFFFF',
-                  marginTop:Platform.OS=='ios'?16:0
+                  marginTop: Platform.OS == 'ios' ? 18 : 3
                 }}>
                 <Image
                   source={Images.search}
@@ -1369,7 +1369,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           style={{
             position: 'absolute',
             top: isKeyboardVisible == true ? '12%' : '8%',
-            marginLeft: '15%',
+            marginLeft: '10%',
             // flex: 1,
             // justifyContent: 'center',
             //alignItems: 'center',
@@ -1392,7 +1392,38 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
             />
           ) : null}
+
+          {/* {citydata.length > 0 ? (<Text>{'test'}</Text>) : null} */}
+
+          {citydata.length > 5 ? (<TouchableOpacity
+            style={{
+              backgroundColor: '#E7E7E7',
+              alignItems: 'center',
+              paddingBottom: 15,
+              marginRight: 20,
+              width: '90%',
+              shadowColor: 'black',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.26,
+              borderColor: 'lightgrey',
+            }}
+            onPress={() =>
+              props.navigation.navigate('SeeAllResults', { 'tvname': cityname })
+            }
+
+          >
+            <Text
+              style={{
+                fontWeight: '600',
+                color: '#4B2A6A',
+                marginTop: 10
+                //textDecorationLine: 'underline',
+              }}>
+              See All Results
+            </Text>
+          </TouchableOpacity>) : null}
         </View>
+
         {socialMedia ? (
           <View
             style={{

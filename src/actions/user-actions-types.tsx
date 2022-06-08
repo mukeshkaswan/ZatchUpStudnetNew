@@ -575,3 +575,17 @@ export const getPrivacySetting = createAction(GETPRIVACYSETTING);
 // this is the user Social Privacy Setting
 export const SOCIALPRIVACYSETTING = 'SOCIALPRIVACYSETTING';
 export const getSocialPrivacySetting = createAction(SOCIALPRIVACYSETTING);
+
+
+// this is for Get Search School Student Search List Filter By User
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER';
+export const getSearchSchoolStudentSearchListFilterbyUser = createAction(
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER,
+);
+
+
+// this is for Get Search School Student Search List Filter By School
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL';
+export const getSearchSchoolStudentSearchListFilterbySchool = createAction(
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
+);

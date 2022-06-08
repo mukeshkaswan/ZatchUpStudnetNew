@@ -88,7 +88,7 @@ const Messages = (props: MessagesScreenProps,) => {
         return () => {
           dataSetTimeOut.clear();
         }
-      }, 1000);
+      }, 500);
 
       BackHandler.addEventListener('hardwareBackPress', navigateToGoBack);
 
@@ -100,7 +100,7 @@ const Messages = (props: MessagesScreenProps,) => {
 
   useEffect(() => {
     setURIcheck(Math.floor(Math.random() * 100) + 1);
-    console.log('ChatURL', ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app');
+  //  console.log('ChatURL', ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app');
     setURI(
       ChatURL + 'user/messages-app?user_profile_id=' + userid + '&type=app',
     );

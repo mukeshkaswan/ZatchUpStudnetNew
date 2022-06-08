@@ -66,5 +66,4 @@ export {default as KYCEiRequestSingle} from './AppScreens/KYCEiRequestSingle';
 export {default as KYCEiRequestMultiple} from './AppScreens/KYCEiRequestMultiple';
 export {default as SchoolListScreen} from './AppScreens/SchoolListScreen';
 export {default as ChatTeacherScreen} from './AppScreens/ChatTeacherScreen';
-
-
+export {default as SeeAllResults} from './AppScreens/SeeAllResults';
