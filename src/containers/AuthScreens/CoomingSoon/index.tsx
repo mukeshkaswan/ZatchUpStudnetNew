@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -25,7 +25,7 @@ import {
   Validate,
 } from '../../../components';
 import styles from './style';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
 interface CoomingSoonScreenProps {
   navigation: any;
@@ -36,7 +36,7 @@ import {
   DrawerActions,
   useFocusEffect,
 } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -47,7 +47,7 @@ import {
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
 const data1 = [
@@ -90,7 +90,7 @@ const data1 = [
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const data = [
   {
@@ -154,11 +154,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [page, setPage] = useState(1);
   const [socialMedia, setIsEnabled2] = useState(false);
   const [checkboxValue, setCheckboxValue] = React.useState([
-    { report_option: 'Suspicious or Fake', checked: false },
+    {report_option: 'Suspicious or Fake', checked: false},
 
-    { report_option: 'Harassment or hateful speech', checked: false },
-    { report_option: 'Violence or physical harm', checked: false },
-    { report_option: 'Adult Content', checked: false },
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -273,9 +273,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes' },
+        {text: 'Yes'},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
@@ -290,9 +290,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -362,7 +362,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getPrivacySetting({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
@@ -406,7 +406,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result Auth User INfo',
@@ -465,7 +465,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result report data',
@@ -475,7 +475,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({ ...result.data[i], checked: false });
+                newData.push({...result.data[i], checked: false});
               }
 
               console.log('newData==>>', newData);
@@ -529,7 +529,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result report data',
@@ -542,11 +542,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             // setSpinnerStart(false);
             setLoading(false);
             setCheckboxValue([
-              { report_option: 'Suspicious or Fake', checked: false },
+              {report_option: 'Suspicious or Fake', checked: false},
 
-              { report_option: 'Harassment or hateful speech', checked: false },
-              { report_option: 'Violence or physical harm', checked: false },
-              { report_option: 'Adult Content', checked: false },
+              {report_option: 'Harassment or hateful speech', checked: false},
+              {report_option: 'Violence or physical harm', checked: false},
+              {report_option: 'Adult Content', checked: false},
               {
                 report_option:
                   'Intellectual property infringement or defamation',
@@ -602,7 +602,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result unfollow user',
@@ -654,7 +654,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getPostOfUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoadingg(false);
             setLoading(false);
@@ -760,7 +760,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       userActions.getSearchSchoolStudentSearchList({
         data,
 
-        callback: ({ results, error }) => {
+        callback: ({results, error}) => {
           // console.warn(
           //   'after Search School Student result data',
           //   results,
@@ -822,7 +822,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result step count',
@@ -882,12 +882,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               underlayColor="none"
               onPress={() =>
                 props.navigation.navigate('SchoolProfile', {
-                  item: { school_id: item.school_id, user_id: item.id },
+                  item: {school_id: item.school_id, user_id: item.id},
                 })
               }>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={{ uri: item.profile_pic }}
+                  source={{uri: item.profile_pic}}
                   // source={require('../../../assets/images/pic.jpeg')}
                   style={{
                     // marginLeft: 10,
@@ -896,15 +896,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
-                  <Text style={{ textAlign: 'center' }}>{item.zatchupId}</Text>
+                  <Text style={{textAlign: 'center'}}>{item.zatchupId}</Text>
                 </View>
               </View>
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <Text style={{}}>{item.city}</Text>
               <Image
                 //source={{ uri: item.profile_pic }}
@@ -934,14 +934,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               underlayColor="none"
               onPress={() =>
                 props.navigation.navigate('UserProfileScreen', {
-                  item: { user_id: item.id },
+                  item: {user_id: item.id},
                 })
               }>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
                   source={
                     item.profile_pic != null
-                      ? { uri: item.profile_pic }
+                      ? {uri: item.profile_pic}
                       : Images.profile_default
                   }
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -952,8 +952,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
                   <Text>You</Text>
@@ -977,14 +977,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               underlayColor="none"
               onPress={() =>
                 props.navigation.navigate('UsersProfile', {
-                  item: { user_id: item.id },
+                  item: {user_id: item.id},
                 })
               }>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
                   source={
                     item.profile_pic != null
-                      ? { uri: item.profile_pic }
+                      ? {uri: item.profile_pic}
                       : Images.profile_default
                   }
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -995,8 +995,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
                   <Text>School Mate</Text>
@@ -1033,7 +1033,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result like or unlike',
@@ -1081,7 +1081,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result comment on post',
@@ -1126,7 +1126,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result comment like or unlike',
@@ -1228,7 +1228,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         {/* <CustomStatusBar /> */}
         <CustomStatusBar />
@@ -1244,7 +1244,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity onPress={onBurgerBarPress}>
               <Image
                 source={Images.menu_dash}
-                style={{ marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF' }}
+                style={{marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF'}}
               />
             </TouchableOpacity>
           )}
@@ -1263,16 +1263,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   marginLeft: 20,
                   borderRadius: 5,
                   backgroundColor: '#FFFFFF',
-                  marginTop: 3
+                  marginTop: 3,
                 }}>
                 <Image
                   source={Images.search}
-                  style={{ marginLeft: 10, tintColor: '#000' }}
+                  style={{marginLeft: 10, tintColor: '#000'}}
                 />
                 <TextInput
                   onChangeText={value => getSearchcitydata(value)}
                   value={cityname}
-                  style={{ color: '#000' }}
+                  style={{color: '#000'}}
                   placeholderTextColor="#000"
                   placeholder="Search..."
                   keyboardType="default"
@@ -1389,39 +1389,41 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               // keyExtractor={item => item.id.toString()}
               // ItemSeparatorComponent={ItemSepratorcity}
               //  ItemSeparatorComponent={this.SeparatorComponent}
-              renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
+              renderItem={({item, index}) =>
+                rednderItemListcitydata(item, index)
+              }
             />
           ) : null}
 
           {/* {citydata.length > 0 ? (<Text>{'test'}</Text>) : null} */}
 
-          {citydata.length > 5 ? (<TouchableOpacity
-            style={{
-              backgroundColor: '#E7E7E7',
-              alignItems: 'center',
-              paddingBottom: 15,
-              marginRight: 20,
-              width: '90%',
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.26,
-              borderColor: 'lightgrey',
-            }}
-            onPress={() =>
-              props.navigation.navigate('SeeAllResults', { 'tvname': cityname })
-            }
-
-          >
-            <Text
+          {citydata.length > 5 ? (
+            <TouchableOpacity
               style={{
-                fontWeight: '600',
-                color: '#4B2A6A',
-                marginTop: 10
-                //textDecorationLine: 'underline',
-              }}>
-              See All Results
-            </Text>
-          </TouchableOpacity>) : null}
+                backgroundColor: '#E7E7E7',
+                alignItems: 'center',
+                paddingBottom: 15,
+                marginRight: 20,
+                width: '90%',
+                shadowColor: 'black',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.26,
+                borderColor: 'lightgrey',
+              }}
+              onPress={() =>
+                props.navigation.navigate('SeeAllResults', {tvname: cityname})
+              }>
+              <Text
+                style={{
+                  fontWeight: '600',
+                  color: '#4B2A6A',
+                  marginTop: 10,
+                  //textDecorationLine: 'underline',
+                }}>
+                See All Results
+              </Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
 
         {socialMedia ? (
@@ -1443,12 +1445,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         marginHorizontal: 16,
                         marginTop: 8,
                       }}>
-                      <Text style={{ fontWeight: '700' }}>Notification</Text>
+                      <Text style={{fontWeight: '700'}}>Notification</Text>
                       <TouchableOpacity
                         onPress={() =>
                           props.navigation.navigate('UserNotificationScreen')
                         }>
-                        <Text style={{ fontWeight: '700', fontSize: 12 }}>
+                        <Text style={{fontWeight: '700', fontSize: 12}}>
                           View
                         </Text>
                       </TouchableOpacity>
@@ -1460,12 +1462,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         marginHorizontal: 16,
                         marginTop: 8,
                       }}>
-                      <Text style={{ fontWeight: '700' }}>Suggestion for you</Text>
+                      <Text style={{fontWeight: '700'}}>
+                        Suggestion for you
+                      </Text>
                       <TouchableOpacity
                         onPress={() =>
                           props.navigation.navigate('SuggestionScreen')
                         }>
-                        <Text style={{ fontWeight: '700', fontSize: 12 }}>
+                        <Text style={{fontWeight: '700', fontSize: 12}}>
                           View
                         </Text>
                       </TouchableOpacity>
@@ -1477,12 +1481,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         marginHorizontal: 16,
                         marginTop: 8,
                       }}>
-                      <Text style={{ fontWeight: '700' }}>Follow Request</Text>
+                      <Text style={{fontWeight: '700'}}>Follow Request</Text>
                       <TouchableOpacity
                         onPress={() =>
                           props.navigation.navigate('FollowRequestScreen')
                         }>
-                        <Text style={{ fontWeight: '700', fontSize: 12 }}>
+                        <Text style={{fontWeight: '700', fontSize: 12}}>
                           View
                         </Text>
                       </TouchableOpacity>
@@ -1492,7 +1496,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <View></View>
                 )
               }
-              style={{ flex: 1, width: '100%' }}
+              style={{flex: 1, width: '100%'}}
               data={posts}
               refreshControl={
                 <RefreshControl
@@ -1510,7 +1514,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <Text style={{ fontSize: 18 }}>
+                    <Text style={{fontSize: 18}}>
                       No Notifications are available
                     </Text>
                   </View>
@@ -1553,7 +1557,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <View></View>
                 )
               }
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
@@ -1586,7 +1590,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     item={item}
                     index={index}
                     props={props}
-                    ref={ref}
+                    reff={ref}
                   />
                 );
               }}
@@ -1607,8 +1611,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             color={'white'}
           />
         ) : posts.length > 0 ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 22, textAlign: 'center' }}>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22, textAlign: 'center'}}>
               Please enable social media from setting page
             </Text>
           </View>
@@ -1650,11 +1655,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   item: customItem,
                 });
               }}>
-              <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
+              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
             <TouchableOpacity onPress={toggleModal}>
-              <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>Cancel</Text>
+              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -1663,7 +1670,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onBackdropPress={toggleModal2}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1677,17 +1684,22 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <TouchableOpacity onPress={toggleModal2}>
                 <Image
                   source={Images.closeicon}
-                  style={{ height: 15, width: 15, marginRight: 10 }}
+                  style={{height: 15, width: 15, marginRight: 10}}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{ paddingHorizontal: 16 }}>
-              <Text style={{ fontSize: hp(2.4) }}>Why are you reporting this?</Text>
+            <View style={{paddingHorizontal: 16}}>
+              <Text style={{fontSize: hp(2.4)}}>
+                Why are you reporting this?
+              </Text>
               {checkboxValue.map((checkbox, i) => (
                 <View key={i} style={styles.rowContent}>
-                  <Text style={styles.reporttext}>{checkbox.report_option}</Text>
-                  <TouchableOpacity onPress={() => checkboxHandler(checkbox, i)}>
+                  <Text style={styles.reporttext}>
+                    {checkbox.report_option}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => checkboxHandler(checkbox, i)}>
                     <View
                       style={{
                         // backgroundColor: '#4B2A6A',
@@ -1724,7 +1736,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => gotoReport()}>
-                <Text style={{ color: 'white' }}>Submit</Text>
+                <Text style={{color: 'white'}}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -533,169 +533,173 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <CustomStatusBar />
-      <CustomHeader
-        Title={'Create Post'}
-        Back={'true'}
-        navigation={props.navigation}
-      />
-      <KeyboardAwareScrollView enableOnAndroid={true}>
-        <CardView
-          cardElevation={5}
-          cardMaxElevation={5}
-          //cornerRadius={20}
-          style={styles.card}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image
-                source={
-                  userProfilePic != ''
-                    ? {uri: userProfilePic}
-                    : Images.profile_default
-                }
-                style={{
-                  height: 50,
-                  width: 50,
-                  // tintColor: 'grey',
-                  borderRadius: 25,
-                }}
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <CustomStatusBar />
+        <CustomHeader
+          Title={'Create Post'}
+          Back={'true'}
+          navigation={props.navigation}
+        />
+        <KeyboardAwareScrollView enableOnAndroid={true}>
+          <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            //cornerRadius={20}
+            style={styles.card}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  source={
+                    userProfilePic != ''
+                      ? {uri: userProfilePic}
+                      : Images.profile_default
+                  }
+                  style={{
+                    height: 50,
+                    width: 50,
+                    // tintColor: 'grey',
+                    borderRadius: 25,
+                  }}
+                />
+                <Text style={styles.nametext}>{username}</Text>
+              </View>
+            </View>
+
+            <View style={styles.textinputContainer}>
+              <TextInput
+                placeholder="Write a caption"
+                multiline={true}
+                numberOfLines={4}
+                style={styles.textinput}
+                onChangeText={val => addCaption(val)}
+                value={Caption}
+                maxLength={700}
               />
-              <Text style={styles.nametext}>{username}</Text>
             </View>
-          </View>
+            <Text style={{alignSelf: 'flex-end'}}>{Caption.length}/700</Text>
+          </CardView>
 
-          <View style={styles.textinputContainer}>
-            <TextInput
-              placeholder="Write a caption"
-              multiline={true}
-              numberOfLines={4}
-              style={styles.textinput}
-              onChangeText={val => addCaption(val)}
-              value={Caption}
-              maxLength={700}
+          {picdata.length > 0 && (
+            <FlatList
+              style={{flex: 1}}
+              //contentContainerStyle={{alignItems: 'center'}}
+              data={picdata}
+              numColumns={3}
+              renderItem={_renderItem}
+              keyExtractor={(item, index) => item + 'Sap' + index}
             />
-          </View>
-          <Text style={{alignSelf: 'flex-end'}}>{Caption.length}/700</Text>
-        </CardView>
+          )}
 
-        {picdata.length > 0 && (
-          <FlatList
-            style={{flex: 1}}
-            //contentContainerStyle={{alignItems: 'center'}}
-            data={picdata}
-            numColumns={3}
-            renderItem={_renderItem}
-            keyExtractor={(item, index) => item + 'Sap' + index}
-          />
-        )}
+          {picdata.length == 0 && (
+            <TouchableOpacity
+              //onPress={() => getImageFrontGallery()}
+              onPress={() => refRBSheet.current.open()}
+              style={{
+                backgroundColor: '#4B2A6A',
+                height: screenWidth / 3 - 21,
+                width: screenWidth / 3 - 21,
+                marginLeft: 16,
+                borderRadius: 10,
+                marginTop: 16,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+              <Text style={styles.addphotoText}>Add Media</Text>
+            </TouchableOpacity>
+          )}
 
-        {picdata.length == 0 && (
-          <TouchableOpacity
-            //onPress={() => getImageFrontGallery()}
-            onPress={() => refRBSheet.current.open()}
-            style={{
-              backgroundColor: '#4B2A6A',
-              height: screenWidth / 3 - 21,
-              width: screenWidth / 3 - 21,
-              marginLeft: 16,
-              borderRadius: 10,
-              marginTop: 16,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
-            <Text style={styles.addphotoText}>Add Photo</Text>
-          </TouchableOpacity>
-        )}
+          {picdata.length > 0 && (
+            <TouchableOpacity
+              //onPress={() => getImageFrontGallery()}
+              //onPress={getImage}
+              onPress={() => refRBSheet.current.open()}
+              style={{
+                backgroundColor: '#4B2A6A',
+                height: screenWidth / 3 - 21,
+                width: screenWidth / 3 - 21,
+                marginLeft: 16,
+                marginTop: 16,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Icon name="camera" size={25} color="white" style={{margin: 5}} />
+              <Text style={styles.addphotoText}>Add Media</Text>
+            </TouchableOpacity>
+          )}
 
-        {picdata.length > 0 && (
-          <TouchableOpacity
-            //onPress={() => getImageFrontGallery()}
-            //onPress={getImage}
-            onPress={() => refRBSheet.current.open()}
-            style={{
-              backgroundColor: '#4B2A6A',
-              height: screenWidth / 3 - 21,
-              width: screenWidth / 3 - 21,
-              marginLeft: 16,
-              marginTop: 16,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name="camera" size={25} color="white" style={{margin: 5}} />
-            <Text style={styles.addphotoText}>Add Photo</Text>
-          </TouchableOpacity>
-        )}
-
-        {(picdata.length > 0 || Caption != '') && (
-          <View>
-            <View style={{paddingHorizontal: 16, marginVertical: 10}}>
-              <CustomButton title={'Post'} onPress={onPressAddpost} />
+          {(picdata.length > 0 || Caption != '') && (
+            <View>
+              <View style={{paddingHorizontal: 16, marginVertical: 10}}>
+                <CustomButton title={'Post'} onPress={onPressAddpost} />
+              </View>
             </View>
-          </View>
-        )}
+          )}
 
-        {isLoading && renderIndicator()}
+          {isLoading && renderIndicator()}
 
-        <RBSheet
-          ref={refRBSheet}
-          // closeOnDragDown={true}
-          //closeOnPressMask={false}
-          height={190}
-          nabledGestureInteraction={true}
-          enabledContentTapInteraction={false}
-          closeOnDragDown={true}
-          closeOnPressMask={false}
-          //  openDuration={10}
-          customStyles={{
-            wrapper: {
-              backgroundColor: 'transparent',
-            },
-            draggableIcon: {
-              backgroundColor: '#000',
-            },
-          }}>
-          <View
-            style={{
-              flexDirection: 'column',
-              alignContent: 'space-around',
-              //alignItems: 'stretch',
-              //marginTop: 10
+          <RBSheet
+            ref={refRBSheet}
+            // closeOnDragDown={true}
+            //closeOnPressMask={false}
+            height={190}
+            nabledGestureInteraction={true}
+            enabledContentTapInteraction={false}
+            closeOnDragDown={true}
+            closeOnPressMask={false}
+            //  openDuration={10}
+            customStyles={{
+              wrapper: {
+                backgroundColor: 'transparent',
+              },
+              draggableIcon: {
+                backgroundColor: '#000',
+              },
             }}>
-            {/* <TouchableOpacity
+            <View
+              style={{
+                flexDirection: 'column',
+                alignContent: 'space-around',
+                //alignItems: 'stretch',
+                //marginTop: 10
+              }}>
+              {/* <TouchableOpacity
               onPress={() => OpenCamera()}
               style={{padding: 15, backgroundColor: '#FFFFFF'}}>
               <Text style={{color: '#000', fontSize: 17}}>{'Open Camera'}</Text>
             </TouchableOpacity> */}
-            <TouchableOpacity
-              onPress={() => OpenImages()}
-              style={{padding: 15, backgroundColor: '#FFFFFF'}}>
-              <Text style={{color: '#000', fontSize: 17}}>{'Open Images'}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => OpenImages()}
+                style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+                <Text style={{color: '#000', fontSize: 17}}>
+                  {'Open Images'}
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => openVideos()}
-              style={{padding: 15, backgroundColor: '#FFFFFF'}}>
-              <Text style={{color: '#000', fontSize: 17}}>{'Open Videos'}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => openVideos()}
+                style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+                <Text style={{color: '#000', fontSize: 17}}>
+                  {'Open Videos'}
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => refRBSheet.current.close()}
-              style={{padding: 15, backgroundColor: '#4B2A6A'}}>
-              <Text style={{color: '#FFFFFF', fontSize: 17}}>{'Cancel'}</Text>
-            </TouchableOpacity>
-          </View>
-        </RBSheet>
-      </KeyboardAwareScrollView>
-    </View>
+              <TouchableOpacity
+                onPress={() => refRBSheet.current.close()}
+                style={{padding: 15, backgroundColor: '#4B2A6A'}}>
+                <Text style={{color: '#FFFFFF', fontSize: 17}}>{'Cancel'}</Text>
+              </TouchableOpacity>
+            </View>
+          </RBSheet>
+        </KeyboardAwareScrollView>
+      </View>
     </SafeAreaView>
   );
 };

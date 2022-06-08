@@ -52,7 +52,7 @@ function RenderItem({
   item,
   index,
   props,
-  ref,
+  reff,
 }) {
   const [indexx, setIndex] = useState(0);
   const [commentValue, setComment] = useState('');
@@ -290,11 +290,16 @@ function RenderItem({
             ref={isCarousel}
             data={item.post_gallery}
             renderItem={({item, index}) => (
-              <CrouselImages item={item} index={index} length={len} ref={ref} />
+              <CrouselImages
+                item={item}
+                index={index}
+                length={len}
+                refff={reff}
+              />
             )}
             sliderWidth={screenWidth - 32}
             itemWidth={screenWidth - 32}
-            layoutCardOffset={'0'}
+            layoutCardOffset={0}
             onSnapToItem={index => setIndex(index)}
           />
         </>
@@ -308,7 +313,7 @@ function RenderItem({
           )}
           sliderWidth={screenWidth - 32}
           itemWidth={screenWidth - 64}
-          layoutCardOffset={'0'}
+          layoutCardOffset={0}
           onSnapToItem={index => setIndex(index)}
         />
       ) : (
@@ -634,7 +639,7 @@ function RenderItem({
   );
 }
 
-function CrouselImages({item, index, length, ref}) {
+function CrouselImages({item, index, length, refff}) {
   return (
     <View
       style={{
@@ -685,7 +690,7 @@ function CrouselImages({item, index, length, ref}) {
             disableSeek={false}
           /> */}
           <Video
-            ref={ref}
+            ref={refff}
             style={{}}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}

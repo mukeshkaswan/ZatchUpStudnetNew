@@ -215,6 +215,8 @@ dependencies {
 
     implementation project(':react-native-splash-screen')
 
+    implementation project(':react-native-contacts')
+
     compile project(':react-native-keep-awake')
   //  implementation project(':@react-native-community_picker')
 

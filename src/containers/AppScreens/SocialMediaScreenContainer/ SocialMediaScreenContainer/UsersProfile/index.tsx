@@ -1076,109 +1076,109 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Profile"
-      />
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Profile"
+        />
 
-      {userProfile != '' && (
-        <ScrollView>
-          <View
-            style={{
-              backgroundColor: 'white',
-              marginTop: 10,
-              marginHorizontal: 16,
-              borderRadius: 5,
-            }}>
-            <ImageBackground
-              source={
-                sociaMedialPic.hasOwnProperty('cover_pic') &&
-                sociaMedialPic.cover_pic != null
-                  ? {uri: sociaMedialPic.cover_pic}
-                  : Images.cover_pic_default
-              }
-              resizeMode="stretch"
-              style={{width: '100%', height: 130}}>
-              <View
-                style={{
-                  backgroundColor: 'black',
-                  height: 30,
-                  width: 30,
-                  justifyContent: 'center',
-                  margin: 10,
-                  alignSelf: 'flex-end',
-                }}>
-                <TouchableOpacity onPress={threedot}>
-                  <Image
-                    source={require('../../../../../assets/images/dot.png')}
-                    style={{
-                      tintColor: 'white',
-                      resizeMode: 'stretch',
-                      height: 20,
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
-              {threeDot == true && (
+        {userProfile != '' && (
+          <ScrollView>
+            <View
+              style={{
+                backgroundColor: 'white',
+                marginTop: 10,
+                marginHorizontal: 16,
+                borderRadius: 5,
+              }}>
+              <ImageBackground
+                source={
+                  sociaMedialPic.hasOwnProperty('cover_pic') &&
+                  sociaMedialPic.cover_pic != null
+                    ? {uri: sociaMedialPic.cover_pic}
+                    : Images.cover_pic_default
+                }
+                resizeMode="stretch"
+                style={{width: '100%', height: 130}}>
                 <View
                   style={{
-                    backgroundColor: 'white',
-                    width: 170,
+                    backgroundColor: 'black',
+                    height: 30,
+                    width: 30,
+                    justifyContent: 'center',
+                    margin: 10,
                     alignSelf: 'flex-end',
-                    marginTop: -8,
-                    marginRight: 10,
-                    borderRadius: 5,
-                    padding: 10,
-                    borderWidth: 1,
-                    borderColor: 'lightgrey',
                   }}>
-                  <TouchableOpacity onPress={reportprofilemodal}>
-                    <Text style={{fontSize: hp(2)}}>Report Profile</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => blockprofile()}>
-                    <Text style={{fontSize: hp(2), marginTop: 10}}>
-                      {userProfile != '' && userProfile.block_user_active
-                        ? 'Unblock Profile'
-                        : 'Block Profile'}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </ImageBackground>
-
-            <View style={styles.rowContainer}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View>
-                  <Image
-                    source={
-                      sociaMedialPic.hasOwnProperty('profile_pic') &&
-                      sociaMedialPic.profile_pic != null
-                        ? {uri: sociaMedialPic.profile_pic}
-                        : Images.profile_default
-                    }
-                    style={{
-                      marginLeft: 10,
-                      width: 80,
-                      height: 80,
-                      borderRadius: 50,
-                    }}
-                  />
-                  {userProfile != '' && userProfile.kyc_approved && (
+                  <TouchableOpacity onPress={threedot}>
                     <Image
+                      source={require('../../../../../assets/images/dot.png')}
                       style={{
-                        position: 'absolute',
-                        left: 0,
-                        bottom: 0,
-                        marginLeft: 16,
-                        width: 20,
+                        tintColor: 'white',
+                        resizeMode: 'stretch',
                         height: 20,
                       }}
-                      source={Images.blue_tick}
                     />
-                  )}
-                  {/* <Icon
+                  </TouchableOpacity>
+                </View>
+                {threeDot == true && (
+                  <View
+                    style={{
+                      backgroundColor: 'white',
+                      width: 170,
+                      alignSelf: 'flex-end',
+                      marginTop: -8,
+                      marginRight: 10,
+                      borderRadius: 5,
+                      padding: 10,
+                      borderWidth: 1,
+                      borderColor: 'lightgrey',
+                    }}>
+                    <TouchableOpacity onPress={reportprofilemodal}>
+                      <Text style={{fontSize: hp(2)}}>Report Profile</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => blockprofile()}>
+                      <Text style={{fontSize: hp(2), marginTop: 10}}>
+                        {userProfile != '' && userProfile.block_user_active
+                          ? 'Unblock Profile'
+                          : 'Block Profile'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </ImageBackground>
+
+              <View style={styles.rowContainer}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View>
+                    <Image
+                      source={
+                        sociaMedialPic.hasOwnProperty('profile_pic') &&
+                        sociaMedialPic.profile_pic != null
+                          ? {uri: sociaMedialPic.profile_pic}
+                          : Images.profile_default
+                      }
+                      style={{
+                        marginLeft: 10,
+                        width: 80,
+                        height: 80,
+                        borderRadius: 50,
+                      }}
+                    />
+                    {userProfile != '' && userProfile.kyc_approved && (
+                      <Image
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          bottom: 0,
+                          marginLeft: 16,
+                          width: 20,
+                          height: 20,
+                        }}
+                        source={Images.blue_tick}
+                      />
+                    )}
+                    {/* <Icon
                     name={'camera'}
                     size={15}
                     style={{
@@ -1189,288 +1189,315 @@ const UsersProfile = (props: UserProfileProps) => {
                       marginRight: 8,
                     }}
                   /> */}
-                </View>
+                  </View>
 
-                <View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginLeft: 14,
-                      marginTop: 30,
-                    }}>
-                    <View style={{marginTop: 16}}>
-                      <Text style={styles.nametext}>{userProfile.name}</Text>
-                      <Text style={styles.nametext}>
-                        {'(' + userProfile.zatchup_id + ')'}
-                      </Text>
-                    </View>
-                    {/* <Icon
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginLeft: 14,
+                        marginTop: 30,
+                      }}>
+                      <View style={{marginTop: 16}}>
+                        <Text style={styles.nametext}>{userProfile.name}</Text>
+                        <Text style={styles.nametext}>
+                          {'(' + userProfile.zatchup_id + ')'}
+                        </Text>
+                      </View>
+                      {/* <Icon
                       name="check-circle"
                       size={18}
                       color="#4E387E"
                       style={{margin: 5}}
                     /> */}
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.likecontainer}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  disabled={
-                    (userProfile.follow_request_status == 2 ||
-                      userProfile.follow_request_status == 1) &&
-                    userProfile.social_account_status
-                      ? true
-                      : userProfile.block_user_active
-                      ? true
-                      : false
-                  }
-                  onPress={() => {
-                    props.navigation.navigate('FollowersScreen', {
-                      item: {...userProfile, user_id, flag: 'user'},
-                    });
-                  }}>
-                  <Text style={styles.boldText}>
-                    {userProfile.social_user_followers}
-                  </Text>
-                  <Text>Followers</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  disabled={
-                    (userProfile.follow_request_status == 2 ||
-                      userProfile.follow_request_status == 1) &&
-                    userProfile.social_account_status
-                      ? true
-                      : userProfile.block_user_active
-                      ? true
-                      : false
-                  }
-                  onPress={() => {
-                    props.navigation.navigate('FollowingScreen', {
-                      item: {...userProfile, user_id},
-                    });
-                  }}
-                  style={{marginLeft: 10}}>
-                  <Text style={styles.boldText}>
-                    {userProfile.social_user_followings}
-                  </Text>
-                  <Text style={{}}>Following</Text>
-                </TouchableOpacity>
-                {userProfile.follow_request_status == 0 ? (
-                  <TouchableOpacity
-                    disabled={userProfile.block_user_active ? true : false}
-                    style={[
-                      styles.removebtn,
-                      {
-                        opacity: userProfile.block_user_active ? 0.5 : 1,
-                      },
-                    ]}
-                    onPress={() => gotoFollow()}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Follow
-                    </Text>
-                  </TouchableOpacity>
-                ) : userProfile.follow_request_status == 1 ? (
-                  <TouchableOpacity
-                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
-                    onPress={toggleModal}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.6),
-                        fontWeight: 'bold',
-                      }}>
-                      Requested
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={[
-                      styles.removebtn,
-                      {backgroundColor: '#28a745', width: 110},
-                    ]}
-                    onPress={toggleModal}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Following
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-              <View style={styles.messageicon}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('Messages');
-                  }}>
-                  <Icon name="envelope" size={24} color="grey" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <Card style={styles.cardContent}>
-            <View style={styles.cardtitlecontent}>
-              <Text style={styles.cardtitletext}>Education</Text>
-            </View>
-            {userProfile.educationdetail != null &&
-              userProfile.educationdetail.map((item, index) => {
-                if (
-                  item.course_detail != null &&
-                  item.course_detail.length > 0
-                ) {
-                  return (
-                    <>
-                      <View style={styles.borderstyle}></View>
-                      <View style={styles.textcontainer}>
-                        <View style={{flexDirection: 'row'}}>
-                          <Text
-                            style={[
-                              styles.Personal_Tv,
-                              {fontWeight: '700', color: '#5790c2'},
-                            ]}>
-                            {item.name_of_school}
-                          </Text>
-                          {item.is_active_subscription && (
-                            <Icon
-                              name="check-circle"
-                              size={17}
-                              color="#4E387E"
-                              style={{marginLeft: 5, marginTop: 2}}
-                            />
-                          )}
-                        </View>
-                        {item.course_detail.map((item, index) => {
-                          return (
-                            <View style={styles.view_Row}>
-                              <Text
-                                style={[styles.view_Tv_1, {fontWeight: '700'}]}>
-                                {item.course_name}
-                              </Text>
-                              <Text style={styles.view_Tv_2}>
-                                {'(' +
-                                  item.start_year +
-                                  ' - ' +
-                                  item.end_year +
-                                  ')'}
-                              </Text>
-                            </View>
-                          );
-                        })}
-                      </View>
-                    </>
-                  );
-                }
-              })}
-          </Card>
-          <Card style={styles.cardContent}>
-            <View style={styles.cardtitlecontent}>
-              <View>
-                <Text style={styles.cardtitletext}>Personal Information</Text>
-              </View>
-            </View>
-
-            <View style={styles.borderstyle}></View>
-            <View style={styles.textcontainer}>
-              <View style={styles.view_Row}>
-                <Text style={styles.view_Tv_1}>DOB :</Text>
-                <Text style={styles.view_Tv_2}>{userProfile.dob}</Text>
-              </View>
-              <View style={styles.view_Row}>
-                <Text style={styles.view_Tv_1}>Gender :</Text>
-                <Text style={styles.view_Tv_2}>
-                  {userProfile.gender == 'M'
-                    ? 'Male'
-                    : userProfile.gender == 'F'
-                    ? 'Female'
-                    : 'Custom'}
-                </Text>
-              </View>
-
-              {userProfile.email != '' && userProfile.email != null && (
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>Email:</Text>
-                  <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
-                </View>
-              )}
-              {userProfile.phone != '' && userProfile.phone != null && (
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>Phone :</Text>
-                  <Text style={styles.view_Tv_2}>{userProfile.phone}</Text>
-                </View>
-              )}
-            </View>
-          </Card>
-          {userProfile != '' && (
-            <Card style={styles.cardContent}>
-              <View style={styles.cardtitlecontent}>
-                <Text style={styles.cardtitletext}>Posts</Text>
-              </View>
-              <View style={styles.borderstyle}></View>
-              <View style={styles.tabrowContainer}>
+              <View style={styles.likecontainer}>
                 <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => active_data('thData')}>
-                    <Icon
-                      name="th"
-                      size={30}
-                      color={data === 'thData' ? '#4B2A6A' : 'grey'}
-                    />
+                    disabled={
+                      (userProfile.follow_request_status == 2 ||
+                        userProfile.follow_request_status == 1) &&
+                      userProfile.social_account_status
+                        ? true
+                        : userProfile.block_user_active
+                        ? true
+                        : false
+                    }
+                    onPress={() => {
+                      props.navigation.navigate('FollowersScreen', {
+                        item: {...userProfile, user_id, flag: 'user'},
+                      });
+                    }}>
+                    <Text style={styles.boldText}>
+                      {userProfile.social_user_followers}
+                    </Text>
+                    <Text>Followers</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => active_data('Image')}>
-                    <Icon
-                      name="image"
-                      size={30}
-                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                      style={{marginLeft: 80}}
-                    />
+                    disabled={
+                      (userProfile.follow_request_status == 2 ||
+                        userProfile.follow_request_status == 1) &&
+                      userProfile.social_account_status
+                        ? true
+                        : userProfile.block_user_active
+                        ? true
+                        : false
+                    }
+                    onPress={() => {
+                      props.navigation.navigate('FollowingScreen', {
+                        item: {...userProfile, user_id},
+                      });
+                    }}
+                    style={{marginLeft: 10}}>
+                    <Text style={styles.boldText}>
+                      {userProfile.social_user_followings}
+                    </Text>
+                    <Text style={{}}>Following</Text>
+                  </TouchableOpacity>
+                  {userProfile.follow_request_status == 0 ? (
+                    <TouchableOpacity
+                      disabled={userProfile.block_user_active ? true : false}
+                      style={[
+                        styles.removebtn,
+                        {
+                          opacity: userProfile.block_user_active ? 0.5 : 1,
+                        },
+                      ]}
+                      onPress={() => gotoFollow()}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Follow
+                      </Text>
+                    </TouchableOpacity>
+                  ) : userProfile.follow_request_status == 1 ? (
+                    <TouchableOpacity
+                      style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
+                      onPress={toggleModal}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.6),
+                          fontWeight: 'bold',
+                        }}>
+                        Requested
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[
+                        styles.removebtn,
+                        {backgroundColor: '#28a745', width: 110},
+                      ]}
+                      onPress={toggleModal}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Following
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <View style={styles.messageicon}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('Messages');
+                    }}>
+                    <Icon name="envelope" size={24} color="grey" />
                   </TouchableOpacity>
                 </View>
               </View>
+            </View>
+            <Card style={styles.cardContent}>
+              <View style={styles.cardtitlecontent}>
+                <Text style={styles.cardtitletext}>Education</Text>
+              </View>
+              {userProfile.educationdetail != null &&
+                userProfile.educationdetail.map((item, index) => {
+                  if (
+                    item.course_detail != null &&
+                    item.course_detail.length > 0
+                  ) {
+                    return (
+                      <>
+                        <View style={styles.borderstyle}></View>
+                        <View style={styles.textcontainer}>
+                          <View style={{flexDirection: 'row'}}>
+                            <Text
+                              style={[
+                                styles.Personal_Tv,
+                                {fontWeight: '700', color: '#5790c2'},
+                              ]}>
+                              {item.name_of_school}
+                            </Text>
+                            {item.is_active_subscription && (
+                              <Icon
+                                name="check-circle"
+                                size={17}
+                                color="#4E387E"
+                                style={{marginLeft: 5, marginTop: 2}}
+                              />
+                            )}
+                          </View>
+                          {item.course_detail.map((item, index) => {
+                            return (
+                              <View style={styles.view_Row}>
+                                <Text
+                                  style={[
+                                    styles.view_Tv_1,
+                                    {fontWeight: '700'},
+                                  ]}>
+                                  {item.course_name}
+                                </Text>
+                                <Text style={styles.view_Tv_2}>
+                                  {'(' +
+                                    item.start_year +
+                                    ' - ' +
+                                    item.end_year +
+                                    ')'}
+                                </Text>
+                              </View>
+                            );
+                          })}
+                        </View>
+                      </>
+                    );
+                  }
+                })}
             </Card>
-          )}
-          {userProfile != '' &&
-          (userProfile.follow_request_status == 2 ||
-            !userProfile.social_account_status) &&
-          !userProfile.block_user_active &&
-          !(data === 'Image') ? (
-            <FlatList
-              data={userProfile.social_post}
-              renderItem={({item}) => {
-                let items = item;
-                let len =
-                  item.post_gallery != null ? item.post_gallery.length : 0;
-                if (item.post_gallery == null) {
-                  let s = item.caption;
-                  var parts = s.match(/[\s\S]{1,140}/g) || [];
-                  console.log(parts);
-                  var lenCap = parts.length;
-                }
-                if (item.post_gallery != null) {
-                  return (
-                    <>
+            <Card style={styles.cardContent}>
+              <View style={styles.cardtitlecontent}>
+                <View>
+                  <Text style={styles.cardtitletext}>Personal Information</Text>
+                </View>
+              </View>
+
+              <View style={styles.borderstyle}></View>
+              <View style={styles.textcontainer}>
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>DOB :</Text>
+                  <Text style={styles.view_Tv_2}>{userProfile.dob}</Text>
+                </View>
+                <View style={styles.view_Row}>
+                  <Text style={styles.view_Tv_1}>Gender :</Text>
+                  <Text style={styles.view_Tv_2}>
+                    {userProfile.gender == 'M'
+                      ? 'Male'
+                      : userProfile.gender == 'F'
+                      ? 'Female'
+                      : 'Custom'}
+                  </Text>
+                </View>
+
+                {userProfile.email != '' && userProfile.email != null && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Email:</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
+                  </View>
+                )}
+                {userProfile.phone != '' && userProfile.phone != null && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Phone :</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.phone}</Text>
+                  </View>
+                )}
+              </View>
+            </Card>
+            {userProfile != '' && (
+              <Card style={styles.cardContent}>
+                <View style={styles.cardtitlecontent}>
+                  <Text style={styles.cardtitletext}>Posts</Text>
+                </View>
+                <View style={styles.borderstyle}></View>
+                <View style={styles.tabrowContainer}>
+                  <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => active_data('thData')}>
+                      <Icon
+                        name="th"
+                        size={30}
+                        color={data === 'thData' ? '#4B2A6A' : 'grey'}
+                      />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => active_data('Image')}>
+                      <Icon
+                        name="image"
+                        size={30}
+                        color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                        style={{marginLeft: 80}}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Card>
+            )}
+            {userProfile != '' &&
+            (userProfile.follow_request_status == 2 ||
+              !userProfile.social_account_status) &&
+            !userProfile.block_user_active &&
+            !(data === 'Image') ? (
+              <FlatList
+                data={userProfile.social_post}
+                renderItem={({item}) => {
+                  let items = item;
+                  let len =
+                    item.post_gallery != null ? item.post_gallery.length : 0;
+                  if (item.post_gallery == null) {
+                    let s = item.caption;
+                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    console.log(parts);
+                    var lenCap = parts.length;
+                  }
+                  if (item.post_gallery != null) {
+                    return (
+                      <>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarousel}
+                          data={item.post_gallery}
+                          renderItem={({item, index}) => (
+                            <CrouselImages
+                              item={item}
+                              index={index}
+                              length={len}
+                              data={data}
+                              goToNavigate={GoToNavigate}
+                              items={items}
+                              ref={ref}
+                            />
+                          )}
+                          sliderWidth={screenWidth - 16}
+                          itemWidth={screenWidth - 16}
+                          layoutCardOffset={'0'}
+                          onSnapToItem={index => setIndex(index)}
+                        />
+                      </>
+                    );
+                  } else {
+                    return (
                       <Carousel
                         // layout={'tinder'}
-                        ref={isCarousel}
-                        data={item.post_gallery}
+                        ref={isCarouselText}
+                        data={parts}
                         renderItem={({item, index}) => (
-                          <CrouselImages
+                          <CrouselText
                             item={item}
                             index={index}
-                            length={len}
+                            length={lenCap}
                             data={data}
                             goToNavigate={GoToNavigate}
                             items={items}
@@ -1481,106 +1508,96 @@ const UsersProfile = (props: UserProfileProps) => {
                         layoutCardOffset={'0'}
                         onSnapToItem={index => setIndex(index)}
                       />
-                    </>
-                  );
-                } else {
+                    );
+                  }
+                }}
+                //  ItemSeparatorComponent={renderIndicator}
+              />
+            ) : userProfile != '' &&
+              (userProfile.follow_request_status == 2 ||
+                !userProfile.social_account_status) &&
+              !userProfile.block_user_active ? (
+              <FlatList
+                data={userProfile.social_post}
+                renderItem={({item, index}) => {
+                  let ind = index;
+                  let items = item;
+                  let len =
+                    item.post_gallery != null ? item.post_gallery.length : 0;
+                  if (item.post_gallery == null) {
+                    let s = item.caption;
+                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    console.log(parts);
+                    var lenCap = parts.length;
+                  }
                   return (
-                    <Carousel
-                      // layout={'tinder'}
-                      ref={isCarouselText}
-                      data={parts}
-                      renderItem={({item, index}) => (
-                        <CrouselText
-                          item={item}
-                          index={index}
-                          length={lenCap}
-                          data={data}
-                          goToNavigate={GoToNavigate}
-                          items={items}
-                        />
-                      )}
-                      sliderWidth={screenWidth - 16}
-                      itemWidth={screenWidth - 16}
-                      layoutCardOffset={'0'}
-                      onSnapToItem={index => setIndex(index)}
+                    <RenderItem
+                      goToNavigate={goToNavigate}
+                      gotoChangeComment={gotoChangeComment}
+                      gotoComment={gotoComment}
+                      gotoShowMore={gotoShowMore}
+                      gotoCommentLike={gotoCommentLike}
+                      gotoChangeToggle={gotoChangeToggle}
+                      gotoLikeUnLike={gotoLikeUnLike}
+                      toggleModal3={toggleModal3}
+                      data={data}
+                      user_id={user_id}
+                      userid={userid}
+                      username={username}
+                      isCarouselText={isCarouselText}
+                      isCarousel={isCarousel}
+                      userProfile={userProfile}
+                      props={props}
+                      ind={ind}
+                      len={len}
+                      parts={parts}
+                      lenCap={lenCap}
+                      item={item}
+                      index={index}
+                      items={items}
+                      goToNav={GoToNavigate}
+                      ref={ref}
                     />
                   );
-                }
-              }}
-              //  ItemSeparatorComponent={renderIndicator}
-            />
-          ) : userProfile != '' &&
-            (userProfile.follow_request_status == 2 ||
-              !userProfile.social_account_status) &&
-            !userProfile.block_user_active ? (
-            <FlatList
-              data={userProfile.social_post}
-              renderItem={({item, index}) => {
-                let ind = index;
-                let items = item;
-                let len =
-                  item.post_gallery != null ? item.post_gallery.length : 0;
-                if (item.post_gallery == null) {
-                  let s = item.caption;
-                  var parts = s.match(/[\s\S]{1,140}/g) || [];
-                  console.log(parts);
-                  var lenCap = parts.length;
-                }
-                return (
-                  <RenderItem
-                    goToNavigate={goToNavigate}
-                    gotoChangeComment={gotoChangeComment}
-                    gotoComment={gotoComment}
-                    gotoShowMore={gotoShowMore}
-                    gotoCommentLike={gotoCommentLike}
-                    gotoChangeToggle={gotoChangeToggle}
-                    gotoLikeUnLike={gotoLikeUnLike}
-                    toggleModal3={toggleModal3}
-                    data={data}
-                    user_id={user_id}
-                    userid={userid}
-                    username={username}
-                    isCarouselText={isCarouselText}
-                    isCarousel={isCarousel}
-                    userProfile={userProfile}
-                    props={props}
-                    ind={ind}
-                    len={len}
-                    parts={parts}
-                    lenCap={lenCap}
-                    item={item}
-                    index={index}
-                    items={items}
-                    goToNav={GoToNavigate}
-                    ref={ref}
-                  />
-                );
-              }}
-              //  ItemSeparatorComponent={renderIndicator}
-            />
-          ) : !userProfile.block_user_active ? (
-            <View
-              style={{
-                alignItems: 'center',
-                borderWidth: 1,
-                borderColor: '#000',
-                marginHorizontal: 16,
-                marginTop: 16,
-                paddingVertical: 32,
-              }}>
-              <Text style={{fontWeight: '700', fontSize: 18}}>
-                This Account Is Private
-              </Text>
-            </View>
-          ) : (
-            <View />
-          )}
+                }}
+                //  ItemSeparatorComponent={renderIndicator}
+              />
+            ) : !userProfile.block_user_active ? (
+              <View
+                style={{
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  borderColor: '#000',
+                  marginHorizontal: 16,
+                  marginTop: 16,
+                  paddingVertical: 32,
+                }}>
+                <Text style={{fontWeight: '700', fontSize: 18}}>
+                  This Account Is Private
+                </Text>
+              </View>
+            ) : (
+              <View />
+            )}
 
-          {userProfile != '' &&
-            userProfile.social_post.length == 0 &&
-            (userProfile.follow_request_status == 2 ||
-              !userProfile.social_account_status) &&
-            !userProfile.block_user_active && (
+            {userProfile != '' &&
+              userProfile.social_post.length == 0 &&
+              (userProfile.follow_request_status == 2 ||
+                !userProfile.social_account_status) &&
+              !userProfile.block_user_active && (
+                <View
+                  style={{
+                    margin: 16,
+                    borderColor: '#000',
+                    borderWidth: 1,
+                    padding: 16,
+                    alignItems: 'center',
+                  }}>
+                  <Text>No Post Uploaded</Text>
+                </View>
+              )}
+
+            {userProfile != '' && userProfile.block_user_active && (
               <View
                 style={{
                   margin: 16,
@@ -1589,40 +1606,27 @@ const UsersProfile = (props: UserProfileProps) => {
                   padding: 16,
                   alignItems: 'center',
                 }}>
-                <Text>No Post Uploaded</Text>
+                <Text>User Blocked</Text>
               </View>
             )}
+          </ScrollView>
+        )}
 
-          {userProfile != '' && userProfile.block_user_active && (
-            <View
-              style={{
-                margin: 16,
-                borderColor: '#000',
-                borderWidth: 1,
-                padding: 16,
-                alignItems: 'center',
-              }}>
-              <Text>User Blocked</Text>
-            </View>
-          )}
-        </ScrollView>
-      )}
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          backdropOpacity={0.4}>
+          <View
+            style={{
+              //height: hp('55'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
 
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        backdropOpacity={0.4}>
-        <View
-          style={{
-            //height: hp('55'),
-            backgroundColor: Colors.$backgroundColor,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 20,
-
-            borderRadius: 5,
-          }}>
-          {/* <Image
+              borderRadius: 5,
+            }}>
+            {/* <Image
             source={Images.profile_img2}
             style={{
               height: 50,
@@ -1631,240 +1635,251 @@ const UsersProfile = (props: UserProfileProps) => {
               borderRadius: 25,
             }}
           /> */}
-          <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
-            <Text
-              style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
-              {!(userProfile.follow_request_status == 1)
-                ? 'Are you sure you want to unfollow'
-                : 'Are you sure you want to cancel the Request?'}
-            </Text>
-            {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+            <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
+              <Text
+                style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
+                {!(userProfile.follow_request_status == 1)
+                  ? 'Are you sure you want to unfollow'
+                  : 'Are you sure you want to cancel the Request?'}
+              </Text>
+              {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
               Zatchup won't tell @{userData.following_username} that they have
               been removed from the Followers.
             </Text> */}
-          </View>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 30,
-            }}></View>
-          {/* <Button
+            </View>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 30,
+              }}></View>
+            {/* <Button
             //color={Colors.$backgroundColor}
             title="Remove"
             onPress={gotoRemove}
           /> */}
-          <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Yes</Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 12,
-            }}></View>
-          {/* <Button
+            <TouchableOpacity onPress={gotoRemove}>
+              <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Yes</Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 12,
+              }}></View>
+            {/* <Button
             //color={Colors.$backgroundColor}
             title="Cancel"
             onPress={toggleModal}
           /> */}
-          <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>No</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-
-      {/* modal for report profile */}
-      <Modal
-        isVisible={isreportprofilemodal}
-        onBackdropPress={reportprofilemodal}
-        backdropOpacity={0.4}>
-        <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: 'black',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.4),
-                }}>
-                Report Profile
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={reportprofilemodal}>
-              <Image
-                source={Images.closeicon}
-                style={{height: 15, width: 15, marginRight: 10}}
-              />
+            <TouchableOpacity onPress={toggleModal}>
+              <Text style={{color: 'red', marginTop: 10}}>No</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.mborder}></View>
-          <View style={{paddingHorizontal: 16}}>
-            {checkboxValue.map((checkbox, i) => (
-              <View key={i} style={styles.rowContent}>
-                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
-                {/* <CustomCheckbox
+        </Modal>
+
+        {/* modal for report profile */}
+        <Modal
+          isVisible={isreportprofilemodal}
+          onBackdropPress={reportprofilemodal}
+          backdropOpacity={0.4}>
+          <View style={styles.modalContainer}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.4),
+                  }}>
+                  Report Profile
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={reportprofilemodal}>
+                <Image
+                  source={Images.closeicon}
+                  style={{height: 15, width: 15, marginRight: 10}}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.mborder}></View>
+            <View style={{paddingHorizontal: 16}}>
+              {checkboxValue.map((checkbox, i) => (
+                <View key={i} style={styles.rowContent}>
+                  <Text style={styles.reporttext}>
+                    {checkbox.report_option}
+                  </Text>
+                  {/* <CustomCheckbox
                 onPress={(value) => checkboxHandler(value, i)}
                  checked={checkbox.checked}
               /> */}
-                <TouchableOpacity onPress={() => checkboxHandler(checkbox, i)}>
-                  <View
-                    style={{
-                      // backgroundColor: '#4B2A6A',
-                      height: 22,
-                      width: 22,
-                      borderRadius: 11,
-                      borderColor: '#4B2A6A',
-                      borderWidth: 2,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    {checkbox.checked && (
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                        }}></View>
-                    )}
-                  </View>
-                  <View></View>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-          <View style={styles.mborder}></View>
-          <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
-            <TouchableOpacity
-              style={styles.postbtn}
-              onPress={gotoReportProfile}>
-              <Text style={{color: 'white'}}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal
-        isVisible={isModalVisible3}
-        onBackdropPress={toggleModal3}
-        backdropOpacity={0.4}>
-        <View
-          style={{
-            alignItems: 'center',
-            backgroundColor: 'white',
-            paddingVertical: 20,
-            borderRadius: 5,
-            justifyContent: 'center',
-          }}>
-          {/* {customItem.user_id != userid && ( */}
-          <>
-            <TouchableOpacity onPress={reportmodal}>
-              <Text style={styles.btn}>Report</Text>
-            </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => checkboxHandler(checkbox, i)}>
+                    <View
+                      style={{
+                        // backgroundColor: '#4B2A6A',
+                        height: 22,
+                        width: 22,
+                        borderRadius: 11,
+                        borderColor: '#4B2A6A',
+                        borderWidth: 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      {checkbox.checked && (
+                        <View
+                          style={{
+                            backgroundColor: '#4B2A6A',
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
+                          }}></View>
+                      )}
+                    </View>
+                    <View></View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
             <View style={styles.mborder}></View>
-            {/* <TouchableOpacity
+            <View
+              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              <TouchableOpacity
+                style={styles.postbtn}
+                onPress={gotoReportProfile}>
+                <Text style={{color: 'white'}}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={isModalVisible3}
+          onBackdropPress={toggleModal3}
+          backdropOpacity={0.4}>
+          <View
+            style={{
+              alignItems: 'center',
+              backgroundColor: 'white',
+              paddingVertical: 20,
+              borderRadius: 5,
+              justifyContent: 'center',
+            }}>
+            {/* {customItem.user_id != userid && ( */}
+            <>
+              <TouchableOpacity onPress={reportmodal}>
+                <Text style={styles.btn}>Report</Text>
+              </TouchableOpacity>
+              <View style={styles.mborder}></View>
+              {/* <TouchableOpacity
                onPress={() => blockprofile()}
                >
                 <Text style={styles.btn}>Unfollow</Text>
               </TouchableOpacity> */}
-            {/* <View style={styles.mborder}></View> */}
-          </>
-          {/* )} */}
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('PostDetailScreen', {item: customItem});
-            }}>
-            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
-          </TouchableOpacity>
-          <View style={styles.mborder}></View>
-          <TouchableOpacity onPress={toggleModal3}>
-            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-      {/* modal for report */}
-      <Modal
-        isVisible={isreportmodal}
-        onBackdropPress={reportmodal}
-        backdropOpacity={0.4}>
-        <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: 'black',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.4),
-                }}>
-                Report
+              {/* <View style={styles.mborder}></View> */}
+            </>
+            {/* )} */}
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('PostDetailScreen', {
+                  item: customItem,
+                });
+              }}>
+              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+            </TouchableOpacity>
+            <View style={styles.mborder}></View>
+            <TouchableOpacity onPress={toggleModal3}>
+              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+                Cancel
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={reportmodal}>
-              <Image
-                source={Images.closeicon}
-                style={{height: 15, width: 15, marginRight: 10}}
-              />
-            </TouchableOpacity>
           </View>
-          <View style={styles.mborder}></View>
-          <View style={{paddingHorizontal: 16}}>
-            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
-            {reportcheckboxValue.map((checkbox, i) => (
-              <View key={i} style={styles.rowContent}>
-                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
-                {/* <CustomCheckbox
+        </Modal>
+        {/* modal for report */}
+        <Modal
+          isVisible={isreportmodal}
+          onBackdropPress={reportmodal}
+          backdropOpacity={0.4}>
+          <View style={styles.modalContainer}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.4),
+                  }}>
+                  Report
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={reportmodal}>
+                <Image
+                  source={Images.closeicon}
+                  style={{height: 15, width: 15, marginRight: 10}}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.mborder}></View>
+            <View style={{paddingHorizontal: 16}}>
+              <Text style={{fontSize: hp(2.4)}}>
+                Why are you reporting this?
+              </Text>
+              {reportcheckboxValue.map((checkbox, i) => (
+                <View key={i} style={styles.rowContent}>
+                  <Text style={styles.reporttext}>
+                    {checkbox.report_option}
+                  </Text>
+                  {/* <CustomCheckbox
                 onPress={(value) => checkboxHandler(value, i)}
                  checked={checkbox.checked}
               /> */}
-                <TouchableOpacity
-                  onPress={() => reportcheckboxHandler(checkbox, i)}>
-                  <View
-                    style={{
-                      // backgroundColor: '#4B2A6A',
-                      height: 22,
-                      width: 22,
-                      borderRadius: 11,
-                      borderColor: '#4B2A6A',
-                      borderWidth: 2,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    {checkbox.checked && (
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                        }}></View>
-                    )}
-                  </View>
-                  <View></View>
-                </TouchableOpacity>
-              </View>
-            ))}
+                  <TouchableOpacity
+                    onPress={() => reportcheckboxHandler(checkbox, i)}>
+                    <View
+                      style={{
+                        // backgroundColor: '#4B2A6A',
+                        height: 22,
+                        width: 22,
+                        borderRadius: 11,
+                        borderColor: '#4B2A6A',
+                        borderWidth: 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      {checkbox.checked && (
+                        <View
+                          style={{
+                            backgroundColor: '#4B2A6A',
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
+                          }}></View>
+                      )}
+                    </View>
+                    <View></View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+            <View style={styles.mborder}></View>
+            <View
+              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              <TouchableOpacity
+                style={styles.postbtn}
+                onPress={() => gotoReport()}>
+                <Text style={{color: 'white'}}>Submit</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.mborder}></View>
-          <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
-            <TouchableOpacity
-              style={styles.postbtn}
-              onPress={() => gotoReport()}>
-              <Text style={{color: 'white'}}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };
 
-function CrouselImages({items, goToNavigate, item, index, length, data}) {
+function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
   let _menu = null;
 
   const gotoNavigate = () => {

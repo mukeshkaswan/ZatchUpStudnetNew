@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.wonday.orientation.OrientationPackage;
 import org.wonday.orientation.OrientationActivityLifecycle;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import androidx.multidex.MultiDexApplication; // <-- ADD THIS IMPORT
 public class MainApplication extends MultiDexApplication implements ReactApplication {
     
@@ -73,7 +74,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new ReactNativeFirebaseAppPackage(),
              new ReactNativeFirebaseAuthPackage(),
                       new LinearGradientPackage(),
-                      new OrientationPackage()
+                      new OrientationPackage(),
+                      new ReactNativeContacts()
               );
           }
 

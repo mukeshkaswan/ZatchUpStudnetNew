@@ -8,7 +8,8 @@ import {
   BackHandler,
   Alert,
   Dimensions,
-  SafeAreaView
+  SafeAreaView,
+  PermissionsAndroid,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -17,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useDispatch} from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
+import Contacts from 'react-native-contacts';
 
 import {useIsFocused} from '@react-navigation/native';
 interface NotificationsScreenProps {
@@ -33,6 +35,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
 
   useEffect(() => {
     getSuggestions();
+    getContacts();
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -56,6 +59,53 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
       keyboardDidShowListener.remove();
     };
   }, [isFocused]);
+
+  const getContacts = () => {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    })
+      .then(res => {
+        console.log('res===>>>', res);
+        Contacts.checkPermission().then(permission => {
+          // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
+          if (permission === 'undefined') {
+            Contacts.requestPermission().then(permission => {
+              // ...
+            });
+          }
+          if (permission === 'authorized') {
+            // yay!
+          }
+          if (permission === 'denied') {
+            // x.x
+          }
+        });
+        Contacts.getAll()
+          .then(contacts => {
+            // work with contacts
+            console.log('contacts==>>>', JSON.stringify(contacts));
+            let newArr = [];
+            for (let i = 0; i < contacts.length; i++) {
+              newArr.push({
+                email:
+                  contacts[i].emailAddresses.length > 0
+                    ? contacts[i].emailAddresses[0].email
+                    : '',
+                phone: contacts[i].phoneNumbers[0].number,
+              });
+            }
+            console.log('NewArr==>>', newArr);
+          })
+          .catch(e => {
+            console.log('Error==>>', e);
+          });
+      })
+      .catch(error => {
+        console.log('Err=>>>', error);
+      });
+  };
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -224,35 +274,35 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Suggestions"
-        headerRightcontent={''}
-      />
-      {suggestions.length > 0 && (
-        <FlatList
-          ListEmptyComponent={() => (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: height - 72,
-                width,
-              }}>
-              <Text style={{fontWeight: '700'}}>
-                No follow request is available
-              </Text>
-            </View>
-          )}
-          data={suggestions}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item.name + 'Sap' + index}
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Suggestions"
+          headerRightcontent={''}
         />
-      )}
-    </View>
+        {suggestions.length > 0 && (
+          <FlatList
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: height - 72,
+                  width,
+                }}>
+                <Text style={{fontWeight: '700'}}>
+                  No follow request is available
+                </Text>
+              </View>
+            )}
+            data={suggestions}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.name + 'Sap' + index}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
