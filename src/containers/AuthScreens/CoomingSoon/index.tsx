@@ -1263,7 +1263,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   marginLeft: 20,
                   borderRadius: 5,
                   backgroundColor: '#FFFFFF',
-                  marginTop: Platform.OS == 'ios' ? 18 : 3
+                  marginTop: 3
                 }}>
                 <Image
                   source={Images.search}
