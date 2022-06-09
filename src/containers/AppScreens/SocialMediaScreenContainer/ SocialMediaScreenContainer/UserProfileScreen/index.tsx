@@ -118,15 +118,6 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [actionsheet, setactionsheetopen] = useState(false);
   const [refreshing] = useState(false);
 
-  const active_dataa = async key => {
-    Alert.alert('hello', key);
-    if (tempUserId == '') {
-      console.log('=====Self 22', props.route);
-      getUserProfile(user_id);
-      getUserCoverMediaPic(user_id);
-      await active_data(key);
-    }
-  };
   useEffect(() => {
     // Alert.alert('Self');
     if (tempUserId == '') {
@@ -1035,7 +1026,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      onPress={() => active_dataa('thData')}>
+                      onPress={() => active_data('thData')}>
                       <Icon
                         name="th"
                         size={30}
@@ -1045,7 +1036,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
 
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      onPress={() => active_dataa('Image')}>
+                      onPress={() => active_data('Image')}>
                       <Icon
                         name="image"
                         size={30}
@@ -1059,9 +1050,10 @@ const UserProfileScreen = (props: UserProfileProps) => {
             )}
             {userProfile != '' && !(data === 'Image') ? (
               <FlatList
+                key={'#'}
                 numColumns={2}
                 data={userProfile.social_post}
-                renderItem={({item}) => {
+                renderItem={({item, index}) => {
                   let newArrCap = [];
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
@@ -1075,49 +1067,43 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   if (item.post_gallery != null) {
                     return (
                       <>
-                        <Carousel
-                          // layout={'tinder'}
-                          ref={isCarousel}
-                          data={item.post_gallery}
-                          renderItem={({item, index}) => (
-                            <CrouselImages
-                              item={item}
-                              index={index}
-                              length={len}
-                              data={data}
-                              goToNavigate={GoToNavigate}
-                              items={items}
-                              ref={ref}
-                            />
-                          )}
-                          sliderWidth={screenWidth / 2 - 16}
-                          itemWidth={screenWidth / 2 - 16}
-                          layoutCardOffset={0}
-                          onSnapToItem={index => setIndex(index)}
+                        <CrouselImages
+                          item={item.post_gallery[0]}
+                          index={index}
+                          goToNavigate={GoToNavigate}
+                          items={items}
+                          ref={ref}
                         />
                       </>
                     );
                   } else {
                     return (
-                      <Carousel
-                        // layout={'tinder'}
-                        ref={isCarouselText}
-                        data={parts}
-                        renderItem={({item, index}) => (
-                          <CrouselText
-                            item={item}
-                            index={index}
-                            length={lenCap}
-                            data={data}
-                            goToNavigate={GoToNavigate}
-                            items={items}
-                          />
-                        )}
-                        sliderWidth={screenWidth / 2 - 16}
-                        itemWidth={screenWidth / 2 - 16}
-                        layoutCardOffset={0}
-                        onSnapToItem={index => setIndex(index)}
-                      />
+                      <View
+                        style={{
+                          width: screenWidth / 2,
+                          height: screenWidth / 2,
+                          // backgroundColor: 'red',
+                        }}>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarouselText}
+                          data={parts}
+                          renderItem={({item, index}) => (
+                            <CrouselText
+                              item={item}
+                              index={index}
+                              length={lenCap}
+                              data={data}
+                              goToNavigate={GoToNavigate}
+                              items={items}
+                            />
+                          )}
+                          sliderWidth={screenWidth / 2 - 8}
+                          itemWidth={screenWidth / 2 - 8}
+                          layoutCardOffset={0}
+                          onSnapToItem={index => setIndex(index)}
+                        />
+                      </View>
                     );
                   }
                 }}
@@ -1125,6 +1111,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
               />
             ) : userProfile != '' ? (
               <FlatList
+                key={'_'}
+                numColumns={1}
                 data={userProfile.social_post}
                 renderItem={({item, index}) => {
                   let ind = index;
@@ -1262,7 +1250,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
+function CrouselImages({items, item, index, goToNavigate, ref}) {
   //console.log('item', item);
 
   const gotoNavigate = () => {
@@ -1272,13 +1260,13 @@ function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
   return (
     <TouchableOpacity
       style={{
-        marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 16 : 56,
-        width: !(data === 'Image') ? screenWidth / 2 : screenWidth / 2 - 32,
-        height: !(data === 'Image') ? screenWidth / 2 : screenWidth / 2 - 32,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       {item.post_extension != 'mp4' ? (
@@ -1286,10 +1274,8 @@ function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
           source={{uri: item.post_image}}
           resizeMode="contain"
           style={{
-            width: !(data === 'Image') ? screenWidth / 2 : screenWidth / 2 - 32,
-            height: !(data === 'Image')
-              ? screenWidth / 2
-              : screenWidth / 2 - 32,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
             backgroundColor: '#d2d2d2',
           }}
         />
@@ -1316,31 +1302,29 @@ function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
         // />
         <View
           style={{
-            width: !(data === 'Image') ? screenWidth / 2 : screenWidth / 2 - 32,
-            height: !(data === 'Image')
-              ? screenWidth / 2
-              : screenWidth / 2 - 32,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
+            backgroundColor: 'red',
+            justifyContent: 'center',
           }}>
           <Video
             ref={ref}
-            style={{}}
+            style={{
+              width: screenWidth / 2 - 24,
+              height: screenWidth / 2 - 24,
+            }}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
             // rotateToFullScreen={false}
             hideFullScreenControl={true}
             inlineOnly={true}
-            lockRatio={16 / 12}
-            resizeMode="contain"
+            lockRatio={1}
+            resizeMode="cover"
             autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //on
-            //FullScreen={this.onFullScreen}
           />
         </View>
       )}
-      {length > 1 && (
+      {/* {length > 1 && (
         <Text
           style={{
             marginVertical: 10,
@@ -1356,7 +1340,7 @@ function CrouselImages({items, item, index, length, data, goToNavigate, ref}) {
           }}>
           {index + 1}/{length}
         </Text>
-      )}
+      )} */}
     </TouchableOpacity>
   );
 }
@@ -1369,11 +1353,13 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
   return (
     <TouchableOpacity
       style={{
-        marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 64 : 56,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       <View
@@ -1381,8 +1367,8 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          width: screenWidth,
-          height: screenWidth - 32,
+          width: screenWidth / 2 - 24,
+          height: screenWidth / 2 - 24,
           //backgroundColor: 'red',
         }}>
         <View
