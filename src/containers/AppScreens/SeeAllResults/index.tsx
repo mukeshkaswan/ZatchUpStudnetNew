@@ -48,8 +48,30 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
   const [getFlag, setFlag] = useState(false);
   const [studentSelect, setStudentSelect] = useState(true);
   const [citydata, setCityData] = useState([]);
+  const [citydatatv, setCityDataTv] = useState([]);
+  const [currentschooldatatv, setCurrentSchoolDataTv] = useState([]);
+  const [pastschooldatatv, setPastSchoolDataTv] = useState([]);
 
 
+  const [cityname, onChangecityname] = useState('');
+  const [citynameclone, onChangecitynameclone] = useState('');
+
+  const [currentschoolname, onChangecurrentschoolname] = useState('');
+  const [currentschoolnameclone, onChangecurrentshoolnameclone] = useState('');
+
+
+
+  const [pastschoolname, onChangepastschoolname] = useState('');
+  const [pastschoolnameclone, onChangepastshoolnameclone] = useState('');
+
+
+  const [citydataschool, setCityDataschool] = useState([]);
+  const [citydatatvschool, setCityDataTvschool] = useState([]);
+
+
+
+  const [citynameschool, onChangecitynameschool] = useState('');
+  const [citynamecloneschool, onChangecitynamecloneschool] = useState('');
   const isFocused = useIsFocused();
 
   // useEffect(() => {
@@ -67,6 +89,14 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
   useFocusEffect(
     React.useCallback(() => {
       setStudentSelect(true);
+      onChangecityname('');
+      onChangecitynameclone('')
+      onChangecurrentschoolname('');
+      onChangecurrentshoolnameclone('');
+      onChangepastschoolname('');
+      onChangepastshoolnameclone('');
+      onChangecitynameschool('');
+      onChangecitynamecloneschool('');
 
       getPeopleSearch(props.route.params.tvname);
 
@@ -243,16 +273,621 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
   };
 
 
+  /***************************User GET City Search Name list *******************************/
+
+  const getCity_Model_Search = async (value) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      key: value,
+
+    };
+    //setLoading(true);
+
+    dispatch(
+      userActions.getCitySearch({
+        data,
+
+        callback: ({ results, error }) => {
+          console.warn(
+            'after city result data',
+            results
+            //  getdataProfile(result),
+          );
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setCityDataTv(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setCityDataTv([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET City School Search Name list *******************************/
+
+  const getCity_Model_Searchschool = async (value) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      key: value,
+
+    };
+    //setLoading(true);
+
+    dispatch(
+      userActions.getCitySearch({
+        data,
+
+        callback: ({ results, error }) => {
+          console.warn(
+            'after city result data',
+            results
+            //  getdataProfile(result),
+          );
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setCityDataTvschool(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setCityDataTvschool([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+
+  /***************************User GET Current City list*******************************/
+
+
+  const getCurrentCitySearch = async (search_tv, city_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      search: search_tv,
+      id: city_id,
+
+    };
+    // setLoading(true);
+
+    dispatch(
+      userActions.getSearchSchoolStudentSearchListFilterbySchoolCurrentCity({
+        data,
+
+        callback: ({ results, error }) => {
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
+          if (results && results.length > 0) {
+            // setSpinnerStart(false);
+            setFlag(true);
+            setCityData(results),
+              setLoading(false);
+          } else if (results && results.length == []) {
+            setCityData([]);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET School Search list*******************************/
+
+
+  const getSchoolSearch_= async (search_tv, city_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      search: search_tv,
+      id: city_id,
+
+    };
+    // setLoading(true);
+
+    dispatch(
+      userActions.getSearchSchool({
+        data,
+
+        callback: ({ results, error }) => {
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
+          if (results && results.length > 0) {
+            // setSpinnerStart(false);
+            setFlag(true);
+            setCityData(results),
+              setLoading(false);
+          } else if (results && results.length == []) {
+            setCityData([]);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+
+  /***************************User GET Current School list*******************************/
+
+
+  const getCurrentSchoolSearchApi = async (search_tv, school_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      search: search_tv,
+      id: school_id,
+
+    };
+    // setLoading(true);
+
+    dispatch(
+      userActions.getSearchSchoolStudentSearchListFilterbySchoolCurrentSchool({
+        data,
+
+        callback: ({ results, error }) => {
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
+          if (results && results.length > 0) {
+            // setSpinnerStart(false);
+            setFlag(true);
+            setCityData(results),
+              setLoading(false);
+          } else if (results && results.length == []) {
+            setCityData([]);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User GET Past School list*******************************/
+
+
+  const getPastSchoolSearchApi = async (search_tv, school_id) => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      search: search_tv,
+      id: school_id,
+
+    };
+    // setLoading(true);
+
+    dispatch(
+      userActions.getSearchSchoolStudentSearchListFilterbySchoolPast({
+        data,
+
+        callback: ({ results, error }) => {
+          // console.warn(
+          //   'after Search School Student result data',
+          //   results,
+          //   //  getdataProfile(result),
+          // );
+          if (results && results.length > 0) {
+            // setSpinnerStart(false);
+            setFlag(true);
+            setCityData(results),
+              setLoading(false);
+          } else if (results && results.length == []) {
+            setCityData([]);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET Search Current School All list *******************************/
+
+  const getCurrentSchoolSearch = async (value) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      key: value,
+
+    };
+    //setLoading(true);
+
+    dispatch(
+      userActions.getSearchAllSchoolList({
+        data,
+
+        callback: ({ results, error }) => {
+          console.warn(
+            'after Current School All result data',
+            results
+            //  getdataProfile(result),
+          );
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setCurrentSchoolDataTv(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setCurrentSchoolDataTv([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+  /***************************User GET Search Past School All list *******************************/
+
+  const getPastSchoolSearch = async (value) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      key: value,
+
+    };
+    //setLoading(true);
+
+    dispatch(
+      userActions.getSearchAllSchoolList({
+        data,
+
+        callback: ({ results, error }) => {
+          console.warn(
+            'after Past School All result data',
+            results
+            //  getdataProfile(result),
+          );
+          if (results && results.length > 0) {
+
+            // setSpinnerStart(false);
+            setPastSchoolDataTv(results),
+
+              setLoading(false);
+          }
+          else if (results && results.length == []) {
+            setPastSchoolDataTv([])
+
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+            // Toast.show('Invalid credentials', Toast.SHORT);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+
+
   const SelectPeople = async () => {
     setStudentSelect(true);
+    onChangecityname('');
+    onChangecitynameclone('');
+    onChangecurrentschoolname('');
+    onChangecurrentshoolnameclone('');
+    onChangepastschoolname('');
+    onChangepastshoolnameclone('');
+    onChangecitynameschool('');
+    onChangecitynamecloneschool('');
+    setPastSchoolDataTv([]);
+    setCurrentSchoolDataTv([]);
+    setCityDataTv([]);
+    setCityDataTvschool([]);
     getPeopleSearch(props.route.params.tvname)
   };
 
   const SelectSchool = async () => {
     setStudentSelect(false);
+    onChangecityname('');
+    onChangecitynameclone('');
+    onChangecurrentschoolname('');
+    onChangecurrentshoolnameclone('');
+    onChangepastschoolname('');
+    onChangepastshoolnameclone('');
+    onChangecitynameschool('');
+    onChangecitynamecloneschool('');
+    setPastSchoolDataTv([]);
+    setCurrentSchoolDataTv([]);
+    setCityDataTv([]);
+    setCityDataTvschool([]);
     getSchoolSearch(props.route.params.tvname);
 
   };
+
+
+  const getSearchcitydata = async (value) => {
+
+    onChangecityname(value);
+    onChangecitynameclone(value);
+
+    if (value.length > 2) {
+      getCity_Model_Search(value);
+
+    } else if (value.length < 3) {
+      setCityDataTv([]);
+    }
+
+  }
+
+
+  const getSearchcitydataSchool = async (value) => {
+
+    onChangecitynameschool(value);
+    onChangecitynamecloneschool(value);
+
+    if (value.length > 2) {
+      getCity_Model_Searchschool(value);
+
+    } else if (value.length < 3) {
+      setCityDataTvschool([]);
+    }
+
+  }
+
+
+  const getSearchCurrentSchooldata = async (value) => {
+
+    onChangecurrentschoolname(value);
+    onChangecurrentshoolnameclone(value);
+
+
+    if (value.length > 2) {
+      getCurrentSchoolSearch(value);
+
+    } else if (value.length < 3) {
+      setCurrentSchoolDataTv([]);
+    }
+
+  }
+
+
+  const getSearchPastSchooldata = async (value) => {
+
+    onChangepastschoolname(value);
+    onChangepastshoolnameclone(value);
+
+
+    if (value.length > 2) {
+      getPastSchoolSearch(value);
+
+    } else if (value.length < 3) {
+      setPastSchoolDataTv([]);
+    }
+
+  }
+
+
+  const Setcitynametext = async item => {
+
+    onChangecityname(item.display);
+
+    setCityDataTv([]);
+    setCurrentSchoolDataTv([]);
+    setPastSchoolDataTv([]);
+
+    getCurrentCitySearch(citynameclone, item.id)
+
+  }
+
+
+  const Setcitynametextschool = async item => {
+
+    onChangecitynameschool(item.display);
+
+    setCityDataTvschool([]);
+    setCurrentSchoolDataTv([]);
+    setPastSchoolDataTv([]);
+
+    getSchoolSearch_(citynamecloneschool, item.id)
+
+  }
+
+
+  
+
+
+  const Setcurrentschoolnametext = async item => {
+
+    onChangecurrentschoolname(item.name_of_school);
+
+    setCurrentSchoolDataTv([]);
+    setCityDataTv([]);
+    setPastSchoolDataTv([]);
+
+    getCurrentSchoolSearchApi(currentschoolnameclone, item.id)
+
+  }
+
+
+  const Setpastschoolnametext = async item => {
+
+    onChangepastschoolname(item.name_of_school);
+
+    setPastSchoolDataTv([]);
+    setCurrentSchoolDataTv([]);
+    setCityDataTv([]);
+
+    getPastSchoolSearchApi(pastschoolnameclone, item.id)
+
+  }
+
+
 
 
   const renderIndicator = () => {
@@ -270,6 +905,87 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
       </View>
     );
   };
+
+
+  const rednderItemListcitydata = (item, index) => {
+
+    return (
+      <CardView
+        cardElevation={10}
+        cardMaxElevation={10}
+        cornerRadius={0}
+        style={styles.Cardview_city}>
+        <TouchableOpacity
+          underlayColor="none"
+          onPress={() => Setcitynametext(item)}>
+          <View>
+            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.display}</Text>
+          </View>
+        </TouchableOpacity>
+      </CardView>
+    )
+  }
+
+
+  const rednderItemListcitydataschool = (item, index) => {
+
+    return (
+      <CardView
+        cardElevation={10}
+        cardMaxElevation={10}
+        cornerRadius={0}
+        style={styles.Cardview_city}>
+        <TouchableOpacity
+          underlayColor="none"
+          onPress={() => Setcitynametextschool(item)}>
+          <View>
+            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.display}</Text>
+          </View>
+        </TouchableOpacity>
+      </CardView>
+    )
+  }
+
+  const rednderItemListcurrentschooldata = (item, index) => {
+
+    return (
+      <CardView
+        cardElevation={10}
+        cardMaxElevation={10}
+        cornerRadius={0}
+        style={styles.Cardview_city}>
+        <TouchableOpacity
+          underlayColor="none"
+          onPress={() => Setcurrentschoolnametext(item)}>
+          <View>
+            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.name_of_school}</Text>
+          </View>
+        </TouchableOpacity>
+      </CardView>
+    )
+  }
+
+
+
+  const rednderItemListpastschooldata = (item, index) => {
+
+    return (
+      <CardView
+        cardElevation={10}
+        cardMaxElevation={10}
+        cornerRadius={0}
+        style={styles.Cardview_city}>
+        <TouchableOpacity
+          underlayColor="none"
+          onPress={() => Setpastschoolnametext(item)}>
+          <View>
+            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.name_of_school}</Text>
+          </View>
+        </TouchableOpacity>
+      </CardView>
+    )
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -379,7 +1095,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
 
 
 
-          <View style={{
+          {studentSelect ? <View style={{
             // flex: 1,
             flexDirection: 'column',
           }}>
@@ -401,18 +1117,22 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
                 style={{ marginLeft: 10, tintColor: '#000' }}
               />
               <TextInput
-                // onChangeText={value => getSearchcitydata(value)}
-                // value={'Current City'}
-                style={{ color: '#000' }}
+                onChangeText={value => getSearchcitydata(value)}
+                value={cityname}
+                //  style={{ color: '#000' }}
                 placeholderTextColor="#000"
                 placeholder="Current City"
                 keyboardType="default"
               />
+
             </View>
-          </View>
-
-
-          <View style={{
+            {citydatatv.length > 0 ? <FlatList
+              data={citydatatv}
+              style={{ paddingHorizontal: 25, }}
+              renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
+            /> : null}
+          </View> : <View style={{
+            // flex: 1,
             flexDirection: 'column',
           }}>
             <View
@@ -433,18 +1153,65 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
                 style={{ marginLeft: 10, tintColor: '#000' }}
               />
               <TextInput
-                // onChangeText={value => getSearchcitydata(value)}
-                // value={'Current City'}
+                onChangeText={value => getSearchcitydataSchool(value)}
+                value={citynameschool}
+                placeholderTextColor="#000"
+                placeholder="Current City"
+                keyboardType="default"
+              />
+
+            </View>
+
+            {citydatatvschool.length > 0 ? <FlatList
+              data={citydatatvschool}
+              style={{ paddingHorizontal: 25, }}
+              renderItem={({ item, index }) => rednderItemListcitydataschool(item, index)}
+            /> : null}
+
+          </View>}
+
+
+
+
+          {studentSelect ? <View style={{
+            flexDirection: 'column',
+          }}>
+            <View
+              style={{
+                borderWidth: 1,
+                height: hp('6'),
+                marginVertical: hp('1'),
+                borderColor: 'lightgrey',
+                width: '90%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 20,
+                borderRadius: 5,
+                backgroundColor: '#FFFFFF',
+              }}>
+              <Image
+                source={Images.search}
+                style={{ marginLeft: 10, tintColor: '#000' }}
+              />
+              <TextInput
+                onChangeText={value => getSearchCurrentSchooldata(value)}
+                value={currentschoolname}
                 style={{ color: '#000' }}
                 placeholderTextColor="#000"
                 placeholder="Current School"
                 keyboardType="default"
               />
             </View>
-          </View>
+
+            {currentschooldatatv.length > 0 ? <FlatList
+              data={currentschooldatatv}
+              style={{ paddingHorizontal: 25, }}
+              renderItem={({ item, index }) => rednderItemListcurrentschooldata(item, index)}
+            /> : null}
+          </View> : null}
 
 
-          <View style={{
+          {studentSelect ? <View style={{
             flexDirection: 'column',
           }}>
             <View
@@ -465,15 +1232,23 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
                 style={{ marginLeft: 10, tintColor: '#000' }}
               />
               <TextInput
-                // onChangeText={value => getSearchcitydata(value)}
-                // value={'Current City'}
+                onChangeText={value => getSearchPastSchooldata(value)}
+                value={pastschoolname}
                 style={{ color: '#000' }}
                 placeholderTextColor="#000"
                 placeholder="Past School"
                 keyboardType="default"
               />
             </View>
-          </View>
+
+            {pastschooldatatv.length > 0 ? <FlatList
+              data={pastschooldatatv}
+              style={{ paddingHorizontal: 25, }}
+              renderItem={({ item, index }) => rednderItemListpastschooldata(item, index)}
+            /> : null}
+
+
+          </View> : null}
           {citydata.length > 0 ? (
             <ScrollView style={{ flex: 1, marginTop: 10 }}
             // refreshControl={
@@ -634,7 +1409,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
             // }
             >
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '80%' }}>
-                <Text style={{ fontSize: 15 }}>No records found.</Text>
+                <Text style={{ fontSize: 15 }}>Records Not Available</Text>
               </View>
 
             </ScrollView>

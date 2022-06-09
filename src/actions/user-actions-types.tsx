@@ -593,3 +593,39 @@ export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL =
 export const getSearchSchoolStudentSearchListFilterbySchool = createAction(
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
 );
+
+
+
+// this is for Get Search School Student Search List Current City Filter By School
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTCITY = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTCITY';
+export const getSearchSchoolStudentSearchListFilterbySchoolCurrentCity = createAction(
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTCITY,
+);
+
+
+// this is for Get Search All School List
+export const SEARCHALLSCHOOLLIST = 'SEARCHALLSCHOOLLIST';
+export const getSearchAllSchoolList = createAction(
+  SEARCHALLSCHOOLLIST,
+);
+
+// this is for Get Search School Student Search List Current School Filter By School
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTSCHOOL = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTSCHOOL';
+export const getSearchSchoolStudentSearchListFilterbySchoolCurrentSchool = createAction(
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTSCHOOL,
+);
+
+
+// this is for Get Search School Student Search List Past School Filter By School
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLPAST = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLPAST';
+export const getSearchSchoolStudentSearchListFilterbySchoolPast = createAction(
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLPAST,
+);
+
+
+
+// this is for Get Search School 
+export const SEARCHSCHOOL = 'SEARCHSCHOOL';
+export const getSearchSchool = createAction(
+  SEARCHSCHOOL,
+);

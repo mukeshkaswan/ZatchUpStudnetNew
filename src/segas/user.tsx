@@ -139,6 +139,11 @@ import {
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER,
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
   CALLGETCONTACTSUGESSTION,
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTCITY,
+  SEARCHALLSCHOOLLIST,
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTSCHOOL,
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLPAST,
+  SEARCHSCHOOL
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -4465,6 +4470,156 @@ function* getSearchSchoolStudentSearchListFilterbySchool({
   }
 }
 
+/***************************User GET Search School Student Filter by user current city List By School Auth Segas*******************************/
+
+function* getSearchSchoolStudentSearchListFilterbySchoolCurrentCity({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/search-list-for-school-student/?search=${data.search}&filter_by=user&city_id=${data.id}`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  // console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Search All School List Auth Segas*******************************/
+
+function* getSearchAllSchoolList({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/all-school-list-of-user/?search=${data.key}`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  // console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Search School Student Filter by user current school List By School Auth Segas*******************************/
+
+function* getSearchSchoolStudentSearchListFilterbySchoolCurrentSchool({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/search-list-for-school-student/?search=${data.search}&filter_by=current&school_id=${data.id}`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  // console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Search School Student Filter by user past school List By School Auth Segas*******************************/
+
+function* getSearchSchoolStudentSearchListFilterbySchoolPast({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/search-list-for-school-student/?search=${data.search}&filter_by=past&school_id=${data.id}`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  // console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
+/***************************User GET Search School Student Filter by user current city List By School Auth Segas*******************************/
+
+function* getSearchSchool({ payload: { data, callback } }) {
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      // "Content-Type": "application/json"
+    },
+    method: 'GET',
+    url: `user/search-list-for-school-student/?search=${data.search}&filter_by=school&city_id=${data.id}`,
+  };
+
+  const { result, error } = yield call(httpClient, payload);
+  //callback({result, error});
+  // console.log('get City Search R', result, error);
+
+  if (!error) {
+    if (result) {
+      //   console.log('get Search School Student List By User Result', JSON.stringify(result, undefined, 2));
+      callback(result, error);
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
+
 function* User() {
   yield all([
     yield takeLatest(EMAILLOGIN, emailLogin),
@@ -4659,7 +4814,39 @@ function* User() {
       getSearchSchoolStudentSearchListFilterbySchool,
     ),
     yield takeLatest(CALLGETCONTACTSUGESSTION, CallGetContactSuggestion),
+
+    yield takeLatest(
+      SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTCITY,
+      getSearchSchoolStudentSearchListFilterbySchoolCurrentCity,
+    ),
+
+    yield takeLatest(
+      SEARCHALLSCHOOLLIST,
+      getSearchAllSchoolList,
+    ),
+
+    yield takeLatest(
+      SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLCURRENTSCHOOL,
+      getSearchSchoolStudentSearchListFilterbySchoolCurrentSchool,
+    ),
+
+    yield takeLatest(
+      SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOLPAST,
+      getSearchSchoolStudentSearchListFilterbySchoolPast,
+    ),
+
+
+    yield takeLatest(
+      SEARCHSCHOOL,
+      getSearchSchool,
+    ),
+
+
   ]);
+
+
+
+
 }
 
 export default User;
