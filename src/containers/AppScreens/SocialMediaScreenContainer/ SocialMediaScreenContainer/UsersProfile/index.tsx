@@ -1451,6 +1451,8 @@ const UsersProfile = (props: UserProfileProps) => {
             !userProfile.block_user_active &&
             !(data === 'Image') ? (
               <FlatList
+                key={'#'}
+                numColumns={2}
                 data={userProfile.social_post}
                 renderItem={({item}) => {
                   let items = item;
@@ -1464,50 +1466,85 @@ const UsersProfile = (props: UserProfileProps) => {
                   }
                   if (item.post_gallery != null) {
                     return (
+                      // <>
+                      //   <Carousel
+                      //     // layout={'tinder'}
+                      //     ref={isCarousel}
+                      //     data={item.post_gallery}
+                      //     renderItem={({item, index}) => (
+                      //       <CrouselImages
+                      //         item={item}
+                      //         index={index}
+                      //         length={len}
+                      //         data={data}
+                      //         goToNavigate={GoToNavigate}
+                      //         items={items}
+                      //         ref={ref}
+                      //       />
+                      //     )}
+                      //     sliderWidth={screenWidth - 16}
+                      //     itemWidth={screenWidth - 16}
+                      //     layoutCardOffset={'0'}
+                      //     onSnapToItem={index => setIndex(index)}
+                      //   />
+                      // </>
                       <>
-                        <Carousel
-                          // layout={'tinder'}
-                          ref={isCarousel}
-                          data={item.post_gallery}
-                          renderItem={({item, index}) => (
-                            <CrouselImages
-                              item={item}
-                              index={index}
-                              length={len}
-                              data={data}
-                              goToNavigate={GoToNavigate}
-                              items={items}
-                              ref={ref}
-                            />
-                          )}
-                          sliderWidth={screenWidth - 16}
-                          itemWidth={screenWidth - 16}
-                          layoutCardOffset={'0'}
-                          onSnapToItem={index => setIndex(index)}
+                        <CrouselImages
+                          item={item.post_gallery[0]}
+                          index={index}
+                          goToNavigate={GoToNavigate}
+                          items={items}
+                          ref={ref}
                         />
                       </>
                     );
                   } else {
                     return (
-                      <Carousel
-                        // layout={'tinder'}
-                        ref={isCarouselText}
-                        data={parts}
-                        renderItem={({item, index}) => (
-                          <CrouselText
-                            item={item}
-                            index={index}
-                            length={lenCap}
-                            data={data}
-                            goToNavigate={GoToNavigate}
-                            items={items}
-                          />
-                        )}
-                        sliderWidth={screenWidth - 16}
-                        itemWidth={screenWidth - 16}
-                        layoutCardOffset={'0'}
-                        onSnapToItem={index => setIndex(index)}
-                      />
+                      // <Carousel
+                      //   // layout={'tinder'}
+                      //   ref={isCarouselText}
+                      //   data={parts}
+                      //   renderItem={({item, index}) => (
+                      //     <CrouselText
+                      //       item={item}
+                      //       index={index}
+                      //       length={lenCap}
+                      //       data={data}
+                      //       goToNavigate={GoToNavigate}
+                      //       items={items}
+                      //     />
+                      //   )}
+                      //   sliderWidth={screenWidth - 16}
+                      //   itemWidth={screenWidth - 16}
+                      //   layoutCardOffset={'0'}
+                      //   onSnapToItem={index => setIndex(index)}
+                      // />
+                      <View
+                        style={{
+                          width: screenWidth / 2,
+                          height: screenWidth / 2,
+                          // backgroundColor: 'red',
+                        }}>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarouselText}
+                          data={parts}
+                          renderItem={({item, index}) => (
+                            <CrouselText
+                              item={item}
+                              index={index}
+                              length={lenCap}
+                              data={data}
+                              goToNavigate={GoToNavigate}
+                              items={items}
+                            />
+                          )}
+                          sliderWidth={screenWidth / 2 - 8}
+                          itemWidth={screenWidth / 2 - 8}
+                          layoutCardOffset={0}
+                          onSnapToItem={index => setIndex(index)}
+                        />
+                      </View>
                     );
                   }
                 }}
@@ -1518,6 +1555,8 @@ const UsersProfile = (props: UserProfileProps) => {
                 !userProfile.social_account_status) &&
               !userProfile.block_user_active ? (
               <FlatList
+                key={'_'}
+                numColumns={1}
                 data={userProfile.social_post}
                 renderItem={({item, index}) => {
                   let ind = index;
@@ -1879,7 +1918,7 @@ const UsersProfile = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
+function CrouselImages({items, item, index, goToNavigate, ref}) {
   let _menu = null;
 
   const gotoNavigate = () => {
@@ -1888,13 +1927,13 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
   return (
     <TouchableOpacity
       style={{
-        marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 16 : 56,
-        width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       {item.post_extension != 'mp4' ? (
@@ -1902,8 +1941,8 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           source={{uri: item.post_image}}
           resizeMode="contain"
           style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
             backgroundColor: '#d2d2d2',
           }}
         />
@@ -1930,19 +1969,24 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
         // />
         <View
           style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
+            backgroundColor: 'red',
+            justifyContent: 'center',
           }}>
           <Video
             ref={ref}
-            style={{}}
+            style={{
+              width: screenWidth / 2 - 24,
+              height: screenWidth / 2 - 24,
+            }}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
             // rotateToFullScreen={false}
             hideFullScreenControl={true}
             inlineOnly={true}
-            lockRatio={16 / 12}
-            resizeMode="contain"
+            lockRatio={1}
+            resizeMode="cover"
             autoplay
             //  theme={theme}
             // onBackPress={() => this.props.navigation.goBack(null)}
@@ -1952,7 +1996,7 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           />
         </View>
       )}
-      {length > 1 && (
+      {/* {length > 1 && (
         <Text
           style={{
             marginVertical: 10,
@@ -1968,7 +2012,7 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           }}>
           {index + 1}/{length}
         </Text>
-      )}
+      )} */}
     </TouchableOpacity>
   );
 }
@@ -1981,11 +2025,13 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
   return (
     <TouchableOpacity
       style={{
-        marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
-        marginStart: !(data === 'Image') ? 64 : 56,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       <View
@@ -1993,8 +2039,8 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          width: screenWidth,
-          height: screenWidth - 32,
+          width: screenWidth / 2 - 24,
+          height: screenWidth / 2 - 24,
           //backgroundColor: 'red',
         }}>
         <View

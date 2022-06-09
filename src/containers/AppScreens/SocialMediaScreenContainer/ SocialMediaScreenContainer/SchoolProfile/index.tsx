@@ -868,32 +868,32 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      {isLoading && renderIndicator()}
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="School Profile"
-      />
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        {isLoading && renderIndicator()}
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="School Profile"
+        />
 
-      {schoolDetail != '' && (
-        <ScrollView>
-          <View
-            style={{
-              backgroundColor: 'white',
-              marginTop: 10,
-              marginHorizontal: 16,
-              borderRadius: 5,
-            }}>
-            <ImageBackground
-              source={
-                schoolDetail.cover_pic != null
-                  ? {uri: schoolDetail.cover_pic}
-                  : Images.cover_pic_default
-              }
-              resizeMode="stretch"
-              style={{width: '100%', height: 100}}>
-              {/* <View
+        {schoolDetail != '' && (
+          <ScrollView>
+            <View
+              style={{
+                backgroundColor: 'white',
+                marginTop: 10,
+                marginHorizontal: 16,
+                borderRadius: 5,
+              }}>
+              <ImageBackground
+                source={
+                  schoolDetail.cover_pic != null
+                    ? {uri: schoolDetail.cover_pic}
+                    : Images.cover_pic_default
+                }
+                resizeMode="stretch"
+                style={{width: '100%', height: 100}}>
+                {/* <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View></View>
                 <View
@@ -909,68 +909,68 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 </View>
                 
               </View> */}
-              <View
-                style={{
-                  backgroundColor: 'black',
-                  height: 30,
-                  width: 30,
-                  justifyContent: 'center',
-                  margin: 10,
-                  alignSelf: 'flex-end',
-                }}>
-                <TouchableOpacity onPress={threedot}>
-                  <Image
-                    source={require('../../../../../assets/images/dot.png')}
-                    style={{
-                      tintColor: 'white',
-                      resizeMode: 'stretch',
-                      height: 20,
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
-              {threeDot == true && (
                 <View
                   style={{
-                    backgroundColor: 'white',
-                    width: 170,
+                    backgroundColor: 'black',
+                    height: 30,
+                    width: 30,
+                    justifyContent: 'center',
+                    margin: 10,
                     alignSelf: 'flex-end',
-                    marginTop: -8,
-                    marginRight: 10,
-                    borderRadius: 5,
-                    padding: 10,
-                    borderWidth: 1,
-                    borderColor: 'lightgrey',
                   }}>
-                  <TouchableOpacity onPress={reportprofilemodal}>
-                    <Text style={{fontSize: hp(2)}}>Report Profile</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => blockprofile()}>
-                    {/* <Text style={{fontSize: hp(2), marginTop: 10}}>
-                      Block Profile
-                    </Text> */}
+                  <TouchableOpacity onPress={threedot}>
+                    <Image
+                      source={require('../../../../../assets/images/dot.png')}
+                      style={{
+                        tintColor: 'white',
+                        resizeMode: 'stretch',
+                        height: 20,
+                      }}
+                    />
                   </TouchableOpacity>
                 </View>
-              )}
-            </ImageBackground>
-
-            <View style={styles.rowContainer}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View>
-                  <Image
-                    source={
-                      schoolDetail.profile_pic != null
-                        ? {uri: schoolDetail.profile_pic}
-                        : Images.profile_default
-                    }
+                {threeDot == true && (
+                  <View
                     style={{
-                      // marginLeft: 10,
-                      width: 80,
-                      height: 80,
-                      borderRadius: 50,
-                    }}
-                  />
-                  {/* <Icon
+                      backgroundColor: 'white',
+                      width: 170,
+                      alignSelf: 'flex-end',
+                      marginTop: -8,
+                      marginRight: 10,
+                      borderRadius: 5,
+                      padding: 10,
+                      borderWidth: 1,
+                      borderColor: 'lightgrey',
+                    }}>
+                    <TouchableOpacity onPress={reportprofilemodal}>
+                      <Text style={{fontSize: hp(2)}}>Report Profile</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => blockprofile()}>
+                      {/* <Text style={{fontSize: hp(2), marginTop: 10}}>
+                      Block Profile
+                    </Text> */}
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </ImageBackground>
+
+              <View style={styles.rowContainer}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View>
+                    <Image
+                      source={
+                        schoolDetail.profile_pic != null
+                          ? {uri: schoolDetail.profile_pic}
+                          : Images.profile_default
+                      }
+                      style={{
+                        // marginLeft: 10,
+                        width: 80,
+                        height: 80,
+                        borderRadius: 50,
+                      }}
+                    />
+                    {/* <Icon
                                     name={'camera'}
                                     size={15}
                                     style={{
@@ -981,323 +981,479 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                                         marginRight: 8,
                                     }}
                                 /> */}
-                  {schoolDetail.user_school_active && (
-                    <Image
-                      style={{
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 0,
-                        marginLeft: 16,
-                        width: 25,
-                        height: 25,
-                      }}
-                      source={Images.blue_tick}
-                    />
-                  )}
-                </View>
+                    {schoolDetail.user_school_active && (
+                      <Image
+                        style={{
+                          position: 'absolute',
+                          right: 0,
+                          bottom: 0,
+                          marginLeft: 16,
+                          width: 25,
+                          height: 25,
+                        }}
+                        source={Images.blue_tick}
+                      />
+                    )}
+                  </View>
 
-                <View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginLeft: 10,
-                      marginTop: 30,
-                    }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        props.navigation.navigate('PostDetailScreen');
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginLeft: 10,
+                        marginTop: 30,
                       }}>
-                      <View style={{alignItems: 'center', marginTop: 10}}>
-                        <Text style={styles.nametext}>
-                          {schoolDetail.name_of_school}
-                        </Text>
-                        <Text style={{marginLeft: 20, fontSize: 15}}>
-                          {schoolDetail.school_code}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    {/* <Icon
+                      <TouchableOpacity
+                        onPress={() => {
+                          props.navigation.navigate('PostDetailScreen');
+                        }}>
+                        <View style={{alignItems: 'center', marginTop: 10}}>
+                          <Text style={styles.nametext}>
+                            {schoolDetail.name_of_school}
+                          </Text>
+                          <Text style={{marginLeft: 20, fontSize: 15}}>
+                            {schoolDetail.school_code}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      {/* <Icon
                     name="check-circle"
                     size={18}
                     color="#4E387E"
                     style={{margin: 12}}
                   /> */}
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.likecontainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 10,
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('FollowersScreen', {
-                      item: {...schoolDetail, flag: 'school'},
-                    });
-                  }}>
-                  <Text style={styles.boldText}>
-                    {schoolDetail.social_user_followers}
-                  </Text>
-                  <Text>Followers</Text>
-                </TouchableOpacity>
-
+              <View style={styles.likecontainer}>
                 <View
                   style={{
-                    marginLeft: 20,
-                    backgroundColor: 'green',
-                    width: 85,
+                    flexDirection: 'row',
+                    marginTop: 10,
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 28,
-                    borderRadius: 5,
                   }}>
-                  <Text style={{color: 'white', fontWeight: 'bold'}}>
-                    Following
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('FollowersScreen', {
+                        item: {...schoolDetail, flag: 'school'},
+                      });
+                    }}>
+                    <Text style={styles.boldText}>
+                      {schoolDetail.social_user_followers}
+                    </Text>
+                    <Text>Followers</Text>
+                  </TouchableOpacity>
+
+                  <View
+                    style={{
+                      marginLeft: 20,
+                      backgroundColor: 'green',
+                      width: 85,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 28,
+                      borderRadius: 5,
+                    }}>
+                    <Text style={{color: 'white', fontWeight: 'bold'}}>
+                      Following
+                    </Text>
+                  </View>
+                </View>
+                <View style={{marginTop: 10}}>
+                  <TouchableOpacity
+                    style={{}}
+                    onPress={() => {
+                      props.navigation.navigate('Messages');
+                    }}>
+                    <Icon name="envelope" size={24} color="grey" />
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View style={{marginTop: 10}}>
-                <TouchableOpacity
-                  style={{}}
-                  onPress={() => {
-                    props.navigation.navigate('Messages');
-                  }}>
-                  <Icon name="envelope" size={24} color="grey" />
-                </TouchableOpacity>
+            </View>
+            <View style={styles.addresscontainer}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={styles.addresstext}> School Address : </Text>
+                <Text style={{color: 'black'}}>
+                  {schoolDetail.address1 + '' + schoolDetail.address2}
+                </Text>
               </View>
             </View>
-          </View>
-          <View style={styles.addresscontainer}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.addresstext}> School Address : </Text>
-              <Text style={{color: 'black'}}>
-                {schoolDetail.address1 + '' + schoolDetail.address2}
+            <View style={styles.paragraphcontainer}>
+              <Text style={{color: 'black', textAlign: 'justify'}}>
+                <Text style={styles.overviewtext}>School Overview : </Text>
+                {schoolDetail.overview}
               </Text>
             </View>
-          </View>
-          <View style={styles.paragraphcontainer}>
-            <Text style={{color: 'black', textAlign: 'justify'}}>
-              <Text style={styles.overviewtext}>School Overview : </Text>
-              {schoolDetail.overview}
-            </Text>
-          </View>
-          <View
-            style={[
-              styles.totalstudentcontainer,
-              {backgroundColor: 'honeydew'},
-            ]}>
-            <Text style={{fontSize: 15}}>Number of Students</Text>
-            <Text style={[styles.numbertext, {color: 'green'}]}>
-              {schoolDetail.total_student}
-            </Text>
-          </View>
-          <View
-            style={[
-              styles.totalstudentcontainer,
-              {backgroundColor: 'lightgrey'},
-            ]}>
-            <Text style={{fontSize: 15}}>Number of alumni on ZatchUp</Text>
-            <Text style={[styles.numbertext, {color: '#4E387E'}]}>
-              {schoolDetail.total_alumni}
-            </Text>
-          </View>
-          <Card style={styles.cardContent}>
-            <View style={styles.cardtitlecontent}>
-              <Text style={styles.cardtitletext}>Posts</Text>
-              <TouchableOpacity
-                style={styles.postbtn}
-                // onPress={() => {
-                //   props.navigation.navigate('AlumniGalleryScreen', {
-                //     item: schoolDetail,
-                //   });
-                // }}
-                onPress={() => gotoCallAlumni()}>
-                <Text style={{color: 'white', fontWeight: 'bold'}}>
-                  Alumni Gallery
+            <View
+              style={[
+                styles.totalstudentcontainer,
+                {backgroundColor: 'honeydew'},
+              ]}>
+              <Text style={{fontSize: 15}}>Number of Students</Text>
+              <Text style={[styles.numbertext, {color: 'green'}]}>
+                {schoolDetail.total_student}
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.totalstudentcontainer,
+                {backgroundColor: 'lightgrey'},
+              ]}>
+              <Text style={{fontSize: 15}}>Number of alumni on ZatchUp</Text>
+              <Text style={[styles.numbertext, {color: '#4E387E'}]}>
+                {schoolDetail.total_alumni}
+              </Text>
+            </View>
+            <Card style={styles.cardContent}>
+              <View style={styles.cardtitlecontent}>
+                <Text style={styles.cardtitletext}>Posts</Text>
+                <TouchableOpacity
+                  style={styles.postbtn}
+                  // onPress={() => {
+                  //   props.navigation.navigate('AlumniGalleryScreen', {
+                  //     item: schoolDetail,
+                  //   });
+                  // }}
+                  onPress={() => gotoCallAlumni()}>
+                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                    Alumni Gallery
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.borderstyle}></View>
+              <View style={styles.tabrowContainer}>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('th')}>
+                    <Icon
+                      name="th"
+                      size={30}
+                      color={data === 'th' ? '#4B2A6A' : 'grey'}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => active_data('Image')}>
+                    <Icon
+                      name="image"
+                      size={30}
+                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                      style={{marginLeft: 80}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Card>
+            {schoolDetail != '' && !(data === 'Image') ? (
+              <FlatList
+                key={'#'}
+                numColumns={2}
+                data={schoolDetail.social_post}
+                contentContainerStyle={{alignItems: 'center'}}
+                renderItem={({item}) => {
+                  let items = item;
+                  let len =
+                    item.post_gallery != null ? item.post_gallery.length : 0;
+                  if (item.post_gallery == null) {
+                    let s = item.caption;
+                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    console.log(parts);
+                    var lenCap = parts.length;
+                  }
+                  if (item.post_gallery != null) {
+                    return (
+                      // <Carousel
+                      //   // layout={'tinder'}
+                      //   ref={isCarousel}
+                      //   data={item.post_gallery}
+                      //   renderItem={({item, index}) => (
+                      //     <CrouselImages
+                      //       item={item}
+                      //       index={index}
+                      //       length={len}
+                      //       data={data}
+                      //       goToNavigate={GoToNavigate}
+                      //       items={items}
+                      //       ref={ref}
+                      //     />
+                      //   )}
+                      //   sliderWidth={screenWidth + 16}
+                      //   itemWidth={screenWidth + 16}
+                      //   layoutCardOffset={'0'}
+                      //   onSnapToItem={index => setIndex(index)}
+                      // />
+                      <CrouselImages
+                        item={item.post_gallery[0]}
+                        index={index}
+                        goToNavigate={GoToNavigate}
+                        items={items}
+                        ref={ref}
+                      />
+                    );
+                  } else {
+                    return (
+                      <View
+                        style={{
+                          width: screenWidth / 2,
+                          height: screenWidth / 2,
+                          // backgroundColor: 'red',
+                        }}>
+                        <Carousel
+                          // layout={'tinder'}
+                          ref={isCarouselText}
+                          data={parts}
+                          renderItem={({item, index}) => (
+                            <CrouselText
+                              item={item}
+                              index={index}
+                              length={lenCap}
+                              data={data}
+                              goToNavigate={GoToNavigate}
+                              items={items}
+                            />
+                          )}
+                          sliderWidth={screenWidth / 2 - 8}
+                          itemWidth={screenWidth / 2 - 8}
+                          layoutCardOffset={0}
+                          onSnapToItem={index => setIndex(index)}
+                        />
+                      </View>
+                    );
+                  }
+                }}
+                //  keyExtractor={item => item.id}
+                //style={{alignSelf: 'center'}}
+              />
+            ) : (
+              <FlatList
+                key={'_'}
+                numColumns={1}
+                data={schoolDetail.social_post}
+                renderItem={({item, index}) => {
+                  let len =
+                    item.post_gallery != null ? item.post_gallery.length : 0;
+                  let items = item;
+                  let ind = index;
+                  if (item.post_gallery == null) {
+                    let s = item.caption;
+                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    console.log(parts);
+                    var lenCap = parts.length;
+                  }
+                  return (
+                    <RenderItem
+                      userid={userid}
+                      gotoChangeComment={gotoChangeComment}
+                      gotoComment={gotoComment}
+                      gotoShowMore={gotoShowMore}
+                      gotoCommentLike={gotoCommentLike}
+                      gotoChangeToggle={gotoChangeToggle}
+                      gotoLikeUnLike={gotoLikeUnLike}
+                      toggleModal3={toggleModal3}
+                      data={data}
+                      isCarouselText={isCarouselText}
+                      isCarousel={isCarousel}
+                      props={props}
+                      schoolDetail={schoolDetail}
+                      len={len}
+                      items={items}
+                      item={item}
+                      index={index}
+                      parts={parts}
+                      lenCap={lenCap}
+                      goToNav={GoToNavigate}
+                      ref={ref}
+                    />
+                  );
+                }}
+                //  ItemSeparatorComponent={renderIndicator}
+              />
+            )}
+
+            {schoolDetail != '' && schoolDetail.social_post.length == 0 && (
+              <View
+                style={{
+                  margin: 16,
+                  borderColor: '#000',
+                  borderWidth: 1,
+                  padding: 16,
+                  alignItems: 'center',
+                }}>
+                <Text>No Post Uploaded</Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
+        {/* modal for report profile */}
+        <Modal
+          isVisible={isreportprofilemodal}
+          onBackdropPress={reportprofilemodal}
+          backdropOpacity={0.4}>
+          <View style={styles.modalContainer}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.4),
+                  }}>
+                  Report Profile
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity onPress={reportprofilemodal}>
+                <Image
+                  source={Images.closeicon}
+                  style={{height: 15, width: 15, marginRight: 10}}
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.borderstyle}></View>
-            <View style={styles.tabrowContainer}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => active_data('th')}>
-                  <Icon
-                    name="th"
-                    size={30}
-                    color={data === 'th' ? '#4B2A6A' : 'grey'}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => active_data('Image')}>
-                  <Icon
-                    name="image"
-                    size={30}
-                    color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                    style={{marginLeft: 80}}
-                  />
-                </TouchableOpacity>
-              </View>
+            <View style={styles.mborder}></View>
+            <View style={{paddingHorizontal: 16}}>
+              {checkboxValue.map((checkbox, i) => (
+                <View>
+                  <View key={i} style={styles.rowContent}>
+                    <Text style={styles.reporttext}>
+                      {checkbox.report_option}
+                    </Text>
+                    {/* <CustomCheckbox
+                onPress={(value) => checkboxHandler(value, i)}
+                 checked={checkbox.checked}
+              /> */}
+                    <TouchableOpacity
+                      onPress={() => checkboxHandler(checkbox, i)}>
+                      <View
+                        style={{
+                          // backgroundColor: '#4B2A6A',
+                          height: 22,
+                          width: 22,
+                          borderRadius: 11,
+                          borderColor: '#4B2A6A',
+                          borderWidth: 2,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        {checkbox.checked && (
+                          <View
+                            style={{
+                              backgroundColor: '#4B2A6A',
+                              height: 12,
+                              width: 12,
+                              borderRadius: 6,
+                            }}></View>
+                        )}
+                      </View>
+                      <View></View>
+                    </TouchableOpacity>
+                  </View>
+                  {checkbox.checked && (
+                    <View>
+                      {checkbox.report_option == 'Other' && (
+                        <View style={styles.textinputContainer}>
+                          <TextInput
+                            placeholder="Reason"
+                            multiline={true}
+                            numberOfLines={4}
+                            style={styles.textinput}
+                            onChangeText={val => addreason(val)}
+                            value={reason}
+                            maxLength={700}
+                          />
+                        </View>
+                      )}
+                    </View>
+                  )}
+                </View>
+              ))}
             </View>
-          </Card>
-          {schoolDetail != '' && !(data === 'Image') ? (
-            <FlatList
-              data={schoolDetail.social_post}
-              // horizontal={true}
-              // numColumns={2}
-              renderItem={({item}) => {
-                let items = item;
-                let len =
-                  item.post_gallery != null ? item.post_gallery.length : 0;
-                if (item.post_gallery == null) {
-                  let s = item.caption;
-                  var parts = s.match(/[\s\S]{1,140}/g) || [];
-                  console.log(parts);
-                  var lenCap = parts.length;
-                }
-                if (item.post_gallery != null) {
-                  return (
-                    <Carousel
-                      // layout={'tinder'}
-                      ref={isCarousel}
-                      data={item.post_gallery}
-                      renderItem={({item, index}) => (
-                        <CrouselImages
-                          item={item}
-                          index={index}
-                          length={len}
-                          data={data}
-                          goToNavigate={GoToNavigate}
-                          items={items}
-                          ref={ref}
-                        />
-                      )}
-                      sliderWidth={screenWidth + 16}
-                      itemWidth={screenWidth + 16}
-                      layoutCardOffset={'0'}
-                      onSnapToItem={index => setIndex(index)}
-                    />
-                  );
-                } else {
-                  return (
-                    <Carousel
-                      // layout={'tinder'}
-                      ref={isCarouselText}
-                      data={parts}
-                      renderItem={({item, index}) => (
-                        <CrouselText
-                          data={data}
-                          item={item}
-                          index={index}
-                          length={lenCap}
-                          goToNavigate={GoToNavigate}
-                          items={items}
-                        />
-                      )}
-                      sliderWidth={screenWidth + 16}
-                      itemWidth={screenWidth + 16}
-                      layoutCardOffset={'0'}
-                      onSnapToItem={index => setIndex(index)}
-                    />
-                  );
-                }
-              }}
-              //  keyExtractor={item => item.id}
-              //style={{alignSelf: 'center'}}
-            />
-          ) : (
-            <FlatList
-              data={schoolDetail.social_post}
-              renderItem={({item, index}) => {
-                let len =
-                  item.post_gallery != null ? item.post_gallery.length : 0;
-                let items = item;
-                let ind = index;
-                if (item.post_gallery == null) {
-                  let s = item.caption;
-                  var parts = s.match(/[\s\S]{1,140}/g) || [];
-                  console.log(parts);
-                  var lenCap = parts.length;
-                }
-                return (
-                  <RenderItem
-                    userid={userid}
-                    gotoChangeComment={gotoChangeComment}
-                    gotoComment={gotoComment}
-                    gotoShowMore={gotoShowMore}
-                    gotoCommentLike={gotoCommentLike}
-                    gotoChangeToggle={gotoChangeToggle}
-                    gotoLikeUnLike={gotoLikeUnLike}
-                    toggleModal3={toggleModal3}
-                    data={data}
-                    isCarouselText={isCarouselText}
-                    isCarousel={isCarousel}
-                    props={props}
-                    schoolDetail={schoolDetail}
-                    len={len}
-                    items={items}
-                    item={item}
-                    index={index}
-                    parts={parts}
-                    lenCap={lenCap}
-                    goToNav={GoToNavigate}
-                    ref={ref}
-                  />
-                );
-              }}
-              //  ItemSeparatorComponent={renderIndicator}
-            />
-          )}
 
-          {schoolDetail != '' && schoolDetail.social_post.length == 0 && (
+            <View style={styles.mborder}></View>
             <View
-              style={{
-                margin: 16,
-                borderColor: '#000',
-                borderWidth: 1,
-                padding: 16,
-                alignItems: 'center',
-              }}>
-              <Text>No Post Uploaded</Text>
+              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              <TouchableOpacity
+                style={styles.postbtn}
+                onPress={gotoReportProfile}>
+                <Text style={{color: 'white'}}>Submit</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        </ScrollView>
-      )}
-      {/* modal for report profile */}
-      <Modal
-        isVisible={isreportprofilemodal}
-        onBackdropPress={reportprofilemodal}
-        backdropOpacity={0.4}>
-        <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: 'black',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.4),
-                }}>
-                Report Profile
+          </View>
+        </Modal>
+        <Modal
+          isVisible={isModalVisible3}
+          onBackdropPress={toggleModal3}
+          backdropOpacity={0.4}>
+          <View
+            style={{
+              alignItems: 'center',
+              backgroundColor: 'white',
+              paddingVertical: 20,
+              borderRadius: 5,
+              justifyContent: 'center',
+            }}>
+            {/* {customItem.user_id != userid && ( */}
+            <>
+              <TouchableOpacity onPress={reportmodal}>
+                <Text style={styles.btn}>Report</Text>
+              </TouchableOpacity>
+              <View style={styles.mborder}></View>
+              {/* <TouchableOpacity
+               onPress={() => blockprofile()}
+               >
+                <Text style={styles.btn}>Unfollow</Text>
+              </TouchableOpacity> */}
+              {/* <View style={styles.mborder}></View> */}
+            </>
+            {/* )} */}
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('PostDetailScreen', {
+                  item: customItem,
+                });
+              }}>
+              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+            </TouchableOpacity>
+            <View style={styles.mborder}></View>
+            <TouchableOpacity onPress={toggleModal3}>
+              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+                Cancel
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={reportprofilemodal}>
-              <Image
-                source={Images.closeicon}
-                style={{height: 15, width: 15, marginRight: 10}}
-              />
-            </TouchableOpacity>
           </View>
-          <View style={styles.mborder}></View>
-          <View style={{paddingHorizontal: 16}}>
-            {checkboxValue.map((checkbox, i) => (
-              <View>
+        </Modal>
+
+        {/* modal for report */}
+        <Modal
+          isVisible={isreportmodal}
+          onBackdropPress={reportmodal}
+          backdropOpacity={0.4}>
+          <View style={styles.modalContainer}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontWeight: 'bold',
+                    fontSize: hp(2.4),
+                  }}>
+                  Report
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={reportmodal}>
+                <Image
+                  source={Images.closeicon}
+                  style={{height: 15, width: 15, marginRight: 10}}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.mborder}></View>
+            <View style={{paddingHorizontal: 16}}>
+              <Text style={{fontSize: hp(2.4)}}>
+                Why are you reporting this?
+              </Text>
+              {reportcheckboxValue.map((checkbox, i) => (
                 <View key={i} style={styles.rowContent}>
                   <Text style={styles.reporttext}>
                     {checkbox.report_option}
@@ -1307,7 +1463,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                  checked={checkbox.checked}
               /> */}
                   <TouchableOpacity
-                    onPress={() => checkboxHandler(checkbox, i)}>
+                    onPress={() => reportcheckboxHandler(checkbox, i)}>
                     <View
                       style={{
                         // backgroundColor: '#4B2A6A',
@@ -1332,156 +1488,25 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     <View></View>
                   </TouchableOpacity>
                 </View>
-                {checkbox.checked && (
-                  <View>
-                    {checkbox.report_option == 'Other' && (
-                      <View style={styles.textinputContainer}>
-                        <TextInput
-                          placeholder="Reason"
-                          multiline={true}
-                          numberOfLines={4}
-                          style={styles.textinput}
-                          onChangeText={val => addreason(val)}
-                          value={reason}
-                          maxLength={700}
-                        />
-                      </View>
-                    )}
-                  </View>
-                )}
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.mborder}></View>
-          <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
-            <TouchableOpacity
-              style={styles.postbtn}
-              onPress={gotoReportProfile}>
-              <Text style={{color: 'white'}}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        isVisible={isModalVisible3}
-        onBackdropPress={toggleModal3}
-        backdropOpacity={0.4}>
-        <View
-          style={{
-            alignItems: 'center',
-            backgroundColor: 'white',
-            paddingVertical: 20,
-            borderRadius: 5,
-            justifyContent: 'center',
-          }}>
-          {/* {customItem.user_id != userid && ( */}
-          <>
-            <TouchableOpacity onPress={reportmodal}>
-              <Text style={styles.btn}>Report</Text>
-            </TouchableOpacity>
+              ))}
+            </View>
             <View style={styles.mborder}></View>
-            {/* <TouchableOpacity
-               onPress={() => blockprofile()}
-               >
-                <Text style={styles.btn}>Unfollow</Text>
-              </TouchableOpacity> */}
-            {/* <View style={styles.mborder}></View> */}
-          </>
-          {/* )} */}
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.navigate('PostDetailScreen', {item: customItem});
-            }}>
-            <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
-          </TouchableOpacity>
-          <View style={styles.mborder}></View>
-          <TouchableOpacity onPress={toggleModal3}>
-            <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-
-      {/* modal for report */}
-      <Modal
-        isVisible={isreportmodal}
-        onBackdropPress={reportmodal}
-        backdropOpacity={0.4}>
-        <View style={styles.modalContainer}>
-          <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: 'black',
-                  fontWeight: 'bold',
-                  fontSize: hp(2.4),
-                }}>
-                Report
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={reportmodal}>
-              <Image
-                source={Images.closeicon}
-                style={{height: 15, width: 15, marginRight: 10}}
-              />
-            </TouchableOpacity>
+            <View
+              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              <TouchableOpacity
+                style={styles.postbtn}
+                onPress={() => gotoReport()}>
+                <Text style={{color: 'white'}}>Submit</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.mborder}></View>
-          <View style={{paddingHorizontal: 16}}>
-            <Text style={{fontSize: hp(2.4)}}>Why are you reporting this?</Text>
-            {reportcheckboxValue.map((checkbox, i) => (
-              <View key={i} style={styles.rowContent}>
-                <Text style={styles.reporttext}>{checkbox.report_option}</Text>
-                {/* <CustomCheckbox
-                onPress={(value) => checkboxHandler(value, i)}
-                 checked={checkbox.checked}
-              /> */}
-                <TouchableOpacity
-                  onPress={() => reportcheckboxHandler(checkbox, i)}>
-                  <View
-                    style={{
-                      // backgroundColor: '#4B2A6A',
-                      height: 22,
-                      width: 22,
-                      borderRadius: 11,
-                      borderColor: '#4B2A6A',
-                      borderWidth: 2,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    {checkbox.checked && (
-                      <View
-                        style={{
-                          backgroundColor: '#4B2A6A',
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                        }}></View>
-                    )}
-                  </View>
-                  <View></View>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-          <View style={styles.mborder}></View>
-          <View
-            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
-            <TouchableOpacity
-              style={styles.postbtn}
-              onPress={() => gotoReport()}>
-              <Text style={{color: 'white'}}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };
 
-function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
+function CrouselImages({items, item, index, goToNavigate, ref}) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };
@@ -1489,13 +1514,13 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
   return (
     <TouchableOpacity
       style={{
-        // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
-        width: !(data === 'Image') ? screenWidth : screenWidth,
-        height: !(data === 'Image') ? screenWidth : screenWidth,
-        marginStart: !(data === 'Image') ? 16 : 56,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       {item.post_extension != 'mp4' ? (
@@ -1503,8 +1528,8 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           source={{uri: item.post_image}}
           resizeMode="contain"
           style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth,
-            height: !(data === 'Image') ? screenWidth : screenWidth,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
             backgroundColor: '#d2d2d2',
           }}
         />
@@ -1531,19 +1556,24 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
         // />
         <View
           style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+            width: screenWidth / 2 - 24,
+            height: screenWidth / 2 - 24,
+            backgroundColor: 'red',
+            justifyContent: 'center',
           }}>
           <Video
             ref={ref}
-            style={{}}
+            style={{
+              width: screenWidth / 2 - 24,
+              height: screenWidth / 2 - 24,
+            }}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
             // rotateToFullScreen={false}
             hideFullScreenControl={true}
             inlineOnly={true}
-            lockRatio={16 / 12}
-            resizeMode="contain"
+            lockRatio={1}
+            resizeMode="cover"
             autoplay
             //  theme={theme}
             // onBackPress={() => this.props.navigation.goBack(null)}
@@ -1553,7 +1583,7 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           />
         </View>
       )}
-      {length > 1 && (
+      {/* {length > 1 && (
         <Text
           style={{
             margin: 10,
@@ -1569,7 +1599,7 @@ function CrouselImages({items, goToNavigate, item, index, length, data, ref}) {
           }}>
           {index + 1}/{length}
         </Text>
-      )}
+      )} */}
     </TouchableOpacity>
   );
 }
@@ -1582,10 +1612,13 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
   return (
     <TouchableOpacity
       style={{
-        marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        marginStart: !(data === 'Image') ? 64 : 56,
+        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        marginStart: index % 2 == 0 ? 16 : 8,
+        width: screenWidth / 2 - 24,
+        height: screenWidth / 2 - 24,
+        marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
       <View
@@ -1593,8 +1626,8 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          width: screenWidth,
-          height: screenWidth - 32,
+          width: screenWidth / 2 - 24,
+          height: screenWidth / 2 - 24,
           //backgroundColor: 'red',
         }}>
         <View

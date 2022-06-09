@@ -137,7 +137,8 @@ import {
   CHANGEPRIVATESTATUS,
   GOTOCALLPOSTLIKEAPI,
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER,
-  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL
+  SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
+  CALLGETCONTACTSUGESSTION,
 } from '../actions/user-actions-types';
 import httpClient from './http-client';
 import HttpClientPost from './http-client-post';
@@ -3462,6 +3463,36 @@ function* likeUnlikePost({payload: {data, callback}}) {
   }
 }
 
+/***************Get Contact suggestion like and unlike */
+
+function* CallGetContactSuggestion({payload: {data, callback}}) {
+  console.warn('data in saga', data);
+
+  const payload = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: data.contact,
+    method: 'POST',
+    url: 'socialmedia/user_contact_suggestion_notification/',
+  };
+  const {result, error} = yield call(httpClient, payload);
+  if (!error) {
+    if (result) {
+      console.log(
+        'contact suggestion List',
+        JSON.stringify(result, undefined, 2),
+      );
+      callback({result, error});
+      // const userToken = result.token;
+      // const data = result.data;
+      // yield put(loginSuccess({userToken, data}));
+    } else {
+      Toast.show(result.message);
+    }
+  }
+}
+
 /***************POst like and unlike */
 
 function* commentlikeUnlike({payload: {data, callback}}) {
@@ -4376,7 +4407,9 @@ function* getSocialPrivacySetting({payload: {data, callback}}) {
 
 /***************************User GET Search School Student Filter by user List By User Auth Segas*******************************/
 
-function* getSearchSchoolStudentSearchListFilterbyUser({payload: {data, callback}}) {
+function* getSearchSchoolStudentSearchListFilterbyUser({
+  payload: {data, callback},
+}) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -4402,10 +4435,11 @@ function* getSearchSchoolStudentSearchListFilterbyUser({payload: {data, callback
   }
 }
 
-
 /***************************User GET Search School Student Filter by user List By School Auth Segas*******************************/
 
-function* getSearchSchoolStudentSearchListFilterbySchool({payload: {data, callback}}) {
+function* getSearchSchoolStudentSearchListFilterbySchool({
+  payload: {data, callback},
+}) {
   const payload = {
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -4624,6 +4658,7 @@ function* User() {
       SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
       getSearchSchoolStudentSearchListFilterbySchool,
     ),
+    yield takeLatest(CALLGETCONTACTSUGESSTION, CallGetContactSuggestion),
   ]);
 }
 

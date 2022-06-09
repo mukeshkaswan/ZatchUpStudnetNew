@@ -522,6 +522,10 @@ export const getUserCoverMediaPic = createAction(GETUSERCOVERMEDIAPIC);
 export const GETSCHOOLPROFILE = 'GETSCHOOLPROFILE';
 export const getSchoolProfile = createAction(GETSCHOOLPROFILE);
 
+//this is the school profile of post
+export const CALLGETCONTACTSUGESSTION = 'CALLGETCONTACTSUGESSTION';
+export const CallGetContactSuggestion = createAction(CALLGETCONTACTSUGESSTION);
+
 //this is the alumni details of post
 export const GETALUMIGALLERYDETAIL = 'GETALUMIGALLERYDETAIL';
 export const getAlumniGalleryDetail = createAction(GETALUMIGALLERYDETAIL);
@@ -576,16 +580,16 @@ export const getPrivacySetting = createAction(GETPRIVACYSETTING);
 export const SOCIALPRIVACYSETTING = 'SOCIALPRIVACYSETTING';
 export const getSocialPrivacySetting = createAction(SOCIALPRIVACYSETTING);
 
-
 // this is for Get Search School Student Search List Filter By User
-export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER';
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER =
+  'SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER';
 export const getSearchSchoolStudentSearchListFilterbyUser = createAction(
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYUSER,
 );
 
-
 // this is for Get Search School Student Search List Filter By School
-export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL = 'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL';
+export const SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL =
+  'SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL';
 export const getSearchSchoolStudentSearchListFilterbySchool = createAction(
   SEARCHLISTFORSCHOOLSTUDENTFILTERBYSCHOOL,
 );

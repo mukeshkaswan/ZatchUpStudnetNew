@@ -30,8 +30,19 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [DATA, setData] = useState([]);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const [tab, setTab] = useState('list1');
+
+  const onpresstab1 = () => {
+    setTab('list1');
+    //this.ApiCall('STUDENTS');
+  };
+  const onpresstab2 = () => {
+    setTab('list2');
+    getContacts();
+  };
 
   useEffect(() => {
     getSuggestions();
@@ -93,10 +104,14 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
                   contacts[i].emailAddresses.length > 0
                     ? contacts[i].emailAddresses[0].email
                     : '',
-                phone: contacts[i].phoneNumbers[0].number,
+                phone:
+                  contacts[i].phoneNumbers.length > 0
+                    ? contacts[i].phoneNumbers[0].number
+                    : '',
               });
             }
             console.log('NewArr==>>', newArr);
+            CallGetContactSuggestion(newArr);
           })
           .catch(e => {
             console.log('Error==>>', e);
@@ -105,6 +120,54 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
       .catch(error => {
         console.log('Err=>>>', error);
       });
+  };
+
+  const CallGetContactSuggestion = async arr => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      contact: arr,
+    };
+
+    dispatch(
+      userActions.CallGetContactSuggestion({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result suggestions conatcts details',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              setData(result.data);
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
   };
 
   function handleBackButtonClick() {
@@ -235,39 +298,41 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
 
   const renderItem = ({item, index}) => {
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          marginHorizontal: 16,
-          marginTop: 12,
-        }}>
-        <Image
-          source={
-            item.profile_image != null
-              ? {uri: item.profile_image}
-              : Images.profile_default
-          }
-          style={styles.profileImg}
-        />
-        <View style={styles.childContainer}>
-          <View>
-            <Text style={styles.name}>
-              {item.first_name + ' ' + item.last_name}
-            </Text>
-            <Text style={{fontSize: 13}}>Suggested for you</Text>
+      <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: 16,
+            marginTop: 12,
+          }}>
+          <Image
+            source={
+              item.profile_image != null
+                ? {uri: item.profile_image}
+                : Images.profile_default
+            }
+            style={styles.profileImg}
+          />
+          <View style={styles.childContainer}>
+            <View>
+              <Text style={styles.name}>
+                {item.first_name + ' ' + item.last_name}
+              </Text>
+              <Text style={{fontSize: 13}}>Suggested for you</Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                backgroundColor: '#4B2A6A',
+                borderRadius: 4,
+                borderColor: 'grey',
+                marginEnd: 8,
+              }}
+              onPress={() => gotoFollow(item)}>
+              <Text style={{color: '#fff'}}>Follow</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={{
-              paddingHorizontal: 16,
-              paddingVertical: 8,
-              backgroundColor: '#4B2A6A',
-              borderRadius: 4,
-              borderColor: 'grey',
-              marginEnd: 8,
-            }}
-            onPress={() => gotoFollow(item)}>
-            <Text style={{color: '#fff'}}>Follow</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -281,6 +346,52 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
           headerTitle="Suggestions"
           headerRightcontent={''}
         />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            paddingVertical: 16,
+          }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: tab == 'list1' ? '#4B2A6A' : 'white',
+              height: 50,
+              width: 120,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 10,
+            }}
+            onPress={onpresstab1}>
+            <Text
+              style={{
+                color: tab == 'list1' ? 'white' : 'black',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
+              Education
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: tab == 'list2' ? '#4B2A6A' : 'white',
+              height: 50,
+              width: 120,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 10,
+              marginLeft: 8,
+            }}
+            onPress={onpresstab2}>
+            <Text
+              style={{
+                color: tab == 'list2' ? 'white' : 'black',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
+              Contact
+            </Text>
+          </TouchableOpacity>
+        </View>
         {suggestions.length > 0 && (
           <FlatList
             ListEmptyComponent={() => (
@@ -289,15 +400,15 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: height - 72,
+                  height: height - 180,
                   width,
                 }}>
                 <Text style={{fontWeight: '700'}}>
-                  No follow request is available
+                  No suggestion are available
                 </Text>
               </View>
             )}
-            data={suggestions}
+            data={tab == 'list1' ? suggestions : DATA}
             renderItem={renderItem}
             keyExtractor={(item, index) => item.name + 'Sap' + index}
           />
