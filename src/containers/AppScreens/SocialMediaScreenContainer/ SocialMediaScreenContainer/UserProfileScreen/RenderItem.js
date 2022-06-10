@@ -475,7 +475,7 @@ function RenderItem({
                     Liked by{' '}
                     <Text style={styles.boldText}>
                       {item.post_like[0].post_like_user_id == user_id
-                        ? 'you '
+                        ? 'You '
                         : item.post_like[0].post_like_username + ' '}
                     </Text>
                   </Text>
