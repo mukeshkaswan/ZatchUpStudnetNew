@@ -58,6 +58,8 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
     //   }
     // }, 1000);
 
+    console.log('url',ChatURL+'user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify='+props.route.params.getVerify+'&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id )
+
   }, [isFocused]);
   const renderIndicator = () => {
     return (
