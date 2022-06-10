@@ -46,7 +46,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
@@ -1301,11 +1301,22 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           )}
 
           <View style={styles.Notification_view}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Reminders');
               }}>
               <Image source={Images.search} style={styles.inbox_iconreminder} />
+            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Reminders');
+              }}>
+              <Icon name="clock-outline" size={28} color="#FFFFFF" style={{
+
+
+                marginRight: 5, marginTop: 11, height: 30, width: 30
+              }} />
             </TouchableOpacity>
             <View
               style={{
