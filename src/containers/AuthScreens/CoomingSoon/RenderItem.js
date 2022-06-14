@@ -545,7 +545,7 @@ function RenderItem({
                                   school_id: item.school_id,
                                 },
                               })
-                            : item.user_id != userid
+                            : item.user != userid
                             ? props.navigation.navigate('UsersProfile', {
                                 item: {user_id: item.user},
                               })
@@ -697,7 +697,7 @@ function CrouselImages({item, index, length, refff}) {
             // rotateToFullScreen={false}
             hideFullScreenControl={true}
             inlineOnly={true}
-            lockRatio={16 / 12}
+            lockRatio={16 / 16}
             resizeMode="contain"
             autoplay
             //  theme={theme}
@@ -711,7 +711,7 @@ function CrouselImages({item, index, length, refff}) {
         <Text
           style={{
             margin: 10,
-            marginEnd: 20,
+            marginEnd: 8,
             fontSize: 12,
             position: 'absolute',
             color: '#fff',

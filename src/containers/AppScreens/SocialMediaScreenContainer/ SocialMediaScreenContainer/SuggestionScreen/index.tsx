@@ -79,42 +79,45 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
     })
       .then(res => {
         console.log('res===>>>', res);
-        Contacts.checkPermission().then(permission => {
-          // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
-          if (permission === 'undefined') {
-            Contacts.requestPermission().then(permission => {
-              // ...
-            });
-          }
-          if (permission === 'authorized') {
-            // yay!
-          }
-          if (permission === 'denied') {
-            // x.x
-          }
-        });
-        Contacts.getAll()
-          .then(contacts => {
-            // work with contacts
-            console.log('contacts==>>>', JSON.stringify(contacts));
-            let newArr = [];
-            for (let i = 0; i < contacts.length; i++) {
-              newArr.push({
-                email:
-                  contacts[i].emailAddresses.length > 0
-                    ? contacts[i].emailAddresses[0].email
-                    : '',
-                phone:
-                  contacts[i].phoneNumbers.length > 0
-                    ? contacts[i].phoneNumbers[0].number
-                    : '',
+        Contacts.checkPermission()
+          .then(permission => {
+            // Contacts.PERMISSION_AUTHORIZED || Contacts.PERMISSION_UNDEFINED || Contacts.PERMISSION_DENIED
+            if (permission === 'undefined') {
+              Contacts.requestPermission().then(permission => {
+                // ...
               });
             }
-            console.log('NewArr==>>', newArr);
-            CallGetContactSuggestion(newArr);
+            if (permission === 'authorized') {
+              Contacts.getAll()
+                .then(contacts => {
+                  // work with contacts
+                  console.log('contacts==>>>', JSON.stringify(contacts));
+                  let newArr = [];
+                  for (let i = 0; i < contacts.length; i++) {
+                    newArr.push({
+                      email:
+                        contacts[i].emailAddresses.length > 0
+                          ? contacts[i].emailAddresses[0].email
+                          : '',
+                      phone:
+                        contacts[i].phoneNumbers.length > 0
+                          ? contacts[i].phoneNumbers[0].number
+                          : '',
+                    });
+                  }
+                  console.log('NewArr==>>', newArr);
+                  CallGetContactSuggestion(newArr);
+                })
+                .catch(e => {
+                  console.log('Error==>>', e);
+                });
+            }
+            if (permission === 'denied') {
+              // x.x
+            }
           })
-          .catch(e => {
-            console.log('Error==>>', e);
+          .catch(error => {
+            console.log('Err=>', error);
           });
       })
       .catch(error => {
@@ -151,7 +154,13 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
             );
 
             if (result.status) {
-              setData(result.data);
+              let newArr = [];
+              for (let i in result.data) {
+                if (!result.data[i].user_follow_status) {
+                  newArr.push(result.data[i]);
+                }
+              }
+              setData(newArr);
             } else {
               // setSchoolDetail('');
             }
@@ -278,6 +287,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
 
             if (result.status) {
               getSuggestions();
+              getContacts();
             } else {
               // setSchoolDetail('');
             }
@@ -305,21 +315,33 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
             marginHorizontal: 16,
             marginTop: 12,
           }}>
-          <Image
-            source={
-              item.profile_image != null
-                ? {uri: item.profile_image}
-                : Images.profile_default
-            }
-            style={styles.profileImg}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('UsersProfile', {
+                item: {user_id: item.id},
+              });
+            }}>
+            <Image
+              source={
+                item.profile_image != null
+                  ? {uri: item.profile_image}
+                  : Images.profile_default
+              }
+              style={styles.profileImg}
+            />
+          </TouchableOpacity>
           <View style={styles.childContainer}>
-            <View>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('UsersProfile', {
+                  item: {user_id: item.id},
+                });
+              }}>
               <Text style={styles.name}>
                 {item.first_name + ' ' + item.last_name}
               </Text>
               <Text style={{fontSize: 13}}>Suggested for you</Text>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={{
                 paddingHorizontal: 16,

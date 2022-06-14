@@ -157,12 +157,14 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     } catch (e) {
       // error reading value
     }
+    //setLoading(true);
     let image = await ImagePicker.openPicker({
       mediaType: 'photo',
       width: 400,
       height: 400,
       cropping: true,
     });
+
     image.type = image.mime;
     image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
     image.uri = image.path;
@@ -236,12 +238,18 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     } catch (e) {
       // error reading value
     }
+    //setLoading(true);
     let image = await ImagePicker.openPicker({
       mediaType: 'video',
     });
     image.type = image.mime;
     image.name = image.path.substr(image.path.lastIndexOf('/') + 1);
     image.uri = image.path;
+    console.log('Img=>>', image);
+    if (image.duration / 1000 > 61) {
+      Toast.show('Video can not more than 60 Sec', Toast.SHORT);
+      return;
+    }
     var formData = new FormData();
     formData.append('folder_name', 'lecture_upload');
     formData.append('myFile', {
@@ -253,7 +261,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           : image.uri.replace('file://', ''),
     });
     console.log(JSON.stringify(formData));
-    setLoading(true);
+
     axios({
       url: 'https://apis.zatchup.com:2000/api/uploadFile',
       method: 'POST',
@@ -451,34 +459,52 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           marginBottom: 16,
         }}>
         {item.type == 'video/mp4' ? (
+          // <Video
+          //   key={item + 'sap'}
+          //   // ref={ref}
+          //   videoWidth={screenWidth / 3 - 21}
+          //   videoHeight={screenWidth / 3 - 21}
+          //   style={{
+          //     backgroundColor: '#d2d2d2',
+          //     alignSelf: 'center',
+          //     borderRadius: 8,
+          //     marginTop: 16,
+
+          //     //  marginStart: 16,
+
+          //     width: screenWidth / 3 - 21,
+          //     height: screenWidth / 3 - 21,
+          //   }}
+          //   video={{
+          //     uri: item.uri,
+          //   }}
+          //   // video={{ uri: coursepreview }}
+          //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+          //   resizeMode="contain"
+          //   disableSeek={true}
+          //   autoplay
+          //   playControl={{
+          //     width: screenWidth / 3 - 21,
+          //     height: screenWidth / 3 - 21,
+          //   }}
+          // />
           <Video
-            key={item + 'sap'}
-            // ref={ref}
-            videoWidth={screenWidth / 3 - 21}
-            videoHeight={screenWidth / 3 - 21}
             style={{
-              backgroundColor: '#d2d2d2',
-              alignSelf: 'center',
-              borderRadius: 8,
-              marginTop: 16,
-
-              //  marginStart: 16,
-
               width: screenWidth / 3 - 21,
               height: screenWidth / 3 - 21,
             }}
-            video={{
-              uri: item.uri,
-            }}
-            // video={{ uri: coursepreview }}
-            thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+            url={item.uri}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            // rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
+            lockRatio={16 / 16}
             resizeMode="contain"
-            disableSeek={true}
-            autoplay
-            playControl={{
-              width: screenWidth / 3 - 21,
-              height: screenWidth / 3 - 21,
-            }}
+            // autoplay
+            //  theme={theme}
+            // onBackPress={() => this.props.navigation.goBack(null)}
+            //  placeholderStyle={{width: width - 32, height: height / 4}}
+            //onFullScreen={this.onFullScreen}
           />
         ) : (
           <Image

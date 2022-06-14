@@ -699,6 +699,7 @@ function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
           style={{
             marginVertical: 10,
             fontSize: 12,
+            marginEnd: 32,
             position: 'absolute',
             color: '#fff',
             right: 0,

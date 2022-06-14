@@ -1294,7 +1294,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            width: screenWidth,
+            width: screenWidth - 32,
             height: screenWidth - 32,
             //backgroundColor: 'red',
           }}>
@@ -1645,8 +1645,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                         length={captionLength}
                       />
                     )}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={ITEM_WIDTH}
+                    layoutCardOffset={'0'}
+                    sliderWidth={screenWidth - 32}
+                    itemWidth={screenWidth - 32}
                     onSnapToItem={(index: React.SetStateAction<number>) =>
                       setIndex(index)
                     }
@@ -1702,46 +1703,49 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                     }}></View>
                 )}
 
-              {postDetails.post_gallery != null && postDetails.length > 0 && (
-                <View style={styles.rowContainer}>
-                  <TouchableOpacity
-                    style={{flexDirection: 'row', alignItems: 'center'}}
-                    onPress={() => {
-                      postDetails.user_role == 'EIREPRESENTATIVE'
-                        ? props.navigation.navigate('SchoolProfile', {
-                            item: {
-                              user_id: postDetails.user_id,
-                              school_id: postDetails.school_id,
-                            },
-                          })
-                        : postDetails.user_id != userid
-                        ? props.navigation.navigate('UsersProfile', {
-                            item: {user_id: postDetails.user_id},
-                          })
-                        : props.navigation.navigate('UserProfileScreen', {
-                            item: {user_id: postDetails.user_id},
-                          });
-                    }}>
-                    <Image
-                      source={
-                        postDetails.profile_pic != null
-                          ? {uri: postDetails.profile_pic}
-                          : Images.profile_default
-                      }
-                      style={styles.profileImage}
-                    />
-                    <View>
-                      <Text style={styles.nametext}>
-                        {postDetails.full_name}
-                      </Text>
-                      <Text style={styles.nametext}>{postDetails.caption}</Text>
-                      <Text style={[styles.nametext, {fontWeight: '300'}]}>
-                        {postDetails.post_created_on}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
+              {postDetails.post_gallery != null &&
+                postDetails.post_gallery.length > 0 && (
+                  <View style={styles.rowContainer}>
+                    <TouchableOpacity
+                      style={{flexDirection: 'row', alignItems: 'center'}}
+                      onPress={() => {
+                        postDetails.user_role == 'EIREPRESENTATIVE'
+                          ? props.navigation.navigate('SchoolProfile', {
+                              item: {
+                                user_id: postDetails.user_id,
+                                school_id: postDetails.school_id,
+                              },
+                            })
+                          : postDetails.user_id != userid
+                          ? props.navigation.navigate('UsersProfile', {
+                              item: {user_id: postDetails.user_id},
+                            })
+                          : props.navigation.navigate('UserProfileScreen', {
+                              item: {user_id: postDetails.user_id},
+                            });
+                      }}>
+                      <Image
+                        source={
+                          postDetails.profile_pic != null
+                            ? {uri: postDetails.profile_pic}
+                            : Images.profile_default
+                        }
+                        style={styles.profileImage}
+                      />
+                      <View>
+                        <Text style={styles.nametext}>
+                          {postDetails.full_name}
+                        </Text>
+                        <Text style={styles.nametext}>
+                          {postDetails.caption}
+                        </Text>
+                        <Text style={[styles.nametext, {fontWeight: '300'}]}>
+                          {postDetails.post_created_on}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )}
 
               <FlatList
                 data={postDetails.comment_post}
