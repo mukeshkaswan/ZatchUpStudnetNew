@@ -1081,7 +1081,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       <View
                         style={{
                           width: screenWidth / 2,
-                          height: screenWidth / 2,
+                          height: screenWidth / 1.5,
                           // backgroundColor: 'red',
                         }}>
                         <Carousel
@@ -1099,7 +1099,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                             />
                           )}
                           sliderWidth={screenWidth / 2 - 8}
-                          itemWidth={screenWidth / 2 - 8}
+                          itemWidth={screenWidth / 1.5 - 8}
                           layoutCardOffset={0}
                           onSnapToItem={index => setIndex(index)}
                         />
@@ -1355,10 +1355,9 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
       style={{
         alignItems: 'center',
         marginTop: 16,
-        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
         marginStart: index % 2 == 0 ? 16 : 8,
         width: screenWidth / 2 - 24,
-        height: screenWidth / 2 - 24,
+        height: screenWidth / 1.5 - 24,
         marginEnd: index % 2 == 0 ? 8 : 16,
       }}
       onPress={gotoNavigate}>
@@ -1368,7 +1367,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
           justifyContent: 'center',
           alignItems: 'center',
           width: screenWidth / 2 - 24,
-          height: screenWidth / 2 - 24,
+          height: screenWidth / 1.5 - 24,
           //backgroundColor: 'red',
         }}>
         <View
@@ -1391,11 +1390,11 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
         </Text>
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: '700',
             color: '#4B2A6A',
-            marginHorizontal: 32,
-            marginEnd: 64,
+            marginHorizontal: 8,
+            // marginEnd: 64,
           }}>
           {item}
         </Text>
@@ -1405,7 +1404,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             fontSize: 40,
             textAlign: 'right',
             alignSelf: 'flex-end',
-            marginEnd: 48,
+            marginEnd: 40,
           }}>
           ”
         </Text>
@@ -1431,6 +1430,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             borderRadius: 12,
             padding: 2,
             paddingHorizontal: 6,
+            marginEnd: 8,
           }}>
           {index + 1}/{length}
         </Text>

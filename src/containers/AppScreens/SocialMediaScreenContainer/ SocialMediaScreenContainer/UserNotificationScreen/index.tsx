@@ -9,7 +9,7 @@ import {
   Alert,
   Dimensions,
   SectionList,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -182,12 +182,10 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     <TouchableOpacity
       style={styles.item}
       disabled={
-        item.notification_type == 'request'
-          ? false
-          : item.profile_block ||
-            item.notification_type == 'delete' ||
-            item.user_post_id == null
+        item.profile_block || item.notification_type == 'delete'
           ? true
+          : item.notification_type == 'request'
+          ? false
           : false
       }
       onPress={() => {
@@ -223,68 +221,70 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
   );
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Notification"
-        headerRightcontent={''}
-      />
-
-      {isLoading && (
-        <ProgressLoader
-          visible={true}
-          isModal={true}
-          isHUD={true}
-          //hudColor={"#ffffff00"}
-          hudColor={'#4B2A6A'}
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-          }}
-          color={'white'}
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Notification"
+          headerRightcontent={''}
         />
-      )}
 
-      {!isLoading && notifications.length > 0 ? (
-        <SectionList
-          // ListEmptyComponent={() => (
-          //   <View
-          //     style={{
-          //       flex: 1,
-          //       justifyContent: 'center',
-          //       alignItems: 'center',
-          //       height: height - 72,
-          //       width,
-          //     }}>
-          //     <Text style={{fontWeight: '700'}}>
-          //       No Notification is available
-          //     </Text>
-          //   </View>
-          // )}
-          sections={notifications}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item item={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      ) : !isLoading ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: height - 72,
-            width,
-          }}>
-          <Text style={{fontWeight: '700'}}>No Notification is available</Text>
-        </View>
-      ) : (
-        <View />
-      )}
-    </View>
+        {isLoading && (
+          <ProgressLoader
+            visible={true}
+            isModal={true}
+            isHUD={true}
+            //hudColor={"#ffffff00"}
+            hudColor={'#4B2A6A'}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 1,
+            }}
+            color={'white'}
+          />
+        )}
+
+        {!isLoading && notifications.length > 0 ? (
+          <SectionList
+            // ListEmptyComponent={() => (
+            //   <View
+            //     style={{
+            //       flex: 1,
+            //       justifyContent: 'center',
+            //       alignItems: 'center',
+            //       height: height - 72,
+            //       width,
+            //     }}>
+            //     <Text style={{fontWeight: '700'}}>
+            //       No Notification is available
+            //     </Text>
+            //   </View>
+            // )}
+            sections={notifications}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({item}) => <Item item={item} />}
+            renderSectionHeader={({section: {title}}) => (
+              <Text style={styles.header}>{title}</Text>
+            )}
+          />
+        ) : !isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: height - 72,
+              width,
+            }}>
+            <Text style={{fontWeight: '700'}}>
+              No Notification is available
+            </Text>
+          </View>
+        ) : (
+          <View />
+        )}
+      </View>
     </SafeAreaView>
   );
 };

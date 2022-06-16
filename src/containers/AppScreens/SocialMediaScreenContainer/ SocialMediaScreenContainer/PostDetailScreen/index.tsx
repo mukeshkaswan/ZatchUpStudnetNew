@@ -1394,26 +1394,6 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
         />
       ) : (
-        // <Video
-        //   key={item + 'sap'}
-        //   //ref={ref}
-        //   videoWidth={screenWidth / 2 - 40}
-        //   videoHeight={screenWidth / 2 - 40}
-        //   style={{
-        //     backgroundColor: '#d2d2d2',
-        //     alignSelf: 'center',
-        //     height: screenWidth / 2 - 40,
-        //     width: screenWidth / 2 - 40,
-        //   }}
-        //   video={{
-        //     uri: item.post_gallery[0].post_image,
-        //   }}
-        //   // video={{ uri: coursepreview }}
-        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-        //   //resizeMode="contain"
-        //   //showDuration
-        //   //lockRatio={16 / 9}
-        // />
         <View
           style={{
             width: screenWidth / 2 - 40,
@@ -1422,7 +1402,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
           }}>
           <Video
             // ref={ref}
-            style={{width: screenWidth / 2 - 40, height: screenWidth / 2 - 40}}
+            style={{}}
             url={item.post_gallery[0].post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
             // rotateToFullScreen={false}

@@ -496,30 +496,34 @@ const UsersProfile = (props: UserProfileProps) => {
               // }
 
               let newArrr = [];
-
-              for (let i in result.data[0].social_post) {
-                let newSubArr = [];
-                if (result.data[0].social_post[i].comment_post != null) {
-                  for (let j in result.data[0].social_post[i].comment_post) {
-                    newSubArr.push({
-                      ...result.data[0].social_post[i].comment_post[j],
-                      showMore: false,
-                    });
+              if (result.data[0].social_post != null) {
+                for (let i in result.data[0].social_post) {
+                  let newSubArr = [];
+                  if (result.data[0].social_post[i].comment_post != null) {
+                    for (let j in result.data[0].social_post[i].comment_post) {
+                      newSubArr.push({
+                        ...result.data[0].social_post[i].comment_post[j],
+                        showMore: false,
+                      });
+                    }
+                  } else {
+                    newSubArr = result.data[0].social_post[i].comment_post;
                   }
-                } else {
-                  newSubArr = result.data[0].social_post[i].comment_post;
+                  newArrr.push({
+                    ...result.data[0].social_post[i],
+                    comment_post: newSubArr,
+                    commentToggle: false,
+                    commentValue: '',
+                  });
                 }
-                newArrr.push({
-                  ...result.data[0].social_post[i],
-                  comment_post: newSubArr,
-                  commentToggle: false,
-                  commentValue: '',
-                });
+
+                console.log('NewArray==>>12', newArrr);
               }
 
-              console.log('NewArray==>>12', newArrr);
-
-              let newObject = {...result.data[0], social_post: newArrr};
+              let newObject = {
+                ...result.data[0],
+                social_post: result.data[0].social_post != null ? newArrr : [],
+              };
 
               console.log('+++++12', newObject);
 
@@ -1165,30 +1169,23 @@ const UsersProfile = (props: UserProfileProps) => {
                         borderRadius: 50,
                       }}
                     />
-                    {userProfile != '' && userProfile.kyc_approved && (
-                      <Image
+                    {userProfile != '' && userProfile.kyc_approved != 0 && (
+                      <View
                         style={{
                           position: 'absolute',
                           left: 0,
                           bottom: 0,
                           marginLeft: 16,
-                          width: 20,
-                          height: 20,
-                        }}
-                        source={Images.blue_tick}
-                      />
+                        }}>
+                        <Image
+                          style={{
+                            width: 20,
+                            height: 20,
+                          }}
+                          source={Images.blue_tick}
+                        />
+                      </View>
                     )}
-                    {/* <Icon
-                    name={'camera'}
-                    size={15}
-                    style={{
-                      backgroundColor: '#ccc',
-                      position: 'absolute',
-                      right: 0,
-                      bottom: 0,
-                      marginRight: 8,
-                    }}
-                  /> */}
                   </View>
 
                   <View>
@@ -1200,16 +1197,13 @@ const UsersProfile = (props: UserProfileProps) => {
                       }}>
                       <View style={{marginTop: 16}}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
-                        <Text style={styles.nametext}>
-                          {'(' + userProfile.zatchup_id + ')'}
-                        </Text>
+                        {userProfile == '' &&
+                          userProfile.zatchup_id != null && (
+                            <Text style={styles.nametext}>
+                              {'(' + userProfile.zatchup_id + ')'}
+                            </Text>
+                          )}
                       </View>
-                      {/* <Icon
-                      name="check-circle"
-                      size={18}
-                      color="#4E387E"
-                      style={{margin: 5}}
-                    /> */}
                     </View>
                   </View>
                 </View>
@@ -1322,7 +1316,9 @@ const UsersProfile = (props: UserProfileProps) => {
               <View style={styles.cardtitlecontent}>
                 <Text style={styles.cardtitletext}>Education</Text>
               </View>
-              {userProfile.educationdetail != null &&
+              {userProfile != '' &&
+                (userProfile.educationdetail != null ||
+                  userProfile.educationdetail.length > 0) &&
                 userProfile.educationdetail.map((item, index) => {
                   if (
                     item.course_detail != null &&
@@ -1446,6 +1442,7 @@ const UsersProfile = (props: UserProfileProps) => {
               </Card>
             )}
             {userProfile != '' &&
+            userProfile.social_post.length > 0 &&
             (userProfile.follow_request_status == 2 ||
               !userProfile.social_account_status) &&
             !userProfile.block_user_active &&
@@ -1551,6 +1548,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 //  ItemSeparatorComponent={renderIndicator}
               />
             ) : userProfile != '' &&
+              userProfile.social_post.length > 0 &&
               (userProfile.follow_request_status == 2 ||
                 !userProfile.social_account_status) &&
               !userProfile.block_user_active ? (
@@ -1665,15 +1663,6 @@ const UsersProfile = (props: UserProfileProps) => {
 
               borderRadius: 5,
             }}>
-            {/* <Image
-            source={Images.profile_img2}
-            style={{
-              height: 50,
-              width: 50,
-              tintColor: 'grey',
-              borderRadius: 25,
-            }}
-          /> */}
             <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
               <Text
                 style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
@@ -1681,10 +1670,6 @@ const UsersProfile = (props: UserProfileProps) => {
                   ? 'Are you sure you want to unfollow'
                   : 'Are you sure you want to cancel the Request?'}
               </Text>
-              {/* <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-              Zatchup won't tell @{userData.following_username} that they have
-              been removed from the Followers.
-            </Text> */}
             </View>
             <View
               style={{
@@ -1693,11 +1678,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 width: '100%',
                 marginTop: 30,
               }}></View>
-            {/* <Button
-            //color={Colors.$backgroundColor}
-            title="Remove"
-            onPress={gotoRemove}
-          /> */}
+
             <TouchableOpacity onPress={gotoRemove}>
               <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Yes</Text>
             </TouchableOpacity>
@@ -1750,10 +1731,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   <Text style={styles.reporttext}>
                     {checkbox.report_option}
                   </Text>
-                  {/* <CustomCheckbox
-                onPress={(value) => checkboxHandler(value, i)}
-                 checked={checkbox.checked}
-              /> */}
+
                   <TouchableOpacity
                     onPress={() => checkboxHandler(checkbox, i)}>
                     <View
@@ -1806,20 +1784,12 @@ const UsersProfile = (props: UserProfileProps) => {
               borderRadius: 5,
               justifyContent: 'center',
             }}>
-            {/* {customItem.user_id != userid && ( */}
             <>
               <TouchableOpacity onPress={reportmodal}>
                 <Text style={styles.btn}>Report</Text>
               </TouchableOpacity>
               <View style={styles.mborder}></View>
-              {/* <TouchableOpacity
-               onPress={() => blockprofile()}
-               >
-                <Text style={styles.btn}>Unfollow</Text>
-              </TouchableOpacity> */}
-              {/* <View style={styles.mborder}></View> */}
             </>
-            {/* )} */}
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('PostDetailScreen', {

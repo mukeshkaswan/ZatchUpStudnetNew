@@ -72,11 +72,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
   }, [isFocused]);
 
   const getContacts = () => {
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-      title: 'Contacts',
-      message: 'This app would like to view your contacts.',
-      buttonPositive: 'Please accept bare mortal',
-    })
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
       .then(res => {
         console.log('res===>>>', res);
         Contacts.checkPermission()
@@ -88,6 +84,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
               });
             }
             if (permission === 'authorized') {
+              //Alert.alert('kk');
               Contacts.getAll()
                 .then(contacts => {
                   // work with contacts
