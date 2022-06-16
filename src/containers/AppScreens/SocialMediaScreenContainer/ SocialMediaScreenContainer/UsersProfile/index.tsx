@@ -1212,13 +1212,16 @@ const UsersProfile = (props: UserProfileProps) => {
                 <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
                     disabled={
-                      (userProfile.follow_request_status == 2 ||
-                        userProfile.follow_request_status == 1) &&
-                      userProfile.social_account_status
+                      userProfile.block_user_active
                         ? true
-                        : userProfile.block_user_active
+                        : userProfile.follow_request_status == 2 &&
+                          userProfile.social_account_status
+                        ? false
+                        : (userProfile.follow_request_status == 2 ||
+                            userProfile.follow_request_status == 1) &&
+                          userProfile.social_account_status
                         ? true
-                        : false
+                        : true
                     }
                     onPress={() => {
                       props.navigation.navigate('FollowersScreen', {
@@ -1233,13 +1236,16 @@ const UsersProfile = (props: UserProfileProps) => {
 
                   <TouchableOpacity
                     disabled={
-                      (userProfile.follow_request_status == 2 ||
-                        userProfile.follow_request_status == 1) &&
-                      userProfile.social_account_status
+                      userProfile.block_user_active
                         ? true
-                        : userProfile.block_user_active
+                        : userProfile.follow_request_status == 2 &&
+                          userProfile.social_account_status
+                        ? false
+                        : (userProfile.follow_request_status == 2 ||
+                            userProfile.follow_request_status == 1) &&
+                          userProfile.social_account_status
                         ? true
-                        : false
+                        : true
                     }
                     onPress={() => {
                       props.navigation.navigate('FollowingScreen', {
@@ -1599,7 +1605,9 @@ const UsersProfile = (props: UserProfileProps) => {
                 }}
                 //  ItemSeparatorComponent={renderIndicator}
               />
-            ) : !userProfile.block_user_active ? (
+            ) : (!userProfile.block_user_active ||
+                !userProfile.social_account_status) &&
+              userProfile.social_post.length > 0 ? (
               <View
                 style={{
                   alignItems: 'center',

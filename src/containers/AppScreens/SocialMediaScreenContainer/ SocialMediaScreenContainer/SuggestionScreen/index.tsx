@@ -21,6 +21,7 @@ import * as userActions from '../../../../../actions/user-actions-types';
 import Contacts from 'react-native-contacts';
 
 import {useIsFocused} from '@react-navigation/native';
+
 interface NotificationsScreenProps {
   navigation: any;
 }

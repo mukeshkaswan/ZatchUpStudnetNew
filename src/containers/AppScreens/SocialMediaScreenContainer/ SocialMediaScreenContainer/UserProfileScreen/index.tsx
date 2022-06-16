@@ -279,30 +279,34 @@ const UserProfileScreen = (props: UserProfileProps) => {
               //console.log('+++++', newObject);
 
               let newArrr = [];
-
-              for (let i in result.data[0].social_post) {
-                let newSubArr = [];
-                if (result.data[0].social_post[i].comment_post != null) {
-                  for (let j in result.data[0].social_post[i].comment_post) {
-                    newSubArr.push({
-                      ...result.data[0].social_post[i].comment_post[j],
-                      showMore: false,
-                    });
+              if (result.data[0].social_post != null) {
+                for (let i in result.data[0].social_post) {
+                  let newSubArr = [];
+                  if (result.data[0].social_post[i].comment_post != null) {
+                    for (let j in result.data[0].social_post[i].comment_post) {
+                      newSubArr.push({
+                        ...result.data[0].social_post[i].comment_post[j],
+                        showMore: false,
+                      });
+                    }
+                  } else {
+                    newSubArr = result.data[0].social_post[i].comment_post;
                   }
-                } else {
-                  newSubArr = result.data[0].social_post[i].comment_post;
+                  newArrr.push({
+                    ...result.data[0].social_post[i],
+                    comment_post: newSubArr,
+                    commentToggle: false,
+                    commentValue: '',
+                  });
                 }
-                newArrr.push({
-                  ...result.data[0].social_post[i],
-                  comment_post: newSubArr,
-                  commentToggle: false,
-                  commentValue: '',
-                });
               }
 
               console.log('NewArray==>> 111', newArrr);
 
-              let newObject = {...result.data[0], social_post: newArrr};
+              let newObject = {
+                ...result.data[0],
+                social_post: result.data[0].social_post != null ? newArrr : [],
+              };
 
               console.log('+++++', newObject);
 
@@ -1155,7 +1159,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 }}
                 //  ItemSeparatorComponent={renderIndicator}
               />
-            ) : (
+            ) : !userProfile.social_account_status ? (
               <View
                 style={{
                   alignItems: 'center',
@@ -1169,23 +1173,22 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   This Account Is Private
                 </Text>
               </View>
+            ) : (
+              <View />
             )}
 
-            {userProfile != '' &&
-              userProfile.social_post.length == 0 &&
-              (userProfile.follow_request_status == 2 ||
-                userProfile.social_account_status) && (
-                <View
-                  style={{
-                    margin: 16,
-                    borderColor: '#000',
-                    borderWidth: 1,
-                    padding: 16,
-                    alignItems: 'center',
-                  }}>
-                  <Text>No Post Uploaded</Text>
-                </View>
-              )}
+            {userProfile != '' && userProfile.social_post.length == 0 && (
+              <View
+                style={{
+                  margin: 16,
+                  borderColor: '#000',
+                  borderWidth: 1,
+                  padding: 16,
+                  alignItems: 'center',
+                }}>
+                <Text>No Post Uploaded</Text>
+              </View>
+            )}
           </ScrollView>
         )}
         <BottomSheet

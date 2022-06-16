@@ -8,7 +8,7 @@ import {
   BackHandler,
   Alert,
   Dimensions,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {HeaderTitleWithBack, Images} from '../../../../../components';
@@ -190,19 +190,45 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
           marginHorizontal: 16,
           marginTop: 12,
         }}>
-        <Image
-          source={
-            item.follow_request_user_profile_pic != null
-              ? {uri: item.follow_request_user_profile_pic}
-              : Images.profile_default
-          }
-          style={styles.profileImg}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            item.follower_user_role == 'EIREPRESENTATIVE'
+              ? props.navigation.navigate('SchoolProfile', {
+                  item: {
+                    user_id: item.follow_user_id,
+                    school_id: item.follower_school_id,
+                  },
+                })
+              : props.navigation.navigate('UsersProfile', {
+                  item: {user_id: item.follow_user_id},
+                });
+          }}>
+          <Image
+            source={
+              item.follow_request_user_profile_pic != null
+                ? {uri: item.follow_request_user_profile_pic}
+                : Images.profile_default
+            }
+            style={styles.profileImg}
+          />
+        </TouchableOpacity>
         <View style={styles.childContainer}>
-          <View>
+          <TouchableOpacity
+            onPress={() => {
+              item.follower_user_role == 'EIREPRESENTATIVE'
+                ? props.navigation.navigate('SchoolProfile', {
+                    item: {
+                      user_id: item.follow_user_id,
+                      school_id: item.follower_school_id,
+                    },
+                  })
+                : props.navigation.navigate('UsersProfile', {
+                    item: {user_id: item.follow_user_id},
+                  });
+            }}>
             <Text style={styles.name}>{item.follow_username}</Text>
             <Text style={{fontSize: 13}}>Suggested for you</Text>
-          </View>
+          </TouchableOpacity>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               style={{
@@ -233,33 +259,33 @@ const FollowRequestScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <HeaderTitleWithBack
-        navigation={props.navigation}
-        headerTitle="Follow Requests"
-        headerRightcontent={''}
-      />
-      <FlatList
-        data={followReq}
-        renderItem={renderItem}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: height - 72,
-              width,
-            }}>
-            <Text style={{fontWeight: '700'}}>
-              No follow request is available
-            </Text>
-          </View>
-        )}
-        keyExtractor={(item, index) => item.name + 'Sap' + index}
-      />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <HeaderTitleWithBack
+          navigation={props.navigation}
+          headerTitle="Follow Requests"
+          headerRightcontent={''}
+        />
+        <FlatList
+          data={followReq}
+          renderItem={renderItem}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: height - 72,
+                width,
+              }}>
+              <Text style={{fontWeight: '700'}}>
+                No follow request is available
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item, index) => item.name + 'Sap' + index}
+        />
+      </View>
     </SafeAreaView>
   );
 };
