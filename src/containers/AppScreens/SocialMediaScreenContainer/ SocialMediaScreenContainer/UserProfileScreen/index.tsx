@@ -789,7 +789,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         borderRadius: 50,
                       }}
                     />
-                    {userProfile != '' && userProfile.kyc_approved && (
+                    {userProfile != '' && userProfile.kyc_approved != 0 && (
                       <Image
                         style={{
                           position: 'absolute',
@@ -835,9 +835,12 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       }}>
                       <View style={{marginTop: 16}}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
-                        <Text style={styles.nametext}>
-                          {'(' + userProfile.zatchup_id + ')'}
-                        </Text>
+                        {userProfile == '' &&
+                          userProfile.zatchup_id != null && (
+                            <Text style={styles.nametext}>
+                              {'(' + userProfile.zatchup_id + ')'}
+                            </Text>
+                          )}
                       </View>
                       {/* <Icon
                       name="check-circle"
