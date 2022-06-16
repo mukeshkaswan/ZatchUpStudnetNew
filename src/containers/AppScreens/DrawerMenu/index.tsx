@@ -37,7 +37,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const [userId, setUserId] = useState('');
   const dispatch = useDispatch();
-  const [is_kyc_approved, setIs_kyc_approved] = useState();
+  const [is_kyc_approved, setIs_kyc_approved] = useState(false);
 
   const isFocused = useIsFocused();
 
@@ -47,7 +47,9 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
 
   useFocusEffect(
     React.useCallback(() => {
-
+      setProfilePic('');
+      setUsername('');
+      setIs_kyc_approved(false);
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
@@ -212,6 +214,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
     return true;
   };
 
+
+  
   const LogoutALert = async () => {
     try {
       await AsyncStorage.removeItem('username');

@@ -99,6 +99,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
       onChangecitynamecloneschool('');
 
       getPeopleSearch(props.route.params.tvname);
+      
 
 
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -409,7 +410,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
 
     const data = {
       token: token,
-      search: search_tv,
+      search: props.route.params.tvname,
       id: city_id,
 
     };
@@ -465,7 +466,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
 
     const data = {
       token: token,
-      search: search_tv,
+      search: props.route.params.tvname,
       id: city_id,
 
     };
@@ -522,7 +523,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
 
     const data = {
       token: token,
-      search: search_tv,
+      search: props.route.params.tvname,
       id: school_id,
 
     };
@@ -577,7 +578,7 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
 
     const data = {
       token: token,
-      search: search_tv,
+      search: props.route.params.tvname,
       id: school_id,
 
     };
@@ -588,11 +589,11 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
         data,
 
         callback: ({ results, error }) => {
-          // console.warn(
-          //   'after Search School Student result data',
-          //   results,
-          //   //  getdataProfile(result),
-          // );
+          console.warn(
+            'after Search School Student result data new',
+            results,
+            //  getdataProfile(result),
+          );
           if (results && results.length > 0) {
             // setSpinnerStart(false);
             setFlag(true);
@@ -1313,13 +1314,13 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
                           <View style={{ flexDirection: 'column' }}>
 
                             <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 16 }}>
+                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 16,marginTop:5 }}>
                                 {item.display}
                               </Text>
                             </View>
 
                             {item.is_school_mate ? <View style={{ marginLeft: 8, justifyContent: 'center' }}>
-                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 14, color: '#B4B4B4' }}>
+                              <Text style={{ marginLeft:3,fontWeight: 'bold', fontSize: 14, color: '#B4B4B4' }}>
                                 {'School Mate'}
                               </Text>
                             </View> : null}
@@ -1364,13 +1365,13 @@ const SeeAllResults = (props: SeeAllResultsScreenProps) => {
                           <View style={{ flexDirection: 'column' }}>
 
                             <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 16 }}>
+                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 16 ,marginTop:5}}>
                                 {item.display}
                               </Text>
                             </View>
 
                             {item.is_school_mate ? <View style={{ marginLeft: 8, justifyContent: 'center' }}>
-                              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 14, color: '#B4B4B4' }}>
+                              <Text style={{ marginLeft:3, fontWeight: 'bold', fontSize: 14, color: '#B4B4B4' }}>
                                 {'School Mate'}
                               </Text>
                             </View> : null}

@@ -6,6 +6,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Dimensions,
+  
 } from 'react-native';
 import styles from './style';
 import { Images } from '../../../components/index';
@@ -30,6 +31,8 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;
+
+import Clipboard from '@react-native-community/clipboard'
 
 interface OtpLoginScreenProps {
   navigation: any;
@@ -62,7 +65,7 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
 
 
   useEffect(() => {
-
+    Clipboard.setString('');
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(props.route.params.username)) {
       setKey('Email');
@@ -236,6 +239,8 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
   };
 
   const onPressResendOtp = () => {
+    Clipboard.setString('');
+
     const data = {
       username: props.route.params.username,
     };
@@ -437,7 +442,6 @@ const OtpLogin = (props: OtpLoginScreenProps) => {
           focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
 
 
-        // value={otp}
         />
       </View>
       <View style={styles.inputContainer}>
