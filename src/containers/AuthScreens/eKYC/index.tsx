@@ -471,7 +471,7 @@ const eKyc = (props: eKycScreenProps) => {
 
     const IDSelecterror = Validate('kycidselect', KYC_type_doc_Selected);
 
-    console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
+   // console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
 
     if (KYC_type_doc_Selected == 0) {
       var IDError = Validate('AadharNumber', ID);
@@ -968,12 +968,11 @@ const eKyc = (props: eKycScreenProps) => {
               <CustomDropdown
                 placeholder={'Select ID'}
                 data={KYC_type_doc}
-                selectedValue={KYC_type_doc_Selected}
+                value={KYC_type_doc_Selected}
+             //   selectedValue={KYC_type_doc_Selected}
                 SelectedLanguagedata={(selectedValue: any) => {
                   setKYCSelected(selectedValue);
                   setID('');
-                  // setImageFront('')
-                  // setImageBack('')
                   setImageFrontName('');
                   setImageBackName('');
                 }}

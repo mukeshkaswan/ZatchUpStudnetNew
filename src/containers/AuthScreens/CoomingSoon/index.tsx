@@ -153,6 +153,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [socialMedia, setIsEnabled2] = useState(false);
+  const [norecordfound , setNoRecord] = useState(false);
+
   const [checkboxValue, setCheckboxValue] = React.useState([
     {report_option: 'Suspicious or Fake', checked: false},
 
@@ -206,6 +208,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         setPage(1);
         onChangecityname('');
         setCityData([]);
+        setNoRecord(false);
 
         getStepCountAPi();
         getAuthUserInfoApi();
@@ -340,6 +343,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       getCity_Model_Search(value);
     } else if (value.length < 3) {
       setCityData([]);
+      setNoRecord(false);
     }
   };
 
@@ -769,8 +773,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           if (results && results.length > 0) {
             // setSpinnerStart(false);
             setCityData(results), setLoading(false);
+            setNoRecord(false);
+
           } else if (results && results.length == []) {
             setCityData([]);
+            setNoRecord(true);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1405,9 +1412,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             zIndex: 1,
             //  height: 230,
           }}>
-          {citydata.length > 0 ? (
+          {citydata.length > 0 ? 
             <FlatList
-              data={citydata}
+              data={citydata.slice(0,5)}
               showsVerticalScrollIndicator={false}
               // ListFooterComponent={() => (
               //   <Text style={{textAlign: 'center'}}>See All Results</Text>
@@ -1422,9 +1429,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 rednderItemListcitydata(item, index)
               }
             />
-          ) : null}
+           : null}
 
-          {/* {citydata.length > 0 ? (<Text>{'test'}</Text>) : null} */}
+
+
+          {norecordfound ? (  Toast.show('Data Not found ', Toast.SHORT)) : null}
 
           {citydata.length > 5 ? (
             <TouchableOpacity

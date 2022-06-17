@@ -69,7 +69,7 @@ const styles = ScaledSheet.create({
 
   Cardview_city: {
     //  marginLeft: 5,
-    marginRight: 15,
+   // marginRight: 15,
     //marginLeft: '10%',
     width: '90%',
     shadowColor: 'black',
