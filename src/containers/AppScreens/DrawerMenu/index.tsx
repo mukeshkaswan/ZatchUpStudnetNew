@@ -58,7 +58,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
         return () => {
           dataSetTimeOut.clear();
         }
-      }, 5000);
+      },3000);
     }, []),
   );
 

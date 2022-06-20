@@ -16,7 +16,7 @@ const styles = ScaledSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         padding: '3%',
-        marginTop:'10%'
+        marginTop:'10%',
        // borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
         //width: Dimensions.get('window').width * 0.5,
         //height: Dimensions.get('window').width * 0.5,

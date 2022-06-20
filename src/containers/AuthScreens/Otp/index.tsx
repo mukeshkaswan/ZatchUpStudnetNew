@@ -18,6 +18,7 @@ import {
   Validate,
   ProgressIndicator
 } from '../../../components';
+import Clipboard from '@react-native-community/clipboard'
 
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
@@ -62,6 +63,7 @@ const Otp = (props: OtpScreenProps) => {
   };
 
   useEffect(() => {
+    Clipboard.setString('');
 
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(props.route.params.username)) {
@@ -96,6 +98,7 @@ const Otp = (props: OtpScreenProps) => {
 
   const onPressResendOtp = () => {
     //Validate();
+    Clipboard.setString('');
 
 
     const data = {
