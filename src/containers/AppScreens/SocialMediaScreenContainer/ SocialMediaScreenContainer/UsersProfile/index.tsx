@@ -1605,9 +1605,8 @@ const UsersProfile = (props: UserProfileProps) => {
                 }}
                 //  ItemSeparatorComponent={renderIndicator}
               />
-            ) : (!userProfile.block_user_active ||
-                !userProfile.social_account_status) &&
-              userProfile.social_post.length > 0 ? (
+            ) : userProfile.social_account_status &&
+              userProfile.follow_request_status != '2' ? (
               <View
                 style={{
                   alignItems: 'center',
