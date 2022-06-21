@@ -170,7 +170,7 @@ function RenderItem({
       userActions.gotoCallPostLikeApi({
         data,
         callback: ({result, error}) => {
-          console.log('hey.......kamal1', result);
+          //console.log('hey.......kamal1', result);
           setLoading(false);
           if (result.status) {
             setData(result.data);

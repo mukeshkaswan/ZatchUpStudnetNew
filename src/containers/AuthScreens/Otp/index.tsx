@@ -19,7 +19,6 @@ import {
   ProgressIndicator
 } from '../../../components';
 import Clipboard from '@react-native-community/clipboard'
-
 import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';

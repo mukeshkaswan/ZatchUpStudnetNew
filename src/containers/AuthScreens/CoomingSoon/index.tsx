@@ -482,7 +482,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 newData.push({ ...result.data[i], checked: false });
               }
 
-              console.log('newData==>>', newData);
+             // console.log('newData==>>', newData);
 
               setCheckboxValue(newData);
             }

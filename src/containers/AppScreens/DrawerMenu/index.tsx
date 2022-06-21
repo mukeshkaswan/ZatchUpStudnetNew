@@ -143,7 +143,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
           if (result) {
             setLoading(false);
 
-            console.log('vijayji', result);
+           // console.log('vijayji', result);
             setProfilePic(result.profile_pic),
               setUsername(result.user_first_name + ' ' + result.user_last_name),
               setUserId(result.user_id)
@@ -178,7 +178,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       const profil = await AsyncStorage.getItem('profilepic');
       const kyckey = await AsyncStorage.getItem('kyckey');
 
-      console.log('kyckey', kyckey);
+      //console.log('kyckey', kyckey);
 
       if (user !== null) {
         //setUsername(user);
@@ -188,7 +188,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       }
 
       if (kyckey !== null) {
-        console.log('kyckey', kyckey);
+       // console.log('kyckey', kyckey);
 
         setKycapproved(kyckey);
       }
