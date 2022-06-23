@@ -50,15 +50,17 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       setProfilePic('');
       setUsername('');
       setIs_kyc_approved(false);
+
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
+        
         getStepCountAPi();
 
         return () => {
           dataSetTimeOut.clear();
         }
-      },3000);
+      },1000);
     }, []),
   );
 

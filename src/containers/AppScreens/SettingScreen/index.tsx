@@ -71,7 +71,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isEnabledProfession, setIsEnabledProfession] = useState(true);
   const [isEnabledCity, setIsEnabledCity] = useState(true);
   const [isEnabledPrivate, setIsEnabledPrivate] = useState(false);
-
   const [isDeactivateAccount, setIsDeactivateAccount] = useState(false);
   const [customgenderView, setcustomgenderView] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -82,9 +81,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [otpemail, setOtpEmail] = useState('');
   const [number, onChangeNumber] = React.useState(null);
   const [changeemail, onChangeEmail] = React.useState(null);
-
   const [userid, setUserid] = useState('');
-
   const [Gender, setGender] = useState('');
   const [GenderForModal, setGenderForModal] = useState('');
   const [count, setCount] = useState(0);
@@ -116,6 +113,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isotpVisiblemodalemail, setotpVisiblemodalemail] = useState(false);
   const [pronouncustom, setpronoun] = useState('');
   const [pronouncustomcustom_gender, setpronouncustom_gender] = useState('');
+
+  const [isAge, setIsAge] = useState(false);
+
 
   const dispatch = useDispatch();
   const [KYC_type_doc, setKYC_type_doc] = useState([
@@ -1053,6 +1053,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             // );
             setIsEnabledPrivate(result.data[0].profile_is_private);
             setIsEnabled2(result.data[0].socialmedia_user_status);
+            setIsAge(result.data[0].age);
+
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -2575,9 +2577,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View>
 
-              {isEnabled2 ? <View style={styles.border1}></View> : null}
+              { isAge ? <View style={styles.border1}></View> : null}
 
-              {isEnabled2 ? <View style={styles.privacyrowcontainer}>
+              {isAge ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
@@ -2588,8 +2590,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View> : null}
 
-              <View style={styles.border1}></View>
-              <View style={styles.privacyrowcontainer}>
+              {isAge ?  <View style={styles.border1}></View>:null}
+              {isAge   ?  <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Social Media</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
@@ -2598,7 +2600,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   onValueChange={toggleSwitch2}
                   value={isEnabled2}
                 />
-              </View>
+              </View>:null}
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>

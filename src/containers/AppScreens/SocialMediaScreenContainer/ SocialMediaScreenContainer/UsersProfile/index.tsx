@@ -1,4 +1,4 @@
-import React, {Component, FC, useState, useEffect, useRef} from 'react';
+import React, { Component, FC, useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -33,21 +33,21 @@ import {
 import * as userActions from '../../../../../actions/user-actions-types';
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Avatar, Card, Title, Paragraph} from 'react-native-paper';
+import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import images from '../../../../../components/images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import {useDispatch} from 'react-redux';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useDispatch } from 'react-redux';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
 import Popover from 'react-native-popover-view';
-import {Images} from '../../../../../components/index';
+import { Images } from '../../../../../components/index';
 import Modal from 'react-native-modal';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 import RenderItem from './RenderItem';
 import user from '../../../../../reducers/users';
 import Video from 'react-native-video-player';
@@ -60,9 +60,9 @@ export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const UsersProfile = (props: UserProfileProps) => {
-  console.log('=====UserOther', props.route);
+  //console.log('=====UserOther', props.route);
   const {
-    item: {user_id},
+    item: { user_id },
   } = props.route.params;
   const ref = useRef();
   const isFocused = useIsFocused();
@@ -83,18 +83,27 @@ const UsersProfile = (props: UserProfileProps) => {
   const [isreportmodal, setreportmodal] = useState(false);
   const [customItem, setCustomItem] = useState('');
   const [isreportprofilemodal, setreportprofilemodal] = useState(false);
-  const [checkboxValue, setCheckboxValue] = React.useState([
-    {report_option: 'Was not my Batchmate', checked: false},
 
-    {report_option: 'Was not my Classmate', checked: false},
-    {report_option: 'Fake Profile', checked: false},
+  const [isEnabledEmail, setIsEnabledEmail] = useState(true);
+  const [isEnabledDob, setIsEnabledDob] = useState(true);
+  const [isEnabledGender, setIsEnabledGender] = useState(true);
+  const [isEnabledProfession, setIsEnabledProfession] = useState(true);
+  const [isEnabledCity, setIsEnabledCity] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
+
+
+  const [checkboxValue, setCheckboxValue] = React.useState([
+    { report_option: 'Was not my Batchmate', checked: false },
+
+    { report_option: 'Was not my Classmate', checked: false },
+    { report_option: 'Fake Profile', checked: false },
   ]);
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
-    {report_option: 'Suspicious or Fake', checked: false},
+    { report_option: 'Suspicious or Fake', checked: false },
 
-    {report_option: 'Harassment or hateful speech', checked: false},
-    {report_option: 'Violence or physical harm', checked: false},
-    {report_option: 'Adult Content', checked: false},
+    { report_option: 'Harassment or hateful speech', checked: false },
+    { report_option: 'Violence or physical harm', checked: false },
+    { report_option: 'Adult Content', checked: false },
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -122,7 +131,7 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   const checkboxHandler = (value, index) => {
-    console.log('value', value);
+    //console.log('value', value);
     setReportId(value.id);
     const newValue = checkboxValue.map((checkbox, i) => {
       if (i !== index)
@@ -174,9 +183,9 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'Yes', onPress: () => gotoBlockProfile()},
+          { text: 'Yes', onPress: () => gotoBlockProfile() },
         ],
-        {cancelable: false},
+        { cancelable: false },
       );
     } else {
       Alert.alert(
@@ -188,9 +197,9 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'Yes', onPress: () => gotoBlockProfile()},
+          { text: 'Yes', onPress: () => gotoBlockProfile() },
         ],
-        {cancelable: false},
+        { cancelable: false },
       );
     }
     return true;
@@ -214,18 +223,18 @@ const UsersProfile = (props: UserProfileProps) => {
       block_user_status: !userProfile.block_user_active,
     };
 
-    console.log('ReportPost==>>', data);
+    // console.log('ReportPost==>>', data);
 
     dispatch(
       userActions.blockUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result block data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result block data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
               getUserProfile(user_id);
@@ -274,18 +283,18 @@ const UsersProfile = (props: UserProfileProps) => {
       report_id: reportId,
     };
 
-    console.log('ReportPost==>>', data);
+    // console.log('ReportPost==>>', data);
 
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result report data',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
             }
@@ -336,18 +345,19 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result Auth User INfo',
-              JSON.stringify(result, undefined, 2),
-              setUserid(result.user_id),
+            // console.warn(
+            //   'after result Auth User INfo',
+            //   JSON.stringify(result, undefined, 2),
+
+            //   //setTempUserId(result.user_id),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            setUserid(result.user_id),
               setuserName(result.full_name),
-              //setTempUserId(result.user_id),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
-            // setSpinnerStart(false);
-            setLoading(false);
+              // setSpinnerStart(false);
+              setLoading(false);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -383,11 +393,12 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   useEffect(() => {
-    console.log('hey...' + tempUserId);
+    //console.log('hey...' + tempUserId);
     if (tempUserId == '') {
-      console.log('Hello Hey........');
+      // console.log('Hello Hey........');
 
       getAuthUserInfoApi();
+      getSettingStatus(user_id);
       getUserProfile(user_id);
       getUserCoverMediaPic(user_id);
       getReportData();
@@ -396,6 +407,7 @@ const UsersProfile = (props: UserProfileProps) => {
       return;
     } else {
       getAuthUserInfoApi();
+      getSettingStatus(user_id);
       getUserProfile(user_id);
       getUserCoverMediaPic(user_id);
       getReportData();
@@ -435,9 +447,9 @@ const UsersProfile = (props: UserProfileProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -453,6 +465,145 @@ const UsersProfile = (props: UserProfileProps) => {
 
     props.navigation.navigate('LoginScreen');
     //  BackHandler.exitApp()
+  };
+
+
+
+  /***************************User Auth User  Setting Status Info*******************************/
+
+  const getSettingStatus = async user_id => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      id: user_id,
+    };
+
+    dispatch(
+      userActions.getUserSettingStatus({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            // console.warn(
+            //   'after result get User Setting Status >',
+            //   JSON.stringify(result, undefined, 2),
+            // );
+            getStatusType(result);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  const getStatusType = async result => {
+    for (let i in result.data) {
+
+
+      if (result.data[i].status_type === 'EMAIL_ID') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledEmail(true);
+
+        }
+        else {
+          setIsEnabledEmail(false);
+
+        }
+
+      }
+
+
+      if (result.data[i].status_type === 'DOB') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledDob(true);
+
+        }
+        else {
+          setIsEnabledDob(false);
+
+        }
+      }
+
+
+
+      if (result.data[i].status_type == 'GENDER') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledGender(true);
+
+        }
+        else {
+          setIsEnabledGender(false);
+
+
+        }
+
+      }
+
+
+
+
+      if (result.data[i].status_type === 'PROFESSION') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledProfession(true);
+
+        }
+        else {
+          setIsEnabledProfession(false);
+
+        }
+      }
+
+
+      if (result.data[i].status_type === 'MOB_NUM') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabled(true);
+
+        }
+        else {
+          setIsEnabled(false);
+
+        }
+      }
+
+
+
+
+
+      if (result.data[i].status_type === 'CITY') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledCity(true);
+
+        }
+        else {
+          setIsEnabledCity(false);
+
+        }
+      }
+
+    }
   };
 
   const getUserProfile = async user_id => {
@@ -471,18 +622,18 @@ const UsersProfile = (props: UserProfileProps) => {
       token: token,
       user_id: user_id,
     };
-    console.log('users data : ', data);
+    //console.log('users data : ', data);
 
     dispatch(
       userActions.getUserProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result user profile details',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result user profile details',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             if (result.status) {
               setTempUserId(user_id);
@@ -517,7 +668,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   });
                 }
 
-                console.log('NewArray==>>12', newArrr);
+                // console.log('NewArray==>>12', newArrr);
               }
 
               let newObject = {
@@ -525,7 +676,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 social_post: result.data[0].social_post != null ? newArrr : [],
               };
 
-              console.log('+++++12', newObject);
+              // console.log('+++++12', newObject);
 
               setUserProfile(newObject);
             } else {
@@ -567,20 +718,20 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getReportDataUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result report data userr',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data userr',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({...result.data[i], checked: false});
+                newData.push({ ...result.data[i], checked: false });
               }
 
-              console.log('newDataUser==>>', newData);
+              //  console.log('newDataUser==>>', newData);
               setCheckboxValue(newData);
               //setCheckboxValue(newData);
             }
@@ -631,20 +782,20 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result report data post',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report data post',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({...result.data[i], checked: false});
+                newData.push({ ...result.data[i], checked: false });
               }
 
-              console.log('newDataa==>>', newData);
+              // console.log('newDataa==>>', newData);
               setreportCheckboxValue(newData);
             }
             // setSpinnerStart(false);
@@ -693,13 +844,13 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.getUserCoverMediaPic({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result user cover pic details',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result user cover pic details',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             let obj = {
               cover_pic: result.cover_pic.socialmedia_coverpic,
@@ -747,13 +898,13 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result comment on post',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment on post',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getUserProfile(user_id);
             setComment('');
@@ -791,13 +942,13 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getUserProfile(user_id);
           }
@@ -830,18 +981,18 @@ const UsersProfile = (props: UserProfileProps) => {
       comment_id: item.id,
       like: !item.likes_status,
     };
-    console.log(data);
+    //console.log(data);
 
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result comment like or unlike',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result comment like or unlike',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             setLoading(false);
             getUserProfile(user_id);
           }
@@ -869,7 +1020,7 @@ const UsersProfile = (props: UserProfileProps) => {
         newObj.social_post[i].commentToggle = false;
       }
     }
-    console.log('newObj', newObj);
+    //console.log('newObj', newObj);
     setUserProfile(newObj);
   };
 
@@ -886,7 +1037,7 @@ const UsersProfile = (props: UserProfileProps) => {
       }
     }
 
-    console.log('After Change==>>', newObj);
+    //console.log('After Change==>>', newObj);
 
     setUserProfile(newObj);
   };
@@ -911,27 +1062,27 @@ const UsersProfile = (props: UserProfileProps) => {
       data.follow_status = !userProfile.social_account_status
         ? 2
         : userProfile.social_account_status
-        ? 1
-        : 0;
+          ? 1
+          : 0;
     } else {
       data.follow_status =
         userProfile.follow_request_status == 1
           ? 0
           : userProfile.follow_request_status == 0
-          ? 1
-          : 0;
+            ? 1
+            : 0;
     }
 
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result follow user',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result follow user',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             if (result.status) {
               getUserProfile(user_id);
@@ -978,13 +1129,13 @@ const UsersProfile = (props: UserProfileProps) => {
     dispatch(
       userActions.reportProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
-            console.warn(
-              'after result report profile',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result report profile',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
             }
@@ -1035,7 +1186,7 @@ const UsersProfile = (props: UserProfileProps) => {
   const isCarouselText = useRef(null);
 
   const gotoShowMore = (ind, index) => {
-    console.log(ind, index);
+    //console.log(ind, index);
 
     let newArr = Object.assign([], userProfile.social_post);
 
@@ -1055,32 +1206,32 @@ const UsersProfile = (props: UserProfileProps) => {
 
     // console.log('After Change==>>', newArr);
 
-    let newObject = {...userProfile, social_post: newArr};
+    let newObject = { ...userProfile, social_post: newArr };
 
-    console.log('+++++', newObject);
+    //console.log('+++++', newObject);
 
     setUserProfile(newObject);
   };
 
   const goToNavigate = async (route, itemData) => {
-    console.log(route + 'Sap' + JSON.stringify(itemData));
+    //console.log(route + 'Sap' + JSON.stringify(itemData));
     let itemm = JSON.stringify(itemData);
     console.log(JSON.parse(itemm));
     const {
-      item: {user_id},
+      item: { user_id },
     } = JSON.parse(itemm);
     console.log(user_id);
-    await props.navigation.navigate(route, {item: {user_id}});
+    await props.navigation.navigate(route, { item: { user_id } });
     // return true;
   };
 
   const GoToNavigate = items => {
-    console.log('item', items);
-    props.navigation.navigate('PostDetailScreen', {item: items});
+    // console.log('item', items);
+    props.navigation.navigate('PostDetailScreen', { item: items });
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <HeaderTitleWithBack
           navigation={props.navigation}
@@ -1099,12 +1250,12 @@ const UsersProfile = (props: UserProfileProps) => {
               <ImageBackground
                 source={
                   sociaMedialPic.hasOwnProperty('cover_pic') &&
-                  sociaMedialPic.cover_pic != null
-                    ? {uri: sociaMedialPic.cover_pic}
+                    sociaMedialPic.cover_pic != null
+                    ? { uri: sociaMedialPic.cover_pic }
                     : Images.cover_pic_default
                 }
                 resizeMode="stretch"
-                style={{width: '100%', height: 130}}>
+                style={{ width: '100%', height: 130 }}>
                 <View
                   style={{
                     backgroundColor: 'black',
@@ -1139,10 +1290,10 @@ const UsersProfile = (props: UserProfileProps) => {
                       borderColor: 'lightgrey',
                     }}>
                     <TouchableOpacity onPress={reportprofilemodal}>
-                      <Text style={{fontSize: hp(2)}}>Report Profile</Text>
+                      <Text style={{ fontSize: hp(2) }}>Report Profile</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => blockprofile()}>
-                      <Text style={{fontSize: hp(2), marginTop: 10}}>
+                      <Text style={{ fontSize: hp(2), marginTop: 10 }}>
                         {userProfile != '' && userProfile.block_user_active
                           ? 'Unblock Profile'
                           : 'Block Profile'}
@@ -1153,13 +1304,13 @@ const UsersProfile = (props: UserProfileProps) => {
               </ImageBackground>
 
               <View style={styles.rowContainer}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View>
                     <Image
                       source={
                         sociaMedialPic.hasOwnProperty('profile_pic') &&
-                        sociaMedialPic.profile_pic != null
-                          ? {uri: sociaMedialPic.profile_pic}
+                          sociaMedialPic.profile_pic != null
+                          ? { uri: sociaMedialPic.profile_pic }
                           : Images.profile_default
                       }
                       style={{
@@ -1195,7 +1346,7 @@ const UsersProfile = (props: UserProfileProps) => {
                         marginLeft: 14,
                         marginTop: 30,
                       }}>
-                      <View style={{marginTop: 16}}>
+                      <View style={{ marginTop: 16 }}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
                         {userProfile == '' &&
                           userProfile.zatchup_id != null && (
@@ -1209,23 +1360,23 @@ const UsersProfile = (props: UserProfileProps) => {
                 </View>
               </View>
               <View style={styles.likecontainer}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                   <TouchableOpacity
                     disabled={
                       userProfile.block_user_active
                         ? true
                         : userProfile.follow_request_status == 2 &&
                           userProfile.social_account_status
-                        ? false
-                        : (userProfile.follow_request_status == 2 ||
+                          ? false
+                          : (userProfile.follow_request_status == 2 ||
                             userProfile.follow_request_status == 1) &&
-                          userProfile.social_account_status
-                        ? true
-                        : true
+                            userProfile.social_account_status
+                            ? true
+                            : true
                     }
                     onPress={() => {
                       props.navigation.navigate('FollowersScreen', {
-                        item: {...userProfile, user_id, flag: 'user'},
+                        item: { ...userProfile, user_id, flag: 'user' },
                       });
                     }}>
                     <Text style={styles.boldText}>
@@ -1240,19 +1391,19 @@ const UsersProfile = (props: UserProfileProps) => {
                         ? true
                         : userProfile.follow_request_status == 2 &&
                           userProfile.social_account_status
-                        ? false
-                        : (userProfile.follow_request_status == 2 ||
+                          ? false
+                          : (userProfile.follow_request_status == 2 ||
                             userProfile.follow_request_status == 1) &&
-                          userProfile.social_account_status
-                        ? true
-                        : true
+                            userProfile.social_account_status
+                            ? true
+                            : true
                     }
                     onPress={() => {
                       props.navigation.navigate('FollowingScreen', {
-                        item: {...userProfile, user_id},
+                        item: { ...userProfile, user_id },
                       });
                     }}
-                    style={{marginLeft: 10}}>
+                    style={{ marginLeft: 10 }}>
                     <Text style={styles.boldText}>
                       {userProfile.social_user_followings}
                     </Text>
@@ -1279,7 +1430,7 @@ const UsersProfile = (props: UserProfileProps) => {
                     </TouchableOpacity>
                   ) : userProfile.follow_request_status == 1 ? (
                     <TouchableOpacity
-                      style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
+                      style={[styles.removebtn, { backgroundColor: '#dc3545' }]}
                       onPress={toggleModal}>
                       <Text
                         style={{
@@ -1294,7 +1445,7 @@ const UsersProfile = (props: UserProfileProps) => {
                     <TouchableOpacity
                       style={[
                         styles.removebtn,
-                        {backgroundColor: '#28a745', width: 110},
+                        { backgroundColor: '#28a745', width: 110 },
                       ]}
                       onPress={toggleModal}>
                       <Text
@@ -1334,11 +1485,11 @@ const UsersProfile = (props: UserProfileProps) => {
                       <>
                         <View style={styles.borderstyle}></View>
                         <View style={styles.textcontainer}>
-                          <View style={{flexDirection: 'row'}}>
+                          <View style={{ flexDirection: 'row' }}>
                             <Text
                               style={[
                                 styles.Personal_Tv,
-                                {fontWeight: '700', color: '#5790c2'},
+                                { fontWeight: '700', color: '#5790c2' },
                               ]}>
                               {item.name_of_school}
                             </Text>
@@ -1347,7 +1498,7 @@ const UsersProfile = (props: UserProfileProps) => {
                                 name="check-circle"
                                 size={17}
                                 color="#4E387E"
-                                style={{marginLeft: 5, marginTop: 2}}
+                                style={{ marginLeft: 5, marginTop: 2 }}
                               />
                             )}
                           </View>
@@ -1357,7 +1508,7 @@ const UsersProfile = (props: UserProfileProps) => {
                                 <Text
                                   style={[
                                     styles.view_Tv_1,
-                                    {fontWeight: '700'},
+                                    { fontWeight: '700' },
                                   ]}>
                                   {item.course_name}
                                 </Text>
@@ -1386,33 +1537,37 @@ const UsersProfile = (props: UserProfileProps) => {
 
               <View style={styles.borderstyle}></View>
               <View style={styles.textcontainer}>
-                <View style={styles.view_Row}>
+                {isEnabledDob ? <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>DOB :</Text>
                   <Text style={styles.view_Tv_2}>{userProfile.dob}</Text>
-                </View>
-                <View style={styles.view_Row}>
+                </View> : null}
+                {isEnabledGender ? <View style={styles.view_Row}>
                   <Text style={styles.view_Tv_1}>Gender :</Text>
                   <Text style={styles.view_Tv_2}>
                     {userProfile.gender == 'M'
                       ? 'Male'
                       : userProfile.gender == 'F'
-                      ? 'Female'
-                      : 'Custom'}
+                        ? 'Female'
+                        : 'Custom'}
                   </Text>
-                </View>
+                </View> : null}
 
-                {userProfile.email != '' && userProfile.email != null && (
+                {isEnabledEmail && userProfile.email != null && (
                   <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Email:</Text>
                     <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                   </View>
                 )}
-                {userProfile.phone != '' && userProfile.phone != null && (
+                
+                {isEnabled && userProfile.phone != null && (
                   <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Phone :</Text>
                     <Text style={styles.view_Tv_2}>{userProfile.phone}</Text>
                   </View>
                 )}
+
+
+               
               </View>
             </Card>
             {userProfile != '' && (
@@ -1422,7 +1577,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 </View>
                 <View style={styles.borderstyle}></View>
                 <View style={styles.tabrowContainer}>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                       activeOpacity={0.8}
                       onPress={() => active_data('thData')}>
@@ -1440,7 +1595,7 @@ const UsersProfile = (props: UserProfileProps) => {
                         name="image"
                         size={30}
                         color={data === 'Image' ? '#4B2A6A' : 'grey'}
-                        style={{marginLeft: 80}}
+                        style={{ marginLeft: 80 }}
                       />
                     </TouchableOpacity>
                   </View>
@@ -1448,16 +1603,16 @@ const UsersProfile = (props: UserProfileProps) => {
               </Card>
             )}
             {userProfile != '' &&
-            userProfile.social_post.length > 0 &&
-            (userProfile.follow_request_status == 2 ||
-              !userProfile.social_account_status) &&
-            !userProfile.block_user_active &&
-            !(data === 'Image') ? (
+              userProfile.social_post.length > 0 &&
+              (userProfile.follow_request_status == 2 ||
+                !userProfile.social_account_status) &&
+              !userProfile.block_user_active &&
+              !(data === 'Image') ? (
               <FlatList
                 key={'#'}
                 numColumns={2}
                 data={userProfile.social_post}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   let items = item;
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
@@ -1532,7 +1687,7 @@ const UsersProfile = (props: UserProfileProps) => {
                           // layout={'tinder'}
                           ref={isCarouselText}
                           data={parts}
-                          renderItem={({item, index}) => (
+                          renderItem={({ item, index }) => (
                             <CrouselText
                               item={item}
                               index={index}
@@ -1551,7 +1706,7 @@ const UsersProfile = (props: UserProfileProps) => {
                     );
                   }
                 }}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
             ) : userProfile != '' &&
               userProfile.social_post.length > 0 &&
@@ -1562,7 +1717,7 @@ const UsersProfile = (props: UserProfileProps) => {
                 key={'_'}
                 numColumns={1}
                 data={userProfile.social_post}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   let ind = index;
                   let items = item;
                   let len =
@@ -1603,7 +1758,7 @@ const UsersProfile = (props: UserProfileProps) => {
                     />
                   );
                 }}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
             ) : userProfile.social_account_status &&
               userProfile.follow_request_status != '2' ? (
@@ -1616,7 +1771,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   marginTop: 16,
                   paddingVertical: 32,
                 }}>
-                <Text style={{fontWeight: '700', fontSize: 18}}>
+                <Text style={{ fontWeight: '700', fontSize: 18 }}>
                   This Account Is Private
                 </Text>
               </View>
@@ -1670,9 +1825,9 @@ const UsersProfile = (props: UserProfileProps) => {
 
               borderRadius: 5,
             }}>
-            <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
+            <View style={{ paddingHorizontal: 16, alignItems: 'center' }}>
               <Text
-                style={{fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25}}>
+                style={{ fontWeight: 'bold', fontSize: hp(2.2), marginTop: 25 }}>
                 {!(userProfile.follow_request_status == 1)
                   ? 'Are you sure you want to unfollow'
                   : 'Are you sure you want to cancel the Request?'}
@@ -1687,7 +1842,7 @@ const UsersProfile = (props: UserProfileProps) => {
               }}></View>
 
             <TouchableOpacity onPress={gotoRemove}>
-              <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>Yes</Text>
+              <Text style={{ color: 'rgb(70,50,103)', marginTop: 10 }}>Yes</Text>
             </TouchableOpacity>
             <View
               style={{
@@ -1702,7 +1857,7 @@ const UsersProfile = (props: UserProfileProps) => {
             onPress={toggleModal}
           /> */}
             <TouchableOpacity onPress={toggleModal}>
-              <Text style={{color: 'red', marginTop: 10}}>No</Text>
+              <Text style={{ color: 'red', marginTop: 10 }}>No</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -1713,7 +1868,7 @@ const UsersProfile = (props: UserProfileProps) => {
           onBackdropPress={reportprofilemodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1727,12 +1882,12 @@ const UsersProfile = (props: UserProfileProps) => {
               <TouchableOpacity onPress={reportprofilemodal}>
                 <Image
                   source={Images.closeicon}
-                  style={{height: 15, width: 15, marginRight: 10}}
+                  style={{ height: 15, width: 15, marginRight: 10 }}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{paddingHorizontal: 16}}>
+            <View style={{ paddingHorizontal: 16 }}>
               {checkboxValue.map((checkbox, i) => (
                 <View key={i} style={styles.rowContent}>
                   <Text style={styles.reporttext}>
@@ -1769,11 +1924,11 @@ const UsersProfile = (props: UserProfileProps) => {
             </View>
             <View style={styles.mborder}></View>
             <View
-              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={gotoReportProfile}>
-                <Text style={{color: 'white'}}>Submit</Text>
+                <Text style={{ color: 'white' }}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1803,11 +1958,11 @@ const UsersProfile = (props: UserProfileProps) => {
                   item: customItem,
                 });
               }}>
-              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+              <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
             <TouchableOpacity onPress={toggleModal3}>
-              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+              <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -1819,7 +1974,7 @@ const UsersProfile = (props: UserProfileProps) => {
           onBackdropPress={reportmodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1833,13 +1988,13 @@ const UsersProfile = (props: UserProfileProps) => {
               <TouchableOpacity onPress={reportmodal}>
                 <Image
                   source={Images.closeicon}
-                  style={{height: 15, width: 15, marginRight: 10}}
+                  style={{ height: 15, width: 15, marginRight: 10 }}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{paddingHorizontal: 16}}>
-              <Text style={{fontSize: hp(2.4)}}>
+            <View style={{ paddingHorizontal: 16 }}>
+              <Text style={{ fontSize: hp(2.4) }}>
                 Why are you reporting this?
               </Text>
               {reportcheckboxValue.map((checkbox, i) => (
@@ -1881,11 +2036,11 @@ const UsersProfile = (props: UserProfileProps) => {
             </View>
             <View style={styles.mborder}></View>
             <View
-              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => gotoReport()}>
-                <Text style={{color: 'white'}}>Submit</Text>
+                <Text style={{ color: 'white' }}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1895,7 +2050,7 @@ const UsersProfile = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({items, item, index, goToNavigate, ref}) {
+function CrouselImages({ items, item, index, goToNavigate, ref }) {
   let _menu = null;
 
   const gotoNavigate = () => {
@@ -1915,7 +2070,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
       onPress={gotoNavigate}>
       {item.post_extension != 'mp4' ? (
         <Image
-          source={{uri: item.post_image}}
+          source={{ uri: item.post_image }}
           resizeMode="contain"
           style={{
             width: screenWidth / 2 - 24,
@@ -1965,11 +2120,11 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
             lockRatio={1}
             resizeMode="cover"
             autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //on
-            //FullScreen={this.onFullScreen}
+          //  theme={theme}
+          // onBackPress={() => this.props.navigation.goBack(null)}
+          //  placeholderStyle={{width: width - 32, height: height / 4}}
+          //on
+          //FullScreen={this.onFullScreen}
           />
         </View>
       )}
@@ -1994,7 +2149,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
   );
 }
 
-function CrouselText({items, goToNavigate, item, index, length, data}) {
+function CrouselText({ items, goToNavigate, item, index, length, data }) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };

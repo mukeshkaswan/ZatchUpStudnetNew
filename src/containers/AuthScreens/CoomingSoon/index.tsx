@@ -50,80 +50,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
-const data1 = [
-  {
-    id: 1,
-    full_name: 'Mukesh Sharma',
-    src: require('../../../assets/images/college1.jpg'),
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: false,
-    comment: false,
-    comment_post: [],
-  },
-  {
-    id: 2,
-    full_name: 'Prashant Chaudhary',
-    src: require('../../../assets/images/college3.jpg'),
-    time: 'Yesterday',
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-    comment: false,
-    comment_post: [],
-  },
-  {
-    id: 3,
-    full_name: 'Mukesh Sharma',
-    time: 'Yesterday',
-    src: require('../../../assets/images/college2.jpg'),
-    profileImage: Images.profile_img2,
-    message:
-      'Lorem Ipsum is simply dummy text of the printing and type setting industry.',
-    msg_read: true,
-    comment: false,
-    comment_post: [],
-  },
-];
-
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
-
 const {width, height} = Dimensions.get('screen');
-
-const data = [
-  {
-    id: 1,
-    name: 'React JS',
-    url: 'https://icon-library.com/images/react-icon/react-icon-29.jpg',
-  },
-  {
-    id: 2,
-    name: 'JavaScript',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Javascript_Logo.png',
-  },
-  {
-    id: 3,
-    name: 'Node JS',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
-  },
-  {
-    id: 4,
-    name: 'Node JS',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
-  },
-  {
-    id: 5,
-    name: 'Node JS',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
-  },
-  {
-    id: 6,
-    name: 'Node JS',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
-  },
-];
 
 const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const ref = useRef();
