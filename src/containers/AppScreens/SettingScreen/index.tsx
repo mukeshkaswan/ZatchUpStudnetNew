@@ -67,9 +67,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [isEnabledTwoFactor, setIsEnabledTwoFactor] = useState(false);
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledDob, setIsEnabledDob] = useState(false);
-  const [isEnabledGender, setIsEnabledGender] = useState(false);
-  const [isEnabledProfession, setIsEnabledProfession] = useState(false);
-  const [isEnabledCity, setIsEnabledCity] = useState(false);
+  const [isEnabledGender, setIsEnabledGender] = useState(true);
+  const [isEnabledProfession, setIsEnabledProfession] = useState(true);
+  const [isEnabledCity, setIsEnabledCity] = useState(true);
   const [isEnabledPrivate, setIsEnabledPrivate] = useState(false);
 
   const [isDeactivateAccount, setIsDeactivateAccount] = useState(false);
@@ -163,6 +163,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+
   };
   const toggleModal2 = () => {
     setModalVisible2(!isModalVisible2);
@@ -182,6 +183,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
   const toggleSwitch1 = () => {
     setIsEnabled(previousState => !previousState);
+    onPressChangePhoneStatus(!isEnabled);
+
   };
   const toggleSwitch2 = () => {
     setIsEnabled2(previousState => !previousState);
@@ -379,70 +382,98 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       if (result.data[i].status_type === 'OTP') {
 
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledTwoFactor(result.data[i].is_disabled);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledTwoFactor(true);
 
-        } else {
+        }
+        else {
           setIsEnabledTwoFactor(false);
 
         }
+
       }
 
       if (result.data[i].status_type === 'EMAIL_ID') {
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledEmail(result.data[i].is_disabled);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledEmail(true);
 
-        } else {
+        }
+        else {
           setIsEnabledEmail(false);
 
         }
 
       }
 
+
       if (result.data[i].status_type === 'DOB') {
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledDob(result.data[i].is_disabled);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledDob(true);
 
-        } else {
+        }
+        else {
           setIsEnabledDob(false);
 
         }
       }
 
 
-      if (result.data[i].status_type === 'GENDER') {
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledGender(result.data[i].is_disabled);
+      if (result.data[i].status_type == 'GENDER') {
 
-        } else {
-          setIsEnabledGender(false);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledGender(true);
 
         }
+        else {
+          setIsEnabledGender(false);
+
+
+        }
+
       }
+
 
 
 
       if (result.data[i].status_type === 'PROFESSION') {
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledProfession(result.data[i].is_disabled);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledProfession(true);
 
-        } else {
+        }
+        else {
           setIsEnabledProfession(false);
 
         }
       }
 
 
+      if (result.data[i].status_type === 'MOB_NUM') {
+
+        if (result.data[i].is_disabled == true) {
+          setIsEnabled(true);
+
+        }
+        else {
+          setIsEnabled(false);
+
+        }
+      }
+
+
+
+
+
       if (result.data[i].status_type === 'CITY') {
 
-        if (result.data[i].is_disabled) {
-          setIsEnabledCity(result.data[i].is_disabled);
+        if (result.data[i].is_disabled == true) {
+          setIsEnabledCity(true);
 
-        } else {
+        }
+        else {
           setIsEnabledCity(false);
 
         }
@@ -811,6 +842,53 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
+  
+
+
+  /***************************User Auth Phone Disable*******************************/
+
+  const onPressChangePhoneStatus = async key => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('tokenlogin');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      is_disabled: key,
+      status_type: 'MOB_NUM',
+      user: userid,
+    };
+
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserSettingStatusPost({
+        data,
+        callback: ({ result, error }) => {
+          if (result.status === true) {
+
+            getSettingStatus(userid);
+            setLoading(false);
+          }
+
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
   /***************************User Auth Email Disable*******************************/
 
   const onPressChangeEmailStaus = async key => {
@@ -1080,7 +1158,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       userActions.getStudentEducationProfile({
         data,
         callback: ({ result, error }) => {
-          console.log('hey.......kamal1');
           if (result.status) {
             getdataProfile(result), getdataCourse(result), setLoading(false);
           }
@@ -2380,10 +2457,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   <Text style={{ textAlign: 'center' }}>{phone}</Text>
                   <Switch
                     trackColor={{ false: 'grey', true: 'lightgreen' }}
-                    thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                    thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch2}
-                    value={isEnabled2}
+                    onValueChange={toggleSwitch1}
+                    value={isEnabled}
                   />
                 </View>
               ) : null}
@@ -2457,7 +2534,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
-                
+
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
