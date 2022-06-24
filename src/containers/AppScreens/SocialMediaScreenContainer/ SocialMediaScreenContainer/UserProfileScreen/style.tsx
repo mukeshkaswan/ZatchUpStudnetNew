@@ -67,6 +67,14 @@ const styles = ScaledSheet.create({
     marginBottom: '10@ms',
     justifyContent: 'space-between',
   },
+  view_Tvv_: {
+    marginTop: 4,
+    fontSize: hp(2),
+    // marginLeft: 15,
+    color: 'black',
+    marginLeft:5
+  },
+
 
   cardContent: {
     width: '92%',

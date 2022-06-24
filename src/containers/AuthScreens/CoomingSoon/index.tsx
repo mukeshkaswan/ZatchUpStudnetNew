@@ -82,6 +82,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [socialMedia, setIsEnabled2] = useState(false);
+  const [getIsEnabledAge, setIsEnabledAge] = useState(true);
   const [norecordfound, setNoRecord] = useState(false);
 
   const [checkboxValue, setCheckboxValue] = React.useState([
@@ -304,6 +305,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               JSON.stringify(result, undefined, 2),
             );
             setIsEnabled2(result.data[0].socialmedia_user_status);
+            setIsEnabledAge(result.data[0].age);
+
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1189,7 +1192,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <View
                 style={{
                   borderWidth: 1,
-                  height: hp('6'),
+                  height: hp('5.5'),
                   marginVertical: hp('1'),
                   borderColor: 'lightgrey',
                   width: 215,
@@ -1198,7 +1201,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   marginLeft: 20,
                   borderRadius: 5,
                   backgroundColor: '#FFFFFF',
-                  marginTop: 3,
+                  marginTop: 5,
                 }}>
                 <Image
                   source={Images.search}
@@ -1439,7 +1442,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         </Text>
                       </TouchableOpacity>
                     </View>
-                    <View
+                    {/* <View
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -1455,7 +1458,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                           View
                         </Text>
                       </TouchableOpacity>
-                    </View>
+                    </View> */}
                   </View>
                 ) : (
                   <View></View>
@@ -1583,6 +1586,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             }}
             color={'white'}
           />
+        ) : !getIsEnabledAge ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22, textAlign: 'center'}}>
+              Due to age Limit
+            </Text>
+          </View>
         ) : posts.length > 0 ? (
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

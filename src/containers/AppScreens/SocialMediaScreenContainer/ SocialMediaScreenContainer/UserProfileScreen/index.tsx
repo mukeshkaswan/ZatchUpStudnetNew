@@ -928,15 +928,28 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     </Text>
                     <Text style={{}}>Following</Text>
                   </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('FollowRequestScreen');
+                    }}
+                    style={{ marginLeft: 10 }}>
+                    <Text style={styles.boldText}>
+                      {''}
+                    </Text>
+                    <Text style={{}}>Follow Requests</Text>
+                  </TouchableOpacity>
+
+
                 </View> : null}
-              {isAge ?   <View style={styles.messageicon}>
+                {isAge ? <View style={styles.messageicon}>
                   <TouchableOpacity
                     onPress={() => {
                       props.navigation.navigate('Messages');
                     }}>
                     <Icon name="envelope" size={24} color="grey" />
                   </TouchableOpacity>
-                </View>:<View style={{marginTop:10}}>
+                </View> : <View style={{ marginTop: 10 }}>
                   <TouchableOpacity
                     onPress={() => {
                       props.navigation.navigate('Messages');
@@ -1071,9 +1084,51 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 <Text style={styles.view_Tv_1}>City :</Text>
                 <Text style={styles.view_Tv_2}>Noida</Text>
               </View> */}
+
+                {userProfile.location.city_name != null && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>City :</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.location.city_name}</Text>
+                  </View>
+                )}
+
+
+
+                {userProfile.work_detail.length > 0  && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Profession :</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.work_detail[0].job_title}</Text>
+                  </View>
+                )}
+
+                {userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].company_name}</Text>
+
+                  </View>
+                )}
+                {userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].start_date}</Text>
+
+                    {userProfile.work_detail[0].is_currently_work ? <Text style={styles.view_Tvv_}>{'Present'}</Text> : <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].end_date}</Text>}
+
+                  </View>
+                )}
+
+
+                {userProfile.work_detail.length > 0   && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].work_country}</Text>
+                    <Text style={styles.view_Tvv_}>{userProfile.work_detail[0].work_state}</Text>
+                    <Text style={styles.view_Tvv_}>{userProfile.work_detail[0].work_city}</Text>
+
+                  </View>
+                )}
+
               </View>
             </Card>
-            {userProfile != ''  && isAge ?
+            {userProfile != '' && isAge ?
               <Card style={styles.cardContent}>
                 <View style={styles.cardtitlecontent}>
                   <Text style={styles.cardtitletext}>Posts</Text>
@@ -1111,7 +1166,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   </View>
                 </View>
               </Card>
-            :null}
+              : null}
             {userProfile != '' && !(data === 'Image') ? (
               <FlatList
                 key={'#'}
@@ -1237,7 +1292,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
               <View />
             )}
 
-            { isAge && userProfile.social_post.length == 0 && (
+            {isAge && userProfile.social_post.length == 0 && (
               <View
                 style={{
                   margin: 16,

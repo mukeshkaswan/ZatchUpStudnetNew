@@ -187,6 +187,14 @@ const styles = ScaledSheet.create({
     // marginLeft: 15,
     color: 'black',
   },
+  view_Tvv_: {
+    marginTop: 4,
+    fontSize: hp(2),
+    // marginLeft: 15,
+    color: 'black',
+    marginLeft:5
+  },
+
   view_Tv_2: {
     marginTop: 4,
     fontSize: hp(2),

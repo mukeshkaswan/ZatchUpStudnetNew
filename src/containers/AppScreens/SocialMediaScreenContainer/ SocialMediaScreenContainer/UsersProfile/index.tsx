@@ -84,11 +84,11 @@ const UsersProfile = (props: UserProfileProps) => {
   const [customItem, setCustomItem] = useState('');
   const [isreportprofilemodal, setreportprofilemodal] = useState(false);
 
-  const [isEnabledEmail, setIsEnabledEmail] = useState(true);
-  const [isEnabledDob, setIsEnabledDob] = useState(true);
-  const [isEnabledGender, setIsEnabledGender] = useState(true);
-  const [isEnabledProfession, setIsEnabledProfession] = useState(true);
-  const [isEnabledCity, setIsEnabledCity] = useState(true);
+  const [isEnabledEmail, setIsEnabledEmail] = useState(false);
+  const [isEnabledDob, setIsEnabledDob] = useState(false);
+  const [isEnabledGender, setIsEnabledGender] = useState(false);
+  const [isEnabledProfession, setIsEnabledProfession] = useState(false);
+  const [isEnabledCity, setIsEnabledCity] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
 
@@ -529,6 +529,7 @@ const UsersProfile = (props: UserProfileProps) => {
         }
 
       }
+     
 
 
       if (result.data[i].status_type === 'DOB') {
@@ -1558,7 +1559,7 @@ const UsersProfile = (props: UserProfileProps) => {
                     <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                   </View>
                 )}
-                
+
                 {isEnabled && userProfile.phone != null && (
                   <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Phone :</Text>
@@ -1566,8 +1567,49 @@ const UsersProfile = (props: UserProfileProps) => {
                   </View>
                 )}
 
+                {isEnabledCity && userProfile.location.city_name != null && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>City :</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.location.city_name}</Text>
+                  </View>
+                )}
 
-               
+
+
+                {isEnabledProfession && userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Profession :</Text>
+                    <Text style={styles.view_Tv_2}>{userProfile.work_detail[0].job_title}</Text>
+                  </View>
+                )}
+
+                { isEnabledProfession && userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].company_name}</Text>
+
+                  </View>
+                )}
+                { isEnabledProfession && userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].start_date}</Text>
+                    <Text style={styles.view_Tvv_}>{'-'}</Text>
+                    {userProfile.work_detail[0].is_currently_work ? <Text style={styles.view_Tvv_}>{'Present'}</Text> : <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].end_date}</Text>}
+
+                  </View>
+                )}
+
+
+                {isEnabledProfession && userProfile.work_detail.length > 0 && (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>{userProfile.work_detail[0].work_country}</Text>
+                    <Text style={styles.view_Tvv_}>{userProfile.work_detail[0].work_state}</Text>
+                    <Text style={styles.view_Tvv_}>{userProfile.work_detail[0].work_city}</Text>
+
+                  </View>
+                )}
+
+
+
               </View>
             </Card>
             {userProfile != '' && (

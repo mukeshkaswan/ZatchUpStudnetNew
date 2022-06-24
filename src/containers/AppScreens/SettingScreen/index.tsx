@@ -95,6 +95,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const [zatchupid, setZatchUpId] = useState('');
   const [profilepic, setProfilePic] = useState('');
   const [dob, setDob] = useState('');
+  const [getprofession, setProfession] = useState('');
   const [kyc_approved, setkyc_approved] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -336,6 +337,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setProfilePic(element.profile_pic);
       setkyc_approved(element.kyc_approved);
       setDob(element.dob);
+      setProfession(element.work_detail.length > 0 ? element.work_detail[0].job_title:null);
       setGender(element.gender);
       setEmail(element.email);
       setPhone(element.phone);
@@ -2536,6 +2538,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
+              {getprofession != null ?  <Text style={{ textAlign: 'center' }}>{getprofession}</Text>:null}
 
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
@@ -2552,6 +2555,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Current City</Text>
+                {city != null ? <Text style={{ textAlign: 'center' }}>{city}</Text>:null}
 
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
