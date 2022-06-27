@@ -349,7 +349,8 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
                 borderColor: 'grey',
                 marginEnd: 8,
               }}
-              onPress={() => gotoFollow(item)}>
+              onPress={() => gotoFollow(item)}
+              >
               <Text style={{color: '#fff'}}>Follow</Text>
             </TouchableOpacity>
           </View>
