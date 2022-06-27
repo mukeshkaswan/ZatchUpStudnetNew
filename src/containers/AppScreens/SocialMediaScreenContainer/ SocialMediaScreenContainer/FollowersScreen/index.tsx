@@ -634,7 +634,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   <Text style={{fontWeight: 'bold', fontSize: hp(1.8)}}>
                     {' ' + userData.follow_username + ' '}
                   </Text>
-                  again removed from the Followers.
+                  again
                 </Text>
               )}
             </View>

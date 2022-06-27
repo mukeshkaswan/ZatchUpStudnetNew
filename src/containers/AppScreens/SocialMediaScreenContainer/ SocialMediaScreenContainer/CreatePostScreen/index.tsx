@@ -452,7 +452,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     return (
       <View
         style={{
-          width: screenWidth / 3 - 21,
+         // width: screenWidth / 3 - 21,
           height: screenWidth / 3 - 21,
           marginTop: 10,
           marginLeft: 16,
@@ -490,7 +490,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           // />
           <Video
             style={{
-              width: screenWidth / 3 - 21,
+              width: screenWidth / 3 - 1,
               height: screenWidth / 3 - 21,
             }}
             url={item.uri}
@@ -510,7 +510,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           <Image
             source={{uri: item.uri}}
             style={{
-              width: screenWidth / 3 - 21,
+              width: screenWidth / 3 - 1,
               height: screenWidth / 3 - 21,
               //backgroundColor: 'green',
               resizeMode: 'contain',
@@ -529,7 +529,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             height: 30,
             alignItems: 'center',
             justifyContent: 'center',
-            right: 0,
+            right: 5,
             top: 0,
             marginTop: 16,
           }}>
@@ -614,9 +614,9 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           {picdata.length > 0 && (
             <FlatList
               style={{flex: 1}}
-              //contentContainerStyle={{alignItems: 'center'}}
+              contentContainerStyle={{alignItems: 'center'}}
               data={picdata}
-              numColumns={3}
+              numColumns={2}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item + 'Sap' + index}
             />

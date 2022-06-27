@@ -1106,6 +1106,15 @@ const UsersProfile = (props: UserProfileProps) => {
   };
 
   const gotoReportProfile = async () => {
+
+    if (reportId == '') {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
+    if (checkboxValue.every(item => item.checked == false)) {
+      Toast.show('Please select reason', Toast.SHORT);
+      return;
+    }
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
