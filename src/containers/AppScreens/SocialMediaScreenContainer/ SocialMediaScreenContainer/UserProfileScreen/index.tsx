@@ -929,7 +929,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     <Text style={{}}>Following</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => {
                       props.navigation.navigate('FollowRequestScreen');
                     }}
@@ -938,6 +938,14 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       {''}
                     </Text>
                     <Text style={{}}>Follow Requests</Text>
+                  </TouchableOpacity> */}
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('FollowRequestScreen');
+                    }}
+                    style={{ marginLeft: 20 }}>
+                    <Icon name="user-plus" size={26} color="grey" />
                   </TouchableOpacity>
 
 

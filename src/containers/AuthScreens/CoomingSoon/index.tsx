@@ -1274,7 +1274,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result follow user',
@@ -1308,32 +1308,37 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     <View style={{ backgroundColor: 'white', width: wp('30'), borderRadius: 20, margin: 5, height: hp('20%'), marginTop: 20, }}>
 
       <ImageBackground
-        // source={
-        //   item.profile_image != null
-        //     ? { uri: item.profile_image }
-        //     : Images.profile_default
-        // }
-        source={require('../../../assets/images/no_image.jpg')}
-        resizeMode='cover'
+        source={
+          item.profile_image != null
+            ? { uri: item.profile_image }
+            : Images.profile_default
+        }
+        // source={require('../../../assets/images/no_image.jpg')}
+       // resizeMode='cover'
         style={{
-          height: hp('10%'),
-          width: '100%',
+          // height: hp('10%'),
+          // width: '100%',
+          width: 60,
+          height: 60,
+          borderRadius: 150 / 2,
+          overflow: "hidden",
+          borderWidth: 1,
+          borderColor:'#E1E1E2',
+          alignContent:'center',
+          alignItems:'center',
+          alignSelf:'center',
+          marginTop:5
         }}
         imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, }}
       >
-        <View style={{ marginRight: 6 }}>
-          <TouchableOpacity style={{ marginTop: 6,marginLeft:5, position: 'absolute', zIndex: 1, width: 20, alignItems: 'center', backgroundColor: 'white', borderRadius: 25, flexDirection: "row", justifyContent: 'center', padding: 4, flex: 1, alignSelf: 'flex-end', }}>
-            <Icon name="close" size={12} color="red"
-            />
-          </TouchableOpacity>
-        </View>
+       
       </ImageBackground >
-      <Text style={{ textAlign: 'center', fontSize: hp('1.4'), marginTop: 6 }}>{item.first_name + ' ' + item.last_name}</Text>
-      <Text style={{ textAlign: 'center', fontSize: hp('1.2'), color: 'grey' ,marginTop: 2}}>{'Suggested for you'}</Text>
+      <Text style={{ textAlign: 'center', fontSize: hp('1.3'), marginTop: 6 }}>{item.first_name + ' ' + item.last_name}</Text>
+      <Text style={{ textAlign: 'center', fontSize: hp('1.1'), color: 'grey', marginTop: 2 }}>{'Suggested for you'}</Text>
       <TouchableOpacity
-       onPress={() => gotoFollow(item)}
-       style={{ alignSelf: 'center', backgroundColor: 'rgb(70,50,103)', width: wp('18%'), paddingHorizontal: 4, borderRadius: 5, marginTop: 4, height: hp('3.4'), justifyContent: 'center' }}>
-        <Text style={{ color: 'white', textAlign: 'center', fontSize: hp('1.2'), fontWeight: 'bold' }}>Add Buddy</Text>
+        onPress={() => gotoFollow(item)}
+        style={{ alignSelf: 'center', backgroundColor: 'rgb(70,50,103)', width: wp('24%'), paddingHorizontal: 4, borderRadius: 5, marginTop: 8, height: hp('3.4'), justifyContent: 'center' }}>
+        <Text style={{ color: 'white', textAlign: 'center', fontSize: hp('1.2'), fontWeight: 'bold' }}>Follow</Text>
       </TouchableOpacity>
 
     </View>
@@ -1622,7 +1627,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
 
                     {suggestions.length > 0 && (<FlatList
-                      data={suggestions.slice(0,5)}
+                      data={suggestions.slice(0, 5)}
                       showsHorizontalScrollIndicator={false}
                       horizontal
                       renderItem={renderItem}
