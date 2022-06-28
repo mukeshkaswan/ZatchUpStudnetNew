@@ -9,7 +9,7 @@ import {
   Alert,
   Keyboard,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -310,7 +310,11 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
       follow_status:
-        item.social_account_status == 1
+        item.is_account_private && item.social_account_status == 1
+          ? 0
+          : item.is_account_private
+          ? 1
+          : item.social_account_status == 1
           ? 0
           : item.social_account_status == 0
           ? 2
@@ -383,173 +387,183 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <CustomStatusBar />
-      <CustomHeader
-        Title={'Following'}
-        Back={'true'}
-        navigation={props.navigation}
-      />
-      {following.length > 0 ? (
-        <FlatList
-          data={following}
-          renderItem={({item}) => (
-            <CardView
-              cardElevation={5}
-              cardMaxElevation={5}
-              cornerRadius={1}
-              style={styles.Cardview}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={
-                    item.following_request_user_profile_pic != null
-                      ? {uri: item.following_request_user_profile_pic}
-                      : Images.profile_default
-                  }
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <CustomStatusBar />
+        <CustomHeader
+          Title={'Following'}
+          Back={'true'}
+          navigation={props.navigation}
+        />
+        {following.length > 0 ? (
+          <FlatList
+            data={following}
+            renderItem={({item}) => (
+              <CardView
+                cardElevation={5}
+                cardMaxElevation={5}
+                cornerRadius={1}
+                style={styles.Cardview}>
+                <View
                   style={{
-                    height: 50,
-                    width: 50,
-                    borderRadius: 25,
-                  }}
-                />
-                <View style={{marginLeft: 10}}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      item.following_user_role == 'EIREPRESENTATIVE'
-                        ? props.navigation.navigate('SchoolProfile', {
-                            item: {
-                              user_id: item.following_user_id,
-                              school_id: item.following_school_id,
-                            },
-                          })
-                        : item.following_user_id != userid
-                        ? props.navigation.navigate('UsersProfile', {
-                            item: {user_id: item.following_user_id},
-                          })
-                        : props.navigation.navigate('UserProfileScreen', {
-                            item: {user_id: item.following_user_id},
-                          });
-                    }}>
-                    <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
-                      {item.following_username}
-                    </Text>
-                  </TouchableOpacity>
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={
+                      item.following_request_user_profile_pic != null
+                        ? {uri: item.following_request_user_profile_pic}
+                        : Images.profile_default
+                    }
+                    style={{
+                      height: 50,
+                      width: 50,
+                      borderRadius: 25,
+                    }}
+                  />
+                  <View style={{marginLeft: 10}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        item.following_user_role == 'EIREPRESENTATIVE'
+                          ? props.navigation.navigate('SchoolProfile', {
+                              item: {
+                                user_id: item.following_user_id,
+                                school_id: item.following_school_id,
+                              },
+                            })
+                          : item.following_user_id != userid
+                          ? props.navigation.navigate('UsersProfile', {
+                              item: {user_id: item.following_user_id},
+                            })
+                          : props.navigation.navigate('UserProfileScreen', {
+                              item: {user_id: item.following_user_id},
+                            });
+                      }}>
+                      <Text style={{fontWeight: 'bold', fontSize: hp(2)}}>
+                        {item.following_username}
+                      </Text>
+                    </TouchableOpacity>
+                    {userid == item.following_user_id ? (
+                      <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                        Self
+                      </Text>
+                    ) : item.is_school_mates == true ? (
+                      <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                        Schoolmates
+                      </Text>
+                    ) : (
+                      <View></View>
+                    )}
+                  </View>
+                </View>
+
+                <View style={[styles.Title_view]}>
                   {userid == item.following_user_id ? (
-                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
-                      Self
-                    </Text>
-                  ) : item.is_school_mates == true ? (
-                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
-                      Schoolmates
-                    </Text>
-                  ) : (
                     <View></View>
+                  ) : item.social_account_status == 0 ? (
+                    <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
+                      style={styles.removebtn}
+                      onPress={() => gotoFollow(item)}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Follow
+                      </Text>
+                    </TouchableOpacity>
+                  ) : item.social_account_status == 1 ? (
+                    <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
+                      style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
+                      onPress={toggleModalItem(item)}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.6),
+                          fontWeight: 'bold',
+                        }}>
+                        Requested
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      disabled={item.student_verified ? true : false}
+                      style={[styles.removebtn, {backgroundColor: '#28a745'}]}
+                      onPress={toggleModalItem(item)}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: hp(1.8),
+                          fontWeight: 'bold',
+                        }}>
+                        Following
+                      </Text>
+                    </TouchableOpacity>
                   )}
                 </View>
-              </View>
-
-              <View style={[styles.Title_view]}>
-                {userid == item.following_user_id ? (
-                  <View></View>
-                ) : item.social_account_status == 0 ? (
-                  <TouchableOpacity
-                    disabled={item.student_verified ? true : false}
-                    style={styles.removebtn}
-                    onPress={() => gotoFollow(item)}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Follow
-                    </Text>
-                  </TouchableOpacity>
-                ) : item.social_account_status == 1 ? (
-                  <TouchableOpacity
-                    disabled={item.student_verified ? true : false}
-                    style={[styles.removebtn, {backgroundColor: '#dc3545'}]}
-                    onPress={toggleModalItem(item)}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.6),
-                        fontWeight: 'bold',
-                      }}>
-                      Requested
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    disabled={item.student_verified ? true : false}
-                    style={[styles.removebtn, {backgroundColor: '#28a745'}]}
-                    onPress={toggleModalItem(item)}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: hp(1.8),
-                        fontWeight: 'bold',
-                      }}>
-                      Following
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </CardView>
-          )}
-          //  ItemSeparatorComponent={renderIndicator}
-        />
-      ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: height - 72,
-            width,
-          }}>
-          <Text style={{fontWeight: '700'}}>Records Not Available</Text>
-        </View>
-      )}
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        backdropOpacity={0.4}>
-        <View
-          style={{
-            //height: hp('55'),
-            backgroundColor: Colors.$backgroundColor,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 20,
-
-            borderRadius: 5,
-          }}>
-          <Image
-            source={
-              userData.following_request_user_profile_pic != null
-                ? {uri: userData.following_request_user_profile_pic}
-                : Images.profile_default
-            }
-            style={{
-              height: 50,
-              width: 50,
-              borderRadius: 25,
-            }}
+              </CardView>
+            )}
+            //  ItemSeparatorComponent={renderIndicator}
           />
-          <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
-            {userData.social_account_status == 2 ? (
-              <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-                Are you sure? You want to unfollow this user
-              </Text>
-            ) : (
-              <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
-                If you change your mind, you'll have to request to follow{' '}
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: height - 72,
+              width,
+            }}>
+            <Text style={{fontWeight: '700'}}>Records Not Available</Text>
+          </View>
+        )}
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          backdropOpacity={0.4}>
+          <View
+            style={{
+              //height: hp('55'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
+
+              borderRadius: 5,
+            }}>
+            <Image
+              source={
+                userData.following_request_user_profile_pic != null
+                  ? {uri: userData.following_request_user_profile_pic}
+                  : Images.profile_default
+              }
+              style={{
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+              }}
+            />
+            <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
+              {userData.social_account_status == 2 ? (
+                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                  If you change your mind, you'll have to request to follow{' '}
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: hp(2.2),
+                      marginTop: 25,
+                    }}>
+                    {userData.following_username}
+                  </Text>{' '}
+                  again
+                </Text>
+              ) : (
+                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                  Are you sure you want to cancel the Request?
+                  {/* If you change your mind, you'll have to request to follow{' '}
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -558,45 +572,47 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
                   }}>
                   {userData.following_username}
                 </Text>{' '}
-                again
-              </Text>
-            )}
-          </View>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 30,
-            }}></View>
-          {/* <Button
+                again */}
+                </Text>
+              )}
+            </View>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 30,
+              }}></View>
+            {/* <Button
             //color={Colors.$backgroundColor}
             title="Remove"
             onPress={gotoRemove}
           /> */}
-          <TouchableOpacity onPress={gotoRemove}>
-            <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
-              Unfollow
-            </Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderWidth: 0.5,
-              borderColor: 'lightgrey',
-              width: '100%',
-              marginTop: 12,
-            }}></View>
-          {/* <Button
+            <TouchableOpacity onPress={gotoRemove}>
+              <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
+                {userData.social_account_status != 2 ? 'Yes' : 'Unfollow'}
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 12,
+              }}></View>
+            {/* <Button
             //color={Colors.$backgroundColor}
             title="Cancel"
             onPress={toggleModal}
           /> */}
-          <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    </View>
+            <TouchableOpacity onPress={toggleModal}>
+              <Text style={{color: 'red', marginTop: 10}}>
+                {userData.social_account_status != 2 ? 'No' : 'Cancel'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };

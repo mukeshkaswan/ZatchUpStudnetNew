@@ -311,13 +311,19 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
       follow_status:
-        item.social_account_status == 1
+        item.is_account_private && item.social_account_status == 1
+          ? 0
+          : item.is_account_private
+          ? 1
+          : item.social_account_status == 1
           ? 0
           : item.social_account_status == 0
           ? 2
           : 0,
       following_user_id: item.follow_user_id,
     };
+
+    console.log('Follow===>>>>>>', data);
 
     dispatch(
       userActions.followUser({
@@ -414,7 +420,7 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
   const gotoRemove = () => {
     console.log(userData);
     setModalVisible(!isModalVisible);
-    if (userData.flag != 'remove') {
+    if (userData.flag != 'remove' || userData.flag == 'requested') {
       gotoFollow(userData);
     } else {
       console.log('hey');
@@ -630,11 +636,12 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                     fontSize: hp(1.8),
                     marginTop: 25,
                   }}>
-                  If you change your mind, you'll have to request to follow
+                  Are you sure? You want to unfollow this user
+                  {/* If you change your mind, you'll have to request to follow
                   <Text style={{fontWeight: 'bold', fontSize: hp(1.8)}}>
                     {' ' + userData.follow_username + ' '}
                   </Text>
-                  again
+                  again */}
                 </Text>
               )}
             </View>
