@@ -47,7 +47,6 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
 
   useEffect(() => {
     getSuggestions();
-    getContacts();
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -194,7 +193,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
   //   return true;
   // }
 
-    function handleBackButtonClick() {
+  function handleBackButtonClick() {
     props.navigation.goBack();
     return true;
   }
@@ -354,8 +353,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
                 borderColor: 'grey',
                 marginEnd: 8,
               }}
-              onPress={() => gotoFollow(item)}
-              >
+              onPress={() => gotoFollow(item)}>
               <Text style={{color: '#fff'}}>Follow</Text>
             </TouchableOpacity>
           </View>

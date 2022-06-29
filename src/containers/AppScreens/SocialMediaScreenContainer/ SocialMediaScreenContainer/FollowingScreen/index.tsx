@@ -310,7 +310,8 @@ const FollowingScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
       follow_status:
-        item.is_account_private && item.social_account_status == 1
+        item.is_account_private &&
+        (item.social_account_status == 1 || item.social_account_status == 2)
           ? 0
           : item.is_account_private
           ? 1
