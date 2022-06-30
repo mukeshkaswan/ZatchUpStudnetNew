@@ -2464,6 +2464,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch1}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                     value={isEnabled}
                   />
                 </View>
@@ -2482,6 +2483,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchEmail}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                     value={isEnabledEmail}
                   />
                 </View>
@@ -2500,6 +2502,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchDob}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                     value={isEnabledDob}
                   />
                 </View>
@@ -2530,6 +2533,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchGender}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                     value={isEnabledGender}
                   />
                 ) : null}
@@ -2545,6 +2549,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchProfession}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isEnabledProfession}
                 />
               </View>
@@ -2562,6 +2567,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchCity}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isEnabledCity}
                 />
               </View>
@@ -2577,6 +2583,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchTwoFactor}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isEnabledTwoFactor}
                 />
               </View>
@@ -2590,6 +2597,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchPrivate}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isEnabledPrivate}
                 />
               </View> : null}
@@ -2602,6 +2610,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch2}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isEnabled2}
                 />
               </View>:null}
@@ -2615,6 +2624,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isDeactivateAccount ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchDeactivateAccount}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
                   value={isDeactivateAccount}
                 />
               </View>

@@ -33,6 +33,8 @@ target 'ZatchUp' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
+
  # pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
   pod 'react-native-keep-awake', :path => '../node_modules/react-native-keep-awake'

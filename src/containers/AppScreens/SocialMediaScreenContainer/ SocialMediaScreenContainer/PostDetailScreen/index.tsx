@@ -12,6 +12,7 @@ import {
   Alert,
   Keyboard,
   SafeAreaView,
+  Platform
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -2416,6 +2417,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                       style={{
                         alignSelf: 'flex-end',
                         marginBottom: 5,
+                        marginTop:Platform.OS == 'ios' ? 10 : 0,
                         marginLeft: 5,
                       }}>
                       <TouchableOpacity
