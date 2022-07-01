@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -13,7 +13,7 @@ import {
   Keyboard,
   RefreshControl,
   SafeAreaView,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import {
   TextField,
@@ -26,7 +26,7 @@ import {
   Validate,
 } from '../../../components';
 import styles from './style';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
 interface CoomingSoonScreenProps {
   navigation: any;
@@ -37,7 +37,7 @@ import {
   DrawerActions,
   useFocusEffect,
 } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -48,12 +48,12 @@ import {
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProgressLoader from 'rn-progress-loader';
 import RenderItem from './RenderItem';
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const DATA = [
   {
@@ -86,7 +86,6 @@ const DATA = [
     name: 'Nitesh',
     batch: 'batchmates 2006-10',
   },
-
 ];
 const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const ref = useRef();
@@ -121,11 +120,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const [checkboxValue, setCheckboxValue] = React.useState([
-    { report_option: 'Suspicious or Fake', checked: false },
+    {report_option: 'Suspicious or Fake', checked: false},
 
-    { report_option: 'Harassment or hateful speech', checked: false },
-    { report_option: 'Violence or physical harm', checked: false },
-    { report_option: 'Adult Content', checked: false },
+    {report_option: 'Harassment or hateful speech', checked: false},
+    {report_option: 'Violence or physical harm', checked: false},
+    {report_option: 'Adult Content', checked: false},
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -243,9 +242,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes' },
+        {text: 'Yes'},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
@@ -260,9 +259,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -333,17 +332,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getPrivacySetting({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
-            console.warn(
-              'after result abc',
-              JSON.stringify(result, undefined, 2),
-            );
+            // console.warn(
+            //   'after result abc',
+            //   JSON.stringify(result, undefined, 2),
+            // );
             setIsEnabled2(result.data[0].socialmedia_user_status);
             setIsEnabledAge(result.data[0].age);
-
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -379,14 +377,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
-            // console.warn(
-            //   'after result Auth User INfo',
-            //   JSON.stringify(result, undefined, 2),
+            console.warn(
+              'after result Auth User INfo',
+              JSON.stringify(result, undefined, 2),
 
-            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            // );
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
             setUserid(result.user_id),
               setuserName(result.full_name),
               // setSpinnerStart(false);
@@ -416,7 +414,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
   /**************************get Suggestions********************/
 
-
   const getSuggestions = async () => {
     var token = '';
     try {
@@ -436,7 +433,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getSuggestions({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result suggestions details',
@@ -464,7 +461,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     );
   };
 
-
   /**************************get report data  ********************/
 
   const getReportData = async () => {
@@ -488,7 +484,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result report data',
@@ -498,7 +494,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({ ...result.data[i], checked: false });
+                newData.push({...result.data[i], checked: false});
               }
 
               // console.log('newData==>>', newData);
@@ -552,7 +548,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result report data',
@@ -565,11 +561,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             // setSpinnerStart(false);
             setLoading(false);
             setCheckboxValue([
-              { report_option: 'Suspicious or Fake', checked: false },
+              {report_option: 'Suspicious or Fake', checked: false},
 
-              { report_option: 'Harassment or hateful speech', checked: false },
-              { report_option: 'Violence or physical harm', checked: false },
-              { report_option: 'Adult Content', checked: false },
+              {report_option: 'Harassment or hateful speech', checked: false},
+              {report_option: 'Violence or physical harm', checked: false},
+              {report_option: 'Adult Content', checked: false},
               {
                 report_option:
                   'Intellectual property infringement or defamation',
@@ -625,7 +621,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result unfollow user',
@@ -677,7 +673,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getPostOfUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoadingg(false);
             setLoading(false);
@@ -783,7 +779,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
       userActions.getSearchSchoolStudentSearchList({
         data,
 
-        callback: ({ results, error }) => {
+        callback: ({results, error}) => {
           // console.warn(
           //   'after Search School Student result data',
           //   results,
@@ -847,7 +843,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result step count',
@@ -896,7 +892,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             underlayColor="none"
             onPress={() =>
               props.navigation.navigate('SchoolProfile', {
-                item: { school_id: item.school_id, user_id: item.id },
+                item: {school_id: item.school_id, user_id: item.id},
               })
             }>
             <View
@@ -910,9 +906,9 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
-                  source={{ uri: item.profile_pic }}
+                  source={{uri: item.profile_pic}}
                   // source={require('../../../assets/images/pic.jpeg')}
                   style={{
                     // marginLeft: 10,
@@ -921,14 +917,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
-                  <Text style={{ textAlign: 'center' }}>{item.zatchupId}</Text>
+                  <Text style={{textAlign: 'center'}}>{item.zatchupId}</Text>
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Text style={{}}>{item.city}</Text>
                 <Image
                   //source={{ uri: item.profile_pic }}
@@ -948,7 +944,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             underlayColor="none"
             onPress={() =>
               props.navigation.navigate('UserProfileScreen', {
-                item: { user_id: item.id },
+                item: {user_id: item.id},
               })
             }>
             <View
@@ -962,11 +958,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
                   source={
                     item.profile_pic != null
-                      ? { uri: item.profile_pic }
+                      ? {uri: item.profile_pic}
                       : Images.profile_default
                   }
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -977,8 +973,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
                   <Text>You</Text>
@@ -991,7 +987,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             underlayColor="none"
             onPress={() =>
               props.navigation.navigate('UsersProfile', {
-                item: { user_id: item.id },
+                item: {user_id: item.id},
               })
             }>
             <View
@@ -1005,11 +1001,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image
                   source={
                     item.profile_pic != null
-                      ? { uri: item.profile_pic }
+                      ? {uri: item.profile_pic}
                       : Images.profile_default
                   }
                   // source={require('../../../assets/images/pic.jpeg')}
@@ -1020,8 +1016,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     borderRadius: 50,
                   }}
                 />
-                <View style={{ marginLeft: 10, justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                <View style={{marginLeft: 10, justifyContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
                   <Text>School Mate</Text>
@@ -1058,7 +1054,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result like or unlike',
@@ -1106,7 +1102,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result comment on post',
@@ -1151,7 +1147,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result comment like or unlike',
@@ -1252,7 +1248,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     setPosts(newArr);
   };
 
-
   const gotoFollow = async item => {
     var token = '';
     try {
@@ -1274,13 +1269,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
-            console.warn(
-              'after result follow user',
-              JSON.stringify(result, undefined, 2),
-              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
-            );
+            // console.warn(
+            //   'after result follow user',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
 
             if (result.status) {
               getSuggestions();
@@ -1291,61 +1286,92 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             setLoading(false);
           }
           if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
+            //  console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
           } else {
             setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
+            // console.warn(JSON.stringify(error, undefined, 2));
           }
         },
       }),
     );
   };
 
-
-
-  const renderItem = ({ item }) => (
-    <View style={{ backgroundColor: 'white', width: wp('30'), borderRadius: 20, margin: 5, height: hp('20%'), marginTop: 20, }}>
-
+  const renderItem = ({item}) => (
+    <View
+      style={{
+        backgroundColor: 'white',
+        width: wp('30'),
+        borderRadius: 20,
+        margin: 5,
+        height: hp('20%'),
+        marginTop: 20,
+      }}>
       <ImageBackground
         source={
           item.profile_image != null
-            ? { uri: item.profile_image }
+            ? {uri: item.profile_image}
             : Images.profile_default
         }
         // source={require('../../../assets/images/no_image.jpg')}
-       // resizeMode='cover'
+        // resizeMode='cover'
         style={{
           // height: hp('10%'),
           // width: '100%',
           width: 60,
           height: 60,
           borderRadius: 150 / 2,
-          overflow: "hidden",
+          overflow: 'hidden',
           borderWidth: 1,
-          borderColor:'#E1E1E2',
-          alignContent:'center',
-          alignItems:'center',
-          alignSelf:'center',
-          marginTop:5
+          borderColor: '#E1E1E2',
+          alignContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+          marginTop: 5,
         }}
-        imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, }}
-      >
-       
-      </ImageBackground >
-      <Text style={{ textAlign: 'center', fontSize: hp('1.3'), marginTop: 6 }}>{item.first_name + ' ' + item.last_name}</Text>
-      <Text style={{ textAlign: 'center', fontSize: hp('1.1'), color: 'grey', marginTop: 2 }}>{'Suggested for you'}</Text>
+        imageStyle={{
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+        }}></ImageBackground>
+      <Text style={{textAlign: 'center', fontSize: hp('1.3'), marginTop: 6}}>
+        {item.first_name + ' ' + item.last_name}
+      </Text>
+      <Text
+        style={{
+          textAlign: 'center',
+          fontSize: hp('1.1'),
+          color: 'grey',
+          marginTop: 2,
+        }}>
+        {'Suggested for you'}
+      </Text>
       <TouchableOpacity
         onPress={() => gotoFollow(item)}
-        style={{ alignSelf: 'center', backgroundColor: 'rgb(70,50,103)', width: wp('24%'), paddingHorizontal: 4, borderRadius: 5, marginTop: 8, height: hp('3.4'), justifyContent: 'center' }}>
-        <Text style={{ color: 'white', textAlign: 'center', fontSize: hp('1.2'), fontWeight: 'bold' }}>Follow</Text>
+        style={{
+          alignSelf: 'center',
+          backgroundColor: 'rgb(70,50,103)',
+          width: wp('24%'),
+          paddingHorizontal: 4,
+          borderRadius: 5,
+          marginTop: 8,
+          height: hp('3.4'),
+          justifyContent: 'center',
+        }}>
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            fontSize: hp('1.2'),
+            fontWeight: 'bold',
+          }}>
+          Follow
+        </Text>
       </TouchableOpacity>
-
     </View>
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         {/* <CustomStatusBar /> */}
         <CustomStatusBar />
@@ -1361,7 +1387,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity onPress={onBurgerBarPress}>
               <Image
                 source={Images.menu_dash}
-                style={{ marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF' }}
+                style={{marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF'}}
               />
             </TouchableOpacity>
           )}
@@ -1384,13 +1410,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 }}>
                 <Image
                   source={Images.search}
-                  style={{ marginLeft: 10, tintColor: '#000' }}
+                  style={{marginLeft: 10, tintColor: '#000'}}
                 />
 
                 <TextInput
                   onChangeText={value => getSearchcitydata(value)}
                   value={cityname}
-                  style={{ color: '#000', flex: 1 }}
+                  style={{color: '#000', flex: 1}}
                   placeholderTextColor="#000"
                   placeholder="Search..."
                   keyboardType="default"
@@ -1536,7 +1562,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               // keyExtractor={item => item.id.toString()}
               // ItemSeparatorComponent={ItemSepratorcity}
               //  ItemSeparatorComponent={this.SeparatorComponent}
-              renderItem={({ item, index }) =>
+              renderItem={({item, index}) =>
                 rednderItemListcitydata(item, index)
               }
             />
@@ -1553,12 +1579,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 marginRight: 20,
                 width: '90%',
                 shadowColor: 'black',
-                shadowOffset: { width: 0, height: 2 },
+                shadowOffset: {width: 0, height: 2},
                 shadowOpacity: 0.26,
                 borderColor: 'lightgrey',
               }}
               onPress={() =>
-                props.navigation.navigate('SeeAllResults', { tvname: cityname })
+                props.navigation.navigate('SeeAllResults', {tvname: cityname})
               }>
               <Text
                 style={{
@@ -1592,12 +1618,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         marginHorizontal: 16,
                         marginTop: 8,
                       }}>
-                      <Text style={{ fontWeight: '700' }}>Notification</Text>
+                      <Text style={{fontWeight: '700'}}>Notification</Text>
                       <TouchableOpacity
                         onPress={() =>
                           props.navigation.navigate('UserNotificationScreen')
                         }>
-                        <Text style={{ fontWeight: '700', fontSize: 12 }}>
+                        <Text style={{fontWeight: '700', fontSize: 12}}>
                           View
                         </Text>
                       </TouchableOpacity>
@@ -1609,30 +1635,32 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         marginHorizontal: 16,
                         marginTop: 8,
                       }}>
-                      <Text style={{ fontWeight: '700' }}>
+                      <Text style={{fontWeight: '700'}}>
                         Suggestion for you
                       </Text>
                       <TouchableOpacity
                         onPress={() =>
                           props.navigation.navigate('SuggestionScreen')
                         }>
-                        <Text style={{ fontWeight: '700', fontSize: 12, textDecorationLine: 'underline', }}>
+                        <Text
+                          style={{
+                            fontWeight: '700',
+                            fontSize: 12,
+                            textDecorationLine: 'underline',
+                          }}>
                           View all
                         </Text>
                       </TouchableOpacity>
                     </View>
 
-
-
-
-
-                    {suggestions.length > 0 && (<FlatList
-                      data={suggestions.slice(0, 5)}
-                      showsHorizontalScrollIndicator={false}
-                      horizontal
-                      renderItem={renderItem}
-                      keyExtractor={item => item.id}
-                    />
+                    {suggestions.length > 0 && (
+                      <FlatList
+                        data={suggestions.slice(0, 5)}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                      />
                     )}
 
                     {/* <View
@@ -1657,7 +1685,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <View></View>
                 )
               }
-              style={{ flex: 1, width: '100%' }}
+              style={{flex: 1, width: '100%'}}
               data={posts}
               refreshControl={
                 <RefreshControl
@@ -1682,7 +1710,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                         borderColor: '#000',
                         padding: 16,
                       }}>
-                      <Text style={{ fontSize: 18 }}>
+                      <Text style={{fontSize: 18}}>
                         Please follow others to see their posts
                       </Text>
                     </View>
@@ -1726,7 +1754,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <View></View>
                 )
               }
-              renderItem={({ item, index }) => {
+              renderItem={({item, index}) => {
                 let len =
                   item.post_gallery != null ? item.post_gallery.length : 0;
                 let items = item;
@@ -1734,7 +1762,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 if (item.post_gallery == null) {
                   let s = item.caption;
                   var parts = s.match(/[\s\S]{1,140}/g) || [];
-                  console.log(parts);
+                  // console.log(parts);
                   var lenCap = parts.length;
                 }
                 return (
@@ -1781,15 +1809,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           />
         ) : !getIsEnabledAge ? (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 22, textAlign: 'center' }}>
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22, textAlign: 'center'}}>
               Due to age Limit
             </Text>
           </View>
         ) : posts.length > 0 ? (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 22, textAlign: 'center' }}>
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22, textAlign: 'center'}}>
               Please enable social media from setting page
             </Text>
           </View>
@@ -1831,11 +1859,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   item: customItem,
                 });
               }}>
-              <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
+              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
             <TouchableOpacity onPress={toggleModal}>
-              <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>
+              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -1846,7 +1874,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onBackdropPress={toggleModal2}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
+            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1860,13 +1888,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <TouchableOpacity onPress={toggleModal2}>
                 <Image
                   source={Images.closeicon}
-                  style={{ height: 15, width: 15, marginRight: 10 }}
+                  style={{height: 15, width: 15, marginRight: 10}}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{ paddingHorizontal: 16 }}>
-              <Text style={{ fontSize: hp(2.4) }}>
+            <View style={{paddingHorizontal: 16}}>
+              <Text style={{fontSize: hp(2.4)}}>
                 Why are you reporting this?
               </Text>
               {checkboxValue.map((checkbox, i) => (
@@ -1912,7 +1940,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => gotoReport()}>
-                <Text style={{ color: 'white' }}>Submit</Text>
+                <Text style={{color: 'white'}}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>

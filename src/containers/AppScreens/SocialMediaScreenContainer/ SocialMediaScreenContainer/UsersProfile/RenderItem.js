@@ -706,7 +706,7 @@ function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
         marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        backgroundColor: 'red',
+        //  backgroundColor: 'red',
         marginStart: !(data === 'Image') ? 64 : 16,
         width: !(data === 'Image') ? screenWidth : screenWidth - 32,
         height: !(data === 'Image') ? screenWidth : screenWidth - 32,

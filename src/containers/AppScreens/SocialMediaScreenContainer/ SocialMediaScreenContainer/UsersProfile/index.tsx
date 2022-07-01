@@ -110,6 +110,8 @@ const UsersProfile = (props: UserProfileProps) => {
   ]);
 
   const [tempUserId, setTempUserId] = useState('');
+  const [videoPost, setVideoPost] = useState('');
+  const [nonVideoPost, setNonVideoPost] = useState('');
 
   const reportprofilemodal = () => {
     setreportprofilemodal(!isreportprofilemodal);
@@ -633,7 +635,28 @@ const UsersProfile = (props: UserProfileProps) => {
 
               // console.log('+++++12', newObject);
 
-              setUserProfile(newObject);
+              let newArrForNonVideo = [];
+              let newArr = [];
+              for (let i in newObject.social_post) {
+                if (
+                  newObject.social_post[i].post_gallery != null &&
+                  newObject.social_post[i].post_gallery[0].post_extension !=
+                    'mp4'
+                ) {
+                  newArrForNonVideo.push(newObject.social_post[i]);
+                }
+                newArr.push(newObject.social_post[i]);
+              }
+
+              setNonVideoPost(newArrForNonVideo);
+              setVideoPost(newArr);
+
+              let newObj = {
+                ...result.data[0],
+                social_post: newArrForNonVideo,
+              };
+
+              setUserProfile(newObj);
             } else {
               setUserProfile('');
             }
@@ -650,6 +673,15 @@ const UsersProfile = (props: UserProfileProps) => {
         },
       }),
     );
+  };
+
+  const gotoChangeTab = async key => {
+    let newObj = {
+      ...userProfile,
+      social_post: key == 'Image' ? videoPost : nonVideoPost,
+    };
+    setUserProfile(newObj);
+    await active_data(key);
   };
 
   const getReportData = async () => {
@@ -1595,7 +1627,7 @@ const UsersProfile = (props: UserProfileProps) => {
                   <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      onPress={() => active_data('thData')}>
+                      onPress={() => gotoChangeTab('thData')}>
                       <Icon
                         name="th"
                         size={30}
@@ -1605,7 +1637,7 @@ const UsersProfile = (props: UserProfileProps) => {
 
                     <TouchableOpacity
                       activeOpacity={0.8}
-                      onPress={() => active_data('Image')}>
+                      onPress={() => gotoChangeTab('Image')}>
                       <Icon
                         name="image"
                         size={30}

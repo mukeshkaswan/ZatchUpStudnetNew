@@ -97,6 +97,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     },
   ]);
 
+  const [videoPost, setVideoPost] = useState('');
+  const [nonVideoPost, setNonVideoPost] = useState('');
+
   const reportcheckboxHandler = (value, index) => {
     console.log('value==>>>>>>>>>', value);
     setReportId(value.id);
@@ -648,7 +651,28 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
               console.log('+++++', newObject);
 
-              setSchoolDetail(newObject);
+              let newArrForNonVideo = [];
+              let newArr = [];
+              for (let i in newObject.social_post) {
+                if (
+                  newObject.social_post[i].post_gallery != null &&
+                  newObject.social_post[i].post_gallery[0].post_extension !=
+                    'mp4'
+                ) {
+                  newArrForNonVideo.push(newObject.social_post[i]);
+                }
+                newArr.push(newObject.social_post[i]);
+              }
+
+              setNonVideoPost(newArrForNonVideo);
+              setVideoPost(newArr);
+
+              let newObj = {
+                ...result.data[0],
+                social_post: newArrForNonVideo,
+              };
+
+              setSchoolDetail(newObj);
             } else {
               setSchoolDetail('');
             }
@@ -665,6 +689,15 @@ const SchoolProfile = (props: SchoolProfileProps) => {
         },
       }),
     );
+  };
+
+  const gotoChangeTab = async key => {
+    let newObj = {
+      ...schoolDetail,
+      social_post: key == 'Image' ? videoPost : nonVideoPost,
+    };
+    setSchoolDetail(newObj);
+    await active_data(key);
   };
 
   const gotoComment = async item => {
@@ -1146,7 +1179,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => active_data('th')}>
+                    onPress={() => gotoChangeTab('th')}>
                     <Icon
                       name="th"
                       size={30}
@@ -1156,7 +1189,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => active_data('Image')}>
+                    onPress={() => gotoChangeTab('Image')}>
                     <Icon
                       name="image"
                       size={30}

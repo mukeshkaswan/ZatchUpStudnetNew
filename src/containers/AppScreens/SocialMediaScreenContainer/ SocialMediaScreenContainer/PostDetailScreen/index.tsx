@@ -12,7 +12,7 @@ import {
   Alert,
   Keyboard,
   SafeAreaView,
-  Platform
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -829,7 +829,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         data,
         callback: ({result, error}) => {
           if (result) {
-            console.warn(
+            console.log(
               'get all the post of user',
               JSON.stringify(result, undefined, 2),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
@@ -838,11 +838,54 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               let newData = [];
               for (let i in result.data) {
                 if (result.data[i].post_gallery != null) {
-                  newData.push(result.data[i]);
+                  if (
+                    result.data[i].post_gallery.length > 1 &&
+                    result.data[i].post_gallery[0].post_extension == 'mp4'
+                  ) {
+                    let rmEle = result.data[i].post_gallery.splice(0, 1);
+                    // console.log('rmEle', rmEle);
+                    newData.push(result.data[i]);
+                  } else if (
+                    result.data[i].post_gallery.length == 1 &&
+                    result.data[i].post_gallery[0].post_extension != 'mp4'
+                  ) {
+                    newData.push(result.data[i]);
+                  }
                 }
               }
-              console.log('newDataOfAllPost', newData);
-              setAllPost(newData);
+              console.log('newDataOfAllPost', JSON.stringify(newData));
+
+              let newD = [];
+
+              for (let i in newData) {
+                if (
+                  newData[i].post_gallery.length > 1 &&
+                  newData[i].post_gallery.some(
+                    item => item.post_extension != 'jpg',
+                  )
+                ) {
+                  var newArrrrr = [];
+                  for (let k in newData[i].post_gallery) {
+                    if (newData[i].post_gallery[k].post_extension != 'mp4') {
+                      newArrrrr.push(newData[i].post_gallery[k]);
+                    }
+                  }
+                  console.log('rmEle', newArrrrr);
+                  newD.push({
+                    ...newData[i],
+                    post_gallery: newArrrrr,
+                  });
+                } else if (
+                  newData[i].post_gallery.length == 1 &&
+                  newData[i].post_gallery[0].post_extension != 'mp4'
+                ) {
+                  newD.push(newData[i]);
+                }
+              }
+
+              console.log('newD', JSON.stringify(newD));
+
+              setAllPost(newD);
             }
             // setSpinnerStart(false);
             setLoading(false);
@@ -2417,7 +2460,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                       style={{
                         alignSelf: 'flex-end',
                         marginBottom: 5,
-                        marginTop:Platform.OS == 'ios' ? 10 : 0,
+                        marginTop: Platform.OS == 'ios' ? 10 : 0,
                         marginLeft: 5,
                       }}>
                       <TouchableOpacity
