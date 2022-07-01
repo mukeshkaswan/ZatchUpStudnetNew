@@ -1360,8 +1360,12 @@ const UsersProfile = (props: UserProfileProps) => {
                     disabled={
                       userProfile.block_user_active
                         ? true
-                        : userProfile.social_account_status
+                        : userProfile.social_account_status &&
+                          userProfile.follow_request_status != 2
                         ? true
+                        : userProfile.social_account_status &&
+                          userProfile.follow_request_status == 2
+                        ? false
                         : userProfile.follow_request_status == 2 ||
                           userProfile.follow_request_status == 0
                         ? false
@@ -1382,8 +1386,12 @@ const UsersProfile = (props: UserProfileProps) => {
                     disabled={
                       userProfile.block_user_active
                         ? true
-                        : userProfile.social_account_status
+                        : userProfile.social_account_status &&
+                          userProfile.follow_request_status != 2
                         ? true
+                        : userProfile.social_account_status &&
+                          userProfile.follow_request_status == 2
+                        ? false
                         : userProfile.follow_request_status == 2 ||
                           userProfile.follow_request_status == 0
                         ? false
@@ -1808,7 +1816,8 @@ const UsersProfile = (props: UserProfileProps) => {
                 //  ItemSeparatorComponent={renderIndicator}
               />
             ) : !userProfile.block_user_active &&
-              userProfile.social_account_status ? (
+              userProfile.social_account_status &&
+              userProfile.follow_request_status != 2 ? (
               <View
                 style={{
                   alignItems: 'center',

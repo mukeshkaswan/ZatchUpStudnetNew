@@ -838,19 +838,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               let newData = [];
               for (let i in result.data) {
                 if (result.data[i].post_gallery != null) {
-                  if (
-                    result.data[i].post_gallery.length > 1 &&
-                    result.data[i].post_gallery[0].post_extension == 'mp4'
-                  ) {
-                    let rmEle = result.data[i].post_gallery.splice(0, 1);
-                    // console.log('rmEle', rmEle);
-                    newData.push(result.data[i]);
-                  } else if (
-                    result.data[i].post_gallery.length == 1 &&
-                    result.data[i].post_gallery[0].post_extension != 'mp4'
-                  ) {
-                    newData.push(result.data[i]);
-                  }
+                  newData.push(result.data[i]);
                 }
               }
               console.log('newDataOfAllPost', JSON.stringify(newData));
@@ -861,20 +849,22 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 if (
                   newData[i].post_gallery.length > 1 &&
                   newData[i].post_gallery.some(
-                    item => item.post_extension != 'jpg',
+                    item => item.post_extension == 'mp4',
                   )
                 ) {
                   var newArrrrr = [];
-                  for (let k in newData[i].post_gallery) {
+                  for (let k = 0; k < newData[i].post_gallery.length - 1; k++) {
                     if (newData[i].post_gallery[k].post_extension != 'mp4') {
                       newArrrrr.push(newData[i].post_gallery[k]);
                     }
                   }
                   console.log('rmEle', newArrrrr);
-                  newD.push({
-                    ...newData[i],
-                    post_gallery: newArrrrr,
-                  });
+                  // newD.push({
+                  //   ...newData[i],
+                  //   post_gallery: newArrrrr,
+                  // });
+
+                  newD.push(newData[i]);
                 } else if (
                   newData[i].post_gallery.length == 1 &&
                   newData[i].post_gallery[0].post_extension != 'mp4'
