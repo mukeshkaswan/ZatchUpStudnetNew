@@ -644,6 +644,8 @@ const UsersProfile = (props: UserProfileProps) => {
                     'mp4'
                 ) {
                   newArrForNonVideo.push(newObject.social_post[i]);
+                } else if (newObject.social_post[i].post_gallery == null) {
+                  newArrForNonVideo.push(newObject.social_post[i]);
                 }
                 newArr.push(newObject.social_post[i]);
               }
@@ -1343,12 +1345,11 @@ const UsersProfile = (props: UserProfileProps) => {
                       }}>
                       <View style={{marginTop: 16}}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
-                        {userProfile == '' &&
-                          userProfile.zatchup_id != null && (
-                            <Text style={styles.nametext}>
-                              {'(' + userProfile.zatchup_id + ')'}
-                            </Text>
-                          )}
+                        {userProfile.zatchup_id != null && (
+                          <Text style={[styles.nametext, {fontSize: 12}]}>
+                            {'(' + userProfile.zatchup_id + ')'}
+                          </Text>
+                        )}
                       </View>
                     </View>
                   </View>
@@ -1713,25 +1714,6 @@ const UsersProfile = (props: UserProfileProps) => {
                     );
                   } else {
                     return (
-                      // <Carousel
-                      //   // layout={'tinder'}
-                      //   ref={isCarouselText}
-                      //   data={parts}
-                      //   renderItem={({item, index}) => (
-                      //     <CrouselText
-                      //       item={item}
-                      //       index={index}
-                      //       length={lenCap}
-                      //       data={data}
-                      //       goToNavigate={GoToNavigate}
-                      //       items={items}
-                      //     />
-                      //   )}
-                      //   sliderWidth={screenWidth - 16}
-                      //   itemWidth={screenWidth - 16}
-                      //   layoutCardOffset={'0'}
-                      //   onSnapToItem={index => setIndex(index)}
-                      // />
                       <View
                         style={{
                           width: screenWidth / 2,

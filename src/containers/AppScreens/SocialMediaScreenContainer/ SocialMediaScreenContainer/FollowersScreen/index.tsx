@@ -630,19 +630,26 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   }}>
                   Are you sure you want to cancel the Request?
                 </Text>
-              ) : (
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: hp(1.8),
-                    marginTop: 25,
-                  }}>
-                  Are you sure? You want to unfollow this user
-                  {/* If you change your mind, you'll have to request to follow
-                  <Text style={{fontWeight: 'bold', fontSize: hp(1.8)}}>
-                    {' ' + userData.follow_username + ' '}
+              ) : userData.flag == 'remove' ? (
+                <>
+                  <Text style={{fontWeight: '700', fontSize: 16}}>
+                    Remove Follower?
                   </Text>
-                  again */}
+                  <Text style={{textAlign: 'center'}}>
+                    Zatchup won't tell
+                    <Text style={{fontWeight: 'bold', fontSize: hp(1.8)}}>
+                      {' @' + userData.follow_username + ' '}
+                    </Text>
+                    that they have been removed from the Followers.{' '}
+                  </Text>
+                </>
+              ) : (
+                <Text style={{textAlign: 'center'}}>
+                  If you change your mind, you'll have to request to follow
+                  <Text style={{fontWeight: 'bold', fontSize: hp(1.8)}}>
+                    {' @' + userData.follow_username + ' '}
+                  </Text>
+                  again{' '}
                 </Text>
               )}
             </View>
@@ -660,7 +667,11 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
           /> */}
             <TouchableOpacity onPress={gotoRemove}>
               <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
-                {userData.flag == 'requested' ? 'Yes' : 'Unfollow'}
+                {userData.flag == 'requested'
+                  ? 'Yes'
+                  : userData.flag == 'remove'
+                  ? 'Remove'
+                  : 'Unfollow'}
               </Text>
             </TouchableOpacity>
             <View

@@ -849,24 +849,28 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 if (
                   newData[i].post_gallery.length > 1 &&
                   newData[i].post_gallery.some(
-                    item => item.post_extension == 'mp4',
+                    item =>
+                      item.post_extension == 'jpg' ||
+                      item.post_extension == 'jpeg',
                   )
                 ) {
                   var newArrrrr = [];
+
                   for (let k = 0; k < newData[i].post_gallery.length - 1; k++) {
                     if (newData[i].post_gallery[k].post_extension != 'mp4') {
                       newArrrrr.push(newData[i].post_gallery[k]);
                     }
                   }
                   console.log('rmEle', newArrrrr);
-                  // newD.push({
-                  //   ...newData[i],
-                  //   post_gallery: newArrrrr,
-                  // });
+                  newD.push({
+                    ...newData[i],
+                    post_gallery: newArrrrr,
+                  });
 
-                  newD.push(newData[i]);
+                  //newD.push(newData[i]);
                 } else if (
                   newData[i].post_gallery.length == 1 &&
+                  newData[i].post_gallery[0].hasOwnProperty('post_extension') &&
                   newData[i].post_gallery[0].post_extension != 'mp4'
                 ) {
                   newD.push(newData[i]);
@@ -1697,10 +1701,8 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                   />
                   <Text style={styles.nametext}>{postDetails.full_name}</Text>
                 </TouchableOpacity>
-                {/* <Text style={{fontWeight: 'bold', marginLeft: 30}}>
-                Following
-              </Text> */}
-                <TouchableOpacity onPress={toggleModal3}>
+
+                <TouchableOpacity style={{padding: 16}} onPress={toggleModal3}>
                   <Icon name="ellipsis-v" color="grey" size={20} />
                 </TouchableOpacity>
               </View>

@@ -320,6 +320,9 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     'mp4'
                 ) {
                   newArrForNonVideo.push(newObject.social_post[i]);
+                } else if (newObject.social_post[i].post_gallery == null) {
+                  //  Alert.alert('hh');
+                  newArrForNonVideo.push(newObject.social_post[i]);
                 }
                 newArr.push(newObject.social_post[i]);
               }
@@ -912,12 +915,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       }}>
                       <View style={{marginTop: 16}}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
-                        {userProfile == '' &&
-                          userProfile.zatchup_id != null && (
-                            <Text style={styles.nametext}>
-                              {'(' + userProfile.zatchup_id + ')'}
-                            </Text>
-                          )}
+                        {userProfile.zatchup_id != null && (
+                          <Text style={[styles.nametext, {fontSize: 12}]}>
+                            {'(' + userProfile.zatchup_id + ')'}
+                          </Text>
+                        )}
                       </View>
                       {/* <Icon
                       name="check-circle"

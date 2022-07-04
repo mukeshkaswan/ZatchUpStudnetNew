@@ -1392,7 +1392,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             </TouchableOpacity>
           )}
 
-          {is_kyc_approved == true && socialMedia && is_approved == true ? (
+          {(is_kyc_approved == true && socialMedia && is_approved == true) ||
+          posts.length == 0 ? (
             <View style={styles.tv_view}>
               <View
                 style={{
@@ -1609,7 +1610,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             }}>
             <FlatList
               ListHeaderComponent={() =>
-                posts.length > 0 ? (
+                !loading ? (
                   <View>
                     <View
                       style={{
@@ -1695,13 +1696,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 />
               }
               ListEmptyComponent={() =>
-                !loading && posts.length > 0 ? (
+                !loading ? (
                   <View
                     style={{
-                      height: height - 168,
+                      height: height - 450,
                       width,
                       alignItems: 'center',
                       justifyContent: 'center',
+                      //    backgroundColor: 'red',
                     }}>
                     <View
                       style={{

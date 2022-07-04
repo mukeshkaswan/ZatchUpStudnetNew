@@ -273,7 +273,9 @@ function RenderItem({
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => toggleModalCustom(item)}>
+        <TouchableOpacity
+          style={{padding: 16}}
+          onPress={() => toggleModalCustom(item)}>
           <Image
             source={require('../../../assets/images/dot.png')}
             style={{height: 18, width: 18}}
