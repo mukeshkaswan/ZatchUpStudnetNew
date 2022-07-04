@@ -1459,14 +1459,26 @@ const UsersProfile = (props: UserProfileProps) => {
                     </TouchableOpacity>
                   )}
                 </View>
-                <View style={styles.messageicon}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('Messages');
-                    }}>
-                    <Icon name="envelope" size={24} color="grey" />
-                  </TouchableOpacity>
-                </View>
+
+                {(!userProfile.block_user_active ||
+                  !userProfile.social_account_status) &&
+                  (!userProfile.social_account_status ||
+                    userProfile.follow_request_status == 2) && (
+                    <View style={styles.messageicon}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          props.navigation.navigate(
+                            'SIngleChatWithTeacherWebView',
+                            {
+                              user_id: user_id,
+                              firebase_id: userProfile.firebase_id,
+                            },
+                          )
+                        }>
+                        <Icon name="envelope" size={24} color="grey" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
               </View>
             </View>
             <Card style={styles.cardContent}>
