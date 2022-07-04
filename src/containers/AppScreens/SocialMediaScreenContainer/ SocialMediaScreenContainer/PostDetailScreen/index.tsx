@@ -2035,10 +2035,10 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                                           }}>
                                           <Image
                                             source={
-                                              item.comment_user_profile_pic !=
+                                              item.reply_comment_profile_pic !=
                                               null
                                                 ? {
-                                                    uri: item.comment_user_profile_pic,
+                                                    uri: item.reply_comment_profile_pic,
                                                   }
                                                 : Images.profile_default
                                             }

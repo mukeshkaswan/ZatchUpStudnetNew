@@ -86,9 +86,9 @@ const UsersProfile = (props: UserProfileProps) => {
 
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledDob, setIsEnabledDob] = useState(false);
-  const [isEnabledGender, setIsEnabledGender] = useState(false);
+  const [isEnabledGender, setIsEnabledGender] = useState(true);
   const [isEnabledProfession, setIsEnabledProfession] = useState(false);
-  const [isEnabledCity, setIsEnabledCity] = useState(false);
+  const [isEnabledCity, setIsEnabledCity] = useState(true);
   const [isEnabled, setIsEnabled] = useState(false);
 
   const [checkboxValue, setCheckboxValue] = React.useState([
@@ -1563,6 +1563,11 @@ const UsersProfile = (props: UserProfileProps) => {
                         ? 'Male'
                         : userProfile.gender == 'F'
                         ? 'Female'
+                        : userProfile.gender == 'C'
+                        ? userProfile.pronoun +
+                          '(' +
+                          userProfile.custom_gender +
+                          ')'
                         : 'Custom'}
                     </Text>
                   </View>
