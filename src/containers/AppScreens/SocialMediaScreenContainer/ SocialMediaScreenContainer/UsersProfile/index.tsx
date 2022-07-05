@@ -1563,12 +1563,13 @@ const UsersProfile = (props: UserProfileProps) => {
                         ? 'Male'
                         : userProfile.gender == 'F'
                         ? 'Female'
-                        : userProfile.gender == 'C'
+                        : userProfile.gender == 'C' &&
+                          userProfile.custom_gender != null
                         ? userProfile.pronoun +
                           '(' +
                           userProfile.custom_gender +
                           ')'
-                        : 'Custom'}
+                        : userProfile.pronoun}
                     </Text>
                   </View>
                 ) : null}

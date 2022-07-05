@@ -1101,7 +1101,13 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       ? 'Male'
                       : userProfile.gender == 'F'
                       ? 'Female'
-                      : 'Custom'}
+                      : userProfile.gender == 'C' &&
+                        userProfile.custom_gender != null
+                      ? userProfile.pronoun +
+                        '(' +
+                        userProfile.custom_gender +
+                        ')'
+                      : userProfile.pronoun}
                   </Text>
                 </View>
 

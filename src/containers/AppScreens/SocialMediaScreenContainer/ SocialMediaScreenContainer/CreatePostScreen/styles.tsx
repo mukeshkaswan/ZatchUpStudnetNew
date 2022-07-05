@@ -7,9 +7,7 @@ import {
 const screenWidth = Dimensions.get('window').width;
 import {Colors} from '../../../components/index';
 const screenHeight = Math.round(Dimensions.get('window').height);
-import {
-  Platform,
-} from 'react-native';
+import {Platform} from 'react-native';
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
@@ -45,7 +43,7 @@ const styles = ScaledSheet.create({
   textinput: {
     textAlignVertical: 'top',
     paddingHorizontal: 16,
-    height:Platform.OS == 'ios' ? 150 : 0
+    height: Platform.OS == 'ios' ? 150 : 170,
   },
   rowContainer: {
     flexDirection: 'row',
