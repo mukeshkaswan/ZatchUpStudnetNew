@@ -519,7 +519,22 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
                   <View></View>
                 ) : flag != 'self' ? (
                   <View style={styles.Title_view}>
-                    {item.social_account_status == 0 ? (
+                    {item.block_user_active == true ? (
+                      <TouchableOpacity
+                        disabled={true}
+                        style={[styles.removebtn, {opacity: 0.5}]}
+                        //onPress={() => gotoFollow(item)}
+                      >
+                        <Text
+                          style={{
+                            color: 'white',
+                            fontSize: hp(1.8),
+                            fontWeight: 'bold',
+                          }}>
+                          Block
+                        </Text>
+                      </TouchableOpacity>
+                    ) : item.social_account_status == 0 ? (
                       <TouchableOpacity
                         disabled={item.student_verified ? true : false}
                         style={styles.removebtn}

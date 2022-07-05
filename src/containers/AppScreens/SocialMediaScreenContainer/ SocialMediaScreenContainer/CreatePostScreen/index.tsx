@@ -452,11 +452,12 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     return (
       <View
         style={{
-         // width: screenWidth / 3 - 21,
+          //width: screenWidth / 3 - 21,
           height: screenWidth / 3 - 21,
           marginTop: 10,
           marginLeft: 16,
           marginBottom: 16,
+          width: 150,
         }}>
         {item.type == 'video/mp4' ? (
           // <Video
@@ -488,34 +489,64 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           //     height: screenWidth / 3 - 21,
           //   }}
           // />
-          <Video
+          // <Video
+          //   style={{
+          //     width: screenWidth / 3 - 1,
+          //     height: screenWidth / 3 - 21,
+          //   }}
+          //   url={item.uri}
+          //   placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+          //   // rotateToFullScreen={false}
+          //   hideFullScreenControl={true}
+          //   inlineOnly={true}
+          //   lockRatio={16 / 16}
+          //   resizeMode="contain"
+          //   // autoplay
+          //   //  theme={theme}
+          //   // onBackPress={() => this.props.navigation.goBack(null)}
+          //   //  placeholderStyle={{width: width - 32, height: height / 4}}
+          //   //onFullScreen={this.onFullScreen}
+          // />
+          <View
             style={{
-              width: screenWidth / 3 - 1,
+              flex: 1,
+              backgroundColor: 'red',
+              borderRadius: 8,
+              alignContent: 'flex-end',
+              width: 150,
               height: screenWidth / 3 - 21,
-            }}
-            url={item.uri}
-            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-            // rotateToFullScreen={false}
-            hideFullScreenControl={true}
-            inlineOnly={true}
-            lockRatio={16 / 16}
-            resizeMode="contain"
-            // autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //onFullScreen={this.onFullScreen}
-          />
+            }}>
+            <Video
+              style={{
+                width: 150,
+                height: screenWidth / 3 - 21,
+              }}
+              url={item.uri}
+              placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+              // rotateToFullScreen={false}
+              hideFullScreenControl={true}
+              inlineOnly={true}
+              lockRatio={16 / 16}
+              resizeMode="contain"
+              autoplay={false}
+              //  theme={theme}
+              // onBackPress={() => this.props.navigation.goBack(null)}
+              //  placeholderStyle={{width: width - 32, height: height / 4}}
+              //onFullScreen={this.onFullScreen}
+            />
+          </View>
         ) : (
           <Image
             source={{uri: item.uri}}
             style={{
-              width: screenWidth / 3 - 1,
+              width: 150,
               height: screenWidth / 3 - 21,
+              // height: screenWidth / 3 - 21,
               //backgroundColor: 'green',
-              resizeMode: 'contain',
+              resizeMode: 'stretch',
               borderRadius: 8,
-              marginTop: 16,
+              flex: 1,
+              // marginTop: 16,
               //marginStart: 16,
             }}
           />
@@ -531,7 +562,6 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             justifyContent: 'center',
             right: 5,
             top: 0,
-            marginTop: 16,
           }}>
           <Image
             source={Images.delete_icon}
