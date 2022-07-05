@@ -337,7 +337,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setProfilePic(element.profile_pic);
       setkyc_approved(element.kyc_approved);
       setDob(element.dob);
-      setProfession(element.work_detail.length > 0 ? element.work_detail[0].job_title:null);
+      setProfession(element.work_detail.length > 0 ? element.work_detail[0].job_title : null);
       setGender(element.gender);
       setEmail(element.email);
       setPhone(element.phone);
@@ -844,7 +844,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
-  
+
 
 
   /***************************User Auth Phone Disable*******************************/
@@ -2464,7 +2464,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch1}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                     value={isEnabled}
                   />
                 </View>
@@ -2483,7 +2483,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchEmail}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                     value={isEnabledEmail}
                   />
                 </View>
@@ -2502,7 +2502,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchDob}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                     value={isEnabledDob}
                   />
                 </View>
@@ -2533,7 +2533,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchGender}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                     value={isEnabledGender}
                   />
                 ) : null}
@@ -2542,14 +2542,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
-              {getprofession != null ?  <Text style={{ textAlign: 'center' }}>{getprofession}</Text>:null}
+                {getprofession != null ? <Text style={{ textAlign: 'center' }}>{getprofession}</Text> : null}
 
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchProfession}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isEnabledProfession}
                 />
               </View>
@@ -2560,14 +2560,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Current City</Text>
-                {city != null ? <Text style={{ textAlign: 'center' }}>{city}</Text>:null}
+                {city != null ? <Text style={{ textAlign: 'center' }}>{city}</Text> : null}
 
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchCity}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isEnabledCity}
                 />
               </View>
@@ -2583,12 +2583,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchTwoFactor}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isEnabledTwoFactor}
                 />
               </View>
 
-              { isAge ? <View style={styles.border1}></View> : null}
+              {isAge ? <View style={styles.border1}></View> : null}
 
               {isAge ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Private Profile</Text>
@@ -2597,23 +2597,23 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchPrivate}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isEnabledPrivate}
                 />
               </View> : null}
 
-              {isAge ?  <View style={styles.border1}></View>:null}
-              {isAge   ?  <View style={styles.privacyrowcontainer}>
+              {isAge ? <View style={styles.border1}></View> : null}
+              {isAge ? <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Enable Social Media</Text>
                 <Switch
                   trackColor={{ false: 'grey', true: 'lightgreen' }}
                   thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitch2}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isEnabled2}
                 />
-              </View>:null}
+              </View> : null}
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
@@ -2624,7 +2624,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   thumbColor={isDeactivateAccount ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchDeactivateAccount}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9}] }}
+                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
                   value={isDeactivateAccount}
                 />
               </View>
@@ -2779,7 +2779,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   <View style={{}}>
                     <View
                       style={{
-                        marginBottom: '2%',
+                        marginBottom: '24%',
                         width: 300,
                       }}>
                       {/* label1="Select your pronoun" value1="0" label2="He" value2="1" label3="She" value3="2" selectedValue={pronoun} SelectedLanguagedata={(selectedValue) => setSelectpronoun(selectedValue)} */}
