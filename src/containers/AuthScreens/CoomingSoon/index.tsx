@@ -895,7 +895,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         cardElevation={2}
         cardMaxElevation={2}
         cornerRadius={10}
-        style={styles.Cardview_city}>
+        style={{
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 2},
+        //shadowRadius: 6,
+        shadowOpacity: 0.26,
+        width:Platform.OS=='ios'?wp('80'):'90%',
+    
+        borderColor: 'lightgrey',}}>
         {item.user_type == 'SCHOOL' ? (
           <TouchableOpacity
             underlayColor="none"
@@ -1583,7 +1590,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <FlatList
               data={citydata.slice(0, 5)}
               showsVerticalScrollIndicator={false}
-              // ListFooterComponent={() => (
+              // ListFooterComponent={() => (ƒ
               //   <Text style={{textAlign: 'center'}}>See All Results</Text>
               // )}
               style={{
@@ -1604,14 +1611,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               style={{
                 backgroundColor: '#E7E7E7',
-                alignItems: 'center',
-                paddingBottom: 15,
-                marginRight: 20,
-                width: '90%',
+              alignItems: 'center',
+               paddingBottom: 15,
+                marginRight: 10,
+              // width: Platform.OS=='ios'? '92%':'90%',
+              width:Platform.OS=='ios'?wp('80'):'90%',
                 shadowColor: 'black',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.26,
                 borderColor: 'lightgrey',
+                marginTop:Platform.OS=='ios'? -13:0
               }}
               onPress={() =>
                 props.navigation.navigate('SeeAllResults', { tvname: cityname })
