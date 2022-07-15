@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ZatchUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ZatchUpTests.m */; };
 		092D1B062C4442F2AB0B6C52 /* RobotoRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD405999F540483C80424B60 /* RobotoRegular.ttf */; };
+		117AC040287FEF130085E814 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 117AC03F287FEF130085E814 /* assets */; };
+		11ABA09A287DA16800594614 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 11ABA099287DA16800594614 /* main.jsbundle */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -41,6 +43,8 @@
 		00E356F21AD99517003FC87E /* ZatchUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZatchUpTests.m; sourceTree = "<group>"; };
 		016B0CB5955B4C08A8BCD18F /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		039F7F2CFF434584B4196AA2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		117AC03F287FEF130085E814 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		11ABA099287DA16800594614 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ZatchUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZatchUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ZatchUp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ZatchUp/AppDelegate.m; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				A21EB061281A6E5300EFDC20 /* GoogleService-Info.plist */,
+				11ABA099287DA16800594614 /* main.jsbundle */,
 				5F2ED757265373850032A7FB /* ZatchUp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				A21EB03428195FE300EFDC20 /* Lato-Bold.ttf */,
@@ -232,6 +237,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				117AC03F287FEF130085E814 /* assets */,
 				13B07FAE1A68108700A75B9A /* ZatchUp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ZatchUpTests */,
@@ -358,9 +364,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				117AC040287FEF130085E814 /* assets in Resources */,
 				A21EB062281A6E5300EFDC20 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				78A6B53B5EA04BFA98FFBCA2 /* Lato-Bold.ttf in Resources */,
+				11ABA09A287DA16800594614 /* main.jsbundle in Resources */,
 				77984880851448AC8F618377 /* Lato-BoldItalic.ttf in Resources */,
 				C4FA17519A714184AFEB99B1 /* Lato-Medium.ttf in Resources */,
 				7E5533221C414DF998697784 /* Lato-Regular.ttf in Resources */,
