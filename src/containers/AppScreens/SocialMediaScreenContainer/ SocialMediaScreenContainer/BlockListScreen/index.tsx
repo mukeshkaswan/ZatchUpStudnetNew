@@ -9,7 +9,7 @@ import {
   Alert,
   TextInput,
   Keyboard,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import styles from './styles';
 import {Images, Colors} from '../../../../../components/index';
@@ -111,7 +111,6 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
     return true;
   }
 
-
   const getBlockListApi = async () => {
     var token = '';
     try {
@@ -183,7 +182,7 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
       blocked_user_id: item.profile_reported_user_id,
-      block_user_status: !item.blocked_status,
+      block_user_status: item.blocked_status,
     };
 
     console.log('ReportPost==>>', data);
@@ -245,65 +244,65 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <View style={styles.container}>
-      <CustomStatusBar />
-      <CustomHeader
-        Title={'Block List'}
-        Back={'true'}
-        navigation={props.navigation}
-      />
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <CustomStatusBar />
+        <CustomHeader
+          Title={'Block List'}
+          Back={'true'}
+          navigation={props.navigation}
+        />
 
-      <FlatList
-        data={data2}
-        renderItem={({item}) => (
-          <CardView
-            cardElevation={5}
-            cardMaxElevation={5}
-            //cornerRadius={20}
-            style={styles.card}>
+        <FlatList
+          data={data2}
+          renderItem={({item}) => (
+            <CardView
+              cardElevation={5}
+              cardMaxElevation={5}
+              //cornerRadius={20}
+              style={styles.card}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image
+                    source={
+                      item.blocked_user_profile_pic != null
+                        ? {uri: item.blocked_user_profile_pic}
+                        : Images.profile_default
+                    }
+                    style={{width: 50, height: 50, borderRadius: 50}}
+                  />
+                  <Text style={{fontWeight: 'bold', marginLeft: 10}}>
+                    {item.blocked_username}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => blockprofile(item)}>
+                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                    Unblock
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </CardView>
+          )}
+          ListEmptyComponent={() => (
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                height: height - 80,
+                width: width,
                 alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image
-                  source={
-                    item.blocked_user_profile_pic != null
-                      ? {uri: item.blocked_user_profile_pic}
-                      : Images.profile_default
-                  }
-                  style={{width: 50, height: 50, borderRadius: 50}}
-                />
-                <Text style={{fontWeight: 'bold', marginLeft: 10}}>
-                  {item.blocked_username}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => blockprofile(item)}>
-                <Text style={{color: 'white', fontWeight: 'bold'}}>
-                  Unblock
-                </Text>
-              </TouchableOpacity>
+              <Text style={{fontSize: 20}}>Records Not Available</Text>
             </View>
-          </CardView>
-        )}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              height: height - 80,
-              width: width,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 20}}>Records Not Available</Text>
-          </View>
-        )}
-      />
-    </View>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };
