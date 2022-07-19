@@ -141,9 +141,9 @@ function RenderItem({
 
   const ref = useRef();
 
-  useEffect(()=>{
-    return ()=> ref.current.stop();
-  },[]);
+  useEffect(() => {
+    return () => ref.current.stop();
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -196,6 +196,24 @@ function RenderItem({
     );
   };
 
+  const gotoNextPage = (item) => () => {
+    setModalVisible(!isModalVisible);
+    item.user_role == 'EIREPRESENTATIVE'
+      ? props.navigation.navigate('SchoolProfile', {
+        item: {
+          user_id: item.post_like_user_id,
+          school_id: item.school_id,
+        },
+      })
+      : item.post_like_user_id != userid
+        ? props.navigation.navigate('UsersProfile', {
+          item: { user_id: item.post_like_user_id },
+        })
+        : props.navigation.navigate('UserProfileScreen', {
+          item: { user_id: item.post_like_user_id },
+        });
+  }
+
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -206,22 +224,7 @@ function RenderItem({
           alignItems: 'center',
         }}
         disabled={false}
-        onPress={() => {
-          item.user_role == 'EIREPRESENTATIVE'
-            ? props.navigation.navigate('SchoolProfile', {
-              item: {
-                user_id: item.post_like_user_id,
-                school_id: item.school_id,
-              },
-            })
-            : item.post_like_user_id != userid
-              ? props.navigation.navigate('UsersProfile', {
-                item: { user_id: item.post_like_user_id },
-              })
-              : props.navigation.navigate('UserProfileScreen', {
-                item: { user_id: item.post_like_user_id },
-              });
-        }}>
+        onPress={gotoNextPage(item)}>
         <Image
           source={
             item.profile_pic != null
@@ -660,7 +663,7 @@ function RenderItem({
   );
 }
 
-function CrouselImages({ item, index, length, refff,ref }) {
+function CrouselImages({ item, index, length, refff, ref }) {
   return (
     <View
       style={{

@@ -674,6 +674,14 @@ const UserProfileScreen = (props: UserProfileProps) => {
     setModalVisible3(!isModalVisible3);
   };
 
+  const toggleModalPostDetail = () => {
+    //  Alert.alert("hye");
+    setModalVisible3(!isModalVisible3);
+    props.navigation.navigate('PostDetailScreen', {
+      item: customItem,
+    });
+  };
+
   const goToNavigate = async (route, itemData) => {
     console.log(route + 'Sap' + JSON.stringify(itemData));
     let itemm = JSON.stringify(itemData);
@@ -1425,11 +1433,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
             </>
             {/* )} */}
             <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate('PostDetailScreen', {
-                  item: customItem,
-                });
-              }}>
+              onPress={toggleModalPostDetail}>
               <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>

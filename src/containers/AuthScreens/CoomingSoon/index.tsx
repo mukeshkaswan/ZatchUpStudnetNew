@@ -234,9 +234,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     setModalVisible(!isModalVisible);
   };
   const toggleModal2 = () => {
-    setModalVisible2(!isModalVisible2);
-    setModalVisible('');
+    setModalVisible(!isModalVisible); 
+    setTimeout(()=>{
+      setModalVisible2(!isModalVisible2);
+    },500)
   };
+
+  const toggleModal22 =()=>{
+    setModalVisible2(!isModalVisible2);
+  }
 
   const Logout = async () => {
     setModalVisible('');
@@ -1922,7 +1928,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   Report
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={toggleModal2}>
+              <TouchableOpacity onPress={toggleModal22}>
                 <Image
                   source={Images.closeicon}
                   style={{ height: 15, width: 15, marginRight: 10 }}

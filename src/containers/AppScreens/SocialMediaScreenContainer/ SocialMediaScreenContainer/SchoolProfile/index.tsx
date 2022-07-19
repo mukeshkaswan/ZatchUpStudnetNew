@@ -151,17 +151,28 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   };
 
   const reportmodal = () => {
-    setreportmodal(!isreportmodal);
-    setModalVisible3('');
-    // reportprofilemodal('')
-    //setthreeDot(false);
+    setModalVisible3(!isModalVisible3);
+    setTimeout(()=>{
+      setreportmodal(!isreportmodal);
+    },500)
   };
+
+  const toggleModal1 = () => {
+    setreportmodal(!isreportmodal);
+  }
 
   const toggleModal3 = item => {
     setCustomItem(item);
     setModalVisible3(!isModalVisible3);
     setthreeDot(false);
     setreportprofilemodal('');
+  };
+
+  const toggleModalPostDetail = () => {
+    setModalVisible3(!isModalVisible3);
+    props.navigation.navigate('PostDetailScreen', {
+      item: customItem,
+    });
   };
 
   const blockprofile = async () => {
@@ -1461,11 +1472,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             </>
             {/* )} */}
             <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate('PostDetailScreen', {
-                  item: customItem,
-                });
-              }}>
+              onPress={toggleModalPostDetail}>
               <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
@@ -1494,7 +1501,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   Report
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={reportmodal}>
+              <TouchableOpacity onPress={toggleModal1}>
                 <Image
                   source={Images.closeicon}
                   style={{height: 15, width: 15, marginRight: 10}}
