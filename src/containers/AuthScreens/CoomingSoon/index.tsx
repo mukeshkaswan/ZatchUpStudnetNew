@@ -222,11 +222,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const toggleModalPostDetail = () => {
-  //  Alert.alert("hye");
+    //  Alert.alert("hye");
     setModalVisible(!isModalVisible);
     props.navigation.navigate('PostDetailScreen', {
       item: customItem,
-    });     
+    });
+    // setTimeout(() => {
+    //   props.navigation.navigate('PostDetailScreen', {
+    //     item: customItem,
+    //   });
+    // }, 1000)
   };
 
   const toggleModalCustom = item => {
@@ -234,13 +239,13 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     setModalVisible(!isModalVisible);
   };
   const toggleModal2 = () => {
-    setModalVisible(!isModalVisible); 
-    setTimeout(()=>{
+    setModalVisible(!isModalVisible);
+    setTimeout(() => {
       setModalVisible2(!isModalVisible2);
-    },500)
+    }, 500)
   };
 
-  const toggleModal22 =()=>{
+  const toggleModal22 = () => {
     setModalVisible2(!isModalVisible2);
   }
 
@@ -902,13 +907,14 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         cardMaxElevation={2}
         cornerRadius={10}
         style={{
-        shadowColor: 'black',
-        shadowOffset: {width: 0, height: 2},
-        //shadowRadius: 6,
-        shadowOpacity: 0.26,
-        width:Platform.OS=='ios'?wp('80'):'90%',
-    
-        borderColor: 'lightgrey',}}>
+          shadowColor: 'black',
+          shadowOffset: { width: 0, height: 2 },
+          //shadowRadius: 6,
+          shadowOpacity: 0.26,
+          width: Platform.OS == 'ios' ? wp('80') : '90%',
+
+          borderColor: 'lightgrey',
+        }}>
         {item.user_type == 'SCHOOL' ? (
           <TouchableOpacity
             underlayColor="none"
@@ -1432,11 +1438,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 style={{ marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF' }}
               />
             </TouchableOpacity>
-          )}  
+          )}
 
           {(is_kyc_approved && socialMedia) ? (
             <View style={styles.tv_view}>
-              <View 
+              <View
                 style={{
                   borderWidth: 1,
                   height: hp('5.5'),
@@ -1616,16 +1622,16 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             <TouchableOpacity
               style={{
                 backgroundColor: '#E7E7E7',
-              alignItems: 'center',
-               paddingBottom: 15,
+                alignItems: 'center',
+                paddingBottom: 15,
                 marginRight: 10,
-              // width: Platform.OS=='ios'? '92%':'90%',
-              width:Platform.OS=='ios'?wp('80'):'90%',
+                // width: Platform.OS=='ios'? '92%':'90%',
+                width: Platform.OS == 'ios' ? wp('80') : '90%',
                 shadowColor: 'black',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.26,
                 borderColor: 'lightgrey',
-                marginTop:Platform.OS=='ios'? -13:0
+                marginTop: Platform.OS == 'ios' ? -13 : 0
               }}
               onPress={() =>
                 props.navigation.navigate('SeeAllResults', { tvname: cityname })
@@ -1643,12 +1649,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           ) : null}
         </View>
 
-        {!is_kyc_approved && !socialMedia ?  <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 22, textAlign: 'center' }}>
-             Please approve your KYC 
-            </Text>
-          </View>  : socialMedia ? (
+        {!is_kyc_approved && !socialMedia ? <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 22, textAlign: 'center' }}>
+            Please approve your KYC
+          </Text>
+        </View> : socialMedia ? (
           <View
             style={{
               flex: 1,

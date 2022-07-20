@@ -419,7 +419,6 @@ const UsersProfile = (props: UserProfileProps) => {
     } else if (tempUserId == user_id) {
       return;
     } else {
-      Alert.alert('hee');
       getAuthUserInfoApi();
       getSettingStatus(user_id);
       getUserProfile(user_id);
