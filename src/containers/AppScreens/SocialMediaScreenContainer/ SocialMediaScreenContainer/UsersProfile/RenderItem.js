@@ -83,6 +83,7 @@ function RenderItem({
   goToNav,
   items,
   ref,
+  gotoNavigateLikeNav,
 }) {
   const [indexx, setIndex] = useState(0);
   const dispatch = useDispatch();
@@ -219,20 +220,25 @@ function RenderItem({
 
   const gotoNavigateLike = item => {
     setModalVisible(!isModalVisible);
-    item.user_role == 'EIREPRESENTATIVE'
-      ? props.navigation.navigate('SchoolProfile', {
-          item: {
-            user_id: item.post_like_user_id,
-            school_id: item.school_id,
-          },
-        })
-      : item.post_like_user_id != userid
-      ? props.navigation.navigate('UsersProfile', {
-          item: {user_id: item.post_like_user_id},
-        })
-      : props.navigation.navigate('UserProfileScreen', {
-          item: {user_id: item.post_like_user_id},
-        });
+
+    if (item.post_like_user_id != userid) {
+      gotoNavigateLikeNav && gotoNavigateLikeNav(item.post_like_user_id);
+    } else {
+      item.user_role == 'EIREPRESENTATIVE'
+        ? props.navigation.navigate('SchoolProfile', {
+            item: {
+              user_id: item.post_like_user_id,
+              school_id: item.school_id,
+            },
+          })
+        : item.post_like_user_id != userid
+        ? props.navigation.navigate('UsersProfile', {
+            item: {user_id: item.post_like_user_id},
+          })
+        : props.navigation.navigate('UserProfileScreen', {
+            item: {user_id: item.post_like_user_id},
+          });
+    }
   };
 
   const renderItem = ({item}) => {

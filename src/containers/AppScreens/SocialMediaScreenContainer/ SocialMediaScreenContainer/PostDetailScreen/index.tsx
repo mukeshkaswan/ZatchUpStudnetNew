@@ -843,6 +843,9 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               }
               console.log('newDataOfAllPost', JSON.stringify(newData));
 
+              //setAllPost(newData);
+              //   return;
+
               let newD = [];
 
               for (let i in newData) {
@@ -856,7 +859,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
                 ) {
                   var newArrrrr = [];
 
-                  for (let k = 0; k < newData[i].post_gallery.length - 1; k++) {
+                  for (let k = 0; k < newData[i].post_gallery.length; k++) {
                     if (newData[i].post_gallery[k].post_extension != 'mp4') {
                       newArrrrr.push(newData[i].post_gallery[k]);
                     }
