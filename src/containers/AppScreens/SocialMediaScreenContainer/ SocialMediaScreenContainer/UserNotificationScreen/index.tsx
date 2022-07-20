@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,15 +11,15 @@ import {
   SectionList,
   SafeAreaView,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {HeaderTitleWithBack, Images} from '../../../../../components';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { HeaderTitleWithBack, Images } from '../../../../../components';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as userActions from '../../../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 interface NotificationsScreenProps {
   navigation: any;
 }
@@ -43,7 +43,7 @@ const DATA = [
   },
 ];
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 const UserNotificationScreen = (props: NotificationsScreenProps) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -87,9 +87,9 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -126,7 +126,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     dispatch(
       userActions.getUserNotification({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
             console.warn(
@@ -178,50 +178,50 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
     );
   };
 
-  const Item = ({item}) => (
+  const Item = ({ item }) => (
     <TouchableOpacity
       style={styles.item}
       disabled={
-        item.profile_block || item.notification_type == 'delete'
+        item.profile_block || item.notification_type == 'delete' || (item.notification_type == 'post' && item.social_post == null)
           ? true
           : item.notification_type == 'request'
-          ? false
-          : false
+            ? false
+            : false
       }
       onPress={() => {
         item.notification_type == 'request'
           ? item.user_role == 'EIREPRESENTATIVE'
             ? props.navigation.navigate('SchoolProfile', {
-                item: {school_id: item.school_id, user_id: item.user_id},
-              })
+              item: { school_id: item.school_id, user_id: item.user_id },
+            })
             : props.navigation.navigate('UsersProfile', {
-                item: {user_id: item.user_id},
-              })
-          : props.navigation.navigate('PostDetailScreen', {
-              item: {id: item.user_post_id},
-            });
+              item: { user_id: item.user_id },
+            })
+          : item.notification_type == 'post' && item.social_post != null ? props.navigation.navigate('PostDetailScreen', {
+            item: { id: item.user_post_id },
+          }) : {}
       }}>
       <Image
         source={
           item.following_user_profile_image != null
-            ? {uri: item.following_user_profile_image}
+            ? { uri: item.following_user_profile_image }
             : Images.profile_default
         }
         style={styles.profileImg}
       />
-      <View style={{flex: 1, marginStart: 12}}>
+      <View style={{ flex: 1, marginStart: 12 }}>
         <Text
           style={styles.title}
           numberOfLines={item.message.length > 100 ? 1 : 0}>
           {item.message}
         </Text>
-        <Text style={{fontSize: 12}}>{item.notification_time}</Text>
+        <Text style={{ fontSize: 12 }}>{item.notification_time}</Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <HeaderTitleWithBack
           navigation={props.navigation}
@@ -263,8 +263,8 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
             // )}
             sections={notifications}
             keyExtractor={(item, index) => item + index}
-            renderItem={({item}) => <Item item={item} />}
-            renderSectionHeader={({section: {title}}) => (
+            renderItem={({ item }) => <Item item={item} />}
+            renderSectionHeader={({ section: { title } }) => (
               <Text style={styles.header}>{title}</Text>
             )}
           />
@@ -277,7 +277,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
               height: height - 72,
               width,
             }}>
-            <Text style={{fontWeight: '700'}}>
+            <Text style={{ fontWeight: '700' }}>
               No Notification is available
             </Text>
           </View>
