@@ -1511,6 +1511,12 @@ const UsersProfile = (props: UserProfileProps) => {
                         <View style={styles.borderstyle}></View>
                         <View style={styles.textcontainer}>
                           <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('SchoolProfile', {
+                              item: {
+                                user_id: user_id,
+                                school_id: item.school_id,
+                              },
+                            })}>
                             <Text
                               style={[
                                 styles.Personal_Tv,
@@ -1518,6 +1524,7 @@ const UsersProfile = (props: UserProfileProps) => {
                               ]}>
                               {item.name_of_school}
                             </Text>
+                            </TouchableOpacity>
                             {item.is_active_subscription && (
                               <Icon
                                 name="check-circle"

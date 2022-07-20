@@ -1432,12 +1432,11 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 style={{ marginLeft: 15, marginTop: 10, tintColor: '#FFFFFF' }}
               />
             </TouchableOpacity>
-          )}
+          )}  
 
-          {(is_kyc_approved == true && socialMedia && is_approved == true) ||
-            posts.length == 0 ? (
+          {(is_kyc_approved && socialMedia) ? (
             <View style={styles.tv_view}>
-              <View
+              <View 
                 style={{
                   borderWidth: 1,
                   height: hp('5.5'),
@@ -1644,7 +1643,12 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           ) : null}
         </View>
 
-        {socialMedia ? (
+        {!is_kyc_approved && !socialMedia ?  <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, textAlign: 'center' }}>
+             Please approve your KYC 
+            </Text>
+          </View>  : socialMedia ? (
           <View
             style={{
               flex: 1,
@@ -1654,7 +1658,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
             }}>
             <FlatList
               ListHeaderComponent={() =>
-                !loading ? (
+                !loading && is_kyc_approved ? (
                   <View>
                     <View
                       style={{

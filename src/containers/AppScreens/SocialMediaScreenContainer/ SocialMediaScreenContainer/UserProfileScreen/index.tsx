@@ -1,4 +1,4 @@
-import React, {Component, FC, useState, useEffect, useRef} from 'react';
+import React, { Component, FC, useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -15,7 +15,7 @@ import {
   RefreshControl,
   Platform,
 } from 'react-native';
-import {CheckBox, BottomSheet, ListItem} from 'react-native-elements';
+import { CheckBox, BottomSheet, ListItem } from 'react-native-elements';
 import {
   TextField,
   CustomButton,
@@ -37,13 +37,13 @@ import {
 import * as userActions from '../../../../../actions/user-actions-types';
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import images from '../../../../../components/images';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import {useDispatch} from 'react-redux';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useDispatch } from 'react-redux';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
 import RenderItem from './RenderItem';
@@ -76,13 +76,13 @@ const data2 = [
 ];
 
 const list = [
-  {title: 'Open Camera', id: 'Camera'},
-  {title: 'Open Gallary', id: 'Gallary'},
+  { title: 'Open Camera', id: 'Camera' },
+  { title: 'Open Gallary', id: 'Gallary' },
   {
     title: 'Cancel',
     id: 'Close',
-    containerStyle: {backgroundColor: '#4B2A6A'},
-    titleStyle: {color: 'white'},
+    containerStyle: { backgroundColor: '#4B2A6A' },
+    titleStyle: { color: 'white' },
   },
 ];
 
@@ -93,7 +93,7 @@ const screenWidth = Dimensions.get('window').width;
 const UserProfileScreen = (props: UserProfileProps) => {
   console.log('=====Self', props.route);
   const {
-    item: {user_id},
+    item: { user_id },
   } = props.route.params;
   const ref = useRef();
   const isFocused = useIsFocused();
@@ -215,9 +215,9 @@ const UserProfileScreen = (props: UserProfileProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -256,7 +256,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.getUserProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.log('=====Self 24');
             console.warn(
@@ -317,7 +317,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 if (
                   newObject.social_post[i].post_gallery != null &&
                   newObject.social_post[i].post_gallery[0].post_extension !=
-                    'mp4'
+                  'mp4'
                 ) {
                   newArrForNonVideo.push(newObject.social_post[i]);
                 } else if (newObject.social_post[i].post_gallery == null) {
@@ -383,7 +383,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.getUserCoverMediaPic({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result user cover pic details',
@@ -437,7 +437,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment on post',
@@ -481,7 +481,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result like or unlike',
@@ -525,7 +525,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment like or unlike',
@@ -569,7 +569,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.deletePost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after delete the post',
@@ -661,7 +661,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
 
     // console.log('After Change==>>', newArr);
 
-    let newObject = {...userProfile, social_post: newArr};
+    let newObject = { ...userProfile, social_post: newArr };
 
     console.log('+++++', newObject);
 
@@ -687,10 +687,10 @@ const UserProfileScreen = (props: UserProfileProps) => {
     let itemm = JSON.stringify(itemData);
     console.log(JSON.parse(itemm));
     const {
-      item: {user_id},
+      item: { user_id },
     } = JSON.parse(itemm);
     console.log(user_id);
-    await props.navigation.navigate(route, {item: {user_id}});
+    await props.navigation.navigate(route, { item: { user_id } });
     // return true;
   };
 
@@ -717,7 +717,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.changeProfileImage({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after upload the profile pic',
@@ -763,7 +763,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     dispatch(
       userActions.getPrivacySetting({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           setLoading(false);
 
           if (result) {
@@ -795,11 +795,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
 
   const GoToNavigate = items => {
     console.log('item', items);
-    props.navigation.navigate('PostDetailScreen', {item: items});
+    props.navigation.navigate('PostDetailScreen', { item: items });
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <HeaderTitleWithBack
           navigation={props.navigation}
@@ -825,15 +825,15 @@ const UserProfileScreen = (props: UserProfileProps) => {
               <ImageBackground
                 source={
                   sociaMedialPic.hasOwnProperty('cover_pic') &&
-                  backgroundimagePath == '' &&
-                  sociaMedialPic.cover_pic != null
-                    ? {uri: sociaMedialPic.cover_pic}
+                    backgroundimagePath == '' &&
+                    sociaMedialPic.cover_pic != null
+                    ? { uri: sociaMedialPic.cover_pic }
                     : backgroundimagePath != ''
-                    ? {uri: backgroundimagePath}
-                    : Images.cover_pic_default
+                      ? { uri: backgroundimagePath }
+                      : Images.cover_pic_default
                 }
                 resizeMode="stretch"
-                style={{width: '100%', height: 100}}>
+                style={{ width: '100%', height: 100 }}>
                 <View
                   style={{
                     backgroundColor: 'black',
@@ -851,24 +851,24 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       name="camera"
                       size={18}
                       color="white"
-                      style={{margin: 5}}
+                      style={{ margin: 5 }}
                     />
                   </TouchableOpacity>
                 </View>
               </ImageBackground>
 
               <View style={styles.rowContainer}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View>
                     <Image
                       source={
                         sociaMedialPic.hasOwnProperty('profile_pic') &&
-                        profileimagepath == '' &&
-                        sociaMedialPic.profile_pic != null
-                          ? {uri: sociaMedialPic.profile_pic}
+                          profileimagepath == '' &&
+                          sociaMedialPic.profile_pic != null
+                          ? { uri: sociaMedialPic.profile_pic }
                           : profileimagepath != ''
-                          ? {uri: profileimagepath}
-                          : Images.profile_default
+                            ? { uri: profileimagepath }
+                            : Images.profile_default
                       }
                       style={{
                         marginLeft: 10,
@@ -921,10 +921,10 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         marginLeft: 14,
                         marginTop: 30,
                       }}>
-                      <View style={{marginTop: 16}}>
+                      <View style={{ marginTop: 16 }}>
                         <Text style={styles.nametext}>{userProfile.name}</Text>
                         {userProfile.zatchup_id != null && (
-                          <Text style={[styles.nametext, {fontSize: 12}]}>
+                          <Text style={[styles.nametext, { fontSize: 12 }]}>
                             {'(' + userProfile.zatchup_id + ')'}
                           </Text>
                         )}
@@ -941,11 +941,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
               </View>
               <View style={styles.likecontainer}>
                 {isAge ? (
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                       onPress={() => {
                         props.navigation.navigate('FollowersScreen', {
-                          item: {...userProfile, user_id, flag: 'self'},
+                          item: { ...userProfile, user_id, flag: 'self' },
                         });
                       }}>
                       <Text style={styles.boldText}>
@@ -957,10 +957,10 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     <TouchableOpacity
                       onPress={() => {
                         props.navigation.navigate('FollowingScreen', {
-                          item: {...userProfile, user_id},
+                          item: { ...userProfile, user_id },
                         });
                       }}
-                      style={{marginLeft: 10}}>
+                      style={{ marginLeft: 10 }}>
                       <Text style={styles.boldText}>
                         {userProfile.social_user_followings}
                       </Text>
@@ -982,7 +982,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       onPress={() => {
                         props.navigation.navigate('FollowRequestScreen');
                       }}
-                      style={{marginLeft: 20}}>
+                      style={{ marginLeft: 20 }}>
                       <Icon name="user-plus" size={26} color="grey" />
                     </TouchableOpacity>
                   </View>
@@ -997,7 +997,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     </TouchableOpacity>
                   </View>
                 ) : (
-                  <View style={{marginTop: 10}}>
+                  <View style={{ marginTop: 10 }}>
                     <TouchableOpacity
                       onPress={() => {
                         props.navigation.navigate('Messages');
@@ -1031,20 +1031,27 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       <>
                         <View style={styles.borderstyle}></View>
                         <View style={styles.textcontainer}>
-                          <View style={{flexDirection: 'row'}}>
-                            <Text
-                              style={[
-                                styles.Personal_Tv,
-                                {fontWeight: '700', color: '#5790c2'},
-                              ]}>
-                              {item.name_of_school}
-                            </Text>
+                          <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('SchoolProfile', {
+                              item: {
+                                user_id: user_id,
+                                school_id: item.school_id,
+                              },
+                            })}>
+                              <Text
+                                style={[
+                                  styles.Personal_Tv,
+                                  { fontWeight: '700', color: '#5790c2' },
+                                ]}>
+                                {item.name_of_school}
+                              </Text>
+                            </TouchableOpacity>
                             {item.is_active_subscription && (
                               <Icon
                                 name="check-circle"
                                 size={17}
                                 color="#4E387E"
-                                style={{marginLeft: 5, marginTop: 2}}
+                                style={{ marginLeft: 5, marginTop: 2 }}
                               />
                             )}
                           </View>
@@ -1054,7 +1061,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                                 <Text
                                   style={[
                                     styles.view_Tv_1,
-                                    {fontWeight: '700'},
+                                    { fontWeight: '700' },
                                   ]}>
                                   {item.course_name}
                                 </Text>
@@ -1108,15 +1115,15 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     {userProfile.gender == 'M'
                       ? 'Male'
                       : userProfile.gender == 'F'
-                      ? 'Female'
-                      : userProfile.gender == 'C' &&
-                        userProfile.custom_gender != '' &&
-                        userProfile.custom_gender != null
-                      ? userProfile.pronoun +
-                        '(' +
-                        userProfile.custom_gender +
-                        ')'
-                      : userProfile.pronoun}
+                        ? 'Female'
+                        : userProfile.gender == 'C' &&
+                          userProfile.custom_gender != '' &&
+                          userProfile.custom_gender != null
+                          ? userProfile.pronoun +
+                          '(' +
+                          userProfile.custom_gender +
+                          ')'
+                          : userProfile.pronoun}
                   </Text>
                 </View>
 
@@ -1206,12 +1213,12 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     onPress={() => {
                       props.navigation.navigate('CreatePostScreen');
                     }}>
-                    <Text style={{color: 'white'}}>Add Post</Text>
+                    <Text style={{ color: 'white' }}>Add Post</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.borderstyle}></View>
                 <View style={styles.tabrowContainer}>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                       activeOpacity={0.8}
                       onPress={() => gotoChangeTab('thData')}>
@@ -1229,7 +1236,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         name="image"
                         size={30}
                         color={grid === 'Image' ? '#4B2A6A' : 'grey'}
-                        style={{marginLeft: 80}}
+                        style={{ marginLeft: 80 }}
                       />
                     </TouchableOpacity>
                   </View>
@@ -1241,7 +1248,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 key={'#'}
                 numColumns={2}
                 data={userProfile.social_post}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   let newArrCap = [];
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
@@ -1292,7 +1299,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                           // layout={'tinder'}
                           ref={isCarouselText}
                           data={parts}
-                          renderItem={({item, index}) => (
+                          renderItem={({ item, index }) => (
                             <CrouselText
                               item={item}
                               index={index}
@@ -1311,14 +1318,14 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     );
                   }
                 }}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
             ) : userProfile != '' ? (
               <FlatList
                 key={'_'}
                 numColumns={1}
                 data={userProfile.social_post}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   let ind = index;
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
@@ -1357,7 +1364,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     />
                   );
                 }}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
             ) : !userProfile.social_account_status ? (
               <View
@@ -1369,7 +1376,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   marginTop: 16,
                   paddingVertical: 32,
                 }}>
-                <Text style={{fontWeight: '700', fontSize: 18}}>
+                <Text style={{ fontWeight: '700', fontSize: 18 }}>
                   This Account Is Private
                 </Text>
               </View>
@@ -1393,7 +1400,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
         )}
         <BottomSheet
           isVisible={actionsheet}
-          containerStyle={{backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)'}}>
+          containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}>
           {list.map((l, i) => (
             <ListItem
               key={i}
@@ -1434,11 +1441,11 @@ const UserProfileScreen = (props: UserProfileProps) => {
             {/* )} */}
             <TouchableOpacity
               onPress={toggleModalPostDetail}>
-              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+              <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
             <TouchableOpacity onPress={toggleModal3}>
-              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+              <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -1449,7 +1456,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
   );
 };
 
-function CrouselImages({items, item, index, goToNavigate, ref}) {
+function CrouselImages({ items, item, index, goToNavigate, ref }) {
   //console.log('item', item);
 
   const gotoNavigate = () => {
@@ -1470,7 +1477,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
       onPress={gotoNavigate}>
       {item.post_extension != 'mp4' && (
         <Image
-          source={{uri: item.post_image}}
+          source={{ uri: item.post_image }}
           resizeMode="contain"
           style={{
             width: screenWidth / 2 - 24,
@@ -1483,7 +1490,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
   );
 }
 
-function CrouselText({items, item, index, length, data, goToNavigate}) {
+function CrouselText({ items, item, index, length, data, goToNavigate }) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };

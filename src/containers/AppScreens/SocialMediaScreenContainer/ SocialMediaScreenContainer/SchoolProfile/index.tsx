@@ -1136,9 +1136,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               </View>
             </View>
             <View style={styles.addresscontainer}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row', alignItems: 'flex-start',flex:1}}>
                 <Text style={styles.addresstext}> School Address : </Text>
-                <Text style={{color: 'black'}}>
+                <Text style={{color: 'black',flex:1}}>
                   {schoolDetail.address1 + '' + schoolDetail.address2}
                 </Text>
               </View>
