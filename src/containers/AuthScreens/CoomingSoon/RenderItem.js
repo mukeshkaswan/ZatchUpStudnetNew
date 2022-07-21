@@ -139,11 +139,11 @@ function RenderItem({
     },
   ]);
 
-  const ref = useRef();
+  // const ref = useRef();
 
-  useEffect(() => {
-    return () => ref.current.stop();
-  }, []);
+  // useEffect(() => {
+  //   return () => ref.current.stop();
+  // }, []);
 
   const dispatch = useDispatch();
 
@@ -307,7 +307,7 @@ function RenderItem({
                 index={index}
                 length={len}
                 refff={reff}
-                ref={ref}
+                //ref={ref}
               />
             )}
             sliderWidth={screenWidth - 32}
@@ -663,7 +663,7 @@ function RenderItem({
   );
 }
 
-function CrouselImages({ item, index, length, refff, ref }) {
+function CrouselImages({ item, index, length, refff }) {
   return (
     <View
       style={{
@@ -714,7 +714,7 @@ function CrouselImages({ item, index, length, refff, ref }) {
             disableSeek={false}
           /> */}
           <Video
-            ref={ref}
+            ref={refff}
             style={{}}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}

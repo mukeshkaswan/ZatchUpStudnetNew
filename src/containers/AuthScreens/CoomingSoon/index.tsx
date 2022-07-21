@@ -118,6 +118,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const [getIsEnabledAge, setIsEnabledAge] = useState(true);
   const [norecordfound, setNoRecord] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [tempRef,setTempRef] = useState('');
 
   const [checkboxValue, setCheckboxValue] = React.useState([
     { report_option: 'Suspicious or Fake', checked: false },
@@ -224,15 +225,17 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const toggleModalPostDetail = () => {
     //  Alert.alert("hye");
     setModalVisible(!isModalVisible);
-    props.navigation.navigate('PostDetailScreen', {
-      item: customItem,
-    });
-    // setTimeout(() => {
-    //   props.navigation.navigate('PostDetailScreen', {
-    //     item: customItem,
-    //   });
-    // }, 1000)
+    tempRef.current.stop();
+    setTimeout(() => {
+      props.navigation.navigate('PostDetailScreen', {
+        item: customItem,
+      });
+    }, 1000)
   };
+
+  const gotoCallRef = (ref) => {
+    setTempRef(ref);
+  }
 
   const toggleModalCustom = item => {
     setCustomItem(item);
@@ -1844,7 +1847,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                     item={item}
                     index={index}
                     props={props}
-                    reff={ref}
+                    reff={gotoCallRef}
                   />
                 );
               }}
