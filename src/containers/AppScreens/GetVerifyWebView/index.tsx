@@ -144,7 +144,7 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {isLoading && renderIndicator()}
+        {/* {isLoading && renderIndicator()} */}
 
         <CustomStatusBar />
         <HeaderTitleWithBack
@@ -160,13 +160,13 @@ const GetVerifyWebView = (props: ResetPasswordScreenProps) => {
           nativeConfig={{props: {webContentsDebuggingEnabled: true}}} 
             source={{ uri: ChatURL+'user/mobile-chat-app?user_profile_id=' + props.route.params.user_id + '&type=app&getVerify='+props.route.params.getVerify+'&id=' + props.route.params.id + '&school_id=' + props.route.params.school_id }}
             startInLoadingState={true}
-            renderLoading={() => (
-              <ActivityIndicator
-                color='#F8CA00'
-                size='large'
-                style={{ flex: 1 }}
-              />
-            )}
+            // renderLoading={() => (
+            //   <ActivityIndicator
+            //     color='#F8CA00'
+            //     size='large'
+            //   //  style={{ flex: 1 }}
+            //   />
+            // )}
             ref={webviewRef}
 
           />

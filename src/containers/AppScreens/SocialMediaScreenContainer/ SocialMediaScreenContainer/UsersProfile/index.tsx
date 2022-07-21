@@ -526,7 +526,7 @@ const UsersProfile = (props: UserProfileProps) => {
   const getStatusType = async result => {
     for (let i in result.data) {
       if (result.data[i].status_type === 'EMAIL_ID') {
-        if (result.data[i].is_disabled == true) {
+        if (result.data[i].is_disabled === true) {
           setIsEnabledEmail(true);
         } else {
           setIsEnabledEmail(false);
@@ -1584,9 +1584,34 @@ const UsersProfile = (props: UserProfileProps) => {
                     <Text style={styles.view_Tv_2}>{userProfile.dob}</Text>
                   </View>
                 ) : null}
-                {isEnabledGender ? (
+                {isEnabledGender ? 
                   <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>Gender :</Text>
+                  {userProfile.gender == 'M' ? (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Gender : </Text>
+                    <Text style={{  marginTop: 4,
+    fontSize: hp(2),
+    // marginLeft: 15,
+    color: '#565656',}}>Male</Text>
+                  </View>
+                ) : userProfile.gender == 'F' ? (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Gender : </Text>
+                    <Text style={{  marginTop: 4,
+    fontSize: hp(2),
+    // marginLeft: 15,
+    color: '#565656',}}>Female</Text>
+                  </View>
+                ) : userProfile.gender == 'C' ? (
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Gender : </Text>
+                    <Text style={{  marginTop: 4,
+    fontSize: hp(2),
+    // marginLeft: 15,
+    color: '#565656',}}>Custom</Text>
+                  </View>
+                ) : null}
+                    {/* <Text style={styles.view_Tv_1}>Gender :</Text>
                     <Text style={styles.view_Tv_2}>
                       {userProfile.gender == 'M'
                         ? 'Male'
@@ -1600,16 +1625,16 @@ const UsersProfile = (props: UserProfileProps) => {
                           userProfile.custom_gender +
                           ')'
                         : userProfile.pronoun}
-                    </Text>
+                    </Text> */}
                   </View>
-                ) : null}
+                 : null}
 
-                {isEnabledEmail && userProfile.email != null && (
+                {isEnabledEmail ? (
                   <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Email:</Text>
                     <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                   </View>
-                )}
+                ):null}
 
                 {isEnabled && userProfile.phone != null && (
                   <View style={styles.view_Row}>
