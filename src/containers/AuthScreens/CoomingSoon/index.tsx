@@ -225,12 +225,15 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   const toggleModalPostDetail = () => {
     //  Alert.alert("hye");
     setModalVisible(!isModalVisible);
-    tempRef.current.stop();
-    setTimeout(() => {
-      props.navigation.navigate('PostDetailScreen', {
-        item: customItem,
-      });
-    }, 1000)
+    //tempRef.current.stop();
+    props.navigation.navigate('PostDetailScreen', {
+      item: customItem,
+    });
+    // setTimeout(() => {
+    //   props.navigation.navigate('PostDetailScreen', {
+    //     item: customItem,
+    //   });
+    // }, 1000)
   };
 
   const gotoCallRef = (ref) => {
