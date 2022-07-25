@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, createRef} from 'react';
 import {
   Text,
   View,
@@ -14,9 +14,9 @@ import {
   RefreshControl,
 } from 'react-native';
 import styles from './style';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 const screenWidth = Dimensions.get('window').width;
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
@@ -26,10 +26,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useIsFocused, DrawerActions } from '@react-navigation/native';
+import {useIsFocused, DrawerActions} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 function RenderItem({
   toggleModalCustom,
@@ -139,13 +140,23 @@ function RenderItem({
     },
   ]);
 
-  // const ref = useRef();
+  const [r, setR] = useState(null);
+
+  const ref = useRef([]);
+
+  ref.current = posts.map((element, i) => ref.current[i] ?? createRef());
 
   // useEffect(() => {
   //   return () => ref.current.stop();
   // }, []);
 
   const dispatch = useDispatch();
+
+  const gotoCallDot = () => {
+    console.log('ref===>>>>', ref);
+    // ref.current
+    toggleModalCustom && toggleModalCustom(item);
+  };
 
   const toggleModal = () => {
     gotoCallPostLikeApi();
@@ -176,7 +187,7 @@ function RenderItem({
     dispatch(
       userActions.gotoCallPostLikeApi({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           //console.log('hey.......kamal1', result);
           setLoading(false);
           if (result.status) {
@@ -196,25 +207,25 @@ function RenderItem({
     );
   };
 
-  const gotoNextPage = (item) => () => {
+  const gotoNextPage = item => () => {
     setModalVisible(!isModalVisible);
     item.user_role == 'EIREPRESENTATIVE'
       ? props.navigation.navigate('SchoolProfile', {
-        item: {
-          user_id: item.post_like_user_id,
-          school_id: item.school_id,
-        },
-      })
-      : item.post_like_user_id != userid
-        ? props.navigation.navigate('UsersProfile', {
-          item: { user_id: item.post_like_user_id },
+          item: {
+            user_id: item.post_like_user_id,
+            school_id: item.school_id,
+          },
         })
-        : props.navigation.navigate('UserProfileScreen', {
-          item: { user_id: item.post_like_user_id },
+      : item.post_like_user_id != userid
+      ? props.navigation.navigate('UsersProfile', {
+          item: {user_id: item.post_like_user_id},
+        })
+      : props.navigation.navigate('UserProfileScreen', {
+          item: {user_id: item.post_like_user_id},
         });
-  }
+  };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <TouchableOpacity
         style={{
@@ -228,12 +239,12 @@ function RenderItem({
         <Image
           source={
             item.profile_pic != null
-              ? { uri: item.profile_pic }
+              ? {uri: item.profile_pic}
               : Images.profile_default
           }
-          style={{ height: 40, width: 40, borderRadius: 20 }}
+          style={{height: 40, width: 40, borderRadius: 20}}
         />
-        <Text style={{ marginLeft: 10, fontWeight: '700' }}>
+        <Text style={{marginLeft: 10, fontWeight: '700'}}>
           {item.post_like_username}
         </Text>
       </TouchableOpacity>
@@ -259,41 +270,39 @@ function RenderItem({
           onPress={() => {
             item.user_role == 'EIREPRESENTATIVE'
               ? props.navigation.navigate('SchoolProfile', {
-                item: items,
-              })
-              : item.user_id != userid
-                ? props.navigation.navigate('UsersProfile', {
                   item: items,
                 })
-                : props.navigation.navigate('UserProfileScreen', {
+              : item.user_id != userid
+              ? props.navigation.navigate('UsersProfile', {
+                  item: items,
+                })
+              : props.navigation.navigate('UserProfileScreen', {
                   item: items,
                 });
           }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
               source={
                 item.profile_pic != null
-                  ? { uri: item.profile_pic }
+                  ? {uri: item.profile_pic}
                   : Images.profile_default
               }
               style={styles.profilepic}
             />
-            <Text style={{ marginLeft: 20, fontWeight: 'bold' }}>
+            <Text style={{marginLeft: 20, fontWeight: 'bold'}}>
               {item.full_name}
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{ padding: 16 }}
-          onPress={() => toggleModalCustom(item)}>
+        <TouchableOpacity style={{padding: 16}} onPress={() => gotoCallDot()}>
           <Image
             source={require('../../../assets/images/dot.png')}
-            style={{ height: 18, width: 18 }}
+            style={{height: 18, width: 18}}
           />
         </TouchableOpacity>
       </View>
-      <View style={{ paddingHorizontal: 16, marginTop: 10 }}>
-        <Image source={item.src} style={{ width: '100%' }} />
+      <View style={{paddingHorizontal: 16, marginTop: 10}}>
+        <Image source={item.src} style={{width: '100%'}} />
       </View>
       {posts != [] && item.post_gallery != null ? (
         <>
@@ -301,15 +310,18 @@ function RenderItem({
             // layout={'tinder'}
             ref={isCarousel}
             data={item.post_gallery}
-            renderItem={({ item, index }) => (
-              <CrouselImages
-                item={item}
-                index={index}
-                length={len}
-                refff={reff}
-                //ref={ref}
-              />
-            )}
+            renderItem={({item, index}) => {
+              let i = index;
+              return (
+                <CrouselImages
+                  props={props}
+                  item={item}
+                  index={i}
+                  length={len}
+                  ref={ref}
+                />
+              );
+            }}
             sliderWidth={screenWidth - 32}
             itemWidth={screenWidth - 32}
             layoutCardOffset={0}
@@ -321,7 +333,7 @@ function RenderItem({
           // layout={'tinder'}
           ref={isCarouselText}
           data={parts}
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <CrouselText item={item} index={index} length={lenCap} />
           )}
           sliderWidth={screenWidth - 32}
@@ -338,7 +350,7 @@ function RenderItem({
             name={item.like ? 'star' : 'star-o'}
             size={15}
             color={'#000'}
-            style={{ marginLeft: 5 }}
+            style={{marginLeft: 5}}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => gotoChangeToggle(index)}>
@@ -346,7 +358,7 @@ function RenderItem({
             name="comment-o"
             color="#000"
             size={15}
-            style={{ marginLeft: 5 }}
+            style={{marginLeft: 5}}
           />
         </TouchableOpacity>
       </View>
@@ -359,26 +371,26 @@ function RenderItem({
           paddingVertical: 10,
         }}>
         {posts != [] &&
-          item.post_like != null &&
-          item.post_like.length == 1 &&
-          item.post_like[0].post_like_user_id == userid &&
-          item.post_like_count > 0 ? (
+        item.post_like != null &&
+        item.post_like.length == 1 &&
+        item.post_like[0].post_like_user_id == userid &&
+        item.post_like_count > 0 ? (
           <TouchableOpacity
             onPress={() => {
               item.post_like[0].user_role == 'EIREPRESENTATIVE'
                 ? props.navigation.navigate('SchoolProfile', {
-                  item: {
-                    user_id: item.post_like[0].post_like_user_id,
-                    school_id: item.post_like[0].school_id,
-                  },
-                })
+                    item: {
+                      user_id: item.post_like[0].post_like_user_id,
+                      school_id: item.post_like[0].school_id,
+                    },
+                  })
                 : item.post_like[0].post_like_user_id != userid
-                  ? props.navigation.navigate('UsersProfile', {
+                ? props.navigation.navigate('UsersProfile', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
                     },
                   })
-                  : props.navigation.navigate('UserProfileScreen', {
+                : props.navigation.navigate('UserProfileScreen', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
                     },
@@ -394,18 +406,18 @@ function RenderItem({
             onPress={() => {
               item.post_like[0].user_role == 'EIREPRESENTATIVE'
                 ? props.navigation.navigate('SchoolProfile', {
-                  item: {
-                    user_id: item.post_like[0].post_like_user_id,
-                    school_id: item.post_like[0].school_id,
-                  },
-                })
+                    item: {
+                      user_id: item.post_like[0].post_like_user_id,
+                      school_id: item.post_like[0].school_id,
+                    },
+                  })
                 : item.post_like[0].user_id != userid
-                  ? props.navigation.navigate('UsersProfile', {
+                ? props.navigation.navigate('UsersProfile', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
                     },
                   })
-                  : props.navigation.navigate('UserProfileScreen', {
+                : props.navigation.navigate('UserProfileScreen', {
                     item: {
                       user_id: item.post_like[0].post_like_user_id,
                     },
@@ -460,23 +472,23 @@ function RenderItem({
                   </Text>
                 </Text>
               </TouchableOpacity> */}
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 onPress={() => {
                   item.post_like[0].user_role == 'EIREPRESENTATIVE'
                     ? props.navigation.navigate('SchoolProfile', {
-                      item: {
-                        user_id: item.post_like[0].post_like_user_id,
-                        school_id: item.post_like[0].school_id,
-                      },
-                    })
+                        item: {
+                          user_id: item.post_like[0].post_like_user_id,
+                          school_id: item.post_like[0].school_id,
+                        },
+                      })
                     : item.post_like[0].post_like_user_id != userid
-                      ? props.navigation.navigate('UsersProfile', {
+                    ? props.navigation.navigate('UsersProfile', {
                         item: {
                           user_id: item.post_like[0].post_like_user_id,
                         },
                       })
-                      : props.navigation.navigate('UserProfileScreen', {
+                    : props.navigation.navigate('UserProfileScreen', {
                         item: {
                           user_id: item.post_like[0].post_like_user_id,
                         },
@@ -485,7 +497,9 @@ function RenderItem({
                 <Text>
                   Liked by{' '}
                   <Text style={styles.boldText}>
-                    {item.post_like.some((item) => item.post_like_user_id == userid)
+                    {item.post_like.some(
+                      item => item.post_like_user_id == userid,
+                    )
                       ? 'You '
                       : item.post_like[0].post_like_username + ' '}
                   </Text>
@@ -514,17 +528,17 @@ function RenderItem({
                     alignItems: 'center',
                     margin: 16,
                   }}>
-                  <Text style={{ fontSize: 18, fontWeight: '700' }}>Likes</Text>
+                  <Text style={{fontSize: 18, fontWeight: '700'}}>Likes</Text>
                   <TouchableOpacity onPress={toggleModalClose} style={{}}>
                     <Image
                       source={Images.closeicon}
-                      style={{ height: 18, width: 18 }}
+                      style={{height: 18, width: 18}}
                     />
                   </TouchableOpacity>
                 </View>
                 <FlatList
                   data={DATA}
-                  style={{ marginBottom: 16 }}
+                  style={{marginBottom: 16}}
                   renderItem={renderItem}
                   keyExtractor={item => item.id}
                 />
@@ -536,18 +550,18 @@ function RenderItem({
         {item.full_name != null &&
           item.post_gallery != null &&
           item.caption != '' && (
-            <Text style={{ fontWeight: 'bold', flex: 1, marginTop: 4 }}>
+            <Text style={{fontWeight: 'bold', flex: 1, marginTop: 4}}>
               {item.full_name}
             </Text>
           )}
         {item.caption != null && item.post_gallery != null && (
           <View>
-            <Text numberOfLines={item.captionCheck ? 0 : 1}>{item.caption}</Text>
+            <Text numberOfLines={item.captionCheck ? 0 : 1}>
+              {item.caption}
+            </Text>
             {item.caption != null && item.caption.length > 50 && (
               <TouchableOpacity onPress={() => gotoCaptionShowMore(index)}>
-                <Text>
-                  {item.captionCheck ? '[Show Less]' : '[Show More]'}
-                </Text>
+                <Text>{item.captionCheck ? '[Show Less]' : '[Show More]'}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -559,30 +573,30 @@ function RenderItem({
               return (
                 <View key={item + 'sap' + index}>
                   <View style={styles.messageContainer}>
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <View style={{flexDirection: 'row', flex: 1}}>
                       <TouchableOpacity
                         onPress={() => {
                           item.user_role == 'EIREPRESENTATIVE'
                             ? props.navigation.navigate('SchoolProfile', {
-                              item: {
-                                user_id: item.user,
-                                school_id: item.school_id,
-                              },
-                            })
-                            : item.user != userid
-                              ? props.navigation.navigate('UsersProfile', {
-                                item: { user_id: item.user },
+                                item: {
+                                  user_id: item.user,
+                                  school_id: item.school_id,
+                                },
                               })
-                              : props.navigation.navigate('UserProfileScreen', {
-                                item: { user_id: item.user },
+                            : item.user != userid
+                            ? props.navigation.navigate('UsersProfile', {
+                                item: {user_id: item.user},
+                              })
+                            : props.navigation.navigate('UserProfileScreen', {
+                                item: {user_id: item.user},
                               });
                         }}>
-                        <Text style={{ fontWeight: 'bold', flex: 1 }}>
+                        <Text style={{fontWeight: 'bold', flex: 1}}>
                           {item.comment_username}
                         </Text>
                       </TouchableOpacity>
                       <Text
-                        style={{ marginLeft: 5, flex: 2 }}
+                        style={{marginLeft: 5, flex: 2}}
                         numberOfLines={item.showMore ? 0 : 1}>
                         {item.comment}
                       </Text>
@@ -596,7 +610,7 @@ function RenderItem({
                           name={item.likes_status ? 'star' : 'star-o'}
                           size={15}
                           color={'#000'}
-                          style={{ marginLeft: 5 }}
+                          style={{marginLeft: 5}}
                         />
                       </TouchableOpacity>
                     </View>
@@ -616,9 +630,9 @@ function RenderItem({
         {item.total_comment >= 3 && (
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate('PostDetailScreen', { item });
+              props.navigation.navigate('PostDetailScreen', {item});
             }}>
-            <Text style={{ fontSize: 12, marginTop: 10 }}>
+            <Text style={{fontSize: 12, marginTop: 10}}>
               VIEW ALL {item.total_comment} COMMENTS
             </Text>
           </TouchableOpacity>
@@ -636,7 +650,7 @@ function RenderItem({
           <View style={styles.border}></View>
           <View style={styles.rowContainer}>
             <TextInput
-              style={{ width: screenWidth - 120 }}
+              style={{width: screenWidth - 120}}
               placeholder="Add a comment"
               value={item.commentValue}
               onChangeText={text => gotoChangeComment(text, index)}
@@ -651,7 +665,7 @@ function RenderItem({
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => gotoComment(item)}>
-                <Text style={{ color: 'white' }}>Post</Text>
+                <Text style={{color: 'white'}}>Post</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -663,58 +677,55 @@ function RenderItem({
   );
 }
 
-function CrouselImages({ item, index, length, refff }) {
+function CrouselImages({props, item, index, length, ref}) {
+  // const gotoBackRef = () => {
+  //   console.log('dfsfddsf', ref);
+  // };
+
+  const [show, setShow] = useState(false);
+
+  const gotoChange = () => {
+    setShow(prev => !prev);
+  };
+
   return (
-    <View
-      style={{
-        marginHorizontal: 8,
-        alignItems: 'center',
-        width: screenWidth - 64,
-        height: screenWidth - 64,
-        // backgroundColor: 'red',
-        marginStart: 16,
-      }}>
-      {item.post_extension != 'mp4' ? (
-        <Image
-          source={{
-            uri:
-              item.post_image != null
-                ? item.post_image
-                : 'https://i.picsum.photos/id/866/1600/900.jpg',
-          }}
-          resizeMode="contain"
-          style={{
-            width: screenWidth - 64,
-            height: screenWidth - 64,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
-      ) : (
-        // <Text>kamal</Text>
-        <View style={{ width: screenWidth - 64, height: screenWidth - 64 }}>
-          {/* <Video
-            key={item + 'sap'}
-            ref={ref}
-            videoWidth={screenWidth - 64}
-            videoHeight={screenWidth - 64}
+    <>
+      <View
+        style={{
+          marginHorizontal: 8,
+          alignItems: 'center',
+          width: screenWidth - 64,
+          height: screenWidth - 64,
+          // backgroundColor: 'red',
+          marginStart: 16,
+        }}>
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{
+              uri:
+                item.post_image != null
+                  ? item.post_image
+                  : 'https://i.picsum.photos/id/866/1600/900.jpg',
+            }}
+            resizeMode="contain"
             style={{
+              width: screenWidth - 64,
+              height: screenWidth - 64,
               backgroundColor: '#d2d2d2',
-              alignSelf: 'center',
             }}
-            video={{
-              uri: item.post_image,
+          />
+        ) : (
+          <TouchableOpacity
+            style={{
+              width: screenWidth - 64,
+              height: screenWidth - 64,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-            // video={{ uri: coursepreview }}
-            thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-            // customStyles={{
-            //   seekBar: {
-            //     opacity: 0,
-            //   },
-            // }}
-            disableSeek={false}
-          /> */}
-          <Video
-            ref={refff}
+            onPress={gotoChange}>
+            {/* <Video
+            id={'video' + item.id}
+            ref={ref}
             style={{}}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
@@ -723,37 +734,54 @@ function CrouselImages({ item, index, length, refff }) {
             inlineOnly={true}
             lockRatio={16 / 16}
             resizeMode="contain"
-            autoplay
-          //  theme={theme}
-          // onBackPress={() => this.props.navigation.goBack(null)}
-          //  placeholderStyle={{width: width - 32, height: height / 4}}
-          //onFullScreen={this.onFullScreen}
+          /> */}
+            <Ionicons
+              name={'play-circle-outline'}
+              size={64}
+              color={'#000'}
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        )}
+        {length > 1 && (
+          <Text
+            style={{
+              margin: 10,
+              marginEnd: 8,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
+      </View>
+      <Modal
+        style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+        isVisible={show}>
+        <View style={{backgroundColor: '#fff'}}>
+          <Video
+            ref={ref}
+            style={{}}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            rotateToFullScreen={true}
+            lockRatio={16 / 16}
+            onBackPress={gotoChange}
           />
         </View>
-      )}
-      {length > 1 && (
-        <Text
-          style={{
-            margin: 10,
-            marginEnd: 8,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
-          }}>
-          {index + 1}/{length}
-        </Text>
-      )}
-    </View>
+      </Modal>
+    </>
   );
 }
 
-function CrouselText({ item, index, length }) {
+function CrouselText({item, index, length}) {
   return (
     <View
       style={{
