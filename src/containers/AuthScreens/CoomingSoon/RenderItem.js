@@ -723,6 +723,10 @@ function CrouselImages({props, item, index, length, ref}) {
               justifyContent: 'center',
             }}
             onPress={gotoChange}>
+            <Image
+              style={{width: screenWidth - 64, height: screenWidth - 64}}
+              source={{uri: item.thumbnails}}
+            />
             {/* <Video
             id={'video' + item.id}
             ref={ref}
@@ -738,8 +742,11 @@ function CrouselImages({props, item, index, length, ref}) {
             <Ionicons
               name={'play-circle-outline'}
               size={64}
-              color={'#000'}
-              style={{marginLeft: 5}}
+              color={'#fff'}
+              style={{
+                marginLeft: 5,
+                position: 'absolute',
+              }}
             />
           </TouchableOpacity>
         )}
@@ -769,6 +776,7 @@ function CrouselImages({props, item, index, length, ref}) {
           <Video
             ref={ref}
             style={{}}
+            autoPlay={true}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
             rotateToFullScreen={true}

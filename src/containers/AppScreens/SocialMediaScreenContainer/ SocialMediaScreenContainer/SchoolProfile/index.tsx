@@ -63,7 +63,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [data, active_data] = useState('th');
+  const [grid, active_data] = useState('th');
   const [isLoading, setLoading] = useState(false);
   const [schoolDetail, setSchoolDetail] = useState('');
   const [index, setIndex] = useState(0);
@@ -79,11 +79,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   const [tempSchoolId, setSchoolId] = useState('');
   const [username, setuserName] = useState('');
   const [firebaseid, setUserFirebaseId] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const [userid, setUserid] = useState('');
   const [alumni, setAlumni] = useState(false);
   const threedot = () => {
-    setthreeDot(true);
+    setthreeDot(prev => !prev);
   };
 
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
@@ -99,6 +100,19 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
   const [videoPost, setVideoPost] = useState('');
   const [nonVideoPost, setNonVideoPost] = useState('');
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const gotoRemove = () => {
+    setModalVisible(!isModalVisible);
+    gotoFollowSchool();
+  };
+
+  const toggleModalItem = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const reportcheckboxHandler = (value, index) => {
     console.log('value==>>>>>>>>>', value);
@@ -152,14 +166,14 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
   const reportmodal = () => {
     setModalVisible3(!isModalVisible3);
-    setTimeout(()=>{
+    setTimeout(() => {
       setreportmodal(!isreportmodal);
-    },500)
+    }, 500);
   };
 
   const toggleModal1 = () => {
     setreportmodal(!isreportmodal);
-  }
+  };
 
   const toggleModal3 = item => {
     setCustomItem(item);
@@ -175,23 +189,162 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     });
   };
 
+  const gotoBlockProfile = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      blocked_user_id: user_id,
+      block_user_status: !schoolDetail.block_user_active,
+    };
+
+    console.log('ReportPost==>>', data);
+
+    dispatch(
+      userActions.blockUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            // console.warn(
+            //   'after result block data',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+            if (result.status) {
+              Toast.show(result.message, Toast.SHORT);
+              getSchoolProfile(school_id, false);
+            }
+            // setSpinnerStart(false);
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            // setLoginSuccess(result);
+            setLoading(false);
+            //console.log('dfdfdf--------', error)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+
+            // Alert.alert(error.message[0])
+
+            // signOut();
+          } else {
+            // setError(true);
+            // signOut();
+            // Alert.alert(result.status)
+            // Toast.show('Invalid credentials', Toast.SHORT);
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const blockprofile = async () => {
     setthreeDot(false);
-    Alert.alert(
-      'ZatchUp',
-      ' Are you sure you want to Block Profile?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes'},
-      ],
-      {cancelable: false},
-    );
+    if (schoolDetail != '' && !schoolDetail.block_user_active) {
+      Alert.alert(
+        'ZatchUp',
+        ' Are you sure you want to Block Profile?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Yes', onPress: () => gotoBlockProfile()},
+        ],
+        {cancelable: false},
+      );
+    } else {
+      Alert.alert(
+        'ZatchUp',
+        ' Are you sure you want to Unblock Profile?',
+        [
+          {
+            text: 'No',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Yes', onPress: () => gotoBlockProfile()},
+        ],
+        {cancelable: false},
+      );
+    }
     return true;
   };
+
+  const gotoFollowSchool = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    let data = {
+      token: token,
+      following_user_id: user_id,
+    };
+    if (schoolDetail.follow_request_status == 0) {
+      data.follow_status = !schoolDetail.social_account_status
+        ? 2
+        : schoolDetail.social_account_status
+        ? 1
+        : 0;
+    } else {
+      data.follow_status =
+        schoolDetail.follow_request_status == 1
+          ? 0
+          : schoolDetail.follow_request_status == 0
+          ? 1
+          : 0;
+    }
+
+    dispatch(
+      userActions.followUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            // console.warn(
+            //   'after result follow user',
+            //   JSON.stringify(result, undefined, 2),
+            //   //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            // );
+
+            if (result.status) {
+              getSchoolProfile(school_id, false);
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   const renderIndicator = () => {
     return (
       <View style={{}}>
@@ -671,6 +824,8 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     'mp4'
                 ) {
                   newArrForNonVideo.push(newObject.social_post[i]);
+                } else if (newObject.social_post[i].post_gallery == null) {
+                  newArrForNonVideo.push(newObject.social_post[i]);
                 }
                 newArr.push(newObject.social_post[i]);
               }
@@ -678,9 +833,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               setNonVideoPost(newArrForNonVideo);
               setVideoPost(newArr);
 
+              console.log('newArrForNonVideo', newArrForNonVideo);
+
               let newObj = {
                 ...result.data[0],
-                social_post: newArrForNonVideo,
+                social_post: grid == 'Image' ? newArr : newArrForNonVideo,
               };
 
               setSchoolDetail(newObj);
@@ -922,6 +1079,57 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     setAlumni(prev => !prev);
   };
 
+  const gotoFollow = async () => {
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      follow_status: schoolDetail.social_account_status ? 1 : 2,
+      following_user_id: schoolDetail.user_id,
+    };
+
+    console.log('Data==>>>', data);
+
+    dispatch(
+      userActions.followUser({
+        data,
+        callback: ({result, error}) => {
+          if (result) {
+            console.warn(
+              'after result follow user',
+              JSON.stringify(result, undefined, 2),
+              //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
+            );
+
+            if (result.status) {
+              getSchoolProfile(school_id, false);
+            } else {
+              // setSchoolDetail('');
+            }
+
+            setLoading(false);
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -1000,11 +1208,15 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     <TouchableOpacity onPress={reportprofilemodal}>
                       <Text style={{fontSize: hp(2)}}>Report Profile</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => blockprofile()}>
-                      {/* <Text style={{fontSize: hp(2), marginTop: 10}}>
-                      Block Profile
-                    </Text> */}
-                    </TouchableOpacity>
+                    {!schoolDetail.user_school_active && (
+                      <TouchableOpacity onPress={() => blockprofile()}>
+                        <Text style={{fontSize: hp(2), marginTop: 10}}>
+                          {schoolDetail != '' && schoolDetail.block_user_active
+                            ? 'Unblock Profile'
+                            : 'Block Profile'}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 )}
               </ImageBackground>
@@ -1059,9 +1271,10 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                         marginTop: 30,
                       }}>
                       <TouchableOpacity
-                        onPress={() => {
-                          props.navigation.navigate('PostDetailScreen');
-                        }}>
+                      // onPress={() => {
+                      //   props.navigation.navigate('PostDetailScreen');
+                      // }}
+                      >
                         <View style={{alignItems: 'center', marginTop: 10}}>
                           <Text style={styles.nametext}>
                             {schoolDetail.name_of_school}
@@ -1089,6 +1302,13 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     alignItems: 'center',
                   }}>
                   <TouchableOpacity
+                    disabled={
+                      (schoolDetail.social_account_status ||
+                        schoolDetail.block_user_active) &&
+                      schoolDetail.follow_request_status != 2
+                        ? true
+                        : false
+                    }
                     onPress={() => {
                       props.navigation.navigate('FollowersScreen', {
                         item: {...schoolDetail, flag: 'school'},
@@ -1100,20 +1320,42 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     <Text>Followers</Text>
                   </TouchableOpacity>
 
-                  <View
+                  <TouchableOpacity
                     style={{
                       marginLeft: 20,
-                      backgroundColor: 'green',
+                      backgroundColor:
+                        schoolDetail.follow_request_status == 0
+                          ? '#463267'
+                          : schoolDetail.follow_request_status == 1
+                          ? 'red'
+                          : 'green',
                       width: 85,
                       alignItems: 'center',
                       justifyContent: 'center',
                       height: 28,
                       borderRadius: 5,
-                    }}>
+                    }}
+                    disabled={
+                      schoolDetail.student_verified ||
+                      schoolDetail.block_user_active
+                        ? true
+                        : false
+                    }
+                    onPress={() =>
+                      schoolDetail.follow_request_status == 0
+                        ? gotoFollow()
+                        : schoolDetail.follow_request_status == 1
+                        ? toggleModalItem()
+                        : toggleModalItem()
+                    }>
                     <Text style={{color: 'white', fontWeight: 'bold'}}>
-                      Following
+                      {schoolDetail.follow_request_status == 0
+                        ? 'Follow'
+                        : schoolDetail.follow_request_status == 1
+                        ? 'Requested'
+                        : 'Following'}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 </View>
                 <View style={{marginTop: 10}}>
                   <TouchableOpacity
@@ -1136,19 +1378,26 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               </View>
             </View>
             <View style={styles.addresscontainer}>
-              <View style={{flexDirection: 'row', alignItems: 'flex-start',flex:1}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  flex: 1,
+                }}>
                 <Text style={styles.addresstext}> School Address : </Text>
-                <Text style={{color: 'black',flex:1}}>
+                <Text style={{color: 'black', flex: 1}}>
                   {schoolDetail.address1 + '' + schoolDetail.address2}
                 </Text>
               </View>
             </View>
-            <View style={styles.paragraphcontainer}>
-              <Text style={{color: 'black', textAlign: 'justify'}}>
-                <Text style={styles.overviewtext}>School Overview : </Text>
-                {schoolDetail.overview}
-              </Text>
-            </View>
+            {schoolDetail != '' && schoolDetail.overview != '' && (
+              <View style={styles.paragraphcontainer}>
+                <Text style={{color: 'black', textAlign: 'justify'}}>
+                  <Text style={styles.overviewtext}>School Overview : </Text>
+                  {schoolDetail.overview}
+                </Text>
+              </View>
+            )}
             <View
               style={[
                 styles.totalstudentcontainer,
@@ -1194,7 +1443,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     <Icon
                       name="th"
                       size={30}
-                      color={data === 'th' ? '#4B2A6A' : 'grey'}
+                      color={grid === 'th' ? '#4B2A6A' : 'grey'}
                     />
                   </TouchableOpacity>
 
@@ -1204,14 +1453,19 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     <Icon
                       name="image"
                       size={30}
-                      color={data === 'Image' ? '#4B2A6A' : 'grey'}
+                      color={grid === 'Image' ? '#4B2A6A' : 'grey'}
                       style={{marginLeft: 80}}
                     />
                   </TouchableOpacity>
                 </View>
               </View>
             </Card>
-            {schoolDetail != '' && !(data === 'Image') ? (
+            {schoolDetail != '' &&
+            schoolDetail.social_post.length > 0 &&
+            (schoolDetail.follow_request_status == 2 ||
+              !schoolDetail.social_account_status) &&
+            !schoolDetail.block_user_active &&
+            !(grid === 'Image') ? (
               <FlatList
                 key={'#'}
                 numColumns={2}
@@ -1229,26 +1483,6 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   }
                   if (item.post_gallery != null) {
                     return (
-                      // <Carousel
-                      //   // layout={'tinder'}
-                      //   ref={isCarousel}
-                      //   data={item.post_gallery}
-                      //   renderItem={({item, index}) => (
-                      //     <CrouselImages
-                      //       item={item}
-                      //       index={index}
-                      //       length={len}
-                      //       data={data}
-                      //       goToNavigate={GoToNavigate}
-                      //       items={items}
-                      //       ref={ref}
-                      //     />
-                      //   )}
-                      //   sliderWidth={screenWidth + 16}
-                      //   itemWidth={screenWidth + 16}
-                      //   layoutCardOffset={'0'}
-                      //   onSnapToItem={index => setIndex(index)}
-                      // />
                       <CrouselImages
                         item={item.post_gallery[0]}
                         index={index}
@@ -1274,7 +1508,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                               item={item}
                               index={index}
                               length={lenCap}
-                              data={data}
+                              data={grid}
                               goToNavigate={GoToNavigate}
                               items={items}
                             />
@@ -1288,10 +1522,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     );
                   }
                 }}
-                //  keyExtractor={item => item.id}
-                //style={{alignSelf: 'center'}}
               />
-            ) : (
+            ) : schoolDetail != '' &&
+              schoolDetail.social_post.length > 0 &&
+              (schoolDetail.follow_request_status == 2 ||
+                !schoolDetail.social_account_status) &&
+              !schoolDetail.block_user_active ? (
               <FlatList
                 key={'_'}
                 numColumns={1}
@@ -1317,7 +1553,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       gotoChangeToggle={gotoChangeToggle}
                       gotoLikeUnLike={gotoLikeUnLike}
                       toggleModal3={toggleModal3}
-                      data={data}
+                      data={grid}
                       isCarouselText={isCarouselText}
                       isCarousel={isCarousel}
                       props={props}
@@ -1335,20 +1571,44 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 }}
                 //  ItemSeparatorComponent={renderIndicator}
               />
-            )}
-
-            {schoolDetail != '' && schoolDetail.social_post.length == 0 && (
+            ) : (schoolDetail.social_account_status ||
+                schoolDetail.block_user_active) &&
+              schoolDetail.follow_request_status != 2 ? (
               <View
                 style={{
-                  margin: 16,
-                  borderColor: '#000',
-                  borderWidth: 1,
-                  padding: 16,
                   alignItems: 'center',
+                  borderWidth: 1,
+                  borderColor: '#000',
+                  marginHorizontal: 16,
+                  marginTop: 16,
+                  paddingVertical: 32,
                 }}>
-                <Text>No Post Uploaded</Text>
+                <Text style={{fontWeight: '700', fontSize: 18}}>
+                  {schoolDetail.block_user_active
+                    ? 'Blocked'
+                    : 'This Account Is Private'}
+                </Text>
               </View>
+            ) : (
+              <View />
             )}
+
+            {schoolDetail != '' &&
+              schoolDetail.social_post.length == 0 &&
+              (schoolDetail.follow_request_status == 2 ||
+                !schoolDetail.social_account_status) &&
+              !schoolDetail.block_user_active && (
+                <View
+                  style={{
+                    margin: 16,
+                    borderColor: '#000',
+                    borderWidth: 1,
+                    padding: 16,
+                    alignItems: 'center',
+                  }}>
+                  <Text>No Post Uploaded</Text>
+                </View>
+              )}
           </ScrollView>
         )}
         {/* modal for report profile */}
@@ -1471,8 +1731,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               {/* <View style={styles.mborder}></View> */}
             </>
             {/* )} */}
-            <TouchableOpacity
-              onPress={toggleModalPostDetail}>
+            <TouchableOpacity onPress={toggleModalPostDetail}>
               <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
@@ -1559,6 +1818,75 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 <Text style={{color: 'white'}}>Submit</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        </Modal>
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          backdropOpacity={0.4}>
+          <View
+            style={{
+              //height: hp('55'),
+              backgroundColor: Colors.$backgroundColor,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 20,
+
+              borderRadius: 5,
+            }}>
+            {/* <Image
+              source={
+                schoolDetail.following_request_user_profile_pic != null
+                  ? {uri: schoolDetail.following_request_user_profile_pic}
+                  : Images.profile_default
+              }
+              style={{
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+              }}
+            /> */}
+            <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
+              {schoolDetail.follow_request_status == 2 ? (
+                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                  Are you sure you want to unfollow
+                </Text>
+              ) : (
+                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                  Are you sure you want to cancel the Request?
+                </Text>
+              )}
+            </View>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 30,
+              }}></View>
+            <TouchableOpacity onPress={gotoRemove}>
+              <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
+                {schoolDetail.follow_request_status != 2 &&
+                schoolDetail.follow_request_status != 1
+                  ? 'Unfollow'
+                  : 'Yes'}
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: 'lightgrey',
+                width: '100%',
+                marginTop: 12,
+              }}></View>
+            <TouchableOpacity onPress={toggleModal}>
+              <Text style={{color: 'red', marginTop: 10}}>
+                {schoolDetail.follow_request_status != 2 &&
+                schoolDetail.follow_request_status != 1
+                  ? 'Cancel'
+                  : 'No'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </Modal>
       </View>
