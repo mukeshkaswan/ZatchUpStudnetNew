@@ -688,7 +688,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               JSON.stringify(result, undefined, 2),
               setUserid(result.user_id),
               setuserName(result.full_name),
-              setUserFirebaseId(result.user_firebase_id),
+              //setUserFirebaseId(result.user_firebase_id),
               //setTempUserId(result.user_id),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );
@@ -780,6 +780,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
             if (result.status) {
               setSchoolId(school_id);
+              setUserFirebaseId(result.data[0].firebase_id);
               // let newArr = [];
               // for (let i in result.data[0].social_post) {
               //   newArr.push({
@@ -1365,7 +1366,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
                     onPress={() =>
                       props.navigation.navigate('GetVerifyWebView', {
-                        user_id: user_id,
+                        user_id: userid,
                         school_id: school_id,
                         id: firebaseid,
                         getVerify: 0,
