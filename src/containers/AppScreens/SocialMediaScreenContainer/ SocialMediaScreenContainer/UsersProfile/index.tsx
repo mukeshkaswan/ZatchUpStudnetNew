@@ -51,8 +51,7 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import RenderItem from './RenderItem';
 import user from '../../../../../reducers/users';
 import Video from 'react-native-video-player';
-
-//import Icon from 'react-native-vector-icons/Ionicons'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -662,12 +661,12 @@ const UsersProfile = (props: UserProfileProps) => {
                 newArr.push(newObject.social_post[i]);
               }
 
-              setNonVideoPost(newArrForNonVideo);
+              setNonVideoPost(newArr);
               setVideoPost(newArr);
               console.log('NewArray==>>12', newArr);
               let newObj = {
                 ...result.data[0],
-                social_post: grid == 'Image' ? newArr : newArrForNonVideo,
+                social_post: grid == 'Image' ? newArr : newArr,
               };
               // Alert.alert('h');
               setUserProfile(newObj);
@@ -1584,33 +1583,48 @@ const UsersProfile = (props: UserProfileProps) => {
                     <Text style={styles.view_Tv_2}>{userProfile.dob}</Text>
                   </View>
                 ) : null}
-                {isEnabledGender ? 
+                {isEnabledGender ? (
                   <View style={styles.view_Row}>
-                  {userProfile.gender == 'M' ? (
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>Gender : </Text>
-                    <Text style={{  marginTop: 4,
-    fontSize: hp(2),
-    // marginLeft: 15,
-    color: '#565656',}}>Male</Text>
-                  </View>
-                ) : userProfile.gender == 'F' ? (
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>Gender : </Text>
-                    <Text style={{  marginTop: 4,
-    fontSize: hp(2),
-    // marginLeft: 15,
-    color: '#565656',}}>Female</Text>
-                  </View>
-                ) : userProfile.gender == 'C' ? (
-                  <View style={styles.view_Row}>
-                    <Text style={styles.view_Tv_1}>Gender : </Text>
-                    <Text style={{  marginTop: 4,
-    fontSize: hp(2),
-    // marginLeft: 15,
-    color: '#565656',}}>Custom</Text>
-                  </View>
-                ) : null}
+                    {userProfile.gender == 'M' ? (
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>Gender : </Text>
+                        <Text
+                          style={{
+                            marginTop: 4,
+                            fontSize: hp(2),
+                            // marginLeft: 15,
+                            color: '#565656',
+                          }}>
+                          Male
+                        </Text>
+                      </View>
+                    ) : userProfile.gender == 'F' ? (
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>Gender : </Text>
+                        <Text
+                          style={{
+                            marginTop: 4,
+                            fontSize: hp(2),
+                            // marginLeft: 15,
+                            color: '#565656',
+                          }}>
+                          Female
+                        </Text>
+                      </View>
+                    ) : userProfile.gender == 'C' ? (
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>Gender : </Text>
+                        <Text
+                          style={{
+                            marginTop: 4,
+                            fontSize: hp(2),
+                            // marginLeft: 15,
+                            color: '#565656',
+                          }}>
+                          Custom
+                        </Text>
+                      </View>
+                    ) : null}
                     {/* <Text style={styles.view_Tv_1}>Gender :</Text>
                     <Text style={styles.view_Tv_2}>
                       {userProfile.gender == 'M'
@@ -1627,14 +1641,14 @@ const UsersProfile = (props: UserProfileProps) => {
                         : userProfile.pronoun}
                     </Text> */}
                   </View>
-                 : null}
+                ) : null}
 
                 {isEnabledEmail ? (
                   <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Email:</Text>
                     <Text style={styles.view_Tv_2}>{userProfile.email}</Text>
                   </View>
-                ):null}
+                ) : null}
 
                 {isEnabled && userProfile.phone != null && (
                   <View style={styles.view_Row}>
@@ -2163,96 +2177,80 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };
+  const [show, setShow] = useState(false);
+
+  const gotoChange = () => {
+    setShow(prev => !prev);
+  };
+
   return (
-    <TouchableOpacity
-      style={{
-        alignItems: 'center',
-        marginTop: 16,
-        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
-        marginStart: index % 2 == 0 ? 16 : 8,
-        width: screenWidth / 2 - 24,
-        height: screenWidth / 2 - 24,
-        marginEnd: index % 2 == 0 ? 8 : 16,
-      }}
-      onPress={gotoNavigate}>
-      {item.post_extension != 'mp4' ? (
-        <Image
-          source={{uri: item.post_image}}
-          resizeMode="contain"
-          style={{
-            width: screenWidth / 2 - 24,
-            height: screenWidth / 2 - 24,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
-      ) : (
-        // <Video
-        //   key={item + 'sap'}
-        //   //ref={ref}
-        //   videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
-        //   videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
-        //   style={{
-        //     backgroundColor: '#d2d2d2',
-        //     alignSelf: 'center',
-        //     width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        //     height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        //   }}
-        //   video={{
-        //     uri: item.post_image,
-        //   }}
-        //   // video={{ uri: coursepreview }}
-        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-        //   //resizeMode="contain"
-        //   //showDuration
-        //   //lockRatio={16 / 9}
-        // />
-        <View
-          style={{
-            width: screenWidth / 2 - 24,
-            height: screenWidth / 2 - 24,
-            backgroundColor: 'red',
-            justifyContent: 'center',
-          }}>
-          <Video
-            ref={ref}
+    <>
+      <TouchableOpacity
+        style={{
+          alignItems: 'center',
+          marginTop: 16,
+          //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+          marginStart: index % 2 == 0 ? 16 : 8,
+          width: screenWidth / 2 - 24,
+          height: screenWidth / 2 - 24,
+          marginEnd: index % 2 == 0 ? 8 : 16,
+        }}
+        onPress={gotoNavigate}>
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{uri: item.post_image}}
+            resizeMode="contain"
             style={{
               width: screenWidth / 2 - 24,
               height: screenWidth / 2 - 24,
+              backgroundColor: '#d2d2d2',
             }}
+          />
+        ) : (
+          <TouchableOpacity
+            style={{
+              width: screenWidth / 2 - 24,
+              height: screenWidth / 2 - 24,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={gotoChange}>
+            <Image
+              style={{
+                width: screenWidth / 2 - 24,
+                height: screenWidth / 2 - 24,
+              }}
+              source={{uri: item.thumbnails}}
+            />
+            <Ionicons
+              name={'play-circle-outline'}
+              size={64}
+              color={'#fff'}
+              style={{
+                marginLeft: 5,
+                position: 'absolute',
+              }}
+            />
+          </TouchableOpacity>
+        )}
+      </TouchableOpacity>
+      <Modal
+        style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+        isVisible={show}>
+        <View style={{backgroundColor: '#fff'}}>
+          <Video
+            ref={ref}
+            style={{}}
+            autoPlay={true}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-            // rotateToFullScreen={false}
-            hideFullScreenControl={true}
-            inlineOnly={true}
-            lockRatio={1}
-            resizeMode="cover"
-            autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //on
-            //FullScreen={this.onFullScreen}
+            rotateToFullScreen={true}
+            lockRatio={16 / 16}
+            onBackPress={gotoChange}
           />
         </View>
-      )}
-      {/* {length > 1 && (
-        <Text
-          style={{
-            marginVertical: 10,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
-          }}>
-          {index + 1}/{length}
-        </Text>
-      )} */}
-    </TouchableOpacity>
+      </Modal>
+    </>
   );
 }
 

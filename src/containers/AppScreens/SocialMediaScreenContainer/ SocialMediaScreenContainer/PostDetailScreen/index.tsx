@@ -44,6 +44,8 @@ import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Video from 'react-native-video-player';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const screenWidth = Dimensions.get('window').width;
 import {
   widthPercentageToDP as wp,
@@ -843,7 +845,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
               }
               console.log('newDataOfAllPost', JSON.stringify(newData));
 
-              //setAllPost(newData);
+              setAllPost(newData);
               //   return;
 
               let newD = [];
@@ -882,7 +884,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
 
               console.log('newD', JSON.stringify(newD));
 
-              setAllPost(newD);
+              // setAllPost(newD);
             }
             // setSpinnerStart(false);
             setLoading(false);
@@ -1412,56 +1414,80 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
     props.navigation.push('PostDetailScreen', {item});
   };
 
-  const renderItem = ({item}) => (
-    <TouchableOpacity
-      style={{
-        borderRadius: 10,
-        backgroundColor: 'white',
-        margin: 5,
-        padding: 8,
-        alignItems: 'center',
-      }}
-      disabled={postDetails != '' && postDetails.id == item.id ? true : false}
-      onPress={() =>
-        postDetails != '' && postDetails.id == item.id ? {} : gotoNavigate(item)
-      }>
-      {item.post_gallery[0].post_extension != 'mp4' ? (
-        <Image
-          source={
-            item.post_gallery[0].post_image != null
-              ? {uri: item.post_gallery[0].post_image}
-              : require('../../../../../assets/images/college2.jpg')
-          }
-          style={{height: screenWidth / 2 - 40, width: screenWidth / 2 - 40}}
-        />
-      ) : (
-        <View
+  const [show, setShow] = useState(false);
+  const [url, setUrl] = useState('');
+
+  const gotoChange = item => () => {
+    setShow(prev => !prev);
+    setUrl(item.post_gallery[0].post_image);
+  };
+
+  const gotoChangeToggle = () => {
+    setShow(prev => !prev);
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <>
+        <TouchableOpacity
           style={{
-            width: screenWidth / 2 - 40,
-            height: screenWidth / 2 - 40,
-            backgroundColor: 'red',
-          }}>
-          <Video
-            // ref={ref}
-            style={{}}
-            url={item.post_gallery[0].post_image}
-            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-            // rotateToFullScreen={false}
-            hideFullScreenControl={true}
-            inlineOnly={true}
-            lockRatio={16 / 12}
-            resizeMode="contain"
-            autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //on
-            //FullScreen={this.onFullScreen}
-          />
-        </View>
-      )}
-    </TouchableOpacity>
-  );
+            borderRadius: 10,
+            backgroundColor: 'white',
+            margin: 5,
+            padding: 8,
+            alignItems: 'center',
+          }}
+          disabled={
+            postDetails != '' && postDetails.id == item.id ? true : false
+          }
+          onPress={() =>
+            postDetails != '' && postDetails.id == item.id
+              ? {}
+              : gotoNavigate(item)
+          }>
+          {item.post_gallery[0].post_extension != 'mp4' ? (
+            <Image
+              source={
+                item.post_gallery[0].post_image != null
+                  ? {uri: item.post_gallery[0].post_image}
+                  : require('../../../../../assets/images/college2.jpg')
+              }
+              style={{
+                height: screenWidth / 2 - 40,
+                width: screenWidth / 2 - 40,
+              }}
+            />
+          ) : (
+            <TouchableOpacity
+              style={{
+                width: screenWidth / 2 - 24,
+                height: screenWidth / 2 - 24,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={gotoChange(item)}>
+              <Image
+                style={{
+                  width: screenWidth / 2 - 24,
+                  height: screenWidth / 2 - 24,
+                }}
+                source={{uri: item.post_gallery[0].thumbnails}}
+              />
+              <Ionicons
+                name={'play-circle-outline'}
+                size={64}
+                color={'#fff'}
+                style={{
+                  marginLeft: 5,
+                  position: 'absolute',
+                }}
+              />
+            </TouchableOpacity>
+          )}
+        </TouchableOpacity>
+      </>
+    );
+  };
 
   const gotoShowReply = (index: string | number) => {
     console.log(index);
@@ -2504,6 +2530,24 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
             )}
           </ScrollView>
         )}
+
+        <Modal
+          style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+          isVisible={show}>
+          <View style={{backgroundColor: '#fff'}}>
+            <Video
+              ref={ref}
+              style={{}}
+              autoPlay={true}
+              url={url}
+              placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+              rotateToFullScreen={true}
+              lockRatio={16 / 16}
+              onBackPress={gotoChangeToggle}
+            />
+          </View>
+        </Modal>
+
         <Modal
           isVisible={isModalVisible3}
           onBackdropPress={toggleModal3}

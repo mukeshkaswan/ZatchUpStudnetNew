@@ -49,6 +49,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Video from 'react-native-video-player';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const screenWidth = Dimensions.get('window').width - 32;
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
@@ -648,53 +649,50 @@ function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
     gotoNav && gotoNav(items);
   };
 
+  const [show, setShow] = useState(false);
+
+  const gotoChange = () => {
+    setShow(prev => !prev);
+  };
+
   return (
-    <TouchableOpacity
-      style={{
-        alignItems: 'center',
-        marginTop: 16,
-        marginStart: 16,
-        width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-      }}
-      onPress={gotoNavigate}>
-      {item.post_extension != 'mp4' ? (
-        <Image
-          source={{uri: item.post_image}}
-          resizeMode="contain"
-          style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            backgroundColor: '#d2d2d2',
-          }}
-        />
-      ) : (
-        // <Video
-        //   key={item + 'sap'}
-        //   //ref={ref}
-        //   videoWidth={!(data === 'Image') ? screenWidth : screenWidth - 32}
-        //   videoHeight={!(data === 'Image') ? screenWidth : screenWidth - 32}
-        //   style={{
-        //     backgroundColor: '#d2d2d2',
-        //     alignSelf: 'center',
-        //     width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        //     height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-        //   }}
-        //   video={{
-        //     uri: item.post_image,
-        //   }}
-        //   // video={{ uri: coursepreview }}
-        //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-        //   //resizeMode="contain"
-        //   //showDuration
-        //   //lockRatio={16 / 9}
-        // />
-        <View
-          style={{
-            width: !(data === 'Image') ? screenWidth : screenWidth - 32,
-            height: !(data === 'Image') ? screenWidth : screenWidth - 32,
-          }}>
-          <Video
+    <>
+      <TouchableOpacity
+        style={{
+          alignItems: 'center',
+          marginTop: 16,
+          marginStart: 16,
+          width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+          height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+        }}
+        onPress={gotoNavigate}>
+        {item.post_extension != 'mp4' ? (
+          <Image
+            source={{uri: item.post_image}}
+            resizeMode="contain"
+            style={{
+              width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+              height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+              backgroundColor: '#d2d2d2',
+            }}
+          />
+        ) : (
+          <TouchableOpacity
+            style={{
+              width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+              height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={gotoChange}>
+            <Image
+              style={{
+                width: !(data === 'Image') ? screenWidth : screenWidth - 32,
+                height: !(data === 'Image') ? screenWidth : screenWidth - 32,
+              }}
+              source={{uri: item.thumbnails}}
+            />
+            {/* <Video
             ref={ref}
             style={{}}
             url={item.post_image}
@@ -705,33 +703,54 @@ function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
             lockRatio={16 / 12}
             resizeMode="contain"
             autoplay
-            //  theme={theme}
-            // onBackPress={() => this.props.navigation.goBack(null)}
-            //  placeholderStyle={{width: width - 32, height: height / 4}}
-            //on
-            //FullScreen={this.onFullScreen}
+          /> */}
+            <Ionicons
+              name={'play-circle-outline'}
+              size={64}
+              color={'#fff'}
+              style={{
+                marginLeft: 5,
+                position: 'absolute',
+              }}
+            />
+          </TouchableOpacity>
+        )}
+        {length > 1 && (
+          <Text
+            style={{
+              margin: 10,
+              marginEnd: 24,
+              fontSize: 12,
+              position: 'absolute',
+              color: '#fff',
+              right: 0,
+              backgroundColor: '#4B2A6A',
+              opacity: 0.7,
+              borderRadius: 12,
+              padding: 2,
+              paddingHorizontal: 6,
+            }}>
+            {index + 1}/{length}
+          </Text>
+        )}
+      </TouchableOpacity>
+      <Modal
+        style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+        isVisible={show}>
+        <View style={{backgroundColor: '#fff'}}>
+          <Video
+            ref={ref}
+            style={{}}
+            autoPlay={true}
+            url={item.post_image}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            rotateToFullScreen={true}
+            lockRatio={16 / 16}
+            onBackPress={gotoChange}
           />
         </View>
-      )}
-      {length > 1 && (
-        <Text
-          style={{
-            margin: 10,
-            marginEnd: 24,
-            fontSize: 12,
-            position: 'absolute',
-            color: '#fff',
-            right: 0,
-            backgroundColor: '#4B2A6A',
-            opacity: 0.7,
-            borderRadius: 12,
-            padding: 2,
-            paddingHorizontal: 6,
-          }}>
-          {index + 1}/{length}
-        </Text>
-      )}
-    </TouchableOpacity>
+      </Modal>
+    </>
   );
 }
 
