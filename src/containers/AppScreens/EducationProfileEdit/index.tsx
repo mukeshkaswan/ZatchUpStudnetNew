@@ -199,6 +199,10 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
       course_id: course_id,
       existing_course_id: course_id,
       school_id: school_id,
+      current_standard_id:"",
+      date_joining:"",
+      join_standard_id:"",
+      roll_no:""
     };
     const data = {
       token: token,
@@ -889,17 +893,17 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                     />
                   </View>
                 )}
-                <TouchableOpacity onPress={showDatepicker}>
+                {date_copy != '' && <TouchableOpacity onPress={showDatepicker}>
                   <View
                     style={{marginTop: '2%', marginLeft: 5, marginRight: 5}}>
                     <TextField
                       placeholder={'Course Joining Date'}
                       imageIcon={Images.calendar_icon}
                       editable={false}
-                      value={date_copy.toString()}
+                      value={date_copy}
                     />
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
 
                 {show && (
                   <DateTimePicker

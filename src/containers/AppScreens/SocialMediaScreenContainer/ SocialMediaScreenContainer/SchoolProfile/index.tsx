@@ -1707,7 +1707,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
         </Modal>
         <Modal
           isVisible={isModalVisible3}
-          onBackdropPress={toggleModal3}
+         // onBackdropPress={toggleModal3}
           backdropOpacity={0.4}>
           <View
             style={{
@@ -1746,7 +1746,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
         {/* modal for report */}
         <Modal
           isVisible={isreportmodal}
-          onBackdropPress={reportmodal}
+          //onBackdropPress={reportmodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
             <View style={[styles.rowContent, {paddingHorizontal: 16}]}>

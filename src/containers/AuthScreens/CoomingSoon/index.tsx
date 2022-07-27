@@ -656,6 +656,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
             if (result.status) {
               Toast.show(result.message, Toast.SHORT);
+              setModalVisible(prev=> !prev);
               getPostDataApi(1);
             } else {
               // setSchoolDetail('');
@@ -1889,7 +1890,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         )}
         <Modal
           isVisible={isModalVisible}
-          onBackdropPress={toggleModal}
+      //    onBackdropPress={toggleModal}
           backdropOpacity={0.4}>
           <View
             style={{
@@ -1930,7 +1931,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
         </Modal>
         <Modal
           isVisible={isModalVisible2}
-          onBackdropPress={toggleModal2}
+          //onBackdropPress={toggleModal2}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
             <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
