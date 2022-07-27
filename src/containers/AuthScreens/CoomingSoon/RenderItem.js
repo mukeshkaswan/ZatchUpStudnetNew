@@ -779,7 +779,9 @@ function CrouselImages({props, item, index, length, ref}) {
             autoPlay={true}
             url={item.post_image}
             placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-            rotateToFullScreen={true}
+            rotateToFullScreen={false}
+            hideFullScreenControl={true}
+            inlineOnly={true}
             lockRatio={16 / 16}
             onBackPress={gotoChange}
           />

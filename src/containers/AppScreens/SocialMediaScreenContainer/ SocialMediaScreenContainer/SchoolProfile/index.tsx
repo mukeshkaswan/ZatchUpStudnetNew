@@ -1155,7 +1155,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     : Images.cover_pic_default
                 }
                 resizeMode="stretch"
-                style={{width: '100%', height: 100}}>
+                style={{width: '100%', height: 120}}>
                 {/* <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View></View>

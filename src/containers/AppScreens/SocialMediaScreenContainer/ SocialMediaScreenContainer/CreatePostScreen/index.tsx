@@ -45,6 +45,7 @@ import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Video from 'react-native-video-player';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 // import https from 'https';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -447,107 +448,89 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
     setpicdata(newObj);
   };
 
+  const [show, setShow] = useState(false);
+  const [url, setUrl] = useState('');
+
+  const gotoChange = item => () => {
+    setShow(prev => !prev);
+    setUrl(item.uri);
+  };
+
+  const gotoChangeToggle = () => {
+    setShow(prev => !prev);
+  };
+
   const _renderItem = ({item, index}) => {
     console.log('Item==>>>>', item);
     return (
       <View
         style={{
-          //width: screenWidth / 3 - 21,
+          width: screenWidth / 3 - 21,
           height: screenWidth / 3 - 21,
-          marginTop: 10,
+          marginTop: 16,
           marginLeft: 16,
-          marginBottom: 16,
-          width: 150,
+          marginBottom: index <= 2 ? 16 : 0,
         }}>
         {item.type == 'video/mp4' ? (
-          // <Video
-          //   key={item + 'sap'}
-          //   // ref={ref}
-          //   videoWidth={screenWidth / 3 - 21}
-          //   videoHeight={screenWidth / 3 - 21}
-          //   style={{
-          //     backgroundColor: '#d2d2d2',
-          //     alignSelf: 'center',
-          //     borderRadius: 8,
-          //     marginTop: 16,
-
-          //     //  marginStart: 16,
-
-          //     width: screenWidth / 3 - 21,
-          //     height: screenWidth / 3 - 21,
-          //   }}
-          //   video={{
-          //     uri: item.uri,
-          //   }}
-          //   // video={{ uri: coursepreview }}
-          //   thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
-          //   resizeMode="contain"
-          //   disableSeek={true}
-          //   autoplay
-          //   playControl={{
-          //     width: screenWidth / 3 - 21,
-          //     height: screenWidth / 3 - 21,
-          //   }}
-          // />
-          // <Video
-          //   style={{
-          //     width: screenWidth / 3 - 1,
-          //     height: screenWidth / 3 - 21,
-          //   }}
-          //   url={item.uri}
-          //   placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-          //   // rotateToFullScreen={false}
-          //   hideFullScreenControl={true}
-          //   inlineOnly={true}
-          //   lockRatio={16 / 16}
-          //   resizeMode="contain"
-          //   // autoplay
-          //   //  theme={theme}
-          //   // onBackPress={() => this.props.navigation.goBack(null)}
-          //   //  placeholderStyle={{width: width - 32, height: height / 4}}
-          //   //onFullScreen={this.onFullScreen}
-          // />
-          <View
+          <TouchableOpacity
             style={{
-              flex: 1,
-              backgroundColor: 'red',
-              borderRadius: 8,
-              alignContent: 'flex-end',
-              width: 150,
+              width: screenWidth / 3 - 21,
               height: screenWidth / 3 - 21,
-            }}>
-            <Video
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderColor: '#4B2A6A',
+              borderWidth: 1,
+              borderRadius: 8,
+            }}
+            onPress={gotoChange(item)}>
+            {/* <Image
+             style={{
+               width: screenWidth / 2 - 24,
+               height: screenWidth / 2 - 24,
+             }}
+             source={{uri: item.thumbnails}}
+           /> */}
+            <Ionicons
+              name={'play-circle-outline'}
+              size={64}
+              color={'#fff'}
               style={{
-                width: 150,
-                height: screenWidth / 3 - 21,
+                marginLeft: 5,
+                position: 'absolute',
               }}
-              url={item.uri}
-              placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-              // rotateToFullScreen={false}
-              hideFullScreenControl={true}
-              inlineOnly={true}
-              lockRatio={16 / 16}
-              resizeMode="contain"
-              autoplay={false}
-              //  theme={theme}
-              // onBackPress={() => this.props.navigation.goBack(null)}
-              //  placeholderStyle={{width: width - 32, height: height / 4}}
-              //onFullScreen={this.onFullScreen}
             />
-          </View>
+          </TouchableOpacity>
         ) : (
+          // <View
+          //   style={{
+          //     flex: 1,
+          //     backgroundColor: 'red',
+          //     borderRadius: 8,
+          //     alignContent: 'flex-end',
+          //     width: 150,
+          //     height: screenWidth / 3 - 21,
+          //   }}>
+          //   <Video
+          //     style={{
+          //       width: 150,
+          //       height: screenWidth / 3 - 21,
+          //     }}
+          //     url={item.uri}
+          //     placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+          //     // rotateToFullScreen={false}
+          //     hideFullScreenControl={true}
+          //     inlineOnly={true}
+          //     lockRatio={16 / 16}
+          //     resizeMode="contain"
+          //     autoplay={false}
+          //   />
+          // </View>
           <Image
             source={{uri: item.uri}}
             style={{
-              width: 150,
+              width: screenWidth / 3 - 21,
               height: screenWidth / 3 - 21,
-              // height: screenWidth / 3 - 21,
-              //backgroundColor: 'green',
-              resizeMode: 'stretch',
               borderRadius: 8,
-              flex: 1,
-              // marginTop: 16,
-              //marginStart: 16,
             }}
           />
         )}
@@ -643,10 +626,10 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
 
           {picdata.length > 0 && (
             <FlatList
-              style={{flex: 1}}
-              contentContainerStyle={{alignItems: 'center'}}
+              style={{}}
+              //   contentContainerStyle={{alignItems: 'center'}}
               data={picdata}
-              numColumns={2}
+              numColumns={3}
               renderItem={_renderItem}
               keyExtractor={(item, index) => item + 'Sap' + index}
             />
@@ -756,6 +739,22 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
           </RBSheet>
         </KeyboardAwareScrollView>
       </View>
+      <Modal
+        style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+        isVisible={show}>
+        <View style={{backgroundColor: '#fff'}}>
+          <Video
+            // ref={ref}
+            style={{}}
+            autoPlay={true}
+            url={url}
+            placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+            rotateToFullScreen={true}
+            lockRatio={16 / 16}
+            onBackPress={gotoChangeToggle}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
