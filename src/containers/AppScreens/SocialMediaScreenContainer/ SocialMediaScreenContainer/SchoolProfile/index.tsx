@@ -1470,7 +1470,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 key={'#'}
                 numColumns={2}
                 data={schoolDetail.social_post}
-                contentContainerStyle={{alignItems: 'center'}}
+                // contentContainerStyle={{alignItems: 'center'}}
                 renderItem={({item}) => {
                   let items = item;
                   let len =
@@ -1497,7 +1497,6 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                         style={{
                           width: screenWidth / 2,
                           height: screenWidth / 2,
-                          // backgroundColor: 'red',
                         }}>
                         <Carousel
                           // layout={'tinder'}
@@ -1707,7 +1706,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
         </Modal>
         <Modal
           isVisible={isModalVisible3}
-         // onBackdropPress={toggleModal3}
+          // onBackdropPress={toggleModal3}
           backdropOpacity={0.4}>
           <View
             style={{
@@ -1986,7 +1985,7 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
       style={{
         alignItems: 'center',
         marginTop: 16,
-        //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+        //   backgroundColor: index % 2 == 0 ? 'red' : 'green',
         marginStart: index % 2 == 0 ? 16 : 8,
         width: screenWidth / 2 - 24,
         height: screenWidth / 2 - 24,
@@ -2000,7 +1999,7 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
           alignItems: 'center',
           width: screenWidth / 2 - 24,
           height: screenWidth / 2 - 24,
-          //backgroundColor: 'red',
+          // backgroundColor: 'red',
         }}>
         <View
           style={{

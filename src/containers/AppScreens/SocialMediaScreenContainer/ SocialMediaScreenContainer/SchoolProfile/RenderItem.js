@@ -765,7 +765,7 @@ function CrouselText({items, gotoNav, item, index, length, data}) {
         // marginHorizontal: !(data === 'Image') ? 16 : 16,
         alignItems: 'center',
         marginTop: 16,
-        // backgroundColor: 'red',
+        //backgroundColor: 'red',
         marginStart: 3,
         // marginStart: !(data === 'Image') ? 16 : 56,
       }}
