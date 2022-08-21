@@ -151,8 +151,8 @@ const SingleChatWebView = (props: ResetPasswordScreenProps) => {
 
         <WebView
         
-          source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' +  props.route.params.user_id + '&type=app&getVerify=0' }}
-         // source={{ uri: 'https://zatchup.com/#/user/mobile-chat-app?user_profile_id=' +  props.route.params.user_id + '&type=app&getVerify=0' }}
+        //  source={{ uri: 'http://staging.zatchup.com/zatchup/#/user/mobile-chat-app?user_profile_id=' +  props.route.params.user_id + '&type=app&getVerify=0' }}
+          source={{ uri: 'https://zatchup.com/#/user/mobile-chat-app?user_profile_id=' +  props.route.params.user_id + '&type=app&getVerify=0' }}
 
         
           startInLoadingState={true}
