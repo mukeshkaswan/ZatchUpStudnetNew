@@ -1647,7 +1647,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <Text style={styles.view_Tv_1_copy}>
                             Course Name :
                           </Text>
-                          <Text style={styles.view_Tv_2}>{i.course_name}</Text>
+                          <Text style={styles.course_name}>{i.course_name}</Text>
                         </View>
 
                         <View style={styles.view_Row_}>

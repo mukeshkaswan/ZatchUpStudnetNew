@@ -85,6 +85,9 @@ const styles = ScaledSheet.create({
     view_Tv_2: {
         marginTop: 5, fontSize: 17, marginLeft: 5, color: '#565656'
     },
+    course_name: {
+        marginTop: 5, fontSize: 17, marginLeft: 5,width:'60%', color: '#565656'
+    },
     view_Tv_2_: {
         marginTop: 5, fontSize: 17, marginLeft: 5, color: '#565656',width:'50%'
     },
