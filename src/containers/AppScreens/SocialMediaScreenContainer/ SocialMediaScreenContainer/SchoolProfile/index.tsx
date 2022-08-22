@@ -1478,7 +1478,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     item.post_gallery != null ? item.post_gallery.length : 0;
                   if (item.post_gallery == null) {
                     let s = item.caption;
-                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    var parts = s.match(/[\s\S]{1,45}/g) || [];
                     console.log(parts);
                     var lenCap = parts.length;
                   }
@@ -2022,7 +2022,7 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
         </Text>
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 10,
             fontWeight: '700',
             color: '#4B2A6A',
             marginHorizontal: 32,
