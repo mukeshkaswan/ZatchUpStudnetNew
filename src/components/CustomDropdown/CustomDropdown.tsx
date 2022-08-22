@@ -1,4 +1,4 @@
-import React, { Component, FC, useState } from 'react';
+import React, {Component, FC, useState} from 'react';
 import {
   View,
   Text,
@@ -17,17 +17,14 @@ const CustomDropdown: FC = ({
   data,
   onChangeText,
   secureTextEntry,
-  disabled
+  disabled,
 }) => {
   // const [selectedLanguage, setSelectedLanguage] = useState();
   return (
-
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <View style={styles.dropdownpicker}>
-
         <RNPickerSelect
           style={pickerStyle}
-
           items={data.map(obj => ({
             label: obj.label,
             value: obj.value,
@@ -39,12 +36,11 @@ const CustomDropdown: FC = ({
             label: placeholder,
             value: null,
           }}
-          onValueChange={
-            (itemValue, itemIndex) => {
-              SelectedLanguagedata(itemValue);
-            }
-          } />
-        {/* <Text
+          onValueChange={(itemValue, itemIndex) => {
+            SelectedLanguagedata(itemValue);
+          }}
+        />
+        <Text
           style={{
             width: '100%',
             height: '100%',
@@ -53,7 +49,7 @@ const CustomDropdown: FC = ({
             left: 0,
           }}>
           {' '}
-        </Text> */}
+        </Text>
       </View>
     </View>
     // <View style={{ flex:1 }}>
@@ -110,13 +106,10 @@ const pickerStyle = {
     // backgroundColor: 'red',
     borderRadius: 5,
     marginLeft: 10,
-
-
   },
   placeholder: {
     //  color: 'white',
     color: '#A6A9A7',
-
   },
   iconContainer: {
     placeholderColor: 'red',

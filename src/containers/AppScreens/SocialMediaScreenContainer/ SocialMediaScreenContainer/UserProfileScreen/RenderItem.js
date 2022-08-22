@@ -688,7 +688,7 @@ function CrouselImages({items, gotoNav, item, index, length, data, ref}) {
             <Ionicons
               name={'play-circle-outline'}
               size={64}
-              color={'#fff'}
+              color={'#4B2A6A'}
               style={{
                 marginLeft: 5,
                 position: 'absolute',

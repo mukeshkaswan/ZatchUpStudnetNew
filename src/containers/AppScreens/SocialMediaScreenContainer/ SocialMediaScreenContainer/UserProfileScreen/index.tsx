@@ -158,7 +158,6 @@ const UserProfileScreen = (props: UserProfileProps) => {
         width: 300,
         height: 300,
         cropping: true,
-        cropperCircleOverlay: true,
       }).then(image => {
         let source = {
           uri: image.path,
@@ -182,7 +181,6 @@ const UserProfileScreen = (props: UserProfileProps) => {
         width: 300,
         height: 400,
         cropping: true,
-        cropperCircleOverlay: true,
       }).then(image => {
         let source = {
           uri: image.path,
@@ -1526,7 +1524,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
             <Ionicons
               name={'play-circle-outline'}
               size={64}
-              color={'#fff'}
+              color={'#4B2A6A'}
               style={{
                 marginLeft: 5,
                 position: 'absolute',
