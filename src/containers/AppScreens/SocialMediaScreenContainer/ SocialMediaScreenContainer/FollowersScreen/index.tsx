@@ -267,19 +267,20 @@ const FollowersScreen = (props: NotificationsScreenProps) => {
   };
 
   function handleBackButtonClick() {
-    Alert.alert(
-      'Exit App',
-      'Do you want to exit?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes', onPress: onDeleteBTN},
-      ],
-      {cancelable: false},
-    );
+    props.navigation.goBack();
+    // Alert.alert(
+    //   'Exit App',
+    //   'Do you want to exit?',
+    //   [
+    //     {
+    //       text: 'No',
+    //       onPress: () => console.log('Cancel Pressed'),
+    //       style: 'cancel',
+    //     },
+    //     {text: 'Yes', onPress: onDeleteBTN},
+    //   ],
+    //   {cancelable: false},
+    // );
     return true;
   }
 

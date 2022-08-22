@@ -54,6 +54,7 @@ import RenderItem from './RenderItem';
 export const SLIDER_WIDTH = Dimensions.get('window').width - 32;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 const {width, height} = Dimensions.get('screen');
+import {_} from 'lodash';
 
 const DATA = [
   {
@@ -332,7 +333,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     onChangecityname(value);
 
     if (value.length > 2) {
-      getCity_Model_Search(value);
+      _.debounce(() => getCity_Model_Search(value), 300)();
     } else if (value.length < 3) {
       setCityData([]);
       setNoRecord(false);
@@ -1053,7 +1054,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
-                  <Text>School Mate</Text>
+                  <Text>schoolmates</Text>
                 </View>
               </View>
             </View>

@@ -156,7 +156,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
     if (i == 0) {
       ImagePicker.openCamera({
         width: 300,
-        height: 400,
+        height: 300,
         cropping: true,
         cropperCircleOverlay: true,
       }).then(image => {
@@ -207,19 +207,20 @@ const UserProfileScreen = (props: UserProfileProps) => {
   };
 
   function handleBackButtonClick() {
-    Alert.alert(
-      'Exit App',
-      'Do you want to exit?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes', onPress: onDeleteBTN},
-      ],
-      {cancelable: false},
-    );
+    props.navigation.goBack();
+    // Alert.alert(
+    //   'Exit App',
+    //   'Do you want to exit?',
+    //   [
+    //     {
+    //       text: 'No',
+    //       onPress: () => console.log('Cancel Pressed'),
+    //       style: 'cancel',
+    //     },
+    //     {text: 'Yes', onPress: onDeleteBTN},
+    //   ],
+    //   {cancelable: false},
+    // );
     return true;
   }
 

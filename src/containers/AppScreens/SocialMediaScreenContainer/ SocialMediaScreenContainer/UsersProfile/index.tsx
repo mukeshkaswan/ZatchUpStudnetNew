@@ -450,19 +450,20 @@ const UsersProfile = (props: UserProfileProps) => {
   }, [isFocused]);
 
   function handleBackButtonClick() {
-    Alert.alert(
-      'Exit App',
-      'Do you want to exit?',
-      [
-        {
-          text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Yes', onPress: onDeleteBTN},
-      ],
-      {cancelable: false},
-    );
+    props.navigation.goBack();
+    // Alert.alert(
+    //   'Exit App',
+    //   'Do you want to exit?',
+    //   [
+    //     {
+    //       text: 'No',
+    //       onPress: () => console.log('Cancel Pressed'),
+    //       style: 'cancel',
+    //     },
+    //     {text: 'Yes', onPress: onDeleteBTN},
+    //   ],
+    //   {cancelable: false},
+    // );
     return true;
   }
 
@@ -2092,7 +2093,7 @@ const UsersProfile = (props: UserProfileProps) => {
         {/* modal for report */}
         <Modal
           isVisible={isreportmodal}
-         // onBackdropPress={reportmodal}
+          // onBackdropPress={reportmodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
             <View style={[styles.rowContent, {paddingHorizontal: 16}]}>

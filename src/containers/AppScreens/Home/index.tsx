@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -16,12 +16,17 @@ import {
   TextInput,
   RefreshControl,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import styles from './style';
-import { Images } from '../../../components/index';
-import { TextField, CustomButton, CustomStatusBar, Validate } from '../../../components';
-import { useDispatch, useSelector } from 'react-redux';
+import {Images} from '../../../components/index';
+import {
+  TextField,
+  CustomButton,
+  CustomStatusBar,
+  Validate,
+} from '../../../components';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
@@ -30,19 +35,19 @@ import {
   NavigationContainer,
   useIsFocused,
   DrawerActions,
-  useFocusEffect
+  useFocusEffect,
 } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import RBSheet from "react-native-raw-bottom-sheet";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
 
@@ -52,9 +57,6 @@ interface HomeScreenProps {
   navigation: any;
   route: any;
 }
-
-
-
 
 const HomeScreen = (props: HomeScreenProps) => {
   const isFocused = useIsFocused();
@@ -95,7 +97,6 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [isModalVisibleno, setModalVisibleNo] = useState(false);
   const [isModalVisiblerollno, setModalVisibleRollNo] = useState(false);
 
-
   const [cityname, onChangecityname] = useState('');
   const [cityid, onSetCityid] = useState('');
   const [stateid, onSetStateid] = useState('');
@@ -103,7 +104,6 @@ const HomeScreen = (props: HomeScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [pronouncustom, setpronoun] = useState('');
   const [pronouncustomcustom_gender, setpronouncustom_gender] = useState('');
-
 
   function handleBackButtonClick() {
     Alert.alert(
@@ -115,9 +115,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -126,10 +126,8 @@ const HomeScreen = (props: HomeScreenProps) => {
     setModalVisible(!isModalVisible);
     setCityData([]);
     onChangecityname('');
-
   };
   const toggleModalNo = async (id, admission_number) => {
-
     //console.log('school_id', admission_number)
     setModalVisibleNo(!isModalVisibleno);
     setSchoolid(id);
@@ -137,18 +135,13 @@ const HomeScreen = (props: HomeScreenProps) => {
     if (admission_number != null) {
       setAddmissionnumber(admission_number);
       setoldvalue(admission_number);
-
-
-    }
-    else {
+    } else {
       setAddmissionnumber('');
       setoldvalue('');
     }
   };
 
   const toggleModalRollNo = async (class_id, course_id, roll_no) => {
-
-
     setModalVisibleRollNo(!isModalVisiblerollno);
 
     setRollNo(roll_no);
@@ -159,7 +152,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+  };
 
   const onRefresh = React.useCallback(() => {
     getEducationProfile();
@@ -167,10 +160,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     wait(1000).then(() => setRefreshing(false));
   }, []);
 
-
-
   useEffect(() => {
-
     //console.log('props.route.params.user_id ',props.route.params )
 
     // UserCourseDelete();
@@ -182,10 +172,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     BackHandler.addEventListener('hardwareBackPress', handleBackBut);
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackBut,
-      );
+      BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
     };
   }, []);
 
@@ -193,7 +180,6 @@ const HomeScreen = (props: HomeScreenProps) => {
     props.navigation.goBack();
     return true;
   }
-
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -233,7 +219,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
           color={'white'}
         />
       </View>
@@ -253,28 +239,19 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     var Profile = [];
     result.data.map((element: any) => {
-
-
       // var obj = {
       //   id: element.first_name,
       // }
       Profile.push(element.work_detail);
     });
 
-    getdataWorkDetails2(Profile)
-
-
-
-
-
+    getdataWorkDetails2(Profile);
   };
 
   const getdataWorkDetails2 = async result => {
-
     // console.log('Profileelement1',result)
 
     result.map((element: any) => {
-
       setDataCourseInWorkList(element);
 
       // console.log('Profileelement',element)
@@ -283,9 +260,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       //   id: element.first_name,
       // }
     });
-
-  }
-
+  };
 
   const DeleteSchool = async id => {
     Alert.alert(
@@ -297,13 +272,12 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: () => Coursedelete(id) },
+        {text: 'Yes', onPress: () => Coursedelete(id)},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
-
 
   const DeleteWork = async id => {
     Alert.alert(
@@ -315,13 +289,12 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: () => DeleteWorkDetails(id) },
+        {text: 'Yes', onPress: () => DeleteWorkDetails(id)},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
-
 
   const DeleteCourse = async id => {
     Alert.alert(
@@ -333,14 +306,12 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: () => Coursedeletestandard(id) },
+        {text: 'Yes', onPress: () => Coursedeletestandard(id)},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   };
-
-
 
   /***************************User get Course Delete Before Conformation *******************************/
 
@@ -365,20 +336,23 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserCourseDeleteBeforConformation({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
             console.warn(
               'after result.....2',
               JSON.stringify(result, undefined, 2),
             );
-            props.navigation.navigate('EIconfirmation', { 'course_id': course_id, 'login': true, 'LoginfromEducationProfile': true });
+            props.navigation.navigate('EIconfirmation', {
+              course_id: course_id,
+              login: true,
+              LoginfromEducationProfile: true,
+            });
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
             setLoading(false);
-
           } else {
             setLoading(false);
             console.warn(JSON.stringify(error, undefined, 2));
@@ -387,9 +361,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       }),
     );
   };
-
-
-
 
   /***************************User get Delete course list *******************************/
 
@@ -414,7 +385,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getDeleteCourseStandard({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
 
@@ -424,11 +395,10 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   // getdataCourseKey(result)
             //   // getEicourseconfirmationlist(),
 
-
             //   // props.navigation.navigate('SelectStudent'),
             // );
             Toast.show('Course deleted successfully', Toast.SHORT),
-              getEducationProfile()
+              getEducationProfile();
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -451,7 +421,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       }),
     );
   };
-
 
   /***************************User get Delete work details from list *******************************/
 
@@ -476,7 +445,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserDeleteWorkDetail({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
             // console.warn(
@@ -485,11 +454,10 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   // getdataCourseKey(result)
             //   // getEicourseconfirmationlist(),
 
-
             //   // props.navigation.navigate('SelectStudent'),
             // );
             Toast.show('Work Detail Deleted Successfully', Toast.SHORT),
-              getEducationProfile()
+              getEducationProfile();
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -512,8 +480,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       }),
     );
   };
-
-
 
   /***************************User get Delete course list *******************************/
 
@@ -538,7 +504,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getDeleteCourseData({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
             // console.warn(
@@ -547,11 +513,10 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   // getdataCourseKey(result)
             //   // getEicourseconfirmationlist(),
 
-
             //   // props.navigation.navigate('SelectStudent'),
             // );
             Toast.show('School deleted successfully', Toast.SHORT),
-              getEducationProfile()
+              getEducationProfile();
             // setSpinnerStart(false);
           }
           if (!error) {
@@ -575,7 +540,6 @@ const HomeScreen = (props: HomeScreenProps) => {
     );
   };
 
-
   /***************************User Auth User Info*******************************/
 
   const getAuthUserInfoApi = async () => {
@@ -597,7 +561,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result Auth User INfo',
@@ -651,7 +615,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result step count',
@@ -703,7 +667,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       setCity(element.location.city_name);
       setCountry(element.location.country_name);
       setpronoun(element.pronoun);
-      setpronouncustom_gender(element.custom_gender)
+      setpronouncustom_gender(element.custom_gender);
 
       // var obj = {
       //   id: element.first_name,
@@ -711,8 +675,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       // Profile.push(obj);
     });
     _storeData();
-
-
 
     // console.log(',.....................>data',Profile.length)
 
@@ -764,7 +726,6 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   // console.log('dsfsdfds----------------------------->>>>>>>', state)
 
-
   const UserCourseDelete = async () => {
     var token = '';
     try {
@@ -777,7 +738,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       // error reading value
     }
 
-
     const data = {
       token: token,
     };
@@ -787,7 +747,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserCourseDeleteNotConfirm({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after.....>',
@@ -797,8 +757,6 @@ const HomeScreen = (props: HomeScreenProps) => {
             // );
             // setSpinnerStart(false);
             setLoading(false);
-
-
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -821,8 +779,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         },
       }),
     );
-
-  }
+  };
   /***************************User GET Education Profile list *******************************/
 
   const getEducationProfile = async () => {
@@ -846,19 +803,16 @@ const HomeScreen = (props: HomeScreenProps) => {
       userActions.getStudentEducationProfile({
         data,
 
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
             // console.warn(
             //   'after result',
             //   JSON.stringify(result, undefined, 2),
-
 
             // );
             getdataProfile(result),
               getdataCourse(result),
               getdataWorkDetails(result),
-
               setLoading(false);
 
             // setSpinnerStart(false);
@@ -876,13 +830,9 @@ const HomeScreen = (props: HomeScreenProps) => {
     );
   };
 
-
-
   /***************************User GET City Search Name list *******************************/
 
-  const getCity_Model_Search = async (value) => {
-
-
+  const getCity_Model_Search = async value => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -897,7 +847,6 @@ const HomeScreen = (props: HomeScreenProps) => {
     const data = {
       token: token,
       key: value,
-
     };
     //setLoading(true);
 
@@ -905,22 +854,17 @@ const HomeScreen = (props: HomeScreenProps) => {
       userActions.getCitySearch({
         data,
 
-        callback: ({ results, error }) => {
+        callback: ({results, error}) => {
           console.warn(
             'after city result data',
-            results
+            results,
             //  getdataProfile(result),
           );
           if (results && results.length > 0) {
-
             // setSpinnerStart(false);
-            setCityData(results),
-
-              setLoading(false);
-          }
-          else if (results && results.length == []) {
-            setCityData([])
-
+            setCityData(results), setLoading(false);
+          } else if (results && results.length == []) {
+            setCityData([]);
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -935,27 +879,17 @@ const HomeScreen = (props: HomeScreenProps) => {
     );
   };
 
-
-
   /***************************User GET City State Model Submit *******************************/
 
   const onPressModalSubmit = async () => {
-
     const citynameError = Validate('cityname', cityname);
 
-    if (
-      citynameError
-
-    ) {
+    if (citynameError) {
       //this._scrollView.scrollTo(0);
-      Toast.show(
-        citynameError,
-        Toast.SHORT,
-      );
+      Toast.show(citynameError, Toast.SHORT);
 
       return false;
     } else {
-
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -972,7 +906,6 @@ const HomeScreen = (props: HomeScreenProps) => {
         city_id: cityid,
         country_id: countryid,
         state_id: stateid,
-
       };
       setLoading(true);
 
@@ -980,7 +913,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getAddcitystateofuser({
           data,
 
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
               setLoading(false);
 
@@ -1010,29 +943,20 @@ const HomeScreen = (props: HomeScreenProps) => {
           },
         }),
       );
-    };
-  }
-
+    }
+  };
 
   /***************************User GET Admission Number Model Submit *******************************/
 
   const onPressModalSubmitRollNo = async () => {
-
     const schoolidError = Validate('rollno_', rollno);
 
-    if (
-      schoolidError
-
-    ) {
+    if (schoolidError) {
       //this._scrollView.scrollTo(0);
-      Toast.show(
-        schoolidError,
-        Toast.SHORT,
-      );
+      Toast.show(schoolidError, Toast.SHORT);
 
       return false;
     } else {
-
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -1050,9 +974,8 @@ const HomeScreen = (props: HomeScreenProps) => {
         course_id: course_id,
         class_id: class_id,
         value: rollno,
-        key: "roll_no",
+        key: 'roll_no',
       };
-
 
       setLoading(true);
 
@@ -1060,9 +983,8 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getUsereditadmissionrollnotwo({
           data,
 
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
-
               setLoading(false);
 
               // console.warn(
@@ -1089,28 +1011,20 @@ const HomeScreen = (props: HomeScreenProps) => {
           },
         }),
       );
-    };
-  }
+    }
+  };
 
   /***************************User GET Admission Number Model Submit *******************************/
 
   const onPressModalSubmitAdmissionNo = async () => {
-
     const schoolidError = Validate('addmissionno', addmissionnumber);
 
-    if (
-      schoolidError
-
-    ) {
+    if (schoolidError) {
       //this._scrollView.scrollTo(0);
-      Toast.show(
-        schoolidError,
-        Toast.SHORT,
-      );
+      Toast.show(schoolidError, Toast.SHORT);
 
       return false;
     } else {
-
       var token = '';
       try {
         const value = await AsyncStorage.getItem('tokenlogin');
@@ -1127,8 +1041,8 @@ const HomeScreen = (props: HomeScreenProps) => {
         old_value: oldvalue,
         school_id: schoolid,
         value: addmissionnumber,
-        class_id: "",
-        key: "admission_number",
+        class_id: '',
+        key: 'admission_number',
       };
       setLoading(true);
 
@@ -1136,9 +1050,8 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getUsereditadmissionrollno({
           data,
 
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
-
               setLoading(false);
 
               // console.warn(
@@ -1165,25 +1078,20 @@ const HomeScreen = (props: HomeScreenProps) => {
           },
         }),
       );
-    };
-  }
+    }
+  };
 
-
-
-  const getSearchcitydata = async (value) => {
-
+  const getSearchcitydata = async value => {
     onChangecityname(value);
 
     if (value.length > 2) {
       getCity_Model_Search(value);
-
     } else if (value.length < 3) {
       setCityData([]);
     }
-  }
+  };
 
   const Setcitynametext = async item => {
-
     onChangecityname(item.display);
 
     onSetCityid(item.id);
@@ -1192,13 +1100,10 @@ const HomeScreen = (props: HomeScreenProps) => {
 
     onSetCountryid(item.country_id);
 
-
     setCityData([]);
-
-  }
+  };
 
   const rednderItemListcitydata = (item, index) => {
-
     return (
       <CardView
         cardElevation={10}
@@ -1209,13 +1114,20 @@ const HomeScreen = (props: HomeScreenProps) => {
           underlayColor="none"
           onPress={() => Setcitynametext(item)}>
           <View>
-            <Text style={{ textAlign: 'left', color: '#000', fontSize: 16, marginTop: 7 }}>{item.display}</Text>
+            <Text
+              style={{
+                textAlign: 'left',
+                color: '#000',
+                fontSize: 16,
+                marginTop: 7,
+              }}>
+              {item.display}
+            </Text>
           </View>
         </TouchableOpacity>
       </CardView>
-    )
-  }
-
+    );
+  };
 
   const rednderItemList = (item, index) => {
     return (
@@ -1228,310 +1140,406 @@ const HomeScreen = (props: HomeScreenProps) => {
                 cardMaxElevation={1}
                 cornerRadius={10}
                 style={styles.Cardviewcopy1}>
-                {i.school_name_display == true ? <View>
-
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={styles.Personal_Tvheader}>School Details</Text>
-                    {kyc_approved == '1' && i.approved == 0 && i.is_onboard == true && i.is_students_verified == true && i.is_active_subscription == true ? <TouchableOpacity style={{
-                      backgroundColor: '#333A41',
-                      width: 64,
-                      height: 27,
-                      marginTop: 16,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      //  borderRadius: 20,
-                      // marginLeft: 20,
-                    }}
-                      onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id, 'getVerify': 1 })}>
-                      <Text style={{ color: 'white', fontSize: 11 }}>Get Verified</Text>
-                    </TouchableOpacity> : null}
-
-
-                    {i.approved == 2 && i.is_rejected == true && i.is_active_subscription == true ? <TouchableOpacity style={{
-                      backgroundColor: '#333A41',
-                      //width: 100,
-                      height: 27,
-                      marginTop: 16,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      //  borderRadius: 20,
-                      // marginLeft: 20,
-                    }}
-                      onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 're_verify': true, 'loginkey': 'loginkey', 'ei_request_count': 0 })}
-                    // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
-                    >
-                      <Text style={{ color: 'white', fontSize: 12, marginLeft: 5, marginRight: 5 }}>Resend for Verification</Text>
-                    </TouchableOpacity> : null}
-
-
-                    <View style={{ flexDirection: 'row' }}>
-
-                      {i.approved == 1 ? <TouchableOpacity
-                        underlayColor="none"
-                        onPress={() => props.navigation.navigate('CoursesPendingScreen', { 'school_id': i.school_id })}>
-
-                        <Image
+                {i.school_name_display == true ? (
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text style={styles.Personal_Tvheader}>
+                        School Details
+                      </Text>
+                      {kyc_approved == '1' &&
+                      i.approved == 0 &&
+                      i.is_onboard == true &&
+                      i.is_students_verified == true &&
+                      i.is_active_subscription == true ? (
+                        <TouchableOpacity
                           style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 15,
-                            //  marginLeft: 20,
-                            marginRight: 15,
+                            backgroundColor: '#333A41',
+                            width: 64,
+                            height: 27,
+                            marginTop: 16,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            //  borderRadius: 20,
+                            // marginLeft: 20,
                           }}
-                          source={Images.pending}
-                        />
+                          onPress={() =>
+                            props.navigation.navigate('GetVerifyWebView', {
+                              user_id: props.route.params.user_id,
+                              school_id: i.school_id,
+                              id: i.firebase_id,
+                              getVerify: 1,
+                            })
+                          }>
+                          <Text style={{color: 'white', fontSize: 11}}>
+                            Get Verified
+                          </Text>
+                        </TouchableOpacity>
+                      ) : null}
 
-                      </TouchableOpacity> : null}
-
-                      {kyc_approved == '1' && i.firebase_id != null && i.approved != 2 ? <TouchableOpacity
-                        underlayColor="none"
-                        // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
-                        onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id, 'school_id': i.school_id, 'id': i.firebase_id, 'getVerify': 0 })}>
-
-                        <Icon name="chat" size={32} color="#00B031" style={{
-
-                          marginTop: 12,
-                          marginRight: 15,
-                        }} />
-                      </TouchableOpacity> : null}
-
-                      {i.approved != '1' && i.approved != 2 ? (<TouchableOpacity
-                        underlayColor="none"
-                        onPress={() => DeleteSchool(i.school_id)}>
-
-                        <Image
+                      {i.approved == 2 &&
+                      i.is_rejected == true &&
+                      i.is_active_subscription == true ? (
+                        <TouchableOpacity
                           style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 15,
-                            //  marginLeft: 20,
-                            marginRight: 15,
+                            backgroundColor: '#333A41',
+                            //width: 100,
+                            height: 27,
+                            marginTop: 16,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            //  borderRadius: 20,
+                            // marginLeft: 20,
                           }}
-                          source={Images.delete_icon}
-                        />
-                      </TouchableOpacity>) : null}
+                          onPress={() =>
+                            props.navigation.navigate('SelectStudent', {
+                              data: false,
+                              re_verify: true,
+                              loginkey: 'loginkey',
+                              ei_request_count: 0,
+                            })
+                          }
+                          // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
+                        >
+                          <Text
+                            style={{
+                              color: 'white',
+                              fontSize: 12,
+                              marginLeft: 5,
+                              marginRight: 5,
+                            }}>
+                            Resend for Verification
+                          </Text>
+                        </TouchableOpacity>
+                      ) : null}
 
-                      {i.is_onboard == true && i.approved != 2 ? <TouchableOpacity
-                        underlayColor="none"
-                        onPress={() => props.navigation.navigate('SelectStudentFromLogin', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
-                      >
-                        <Image
-                          style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 15,
-                            //  marginLeft: 20,
-                            marginRight: 15,
-                          }}
-                          source={Images.add_more}
-                        />
-                      </TouchableOpacity> : i.approved != 2 ? <TouchableOpacity
-                        underlayColor="none"
-                        onPress={() => props.navigation.navigate('AddCourseDetailsOthers', { 'nameofschool': i.name_of_school, 'school_zatchup_id': i.school_code, 'school_id': i.school_id, 'true': true })}
-                      >
-                        <Image
-                          style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 15,
-                            //  marginLeft: 20,
-                            marginRight: 15,
-                          }}
-                          source={Images.add_more}
-                        />
-                      </TouchableOpacity> : null}
-                    </View>
+                      <View style={{flexDirection: 'row'}}>
+                        {i.approved == 1 ? (
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() =>
+                              props.navigation.navigate(
+                                'CoursesPendingScreen',
+                                {school_id: i.school_id},
+                              )
+                            }>
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+                                marginTop: 15,
+                                //  marginLeft: 20,
+                                marginRight: 15,
+                              }}
+                              source={Images.pending}
+                            />
+                          </TouchableOpacity>
+                        ) : null}
 
-                    {/* <Image
+                        {kyc_approved == '1' &&
+                        i.firebase_id != null &&
+                        i.approved != 2 ? (
+                          <TouchableOpacity
+                            underlayColor="none"
+                            // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
+                            onPress={() =>
+                              props.navigation.navigate('GetVerifyWebView', {
+                                user_id: props.route.params.user_id,
+                                school_id: i.school_id,
+                                id: i.firebase_id,
+                                getVerify: 0,
+                              })
+                            }>
+                            <Icon
+                              name="chat"
+                              size={32}
+                              color="#00B031"
+                              style={{
+                                marginTop: 12,
+                                marginRight: 15,
+                              }}
+                            />
+                          </TouchableOpacity>
+                        ) : null}
+
+                        {i.approved != '1' && i.approved != 2 ? (
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() => DeleteSchool(i.school_id)}>
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+                                marginTop: 15,
+                                //  marginLeft: 20,
+                                marginRight: 15,
+                              }}
+                              source={Images.delete_icon}
+                            />
+                          </TouchableOpacity>
+                        ) : null}
+
+                        {i.is_onboard == true && i.approved != 2 ? (
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() =>
+                              props.navigation.navigate(
+                                'SelectStudentFromLogin',
+                                {
+                                  nameofschool: i.name_of_school,
+                                  school_zatchup_id: i.school_code,
+                                  school_id: i.school_id,
+                                  true: true,
+                                },
+                              )
+                            }>
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+                                marginTop: 15,
+                                //  marginLeft: 20,
+                                marginRight: 15,
+                              }}
+                              source={Images.add_more}
+                            />
+                          </TouchableOpacity>
+                        ) : i.approved != 2 ? (
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() =>
+                              props.navigation.navigate(
+                                'AddCourseDetailsOthers',
+                                {
+                                  nameofschool: i.name_of_school,
+                                  school_zatchup_id: i.school_code,
+                                  school_id: i.school_id,
+                                  true: true,
+                                },
+                              )
+                            }>
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+                                marginTop: 15,
+                                //  marginLeft: 20,
+                                marginRight: 15,
+                              }}
+                              source={Images.add_more}
+                            />
+                          </TouchableOpacity>
+                        ) : null}
+                      </View>
+
+                      {/* <Image
                   style={styles.editicon1}
                   source={Images.delete}
                 /> */}
-                  </View>
-                  <View
-                    style={{
-                      height: 1,
-                      width: '78%',
-                      marginLeft: 20,
-                      // marginTop:10,
-                      backgroundColor: '#E5E5E5',
-                    }}
-                  />
+                    </View>
+                    <View
+                      style={{
+                        height: 1,
+                        width: '78%',
+                        marginLeft: 20,
+                        // marginTop:10,
+                        backgroundColor: '#E5E5E5',
+                      }}
+                    />
 
+                    <View style={styles.underview} />
+                    <View>
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>School Name :</Text>
 
-                  <View style={styles.underview} />
-                  <View>
-                    <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>School Name :</Text>
+                        <Text
+                          style={{
+                            marginTop: 5,
+                            fontSize: 18,
+                            marginLeft: 5,
+                            color: '#565656',
+                            flex: 1,
+                            flexWrap: 'wrap',
+                          }}>
+                          {i.name_of_school}
+                        </Text>
 
-                      <Text
-                        style={{
-                          marginTop: 5,
-                          fontSize: 18,
-                          marginLeft: 5,
-                          color: '#565656',
-                          flex: 1,
-                          flexWrap: 'wrap',
-                        }}>
-                        {i.name_of_school}
-                      </Text>
+                        {i.approved == '1' ? (
+                          <Image
+                            style={styles.editicon2}
+                            source={Images.blue_tick}
+                          />
+                        ) : null}
+                      </View>
+                      {i.school_code != null ? (
+                        <View style={styles.view_Row}>
+                          <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
+                          <Text style={styles.view_Tv_2}>{i.school_code}</Text>
+                        </View>
+                      ) : null}
 
-                      {i.approved == '1' ? (
-                        <Image
-                          style={styles.editicon2}
-                          source={Images.blue_tick}
-                        />
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>State :</Text>
+                        <Text style={styles.view_Tv_2}>{i.state}</Text>
+                      </View>
+                      <View style={styles.view_Row}>
+                        <Text style={styles.view_Tv_1}>City :</Text>
+                        <Text style={styles.view_Tv_2}>{i.city}</Text>
+                      </View>
+
+                      {i.is_onboard == true ? (
+                        <View style={styles.view_Row}>
+                          <Text style={styles.view_Tv_1}>School Address :</Text>
+                          <Text style={styles.view_Tv_2}>
+                            {i.address1 + ' ' + i.address2}
+                          </Text>
+                        </View>
+                      ) : null}
+
+                      {i.pincode != '' ? (
+                        <View style={styles.view_Row}>
+                          <Text style={styles.view_Tv_1}>Pincode :</Text>
+                          <Text style={styles.view_Tv_2}>{i.pincode}</Text>
+                        </View>
+                      ) : null}
+
+                      {i.admission_number != null && i.is_onboard == true ? (
+                        <View style={styles.view_Row}>
+                          <Text style={styles.view_Tv_1}>
+                            Admission Number :
+                          </Text>
+                          <TouchableOpacity underlayColor="none">
+                            <Text style={styles.view_Tv_k}>
+                              {i.admission_number}
+                            </Text>
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() =>
+                              toggleModalNo(i.school_id, i.admission_number)
+                            }>
+                            <Image
+                              style={{
+                                height: 15,
+                                width: 15,
+                                marginTop: Platform.OS === 'ios' ? 8 : 10,
+                                marginLeft: 4,
+                              }}
+                              source={Images.edit_icon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      ) : i.admission_number == null && i.is_onboard == true ? (
+                        <View style={styles.view_Row}>
+                          <Text style={styles.view_Tv_1}>
+                            Admission Number :
+                          </Text>
+                          <TouchableOpacity
+                            underlayColor="none"
+                            onPress={() => toggleModalNo(i.school_id)}>
+                            <Image
+                              style={{
+                                height: 28,
+                                width: 28,
+                                marginTop: 5,
+                                marginLeft: 15,
+                                marginRight: 15,
+                              }}
+                              source={Images.add_more}
+                            />
+                          </TouchableOpacity>
+                        </View>
                       ) : null}
                     </View>
-                    {i.school_code != null ? <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
-                      <Text style={styles.view_Tv_2}>{i.school_code}</Text>
-                    </View> : null}
+                    <View
+                      style={{
+                        height: 1,
+                        width: '80%',
+                        marginLeft: 20,
+                        marginTop: 10,
+                        backgroundColor: '#E5E5E5',
+                      }}
+                    />
 
-                    <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>State :</Text>
-                      <Text style={styles.view_Tv_2}>{i.state}</Text>
-                    </View>
-                    <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>City :</Text>
-                      <Text style={styles.view_Tv_2}>{i.city}</Text>
-                    </View>
+                    <View style={styles.underview_} />
 
-                    {i.is_onboard == true ? <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>School Address :</Text>
-                      <Text style={styles.view_Tv_2}>
-                        {i.address1 + ' ' + i.address2}
-                      </Text>
-                    </View> : null}
+                    {i.course_detail &&
+                      i.course_detail.map(course => {
+                        return (
+                          <View>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                              }}>
+                              <Text style={styles.Personal_Tv}>
+                                Course Details
+                              </Text>
 
+                              <View style={{flexDirection: 'row'}}>
+                                {i.approved != 2 ? (
+                                  <TouchableOpacity
+                                    underlayColor="none"
+                                    //onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
 
-                    {i.pincode != '' ? <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>Pincode :</Text>
-                      <Text style={styles.view_Tv_2}>
-                        {i.pincode}
-                      </Text>
-                    </View> : null}
+                                    onPress={() =>
+                                      CourseDeleteBeforeConformation(
+                                        course.course_id,
+                                      )
+                                    }>
+                                    <Image
+                                      style={{
+                                        height: 28,
+                                        width: 28,
+                                        marginTop: 10,
+                                        marginRight: 15,
+                                      }}
+                                      source={Images.edit_icon}
+                                    />
+                                  </TouchableOpacity>
+                                ) : null}
 
-                    {i.admission_number != null && i.is_onboard == true ? <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>
-                        Admission Number :
-                      </Text>
-                      <TouchableOpacity
-                        underlayColor="none"
-                      >
-                        <Text style={styles.view_Tv_k}>{i.admission_number}</Text>
-                      </TouchableOpacity>
-
-                      <TouchableOpacity
-                        underlayColor="none"
-
-                        onPress={() => toggleModalNo(i.school_id, i.admission_number)}
-                      >
-
-                        <Image
-                          style={{
-                            height: 15,
-                            width: 15,
-                            marginTop: Platform.OS === 'ios' ? 8 : 10,
-                            marginLeft: 4,
-                          }}
-                          source={Images.edit_icon}
-                        />
-                      </TouchableOpacity>
-
-
-                    </View> : i.admission_number == null && i.is_onboard == true ? <View style={styles.view_Row}>
-                      <Text style={styles.view_Tv_1}>
-                        Admission Number :
-                      </Text>
-                      <TouchableOpacity
-                        underlayColor="none"
-                        onPress={() => toggleModalNo(i.school_id)}
-                      >
-                        <Image
-                          style={{
-                            height: 28,
-                            width: 28,
-                            marginTop: 5,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}
-                          source={Images.add_more}
-                        />
-                      </TouchableOpacity>
-                    </View> : null}
-                  </View>
-                  <View
-                    style={{
-                      height: 1,
-                      width: '80%',
-                      marginLeft: 20,
-                      marginTop: 10,
-                      backgroundColor: '#E5E5E5',
-                    }}
-                  />
-
-                  <View style={styles.underview_} />
-
-                  {i.course_detail &&
-                    i.course_detail.map(course => {
-                      return (
-                        <View>
-                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={styles.Personal_Tv}>Course Details</Text>
-
-                            <View style={{ flexDirection: 'row' }}>
-
-                              {i.approved != 2 ? <TouchableOpacity
-                                underlayColor="none"
-                                //onPress={() => props.navigation.navigate('EIconfirmation', { 'course_id': course.course_id, 'login': true })}
-
-                                onPress={() => CourseDeleteBeforeConformation(course.course_id)}
-                              >
-
-                                <Image
-                                  style={{
-                                    height: 28,
-                                    width: 28,
-                                    marginTop: 10,
-                                    marginRight: 15,
-                                  }}
-                                  source={Images.edit_icon}
-                                />
-                              </TouchableOpacity> : null}
-
-                              {i.approved != '1' && i.approved != 2 ? <TouchableOpacity
-                                underlayColor="none"
-                                onPress={() => DeleteCourse(course.course_id)}
-                              >
-                                <Image
-                                  style={{
-                                    height: 28,
-                                    width: 28,
-                                    marginTop: 10,
-                                    //  marginLeft: 20,
-                                    marginRight: 15,
-                                  }}
-                                  source={Images.delete_icon}
-                                />
-                              </TouchableOpacity> : null}
-                            </View>
-                            {/* <TouchableOpacity>
+                                {i.approved != '1' && i.approved != 2 ? (
+                                  <TouchableOpacity
+                                    underlayColor="none"
+                                    onPress={() =>
+                                      DeleteCourse(course.course_id)
+                                    }>
+                                    <Image
+                                      style={{
+                                        height: 28,
+                                        width: 28,
+                                        marginTop: 10,
+                                        //  marginLeft: 20,
+                                        marginRight: 15,
+                                      }}
+                                      source={Images.delete_icon}
+                                    />
+                                  </TouchableOpacity>
+                                ) : null}
+                              </View>
+                              {/* <TouchableOpacity>
                               <Image
                                 style={styles.editicon1}
                                 source={Images.edit_icon}
                               />
                             </TouchableOpacity> */}
-                          </View>
-                          <View style={styles.underview_} />
-                          <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>Name of Course :</Text>
-                            <Text style={styles.view_Tv_2}>
-                              {course.course_name}
-                            </Text>
-                          </View>
+                            </View>
+                            <View style={styles.underview_} />
+                            <View style={styles.view_Row}>
+                              <Text style={styles.view_Tv_1}>
+                                Name of Course :
+                              </Text>
+                              <Text style={styles.view_Tv_2}>
+                                {course.course_name}
+                              </Text>
+                            </View>
 
-                          {
-                            course.is_current_course == true ? (
+                            {course.is_current_course == true ? (
                               <View style={styles.view_Row}>
                                 <Text style={styles.view_Tv_1}>
                                   Course Duration :
@@ -1549,148 +1557,153 @@ const HomeScreen = (props: HomeScreenProps) => {
                                   {course.start_year + ' - ' + course.end_year}
                                 </Text>
                               </View>
-                            )
-                          }
+                            )}
 
-                          <View style={styles.view_Row}>
-                            <Text style={styles.view_Tv_1}>Course Tenure :</Text>
-                            <Text style={styles.view_Tv_2}>
-                              {course.duration}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              height: 1,
-                              width: '80%',
-                              marginLeft: 20,
-                              marginTop: 10,
-                              backgroundColor: '#E5E5E5',
-                            }}
-                          />
+                            <View style={styles.view_Row}>
+                              <Text style={styles.view_Tv_1}>
+                                Course Tenure :
+                              </Text>
+                              <Text style={styles.view_Tv_2}>
+                                {course.duration}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                height: 1,
+                                width: '80%',
+                                marginLeft: 20,
+                                marginTop: 10,
+                                backgroundColor: '#E5E5E5',
+                              }}
+                            />
 
-                          <View style={styles.underview_} />
-                          {course.standard_detail ? <Text style={styles.Personal_Tv}>
-                            Standard Details
-                          </Text> : null}
-                          <View style={styles.underview_} />
-                          {
-                            course.standard_detail &&
-                            course.standard_detail.map(standard => {
-                              return (
-                                <View>
+                            <View style={styles.underview_} />
+                            {course.standard_detail ? (
+                              <Text style={styles.Personal_Tv}>
+                                Standard Details
+                              </Text>
+                            ) : null}
+                            <View style={styles.underview_} />
+                            {course.standard_detail &&
+                              course.standard_detail.map(standard => {
+                                return (
+                                  <View>
+                                    {standard.is_current_standard == true ? (
+                                      <View style={styles.view_Row}>
+                                        <Text style={styles.view_Tv_1}>
+                                          Standard :
+                                        </Text>
+                                        <Text style={styles.view_Tv_2}>
+                                          {standard.standard_name +
+                                            ' ' +
+                                            '(' +
+                                            standard.standard_start_year +
+                                            '-' +
+                                            'To Current' +
+                                            ')'}
+                                        </Text>
+                                      </View>
+                                    ) : (
+                                      <View style={styles.view_Row}>
+                                        <Text style={styles.view_Tv_1}>
+                                          Standard :
+                                        </Text>
+                                        <Text style={styles.view_Tv_2}>
+                                          {standard.standard_name +
+                                            ' ' +
+                                            '(' +
+                                            standard.standard_start_year +
+                                            ' - ' +
+                                            standard.standard_end_year +
+                                            ')'}
+                                        </Text>
+                                      </View>
+                                    )}
 
-
-                                  {standard.is_current_standard == true ? (
-                                    <View style={styles.view_Row}>
-                                      <Text style={styles.view_Tv_1}>
-                                        Standard :
-                                      </Text>
-                                      <Text style={styles.view_Tv_2}>
-                                        {standard.standard_name +
-                                          ' ' +
-                                          '(' +
-                                          standard.standard_start_year +
-                                          '-' +
-                                          'To Current' + ')'}
-                                      </Text>
-                                    </View>
-                                  ) : (
-                                    <View style={styles.view_Row}>
-                                      <Text style={styles.view_Tv_1}>
-                                        Standard :
-                                      </Text>
-                                      <Text style={styles.view_Tv_2}>
-                                        {standard.standard_name + ' ' +
-
-                                          '(' + standard.standard_start_year + ' - ' + standard.standard_end_year + ')'}
-                                      </Text>
-                                    </View>
-                                  )}
-
-                                  {/* &&  standard.is_current_standard == true */}
-                                  {standard.class_detail != [] ? (
-                                    <View>
-                                      {standard.class_detail.map(class_i => {
-                                        return (
-                                          <View>
-                                            <View style={styles.view_Row}>
-                                              <Text style={styles.view_Tv_1}>
-                                                Class (Sub-Section) :
-                                              </Text>
-                                              <Text style={styles.view_Tv_2}>
-                                                {class_i.class_name}
-                                              </Text>
-                                            </View>
-
-                                            <View style={styles.view_Row}>
-                                              <Text style={styles.view_Tv_1}>
-                                                Class Alias :
-                                              </Text>
-                                              <Text style={styles.view_Tv_2}>
-                                                {class_i.alias_class}
-                                              </Text>
-                                            </View>
-                                            <View style={styles.view_Row}>
-                                              <Text style={styles.view_Tv_1}>
-                                                Roll Number :
-                                              </Text>
-                                              <TouchableOpacity
-                                                underlayColor="none"
-                                              >
-                                                <Text style={styles.view_Tv_2}>
-                                                  {class_i.roll_no}
+                                    {/* &&  standard.is_current_standard == true */}
+                                    {standard.class_detail != [] ? (
+                                      <View>
+                                        {standard.class_detail.map(class_i => {
+                                          return (
+                                            <View>
+                                              <View style={styles.view_Row}>
+                                                <Text style={styles.view_Tv_1}>
+                                                  Class (Sub-Section) :
                                                 </Text>
+                                                <Text style={styles.view_Tv_2}>
+                                                  {class_i.class_name}
+                                                </Text>
+                                              </View>
 
-                                              </TouchableOpacity>
+                                              <View style={styles.view_Row}>
+                                                <Text style={styles.view_Tv_1}>
+                                                  Class Alias :
+                                                </Text>
+                                                <Text style={styles.view_Tv_2}>
+                                                  {class_i.alias_class}
+                                                </Text>
+                                              </View>
+                                              <View style={styles.view_Row}>
+                                                <Text style={styles.view_Tv_1}>
+                                                  Roll Number :
+                                                </Text>
+                                                <TouchableOpacity underlayColor="none">
+                                                  <Text
+                                                    style={styles.view_Tv_2}>
+                                                    {class_i.roll_no}
+                                                  </Text>
+                                                </TouchableOpacity>
 
-
-                                              <TouchableOpacity
-                                                underlayColor="none"
-
-                                                onPress={() => toggleModalRollNo(class_i.class_id, course.course_id, class_i.roll_no)}
-                                              >
-
-                                                <Image
-                                                  style={{
-                                                    height: 15,
-                                                    width: 15,
-                                                    marginTop: Platform.OS === 'ios' ? 8 : 10,
-                                                    marginLeft: 4,
-                                                  }}
-                                                  source={Images.edit_icon}
-                                                />
-                                              </TouchableOpacity>
-
+                                                <TouchableOpacity
+                                                  underlayColor="none"
+                                                  onPress={() =>
+                                                    toggleModalRollNo(
+                                                      class_i.class_id,
+                                                      course.course_id,
+                                                      class_i.roll_no,
+                                                    )
+                                                  }>
+                                                  <Image
+                                                    style={{
+                                                      height: 15,
+                                                      width: 15,
+                                                      marginTop:
+                                                        Platform.OS === 'ios'
+                                                          ? 8
+                                                          : 10,
+                                                      marginLeft: 4,
+                                                    }}
+                                                    source={Images.edit_icon}
+                                                  />
+                                                </TouchableOpacity>
+                                              </View>
                                             </View>
-                                          </View>
-                                        );
-                                      })}
-                                    </View>
-                                  ) : null}
+                                          );
+                                        })}
+                                      </View>
+                                    ) : null}
 
-                                  <View style={styles.underview} />
-                                  <View
-                                    style={{
-                                      height: 1,
-                                      width: '80%',
-                                      marginLeft: 20,
-                                      marginTop: 10,
-                                      backgroundColor: '#E5E5E5',
-                                    }}
-                                  />
-
-                                </View>
-                              );
-                            })
-                          }
-                        </View>
-                      );
-                    })}
-                </View> : null}
+                                    <View style={styles.underview} />
+                                    <View
+                                      style={{
+                                        height: 1,
+                                        width: '80%',
+                                        marginLeft: 20,
+                                        marginTop: 10,
+                                        backgroundColor: '#E5E5E5',
+                                      }}
+                                    />
+                                  </View>
+                                );
+                              })}
+                          </View>
+                        );
+                      })}
+                  </View>
+                ) : null}
               </CardView>
             );
-          })
-        }
+          })}
       </>
     );
   };
@@ -1704,7 +1717,6 @@ const HomeScreen = (props: HomeScreenProps) => {
       }}
     />
   );
-
 
   const ItemSepratorcity = () => (
     <View
@@ -1721,12 +1733,10 @@ const HomeScreen = (props: HomeScreenProps) => {
     return true;
   };
 
-
-
   const OpenCamera = () => {
     ImagePicker.openCamera({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true,
     }).then(image => {
       let parts = image.path.split('/');
@@ -1741,14 +1751,11 @@ const HomeScreen = (props: HomeScreenProps) => {
       };
       // setImage(file);
       //   setImageFrontName(name)
-      setImageURI(image.path)
-      UploadFile(file)
+      setImageURI(image.path);
+      UploadFile(file);
       refRBSheet.current.close();
-
-
-
     });
-  }
+  };
 
   const getImage = () => {
     ImagePicker.openPicker({
@@ -1771,20 +1778,15 @@ const HomeScreen = (props: HomeScreenProps) => {
       };
       // setImage(file);
       //   setImageFrontName(name)
-      setImageURI(image.path)
-      UploadFile(file)
+      setImageURI(image.path);
+      UploadFile(file);
       refRBSheet.current.close();
-
-
     });
   };
 
-
   /***************************User Upload File*******************************/
 
-
-  const UploadFile = async (file) => {
-
+  const UploadFile = async file => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -1799,11 +1801,11 @@ const HomeScreen = (props: HomeScreenProps) => {
     const data = {
       token: token,
       file_name: file,
-    }
+    };
     dispatch(
       userActions.getUploadFile({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //     'after result upload file',
@@ -1840,15 +1842,9 @@ const HomeScreen = (props: HomeScreenProps) => {
         },
       }),
     );
-  }
+  };
 
-
-
-
-  const AddProfile = async (filename) => {
-
-
-
+  const AddProfile = async filename => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -1860,18 +1856,16 @@ const HomeScreen = (props: HomeScreenProps) => {
       // error reading value
     }
 
-
     const data = {
       token: token,
-      profile_pic: filename
-
-    }
+      profile_pic: filename,
+    };
     setLoading(true);
 
     dispatch(
       userActions.getAddProfilePicInfoEdu({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
 
@@ -1882,7 +1876,6 @@ const HomeScreen = (props: HomeScreenProps) => {
             // );
             Toast.show('Successfully Updated', Toast.SHORT),
               getEducationProfile();
-
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1905,14 +1898,10 @@ const HomeScreen = (props: HomeScreenProps) => {
         },
       }),
     );
-
-  }
-
-
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         {/* <CustomStatusBar /> */}
         {isLoading && renderIndicator()}
@@ -1924,7 +1913,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   borderBottomRightRadius: 15,
           }}>
           <View
-            style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
+            style={{flexDirection: 'row', width: '100%', alignSelf: 'center'}}>
             <TouchableOpacity
               onPress={backPressed}
               style={{
@@ -2029,7 +2018,8 @@ const HomeScreen = (props: HomeScreenProps) => {
           </View>
         </TouchableOpacity>
       </View> */}
-        <ScrollView style={{ flex: 1 }}
+        <ScrollView
+          style={{flex: 1}}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -2037,16 +2027,10 @@ const HomeScreen = (props: HomeScreenProps) => {
               // title="Pull to refresh"
               // tintColor="#fff"
               //  titleColor="#fff"
-              colors={["rgb(70,50,103)"]}
+              colors={['rgb(70,50,103)']}
             />
-
           }>
-
-
-
-          <View >
-
-
+          <View>
             <RBSheet
               ref={refRBSheet}
               // closeOnDragDown={true}
@@ -2059,98 +2043,107 @@ const HomeScreen = (props: HomeScreenProps) => {
               //  openDuration={10}
               customStyles={{
                 wrapper: {
-                  backgroundColor: "transparent"
+                  backgroundColor: 'transparent',
                 },
                 draggableIcon: {
-                  backgroundColor: "#000"
-                }
-              }}
-            >
-              <View style={{
-                flexDirection: 'column',
-                alignContent: 'space-around',
-                //alignItems: 'stretch',
-                //marginTop: 10
+                  backgroundColor: '#000',
+                },
               }}>
-
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignContent: 'space-around',
+                  //alignItems: 'stretch',
+                  //marginTop: 10
+                }}>
                 <TouchableOpacity
                   onPress={() => OpenCamera()}
-                  style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                  <Text style={{ color: '#000', fontSize: 17 }}>{'Open Camera'}</Text>
+                  style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+                  <Text style={{color: '#000', fontSize: 17}}>
+                    {'Open Camera'}
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => getImage()}
-                  style={{ padding: 15, backgroundColor: '#FFFFFF' }} >
-                  <Text style={{ color: '#000', fontSize: 17 }}>{'Open Gallery'}</Text>
+                  style={{padding: 15, backgroundColor: '#FFFFFF'}}>
+                  <Text style={{color: '#000', fontSize: 17}}>
+                    {'Open Gallery'}
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => refRBSheet.current.close()}
-                  style={{ padding: 15, backgroundColor: '#4B2A6A' }} >
-                  <Text style={{ color: '#FFFFFF', fontSize: 17 }}>{'Cancel'}</Text>
+                  style={{padding: 15, backgroundColor: '#4B2A6A'}}>
+                  <Text style={{color: '#FFFFFF', fontSize: 17}}>
+                    {'Cancel'}
+                  </Text>
                 </TouchableOpacity>
-
               </View>
             </RBSheet>
-            {kyc_approved == '1' ? (<TouchableOpacity onPress={() => props.navigation.navigate('PendingRequestScreen')} >
-              <Image
-                style={{
-                  height: 32,
-                  width: 32,
-                  marginTop: 10,
-                  marginRight: 18,
-                  alignSelf: 'flex-end'
-                }}
-                source={Images.pending}
-              />
-            </TouchableOpacity>
+            {kyc_approved == '1' ? (
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate('PendingRequestScreen')
+                }>
+                <Image
+                  style={{
+                    height: 32,
+                    width: 32,
+                    marginTop: 10,
+                    marginRight: 18,
+                    alignSelf: 'flex-end',
+                  }}
+                  source={Images.pending}
+                />
+              </TouchableOpacity>
             ) : null}
             <View style={styles.avatarStyle}>
-
               <TouchableOpacity
                 onPress={() => refRBSheet.current.open()}
-              //onPress={getImage}
-
+                //onPress={getImage}
               >
+                {profilepic != '' && profilepic != null ? (
+                  <View>
+                    <Image
+                      source={{uri: profilepic}}
+                      style={{
+                        height: 100,
+                        width: 100,
+                        resizeMode: 'cover',
+                        borderRadius: 50,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View>
+                    <Image
+                      source={Images.profile_default}
+                      style={{
+                        height: 100,
+                        width: 100,
+                        resizeMode: 'cover',
+                        borderRadius: 50,
+                      }}
+                    />
+                  </View>
+                )}
 
-                {profilepic != '' && profilepic != null ? <View >
-                  <Image
-                    source={{ uri: profilepic }}
+                {profilepic != '' ? (
+                  <View
                     style={{
-                      height: 100,
-                      width: 100,
-                      resizeMode: 'cover',
-                      borderRadius: 50,
-                    }}
-                  />
-
-                </View> : <View >
-                  <Image
-                    source={Images.profile_default}
-                    style={{
-                      height: 100,
-                      width: 100,
-                      resizeMode: 'cover',
-                      borderRadius: 50,
-                    }}
-                  />
-
-                </View>}
-
-                {profilepic != '' ? <View
-                  style={{
-                    height: 25,
-                    width: 25,
-                    borderRadius: 15,
-                    position: 'absolute',
-                    bottom: 5,
-                  }}>
-                  <Image
-                    source={Images.edit_icon}
-                    style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
-                  />
-                </View> : null}
+                      height: 25,
+                      width: 25,
+                      borderRadius: 15,
+                      position: 'absolute',
+                      bottom: 5,
+                    }}>
+                    <Image
+                      source={Images.edit_icon}
+                      style={{height: '80%', width: '80%', resizeMode: 'cover'}}
+                    />
+                  </View>
+                ) : null}
               </TouchableOpacity>
               {kyc_approved == '1' ? (
                 <View
@@ -2163,23 +2156,23 @@ const HomeScreen = (props: HomeScreenProps) => {
                   }}>
                   <Image
                     source={Images.blue_tick}
-                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
+                    style={{height: '100%', width: '100%', resizeMode: 'cover'}}
                   />
                 </View>
               ) : null}
-
             </View>
-
           </View>
           <Text style={styles.textStyle}>{username}</Text>
 
-          {zatchupid != null ? <Text style={styles.textStyle_text}>
-            {'Unique ZatchUp ID ' + ': ' + zatchupid}
-          </Text> : <Text style={styles.textStyle_text}>
-            {'Unique ZatchUp ID ' + ': ' + 'XXXXXXXXX'}
-          </Text>}
-
-
+          {zatchupid != null ? (
+            <Text style={styles.textStyle_text}>
+              {'Unique ZatchUp ID ' + ': ' + zatchupid}
+            </Text>
+          ) : (
+            <Text style={styles.textStyle_text}>
+              {'Unique ZatchUp ID ' + ': ' + 'XXXXXXXXX'}
+            </Text>
+          )}
 
           <View style={styles.view}>
             <CardView
@@ -2188,7 +2181,9 @@ const HomeScreen = (props: HomeScreenProps) => {
               cornerRadius={10}
               style={styles.Cardview}>
               <View style={styles.view_Rowbg}>
-                <Text style={styles.Personal_Tvheader}>Personal Information</Text>
+                <Text style={styles.Personal_Tvheader}>
+                  Personal Information
+                </Text>
               </View>
 
               <View
@@ -2203,7 +2198,11 @@ const HomeScreen = (props: HomeScreenProps) => {
               <View style={styles.underview} />
               <View style={styles.view_Row}>
                 <Text style={styles.view_Tv_1}>DOB :</Text>
-                {dob != '' ? <Text style={styles.view_Tv_2}>{moment(dob).format("YYYY-MM-DD")}</Text> : null}
+                {dob != '' ? (
+                  <Text style={styles.view_Tv_2}>
+                    {moment(dob).format('YYYY-MM-DD')}
+                  </Text>
+                ) : null}
               </View>
 
               {gender == 'M' ? (
@@ -2235,22 +2234,32 @@ const HomeScreen = (props: HomeScreenProps) => {
               </View>
             :null} */}
 
+              {pronouncustom != '' && pronouncustomcustom_gender != '' ? (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>pronoun :</Text>
+                  <Text style={styles.view_Tv_2}>
+                    {pronouncustom +
+                      ' ' +
+                      '(' +
+                      pronouncustomcustom_gender +
+                      ')'}
+                  </Text>
+                </View>
+              ) : null}
 
-              {pronouncustom != '' && pronouncustomcustom_gender != '' ? <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>pronoun :</Text>
-                <Text style={styles.view_Tv_2}>{pronouncustom + ' ' + '(' + pronouncustomcustom_gender + ')'}</Text>
-              </View> : null}
+              {email != '' ? (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>Email :</Text>
+                  <Text style={styles.view_Tv_2}>{email}</Text>
+                </View>
+              ) : null}
 
-              {email != '' ? <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>Email :</Text>
-                <Text style={styles.view_Tv_2}>{email}</Text>
-              </View> : null}
-
-              {phone != '' && phone != null ? <View style={styles.view_Row_}>
-                <Text style={styles.view_Tv_1}>Phone :</Text>
-                <Text style={styles.view_Tv_2}>{phone}</Text>
-              </View> : null}
-
+              {phone != '' && phone != null ? (
+                <View style={styles.view_Row_}>
+                  <Text style={styles.view_Tv_1}>Phone :</Text>
+                  <Text style={styles.view_Tv_2}>{phone}</Text>
+                </View>
+              ) : null}
 
               <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Father's Name :</Text>
@@ -2261,51 +2270,44 @@ const HomeScreen = (props: HomeScreenProps) => {
                 <Text style={styles.view_Tv_1}>Mother's Name :</Text>
                 <Text style={styles.view_Tv_2}>{mothername}</Text>
               </View>
-
-
             </CardView>
-
 
             <CardView
               cardElevation={5}
               cardMaxElevation={5}
               cornerRadius={10}
               style={styles.Cardview}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.Personal_Tv}>Your Current City</Text>
 
-                {country == null ? <TouchableOpacity
-                  underlayColor="none"
-                  onPress={toggleModal}
-                >
-                  <Image
-                    style={{
-                      height: 28,
-                      width: 28,
-                      marginTop: 10,
-                      marginRight: 15,
-                    }}
-                    source={Images.add_more}
-                  />
-                </TouchableOpacity> : <TouchableOpacity
-                  underlayColor="none"
-                  onPress={toggleModal}
-                >
-                  <Image
-                    style={{
-                      height: 28,
-                      width: 28,
+                {country == null ? (
+                  <TouchableOpacity underlayColor="none" onPress={toggleModal}>
+                    <Image
+                      style={{
+                        height: 28,
+                        width: 28,
+                        marginTop: 10,
+                        marginRight: 15,
+                      }}
+                      source={Images.add_more}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity underlayColor="none" onPress={toggleModal}>
+                    <Image
+                      style={{
+                        height: 28,
+                        width: 28,
 
-                      marginTop: 10,
-                      // marginLeft: 20,
-                      marginRight: 15,
-                    }}
-                    source={Images.edit_icon}
-                  />
-                </TouchableOpacity>}
-
-
-
+                        marginTop: 10,
+                        // marginLeft: 20,
+                        marginRight: 15,
+                      }}
+                      source={Images.edit_icon}
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
 
               <View
@@ -2318,34 +2320,26 @@ const HomeScreen = (props: HomeScreenProps) => {
                 }}
               />
 
+              {country != '' && country != null ? (
+                <View>
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>City :</Text>
+                    <Text style={styles.view_Tv_2}>{city}</Text>
+                  </View>
 
-              {country != '' && country != null ? <View>
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>City :</Text>
-                  <Text style={styles.view_Tv_2}>{city}</Text>
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>State :</Text>
+                    <Text style={styles.view_Tv_2}>{state}</Text>
+                  </View>
+
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Country :</Text>
+                    <Text style={styles.view_Tv_2}>{country}</Text>
+                  </View>
                 </View>
+              ) : null}
 
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>State :</Text>
-                  <Text style={styles.view_Tv_2}>{state}</Text>
-                </View>
-
-                <View style={styles.view_Row}>
-                  <Text style={styles.view_Tv_1}>Country :</Text>
-                  <Text style={styles.view_Tv_2}>{country}</Text>
-                </View>
-
-              </View> : null}
-
-
-
-
-
-
-
-              <View
-                style={styles.underview}
-              />
+              <View style={styles.underview} />
               {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>
               <Image
@@ -2355,18 +2349,22 @@ const HomeScreen = (props: HomeScreenProps) => {
             </View> */}
             </CardView>
 
-
             <CardView
               cardElevation={5}
               cardMaxElevation={5}
               cornerRadius={10}
               style={styles.Cardview}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.Personal_Tv}>Work Details</Text>
 
                 <TouchableOpacity
                   underlayColor="none"
-                  onPress={() => props.navigation.navigate('WorkDetailsScreen', { 'data': false })}>
+                  onPress={() =>
+                    props.navigation.navigate('WorkDetailsScreen', {
+                      data: false,
+                    })
+                  }>
                   <Image
                     style={{
                       height: 28,
@@ -2378,7 +2376,6 @@ const HomeScreen = (props: HomeScreenProps) => {
                     source={Images.add_more}
                   />
                 </TouchableOpacity>
-
               </View>
 
               <View
@@ -2391,24 +2388,41 @@ const HomeScreen = (props: HomeScreenProps) => {
                 }}
               />
 
-
-              <View
-                style={styles.underview}
-              />
+              <View style={styles.underview} />
 
               <FlatList
-                style={{ marginBottom: 10 }}
+                style={{marginBottom: 10}}
                 data={setdatafromworklist}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                   <View>
-                    <View style={{ marginTop: 10, paddingHorizontal: 16, flexDirection: 'row', flex: 1 }}>
-                      <Image source={require('../../../assets/images/college2.jpg')}
-                        style={{ height: 80, width: 120, flex: 1.5, borderRadius: 5, resizeMode: 'contain' }}
+                    <View
+                      style={{
+                        marginTop: 10,
+                        paddingHorizontal: 16,
+                        flexDirection: 'row',
+                        flex: 1,
+                      }}>
+                      <Image
+                        source={require('../../../assets/images/college2.jpg')}
+                        style={{
+                          height: 80,
+                          width: 120,
+                          flex: 1.5,
+                          borderRadius: 5,
+                          resizeMode: 'contain',
+                        }}
                       />
-                      <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Text style={{ fontSize: 16, color: '#000' }}>{item.job_title}</Text>
-                          <View style={{ flexDirection: 'row' }}>
+                      <View style={{marginLeft: 10, flex: 3, marginTop: -12}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={{fontSize: 16, color: '#000'}}>
+                            {item.job_title}
+                          </Text>
+                          <View style={{flexDirection: 'row'}}>
                             {/* <Image
                             style={{
                               height: 28,
@@ -2423,7 +2437,6 @@ const HomeScreen = (props: HomeScreenProps) => {
                             <TouchableOpacity
                               underlayColor="none"
                               onPress={() => DeleteWork(item.id)}>
-
                               <Image
                                 style={{
                                   height: 28,
@@ -2436,19 +2449,30 @@ const HomeScreen = (props: HomeScreenProps) => {
                                 source={Images.delete_icon}
                               />
                             </TouchableOpacity>
-
                           </View>
                         </View>
 
-                        <Text style={{ fontSize: 16, }}>{item.company_name}</Text>
-                        {item.is_currently_work == true ? <Text>{item.start_date + ' - ' + 'Present'}</Text> : <Text>{item.start_date + ' - ' + item.end_date}</Text>}
-                        <Text>{item.work_country + '  ' + item.work_state + '  ' + item.work_city}</Text>
+                        <Text style={{fontSize: 16}}>{item.company_name}</Text>
+                        {item.is_currently_work == true ? (
+                          <Text>{item.start_date + ' - ' + 'Present'}</Text>
+                        ) : (
+                          <Text>{item.start_date + ' - ' + item.end_date}</Text>
+                        )}
+                        <Text>
+                          {item.work_country +
+                            '  ' +
+                            item.work_state +
+                            '  ' +
+                            item.work_city}
+                        </Text>
                       </View>
                     </View>
-                    <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15, }}>{item.work_description}</Text>
+                    <Text style={{fontSize: 16, marginTop: 10, marginLeft: 15}}>
+                      {item.work_description}
+                    </Text>
                   </View>
                 )}
-              //  ItemSeparatorComponent={renderIndicator}
+                //  ItemSeparatorComponent={renderIndicator}
               />
               {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>
@@ -2469,22 +2493,27 @@ const HomeScreen = (props: HomeScreenProps) => {
                 marginRight: 15,
                 marginTop: 30,
                 shadowColor: 'black',
-                shadowOffset: { width: 0, height: 2 },
+                shadowOffset: {width: 0, height: 2},
                 shadowRadius: 6,
                 shadowOpacity: 0.26,
                 elevation: 8,
                 //  backgroundColor: 'white',
                 //  padding: 20,
                 borderRadius: 5,
-                marginBottom: 10
+                marginBottom: 10,
               }}>
-
-
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.Personal_Tv}>Add School</Text>
 
                 <TouchableOpacity
-                  onPress={() => props.navigation.navigate('SelectStudent', { 'data': false, 'loginkey': 'loginkey', 'ei_request_count': 0 })}>
+                  onPress={() =>
+                    props.navigation.navigate('SelectStudent', {
+                      data: false,
+                      loginkey: 'loginkey',
+                      ei_request_count: 0,
+                    })
+                  }>
                   <Image
                     style={{
                       height: 28,
@@ -2504,9 +2533,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 source={Images.edit_icon}
               />
               </TouchableOpacity> */}
-
               </View>
-
 
               <View
                 style={{
@@ -2518,198 +2545,231 @@ const HomeScreen = (props: HomeScreenProps) => {
                 }}
               />
 
-
-              <View
-                style={styles.underview}
-              />
+              <View style={styles.underview} />
             </CardView>
 
             <FlatList
               data={setdatafromlist}
               //keyExtractor={item => item.id.toString()}
               ItemSeparatorComponent={ItemSeprator}
-              renderItem={({ item, index }) => rednderItemList(item, index)}
+              renderItem={({item, index}) => rednderItemList(item, index)}
             />
           </View>
 
           {/* add your city modal */}
-          <Modal animationType="slide"
+          <Modal
+            animationType="slide"
             style={{
-              padding: 0, justifyContent: 'flex-end',
+              padding: 0,
+              justifyContent: 'flex-end',
               margin: 0,
-            }} isVisible={isModalVisible} onBackdropPress={toggleModal}>
-
+            }}
+            isVisible={isModalVisible}
+            onBackdropPress={toggleModal}>
             <View style={styles.modalContainerCity}>
-
-
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: '3%' }}>
-
-                <Text style={{
-                  fontSize: 18,
-                  // marginLeft: 15,
-                  fontWeight: 'bold',
-                  color: '#000',
-                }}>Search City</Text>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '3%',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    // marginLeft: 15,
+                    fontWeight: 'bold',
+                    color: '#000',
+                  }}>
+                  Search City
+                </Text>
 
                 <TouchableOpacity
                   onPress={toggleModal}
-                  style={{ alignSelf: 'flex-end', marginBottom: 20, }}>
+                  style={{alignSelf: 'flex-end', marginBottom: 20}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 13, width: 13, marginRight: 30, tintColor: '#000' }}
+                    style={{
+                      height: 13,
+                      width: 13,
+                      marginRight: 30,
+                      tintColor: '#000',
+                    }}
                   />
                 </TouchableOpacity>
-
 
                 <View style={styles.textinputContainerCity}>
                   <Image
                     source={Images.location}
-                    style={{ marginLeft: 10, tintColor: 'grey', height: 22, width: 22, }}
+                    style={{
+                      marginLeft: 10,
+                      tintColor: 'grey',
+                      height: 22,
+                      width: 22,
+                    }}
                   />
 
                   <TextInput
-                    style={{ width: '85%' }}
+                    style={{width: '85%'}}
                     //onChangeText={onChangeNumber}
                     onChangeText={value => getSearchcitydata(value)}
                     value={cityname}
                     placeholder="Search City"
                     keyboardType="default"
                   />
-
                 </View>
-
               </View>
 
-
-              {citydata.length > 0 ? <FlatList
-                data={citydata}
-                style={{ paddingHorizontal: 25 }}
-                renderItem={({ item, index }) => rednderItemListcitydata(item, index)}
-              /> : null}
-
+              {citydata.length > 0 ? (
+                <FlatList
+                  data={citydata}
+                  style={{paddingHorizontal: 25}}
+                  renderItem={({item, index}) =>
+                    rednderItemListcitydata(item, index)
+                  }
+                />
+              ) : null}
 
               <TouchableOpacity
                 onPress={() => onPressModalSubmit()}
                 style={styles.submitbtncity}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
               </TouchableOpacity>
-
-
             </View>
           </Modal>
 
-
           {/* add your admission no modal */}
-          <Modal animationType="slide"
+          <Modal
+            animationType="slide"
             style={{
-              padding: 0, justifyContent: 'flex-end',
+              padding: 0,
+              justifyContent: 'flex-end',
               margin: 0,
-            }} isVisible={isModalVisibleno} onBackdropPress={toggleModalNo}>
-
+            }}
+            isVisible={isModalVisibleno}
+            onBackdropPress={toggleModalNo}>
             <View style={styles.modalContainer}>
+              <View style={{marginTop: '5%'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <View></View>
 
-
-              <View style={{ marginTop: '5%' }}>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                  <View>
-
-                  </View>
-
-
-                  <Text style={{
-                    fontSize: 18,
-                    // marginLeft: 15,
-                    fontWeight: 'bold',
-                    color: '#000',
-                  }}>Admission Number</Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      // marginLeft: 15,
+                      fontWeight: 'bold',
+                      color: '#000',
+                    }}>
+                    Admission Number
+                  </Text>
 
                   <TouchableOpacity
                     onPress={toggleModalNo}
-                    style={{ alignSelf: 'flex-end', marginBottom: 10, marginTop: 10 }}>
+                    style={{
+                      alignSelf: 'flex-end',
+                      marginBottom: 10,
+                      marginTop: 10,
+                    }}>
                     <Image
                       source={Images.closeicon}
-                      style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                      style={{
+                        height: 13,
+                        width: 13,
+                        marginRight: 10,
+                        tintColor: '#000',
+                      }}
                     />
                   </TouchableOpacity>
                 </View>
 
-
-
-
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
-
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: 10,
+                  }}>
                   <View style={styles.textinputContainer}>
                     {/* <Image
                   source={Images.search}
                   style={{ marginLeft: 10, tintColor: 'grey' }}
                 /> */}
 
-
-
                     <TextInput
                       placeholder=" Enter admission number"
-                      keyboardType='default'
+                      keyboardType="default"
                       maxLength={20}
                       onChangeText={val => setAddmissionnumber(val)}
                       value={addmissionnumber}
                     />
-
                   </View>
-
 
                   <TouchableOpacity
                     onPress={() => onPressModalSubmitAdmissionNo()}
                     style={styles.submitbtn}>
-                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                    <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
                   </TouchableOpacity>
-
                 </View>
-
               </View>
-
-
             </View>
           </Modal>
 
           {/* add your roll no modal */}
-          <Modal animationType="slide"
+          <Modal
+            animationType="slide"
             style={{
-              padding: 0, justifyContent: 'flex-end',
+              padding: 0,
+              justifyContent: 'flex-end',
               margin: 0,
-            }} isVisible={isModalVisiblerollno} onBackdropPress={toggleModalRollNo}>
-
+            }}
+            isVisible={isModalVisiblerollno}
+            onBackdropPress={toggleModalRollNo}>
             <View style={styles.modalContainer}>
+              <View style={{marginTop: '5%'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <View></View>
 
-
-              <View style={{ marginTop: '5%' }}>
-
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                  <View>
-
-                  </View>
-
-                  <Text style={{
-                    fontSize: 18,
-                    // marginLeft: 15,
-                    fontWeight: 'bold',
-                    color: '#000',
-                  }}>Roll Number</Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      // marginLeft: 15,
+                      fontWeight: 'bold',
+                      color: '#000',
+                    }}>
+                    Roll Number
+                  </Text>
 
                   <TouchableOpacity
                     onPress={toggleModalRollNo}
-                    style={{ alignItems: 'flex-end', marginBottom: 10, marginTop: 10, }}>
+                    style={{
+                      alignItems: 'flex-end',
+                      marginBottom: 10,
+                      marginTop: 10,
+                    }}>
                     <Image
                       source={Images.closeicon}
-                      style={{ height: 13, width: 13, marginRight: 10, tintColor: '#000' }}
+                      style={{
+                        height: 13,
+                        width: 13,
+                        marginRight: 10,
+                        tintColor: '#000',
+                      }}
                     />
                   </TouchableOpacity>
                 </View>
 
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: 10,
+                  }}>
                   <View style={styles.textinputContainer}>
                     {/* <Image
                   source={Images.search}
@@ -2718,31 +2778,25 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     <TextInput
                       placeholder=" Enter roll number"
-                      keyboardType='number-pad'
+                      keyboardType="number-pad"
                       maxLength={20}
                       onChangeText={val => setRollNo(val)}
                       value={rollno}
                     />
-
                   </View>
-
 
                   <TouchableOpacity
                     onPress={() => onPressModalSubmitRollNo()}
                     style={styles.submitbtn}>
-                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                    <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
                   </TouchableOpacity>
                 </View>
-
               </View>
-
-
             </View>
           </Modal>
         </ScrollView>
       </View>
     </SafeAreaView>
-
   );
 };
 

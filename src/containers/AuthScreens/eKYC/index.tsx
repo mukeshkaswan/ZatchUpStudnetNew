@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -9,11 +9,11 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
-  BackHandler,  
+  BackHandler,
   Alert,
 } from 'react-native';
 import styles from './style';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -27,14 +27,14 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { color } from 'react-native-elements/dist/helpers';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {color} from 'react-native-elements/dist/helpers';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -82,16 +82,14 @@ const eKyc = (props: eKycScreenProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-
     getData();
     getAuthUserInfoApi();
 
-    if (props.route.params.Editusername == true || props.route.params.Editdob == true) {
-
+    if (
+      props.route.params.Editusername == true ||
+      props.route.params.Editdob == true
+    ) {
       getUserKYC();
-
-
     }
 
     //getStepCountAPi()
@@ -116,9 +114,9 @@ const eKyc = (props: eKycScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: () => BackHandler.exitApp() },
+        {text: 'Yes', onPress: () => BackHandler.exitApp()},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -151,7 +149,7 @@ const eKyc = (props: eKycScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
           color={'white'}
         />
       </View>
@@ -178,10 +176,7 @@ const eKyc = (props: eKycScreenProps) => {
     setDate_Copy(MyDateString);
   };
 
-
   const onChangeiOS = (event, selectedDate) => {
-
-
     const currentDate = selectedDate || date;
 
     setShow(Platform.OS === 'ios');
@@ -190,7 +185,6 @@ const eKyc = (props: eKycScreenProps) => {
       //ok button
       setDate(currentDate);
       setShow(Platform.OS !== 'ios'); // to show time
-
     } else {
       setShow(Platform.OS === 'ios'); // to hide back the picker
       setMode('date'); // defaulting to date for next open
@@ -251,7 +245,7 @@ const eKyc = (props: eKycScreenProps) => {
   const getImageFrontCamera = () => {
     ImagePicker.openCamera({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true,
     }).then(image => {
       let parts = image.path.split('/');
@@ -300,7 +294,7 @@ const eKyc = (props: eKycScreenProps) => {
   const getImageBackCamera = () => {
     ImagePicker.openCamera({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true,
     }).then(image => {
       let parts = image.path.split('/');
@@ -342,7 +336,7 @@ const eKyc = (props: eKycScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result Auth User Info',
@@ -401,7 +395,7 @@ const eKyc = (props: eKycScreenProps) => {
     dispatch(
       userActions.getCheckUserKyc({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             setLoading(false);
             console.warn(
@@ -458,7 +452,7 @@ const eKyc = (props: eKycScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             console.warn(
               'after result step count',
@@ -492,7 +486,6 @@ const eKyc = (props: eKycScreenProps) => {
     );
   };
 
-
   const onPressKycSuccessDetailsChange = async () => {
     var token = '';
     try {
@@ -507,7 +500,7 @@ const eKyc = (props: eKycScreenProps) => {
 
     const IDSelecterror = Validate('kycidselect', KYC_type_doc_Selected);
 
-   // console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
+    // console.log('KYC_type_doc_Selected', KYC_type_doc_Selected);
 
     if (KYC_type_doc_Selected == 0) {
       var IDError = Validate('AadharNumber', ID);
@@ -526,20 +519,10 @@ const eKyc = (props: eKycScreenProps) => {
     //   var backimagenameError = Validate('BackImage', backimagename);
     // }
 
-    if (
-      IDSelecterror ||
-      IDError ||
-      NameError ||
-      DOBError ||
-      FrontImageError
-    ) {
+    if (IDSelecterror || IDError || NameError || DOBError || FrontImageError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        IDSelecterror ||
-        IDError ||
-        NameError ||
-        DOBError ||
-        FrontImageError,
+        IDSelecterror || IDError || NameError || DOBError || FrontImageError,
         Toast.SHORT,
       );
 
@@ -549,8 +532,8 @@ const eKyc = (props: eKycScreenProps) => {
         KYC_type_doc_Selected == 0
           ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Dl'
-            : 'Passport';
+          ? 'Dl'
+          : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -566,7 +549,7 @@ const eKyc = (props: eKycScreenProps) => {
       dispatch(
         userActions.getUploadekycfordetailchange({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
               // setSpinnerStart(false);
               setLoading(false);
@@ -599,7 +582,6 @@ const eKyc = (props: eKycScreenProps) => {
       );
     }
   };
-
 
   const onPressKycSuccessDetailsChangedob = async () => {
     var token = '';
@@ -634,20 +616,10 @@ const eKyc = (props: eKycScreenProps) => {
     //   var backimagenameError = Validate('BackImage', backimagename);
     // }
 
-    if (
-      IDSelecterror ||
-      IDError ||
-      NameError ||
-      DOBError ||
-      FrontImageError
-    ) {
+    if (IDSelecterror || IDError || NameError || DOBError || FrontImageError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        IDSelecterror ||
-        IDError ||
-        NameError ||
-        DOBError ||
-        FrontImageError,
+        IDSelecterror || IDError || NameError || DOBError || FrontImageError,
         Toast.SHORT,
       );
 
@@ -657,8 +629,8 @@ const eKyc = (props: eKycScreenProps) => {
         KYC_type_doc_Selected == 0
           ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Dl'
-            : 'Passport';
+          ? 'Dl'
+          : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -675,7 +647,7 @@ const eKyc = (props: eKycScreenProps) => {
       dispatch(
         userActions.getUploadekycfordetailchangedob({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
               // setSpinnerStart(false);
               setLoading(false);
@@ -708,7 +680,6 @@ const eKyc = (props: eKycScreenProps) => {
       );
     }
   };
-
 
   const onPressKycSuccess = async () => {
     var token = '';
@@ -743,20 +714,10 @@ const eKyc = (props: eKycScreenProps) => {
     //   var backimagenameError = Validate('BackImage', backimagename);
     // }
 
-    if (
-      IDSelecterror ||
-      IDError ||
-      NameError ||
-      DOBError ||
-      FrontImageError
-    ) {
+    if (IDSelecterror || IDError || NameError || DOBError || FrontImageError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        IDSelecterror ||
-        IDError ||
-        NameError ||
-        DOBError ||
-        FrontImageError,
+        IDSelecterror || IDError || NameError || DOBError || FrontImageError,
         Toast.SHORT,
       );
 
@@ -766,8 +727,8 @@ const eKyc = (props: eKycScreenProps) => {
         KYC_type_doc_Selected == 0
           ? 'Aadhar'
           : KYC_type_doc_Selected == 1
-            ? 'Dl'
-            : 'Passport';
+          ? 'Dl'
+          : 'Passport';
       // console.log('KYC_type_doc_Selected', key);
       const data = {
         token: token,
@@ -784,7 +745,7 @@ const eKyc = (props: eKycScreenProps) => {
       dispatch(
         userActions.KycSuccess({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status === true) {
               // setSpinnerStart(false);
               setLoading(false);
@@ -792,9 +753,9 @@ const eKyc = (props: eKycScreenProps) => {
                 'after register result',
                 JSON.stringify(result, undefined, 2),
               );
-            //  Toast.show(result.message, Toast.SHORT);
+              //  Toast.show(result.message, Toast.SHORT);
 
-              navigate(result)
+              navigate(result);
               // props.navigation.navigate('eKycSuccess', {
               //   username: 'jfdsfsdlfjs',
               // });
@@ -820,70 +781,84 @@ const eKyc = (props: eKycScreenProps) => {
     }
   };
 
-
-  const navigate = async (result) => {
-
-     console.log('login singup result', result);
+  const navigate = async result => {
+    console.log('login singup result', result);
     // props.navigation.navigate('eKycSuccess', {
     //   username: 'jfdsfsdlfjs',
     // });
-    if (props.route.params.hasOwnProperty('signup') && props.route.params.signup == 'signup') {
+    if (
+      props.route.params.hasOwnProperty('signup') &&
+      props.route.params.signup == 'signup'
+    ) {
       props.navigation.navigate('eKycSuccess', {
         ei_request_count: result.ei_request_count,
       });
-    }
-    else {
-      if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 1) {
+    } else {
+      if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 1
+      ) {
         props.navigation.navigate('eKycSuccess', {
           ei_request_count: result.ei_request_count,
         });
-      } else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 2) {
+      } else if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 2
+      ) {
         props.navigation.navigate('eKycSuccess', {
           ei_request_count: result.ei_request_count,
         });
-      }
-      else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 4) {
+      } else if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 4
+      ) {
         props.navigation.navigate('eKycSuccess', {
           ei_request_count: result.ei_request_count,
         });
-      }
-
-      else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 6) {
+      } else if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 6
+      ) {
         props.navigation.navigate('Personalinfo', {
           username: 'jfdsfsdlfjs',
         });
-      }
-
-      else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 7) {
+      } else if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 7
+      ) {
         props.navigation.navigate('CoomingSoon', {
           username: 'jfdsfsdlfjs',
         });
-      }
-
-      else if (props.route.params.is_kyc_rejected == true && props.route.params.reg_step == 5) {
+      } else if (
+        props.route.params.is_kyc_rejected == true &&
+        props.route.params.reg_step == 5
+      ) {
         props.navigation.navigate('SelectStudent', {
           username: 'jfdsfsdlfjs',
-          're_verify': false
+          re_verify: false,
         });
       }
-
     }
-  }
+  };
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps={'always'}
-      style={{ flex: 1 }}
+      style={{flex: 1}}
       showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <CustomStatusBar />
         {isLoading && renderIndicator()}
 
-       {props.route.params.Editusername == true || props.route.params.Editdob == true  ?  <CustomHeader Title={'KYC Verification'} />: <CustomHeader Title={'eKYC'} />}
-
+        {props.route.params.Editusername == true ||
+        props.route.params.Editdob == true ? (
+          <CustomHeader Title={'KYC Verification'} />
+        ) : (
+          <CustomHeader Title={'eKYC'} />
+        )}
 
         <ScrollView>
           <View style={styles.inputContainer}>
-            <View style={{ marginBottom: '5%', flex: 1, zIndex: 1 }}>
+            <View style={{marginBottom: '5%', flex: 1, zIndex: 1}}>
               <RBSheet
                 ref={refRBSheet}
                 // closeOnDragDown={true}
@@ -916,7 +891,7 @@ const eKyc = (props: eKycScreenProps) => {
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
-                    <Text style={{ color: '#000', fontSize: 17 }}>
+                    <Text style={{color: '#000', fontSize: 17}}>
                       {'Open Camera'}
                     </Text>
                   </TouchableOpacity>
@@ -928,15 +903,15 @@ const eKyc = (props: eKycScreenProps) => {
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
-                    <Text style={{ color: '#000', fontSize: 17 }}>
+                    <Text style={{color: '#000', fontSize: 17}}>
                       {'Open Gallery'}
                     </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.close()}
-                    style={{ padding: 15, backgroundColor: '#4B2A6A' }}>
-                    <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
+                    style={{padding: 15, backgroundColor: '#4B2A6A'}}>
+                    <Text style={{color: '#FFFFFF', fontSize: 17}}>
                       {'Cancel'}
                     </Text>
                   </TouchableOpacity>
@@ -975,7 +950,7 @@ const eKyc = (props: eKycScreenProps) => {
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
-                    <Text style={{ color: '#000', fontSize: 17 }}>
+                    <Text style={{color: '#000', fontSize: 17}}>
                       {'Open Camera'}
                     </Text>
                   </TouchableOpacity>
@@ -987,15 +962,15 @@ const eKyc = (props: eKycScreenProps) => {
                       padding: 15,
                       backgroundColor: '#FFFFFF',
                     }}>
-                    <Text style={{ color: '#000', fontSize: 17 }}>
+                    <Text style={{color: '#000', fontSize: 17}}>
                       {'Open Gallery'}
                     </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={() => refRBSheetBack.current.close()}
-                    style={{ padding: 15, backgroundColor: '#4B2A6A' }}>
-                    <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
+                    style={{padding: 15, backgroundColor: '#4B2A6A'}}>
+                    <Text style={{color: '#FFFFFF', fontSize: 17}}>
                       {'Cancel'}
                     </Text>
                   </TouchableOpacity>
@@ -1005,28 +980,28 @@ const eKyc = (props: eKycScreenProps) => {
                 placeholder={'Select ID'}
                 data={KYC_type_doc}
                 value={KYC_type_doc_Selected}
-             //   selectedValue={KYC_type_doc_Selected}
+                //   selectedValue={KYC_type_doc_Selected}
                 SelectedLanguagedata={(selectedValue: any) => {
                   setKYCSelected(selectedValue);
                   setID('');
                   setImageFrontName('');
                   setImageBackName('');
                 }}
-              // SelectedLanguagedata={(selectedValue) => {
-              //   // getCity(selectedValue);
-              //   //  console.log('selectedValue state test', selectedValue)
-              //   if (selectedValue !== null) {
-              //     setKYCTextInput(selectedValue);
+                // SelectedLanguagedata={(selectedValue) => {
+                //   // getCity(selectedValue);
+                //   //  console.log('selectedValue state test', selectedValue)
+                //   if (selectedValue !== null) {
+                //     setKYCTextInput(selectedValue);
 
-              //   }
-              // }}
+                //   }
+                // }}
               />
             </View>
             {/* <View style={{ marginBottom: '5%', flex: 1, marginTop: '5%', }}>
                         <TextField placeholder={'Enter Aadhar Number'} keyboardType={'numeric'} maxLength={10} onChangeText={val => setAadhar(val)} value={Aadhar} />
                     </View> */}
             {KYC_type_doc_Selected == 0 || KYC_type_doc_Selected == null ? (
-              <View style={{ marginBottom: '5%', flex: 1 }}>
+              <View style={{marginBottom: '5%', flex: 1}}>
                 <TextField
                   placeholder={'Enter ID'}
                   maxLength={12}
@@ -1036,7 +1011,7 @@ const eKyc = (props: eKycScreenProps) => {
                 />
               </View>
             ) : KYC_type_doc_Selected == 1 ? (
-              <View style={{ marginBottom: '5%', flex: 1 }}>
+              <View style={{marginBottom: '5%', flex: 1}}>
                 <TextField
                   placeholder={'Enter ID'}
                   maxLength={30}
@@ -1047,7 +1022,7 @@ const eKyc = (props: eKycScreenProps) => {
                 />
               </View>
             ) : KYC_type_doc_Selected == 2 ? (
-              <View style={{ marginBottom: '5%', flex: 1 }}>
+              <View style={{marginBottom: '5%', flex: 1}}>
                 <TextField
                   placeholder={'Enter ID'}
                   maxLength={30}
@@ -1057,36 +1032,81 @@ const eKyc = (props: eKycScreenProps) => {
               </View>
             ) : null}
 
-            {props.route.params.Editusername == true ? <View style={{ marginBottom: '5%', flex: 1 }}>
-              <TextField
-                placeholder={'Enter Your Name'}
-                onChangeText={val => setName(val)}
-                value={Name}
-                editable={true}
-                imageIcon={Images.user_icon}
-              />
-            </View> : props.route.params.Editdobsignup == true ? <View style={{ marginBottom: '5%', flex: 1 }}>
-              <TextField
-                placeholder={'Enter Your Name'}
-                onChangeText={val => setName(val)}
-                value={Name}
-                editable={true}
-                imageIcon={Images.user_icon}
-              />
-            </View> : <View style={{ marginBottom: '5%', flex: 1, borderColor: '#4B2A6A', borderWidth: 1, borderBottomLeftRadius: 12, borderBottomEndRadius: 12, borderTopLeftRadius: 12, borderTopEndRadius: 12 }}>
-              <TextField
-                placeholder={'Enter Your Name'}
-                onChangeText={val => setName(val)}
-                value={Name}
-                editable={false}
-                imageIcon={Images.user_icon}
-              />
-            </View>}
+            {props.route.params.Editusername == true ? (
+              <View style={{marginBottom: '5%', flex: 1}}>
+                <TextField
+                  placeholder={'Enter Your Name'}
+                  onChangeText={val => setName(val)}
+                  value={Name}
+                  editable={true}
+                  imageIcon={Images.user_icon}
+                />
+              </View>
+            ) : props.route.params.Editdobsignup == true ? (
+              <View style={{marginBottom: '5%', flex: 1}}>
+                <TextField
+                  placeholder={'Enter Your Name'}
+                  onChangeText={val => setName(val)}
+                  value={Name}
+                  editable={true}
+                  imageIcon={Images.user_icon}
+                />
+              </View>
+            ) : (
+              <View
+                style={{
+                  marginBottom: '5%',
+                  flex: 1,
+                  borderColor: '#4B2A6A',
+                  borderWidth: 1,
+                  borderBottomLeftRadius: 12,
+                  borderBottomEndRadius: 12,
+                  borderTopLeftRadius: 12,
+                  borderTopEndRadius: 12,
+                }}>
+                <TextField
+                  placeholder={'Enter Your Name'}
+                  onChangeText={val => setName(val)}
+                  value={Name}
+                  editable={false}
+                  imageIcon={Images.user_icon}
+                />
+              </View>
+            )}
 
-            {props.route.params.Editdob == true ? <TouchableOpacity
-              onPress={showDatepicker}
-            >
-              <View style={styles.inputmarginBottom}>
+            {props.route.params.Editdob == true ? (
+              <TouchableOpacity onPress={showDatepicker}>
+                <View style={styles.inputmarginBottom}>
+                  <TextField
+                    placeholder={'Date of Birth'}
+                    imageIcon={Images.calendar_icon}
+                    editable={false}
+                    value={date_copy.toString()}
+                  />
+                </View>
+              </TouchableOpacity>
+            ) : props.route.params.Editdobsignup == true ? (
+              <TouchableOpacity onPress={showDatepicker}>
+                <View style={styles.inputmarginBottom}>
+                  <TextField
+                    placeholder={'Date of Birth'}
+                    imageIcon={Images.calendar_icon}
+                    editable={false}
+                    value={date_copy.toString()}
+                  />
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <View
+                style={{
+                  marginBottom: '5%',
+                  borderColor: '#4B2A6A',
+                  borderWidth: 1,
+                  borderBottomLeftRadius: 12,
+                  borderBottomEndRadius: 12,
+                  borderTopLeftRadius: 12,
+                  borderTopEndRadius: 12,
+                }}>
                 <TextField
                   placeholder={'Date of Birth'}
                   imageIcon={Images.calendar_icon}
@@ -1094,26 +1114,7 @@ const eKyc = (props: eKycScreenProps) => {
                   value={date_copy.toString()}
                 />
               </View>
-            </TouchableOpacity> : props.route.params.Editdobsignup == true ? <TouchableOpacity
-              onPress={showDatepicker}
-            >
-              <View style={styles.inputmarginBottom}>
-                <TextField
-                  placeholder={'Date of Birth'}
-                  imageIcon={Images.calendar_icon}
-                  editable={false}
-                  value={date_copy.toString()}
-                />
-              </View>
-            </TouchableOpacity> : <View style={{ marginBottom: '5%', borderColor: '#4B2A6A', borderWidth: 1, borderBottomLeftRadius: 12, borderBottomEndRadius: 12, borderTopLeftRadius: 12, borderTopEndRadius: 12 }}>
-              <TextField
-                placeholder={'Date of Birth'}
-                imageIcon={Images.calendar_icon}
-                editable={false}
-                value={date_copy.toString()}
-
-              />
-            </View>}
+            )}
             {/* <View style={{ marginBottom: '5%', flex: 1 }}>
                         <TextField placeholder={'Enter Your Address'} imageIcon={Images.calendar_icon} />
                     </View> */}
@@ -1129,7 +1130,6 @@ const eKyc = (props: eKycScreenProps) => {
                 format="YYYY-MMM-DD"
                 display="default"
                 onChange={Platform.OS === 'ios' ? onChangeiOS : onChange}
-
               />
             )}
 
@@ -1158,7 +1158,6 @@ const eKyc = (props: eKycScreenProps) => {
                   <Image source={Images.upload} style={styles.messagelogo} />
                 </View>
                 <View>
-
                   <Text style={styles.uploadtext}>
                     Upload Back side Photo(optional)
                   </Text>
@@ -1195,20 +1194,22 @@ const eKyc = (props: eKycScreenProps) => {
             </TouchableOpacity>
 
             <View>
-              {props.route.params.Editusername == true ? <CustomButton
-                title={'Verify Your KYC'}
-                onPress={onPressKycSuccessDetailsChange}
-
-              /> : props.route.params.Editdob == true ?
+              {props.route.params.Editusername == true ? (
+                <CustomButton
+                  title={'Verify Your KYC'}
+                  onPress={onPressKycSuccessDetailsChange}
+                />
+              ) : props.route.params.Editdob == true ? (
                 <CustomButton
                   title={'Verify Your KYC'}
                   onPress={onPressKycSuccessDetailsChangedob}
-
-                /> : <CustomButton
+                />
+              ) : (
+                <CustomButton
                   title={'Verify Your KYC'}
                   onPress={onPressKycSuccess}
-
-                />}
+                />
+              )}
             </View>
           </View>
         </ScrollView>

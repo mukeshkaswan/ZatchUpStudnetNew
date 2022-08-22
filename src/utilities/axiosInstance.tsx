@@ -1,17 +1,17 @@
 import axios from 'axios';
 import Idx from 'idx';
 //const BaseURL = `http://172.105.61.231:3000/api/`; //Staging
-//export const BaseURL = `https://preapis.zatchup.com:3030/api/`;//Preprod
-export const BaseURL = `https://apis.zatchup.com:3000/api/`;//Prod
-//export const ChatURL = `https://zatchup.com/preprod/#/`;//Preprod Chat URL
-export const ChatURL = `https://zatchup.com/#/`;//Prod Chat URL
+export const BaseURL = `https://preapis.zatchup.com:3030/api/`; //Preprod
+//export const BaseURL = `https://apis.zatchup.com:3000/api/`;//Prod
+export const ChatURL = `https://zatchup.com/preprod/#/`; //Preprod Chat URL
+//export const ChatURL = `https://zatchup.com/#/`;//Prod Chat URL
 //export const ChatURL = `http://staging.zatchup.com/zatchup/#`;//Staging Chat URL
 
 const getAxiosInstance = () => {
   const instance = axios.create({
     baseURL: BaseURL,
     headers: {
-      Accept: "application/json",
+      Accept: 'application/json',
       // "Content-Type": "multipart/form-data",
       //  "Content-Type": "application/x-www-form-urlencoded",
       //Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxODAxLCJ1c2VybmFtZSI6InR5dUBtYWlsaW5hdG9yLmNvbSIsImV4cCI6MTY0ODAyMjA3MCwiZW1haWwiOiJ0eXVAbWFpbGluYXRvci5jb20iLCJvcmlnX2lhdCI6MTYyMjEwMjA3MH0.zkHW8Nxw2qGMNlghhXI_03lJ1QhXOFBzZ_KlFgkjG2M`
@@ -52,8 +52,5 @@ const getAxiosInstance = () => {
 
   return instance;
 };
-
-
-
 
 export default getAxiosInstance;
