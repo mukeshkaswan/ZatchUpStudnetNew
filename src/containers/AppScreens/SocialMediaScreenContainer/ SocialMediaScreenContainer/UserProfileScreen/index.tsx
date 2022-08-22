@@ -1043,6 +1043,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         <View style={styles.textcontainer}>
                           <View style={{flexDirection: 'row'}}>
                             <TouchableOpacity
+                              disabled={item.is_onboard ? false : true}
                               onPress={() =>
                                 props.navigation.navigate('SchoolProfile', {
                                   item: {

@@ -1,4 +1,4 @@
-import React, { Component, FC, useState, useEffect } from 'react';
+import React, {Component, FC, useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -32,13 +32,13 @@ import {
   DrawerActions,
   useFocusEffect,
 } from '@react-navigation/native';
-import { Images } from '../../../components/index';
+import {Images} from '../../../components/index';
 import Toast from 'react-native-simple-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import ProgressLoader from 'rn-progress-loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import OtpInputs from 'react-native-otp-inputs';
 
 import {
@@ -49,9 +49,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import style from '../Messages/style';
 import CardView from 'react-native-cardview';
 import Modal from 'react-native-modal';
-import { CheckBox } from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import axios from 'axios';
-import { BaseURL } from '../../../utilities/axiosInstance';
+import {BaseURL} from '../../../utilities/axiosInstance';
 
 interface ResetPasswordScreenProps {
   navigation: any;
@@ -117,7 +117,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const [isAge, setIsAge] = useState(false);
 
-
   const dispatch = useDispatch();
   const [KYC_type_doc, setKYC_type_doc] = useState([
     {
@@ -164,7 +163,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
-
   };
   const toggleModal2 = () => {
     setModalVisible2(!isModalVisible2);
@@ -185,7 +183,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const toggleSwitch1 = () => {
     setIsEnabled(previousState => !previousState);
     onPressChangePhoneStatus(!isEnabled);
-
   };
   const toggleSwitch2 = () => {
     setIsEnabled2(previousState => !previousState);
@@ -193,10 +190,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
   const toggleSwitchDeactivateAccount = () => {
-    setIsDeactivateAccount(!isDeactivateAccount);
-
     handleDeactivateButtonClick();
-    changePrivateStatus();
   };
 
   const toggleSwitchTwoFactor = () => {
@@ -246,7 +240,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
           color={'white'}
         />
       </View>
@@ -263,9 +257,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onDeleteBTN },
+        {text: 'Yes', onPress: onDeleteBTN},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
@@ -284,14 +278,12 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Yes', onPress: onPressChangeDeactivateAccountStaus },
+        {text: 'Yes', onPress: onPressChangeDeactivateAccountStaus},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
     return true;
   }
-
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -337,7 +329,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setProfilePic(element.profile_pic);
       setkyc_approved(element.kyc_approved);
       setDob(element.dob);
-      setProfession(element.work_detail.length > 0 ? element.work_detail[0].job_title : null);
+      setProfession(
+        element.work_detail.length > 0
+          ? element.work_detail[0].job_title
+          : null,
+      );
       setGender(element.gender);
       setEmail(element.email);
       setPhone(element.phone);
@@ -359,10 +355,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
         element.pronoun == 'He'
           ? '0'
           : element.pronoun == 'She'
-            ? '1'
-            : element.pronoun == 'They'
-              ? '2'
-              : '';
+          ? '1'
+          : element.pronoun == 'They'
+          ? '2'
+          : '';
 
       setCourseTypeSelected(key);
     });
@@ -382,111 +378,67 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const getStatusType = async result => {
     for (let i in result.data) {
       if (result.data[i].status_type === 'OTP') {
-
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledTwoFactor(true);
-
-        }
-        else {
+        } else {
           setIsEnabledTwoFactor(false);
-
         }
-
       }
 
       if (result.data[i].status_type === 'EMAIL_ID') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledEmail(true);
-
-        }
-        else {
+        } else {
           setIsEnabledEmail(false);
-
         }
-
       }
-
 
       if (result.data[i].status_type === 'DOB') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledDob(true);
-
-        }
-        else {
+        } else {
           setIsEnabledDob(false);
-
         }
       }
-
-
 
       if (result.data[i].status_type == 'GENDER') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledGender(true);
-
-        }
-        else {
+        } else {
           setIsEnabledGender(false);
-
-
         }
-
       }
-
-
-
 
       if (result.data[i].status_type === 'PROFESSION') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledProfession(true);
-
-        }
-        else {
+        } else {
           setIsEnabledProfession(false);
-
         }
       }
-
 
       if (result.data[i].status_type === 'MOB_NUM') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabled(true);
-
-        }
-        else {
+        } else {
           setIsEnabled(false);
-
         }
       }
-
-
-
-
 
       if (result.data[i].status_type === 'CITY') {
-
         if (result.data[i].is_disabled == true) {
           setIsEnabledCity(true);
-
-        }
-        else {
+        } else {
           setIsEnabledCity(false);
-
         }
       }
-
     }
   };
 
   /***************************User Auth Deactivate Account*******************************/
 
   const onPressChangeDeactivateAccountStaus = async () => {
+    //  setIsDeactivateAccount(!isDeactivateAccount);
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -508,9 +460,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getProfileDeleteZatchupAccount({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
+            setIsDeactivateAccount(!isDeactivateAccount);
             onDeleteBTN();
 
             Toast.show(result.message, Toast.SHORT);
@@ -563,11 +515,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getSocialPrivacySetting({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             getPrivacySettingApi();
           }
 
@@ -606,11 +557,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.changeSocialMediaStatus({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
           if (result.status) {
             // getSettingStatus(userid);
-
           }
           if (result.status === false) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -646,7 +596,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.changePrivateStatus({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
           if (result.status) {
           }
@@ -687,11 +637,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             getSettingStatus(userid);
           }
 
@@ -733,11 +682,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             getSettingStatus(userid);
           }
 
@@ -779,11 +727,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             getSettingStatus(userid);
           }
 
@@ -825,9 +772,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
             getSettingStatus(userid);
             setLoading(false);
           }
@@ -843,9 +789,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       }),
     );
   };
-
-
-
 
   /***************************User Auth Phone Disable*******************************/
 
@@ -873,9 +816,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
             getSettingStatus(userid);
             setLoading(false);
           }
@@ -917,9 +859,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
             getSettingStatus(userid);
             setLoading(false);
           }
@@ -962,9 +903,8 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatusPost({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status === true) {
-
             getSettingStatus(userid);
             setLoading(false);
           }
@@ -1003,7 +943,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getUserSettingStatus({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result) {
             // console.warn(
             //   'after result get User Setting Status >',
@@ -1045,7 +985,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getPrivacySetting({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
@@ -1056,7 +996,6 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             setIsEnabledPrivate(result.data[0].profile_is_private);
             setIsEnabled2(result.data[0].socialmedia_user_status);
             setIsAge(result.data[0].age);
-
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1092,7 +1031,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result) {
@@ -1141,7 +1080,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
           'content-type': 'multipart/form-data',
         },
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         //  console.log('Data==>>', data);
         if (data.status) {
           setLoading(false);
@@ -1161,7 +1100,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getStudentEducationProfile({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           if (result.status) {
             getdataProfile(result), getdataCourse(result), setLoading(false);
           }
@@ -1232,7 +1171,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.updatePersonalinfo({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status) {
               setModalVisible(false);
               getEducationProfile();
@@ -1295,13 +1234,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.requestChangeUserDetail({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             if (result.status) {
-
               setLoading(false);
               toggleModal2();
               otptoggleModal();
-
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
@@ -1350,7 +1287,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.requestChangeUserDetailEmail({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             setLoading(false);
             if (result.status) {
               setModalVisible3(false);
@@ -1409,11 +1346,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.requestChangeUserDetailVerifyOtp({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             setLoading(false);
 
             if (result.status === true) {
-
               LogoutALert();
             }
             if (result.status === false) {
@@ -1478,12 +1414,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       dispatch(
         userActions.requestChangeUserDetailVerifyOtpEmail({
           data,
-          callback: ({ result, error }) => {
+          callback: ({result, error}) => {
             setLoading(false);
 
             if (result.status === true) {
-
-
               //  getData(result),
 
               //setSpinnerStart(false);
@@ -1547,11 +1481,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getResendotpEiRequest({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             setTimeout(() => {
               Toast.show(result.message, Toast.SHORT);
             }, 500);
@@ -1598,11 +1531,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
     dispatch(
       userActions.getResendotpEiRequestEmail({
         data,
-        callback: ({ result, error }) => {
+        callback: ({result, error}) => {
           setLoading(false);
 
           if (result.status === true) {
-
             setTimeout(() => {
               Toast.show(result.message, Toast.SHORT);
             }, 500);
@@ -2165,7 +2097,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <CustomStatusBar />
         <HeaderTitleWithBack
@@ -2207,14 +2139,14 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               </View>
 
               <View style={styles.border}></View>
-              <View style={{ marginTop: 10 }}>
+              <View style={{marginTop: 10}}>
                 <View style={styles.text_container}>
                   <Text style={styles.detail_text}>Name : </Text>
                   <Text>{username}</Text>
                   {kyc_approved != '0' ? (
                     <TouchableOpacity
                       onPress={() =>
-                        props.navigation.navigate('eKYC', { Editusername: true })
+                        props.navigation.navigate('eKYC', {Editusername: true})
                       }>
                       <Image
                         style={{
@@ -2237,7 +2169,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   {kyc_approved != '0' ? (
                     <TouchableOpacity
                       onPress={() =>
-                        props.navigation.navigate('eKYC', { Editdob: true })
+                        props.navigation.navigate('eKYC', {Editdob: true})
                       }>
                       <Image
                         style={{
@@ -2276,7 +2208,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     <Text style={styles.detail_text}>pronoun : </Text>
                     <Text>{pronouncustom + ' '}</Text>
                     {pronouncustomcustom_gender != '' &&
-                      pronouncustomcustom_gender != null ? (
+                    pronouncustomcustom_gender != null ? (
                       <Text>{'(' + pronouncustomcustom_gender + ')'}</Text>
                     ) : null}
                   </View>
@@ -2288,7 +2220,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       <View>
                         <TouchableOpacity
                           onPress={toggleModal3}
-                          style={{ flexDirection: 'row' }}>
+                          style={{flexDirection: 'row'}}>
                           <Text style={styles.detail_text}>Email : </Text>
                           <Text>{email}</Text>
                         </TouchableOpacity>
@@ -2318,7 +2250,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       <View>
                         <TouchableOpacity
                           onPress={toggleModal2}
-                          style={{ flexDirection: 'row' }}>
+                          style={{flexDirection: 'row'}}>
                           <Text style={styles.detail_text}>Phone Number :</Text>
                           <Text>{phone}</Text>
                         </TouchableOpacity>
@@ -2423,7 +2355,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     onPress={() =>
                       props.navigation.navigate('BlockListScreen')
                     }>
-                    <Text style={{ color: '#fff' }}>Block List</Text>
+                    <Text style={{color: '#fff'}}>Block List</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -2458,13 +2390,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               {phone != '' && phone != null ? (
                 <View style={styles.privacyrowcontainer}>
                   <Text style={styles.detail_text}>Mobile Number</Text>
-                  <Text style={{ textAlign: 'center' }}>{phone}</Text>
+                  <Text style={{textAlign: 'center'}}>{phone}</Text>
                   <Switch
-                    trackColor={{ false: 'grey', true: 'lightgreen' }}
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
                     thumbColor={isEnabled ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch1}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                     value={isEnabled}
                   />
                 </View>
@@ -2477,13 +2409,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               {email != '' && email != null ? (
                 <View style={styles.privacyrowcontainer}>
                   <Text style={styles.detail_text}>Email ID</Text>
-                  <Text style={{ textAlign: 'center' }}>{email}</Text>
+                  <Text style={{textAlign: 'center'}}>{email}</Text>
                   <Switch
-                    trackColor={{ false: 'grey', true: 'lightgreen' }}
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
                     thumbColor={isEnabledEmail ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchEmail}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                     value={isEnabledEmail}
                   />
                 </View>
@@ -2496,13 +2428,13 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               {dob != '' && dob != null ? (
                 <View style={styles.privacyrowcontainer}>
                   <Text style={styles.detail_text}>Date of Birth</Text>
-                  <Text style={{ textAlign: 'center' }}>{dob}</Text>
+                  <Text style={{textAlign: 'center'}}>{dob}</Text>
                   <Switch
-                    trackColor={{ false: 'grey', true: 'lightgreen' }}
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
                     thumbColor={isEnabledDob ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchDob}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                     value={isEnabledDob}
                   />
                 </View>
@@ -2513,27 +2445,27 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 {Gender == 'M' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Male</Text>
+                    <Text style={{textAlign: 'center'}}>Male</Text>
                   </>
                 ) : Gender == 'F' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Female</Text>
+                    <Text style={{textAlign: 'center'}}>Female</Text>
                   </>
                 ) : Gender == 'C' ? (
                   <>
                     <Text style={styles.detail_text}>Gender</Text>
-                    <Text style={{ textAlign: 'center' }}>Custom</Text>
+                    <Text style={{textAlign: 'center'}}>Custom</Text>
                   </>
                 ) : null}
 
                 {Gender != '' && Gender != null ? (
                   <Switch
-                    trackColor={{ false: 'grey', true: 'lightgreen' }}
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
                     thumbColor={isEnabledGender ? 'limegreen' : 'lightgrey'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitchGender}
-                    style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                     value={isEnabledGender}
                   />
                 ) : null}
@@ -2542,36 +2474,37 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Profession</Text>
-                {getprofession != null ? <Text style={{ textAlign: 'center' }}>{getprofession}</Text> : null}
+                {getprofession != null ? (
+                  <Text style={{textAlign: 'center'}}>{getprofession}</Text>
+                ) : null}
 
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledProfession ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchProfession}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                  style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                   value={isEnabledProfession}
                 />
               </View>
 
-
               <View style={styles.border1}></View>
-
 
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Current City</Text>
-                {city != null ? <Text style={{ textAlign: 'center' }}>{city}</Text> : null}
+                {city != null ? (
+                  <Text style={{textAlign: 'center'}}>{city}</Text>
+                ) : null}
 
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledCity ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchCity}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                  style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                   value={isEnabledCity}
                 />
               </View>
-
 
               {Gender != '' ? <View style={styles.border1}></View> : null}
               <View style={styles.privacyrowcontainer}>
@@ -2579,52 +2512,56 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                   Enable Two-Factor Authentication
                 </Text>
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isEnabledTwoFactor ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchTwoFactor}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                  style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                   value={isEnabledTwoFactor}
                 />
               </View>
 
               {isAge ? <View style={styles.border1}></View> : null}
 
-              {isAge ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Private Profile</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitchPrivate}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
-                  value={isEnabledPrivate}
-                />
-              </View> : null}
+              {isAge ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Private Profile</Text>
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabledPrivate ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitchPrivate}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
+                    value={isEnabledPrivate}
+                  />
+                </View>
+              ) : null}
 
               {isAge ? <View style={styles.border1}></View> : null}
-              {isAge ? <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Enable Social Media</Text>
-                <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
-                  thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
-                  value={isEnabled2}
-                />
-              </View> : null}
+              {isAge ? (
+                <View style={styles.privacyrowcontainer}>
+                  <Text style={styles.detail_text}>Enable Social Media</Text>
+                  <Switch
+                    trackColor={{false: 'grey', true: 'lightgreen'}}
+                    thumbColor={isEnabled2 ? 'limegreen' : 'lightgrey'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch2}
+                    style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
+                    value={isEnabled2}
+                  />
+                </View>
+              ) : null}
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
                 <Text style={styles.detail_text}>Deactivate Account</Text>
                 {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
-                  trackColor={{ false: 'grey', true: 'lightgreen' }}
+                  trackColor={{false: 'grey', true: 'lightgreen'}}
                   thumbColor={isDeactivateAccount ? 'limegreen' : 'lightgrey'}
                   ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleSwitchDeactivateAccount}
-                  style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.9 }] }}
+                  style={{transform: [{scaleX: 0.8}, {scaleY: 0.9}]}}
                   value={isDeactivateAccount}
                 />
               </View>
@@ -2645,10 +2582,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <Text
@@ -2696,7 +2633,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       marginRight: 25,
                     },
                   ]}>
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Male"
                       checkedIcon="dot-circle-o"
@@ -2721,11 +2658,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                         fontFamily: 'Lato-Regular',
                       }}
                       onPress={checkedMale}
-                    // fontFamily={'Lato-Regular'}
+                      // fontFamily={'Lato-Regular'}
                     />
                   </View>
 
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Female"
                       checkedIcon="dot-circle-o"
@@ -2746,11 +2683,11 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       uncheckedColor={'#fff'}
                       checkedColor={'rgb(70,50,103)'}
                       onPress={checkedFemale}
-                    // fontFamily={'Lato-Regular'}
+                      // fontFamily={'Lato-Regular'}
                     />
                   </View>
 
-                  <View style={{ flex: 1 }}>
+                  <View style={{flex: 1}}>
                     <CheckBox
                       title=" Custom"
                       checkedIcon="dot-circle-o"
@@ -2770,7 +2707,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                       }}
                       uncheckedColor={'lightgrey'}
                       checkedColor={'rgb(70,50,103)'}
-                      textStyle={{ color: '#33333380' }}
+                      textStyle={{color: '#33333380'}}
                       onPress={checkedCustom}
                     />
                   </View>
@@ -2795,7 +2732,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     </View>
 
                     <View
-                      style={{ marginBottom: '3%', marginLeft: 5, width: 295 }}>
+                      style={{marginBottom: '3%', marginLeft: 5, width: 295}}>
                       <TextField
                         placeholder={'Gender (optional)'}
                         imageIcon={''}
@@ -2816,7 +2753,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     borderRadius: 10,
                   }}
                   onPress={() => onPressSubmit()}>
-                  <Text style={{ color: 'white' }}>Submit</Text>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
@@ -2834,10 +2771,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal2}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
 
@@ -2867,7 +2804,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     justifyContent: 'center',
                     borderRadius: 10,
                   }}>
-                  <Text style={{ color: 'white' }}>Submit</Text>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
@@ -2886,10 +2823,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 }}>
                 <TouchableOpacity
                   onPress={toggleModal3}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
 
@@ -2904,7 +2841,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     value={changeemail}
                     placeholder="Add Email"
                     keyboardType="email-address"
-                  //maxLength={10}
+                    //maxLength={10}
                   />
                 </View>
 
@@ -2919,7 +2856,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     justifyContent: 'center',
                     borderRadius: 10,
                   }}>
-                  <Text style={{ color: 'white' }}>Submit</Text>
+                  <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
@@ -2927,17 +2864,17 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             {/* modal for otp NO  */}
             <Modal
               isVisible={isotpVisiblemodal}
-            // onBackdropPress={toggleModal2}
+              // onBackdropPress={toggleModal2}
             >
-              <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <View style={{backgroundColor: '#F1F1F1', paddingVertical: 10}}>
                 <CustomStatusBar />
                 {isLoading && renderIndicator()}
                 <TouchableOpacity
                   onPress={otptoggleModal}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <View style={styles.logoContainer}>
@@ -2951,22 +2888,22 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     {'Enter OTP Send On Your' + ' ' + number}
                   </Text>
                 </View>
-                <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <View style={{paddingHorizontal: '9%', marginVertical: '15%'}}>
                   <OtpInputs
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtp(val)}
                     numberOfInputs={4}
-                    focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
                   />
                 </View>
 
-                <View style={{ width: 250, alignSelf: 'center' }}>
+                <View style={{width: 250, alignSelf: 'center'}}>
                   <CustomButton
                     title={'Submit'}
                     onPress={onPressOtp}
-                  //onPress={() => onPressSubmitNumber()}
-                  // onPress={() => props.navigation.navigate('eKYC')}
+                    //onPress={() => onPressSubmitNumber()}
+                    // onPress={() => props.navigation.navigate('eKYC')}
                   />
                 </View>
                 <View style={styles.OtpResendContainer}>
@@ -2980,17 +2917,17 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             {/* modal for otp EMAIL  */}
             <Modal
               isVisible={isotpVisiblemodalemail}
-            // onBackdropPress={toggleModal2}
+              // onBackdropPress={toggleModal2}
             >
-              <View style={{ backgroundColor: '#F1F1F1', paddingVertical: 10 }}>
+              <View style={{backgroundColor: '#F1F1F1', paddingVertical: 10}}>
                 <CustomStatusBar />
                 {isLoading && renderIndicator()}
                 <TouchableOpacity
                   onPress={otptoggleModalEmail}
-                  style={{ alignSelf: 'flex-end' }}>
+                  style={{alignSelf: 'flex-end'}}>
                   <Image
                     source={Images.closeicon}
-                    style={{ height: 18, width: 18, marginRight: 10 }}
+                    style={{height: 18, width: 18, marginRight: 10}}
                   />
                 </TouchableOpacity>
                 <View style={styles.logoContainer}>
@@ -3004,22 +2941,22 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                     {'Enter OTP Send On Your' + ' ' + changeemail}
                   </Text>
                 </View>
-                <View style={{ paddingHorizontal: '9%', marginVertical: '15%' }}>
+                <View style={{paddingHorizontal: '9%', marginVertical: '15%'}}>
                   <OtpInputs
                     inputContainerStyles={styles.OtpinputContainer}
                     inputStyles={styles.otpinput}
                     handleChange={val => setOtpEmail(val)}
                     numberOfInputs={4}
-                    focusStyles={{ borderWidth: 2, borderColor: '#4B2A6A' }}
+                    focusStyles={{borderWidth: 2, borderColor: '#4B2A6A'}}
                   />
                 </View>
 
-                <View style={{ width: 250, alignSelf: 'center' }}>
+                <View style={{width: 250, alignSelf: 'center'}}>
                   <CustomButton
                     title={'Submit'}
                     onPress={onPressOtpEmail}
-                  //onPress={() => onPressSubmitNumber()}
-                  // onPress={() => props.navigation.navigate('eKYC')}
+                    //onPress={() => onPressSubmitNumber()}
+                    // onPress={() => props.navigation.navigate('eKYC')}
                   />
                 </View>
                 <View style={styles.OtpResendContainer}>

@@ -1246,6 +1246,19 @@ const UsersProfile = (props: UserProfileProps) => {
     getUserCoverMediaPic(user_id);
   };
 
+  const gotoNavigate = item => {
+    if (item.is_onboard) {
+      props.navigation.navigate('SchoolProfile', {
+        item: {
+          user_id: user_id,
+          school_id: item.school_id,
+        },
+      });
+    } else {
+      Toast.show('This school does not have social account', Toast.SHORT);
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -1518,14 +1531,8 @@ const UsersProfile = (props: UserProfileProps) => {
                         <View style={styles.textcontainer}>
                           <View style={{flexDirection: 'row'}}>
                             <TouchableOpacity
-                              onPress={() =>
-                                props.navigation.navigate('SchoolProfile', {
-                                  item: {
-                                    user_id: user_id,
-                                    school_id: item.school_id,
-                                  },
-                                })
-                              }>
+                              //disabled={item.is_onboard ? false : true}
+                              onPress={() => gotoNavigate(item)}>
                               <Text
                                 style={[
                                   styles.Personal_Tv,
@@ -1552,13 +1559,13 @@ const UsersProfile = (props: UserProfileProps) => {
                                     {fontWeight: '700'},
                                   ]}>
                                   {item.course_name}
-                                </Text>
-                                <Text style={styles.view_Tv_2}>
-                                  {'(' +
-                                    item.start_year +
-                                    ' - ' +
-                                    item.end_year +
-                                    ')'}
+                                  <Text style={styles.view_Tv_2}>
+                                    {'(' +
+                                      item.start_year +
+                                      ' - ' +
+                                      item.end_year +
+                                      ')'}
+                                  </Text>
                                 </Text>
                               </View>
                             );

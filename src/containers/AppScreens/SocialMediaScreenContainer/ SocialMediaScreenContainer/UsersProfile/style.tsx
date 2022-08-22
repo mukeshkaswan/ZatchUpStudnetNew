@@ -179,6 +179,7 @@ const styles = ScaledSheet.create({
   },
   view_Row: {
     flexDirection: 'row',
+    flex: 1,
   },
 
   view_Tv_1: {
@@ -192,7 +193,7 @@ const styles = ScaledSheet.create({
     fontSize: hp(2),
     // marginLeft: 15,
     color: 'black',
-    marginLeft:5
+    marginLeft: 5,
   },
 
   view_Tv_2: {
