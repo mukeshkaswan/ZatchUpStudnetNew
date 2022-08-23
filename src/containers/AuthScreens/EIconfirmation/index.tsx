@@ -49,6 +49,8 @@ import {
 } from 'react-native-responsive-screen';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+
+
 interface EIconfirmationScreenProps {
   navigation: any;
   route: any;
@@ -63,7 +65,6 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   const [Course, setCourse] = useState('');
   const [SchoolID, setSchoolID] = useState('');
   const [stepcount, setStepCount] = useState('');
-
   const [Des, setDes] = useState('');
   const [allSelected, setSelected] = useState(false);
   // const [value, setValue] = React.useState('first');
