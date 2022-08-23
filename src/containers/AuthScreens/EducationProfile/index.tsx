@@ -537,23 +537,33 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
   };
 
   const getdataCourseKey = async result => {
-    var city = [];
 
-    result.results.map((element: any) => {
+    if (result.length > 0) {
+      var city = [];
 
-      if (element.view_for == 'STUDENT') {
-        let obj = {
-          label: element.course_name,
-          value: element.id,
-          description: element.description,
-          start_date: element.start_date,
-        };
-        city.push(obj);
-      }
+      result.results.map((element: any) => {
 
-    });
+        if (element.view_for == 'STUDENT') {
+          let obj = {
+            label: element.course_name,
+            value: element.id,
+            description: element.description,
+            start_date: element.start_date,
+          };
+          city.push(obj);
+        }
 
-    setselectedCourse(city);
+      });
+
+      setselectedCourse(city);
+
+    }
+    else {
+
+      Toast.show('No course available', Toast.SHORT);
+
+
+    }
 
     // const city = result.results.map((element: any) => ({
     //   label: element.city,

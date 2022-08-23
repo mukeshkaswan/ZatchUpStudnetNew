@@ -1,4 +1,4 @@
-import React, {Component, FC, useState, useEffect, useRef} from 'react';
+import React, { Component, FC, useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -14,7 +14,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {Images} from '../../../../../components/index';
+import { Images } from '../../../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -28,8 +28,8 @@ import {
 } from '../../../../../components';
 import styles from './style.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-import {useDispatch} from 'react-redux';
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import {
   NavigationContainer,
   useIsFocused,
@@ -37,11 +37,11 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import images from '../../../../../components/images';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as userActions from '../../../../../actions/user-actions-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import CardView from 'react-native-cardview';
 import ProgressLoader from 'rn-progress-loader';
 import {
@@ -58,7 +58,7 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
 
 const SchoolProfile = (props: SchoolProfileProps) => {
   const {
-    item: {school_id, user_id},
+    item: { school_id, user_id },
   } = props.route.params;
   console.log('school_id=====>>user_id', school_id);
   const ref = useRef();
@@ -90,10 +90,10 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   };
 
   const [reportcheckboxValue, setreportCheckboxValue] = React.useState([
-    {report_option: 'Suspicious or Fake', checked: false},
-    {report_option: 'Harassment or hateful speech', checked: false},
-    {report_option: 'Violence or physical harm', checked: false},
-    {report_option: 'Adult Content', checked: false},
+    { report_option: 'Suspicious or Fake', checked: false },
+    { report_option: 'Harassment or hateful speech', checked: false },
+    { report_option: 'Violence or physical harm', checked: false },
+    { report_option: 'Adult Content', checked: false },
     {
       report_option: 'Intellectual property infringement or defamation',
       checked: false,
@@ -214,7 +214,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.blockUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //   'after result block data',
@@ -263,9 +263,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'Yes', onPress: () => gotoBlockProfile()},
+          { text: 'Yes', onPress: () => gotoBlockProfile() },
         ],
-        {cancelable: false},
+        { cancelable: false },
       );
     } else {
       Alert.alert(
@@ -277,9 +277,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'Yes', onPress: () => gotoBlockProfile()},
+          { text: 'Yes', onPress: () => gotoBlockProfile() },
         ],
-        {cancelable: false},
+        { cancelable: false },
       );
     }
     return true;
@@ -305,21 +305,21 @@ const SchoolProfile = (props: SchoolProfileProps) => {
       data.follow_status = !schoolDetail.social_account_status
         ? 2
         : schoolDetail.social_account_status
-        ? 1
-        : 0;
+          ? 1
+          : 0;
     } else {
       data.follow_status =
         schoolDetail.follow_request_status == 1
           ? 0
           : schoolDetail.follow_request_status == 0
-          ? 1
-          : 0;
+            ? 1
+            : 0;
     }
 
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //   'after result follow user',
@@ -356,7 +356,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -384,7 +384,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.getReportDataUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report data school',
@@ -394,7 +394,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({...result.data[i], checked: false});
+                newData.push({ ...result.data[i], checked: false });
               }
 
               console.log('newDataUser==>>', newData);
@@ -448,7 +448,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.getReportData({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report data post',
@@ -458,7 +458,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             if (result.status) {
               let newData = [];
               for (let i in result.data) {
-                newData.push({...result.data[i], checked: false});
+                newData.push({ ...result.data[i], checked: false });
               }
 
               console.log('newDataa==>>', newData);
@@ -524,7 +524,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.reportProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report profile',
@@ -584,7 +584,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.reportPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result report data',
@@ -681,7 +681,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result Auth User INfo',
@@ -770,7 +770,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.getSchoolProfile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
             console.warn(
@@ -815,7 +815,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
               console.log('NewArray==>>', newArrr);
 
-              let newObject = {...result.data[0], social_post: newArrr};
+              let newObject = { ...result.data[0], social_post: newArrr };
 
               console.log('+++++', newObject);
 
@@ -825,7 +825,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 if (
                   newObject.social_post[i].post_gallery != null &&
                   newObject.social_post[i].post_gallery[0].post_extension !=
-                    'mp4'
+                  'mp4'
                 ) {
                   newArrForNonVideo.push(newObject.social_post[i]);
                 } else if (newObject.social_post[i].post_gallery == null) {
@@ -895,7 +895,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.commentPost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment on post',
@@ -940,7 +940,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.commentlikeUnlike({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result comment like or unlike',
@@ -1017,7 +1017,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.likeUnlikePost({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result like or unlike',
@@ -1060,7 +1060,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
     // console.log('After Change==>>', newArr);
 
-    let newObject = {...schoolDetail, social_post: newArr};
+    let newObject = { ...schoolDetail, social_post: newArr };
 
     console.log('+++++', newObject);
 
@@ -1072,7 +1072,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
   const GoToNavigate = items => {
     console.log('item', items);
-    props.navigation.navigate('PostDetailScreen', {item: items});
+    props.navigation.navigate('PostDetailScreen', { item: items });
   };
 
   const gotoCallAlumni = () => {
@@ -1103,7 +1103,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
     dispatch(
       userActions.followUser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result follow user',
@@ -1132,7 +1132,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         {isLoading && renderIndicator()}
         <HeaderTitleWithBack
@@ -1152,11 +1152,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               <ImageBackground
                 source={
                   schoolDetail.cover_pic != null
-                    ? {uri: schoolDetail.cover_pic}
+                    ? { uri: schoolDetail.cover_pic }
                     : Images.cover_pic_default
                 }
                 resizeMode="stretch"
-                style={{width: '100%', height: 120}}>
+                style={{ width: '100%', height: 120 }}>
                 {/* <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View></View>
@@ -1207,11 +1207,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       borderColor: 'lightgrey',
                     }}>
                     <TouchableOpacity onPress={reportprofilemodal}>
-                      <Text style={{fontSize: hp(2)}}>Report Profile</Text>
+                      <Text style={{ fontSize: hp(2) }}>Report Profile</Text>
                     </TouchableOpacity>
                     {!schoolDetail.user_school_active && (
                       <TouchableOpacity onPress={() => blockprofile()}>
-                        <Text style={{fontSize: hp(2), marginTop: 10}}>
+                        <Text style={{ fontSize: hp(2), marginTop: 10 }}>
                           {schoolDetail != '' && schoolDetail.block_user_active
                             ? 'Unblock Profile'
                             : 'Block Profile'}
@@ -1223,12 +1223,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               </ImageBackground>
 
               <View style={styles.rowContainer}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View>
                     <Image
                       source={
                         schoolDetail.profile_pic != null
-                          ? {uri: schoolDetail.profile_pic}
+                          ? { uri: schoolDetail.profile_pic }
                           : Images.profile_default
                       }
                       style={{
@@ -1276,11 +1276,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       //   props.navigation.navigate('PostDetailScreen');
                       // }}
                       >
-                        <View style={{alignItems: 'center', marginTop: 10}}>
+                        <View style={{ alignItems: 'center', marginTop: 10 }}>
                           <Text style={styles.nametext}>
                             {schoolDetail.name_of_school}
                           </Text>
-                          <Text style={{marginLeft: 20, fontSize: 15}}>
+                          <Text style={{ marginLeft: 20, fontSize: 15 }}>
                             {schoolDetail.school_code}
                           </Text>
                         </View>
@@ -1306,13 +1306,13 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     disabled={
                       (schoolDetail.social_account_status ||
                         schoolDetail.block_user_active) &&
-                      schoolDetail.follow_request_status != 2
+                        schoolDetail.follow_request_status != 2
                         ? true
                         : false
                     }
                     onPress={() => {
                       props.navigation.navigate('FollowersScreen', {
-                        item: {...schoolDetail, flag: 'school'},
+                        item: { ...schoolDetail, flag: 'school' },
                       });
                     }}>
                     <Text style={styles.boldText}>
@@ -1328,8 +1328,8 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                         schoolDetail.follow_request_status == 0
                           ? '#463267'
                           : schoolDetail.follow_request_status == 1
-                          ? 'red'
-                          : 'green',
+                            ? 'red'
+                            : 'green',
                       width: 85,
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1338,7 +1338,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     }}
                     disabled={
                       schoolDetail.student_verified ||
-                      schoolDetail.block_user_active
+                        schoolDetail.block_user_active
                         ? true
                         : false
                     }
@@ -1346,19 +1346,19 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       schoolDetail.follow_request_status == 0
                         ? gotoFollow()
                         : schoolDetail.follow_request_status == 1
-                        ? toggleModalItem()
-                        : toggleModalItem()
+                          ? toggleModalItem()
+                          : toggleModalItem()
                     }>
-                    <Text style={{color: 'white', fontWeight: 'bold'}}>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
                       {schoolDetail.follow_request_status == 0
                         ? 'Follow'
                         : schoolDetail.follow_request_status == 1
-                        ? 'Requested'
-                        : 'Following'}
+                          ? 'Requested'
+                          : 'Following'}
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={{marginTop: 10}}>
+                <View style={{ marginTop: 10 }}>
                   <TouchableOpacity
                     style={{}}
                     // onPress={() => {
@@ -1386,14 +1386,14 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   flex: 1,
                 }}>
                 <Text style={styles.addresstext}> School Address : </Text>
-                <Text style={{color: 'black', flex: 1}}>
+                <Text style={{ color: 'black', flex: 1 }}>
                   {schoolDetail.address1 + '' + schoolDetail.address2}
                 </Text>
               </View>
             </View>
             {schoolDetail != '' && schoolDetail.overview != '' && (
               <View style={styles.paragraphcontainer}>
-                <Text style={{color: 'black', textAlign: 'justify'}}>
+                <Text style={{ color: 'black', textAlign: 'justify' }}>
                   <Text style={styles.overviewtext}>School Overview : </Text>
                   {schoolDetail.overview}
                 </Text>
@@ -1402,20 +1402,20 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             <View
               style={[
                 styles.totalstudentcontainer,
-                {backgroundColor: 'honeydew'},
+                { backgroundColor: 'honeydew' },
               ]}>
-              <Text style={{fontSize: 15}}>Number of Students</Text>
-              <Text style={[styles.numbertext, {color: 'green'}]}>
+              <Text style={{ fontSize: 15 }}>Number of Students</Text>
+              <Text style={[styles.numbertext, { color: 'green' }]}>
                 {schoolDetail.total_student}
               </Text>
             </View>
             <View
               style={[
                 styles.totalstudentcontainer,
-                {backgroundColor: 'lightgrey'},
+                { backgroundColor: 'lightgrey' },
               ]}>
-              <Text style={{fontSize: 15}}>Number of alumni on ZatchUp</Text>
-              <Text style={[styles.numbertext, {color: '#4E387E'}]}>
+              <Text style={{ fontSize: 15 }}>Number of alumni on ZatchUp</Text>
+              <Text style={[styles.numbertext, { color: '#4E387E' }]}>
                 {schoolDetail.total_alumni}
               </Text>
             </View>
@@ -1430,14 +1430,14 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   //   });
                   // }}
                   onPress={() => gotoCallAlumni()}>
-                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>
                     Alumni Gallery
                   </Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.borderstyle}></View>
               <View style={styles.tabrowContainer}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => gotoChangeTab('th')}>
@@ -1455,30 +1455,30 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       name="image"
                       size={30}
                       color={grid === 'Image' ? '#4B2A6A' : 'grey'}
-                      style={{marginLeft: 80}}
+                      style={{ marginLeft: 80 }}
                     />
                   </TouchableOpacity>
                 </View>
               </View>
             </Card>
             {schoolDetail != '' &&
-            schoolDetail.social_post.length > 0 &&
-            (schoolDetail.follow_request_status == 2 ||
-              !schoolDetail.social_account_status) &&
-            !schoolDetail.block_user_active &&
-            !(grid === 'Image') ? (
+              schoolDetail.social_post.length > 0 &&
+              (schoolDetail.follow_request_status == 2 ||
+                !schoolDetail.social_account_status) &&
+              !schoolDetail.block_user_active &&
+              !(grid === 'Image') ? (
               <FlatList
                 key={'#'}
                 numColumns={2}
                 data={schoolDetail.social_post}
                 // contentContainerStyle={{alignItems: 'center'}}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   let items = item;
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
                   if (item.post_gallery == null) {
                     let s = item.caption;
-                    var parts = s.match(/[\s\S]{1,45}/g) || [];
+                    var parts = s.match(/[\s\S]{1,50}/g) || [];
                     console.log(parts);
                     var lenCap = parts.length;
                   }
@@ -1503,7 +1503,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                           // layout={'tinder'}
                           ref={isCarouselText}
                           data={parts}
-                          renderItem={({item, index}) => (
+                          renderItem={({ item, index }) => (
                             <CrouselText
                               item={item}
                               index={index}
@@ -1532,7 +1532,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 key={'_'}
                 numColumns={1}
                 data={schoolDetail.social_post}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   let len =
                     item.post_gallery != null ? item.post_gallery.length : 0;
                   let items = item;
@@ -1569,10 +1569,10 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                     />
                   );
                 }}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
             ) : (schoolDetail.social_account_status ||
-                schoolDetail.block_user_active) &&
+              schoolDetail.block_user_active) &&
               schoolDetail.follow_request_status != 2 ? (
               <View
                 style={{
@@ -1583,7 +1583,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                   marginTop: 16,
                   paddingVertical: 32,
                 }}>
-                <Text style={{fontWeight: '700', fontSize: 18}}>
+                <Text style={{ fontWeight: '700', fontSize: 18 }}>
                   {schoolDetail.block_user_active
                     ? 'Blocked'
                     : 'This Account Is Private'}
@@ -1617,7 +1617,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
           onBackdropPress={reportprofilemodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1631,12 +1631,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               <TouchableOpacity onPress={reportprofilemodal}>
                 <Image
                   source={Images.closeicon}
-                  style={{height: 15, width: 15, marginRight: 10}}
+                  style={{ height: 15, width: 15, marginRight: 10 }}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{paddingHorizontal: 16}}>
+            <View style={{ paddingHorizontal: 16 }}>
               {checkboxValue.map((checkbox, i) => (
                 <View>
                   <View key={i} style={styles.rowContent}>
@@ -1696,11 +1696,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
 
             <View style={styles.mborder}></View>
             <View
-              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={gotoReportProfile}>
-                <Text style={{color: 'white'}}>Submit</Text>
+                <Text style={{ color: 'white' }}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1732,11 +1732,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             </>
             {/* )} */}
             <TouchableOpacity onPress={toggleModalPostDetail}>
-              <Text style={[styles.btn, {color: 'black'}]}>Go to Post</Text>
+              <Text style={[styles.btn, { color: 'black' }]}>Go to Post</Text>
             </TouchableOpacity>
             <View style={styles.mborder}></View>
             <TouchableOpacity onPress={toggleModal3}>
-              <Text style={[styles.btn, {color: 'rgb(70,50,103)'}]}>
+              <Text style={[styles.btn, { color: 'rgb(70,50,103)' }]}>
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -1749,7 +1749,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
           //onBackdropPress={reportmodal}
           backdropOpacity={0.4}>
           <View style={styles.modalContainer}>
-            <View style={[styles.rowContent, {paddingHorizontal: 16}]}>
+            <View style={[styles.rowContent, { paddingHorizontal: 16 }]}>
               <TouchableOpacity>
                 <Text
                   style={{
@@ -1763,13 +1763,13 @@ const SchoolProfile = (props: SchoolProfileProps) => {
               <TouchableOpacity onPress={toggleModal1}>
                 <Image
                   source={Images.closeicon}
-                  style={{height: 15, width: 15, marginRight: 10}}
+                  style={{ height: 15, width: 15, marginRight: 10 }}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.mborder}></View>
-            <View style={{paddingHorizontal: 16}}>
-              <Text style={{fontSize: hp(2.4)}}>
+            <View style={{ paddingHorizontal: 16 }}>
+              <Text style={{ fontSize: hp(2.4) }}>
                 Why are you reporting this?
               </Text>
               {reportcheckboxValue.map((checkbox, i) => (
@@ -1811,11 +1811,11 @@ const SchoolProfile = (props: SchoolProfileProps) => {
             </View>
             <View style={styles.mborder}></View>
             <View
-              style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+              style={{ alignItems: 'flex-end', marginTop: 10, marginRight: 10 }}>
               <TouchableOpacity
                 style={styles.postbtn}
                 onPress={() => gotoReport()}>
-                <Text style={{color: 'white'}}>Submit</Text>
+                <Text style={{ color: 'white' }}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1846,13 +1846,13 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 borderRadius: 25,
               }}
             /> */}
-            <View style={{paddingHorizontal: 16, alignItems: 'center'}}>
+            <View style={{ paddingHorizontal: 16, alignItems: 'center' }}>
               {schoolDetail.follow_request_status == 2 ? (
-                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                <Text style={{ textAlign: 'center', fontSize: hp(1.8) }}>
                   Are you sure you want to unfollow
                 </Text>
               ) : (
-                <Text style={{textAlign: 'center', fontSize: hp(1.8)}}>
+                <Text style={{ textAlign: 'center', fontSize: hp(1.8) }}>
                   Are you sure you want to cancel the Request?
                 </Text>
               )}
@@ -1865,9 +1865,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 marginTop: 30,
               }}></View>
             <TouchableOpacity onPress={gotoRemove}>
-              <Text style={{color: 'rgb(70,50,103)', marginTop: 10}}>
+              <Text style={{ color: 'rgb(70,50,103)', marginTop: 10 }}>
                 {schoolDetail.follow_request_status != 2 &&
-                schoolDetail.follow_request_status != 1
+                  schoolDetail.follow_request_status != 1
                   ? 'Unfollow'
                   : 'Yes'}
               </Text>
@@ -1880,9 +1880,9 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                 marginTop: 12,
               }}></View>
             <TouchableOpacity onPress={toggleModal}>
-              <Text style={{color: 'red', marginTop: 10}}>
+              <Text style={{ color: 'red', marginTop: 10 }}>
                 {schoolDetail.follow_request_status != 2 &&
-                schoolDetail.follow_request_status != 1
+                  schoolDetail.follow_request_status != 1
                   ? 'Cancel'
                   : 'No'}
               </Text>
@@ -1894,7 +1894,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
   );
 };
 
-function CrouselImages({items, item, index, goToNavigate, ref}) {
+function CrouselImages({ items, item, index, goToNavigate, ref }) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };
@@ -1920,8 +1920,8 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
         onPress={gotoNavigate}>
         {item.post_extension != 'mp4' ? (
           <Image
-            source={{uri: item.post_image}}
-            resizeMode="contain"
+            source={{ uri: item.post_image }}
+            resizeMode="stretch"
             style={{
               width: screenWidth / 2 - 24,
               height: screenWidth / 2 - 24,
@@ -1938,11 +1938,12 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
             }}
             onPress={gotoChange}>
             <Image
+              resizeMode="stretch"
               style={{
                 width: screenWidth / 2 - 24,
                 height: screenWidth / 2 - 24,
               }}
-              source={{uri: item.thumbnails}}
+              source={{ uri: item.thumbnails }}
             />
             <Ionicons
               name={'play-circle-outline'}
@@ -1957,9 +1958,9 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
         )}
       </TouchableOpacity>
       <Modal
-        style={{padding: 0, margin: 0, backgroundColor: '#fff'}}
+        style={{ padding: 0, margin: 0, backgroundColor: '#fff' }}
         isVisible={show}>
-        <View style={{backgroundColor: '#fff'}}>
+        <View style={{ backgroundColor: '#fff' }}>
           <Video
             ref={ref}
             style={{}}
@@ -1976,39 +1977,133 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
   );
 }
 
-function CrouselText({items, goToNavigate, item, index, length, data}) {
+function CrouselText({ items, goToNavigate, item, index, length, data }) {
   const gotoNavigate = () => {
     goToNavigate && goToNavigate(items);
   };
 
   return (
+    // <TouchableOpacity
+    //   style={{
+    //     alignItems: 'center',
+    //     marginTop: 16,
+    //     //   backgroundColor: index % 2 == 0 ? 'red' : 'green',
+    //     marginStart: index % 2 == 0 ? 16 : 8,
+    //     width: screenWidth / 2 - 24,
+    //     height: screenWidth / 2 - 24,
+    //     marginEnd: index % 2 == 0 ? 8 : 16,
+    //   }}
+    //   onPress={gotoNavigate}>
+    //   <View
+    //     style={{
+    //       flex: 1,
+    //       justifyContent: 'center',
+    //       alignItems: 'center',
+    //       width: screenWidth / 2 - 24,
+    //       height: screenWidth / 2 - 24,
+    //       // backgroundColor: 'red',
+    //     }}>
+    //     <View
+    //       style={{
+    //         backgroundColor: '#4B2A6A',
+    //         height: 1,
+    //         width: '84%',
+    //         marginEnd: 32,
+    //         alignSelf: 'center',
+    //       }}></View>
+    //     <Text
+    //       style={{
+    //         color: '#4B2A6A',
+    //         fontSize: 40,
+    //         textAlign: 'left',
+    //         alignSelf: 'flex-start',
+    //         marginStart: 16,
+    //       }}>
+    //       “
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         fontSize: 10,
+    //         fontWeight: '700',
+    //         color: '#4B2A6A',
+    //         marginHorizontal: 32,
+    //         marginEnd: 64,
+    //       }}>
+    //       {item}
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         color: '#4B2A6A',
+    //         fontSize: 40,
+    //         textAlign: 'right',
+    //         alignSelf: 'flex-end',
+    //         marginEnd: 48,
+    //       }}>
+    //       ”
+    //     </Text>
+    //     <View
+    //       style={{
+    //         backgroundColor: '#4B2A6A',
+    //         height: 1,
+    //         width: '84%',
+    //         marginEnd: 32,
+    //         alignSelf: 'center',
+    //       }}></View>
+    //   </View>
+    //   {length > 1 && (
+    //     <Text
+    //       style={{
+    //         marginVertical: 10,
+    //         fontSize: 12,
+    //         position: 'absolute',
+    //         color: '#fff',
+    //         right: 0,
+    //         backgroundColor: '#4B2A6A',
+    //         opacity: 0.7,
+    //         borderRadius: 12,
+    //         padding: 2,
+    //         paddingHorizontal: 6,
+    //       }}>
+    //       {index + 1}/{length}
+    //     </Text>
+    //   )}
+    // </TouchableOpacity>
+
+    // newcode
     <TouchableOpacity
       style={{
-        alignItems: 'center',
-        marginTop: 16,
-        //   backgroundColor: index % 2 == 0 ? 'red' : 'green',
         marginStart: index % 2 == 0 ? 16 : 8,
         width: screenWidth / 2 - 24,
-        height: screenWidth / 2 - 24,
-        marginEnd: index % 2 == 0 ? 8 : 16,
+        maxHeight: screenWidth / 2 - 24,
+        // backgroundColor: 'red',
+
+        flex: 1,
+        marginTop: 16,
+
+        //justifyContent:'center'
+        //borderWidth: 1,
+        borderColor: 'lightgrey',
+        alignItems: 'center',
       }}
       onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+
           width: screenWidth / 2 - 24,
-          height: screenWidth / 2 - 24,
-          // backgroundColor: 'red',
+          maxHeight: screenWidth / 2 - 24,
+          borderRadius: 6,
+          //backgroundColor: 'red',
+          alignContent: 'center',
+          justifyContent: 'center',
         }}>
         <View
           style={{
             backgroundColor: '#4B2A6A',
             height: 1,
             width: '84%',
-            marginEnd: 32,
-            alignSelf: 'center',
+
+            marginStart: 12,
           }}></View>
         <Text
           style={{
@@ -2016,17 +2111,18 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
             fontSize: 40,
             textAlign: 'left',
             alignSelf: 'flex-start',
-            marginStart: 16,
+            marginStart: 8,
           }}>
           “
         </Text>
         <Text
           style={{
-            fontSize: 10,
+            fontSize: 14,
             fontWeight: '700',
             color: '#4B2A6A',
-            marginHorizontal: 32,
-            marginEnd: 64,
+            marginHorizontal: 8,
+            textAlign: 'center',
+            // marginEnd: 64,
           }}>
           {item}
         </Text>
@@ -2036,23 +2132,23 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
             fontSize: 40,
             textAlign: 'right',
             alignSelf: 'flex-end',
-            marginEnd: 48,
+            marginEnd: 15,
           }}>
           ”
         </Text>
         <View
           style={{
             backgroundColor: '#4B2A6A',
-            height: 1,
+            borderWidth: 0.6,
             width: '84%',
-            marginEnd: 32,
-            alignSelf: 'center',
+            // marginEnd: 32,
+            marginStart: 12,
           }}></View>
       </View>
       {length > 1 && (
         <Text
           style={{
-            marginVertical: 10,
+            marginVertical: 6,
             fontSize: 12,
             position: 'absolute',
             color: '#fff',
@@ -2062,6 +2158,7 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
             borderRadius: 12,
             padding: 2,
             paddingHorizontal: 6,
+            marginEnd: 8,
           }}>
           {index + 1}/{length}
         </Text>
@@ -2071,3 +2168,4 @@ function CrouselText({items, goToNavigate, item, index, length, data}) {
 }
 
 export default SchoolProfile;
+

@@ -1118,7 +1118,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   };
 
   const onPressSubmit = async () => {
-    const newError = Validate('newmothername', newmothername);
+    //const newError = Validate('newmothername', newmothername);
 
     const newfatherError = Validate('newfathername', newfathername);
 
@@ -1128,10 +1128,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       var courseError = Validate('pronoun_', Course_Selected);
     }
 
-    if (newError || newfatherError || genderError || courseError) {
+    if (newfatherError || genderError || courseError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        newError || newfatherError || genderError || courseError,
+        newfatherError || genderError || courseError,
         Toast.LONG,
       );
 
@@ -2523,7 +2523,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
               {isAge ? <View style={styles.border1}></View> : null}
 
-              {isAge ? (
+              {isAge && kyc_approved != '0' ? (
                 <View style={styles.privacyrowcontainer}>
                   <Text style={styles.detail_text}>Private Profile</Text>
                   <Switch

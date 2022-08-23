@@ -158,6 +158,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
         width: 300,
         height: 300,
         cropping: true,
+        
       }).then(image => {
         let source = {
           uri: image.path,
@@ -948,7 +949,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 </View>
               </View>
               <View style={styles.likecontainer}>
-                {isAge ? (
+                {isAge  ? (
                   <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
                       onPress={() => {
@@ -1058,7 +1059,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                                 {item.name_of_school}
                               </Text>
                             </TouchableOpacity>
-                            {item.is_active_subscription && (
+                            {item.approved === 1 && (
                               <Icon
                                 name="check-circle"
                                 size={17}
@@ -1267,7 +1268,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                   let items = item;
                   if (item.post_gallery == null) {
                     let s = item.caption;
-                    var parts = s.match(/[\s\S]{1,140}/g) || [];
+                    var parts = s.match(/[\s\S]{1,60}/g) || [];
                     console.log(parts);
                     var lenCap = parts.length;
                   }
@@ -1306,8 +1307,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
                       <View
                         style={{
                           width: screenWidth / 2,
-                          height: screenWidth / 1.5,
-                          // backgroundColor: 'red',
+                          height: screenWidth / 2,
+                          //backgroundColor: 'red',
                         }}>
                         <Carousel
                           // layout={'tinder'}
@@ -1488,21 +1489,24 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
         style={{
           alignItems: 'center',
           marginTop: 16,
-          //  backgroundColor: index % 2 == 0 ? 'red' : 'green',
+          //backgroundColor: index % 2 == 0 ? 'red' : 'green',
           marginStart: index % 2 == 0 ? 16 : 8,
           width: screenWidth / 2 - 24,
-          height: screenWidth / 2 - 24,
+          maxHeight: screenWidth / 2 - 24,
           marginEnd: index % 2 == 0 ? 8 : 16,
+          flex: 1,
+
+          justifyContent: 'center',
         }}
         onPress={gotoNavigate}>
         {item.post_extension != 'mp4' ? (
           <Image
             source={{uri: item.post_image}}
-            resizeMode="contain"
+            resizeMode="stretch"
             style={{
               width: screenWidth / 2 - 24,
               height: screenWidth / 2 - 24,
-              backgroundColor: '#d2d2d2',
+              // backgroundColor: '#d2d2d2',
             }}
           />
         ) : (
@@ -1515,6 +1519,7 @@ function CrouselImages({items, item, index, goToNavigate, ref}) {
             }}
             onPress={gotoChange}>
             <Image
+              resizeMode="stretch"
               style={{
                 width: screenWidth / 2 - 24,
                 height: screenWidth / 2 - 24,
@@ -1562,29 +1567,38 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
     <TouchableOpacity
       style={{
         alignItems: 'center',
-        marginTop: 16,
+
         marginStart: index % 2 == 0 ? 16 : 8,
         width: screenWidth / 2 - 24,
-        height: screenWidth / 1.5 - 24,
-        marginEnd: index % 2 == 0 ? 8 : 16,
+        maxHeight: screenWidth / 2 - 24,
+        // backgroundColor: 'red',
+
+        flex: 1,
+        marginTop: 16,
+
+        //justifyContent:'center'
+        // borderWidth: 1,
+        borderColor: 'lightgrey',
       }}
       onPress={gotoNavigate}>
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+
           width: screenWidth / 2 - 24,
-          height: screenWidth / 1.5 - 24,
+          maxHeight: screenWidth / 2 - 24,
+          borderRadius: 6,
           //backgroundColor: 'red',
+          alignContent: 'center',
+          justifyContent: 'center',
         }}>
         <View
           style={{
             backgroundColor: '#4B2A6A',
             height: 1,
             width: '84%',
-            marginEnd: 32,
-            alignSelf: 'center',
+
+            marginStart: 12,
           }}></View>
         <Text
           style={{
@@ -1592,7 +1606,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             fontSize: 40,
             textAlign: 'left',
             alignSelf: 'flex-start',
-            marginStart: 16,
+            marginStart: 8,
           }}>
           “
         </Text>
@@ -1602,6 +1616,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             fontWeight: '700',
             color: '#4B2A6A',
             marginHorizontal: 8,
+            textAlign: 'center',
             // marginEnd: 64,
           }}>
           {item}
@@ -1612,23 +1627,23 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             fontSize: 40,
             textAlign: 'right',
             alignSelf: 'flex-end',
-            marginEnd: 40,
+            marginEnd: 15,
           }}>
           ”
         </Text>
         <View
           style={{
             backgroundColor: '#4B2A6A',
-            height: 1,
+            borderWidth: 0.6,
             width: '84%',
-            marginEnd: 32,
-            alignSelf: 'center',
+            // marginEnd: 32,
+            marginStart: 12,
           }}></View>
       </View>
       {length > 1 && (
         <Text
           style={{
-            marginVertical: 10,
+            marginTop: 14,
             fontSize: 12,
             position: 'absolute',
             color: '#fff',
@@ -1639,6 +1654,7 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
             padding: 2,
             paddingHorizontal: 6,
             marginEnd: 8,
+            marginRight: 8,
           }}>
           {index + 1}/{length}
         </Text>
@@ -1648,3 +1664,4 @@ function CrouselText({items, item, index, length, data, goToNavigate}) {
 }
 
 export default UserProfileScreen;
+

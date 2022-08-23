@@ -445,7 +445,7 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
         address1: addresssingle,
         city: cityKey[0].label,
         full_address: address,
-        name_of_school: schoolKey[0].label,
+        name_of_school: schoolKey[0].label === 'Others' ? schoolname : schoolKey[0].label,
         state: stateKey[0].label,
         university: Board,
         school_id: schoolid
@@ -825,7 +825,7 @@ const CurrentSchoolinfo = (props: CurrentSchoolinfoScreenProps, StatusBarProps: 
 
           {props.route.params.loginkey == 'loginkey' ? <View style={styles.fillTextContainer}>
             <Text style={styles.fillText}>Please Add your School:</Text>
-          </View>:<View style={styles.fillTextContainer}>
+          </View> : <View style={styles.fillTextContainer}>
             <Text style={styles.fillText}>Please Fill in the details below:</Text>
           </View>}
 

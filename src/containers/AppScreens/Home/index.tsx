@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -19,14 +19,14 @@ import {
   SafeAreaView,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
   CustomStatusBar,
   Validate,
 } from '../../../components';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import CardView from 'react-native-cardview';
@@ -41,12 +41,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
@@ -115,9 +115,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        { text: 'Yes', onPress: onDeleteBTN },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   }
@@ -219,7 +219,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -272,9 +272,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => Coursedelete(id)},
+        { text: 'Yes', onPress: () => Coursedelete(id) },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -289,9 +289,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => DeleteWorkDetails(id)},
+        { text: 'Yes', onPress: () => DeleteWorkDetails(id) },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -306,9 +306,9 @@ const HomeScreen = (props: HomeScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: () => Coursedeletestandard(id)},
+        { text: 'Yes', onPress: () => Coursedeletestandard(id) },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
     return true;
   };
@@ -336,7 +336,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserCourseDeleteBeforConformation({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
             // console.warn(
@@ -385,7 +385,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getDeleteCourseStandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
 
@@ -445,7 +445,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserDeleteWorkDetail({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
             // console.warn(
@@ -504,7 +504,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getDeleteCourseData({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
             // console.warn(
@@ -561,7 +561,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getAuthUserInfo({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //   'after result Auth User INfo',
@@ -615,7 +615,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //   'after result step count',
@@ -747,7 +747,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUserCourseDeleteNotConfirm({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //   'after.....>',
@@ -803,7 +803,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       userActions.getStudentEducationProfile({
         data,
 
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status === true) {
             // console.warn(
             //   'after result',
@@ -854,7 +854,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       userActions.getCitySearch({
         data,
 
-        callback: ({results, error}) => {
+        callback: ({ results, error }) => {
           console.warn(
             'after city result data',
             results,
@@ -913,7 +913,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getAddcitystateofuser({
           data,
 
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               setLoading(false);
 
@@ -983,7 +983,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getUsereditadmissionrollnotwo({
           data,
 
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               setLoading(false);
 
@@ -1050,7 +1050,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         userActions.getUsereditadmissionrollno({
           data,
 
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               setLoading(false);
 
@@ -1151,10 +1151,10 @@ const HomeScreen = (props: HomeScreenProps) => {
                         School Details
                       </Text>
                       {kyc_approved == '1' &&
-                      i.approved == 0 &&
-                      i.is_onboard == true &&
-                      i.is_students_verified == true &&
-                      i.is_active_subscription == true ? (
+                        i.approved == 0 &&
+                        i.is_onboard == true &&
+                        i.is_students_verified == true &&
+                        i.is_active_subscription == true ? (
                         <TouchableOpacity
                           style={{
                             backgroundColor: '#333A41',
@@ -1174,15 +1174,15 @@ const HomeScreen = (props: HomeScreenProps) => {
                               getVerify: 1,
                             })
                           }>
-                          <Text style={{color: 'white', fontSize: 11}}>
+                          <Text style={{ color: 'white', fontSize: 11 }}>
                             Get Verified
                           </Text>
                         </TouchableOpacity>
                       ) : null}
 
                       {i.approved == 2 &&
-                      i.is_rejected == true &&
-                      i.is_active_subscription == true ? (
+                        i.is_rejected == true &&
+                        i.is_active_subscription == true ? (
                         <TouchableOpacity
                           style={{
                             backgroundColor: '#333A41',
@@ -1202,7 +1202,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                               ei_request_count: 0,
                             })
                           }
-                          // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
+                        // onPress={() => props.navigation.navigate('GetVerifyWebView', { 'user_id': props.route.params.user_id })}
                         >
                           <Text
                             style={{
@@ -1216,14 +1216,14 @@ const HomeScreen = (props: HomeScreenProps) => {
                         </TouchableOpacity>
                       ) : null}
 
-                      <View style={{flexDirection: 'row'}}>
+                      <View style={{ flexDirection: 'row' }}>
                         {i.approved == 1 ? (
                           <TouchableOpacity
                             underlayColor="none"
                             onPress={() =>
                               props.navigation.navigate(
                                 'CoursesPendingScreen',
-                                {school_id: i.school_id},
+                                { school_id: i.school_id },
                               )
                             }>
                             <Image
@@ -1240,8 +1240,8 @@ const HomeScreen = (props: HomeScreenProps) => {
                         ) : null}
 
                         {kyc_approved == '1' &&
-                        i.firebase_id != null &&
-                        i.approved != 2 ? (
+                          i.firebase_id != null &&
+                          i.approved != 2 ? (
                           <TouchableOpacity
                             underlayColor="none"
                             // onPress={() => props.navigation.navigate('SingleChatWebView', { 'user_id': props.route.params.user_id })}
@@ -1392,7 +1392,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                       {i.is_onboard == true ? (
                         <View style={styles.view_Row}>
-                          <Text style={styles.view_Tv_1}>School Address :</Text>
+                          <Text style={styles.view_Tv_1}>Address :</Text>
                           <Text style={styles.view_Tv_2}>
                             {i.address1 + ' ' + i.address2}
                           </Text>
@@ -1480,7 +1480,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                                 Course Details
                               </Text>
 
-                              <View style={{flexDirection: 'row'}}>
+                              <View style={{ flexDirection: 'row' }}>
                                 {i.approved != 2 ? (
                                   <TouchableOpacity
                                     underlayColor="none"
@@ -1805,7 +1805,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getUploadFile({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //     'after result upload file',
@@ -1865,7 +1865,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     dispatch(
       userActions.getAddProfilePicInfoEdu({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             setLoading(false);
 
@@ -1901,7 +1901,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         {/* <CustomStatusBar /> */}
         {isLoading && renderIndicator()}
@@ -1913,7 +1913,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   borderBottomRightRadius: 15,
           }}>
           <View
-            style={{flexDirection: 'row', width: '100%', alignSelf: 'center'}}>
+            style={{ flexDirection: 'row', width: '100%', alignSelf: 'center' }}>
             <TouchableOpacity
               onPress={backPressed}
               style={{
@@ -2019,7 +2019,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         </TouchableOpacity>
       </View> */}
         <ScrollView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -2058,24 +2058,24 @@ const HomeScreen = (props: HomeScreenProps) => {
                 }}>
                 <TouchableOpacity
                   onPress={() => OpenCamera()}
-                  style={{padding: 15, backgroundColor: '#FFFFFF'}}>
-                  <Text style={{color: '#000', fontSize: 17}}>
+                  style={{ padding: 15, backgroundColor: '#FFFFFF' }}>
+                  <Text style={{ color: '#000', fontSize: 17 }}>
                     {'Open Camera'}
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => getImage()}
-                  style={{padding: 15, backgroundColor: '#FFFFFF'}}>
-                  <Text style={{color: '#000', fontSize: 17}}>
+                  style={{ padding: 15, backgroundColor: '#FFFFFF' }}>
+                  <Text style={{ color: '#000', fontSize: 17 }}>
                     {'Open Gallery'}
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => refRBSheet.current.close()}
-                  style={{padding: 15, backgroundColor: '#4B2A6A'}}>
-                  <Text style={{color: '#FFFFFF', fontSize: 17}}>
+                  style={{ padding: 15, backgroundColor: '#4B2A6A' }}>
+                  <Text style={{ color: '#FFFFFF', fontSize: 17 }}>
                     {'Cancel'}
                   </Text>
                 </TouchableOpacity>
@@ -2101,12 +2101,12 @@ const HomeScreen = (props: HomeScreenProps) => {
             <View style={styles.avatarStyle}>
               <TouchableOpacity
                 onPress={() => refRBSheet.current.open()}
-                //onPress={getImage}
+              //onPress={getImage}
               >
                 {profilepic != '' && profilepic != null ? (
                   <View>
                     <Image
-                      source={{uri: profilepic}}
+                      source={{ uri: profilepic }}
                       style={{
                         height: 100,
                         width: 100,
@@ -2140,7 +2140,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     }}>
                     <Image
                       source={Images.edit_icon}
-                      style={{height: '80%', width: '80%', resizeMode: 'cover'}}
+                      style={{ height: '80%', width: '80%', resizeMode: 'cover' }}
                     />
                   </View>
                 ) : null}
@@ -2156,7 +2156,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   }}>
                   <Image
                     source={Images.blue_tick}
-                    style={{height: '100%', width: '100%', resizeMode: 'cover'}}
+                    style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
                   />
                 </View>
               ) : null}
@@ -2261,15 +2261,16 @@ const HomeScreen = (props: HomeScreenProps) => {
                 </View>
               ) : null}
 
-              <View style={styles.view_Row_}>
+              {fathername != '' ? <View style={styles.view_Row_}>
                 <Text style={styles.view_Tv_1}>Father's Name :</Text>
                 <Text style={styles.view_Tv_2}>{fathername}</Text>
-              </View>
+              </View> : null}
 
-              <View style={styles.view_Row_Child}>
+              {mothername != '' ? <View style={styles.view_Row_Child}>
                 <Text style={styles.view_Tv_1}>Mother's Name :</Text>
                 <Text style={styles.view_Tv_2}>{mothername}</Text>
-              </View>
+              </View> : <View style={styles.view_Row_Child}>
+              </View>}
             </CardView>
 
             <CardView
@@ -2278,7 +2279,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               cornerRadius={10}
               style={styles.Cardview}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.Personal_Tv}>Your Current City</Text>
 
                 {country == null ? (
@@ -2355,7 +2356,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               cornerRadius={10}
               style={styles.Cardview}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.Personal_Tv}>Work Details</Text>
 
                 <TouchableOpacity
@@ -2391,9 +2392,9 @@ const HomeScreen = (props: HomeScreenProps) => {
               <View style={styles.underview} />
 
               <FlatList
-                style={{marginBottom: 10}}
+                style={{ marginBottom: 10 }}
                 data={setdatafromworklist}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <View>
                     <View
                       style={{
@@ -2412,17 +2413,17 @@ const HomeScreen = (props: HomeScreenProps) => {
                           resizeMode: 'contain',
                         }}
                       />
-                      <View style={{marginLeft: 10, flex: 3, marginTop: -12}}>
+                      <View style={{ marginLeft: 10, flex: 3, marginTop: -12 }}>
                         <View
                           style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             alignItems: 'center',
                           }}>
-                          <Text style={{fontSize: 16, color: '#000'}}>
+                          <Text style={{ fontSize: 16, color: '#000' }}>
                             {item.job_title}
                           </Text>
-                          <View style={{flexDirection: 'row'}}>
+                          <View style={{ flexDirection: 'row' }}>
                             {/* <Image
                             style={{
                               height: 28,
@@ -2452,7 +2453,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                           </View>
                         </View>
 
-                        <Text style={{fontSize: 16}}>{item.company_name}</Text>
+                        <Text style={{ fontSize: 16 }}>{item.company_name}</Text>
                         {item.is_currently_work == true ? (
                           <Text>{item.start_date + ' - ' + 'Present'}</Text>
                         ) : (
@@ -2467,12 +2468,12 @@ const HomeScreen = (props: HomeScreenProps) => {
                         </Text>
                       </View>
                     </View>
-                    <Text style={{fontSize: 16, marginTop: 10, marginLeft: 15}}>
+                    <Text style={{ fontSize: 16, marginTop: 10, marginLeft: 15 }}>
                       {item.work_description}
                     </Text>
                   </View>
                 )}
-                //  ItemSeparatorComponent={renderIndicator}
+              //  ItemSeparatorComponent={renderIndicator}
               />
               {/* <View style={styles.view_Row_}>
               <Text style={styles.view_Tv_1}>Delhi Public School</Text>
@@ -2493,7 +2494,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 marginRight: 15,
                 marginTop: 30,
                 shadowColor: 'black',
-                shadowOffset: {width: 0, height: 2},
+                shadowOffset: { width: 0, height: 2 },
                 shadowRadius: 6,
                 shadowOpacity: 0.26,
                 elevation: 8,
@@ -2503,7 +2504,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                 marginBottom: 10,
               }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.Personal_Tv}>Add School</Text>
 
                 <TouchableOpacity
@@ -2552,7 +2553,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               data={setdatafromlist}
               //keyExtractor={item => item.id.toString()}
               ItemSeparatorComponent={ItemSeprator}
-              renderItem={({item, index}) => rednderItemList(item, index)}
+              renderItem={({ item, index }) => rednderItemList(item, index)}
             />
           </View>
 
@@ -2585,7 +2586,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                 <TouchableOpacity
                   onPress={toggleModal}
-                  style={{alignSelf: 'flex-end', marginBottom: 20}}>
+                  style={{ alignSelf: 'flex-end', marginBottom: 20 }}>
                   <Image
                     source={Images.closeicon}
                     style={{
@@ -2609,7 +2610,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   />
 
                   <TextInput
-                    style={{width: '85%'}}
+                    style={{ width: '85%' }}
                     //onChangeText={onChangeNumber}
                     onChangeText={value => getSearchcitydata(value)}
                     value={cityname}
@@ -2622,8 +2623,8 @@ const HomeScreen = (props: HomeScreenProps) => {
               {citydata.length > 0 ? (
                 <FlatList
                   data={citydata}
-                  style={{paddingHorizontal: 25}}
-                  renderItem={({item, index}) =>
+                  style={{ paddingHorizontal: 25 }}
+                  renderItem={({ item, index }) =>
                     rednderItemListcitydata(item, index)
                   }
                 />
@@ -2632,7 +2633,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               <TouchableOpacity
                 onPress={() => onPressModalSubmit()}
                 style={styles.submitbtncity}>
-                <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
+                <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
               </TouchableOpacity>
             </View>
           </Modal>
@@ -2648,7 +2649,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             isVisible={isModalVisibleno}
             onBackdropPress={toggleModalNo}>
             <View style={styles.modalContainer}>
-              <View style={{marginTop: '5%'}}>
+              <View style={{ marginTop: '5%' }}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -2709,7 +2710,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   <TouchableOpacity
                     onPress={() => onPressModalSubmitAdmissionNo()}
                     style={styles.submitbtn}>
-                    <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
+                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -2727,7 +2728,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             isVisible={isModalVisiblerollno}
             onBackdropPress={toggleModalRollNo}>
             <View style={styles.modalContainer}>
-              <View style={{marginTop: '5%'}}>
+              <View style={{ marginTop: '5%' }}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -2788,7 +2789,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                   <TouchableOpacity
                     onPress={() => onPressModalSubmitRollNo()}
                     style={styles.submitbtn}>
-                    <Text style={{color: 'white', fontSize: 16}}>Submit</Text>
+                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
                   </TouchableOpacity>
                 </View>
               </View>

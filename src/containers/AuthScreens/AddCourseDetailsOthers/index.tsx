@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -12,9 +12,9 @@ import {
   Platform,
   SafeAreaView,
 } from 'react-native';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -27,14 +27,14 @@ import {
   HeaderTitleWithBack,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {useDispatch, useSelector} from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AddCourseDetailsOthersScreenProps {
   navigation: any;
@@ -179,7 +179,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -253,8 +253,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         Course_Selected == 0
           ? 'Regular'
           : Course_Selected == 1
-          ? 'Distance'
-          : null;
+            ? 'Distance'
+            : null;
 
       let rawdata = {
         admission_no: null,
@@ -289,7 +289,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
       dispatch(
         userActions.getAddCourseByUser({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               setLoading(false);
 
@@ -330,10 +330,10 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'always'}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <CustomStatusBar />
@@ -349,7 +349,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
               <TouchableOpacity
               // onPress={() => props.navigation.navigate('CurrentSchoolinfo')}
               >
-                <View style={{flexDirection: 'row', marginBottom: 10}}>
+                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                   {/* <Image
                   style={{
                     marginLeft: 10,
@@ -359,13 +359,13 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   }}
                   source={Images.edit_icon}
                 /> */}
-                  <Text style={{marginTop: 2, fontSize: 14, marginLeft: 10}}>
+                  <Text style={{ marginTop: 2, fontSize: 14, marginLeft: 10 }}>
                     {props.route.params.nameofschool}
                   </Text>
                 </View>
               </TouchableOpacity>
 
-              <View style={{marginTop: '1%', marginLeft: 2, marginRight: 2}}>
+              <View style={{ marginTop: '1%', marginLeft: 2, marginRight: 2 }}>
                 <TextField
                   placeholder={'Enter Course Name'}
                   onChangeText={val => setCourse(val)}
@@ -373,7 +373,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                 />
               </View>
 
-              <View style={{marginTop: '2%'}}>
+              <View style={{ marginTop: '2%' }}>
                 <CustomDropdown
                   placeholder={'Select Type'}
                   data={CourseTypeOther}
@@ -389,14 +389,14 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
               <RadioButton.Group
                 onValueChange={newValue => setValue(newValue)}
                 value={value}>
-                <View style={{flexDirection: 'row', marginTop: 20}}>
+                <View style={{ flexDirection: 'row', marginTop: 20 }}>
                   <View
                     style={{
                       flexDirection: 'row',
                       marginLeft: 10,
                       alignItems: 'center',
                     }}>
-                    <Text style={{fontSize: 16}}>Student</Text>
+                    <Text style={{ fontSize: 16 }}>Student</Text>
                     <RadioButton value="Student" />
                   </View>
                   <View
@@ -405,7 +405,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                       marginLeft: 20,
                       alignItems: 'center',
                     }}>
-                    <Text style={{fontSize: 16}}>Alumni</Text>
+                    <Text style={{ fontSize: 16 }}>Alumni</Text>
                     <RadioButton value="Alumni" />
                   </View>
                 </View>
@@ -429,7 +429,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   </RadioGroup> */}
 
-              <View style={{marginTop: '5%'}}>
+              <View style={{ marginTop: '5%' }}>
                 <TouchableOpacity onPress={showDatepicker}>
                   <View style={{}}>
                     <TextField
@@ -443,7 +443,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
               </View>
               {value === 'Alumni' ? (
                 <TouchableOpacity onPress={showDatepicker1}>
-                  <View style={{marginTop: '5%'}}>
+                  <View style={{ marginTop: '5%' }}>
                     <TextField
                       placeholder={'Course Up to'}
                       imageIcon={Images.calendar_icon}
@@ -453,7 +453,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   </View>
                 </TouchableOpacity>
               ) : (
-                <Text style={{marginTop: 20, fontSize: 16, marginLeft: 10}}>
+                <Text style={{ marginTop: 20, fontSize: 16, marginLeft: 10 }}>
                   {'To Current'}
                 </Text>
               )}
@@ -506,7 +506,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   title={'Add'}
                   disabled={flag}
                   onPress={() => CourseAdded()}
-                  //  onPress={() => props.navigation.navigate('AddMoreCourseDetailsOthers')}
+                //  onPress={() => props.navigation.navigate('AddMoreCourseDetailsOthers')}
                 />
               </View>
             </View>
