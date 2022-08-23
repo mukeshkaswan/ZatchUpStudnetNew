@@ -1502,7 +1502,8 @@ const UsersProfile = (props: UserProfileProps) => {
                           props.navigation.navigate(
                             'SIngleChatWithTeacherWebView',
                             {
-                              user_id: user_id,
+                             // user_id: user_id,
+                              user_id: userid,
                               firebase_id: userProfile.firebase_id,
                             },
                           )
