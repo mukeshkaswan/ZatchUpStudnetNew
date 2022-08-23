@@ -331,7 +331,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       token: token,
       course_id: course_id,
     };
-    // setLoading(true);
+    setLoading(true);
 
     dispatch(
       userActions.getUserCourseDeleteBeforConformation({
@@ -339,10 +339,10 @@ const HomeScreen = (props: HomeScreenProps) => {
         callback: ({result, error}) => {
           if (result) {
             setLoading(false);
-            console.warn(
-              'after result.....2',
-              JSON.stringify(result, undefined, 2),
-            );
+            // console.warn(
+            //   'after result.....2',
+            //   JSON.stringify(result, undefined, 2),
+            // );
             props.navigation.navigate('EIconfirmation', {
               course_id: course_id,
               login: true,

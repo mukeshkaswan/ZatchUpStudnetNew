@@ -182,10 +182,10 @@ const BlockListScreen = (props: NotificationsScreenProps) => {
     const data = {
       token: token,
       blocked_user_id: item.profile_reported_user_id,
-      block_user_status: item.blocked_status,
+      block_user_status: false,
     };
 
-    console.log('ReportPost==>>', data);
+   // console.log('ReportPost==>>', data);
 
     dispatch(
       userActions.blockUser({
