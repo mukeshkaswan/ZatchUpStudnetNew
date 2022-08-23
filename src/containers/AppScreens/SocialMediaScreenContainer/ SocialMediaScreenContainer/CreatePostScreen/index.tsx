@@ -635,7 +635,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
             />
           )}
 
-          {picdata.length == 0 && (
+          {picdata.length == 0 && picdata.length < 5 ? (
             <TouchableOpacity
               //onPress={() => getImageFrontGallery()}
               onPress={() => refRBSheet.current.open()}
@@ -652,9 +652,9 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               <Icon name="camera" size={25} color="white" style={{margin: 5}} />
               <Text style={styles.addphotoText}>Add Media</Text>
             </TouchableOpacity>
-          )}
+          ):null}
 
-          {picdata.length > 0 && (
+          {picdata.length > 0 &&  picdata.length < 5 ? (
             <TouchableOpacity
               //onPress={() => getImageFrontGallery()}
               //onPress={getImage}
@@ -672,7 +672,7 @@ const CreatePostScreen = (props: NotificationsScreenProps) => {
               <Icon name="camera" size={25} color="white" style={{margin: 5}} />
               <Text style={styles.addphotoText}>Add Media</Text>
             </TouchableOpacity>
-          )}
+          ):null}
 
           {(picdata.length > 0 || Caption != '') && (
             <View>
