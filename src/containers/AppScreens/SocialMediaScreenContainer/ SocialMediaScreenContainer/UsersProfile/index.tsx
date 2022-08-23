@@ -86,7 +86,7 @@ const UsersProfile = (props: UserProfileProps) => {
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledDob, setIsEnabledDob] = useState(false);
   const [isEnabledGender, setIsEnabledGender] = useState(true);
-  const [isEnabledProfession, setIsEnabledProfession] = useState(false);
+  const [isEnabledProfession, setIsEnabledProfession] = useState(true);
   const [isEnabledCity, setIsEnabledCity] = useState(true);
   const [isEnabled, setIsEnabled] = useState(false);
 

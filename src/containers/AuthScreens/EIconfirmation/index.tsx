@@ -269,6 +269,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     const data = {
       token: token,
     };
+    setLoading(true);
+
     dispatch(
       userActions.getRegStepCount({
         data,
@@ -894,11 +896,11 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
                 getdataCourseKey(newObj);
-                setLoading(false);
+            //    setLoading(false);
 
               }
             } else {
-              setLoading(false);
+             // setLoading(false);
    
             //  getdataCourseKey(result);
             }
