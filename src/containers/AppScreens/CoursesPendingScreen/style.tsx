@@ -92,6 +92,11 @@ const styles = ScaledSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
+  view_Tv_current: {
+    marginTop: 5,
+    fontSize: hp(2),
+    color: '#565656',
+  },
   view_Row: {
     flexDirection: 'row',
   },

@@ -210,11 +210,11 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   }
 
   const SetSchoolid = async result => {
-   // console.log('result9211', result);
+    // console.log('result9211', result);
 
     result.data.map((element: any) => {
       setSchoolIDKey(element.ei_detail.id);
-    //  console.log('school id', element.ei_detail.id);
+      //  console.log('school id', element.ei_detail.id);
     });
   };
   const getdataCourseKey = async result => {
@@ -299,7 +299,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
       token: token,
       course_id: id,
     };
-   // setLoading(true);
+    // setLoading(true);
 
     dispatch(
       userActions.getUserchangecoursestandarddetailbystudentbyid({
@@ -750,7 +750,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         data,
         callback: ({ result, error }) => {
           if (result) {
-          //  console.log('after result naveen ', JSON.stringify(result));
+            //  console.log('after result naveen ', JSON.stringify(result));
 
             if (result.data.length > 0) {
               var newAr: any = [];
@@ -758,7 +758,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               for (let i in result.data) {
                 if (result.data[i].ei_detail.course_detail.length > 0) {
                   newApiArr.push(result.data[i]);
-                //  console.log('newApiArray.log', newApiArr);
+                  //  console.log('newApiArray.log', newApiArr);
                 }
               }
 
@@ -775,7 +775,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                     newApiArr[0].ei_detail.course_detail[0].standard_detail !=
                     null
                   ) {
-                //    console.log('newApiArray 2', 'huy 2');
+                    //    console.log('newApiArray 2', 'huy 2');
 
                     for (let i in newApiArr[0].ei_detail.course_detail[0]
                       .standard_detail) {
@@ -799,7 +799,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   }
                 }
 
-               // console.log('--------', newAr);
+                // console.log('--------', newAr);
 
                 let newObject = Object.assign([], newApiArr);
                 let arrr = [];
@@ -813,7 +813,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   }
                 }
 
-              //  console.log('=======', arrr);
+                //  console.log('=======', arrr);
 
                 let newD = [];
                 for (let i in newApiArr[0]) {
@@ -821,7 +821,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   newD.push({ ei_detail: item });
                 }
 
-               // console.log('AddFlag===>>', newD);
+                // console.log('AddFlag===>>', newD);
 
                 let newArr = [];
                 for (let i in newD[0].ei_detail.course_detail[0]
@@ -863,7 +863,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
                 let newObj = { ...result, data: newCourseList };
 
-              //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
+                //  console.log('newData==>>>>>>>>>>>>Api Changes', newObj);
 
                 getdataCourseKey(newObj);
                 setLoading(false);
@@ -871,8 +871,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
               }
             } else {
               setLoading(false);
-   
-            //  getdataCourseKey(result);
+
+              //  getdataCourseKey(result);
             }
             // getdataCourseKey(result);
 
@@ -1103,7 +1103,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
         newAr[0].ei_detail.course_detail[0].standard_detail[i].showStart =
           false;
       }
-     // console.log('newArrrDismiss==>>', newAr);
+      // console.log('newArrrDismiss==>>', newAr);
       setDataCourseInList(newAr);
       return;
     }
@@ -1434,10 +1434,10 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                 cornerRadius={10}
                 style={styles.Cardview}>
                 <View style={styles.view_Row_}>
-                  <Text style={styles.view_Tv_1}>ZatchUp ID :</Text>
-                  <Text style={styles.view_Tv_2}>
+                  {item.ei_detail.school_code != '' && item.ei_detail.school_code != null ? <Text style={styles.view_Tv_1}>ZatchUp ID :</Text> : null}
+                  {item.ei_detail.school_code != '' && item.ei_detail.school_code != null ? <Text style={styles.view_Tv_2}>
                     {item.ei_detail.school_code}
-                  </Text>
+                  </Text> : null}
 
                   {stepcount != '7' ? (
                     <TouchableOpacity
@@ -1523,6 +1523,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
                 {item.ei_detail.course_detail.length > 0 &&
                   item.ei_detail.course_detail.map(i => {
+                    // console.log('item.ei_detail.course_detail', item.ei_detail.course_detail)
+
                     return (
                       <View>
                         <View
@@ -1544,23 +1546,23 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false
+                              i.is_current_course == false && i.standard_detail.length > 0
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                    item.ei_detail.school_code,
+                                  item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
                                   coursekeyothersAlumni:
-                                    props.route.params.coursekeyothersAlumni,
+                                  props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                   re_verify: props.route.params.re_verify,
                                   login: props.route.params.login,
                                   LoginfromEducationProfile:
-                                    props.route.params
+                                  props.route.params
                                       .LoginfromEducationProfile,
                                 })
                                 : i.standard_detail != null &&
@@ -1596,8 +1598,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       nameofschool:
                                         item.ei_detail.name_of_school,
                                       course_name: i.course_name,
-                                      start_date: '2018-01-06',
-                                      end_date: '2022-01-06',
+                                     // start_date: '2018-01-06',
+                                     // end_date: '2022-01-06',
                                       description: i.description,
                                       course_type: i.course_type,
                                       course_id: i.course_id,

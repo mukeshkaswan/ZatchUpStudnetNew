@@ -1054,7 +1054,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                   <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                     {item.display}
                   </Text>
-                  {item.is_school_mate != null && <Text>School Mate</Text>}
+                  <Text>schoolmates</Text>
                 </View>
               </View>
             </View>

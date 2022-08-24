@@ -1120,7 +1120,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   const onPressSubmit = async () => {
     //const newError = Validate('newmothername', newmothername);
 
-    const newfatherError = Validate('newfathername', newfathername);
+  //  const newfatherError = Validate('newfathername', newfathername);
 
     const genderError = Validate('gender', male || Female || Custom);
 
@@ -1128,10 +1128,10 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       var courseError = Validate('pronoun_', Course_Selected);
     }
 
-    if (newfatherError || genderError || courseError) {
+    if ( genderError || courseError) {
       //this._scrollView.scrollTo(0);
       Toast.show(
-        newfatherError || genderError || courseError,
+        genderError || courseError,
         Toast.LONG,
       );
 

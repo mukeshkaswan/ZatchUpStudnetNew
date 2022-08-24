@@ -186,13 +186,13 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
 
           if (result) {
 
-            // console.warn(
-            //   'after result',
-            //   JSON.stringify(result.data, undefined, 2),
+            console.warn(
+              'after result',
+              JSON.stringify(result.data, undefined, 2),
 
-            //   //  getdataProfile(result),
-            //   //  getdataCourse(result),
-            // );
+              //  getdataProfile(result),
+              //  getdataCourse(result),
+            );
             setLoading(false);
 
 
@@ -280,15 +280,21 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
        
       <Video
           ref={ref}
-          url={{ uri: play }}
-          resizeMode="cover"
+          url={play}
+        //  resizeMode="cover"
           showDuration
           //  rotateToFullScreen={true}
           lockRatio={16 / 9}
           onFullScreen={onFullScreen}
-          placeholder={placeholder}
+          style={{}}
+          autoPlay={true}
+          placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+          inlineOnly={true}
+         // placeholder={placeholder}
 
         />
+
+
 
     </View>
 

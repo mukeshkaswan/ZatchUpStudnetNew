@@ -31,7 +31,7 @@ interface DrawerMenuScreenScreenProps {
   navigation: any;
 }
 const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('...');
   const [profilepic, setProfilePic] = useState('');
   const [kycapprovedkey, setKycapproved] = useState('');
   const [isLoading, setLoading] = useState(false);
@@ -54,13 +54,13 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       const dataSetTimeOut = setTimeout(() => {
 
         getAuthUserInfoApi();
-        
+
         getStepCountAPi();
 
         return () => {
           dataSetTimeOut.clear();
         }
-      },1000);
+      }, 700);
     }, []),
   );
 
@@ -145,7 +145,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
           if (result) {
             setLoading(false);
 
-           // console.log('vijayji', result);
+            // console.log('vijayji', result);
             setProfilePic(result.profile_pic),
               setUsername(result.user_first_name + ' ' + result.user_last_name),
               setUserId(result.user_id)
@@ -190,7 +190,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
       }
 
       if (kyckey !== null) {
-       // console.log('kyckey', kyckey);
+        // console.log('kyckey', kyckey);
 
         setKycapproved(kyckey);
       }
@@ -217,7 +217,7 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   };
 
 
-  
+
   const LogoutALert = async () => {
     try {
       await AsyncStorage.removeItem('username');

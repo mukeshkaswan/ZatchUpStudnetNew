@@ -1134,6 +1134,8 @@ const HomeScreen = (props: HomeScreenProps) => {
       <>
         {item.educationdetail.length > 0 &&
           item.educationdetail.map(i => {
+            // console.log('item.educationdetail',item.educationdetail)
+
             return (
               <CardView
                 cardElevation={1}

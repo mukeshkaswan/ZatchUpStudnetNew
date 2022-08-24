@@ -538,7 +538,7 @@ const EducationProfile = (props: EducationProfileScreenProps) => {
 
   const getdataCourseKey = async result => {
 
-    if (result.length > 0) {
+    if (result.results.length > 0) {
       var city = [];
 
       result.results.map((element: any) => {

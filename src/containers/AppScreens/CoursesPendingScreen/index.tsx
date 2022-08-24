@@ -126,6 +126,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
       if (element.course_detail.length > 0) {
         setDataCourseInList(result.data);
 
+
       } else {
         setDataCourseInList([])
 
@@ -240,6 +241,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
 
         callback: ({ result, error }) => {
           if (result.status === true) {
+
             setLoading(false);
 
 
@@ -266,6 +268,7 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
       <>
         {item.course_detail.length > 0 &&
           item.course_detail.map(i => {
+            console.log('resultss', item.course_detail)
 
             return (
               <CardView
@@ -301,9 +304,28 @@ const CoursesPendingScreen = (props: CoursesPendingScreenProps) => {
                     <Text style={styles.view_Tv_1}>Name of Course :</Text>
                     <Text style={styles.view_Tv_2}>{i.course_name}</Text>
                   </View>
-                  <View style={styles.view_Row}>
+                  {/* <View style={styles.view_Row}>
                     <Text style={styles.view_Tv_1}>Course Duration :</Text>
                     <Text style={styles.view_Tv_2}>{i.start_year}</Text>
+
+                  </View> */}
+
+                  <View style={styles.view_Row}>
+                    <Text style={styles.view_Tv_1}>Course Duration :</Text>
+                    {i.is_current_course == true ? <Text style={styles.view_Tv_2}>
+                      {i.start_year +
+                        ' ' +
+                        '-'
+                        +
+                        ' Current'}
+                    </Text> : <Text style={styles.view_Tv_2}>
+                      {i.start_year +
+                        ' ' +
+                        '-'
+                        +
+                        i.end_year}
+                    </Text>}
+
                   </View>
 
                   <View style={styles.view_Row}>
