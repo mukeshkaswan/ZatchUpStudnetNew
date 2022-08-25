@@ -120,6 +120,8 @@ const UserProfileScreen = (props: UserProfileProps) => {
   const [refreshing] = useState(false);
   const [videoPost, setVideoPost] = useState('');
   const [nonVideoPost, setNonVideoPost] = useState('');
+  const [isEnabled2, setIsEnabled2] = useState(false);
+
   useEffect(() => {
     // Alert.alert('Self');
     if (tempUserId == '') {
@@ -777,12 +779,12 @@ const UserProfileScreen = (props: UserProfileProps) => {
           setLoading(false);
 
           if (result) {
-            // console.warn(
-            //   'after result abc',
-            //   JSON.stringify(result, undefined, 2),
-            // );
+            console.warn(
+              'after result abc',
+              JSON.stringify(result, undefined, 2),
+            );
             //  setIsEnabledPrivate(result.data[0].profile_is_private);
-            // setIsEnabled2(result.data[0].socialmedia_user_status);
+            setIsEnabled2(result.data[0].socialmedia_user_status);
             setIsAge(result.data[0].age);
           }
           if (!error) {
@@ -950,9 +952,9 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 </View>
               </View>
               <View style={styles.likecontainer}>
-                {isAge ? (
+                {isAge && isEnabled2 ? (
                   <View>
-                    {userProfile.kyc_approved != 0 ? <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row' }}>
                       <TouchableOpacity
                         onPress={() => {
                           props.navigation.navigate('FollowersScreen', {
@@ -996,7 +998,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                         style={{ marginLeft: 20 }}>
                         <Icon name="user-plus" size={26} color="grey" />
                       </TouchableOpacity>
-                    </View> : null}
+                    </View> 
                   </View>
 
                 ) : null}
@@ -1221,9 +1223,9 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 )}
               </View>
             </Card>
-            {userProfile != '' && isAge  ? (
+            {userProfile != '' && isAge  && isEnabled2 ? (
               <Card style={styles.cardContent}>
-             {userProfile.kyc_approved != 0 ? <View style={styles.cardtitlecontent}>
+              <View style={styles.cardtitlecontent}>
                   <Text style={styles.cardtitletext}>Posts</Text>
                   <TouchableOpacity
                     style={styles.addpostbtn}
@@ -1232,7 +1234,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                     }}>
                     <Text style={{ color: 'white' }}>Add Post</Text>
                   </TouchableOpacity>
-                </View>:null}
+                </View>
                 <View style={styles.borderstyle}></View>
                 <View style={styles.tabrowContainer}>
                   <View style={{ flexDirection: 'row' }}>
@@ -1260,7 +1262,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 </View>
               </Card>
             ) : null}
-            {userProfile != '' && !(grid === 'Image') ? (
+            {userProfile != ''&& isEnabled2  && !(grid === 'Image') ? (
               <FlatList
                 key={'#'}
                 numColumns={2}
@@ -1339,7 +1341,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
                 }}
               //  ItemSeparatorComponent={renderIndicator}
               />
-            ) : userProfile != '' ? (
+            ) : userProfile != '' && isEnabled2 ? (
               <FlatList
                 key={'_'}
                 numColumns={1}
@@ -1403,7 +1405,7 @@ const UserProfileScreen = (props: UserProfileProps) => {
               <View />
             )}
 
-            {isAge && userProfile.social_post.length == 0 && (
+            {isAge && isEnabled2 && userProfile.social_post.length == 0 && (
               <View
                 style={{
                   margin: 16,

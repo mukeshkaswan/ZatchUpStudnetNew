@@ -204,6 +204,12 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   useEffect(() => {
 
+    const example = undefined;
+
+    const result = example ? example.toString() : '';
+
+    console.log(result);
+
     AddmissionNo();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -223,7 +229,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const submit = async result => {
 
     // if (props.route.params.confirmation === 'EIconfirmation') {
-    //   props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify});
+    //   props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify,});
     // }
     // else {
     //   props.navigation.navigate('AddMoreCourseDetailsOthers', {
@@ -236,7 +242,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
       're_verify': props.route.params.re_verify
     });
 
-    setCourse(''),
+      setCourse(''),
       setDes(''),
       setDate_Copy(''),
       setDate_Copy1('')
@@ -252,10 +258,16 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
     } else {
       setValue('Alumni');
-      // setDate_Copy1(props.route.params.end_date);
-      // setDate_Copy(props.route.params.start_date);
-      setDate_Copy1(result.data.course_end_year);
-      setDate_Copy(result.data.course_start_year);
+
+      if (result.data.course_end_year && result.data.course_start_year === undefined) {
+        setDate_Copy1('2018-01-06')
+        setDate_Copy('2018-01-06')
+      }
+      else {
+        setDate_Copy1(result.data.course_end_year);
+        setDate_Copy(result.data.course_start_year);
+      }
+
     }
 
 
@@ -490,6 +502,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   placeholder={'Enter Course Name'}
                   onChangeText={val => setCourse(val)}
                   value={Course}
+                  editable={props.route.params.Coursename}
                 />
               </View>
 

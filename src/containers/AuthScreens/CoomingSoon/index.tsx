@@ -1303,6 +1303,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   };
 
   const gotoFollow = async item => {
+
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -1316,7 +1317,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
 
     const data = {
       token: token,
-      follow_status: 1,
+      follow_status: item.profile_is_private == true ? 1 : 2,
       following_user_id: item.id,
     };
 
@@ -1777,7 +1778,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 />
               }
               ListEmptyComponent={() =>
-                !isLoading && socialMedia && tempRef ? (
+                !isLoading &&  tempRef ? (
                   <View
                     style={{
                       height: height - 450,

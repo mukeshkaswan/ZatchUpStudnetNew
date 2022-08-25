@@ -347,6 +347,7 @@ const HomeScreen = (props: HomeScreenProps) => {
               course_id: course_id,
               login: true,
               LoginfromEducationProfile: true,
+              'Coursename' : false
             });
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
           }
@@ -1134,7 +1135,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       <>
         {item.educationdetail.length > 0 &&
           item.educationdetail.map(i => {
-            // console.log('item.educationdetail',item.educationdetail)
+             console.log('item.educationdetail',item.educationdetail)
 
             return (
               <CardView
@@ -1471,6 +1472,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     {i.course_detail &&
                       i.course_detail.map(course => {
+                       // console.log('course Details',i.course_detail)
                         return (
                           <View>
                             <View

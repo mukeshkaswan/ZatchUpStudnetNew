@@ -180,12 +180,15 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
   };
 
   const Item = ({item}) => (
+    // ||
+    // (item.notification_type == 'post' && item.social_post == null)
+    // console.log('item.notification_type',item.notification_type)
+  //  && item.social_post != null
     <TouchableOpacity
       style={styles.item}
       disabled={
         item.profile_block ||
-        item.notification_type == 'delete' ||
-        (item.notification_type == 'post' && item.social_post == null)
+        item.notification_type == 'delete'
           ? true
           : item.notification_type == 'request'
           ? false
@@ -200,7 +203,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
             : props.navigation.navigate('UsersProfile', {
                 item: {user_id: item.user_id},
               })
-          : item.notification_type == 'post' && item.social_post != null
+          : item.notification_type == 'post' 
           ? props.navigation.navigate('PostDetailScreen', {
               item: {id: item.user_post_id},
             })

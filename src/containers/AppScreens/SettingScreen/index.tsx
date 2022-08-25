@@ -350,7 +350,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
       setpronouncustom_gender(element.custom_gender);
       setCustomGender(element.custom_gender);
       setcustomgenderView(element.gender == 'C' ? true : false);
-
+      setGenderForModal(element.gender);
       var key =
         element.pronoun == 'He'
           ? '0'
@@ -2521,7 +2521,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
                 />
               </View>
 
-              {isAge ? <View style={styles.border1}></View> : null}
+              {isAge &&  kyc_approved != '0'? <View style={styles.border1}></View> : null}
 
               {isAge && kyc_approved != '0' ? (
                 <View style={styles.privacyrowcontainer}>

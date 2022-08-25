@@ -163,8 +163,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
   useFocusEffect(
     React.useCallback(() => {
       if (props.route.params.login == true) {
+        setDataCourseInList([]);
         Coursechangecoursestandarddetail(props.route.params.course_id);
-        // CourseDeleteBeforeConformation(props.route.params.course_id);
         getEicourseconfirmationlist();
         getStepCountAPi();
         BackHandler.addEventListener('hardwareBackPress', handleBackBut);
@@ -1473,7 +1473,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   <Text style={styles.view_Tv_2}>{item.ei_detail.city}</Text>
                 </View>
 
-                <View style={styles.view_Row_}>
+               <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>School Name :</Text>
                   <Text
                     style={{
@@ -1488,8 +1488,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </Text>
                 </View>
 
-                {props.route.params.otherscourse != 'otherscourse' ? (
-                  <View style={styles.view_Row_}>
+                {item.ei_detail.address1 != null  && item.ei_detail.address1 != ''  ? (
+                   <View style={styles.view_Row_}>
                     <Text style={styles.view_Tv_1}>School Address :</Text>
                     <Text
                       style={{
@@ -1505,7 +1505,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </View>
                 ) : null}
 
-                {props.route.params.otherscourse != 'otherscourse' ? (
+                {item.ei_detail.pincode != null  && item.ei_detail.pincode != ''  ? (
                   <View style={styles.view_Row_}>
                     <Text style={styles.view_Tv_1}>Pincode :</Text>
                     <Text style={styles.view_Tv_2}>
@@ -1542,11 +1542,11 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             Course Details
                           </Text>
                           {/* i.is_current_course == false && props.route.params.AlumniNo == 'AlumniNo' */}
-
+                          {/* && i.standard_detail.length > 0 */}
                           <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false && i.standard_detail.length > 0
+                              i.is_current_course == false
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
@@ -1598,8 +1598,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       nameofschool:
                                         item.ei_detail.name_of_school,
                                       course_name: i.course_name,
-                                     // start_date: '2018-01-06',
-                                     // end_date: '2022-01-06',
+                                      start_date: '2018-01-06',
+                                     end_date: '2022-01-06',
                                       description: i.description,
                                       course_type: i.course_type,
                                       course_id: i.course_id,
@@ -1607,6 +1607,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                       confirmation: 'EIconfirmation',
                                       re_verify: props.route.params.re_verify,
                                       login: props.route.params.login,
+                                      Coursename:props.route.params.Coursename
                                     },
                                   );
                             }}>

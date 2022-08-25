@@ -100,9 +100,9 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
   };
 
 
-   /***************************User Auth User Info*******************************/
+  /***************************User Auth User Info*******************************/
 
-   const getAuthUserInfoApi = async () => {
+  const getAuthUserInfoApi = async () => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -238,62 +238,72 @@ const LectureDetailsScreen = (props: ResetPasswordScreenProps) => {
         headerTitle="Lecture Details"
       /> : null}
 
-        {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+      {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
 
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Lecture Title : </Text>
-            <Text style={styles.coursetext1}>{lecturetitle}</Text>
-          </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Lecture Title : </Text>
+          <Text style={styles.coursetext1}>{lecturetitle}</Text>
+        </View>
 
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Standard</Text>
-            <Text style={styles.coursetext1}>{standard}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Subject : </Text>
-            <Text style={styles.coursetext1}>{subject}</Text>
-          </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Standard</Text>
+          <Text style={styles.coursetext1}>{standard}</Text>
+        </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Subject : </Text>
+          <Text style={styles.coursetext1}>{subject}</Text>
+        </View>
 
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
-            <Text style={styles.coursetext1}>{facultydetails}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Topic Cover : </Text>
-            <Text style={styles.coursetext1}>{topiccover}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Description : </Text>
-            <Text style={styles.coursetext1}>{des}</Text>
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Uploaded date : </Text>
-            {uploaddate != '' ? <Text style={styles.coursetext1}>{ moment(uploaddate).format("MMM DD, YYYY")}</Text>:null}
-          </View>
-          <View style={styles.textcontainer}>
-            <Text style={styles.coursetext}>Play : </Text>
-            <Text style={styles.coursetext_}>{zatchupid}</Text>
-          </View>
-        </View> : null}
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Teaching Faculty Details : </Text>
+          <Text style={styles.coursetext1}>{facultydetails}</Text>
+        </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Topic Cover : </Text>
+          <Text style={styles.coursetext1}>{topiccover}</Text>
+        </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Description : </Text>
+          <Text style={styles.coursetext1}>{des}</Text>
+        </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Uploaded date : </Text>
+          {uploaddate != '' ? <Text style={styles.coursetext1}>{moment(uploaddate).format("MMM DD, YYYY")}</Text> : null}
+        </View>
+        <View style={styles.textcontainer}>
+          <Text style={styles.coursetext}>Play : </Text>
+          <Text style={styles.coursetext_}>{zatchupid}</Text>
+        </View>
+      </View> : null}
 
 
-       
-      <Video
-          ref={ref}
-          url={play}
+
+      {/* <Video
+        ref={ref}
+        url={play}
         //  resizeMode="cover"
-          showDuration
-          //  rotateToFullScreen={true}
-          lockRatio={16 / 9}
-          onFullScreen={onFullScreen}
-          style={{}}
-          autoPlay={true}
-          placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
-          inlineOnly={true}
-         // placeholder={placeholder}
+        showDuration
+        //  rotateToFullScreen={true}
+        lockRatio={16 / 9}
+        onFullScreen={onFullScreen}
+        style={{}}
+        autoPlay={true}
+        placeholder={'https://i.picsum.photos/id/866/1600/900.jpg'}
+        inlineOnly={true}
+      // placeholder={placeholder}
 
-        />
+      /> */}
 
+
+      <Video
+        ref={ref}
+        url={{ uri: play }}
+        onFullScreen={onFullScreen}
+        resizeMode='cover'
+        showDuration
+        lockRatio={16 / 9}
+        onBackPress={() => props.navigation.goBack(null)}
+      />
 
 
     </View>

@@ -272,7 +272,7 @@ const SuggestionScreen = (props: NotificationsScreenProps) => {
 
     const data = {
       token: token,
-      follow_status: 1,
+      follow_status: item.profile_is_private == true ? 1 : 2,
       following_user_id: item.id,
     };
 
