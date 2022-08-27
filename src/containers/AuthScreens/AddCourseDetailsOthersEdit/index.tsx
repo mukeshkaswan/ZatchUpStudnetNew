@@ -69,8 +69,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const [date, setDate] = useState(new Date());
   const [date1, setDate1] = useState(new Date());
 
-  const [date_copy, setDate_Copy] = useState('');
-  const [date_copy1, setDate_Copy1] = useState('');
+  const [date_copy, setDate_Copy] = useState('2018-01-06');
+  const [date_copy1, setDate_Copy1] = useState('2018-01-06');
 
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -204,12 +204,6 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   useEffect(() => {
 
-    const example = undefined;
-
-    const result = example ? example.toString() : '';
-
-    console.log(result);
-
     AddmissionNo();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -228,19 +222,19 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   const submit = async result => {
 
-    // if (props.route.params.confirmation === 'EIconfirmation') {
-    //   props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify,});
-    // }
-    // else {
-    //   props.navigation.navigate('AddMoreCourseDetailsOthers', {
-    //     school_id: props.route.params.school_id,
-    //     're_verify':props.route.params.re_verify
-    //   });
-    // }
-    props.navigation.navigate('AddMoreCourseDetailsOthers', {
-      school_id: props.route.params.school_id,
-      're_verify': props.route.params.re_verify
-    });
+    if (props.route.params.is_onboard === true) {
+      props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify,school_id: props.route.params.school_id});
+    }
+    else {
+      props.navigation.navigate('AddMoreCourseDetailsOthers', {
+        school_id: props.route.params.school_id,
+        're_verify':props.route.params.re_verify
+      });
+    }
+    // props.navigation.navigate('AddMoreCourseDetailsOthers', {
+    //   school_id: props.route.params.school_id,
+    //   're_verify': props.route.params.re_verify
+    // });
 
       setCourse(''),
       setDes(''),
@@ -374,6 +368,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
             : null;
 
       let rawdata = {
+
+        // {"name_of_school":"Kerala Public School","school_code":"KERALA000643","admission_no":"2","school_onboarded":true,"opening_date":"2015-02-02T00:00:00.000Z","course_id":239,"course_name":"Science","course_type":"Distance","course_in_school":false,"join_start_year":null,"date_joining":null,"description":"test","join_standard_id":null,"course_start_year":"2022-08-01","left_standard_id":null,"course_end_year":"2022-08-24","current_standard_id":null,"roll_no":null,"class_id":null,"is_already_register":"false","school_id":"231","start_date":"2012-02-02","end_date":"2022-08-24"}
         admission_no: null,
         class_id: null,
         course_name: Course,
@@ -397,8 +393,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         join_start_year: null,
         left_standard_id: null,
         roll_no: null,
-        school_onboarded: false
-
+        school_onboarded: props.route.params.is_onboard?true:false
       };
       let token = '';
       try {
@@ -422,33 +417,19 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
         userActions.getAddCourseByUser({
           data_update,
           callback: ({ result, error }) => {
+            setLoading(false);
+
             if (result.status === true) {
               console.warn(
-                'after Add Course Edit result',
-                JSON.stringify(result.status, undefined, 2),
-
-
-
+                'after Add Course Data Get',
+                JSON.stringify(result, undefined, 2),
               );
               submit(result);
-              // setSpinnerStart(false);
-              setLoading(false);
             }
             if (result.status === false) {
               console.warn(JSON.stringify(error, undefined, 2));
-              // setLoginSuccess(result);
               setLoading(false);
-              //console.log('dfdfdf--------', error)
-              //  Toast.show('This Course is already added by this user Please select other course', Toast.SHORT);
-
-              // Alert.alert(error.message[0])
-
-              // signOut();
             } else {
-              // setError(true);
-              // signOut();
-              // Alert.alert(result.status)
-              // Toast.show('Invalid credentials', Toast.SHORT);
               setLoading(false);
               console.warn(JSON.stringify(error, undefined, 2));
             }

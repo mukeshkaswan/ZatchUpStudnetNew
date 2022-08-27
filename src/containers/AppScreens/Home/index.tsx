@@ -315,7 +315,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   /***************************User get Course Delete Before Conformation *******************************/
 
-  const CourseDeleteBeforeConformation = async course_id => {
+  const CourseDeleteBeforeConformation = async (course_id,is_onboard ) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -347,7 +347,9 @@ const HomeScreen = (props: HomeScreenProps) => {
               course_id: course_id,
               login: true,
               LoginfromEducationProfile: true,
-              'Coursename' : false
+              'Coursename' : false,
+              'is_onboard' : is_onboard
+
             });
             // Toast.show('Course is Deleted successfully', Toast.SHORT),
           }
@@ -1135,7 +1137,8 @@ const HomeScreen = (props: HomeScreenProps) => {
       <>
         {item.educationdetail.length > 0 &&
           item.educationdetail.map(i => {
-             console.log('item.educationdetail',item.educationdetail)
+
+             //console.log('item.educationdetails',i.is_onboard)
 
             return (
               <CardView
@@ -1470,9 +1473,10 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     <View style={styles.underview_} />
 
+
                     {i.course_detail &&
                       i.course_detail.map(course => {
-                       // console.log('course Details',i.course_detail)
+                      console.log('course mukri',i.course_detail)
                         return (
                           <View>
                             <View
@@ -1492,7 +1496,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                                     onPress={() =>
                                       CourseDeleteBeforeConformation(
-                                        course.course_id,
+                                        course.course_id,course.is_onboard
                                       )
                                     }>
                                     <Image

@@ -1473,7 +1473,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   <Text style={styles.view_Tv_2}>{item.ei_detail.city}</Text>
                 </View>
 
-               <View style={styles.view_Row_}>
+                <View style={styles.view_Row_}>
                   <Text style={styles.view_Tv_1}>School Name :</Text>
                   <Text
                     style={{
@@ -1488,8 +1488,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </Text>
                 </View>
 
-                {item.ei_detail.address1 != null  && item.ei_detail.address1 != ''  ? (
-                   <View style={styles.view_Row_}>
+                {item.ei_detail.address1 != null && item.ei_detail.address1 != '' ? (
+                  <View style={styles.view_Row_}>
                     <Text style={styles.view_Tv_1}>School Address :</Text>
                     <Text
                       style={{
@@ -1505,7 +1505,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                   </View>
                 ) : null}
 
-                {item.ei_detail.pincode != null  && item.ei_detail.pincode != ''  ? (
+                {item.ei_detail.pincode != null && item.ei_detail.pincode != '' ? (
                   <View style={styles.view_Row_}>
                     <Text style={styles.view_Tv_1}>Pincode :</Text>
                     <Text style={styles.view_Tv_2}>
@@ -1523,7 +1523,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
                 {item.ei_detail.course_detail.length > 0 &&
                   item.ei_detail.course_detail.map(i => {
-                    // console.log('item.ei_detail.course_detail', item.ei_detail.course_detail)
+                    console.log('item.ei_detail.course_detail', item.ei_detail.course_detail)
 
                     return (
                       <View>
@@ -1541,28 +1541,106 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                             }}>
                             Course Details
                           </Text>
+
+
+
                           {/* i.is_current_course == false && props.route.params.AlumniNo == 'AlumniNo' */}
-                          {/* && i.standard_detail.length > 0 */}
-                          <TouchableHighlight
+
+                          {props.route.params
+                            .LoginfromEducationProfile ? <TouchableHighlight
+                              underlayColor="none"
+                              onPress={() => {
+                                i.is_current_course == false && i.standard_detail.length > 0
+                                  ? props.navigation.navigate('AlumniNoEdit', {
+                                    school_id: item.ei_detail.id,
+                                    course_id: i.course_id,
+                                    nameofschool: item.ei_detail.name_of_school,
+                                    school_zatchup_id:
+                                      item.ei_detail.school_code,
+                                    course_name: i.course_name,
+                                    description: i.description,
+                                    roll_no: i.roll_no,
+                                    coursekeyothersAlumni:
+                                      props.route.params.coursekeyothersAlumni,
+                                    course_type: i.course_type,
+                                    re_verify: props.route.params.re_verify,
+                                    login: props.route.params.login,
+                                    LoginfromEducationProfile:
+                                      props.route.params
+                                        .LoginfromEducationProfile,
+                                  })
+                                  : i.standard_detail != null &&
+                                    i.standard_detail.length > 0 &&
+                                    i.is_current_course == true
+                                    ? props.navigation.navigate(
+                                      'EducationProfileEdit',
+                                      {
+                                        school_id: item.ei_detail.id,
+                                        course_id: i.course_id,
+                                        nameofschool:
+                                          item.ei_detail.name_of_school,
+                                        school_zatchup_id:
+                                          item.ei_detail.school_code,
+                                        course_name: i.course_name,
+                                        description: i.description,
+                                        roll_no: i.roll_no,
+                                        re_verify: props.route.params.re_verify,
+                                        login: props.route.params.login,
+                                        key: true,
+                                        LoginfromEducationProfile:
+                                          props.route.params
+                                            .LoginfromEducationProfile,
+                                      },
+                                    )
+                                    : props.navigation.navigate(
+                                      'AddCourseDetailsOthersEdit',
+                                      {
+                                        data:
+                                          i.is_current_course == true
+                                            ? true
+                                            : false,
+                                        nameofschool:
+                                          item.ei_detail.name_of_school,
+                                        course_name: i.course_name,
+                                        start_date: '2018-01-06',
+                                        end_date: '2022-01-06',
+                                        description: i.description,
+                                        course_type: i.course_type,
+                                        course_id: i.course_id,
+                                        school_id: item.ei_detail.id,
+                                        confirmation: 'EIconfirmation',
+                                        re_verify: props.route.params.re_verify,
+                                        login: props.route.params.login,
+                                        Coursename: props.route.params.Coursename,
+                                        is_onboard: props.route.params.is_onboard
+
+                                      },
+                                    );
+                              }}>
+                            <Image
+                              style={styles.editicon}
+                              source={Images.edit_icon}
+                            />
+                          </TouchableHighlight> : <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false
+                              i.is_current_course == false && item.ei_detail.school_code !=null
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
                                   nameofschool: item.ei_detail.name_of_school,
                                   school_zatchup_id:
-                                  item.ei_detail.school_code,
+                                    item.ei_detail.school_code,
                                   course_name: i.course_name,
                                   description: i.description,
                                   roll_no: i.roll_no,
                                   coursekeyothersAlumni:
-                                  props.route.params.coursekeyothersAlumni,
+                                    props.route.params.coursekeyothersAlumni,
                                   course_type: i.course_type,
                                   re_verify: props.route.params.re_verify,
                                   login: props.route.params.login,
                                   LoginfromEducationProfile:
-                                  props.route.params
+                                    props.route.params
                                       .LoginfromEducationProfile,
                                 })
                                 : i.standard_detail != null &&
@@ -1599,15 +1677,17 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                                         item.ei_detail.name_of_school,
                                       course_name: i.course_name,
                                       start_date: '2018-01-06',
-                                     end_date: '2022-01-06',
+                                      end_date: '2022-01-06',
                                       description: i.description,
                                       course_type: i.course_type,
                                       course_id: i.course_id,
                                       school_id: item.ei_detail.id,
                                       confirmation: 'EIconfirmation',
                                       re_verify: props.route.params.re_verify,
-                                      login: props.route.params.login,
-                                      Coursename:props.route.params.Coursename
+                                      //login: props.route.params.login,
+                                      //Coursename: props.route.params.Coursename,
+                                      //is_onboard: props.route.params.is_onboard
+
                                     },
                                   );
                             }}>
@@ -1615,7 +1695,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                               style={styles.editicon}
                               source={Images.edit_icon}
                             />
-                          </TouchableHighlight>
+                          </TouchableHighlight>}
+
                         </View>
 
                         <View style={styles.view_Row_}>

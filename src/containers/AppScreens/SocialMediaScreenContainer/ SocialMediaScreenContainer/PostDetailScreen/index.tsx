@@ -831,7 +831,7 @@ const PostDetailScreen = (props: NotificationsScreenProps) => {
         callback: ({result, error}) => {
           if (result) {
             console.log(
-              'get all the post of user',
+              'get all the post of userdfdfd',
               JSON.stringify(result, undefined, 2),
               //  props.navigation.navigate('OtpLogin', { 'firebase_id': result.firebase_username, 'username': email })
             );

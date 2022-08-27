@@ -205,7 +205,7 @@ const UserNotificationScreen = (props: NotificationsScreenProps) => {
               })
           : item.notification_type == 'post' 
           ? props.navigation.navigate('PostDetailScreen', {
-              item: {id: item.user_post_id},
+              item: {id: item.user_post_id, user_id: item.user_id},
             })
           : {};
       }}>

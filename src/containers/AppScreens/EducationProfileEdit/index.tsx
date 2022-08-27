@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -12,7 +12,7 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -24,17 +24,17 @@ import {
   Validate,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {RadioButton} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationContainer, useIsFocused} from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface EducationProfileEditScreenProps {
   navigation: any;
@@ -97,7 +97,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -199,10 +199,10 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
       course_id: course_id,
       existing_course_id: course_id,
       school_id: school_id,
-      current_standard_id:"",
-      date_joining:"",
-      join_standard_id:"",
-      roll_no:""
+      current_standard_id: "",
+      date_joining: "",
+      join_standard_id: "",
+      roll_no: ""
     };
     const data = {
       token: token,
@@ -213,7 +213,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     dispatch(
       userActions.getAddmissionNoBySchool({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -269,7 +269,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     dispatch(
       userActions.getRegStepCount({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //     'after result step count',
@@ -391,12 +391,12 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         courseError ||
-          dobError ||
-          joiningstandardError ||
-          joiningcurrentError ||
-          classError ||
-          rollnoError ||
-          desError,
+        dobError ||
+        joiningstandardError ||
+        joiningcurrentError ||
+        classError ||
+        rollnoError ||
+        desError,
         Toast.SHORT,
       );
 
@@ -452,7 +452,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
       dispatch(
         userActions.getAddRegisteredEiCourse({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               // console.warn(
               //     'after Add Course result',
@@ -615,7 +615,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     dispatch(
       userActions.getStandardClass({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //     'after result',
@@ -673,7 +673,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     dispatch(
       userActions.getStandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //     'after result',
@@ -731,7 +731,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     dispatch(
       userActions.getEditCourseList({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             // console.warn(
             //     'after result',
@@ -767,10 +767,10 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     );
   };
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'always'}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <CustomStatusBar />
@@ -893,7 +893,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                     />
                   </View>
                 )}
-                {date_copy != '' && <TouchableOpacity onPress={showDatepicker}>
+                {/* {date_copy != '' && <TouchableOpacity onPress={showDatepicker}>
                   <View
                     style={{marginTop: '2%', marginLeft: 5, marginRight: 5}}>
                     <TextField
@@ -903,7 +903,19 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                       value={date_copy}
                     />
                   </View>
-                </TouchableOpacity>}
+                </TouchableOpacity>} */}
+
+               <TouchableOpacity onPress={showDatepicker}>
+                  <View
+                    style={{ marginTop: '2%', marginLeft: 5, marginRight: 5 }}>
+                    <TextField
+                      placeholder={'Course Joining Date'}
+                      imageIcon={Images.calendar_icon}
+                      editable={false}
+                      value={date_copy}
+                    />
+                  </View>
+                </TouchableOpacity>
 
                 {show && (
                   <DateTimePicker
@@ -921,7 +933,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                   />
                 )}
 
-                <View style={{marginTop: '1%'}}>
+                <View style={{ marginTop: '1%' }}>
                   <CustomDropdown
                     placeholder={'Select Joining Standard'}
                     data={selectedJoiningStandard}
@@ -949,7 +961,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                   />
                 </View>
 
-                <View style={{marginTop: '1%'}}>
+                <View style={{ marginTop: '1%' }}>
                   <CustomDropdown
                     placeholder={'Select Current Standard'}
                     data={selectedJoiningStandard}
@@ -979,7 +991,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                   />
                 </View>
 
-                <View style={{marginTop: '1%'}}>
+                <View style={{ marginTop: '1%' }}>
                   <CustomDropdown
                     placeholder={'Select Class'}
                     data={selectedsetStandardClass}
@@ -1014,7 +1026,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                             />
                         </View> */}
 
-                <View style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                <View style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                   <TextField
                     placeholder={'Enter Roll Number'}
                     keyboardType="numeric"
