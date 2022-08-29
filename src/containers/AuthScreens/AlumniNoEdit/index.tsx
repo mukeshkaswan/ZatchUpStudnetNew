@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -12,7 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import styles from './style';
-import {Images} from '../../../components/index';
+import { Images } from '../../../components/index';
 import {
   TextField,
   CustomButton,
@@ -24,17 +24,17 @@ import {
   Validate,
 } from '../../../components';
 const screenWidth = Dimensions.get('window').width;
-import {CheckBox} from 'react-native-elements';
-import {RadioButton} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import { RadioButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import * as userActions from '../../../actions/user-actions-types';
 import Toast from 'react-native-simple-toast';
 import ProgressLoader from 'rn-progress-loader';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 
 interface AlumniNoScreenProps {
   navigation: any;
@@ -106,6 +106,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [min_date, setmin] = useState('2014-01-01');
+
+  const [dropflag, setDropflag] = useState(false);
+
 
   const [CourseTypeOther, setCourseTypeOther] = useState([
     {
@@ -327,7 +330,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
           isHUD={true}
           //hudColor={"#ffffff00"}
           hudColor={'#4B2A6A'}
-          style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
           color={'white'}
         />
       </View>
@@ -341,10 +344,11 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     );
 
     getAddmissionNo();
-    console.log('course_type', props.route.params.course_type);
+    //console.log('course_type', props.route.params.course_type);
 
     if (props.route.params.coursekeyothersAlumni == '0') {
       setCourseedit(0);
+      setCourse(props.route.params.course_name);
       setDess(props.route.params.description);
       //setDate3()
       //setDate4()
@@ -365,8 +369,14 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     } else {
       setCourseedit(props.route.params.course_id);
     }
-    setCourse(props.route.params.course_name);
 
+
+    const dataSetTimeOut = setTimeout(async () => {
+      setDropflag(false);
+      return () => {
+        dataSetTimeOut.clear();
+      };
+    }, 3000);
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonC);
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButtonC);
@@ -454,7 +464,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getAddmissionNoBySchool({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result getAddmissionNoBySchool ',
@@ -469,6 +479,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
               setleft_standard_id(result.data.left_standard_id),
               setJoinStandardedit(result.data.join_standard_id),
               setCurrentStandardedit(result.data.left_standard_id),
+              setDropflag(true)
               //setClass(result.data.class_id)
             );
             setLoading(false);
@@ -507,7 +518,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getStandard({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -566,7 +577,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getEditCourseList({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result) {
             console.warn(
               'after result',
@@ -610,7 +621,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
     dispatch(
       userActions.getUpdateschoolcoursedetailbyuser({
         data,
-        callback: ({result, error}) => {
+        callback: ({ result, error }) => {
           if (result.status === true) {
             console.warn(
               'after result .....>',
@@ -654,11 +665,11 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         coursenameError ||
-          dobstartError ||
-          dobendError ||
-          standardError ||
-          standardError1 ||
-          desError,
+        dobstartError ||
+        dobendError ||
+        standardError ||
+        standardError1 ||
+        desError,
         Toast.SHORT,
       );
 
@@ -706,7 +717,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dispatch(
         userActions.getAddPastEiCourse({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after Add Past courseresult',
@@ -767,10 +778,10 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       //this._scrollView.scrollTo(0);
       Toast.show(
         coursenameError ||
-          courseError ||
-          dobstartError ||
-          dobendError ||
-          desError,
+        courseError ||
+        dobstartError ||
+        dobendError ||
+        desError,
         Toast.SHORT,
       );
 
@@ -782,8 +793,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
         Course_Selected == 0
           ? 'Regular'
           : Course_Selected == 1
-          ? 'Distance'
-          : null;
+            ? 'Distance'
+            : null;
 
       let rawdata = {
         //admission_no: S_id,
@@ -832,7 +843,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
       dispatch(
         userActions.getAddCourseByUser({
           data_update,
-          callback: ({result, error}) => {
+          callback: ({ result, error }) => {
             if (result.status === true) {
               console.warn(
                 'after Add Course other result',
@@ -877,10 +888,10 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'always'}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <CustomStatusBar />
@@ -898,8 +909,8 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
           <ScrollView>
             <View style={styles.inputContainer}>
               <View>
-                <View style={{flexDirection: 'row', marginBottom: 5}}>
-                  <Text style={{marginTop: 2, fontSize: 12, marginLeft: 5}}>
+                <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                  <Text style={{ marginTop: 2, fontSize: 12, marginLeft: 5 }}>
                     {props.route.params.nameofschool +
                       '(' +
                       props.route.params.school_zatchup_id +
@@ -953,8 +964,15 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         // setJoiningStandardKey('');
                         // setSchooID('');
                         // setJoiningStandardKey2('');
-                        setDate_Course1('');
-                        setDate_Course2('');
+
+                        if (dropflag) {
+
+                        }
+                        else {
+                          setDate_Course1('');
+                          setDate_Course2('');
+                        }
+
                         //setDate_Course3('');
                         // setDate_Course4('');
                         // setCourse('');
@@ -973,16 +991,20 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                           getStandard(selectedValue);
                           setCourseIDParm(data[0].value);
                           setminimumDate(data[0].start_date);
+                          // setDropflag(false)
                         }
-                      }}
+                      }
+
+                      }
                     />
+
                     {/* <CustomDropdown label1="Select Course" value1="0" label2="ABC" value2="1" label3="Others" value3="2" selectedValue={selectedSchool} SelectedLanguagedata={(item) => setselectedSchool(item)} /> */}
                   </View>
                 )}
                 {coursekey == 0 ? (
                   <View>
                     <View
-                      style={{marginTop: '3%', marginLeft: 2, marginRight: 2}}>
+                      style={{ marginTop: '3%', marginLeft: 2, marginRight: 2 }}>
                       <TextField
                         placeholder={'Enter Course Name'}
                         onChangeText={val => setCourse(val)}
@@ -990,7 +1012,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       />
                     </View>
 
-                    <View style={{marginTop: '1%'}}>
+                    <View style={{ marginTop: '1%' }}>
                       <CustomDropdown
                         placeholder={'Select Type'}
                         data={CourseTypeOther}
@@ -1147,7 +1169,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       </View>
                     </TouchableOpacity>
 
-                    <View style={{marginTop: '1%'}}>
+                    <View style={{ marginTop: '1%' }}>
                       <CustomDropdown
                         placeholder={'Select Joining Standard'}
                         data={selectedJoiningStandard}
@@ -1172,7 +1194,7 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                       {/* <CustomDropdown label1="Joining Standard" value1="0" label2="ABC" value2="1" label3="ABC" value3="2" selectedValue={JoiningStandard} SelectedLanguagedata={(item) => setJoiningStandard(item)} /> */}
                     </View>
 
-                    <View style={{marginTop: '1%'}}>
+                    <View style={{ marginTop: '1%' }}>
                       <CustomDropdown
                         placeholder={'Select Left Standard'}
                         data={selectedJoiningStandard}

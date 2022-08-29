@@ -86,6 +86,9 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
 
   const [isLoading, setLoading] = useState(false);
 
+  const [dropflag, setDropflag] = useState(false);
+
+
   const dispatch = useDispatch();
 
   const renderIndicator = () => {
@@ -163,13 +166,20 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
     return true;
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getCourseListData(
       props.route.params.school_id,
       props.route.params.course_id,
     );
     getAddmissionNo(props.route.params.course_id, props.route.params.school_id);
     setCourseedit(props.route.params.course_id);
+
+    const dataSetTimeOut = setTimeout(async () => {
+      setDropflag(false);
+      return () => {
+        dataSetTimeOut.clear();
+      };
+    }, 3000);
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -225,15 +235,7 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
               setJoinStandardedit(result.data.join_standard_id),
               setCurrentStandardedit(result.data.current_standard_id),
               setClass(result.data.class_id),
-
-              //  getdataCourseKey(result)
-              //   setSchooID(result.data.admission_no),
-              // setDes(result.data.description),
-              // setDes(result.data.description),
-              //  setDate_Course1(result.data.course_start_year),
-              //  setDate_Course2(result.data.course_end_year),
-              //  setjoin_standard_id(result.data.join_standard_id),
-              //  setleft_standard_id(result.data.left_standard_id)
+              setDropflag(true)
             );
             setLoading(false);
           }
@@ -859,11 +861,18 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                       SelectedLanguagedata={selectedValue => {
                         // getSchool(selectedValue);
                         // setSchoolID('')
-                        setRollNo('');
-                        setDate_Copy('');
+                      
+                        if (dropflag) {
+
+                        }
+                        else {
+                          setRollNo('');
+                          setDate_Copy('');
+                          setClass('');
+                        }
 
                         // setStandarClassdKey('');
-                        setClass('');
+                      
                         setCourseKey(selectedValue);
                         setCourseedit(selectedValue);
                         var data = [];
