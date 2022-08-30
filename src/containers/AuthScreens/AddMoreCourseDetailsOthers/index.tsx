@@ -75,12 +75,12 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
     const getDataFromAPi = async (result) => {
 
-        
+
         setDataCourseList(result.results[0].course_data);
 
         result.results.map((element: any) => {
 
-          //  console.log('school name key', result.results[0])
+            //  console.log('school name key', result.results[0])
 
             setState(element.state);
             setCity(element.city);
@@ -220,7 +220,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                 <View style={styles.view_Row}>
                                     <Text style={styles.view_Tv_1}>School Name :</Text>
-                                    <Text style={styles.view_Tv_2}>{props.route.params.schoolnamekey_}</Text>
+                                    <Text style={styles.view_Tv_2}>{schoolname}</Text>
 
                                 </View>
 
@@ -278,7 +278,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                         <TouchableOpacity
                                             style={{ justifyContent: 'flex-end' }}
-                                            onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': props.route.params.schoolnamekey_, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid, 're_verify': props.route.params.re_verify })} >
+                                            onPress={() => props.navigation.navigate('AddCourseDetailsOthersEdit', { data: item.is_current == true ? true : false, 'nameofschool': schoolname, 'course_name': item.course_name, 'start_date': item.start_date, 'end_date': item.end_date, 'description': item.description, 'course_type': item.course_type, 'course_id': item.course_id, 'school_id': schoolid, 're_verify': props.route.params.re_verify,'AddMoretoEdit':true })} >
                                             <View >
                                                 <Image
                                                     style={styles.editiconCopy}
@@ -321,7 +321,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
                     </View>
 
                     <View style={{ marginTop: 20 }}>
-                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('EIconfirmation', { 'otherscourse': 'otherscourse', 're_verify': props.route.params.re_verify, 'schoolnamekey_': props.route.params.schoolnamekey_ ,'login':false})} />
+                        <CustomButton title={'Continue'} onPress={() => props.navigation.navigate('EIconfirmation', { 'otherscourse': 'otherscourse', 're_verify': props.route.params.re_verify, 'schoolnamekey_': props.route.params.schoolnamekey_, 'login': false })} />
                     </View>
                 </View>
 

@@ -204,6 +204,10 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
   useEffect(() => {
 
+    setDate_Copy1('2018-01-06');
+    setDate_Copy('2018-01-06');
+
+
     AddmissionNo();
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
@@ -223,12 +227,12 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
   const submit = async result => {
 
     if (props.route.params.is_onboard === true) {
-      props.navigation.navigate('EIconfirmation',{'re_verify':props.route.params.re_verify,school_id: props.route.params.school_id});
+      props.navigation.navigate('EIconfirmation', { 're_verify': props.route.params.re_verify, school_id: props.route.params.school_id, });
     }
     else {
       props.navigation.navigate('AddMoreCourseDetailsOthers', {
         school_id: props.route.params.school_id,
-        're_verify':props.route.params.re_verify
+        're_verify': props.route.params.re_verify
       });
     }
     // props.navigation.navigate('AddMoreCourseDetailsOthers', {
@@ -236,7 +240,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     //   're_verify': props.route.params.re_verify
     // });
 
-      setCourse(''),
+    setCourse(''),
       setDes(''),
       setDate_Copy(''),
       setDate_Copy1('')
@@ -277,6 +281,14 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
     setSchoolid(props.route.params.school_id);
     setCourse(result.data.course_name);
     setDes(result.data.description);
+
+
+    if (props.route.params.AddMoretoEdit == true) {
+
+      setDate_Copy1(props.route.params.end_date);
+      setDate_Copy(props.route.params.start_date);
+    }
+
 
   }
 
@@ -369,30 +381,54 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
       let rawdata = {
 
-        // {"name_of_school":"Kerala Public School","school_code":"KERALA000643","admission_no":"2","school_onboarded":true,"opening_date":"2015-02-02T00:00:00.000Z","course_id":239,"course_name":"Science","course_type":"Distance","course_in_school":false,"join_start_year":null,"date_joining":null,"description":"test","join_standard_id":null,"course_start_year":"2022-08-01","left_standard_id":null,"course_end_year":"2022-08-24","current_standard_id":null,"roll_no":null,"class_id":null,"is_already_register":"false","school_id":"231","start_date":"2012-02-02","end_date":"2022-08-24"}
+        // admission_no: null,
+        // class_id: null,
+        // course_end_year: "2022-08-31",
+        // course_id: 499,
+        // course_in_school: false,
+        // course_name: "tvs",
+        // course_start_year: "2016-05-10",
+        // course_type: "Regular",
+        // current_standard_id: null,
+        // date_joining: null,
+        // description: "tvs",
+        // end_date: "2022-08-31",
+        // is_already_register: "false",
+        // join_standard_id: null,
+        // join_start_year: null,
+        // left_standard_id: null,
+        // name_of_school: "Radhey Shayam School",
+        // opening_date: "2022-01-17",
+        // roll_no: null,
+        // school_code: "UPKAN001144",
+        // school_id: "301",
+        // school_onboarded: true,
+        // start_date: "2022-02-01",
+
+       // {"name_of_school":"Kerala Public School","school_code":"KERALA000643","admission_no":"2","school_onboarded":true,"opening_date":"2015-02-02T00:00:00.000Z","course_id":239,"course_name":"Science","course_type":"Distance","course_in_school":false,"join_start_year":null,"date_joining":null,"description":"test","join_standard_id":null,"course_start_year":"2022-08-01","left_standard_id":null,"course_end_year":"2022-08-24","current_standard_id":null,"roll_no":null,"class_id":null,"is_already_register":"false","school_id":"231","start_date":"2012-02-02","end_date":"2022-08-24"}
         admission_no: null,
         class_id: null,
+        course_end_year: date_copy1,
+        course_id: props.route.params.course_id,
+        course_in_school: false,
         course_name: Course,
+        course_start_year: date_copy,
         course_type: key,
+        current_standard_id: null,
+        date_joining: null,
         description: Des,
-        end_date: "2022-01-06",
+        end_date:date_copy1,
+        is_already_register: "false",
+        join_standard_id: null,
+        join_start_year: null,
+        left_standard_id: null,
         name_of_school: props.route.params.nameofschool,
+        opening_date: "",
+        roll_no: null,
         school_code: null,
         school_id: schoolid,
         start_date: date_copy,
         is_current: value == 'Student' ? true : false,
-        is_already_register: "false",
-        opening_date: "",
-        course_end_year: "2022-01-06",
-        course_id: props.route.params.course_id,
-        course_in_school: false,
-        course_start_year: date_copy,
-        current_standard_id: null,
-        date_joining: date_copy,
-        join_standard_id: null,
-        join_start_year: null,
-        left_standard_id: null,
-        roll_no: null,
         school_onboarded: props.route.params.is_onboard?true:false
       };
       let token = '';
@@ -478,6 +514,15 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                 </View>
               </TouchableOpacity>
 
+              {props.route.params.is_onboard ? <View style={{ marginTop: '1%', marginLeft: 2, marginRight: 2,marginBottom:'4%' }}>
+                <TextField
+                  placeholder={'Enter Course Name'}
+                  onChangeText={val => setCourse(val)}
+                  value={'Other'}
+                  editable={false}
+                />
+              </View>:null}
+
               <View style={{ marginTop: '1%', marginLeft: 2, marginRight: 2 }}>
                 <TextField
                   placeholder={'Enter Course Name'}
@@ -503,7 +548,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
 
 
 
-              <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+            {props.route.params.is_onboard != true ?  <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
                 <View style={{ flexDirection: 'row', marginTop: 20 }}>
 
                   <View style={{ flexDirection: 'row', marginLeft: 10, alignItems: 'center' }}>
@@ -516,7 +561,7 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   </View>
                 </View>
 
-              </RadioButton.Group>
+              </RadioButton.Group>:null}
               {/* <RadioGroup
     size={24}
     thickness={2}

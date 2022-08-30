@@ -315,7 +315,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   /***************************User get Course Delete Before Conformation *******************************/
 
-  const CourseDeleteBeforeConformation = async (course_id,is_onboard ) => {
+  const CourseDeleteBeforeConformation = async (course_id, is_onboard) => {
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -343,15 +343,68 @@ const HomeScreen = (props: HomeScreenProps) => {
             //   'after result.....2',
             //   JSON.stringify(result, undefined, 2),
             // );
+            Coursechangecoursestandarddetail(course_id, is_onboard);
+
+
+            // Toast.show('Course is Deleted successfully', Toast.SHORT),
+          }
+          if (!error) {
+            console.warn(JSON.stringify(error, undefined, 2));
+            setLoading(false);
+          } else {
+            setLoading(false);
+            console.warn(JSON.stringify(error, undefined, 2));
+          }
+        },
+      }),
+    );
+  };
+
+
+  /***************************User get Course change course standard detail *******************************/
+
+  const Coursechangecoursestandarddetail = async (course_id, is_onboard) => {
+
+
+    var token = '';
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // value previously stored
+        token = value;
+      }
+    } catch (e) {
+      // error reading value
+    }
+
+    const data = {
+      token: token,
+      course_id: course_id,
+    };
+    setLoading(true);
+
+    dispatch(
+      userActions.getUserchangecoursestandarddetailbystudentbyid({
+        data,
+        callback: ({ result, error }) => {
+          if (result) {
+            setLoading(false);
+            // console.warn(
+            //   'after result.....1',
+            //   JSON.stringify(result, undefined, 2),
+            // );
+
             props.navigation.navigate('EIconfirmation', {
               course_id: course_id,
               login: true,
               LoginfromEducationProfile: true,
-              'Coursename' : false,
-              'is_onboard' : is_onboard
+              'Coursename': false,
+              //'is_onboard' : true
+              'is_onboard': is_onboard
+
 
             });
-            // Toast.show('Course is Deleted successfully', Toast.SHORT),
+
           }
           if (!error) {
             console.warn(JSON.stringify(error, undefined, 2));
@@ -1138,7 +1191,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         {item.educationdetail.length > 0 &&
           item.educationdetail.map(i => {
 
-             //console.log('item.educationdetails',i.is_onboard)
+            //console.log('item.educationdetails',i.is_onboard)
 
             return (
               <CardView
@@ -1476,7 +1529,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                     {i.course_detail &&
                       i.course_detail.map(course => {
-                      console.log('course mukri',i.course_detail)
+                        console.log('course mukri', i.course_detail)
                         return (
                           <View>
                             <View
@@ -1496,7 +1549,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 
                                     onPress={() =>
                                       CourseDeleteBeforeConformation(
-                                        course.course_id,course.is_onboard
+                                        course.course_id, course.is_onboard
                                       )
                                     }>
                                     <Image

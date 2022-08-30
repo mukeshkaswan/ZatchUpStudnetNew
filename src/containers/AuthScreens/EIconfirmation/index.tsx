@@ -162,11 +162,12 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
 
   useFocusEffect(
     React.useCallback(() => {
+     // console.log('props.route.params.Alumni_other',props.route.params.course_id)
       if (props.route.params.login == true) {
         setDataCourseInList([]);
-        Coursechangecoursestandarddetail(props.route.params.course_id);
-        getEicourseconfirmationlist();
         getStepCountAPi();
+        getEicourseconfirmationlist();
+
         BackHandler.addEventListener('hardwareBackPress', handleBackBut);
         return () => {
           BackHandler.removeEventListener('hardwareBackPress', handleBackBut);
@@ -281,110 +282,8 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
     );
   };
 
-  /***************************User get Course change course standard detail *******************************/
 
-  const Coursechangecoursestandarddetail = async id => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-
-    const data = {
-      token: token,
-      course_id: id,
-    };
-    // setLoading(true);
-
-    dispatch(
-      userActions.getUserchangecoursestandarddetailbystudentbyid({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            setLoading(false);
-            console.warn(
-              'after result.....1',
-              JSON.stringify(result, undefined, 2),
-              // getdataCourseKey(result)
-              // getEicourseconfirmationlist(),
-
-              // props.navigation.navigate('SelectStudent'),
-            );
-
-            // Toast.show('Course is Deleted successfully', Toast.SHORT),
-            // getData()
-            // setSpinnerStart(false);
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            // setLoginSuccess(result);
-            setLoading(false);
-            //console.log('dfdfdf--------', error)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            // Alert.alert(error.message[0])
-            // signOut();
-          } else {
-            // setError(true);
-            // signOut();
-            // Alert.alert(result.status)
-            // Toast.show('Invalid credentials', Toast.SHORT);
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-  };
-
-  /***************************User get Course Delete Before Conformation *******************************/
-
-  const CourseDeleteBeforeConformation = async id => {
-    var token = '';
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        token = value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-
-    const data = {
-      token: token,
-      course_id: id,
-    };
-    setLoading(true);
-
-    dispatch(
-      userActions.getUserCourseDeleteBeforConformation({
-        data,
-        callback: ({ result, error }) => {
-          if (result) {
-            setLoading(false);
-            console.warn(
-              'after result.....2',
-              JSON.stringify(result, undefined, 2),
-            );
-
-            // Toast.show('Course is Deleted successfully', Toast.SHORT),
-          }
-          if (!error) {
-            console.warn(JSON.stringify(error, undefined, 2));
-            setLoading(false);
-          } else {
-            setLoading(false);
-            console.warn(JSON.stringify(error, undefined, 2));
-          }
-        },
-      }),
-    );
-  };
+  
 
   /***************************User get Edit standard drop down class list *******************************/
 
@@ -1624,7 +1523,7 @@ const EIconfirmation = (props: EIconfirmationScreenProps) => {
                           </TouchableHighlight> : <TouchableHighlight
                             underlayColor="none"
                             onPress={() => {
-                              i.is_current_course == false && item.ei_detail.school_code !=null
+                              i.is_current_course == false && item.ei_detail.school_code != null
                                 ? props.navigation.navigate('AlumniNoEdit', {
                                   school_id: item.ei_detail.id,
                                   course_id: i.course_id,
