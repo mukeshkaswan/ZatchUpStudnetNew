@@ -40,7 +40,7 @@ const CustomDropdown: FC = ({
             SelectedLanguagedata(itemValue);
           }}
         />
-        <Text
+        {/* <Text
           style={{
             width: '100%',
             height: '100%',
@@ -49,7 +49,7 @@ const CustomDropdown: FC = ({
             left: 0,
           }}>
           {' '}
-        </Text>
+        </Text> */}
       </View>
     </View>
     // <View style={{ flex:1 }}>
