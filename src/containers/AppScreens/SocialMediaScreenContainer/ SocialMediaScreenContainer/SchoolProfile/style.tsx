@@ -1,4 +1,5 @@
 import {ScaledSheet} from 'react-native-size-matters';
+import { Platform } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -48,9 +49,16 @@ const styles = ScaledSheet.create({
   },
 
   nametext: {
+    
+   // backgroundColor:'red',
     fontSize: hp(2.1),
+    textAlign:'center',
+    width:Platform.OS == 'ios' ? hp(25) : null, 
+    marginTop: Platform.OS == 'ios' ? hp(0.5) : 0,
     fontWeight: 'bold',
     marginLeft: 10,
+
+    
   },
   likecontainer: {
     //   backgroundColor:'grey',

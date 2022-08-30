@@ -1258,6 +1258,7 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                           marginLeft: 16,
                           width: 25,
                           height: 25,
+                          
                         }}
                         source={Images.blue_tick}
                       />
@@ -1277,8 +1278,12 @@ const SchoolProfile = (props: SchoolProfileProps) => {
                       // }}
                       >
                         <View style={{ alignItems: 'center', marginTop: 10 }}>
-                          <Text style={styles.nametext}>
+                          <Text style={styles.nametext}
+                           
+                          >
                             {schoolDetail.name_of_school}
+                        
+                            
                           </Text>
                           <Text style={{ marginLeft: 20, fontSize: 15 }}>
                             {schoolDetail.school_code}
