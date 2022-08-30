@@ -159,10 +159,11 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
             setLoading(false);
 
             // setSpinnerStart(false);
-            // console.log('results Data Lecture', results);
+             console.log('results Data Lecture', results);
             setLectureData(results);
           }
           else if (results && results.length == []) {
+            setLectureData([]);
 
           }
           if (!error) {
@@ -228,6 +229,17 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
     );
   };
 
+
+  const ItemSeprator = () => (
+    <View
+      style={{
+        height: 1,
+        width: '100%',
+        // backgroundColor: "rgba(0,0,0,0.5)",
+      }}
+    />
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
@@ -240,10 +252,13 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
           navigation={props.navigation}
           headerTitle="Course Preview"
         /> : null}
-        {getFlag === true ? <View style={{ flex: 1 }}>
 
-          <View style={{ flex: 1 }} >
-            {coursepreview != null ? <Video
+<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+
+       
+
+          <View style={{ flex: 1,paddingHorizontal:10,marginBottom:'5%' }} >
+            {/* {coursepreview != null ? <Video
               ref={ref}
               // style={{ height: height / 4, paddingHorizontal: 20, alignSelf: 'center', }}
               url={{ uri: coursepreview }}
@@ -261,8 +276,7 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
               lockRatio={16 / 9}
               // placeholder={placeholder}
               onBackPress={() => props.navigation.goBack(null)}
-            /> : null}
-            {isFullScreen != true ? <View style={{ paddingHorizontal: 10, marginTop: 10, }}>
+            /> : null} */}
               <Text style={styles.titletext}>View Course</Text>
               <View style={styles.textcontainer}>
                 <Text style={styles.coursetext}>Course Name : </Text>
@@ -294,10 +308,10 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
                 <Text style={styles.coursetext}>Description : </Text>
                 <Text style={styles.coursetext1}>{des}</Text>
               </View> : null}
-              <View style={styles.textcontainer}>
+            {creatingcoursedate != '' ?  <View style={styles.textcontainer}>
                 <Text style={styles.coursetext}>Date of Creating Course : </Text>
                 <Text style={styles.coursetext1}>{ moment(creatingcoursedate).format("MMM DD, YYYY")}</Text>
-              </View>
+              </View>:null}
               {lecturedata.length > 0 ? <View style={{ marginTop: 15, }}>
                 <Text style={styles.titletext}>Course Lecture</Text>
                 <View style={[styles.coursestextcontainer, { backgroundColor: 'lightgrey', marginTop: 10 }]}>
@@ -308,8 +322,10 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
                 </View>
                 <FlatList
                   data={lecturedata}
+                  keyExtractor={item => item.id}
+                  ItemSeparatorComponent={ItemSeprator}
                   renderItem={({ item, index }) =>
-                    <View style={[styles.coursestextcontainer, { backgroundColor: 'white' }]}>
+                    <View style={[styles.coursestextcontainer, { backgroundColor: 'white'}]}>
                       <Text style={styles.snotext}> {index + 1}</Text>
                       <Text style={styles.lecturetitletext}>{item.lecture_title}</Text>
                       <Text style={styles.topictext}>{item.topic_cover}</Text>
@@ -325,11 +341,13 @@ const CoursesPreviewScreen = (props: ResetPasswordScreenProps) => {
 
                 />
               </View> : null}
-            </View> : null}
           </View>
-        </View> : null}
+      
+        </ScrollView>
 
       </View>
+
+    
 
     </SafeAreaView>
 
