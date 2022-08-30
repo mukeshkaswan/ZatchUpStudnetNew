@@ -220,7 +220,7 @@ const AddMoreCourseDetailsOthers = (props: AddMoreCourseDetailsOthers) => {
 
                                 <View style={styles.view_Row}>
                                     <Text style={styles.view_Tv_1}>School Name :</Text>
-                                    <Text style={styles.view_Tv_2}>{schoolname}</Text>
+                                    <Text style={styles.Schoolname}>{schoolname}</Text>
 
                                 </View>
 
