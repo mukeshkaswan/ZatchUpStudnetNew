@@ -932,7 +932,9 @@ const EducationProfileEdit = (props: EducationProfileEditScreenProps) => {
                     value={date}
                     mode={mode}
                     // minimumDate={new Date(2015, 0, 1)}
-                    minimumDate={new Date(setminimudate)}
+                    minDate={new Date(setminimudate)}
+
+                   // minimumDate={new Date(setminimudate)}
                     //  minDate={new Date()}
                     maximumDate={new Date()}
                     is24Hour={true}

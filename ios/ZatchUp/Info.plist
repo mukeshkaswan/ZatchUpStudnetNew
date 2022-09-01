@@ -40,13 +40,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) Camera</string>
+	<string>This app requires to access your photo library to show image/video on profile.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) Contacts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) Library</string>
+	<string>This app requires to access your photo library to show image/video on profile.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Regular.ttf</string>

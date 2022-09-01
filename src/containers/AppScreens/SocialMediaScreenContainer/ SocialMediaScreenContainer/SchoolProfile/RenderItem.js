@@ -221,6 +221,7 @@ function RenderItem({
         }}
         disabled={false}
         onPress={() => {
+          toggleModalClose();
           item.user_role == 'EIREPRESENTATIVE'
             ? props.navigation.navigate('SchoolProfile', {
                 item: {

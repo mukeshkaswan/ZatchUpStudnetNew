@@ -271,7 +271,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
   function handleDeactivateButtonClick() {
     Alert.alert(
       'ZatchUp',
-      'Are you sure you want to Deactivate your account? You can Reactive your account by login in again.',
+      'Are you sure you want to Delete your account?',
       [
         {
           text: 'No',
@@ -469,7 +469,9 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
             // setSpinnerStart(false);
             setLoading(false);
           } else if (result.status === false) {
-            Toast.show('User is verified as student', Toast.SHORT);
+            setTimeout(() => {
+              Toast.show('User is verified as student', Toast.SHORT);
+            }, 100);
             setIsDeactivateAccount(false);
           }
 
@@ -2554,7 +2556,7 @@ const SettingScreen = (props: ResetPasswordScreenProps) => {
 
               <View style={styles.border1}></View>
               <View style={styles.privacyrowcontainer}>
-                <Text style={styles.detail_text}>Deactivate Account</Text>
+                <Text style={styles.detail_text}>Delete Account</Text>
                 {/* <Text style={{ textAlign: 'center' }}>{dob}</Text> */}
                 <Switch
                   trackColor={{false: 'grey', true: 'lightgreen'}}

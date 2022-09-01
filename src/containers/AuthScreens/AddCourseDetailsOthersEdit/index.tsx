@@ -626,7 +626,9 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   testID="dateTimePicker"
                   value={date1}
                   mode={mode1}
-                  minimumDate={new Date(date)}
+              
+                  minDate={new Date(date)}
+                 // minimumDate={Date.parse(date)}
                   maximumDate={new Date()}
                   is24Hour={true}
                   format="YYYY-MMM-DD"
