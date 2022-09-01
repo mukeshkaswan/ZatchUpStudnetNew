@@ -53,7 +53,7 @@ const styles = ScaledSheet.create({
    // backgroundColor:'red',
     fontSize: hp(2.1),
     textAlign:'center',
-    width:Platform.OS == 'ios' ? hp(25) : null, 
+    width:Platform.OS == 'ios' ? hp(25) : hp(25), 
     marginTop: Platform.OS == 'ios' ? hp(0.5) : 0,
     fontWeight: 'bold',
     marginLeft: 10,

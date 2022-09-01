@@ -627,8 +627,8 @@ const AddCourseDetailsOthers = (props: AddCourseDetailsOthersScreenProps) => {
                   value={date1}
                   mode={mode1}
               
-                  minDate={new Date(date)}
-                 // minimumDate={Date.parse(date)}
+                  //minDate={new Date(date)}
+                  minimumDate={new Date(date)}
                   maximumDate={new Date()}
                   is24Hour={true}
                   format="YYYY-MMM-DD"

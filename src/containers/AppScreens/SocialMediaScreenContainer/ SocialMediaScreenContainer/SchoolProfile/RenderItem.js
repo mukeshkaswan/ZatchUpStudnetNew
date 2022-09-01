@@ -286,7 +286,7 @@ function RenderItem({
               }
               style={styles.profilepic1}
             />
-            <Text style={{marginLeft: 20, fontWeight: 'bold', width:Platform.OS == 'ios' ? hp(28) : null}}>
+            <Text style={{marginLeft: 20, fontWeight: 'bold', width:Platform.OS == 'ios' ? hp(28) : hp(28)}}>
               {item.full_name}
             </Text>
           </View>

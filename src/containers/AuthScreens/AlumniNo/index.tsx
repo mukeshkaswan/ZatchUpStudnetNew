@@ -866,9 +866,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         value={date3}
                         mode={mode3}
                         // minDate={new Date()}
-                        minDate={new Date(min_date)}
+                       // minDate={new Date(min_date)}
 
-                      //  minimumDate={new Date(min_date)}
+                        minimumDate={new Date(min_date)}
                         maximumDate={new Date()}
                         is24Hour={true}
                         format="YYYY-MMM-DD"
@@ -883,9 +883,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         testID="dateTimePicker"
                         value={date4}
                         mode={mode4}
-                        minDate={new Date(date3)}
+                      //  minDate={new Date(date3)}
 
-                       // minimumDate={new Date(date3)}
+                        minimumDate={new Date(date3)}
                         maximumDate={new Date()}
                         is24Hour={true}
                         format="YYYY-MMM-DD"
@@ -952,9 +952,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         value={date1}
                         mode={mode1}
                         //   minDate={new Date()}
-                        minDate={new Date(setminimudate)}
+                       // minDate={new Date(setminimudate)}
 
-                       // minimumDate={new Date(setminimudate)}
+                        minimumDate={new Date(setminimudate)}
                         maximumDate={new Date()}
                         is24Hour={true}
                         format="YYYY-MMM-DD"
@@ -970,9 +970,9 @@ const AlumniNo = (props: AlumniNoScreenProps) => {
                         value={date2}
                         mode={mode2}
                         // minDate={new Date()}
-                        minDate={new Date(date1)}
+                       // minDate={new Date(date1)}
 
-                      //  minimumDate={new Date(date1)}
+                        minimumDate={new Date(date1)}
                         maximumDate={new Date()}
                         is24Hour={true}
                         format="YYYY-MMM-DD"
