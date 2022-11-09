@@ -145,11 +145,11 @@ const LoginScreen = (props: LoginScreenProps) => {
           if (result.status === 'True') {
             setLoading(false);
 
-            console.warn(
-              'after otp result 1',
-              // JSON.stringify(result, undefined, 2),
-              // props.navigation.navigate('Home'),
-            );
+            // console.warn(
+            //   'after otp result 1',
+            //   JSON.stringify(result, undefined, 2),
+            //   // props.navigation.navigate('Home'),
+            // );
             // setTimeout(() => {
             //   Toast.show('Login Successfully', Toast.SHORT);
             // }, 500);

@@ -64,6 +64,7 @@ const MySchool = (props: HomeScreenProps) => {
   };
 
 
+
   // useEffect(() => {
 
 
@@ -84,9 +85,9 @@ const MySchool = (props: HomeScreenProps) => {
 
 
     React.useCallback(() => {
-      getStepCountAPi();
 
       const dataSetTimeOut = setTimeout(() => {
+        getStepCountAPi();
 
         getAuthUserInfoApi();
 

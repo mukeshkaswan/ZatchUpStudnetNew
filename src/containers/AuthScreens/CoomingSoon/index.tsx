@@ -171,7 +171,6 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
     React.useCallback(() => {
       const dataSetTimeOut = setTimeout(() => {
         setCityData([]);
-
         setPage(1);
         onChangecityname('');
         setNoRecord(false);
@@ -286,7 +285,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Yes', onPress: onDeleteBTN},
+        {text: 'Yes', onPress: () => BackHandler.exitApp()},
       ],
       {cancelable: false},
     );
@@ -677,6 +676,8 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
   /**************GET POST API CALL ***********/
 
   const getPostDataApi = async p => {
+    setTempRef(false);
+
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
@@ -1778,7 +1779,7 @@ const CoomingSoon = (props: CoomingSoonScreenProps) => {
                 />
               }
               ListEmptyComponent={() =>
-                !isLoading &&  tempRef ? (
+                !isLoading &&  tempRef  ? (
                   <View
                     style={{
                       height: height - 450,

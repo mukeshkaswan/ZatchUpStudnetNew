@@ -31,42 +31,54 @@ interface DrawerMenuScreenScreenProps {
   navigation: any;
 }
 const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
-  const [username, setUsername] = useState('...');
+  const [username, setUsername] = useState('');
   const [profilepic, setProfilePic] = useState('');
   const [kycapprovedkey, setKycapproved] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [userId, setUserId] = useState('');
   const dispatch = useDispatch();
   const [is_kyc_approved, setIs_kyc_approved] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const isFocused = useIsFocused();
 
-  // React.useEffect(() => {
+  React.useEffect(() => {
 
-  // }, [isFocused]);
+    if(isFocused){ 
+      getAuthUserInfoApi();
+
+      getStepCountAPi();  }
+
+   
+  }, [props,isFocused]);
 
   useFocusEffect(
     React.useCallback(() => {
-      setProfilePic('');
-      setUsername('');
-      setIs_kyc_approved(false);
+      // setProfilePic('');
+      // setUsername('');
+      // setIs_kyc_approved(false);
 
-      const dataSetTimeOut = setTimeout(() => {
 
-        getAuthUserInfoApi();
 
-        getStepCountAPi();
+      //  const dataSetTimeOut = setTimeout(() => {
 
-        return () => {
-          dataSetTimeOut.clear();
-        }
-      }, 700);
+      //   getAuthUserInfoApi();
+
+      //   getStepCountAPi();
+
+      //   return () => {
+      //     dataSetTimeOut.clear();
+      //   }
+      // }, 700);
+
     }, []),
   );
 
   /***************************User getStepCountAPi *******************************/
 
   const getStepCountAPi = async () => {
+    setButtonClicked(true);
+
     var token = '';
     try {
       const value = await AsyncStorage.getItem('tokenlogin');
@@ -123,6 +135,8 @@ const DrawerMenuScreen = (props: DrawerMenuScreenScreenProps) => {
   /***************************User Auth User Info*******************************/
 
   const getAuthUserInfoApi = async () => {
+    setButtonClicked(true);
+
     var token = '';
     try {
       const value = await AsyncStorage.getItem('token');
